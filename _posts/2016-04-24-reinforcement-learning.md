@@ -35,8 +35,8 @@ title: A Note on Reinforcement Learning
 
  * [dopamine]
 
-==============================================================================
-(3) ADDITIONAL LAWS
+
+### ADDITIONAL LAWS
 
  * There are some interesting additional laws that were discovered about conditioning.
 
