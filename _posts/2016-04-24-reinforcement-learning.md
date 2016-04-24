@@ -14,7 +14,10 @@ title: A Note on Reinforcement Learning
 
    P(a|s)= \sum{r_i*1{s_i=s}*1{a_i=a}} / \sum{r_i*1{s_i=s}}
 
-        $a(s) = \arg \max_{a\inA} E[u(a,\theta)|s] $
+        $$a(s) = \arg \max_{a\inA} E[u(a,\theta)|s] $$
+
+
+$$a^2 + b^2 = c^2$$
 
 
 ![alt text][krazykat]
