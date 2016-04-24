@@ -19,7 +19,7 @@ title: A Note on Reinforcement Learning
 etc.
 
 
-![alt text][krazykat]
+![krazykat]
 
 ## CLASSIC EXAMPLES OF REINFORCEMENT LEARNING
 
