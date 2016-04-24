@@ -16,6 +16,8 @@ title: A Note on Reinforcement Learning
 
    $$a(s) = \arg \max_{a\in A} E[u(a,\theta)|s]$$
 
+etc.
+
 
 ![alt text][krazykat]
 
@@ -64,7 +66,7 @@ At the height of the enthusiasm for conditioning many people thought these laws 
 
  If all reinforcement goes through the conscious brain, then it is much less interesting: people are simply choosing to do things which get them rewards.
 
-## (5) PUTTING IT BACK TOGETHER
+## PUTTING IT BACK TOGETHER
 
 * As I said, the laws of reinforcement learning turn out to apply only in a subset of situations.
 
@@ -100,7 +102,7 @@ At the height of the enthusiasm for conditioning many people thought these laws 
 
 * Some history:
  1900: Pavlov
- 1905: Thorndike's law of effect ""
+ 1905: Thorndike's law of effect
  1950s: Skinner
  1966: Chomsky's review of a Skinner book shows how the theory has become vacuous
  1970s: falls apart
