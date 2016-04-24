@@ -12,39 +12,14 @@ title: A Note on Reinforcement Learning
 
    We might find that, at every point, probability of each action is just the relative reward in previous training:
 
-   $$P(a|s)= \sum{r_i*1{s_i=s}*1{a_i=a}} / \sum{r_i*1{s_i=s}}$$
+   $$P(a|s)= \sum{r_i1\{s_i=s\}1\{a_i=a\}} / \sum{r_i1\{s_i=s\}}$$
 
-   $$a(s) = \arg \max_{a\inA} E[u(a,\theta)|s]$$
-
-    $$a^2 + b^2 = c^2$$
-
-
-Here is an example MathJax inline rendering \\( 1/x^{2} \\), and here is a block rendering: 
-\\[ \frac{1}{n^{2}} \\]
-
-$$
-\begin{align*}
-  & \phi(x,y) = \phi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right)
-  = \sum_{i=1}^n \sum_{j=1}^n x_i y_j \phi(e_i, e_j) = \\
-  & (x_1, \ldots, x_n) \left( \begin{array}{ccc}
-      \phi(e_1, e_1) & \cdots & \phi(e_1, e_n) \\
-      \vdots & \ddots & \vdots \\
-      \phi(e_n, e_1) & \cdots & \phi(e_n, e_n)
-    \end{array} \right)
-  \left( \begin{array}{c}
-      y_1 \\
-      \vdots \\
-      y_n
-    \end{array} \right)
-\end{align*}
-$$
+   $$a(s) = \arg \max_{a\in A} E[u(a,\theta)|s]$$
 
 
 ![alt text][krazykat]
 
-==============================================================================
-
-### CLASSIC EXAMPLES OF REINFORCEMENT LEARNING
+## CLASSIC EXAMPLES OF REINFORCEMENT LEARNING
 
  * In 1905 Thorndike proposed a basic principle of animal learning: "Of several responses ... those which are accompanied or closely followed by satisfaction ... will be more likely to recur." The same basic idea was later described as "instrumental conditioning," "operant conditioning", or "reinforcement learning."
 
@@ -59,29 +34,29 @@ $$
  * [dopamine]
 
 
-### ADDITIONAL LAWS
+## ADDITIONAL LAWS
 
  * There are some interesting additional laws that were discovered about conditioning.
 
- * BLOCKING: The order in which associations are learned is important. Suppose a pigeon learns to press a lever whenever she hears a beep. Subsequently, the beep is always accompanied by a flash. When the flash appears by itself, the pigeon won't have learned to peck. But if the beep and flash were paired right from the beginning, then both the beep or flash would, by themselves, be sufficient for the pigeon to peck. So learning one association can "block" another association from being learned.
+ * **BLOCKING** The order in which associations are learned is important. Suppose a pigeon learns to press a lever whenever she hears a beep. Subsequently, the beep is always accompanied by a flash. When the flash appears by itself, the pigeon won't have learned to peck. But if the beep and flash were paired right from the beginning, then both the beep or flash would, by themselves, be sufficient for the pigeon to peck. So learning one association can "block" another association from being learned.
 
- * INTERMITTENT REINFORCEMENT: Intermittent reinforcement was found to create stronger associations than unvarying reinforcement. When reinforcement for an act is no longer given, then the animal will remain performing the act for a longer time if, during the original training period, their acts were only intermittently reinforced.
+ * **INTERMITTENT REINFORCEMENT** Intermittent reinforcement was found to create stronger associations than unvarying reinforcement. When reinforcement for an act is no longer given, then the animal will remain performing the act for a longer time if, during the original training period, their acts were only intermittently reinforced.
 
- * MATCHING: If you give a pigeon two different levers, each of which will release a pellet with a fixed probability, then the bird will learn to peck preferentially on the lever with the higher probability. But it will still occasionally peck on the lever with the lower probability, roughly in proportion to the difference in probabilities (if the pigeon was maximizing expected value then it should peck just at the high-value lever).
+ * **MATCHING** If you give a pigeon two different levers, each of which will release a pellet with a fixed probability, then the bird will learn to peck preferentially on the lever with the higher probability. But it will still occasionally peck on the lever with the lower probability, roughly in proportion to the difference in probabilities (if the pigeon was maximizing expected value then it should peck just at the high-value lever).
 
- * SECONDARY REINFORCEMENT:
- * OVERTRAINING & EXTINCTION:
- * SUPERSTITION:
+ * **SECONDARY REINFORCEMENT**
+ * **OVERTRAINING & EXTINCTION**
+ * **SUPERSTITION**
 
 At the height of the enthusiasm for conditioning many people thought these laws gave insight into all aspects of human behaviour - mental illness, adolescent delinquency, sexual behaviour, language.
 [clockwork orange].
 
-==============================================================================
-(4) DIFFICULT CASES
 
- * In the first few decades of reinforcement learning many confirmations of the basic theory were published. But, as seems common in academic enquiry, as time went on the evidence came to seem much messier. Many of the "laws" of reinforcement learning turn out to apply only in a subset of situations, and they reverse in other situations.
+## DIFFICULT CASES
 
- * REVERSE REINFORCEMENT: An old finding, regarding rats running mazes, is that when the rat finds a piece of cheese down one passage, then they were *less* likely to go down that passage the next time they were in the maze. According to reinforcement learning they should be more likely to go down that passage.
+* In the first few decades of reinforcement learning many confirmations of the basic theory were published. But, as seems common in academic enquiry, as time went on the evidence came to seem much messier. Many of the "laws" of reinforcement learning turn out to apply only in a subset of situations, and they reverse in other situations.
+
+* REVERSE REINFORCEMENT: An old finding, regarding rats running mazes, is that when the rat finds a piece of cheese down one passage, then they were *less* likely to go down that passage the next time they were in the maze. According to reinforcement learning they should be more likely to go down that passage.
 
  * CONTEXT-SPECIFICITY: The speed of learning associations between stimuli and responses is very different depending on the stimulus and the response. Some associations can be learned firmly with just a single experience, for example a rat refusing to eat red pellets after getting nauseous after eating a red pellet. Others associations take far longer, a rat learning to associate a sound with getting nauseous.
 
@@ -89,14 +64,11 @@ At the height of the enthusiasm for conditioning many people thought these laws 
 
  If all reinforcement goes through the conscious brain, then it is much less interesting: people are simply choosing to do things which get them rewards.
 
+## (5) PUTTING IT BACK TOGETHER
 
+* As I said, the laws of reinforcement learning turn out to apply only in a subset of situations.
 
-==============================================================================
-(5) PUTTING IT BACK TOGETHER
-
- * As I said, the laws of reinforcement learning turn out to apply only in a subset of situations.
-
- * One interpretation is that learning is irreducibly complex. However the agreements and deviations from reinforcement-learning often fit a predictable pattern: the theory works in contexts where past associations are a good guide to future associations; and it fails in contexts where that's not true.
+* One interpretation is that learning is irreducibly complex. However the agreements and deviations from reinforcement-learning often fit a predictable pattern: the theory works in contexts where past associations are a good guide to future associations; and it fails in contexts where that's not true.
 
  * Consider the rat who is *less* likely to run down a passage, when they were previously rewarded for running down that passage. This makes sense if the rat remembers that he just ate the food down that passage, and so wants to look elsewhere. The rat expects the future payoff of an action to be *negatively* correlated with the past payoff.
 
@@ -112,37 +84,15 @@ At the height of the enthusiasm for conditioning many people thought these laws 
 
  * MATCHING: "
 
-==============================================================================
-(6) TAKEAWAY
-
-* sadf
-
-
+## TAKEAWAY
  (a) Why is it useful to dog trainers? Tell us some big things about the conditions in which dogs evolved: .
 
  (b) Connection to some other psychological laws: lateral inhibition; case-based decision-making: they work until they don't.
 
  (c) Retrospect: in the 1950s people didn't give the human brain much credit. Manipulation by reinforcement; Freudian associations; hidden persuaders; brainwashing.
 
-
-
-
-
-
-
-
-
-
-
-==============================================================================
-==============================================================================
-==============================================================================
-NOTES:
-==============================================================================
-Some interesting things about Skinner: (1) corporal punishment in California schools; (2) he prototyped a pigeon-guided rocket in WWII: the pigeon would sit in the nose, looking out a window, and would peck to the left or the right, to guide the rocket towards its target; (3) "beyond freedom and dignity"; (4) science is the new art.
-
-==============================================================================
-==============================================================================
+## NOTES
+* Some interesting things about Skinner: (1) corporal punishment in California schools; (2) he prototyped a pigeon-guided rocket in WWII: the pigeon would sit in the nose, looking out a window, and would peck to the left or the right, to guide the rocket towards its target; (3) "beyond freedom and dignity"; (4) science is the new art.
 
 * Paradigmatic cases
  * pigeons in a skinner box - pecking at buttons
@@ -156,25 +106,33 @@ Some interesting things about Skinner: (1) corporal punishment in California sch
  1970s: falls apart
  1990s: dopamine in the midbrain
 
-==============================================================================
-Barto & Sutton:
-1- multi arm bandit - exploration exploitation - selection rather than just being given information, supervised or unsupervised - active not passive - track avg payoff , update if diff from expectations
-2- associative - depends on cues
-3- temporal difference - secondary reinforcer - track difference - - mdp and bellman dynamic optimization makes policy fn relatively simple
- - when you win game, reinforce all sequence of actions, or instead just-prior state.
+* Barto & Sutton chapter:
+  1. multi arm bandit - exploration exploitation - selection rather than just being given information, supervised or unsupervised - active not passive - track avg payoff , update if diff from expectations
+  2. associative - depends on cues
+  3. temporal difference - secondary reinforcer - track difference - - mdp and bellman dynamic optimization makes policy fn relatively simple
+  4. when you win game, reinforce all sequence of actions, or instead just-prior state.
 
+* About law of effect: "Although sometimes controversial (e.g., see Kimble, 1961, 1967; Mazur, 1994) the Law of Effect is widely regarded as an obvious basic principle underlying much behavior (e.g., Hilgard and Bower, 1975; Dennett, 1978; Campbell, 1958; Cziko, 1995)."
 
-About law of effect: "Although sometimes controversial (e.g., see Kimble, 1961, 1967; Mazur, 1994) the Law of Effect is widely regarded as an obvious basic principle underlying much behavior (e.g., Hilgard and Bower, 1975; Dennett, 1978; Campbell, 1958; Cziko, 1995)."
-
-Dennett:
+* Dennett:
  https://dl.tufts.edu/bookreader/tufts:ddennett-1975.00001#page/1/mode/2up
 
-Departures - where it's actually not optimal
- - (Where td learning not optimal: learn a whole sequence of actions in one shot ; backgammon w fewer steps, can learn variation)
- - over learning and extinction: devalue secondary reinforcer - rationalize if you expect time-series structure
+* Departures - where it's actually not optimal
+    * (Where td learning not optimal: learn a whole sequence of actions in one shot ; backgammon w fewer steps, can learn variation)
+    * over learning and extinction: devalue secondary reinforcer - rationalize if you expect time-series structure
 
- * If you just drop rewards randomly into life, what changes?
- * Category learning as the same thing
+* If you just drop rewards randomly into life, what changes?
+* Category learning as the same thing
+
+
+This is a text with a footnote[^1].
+
+[^1]: And here is the definition.
+
+
+This is a text with a footnote[^ref].
+
+[^ref]: And here is the definition.
 
 
 [krazykat]: http://comicsalliance.com/files/2015/08/herriman-03.jpg "Krazy Kat"
