@@ -127,15 +127,6 @@ At the height of the enthusiasm for conditioning many people thought these laws 
 * Category learning as the same thing
 
 
-This is a text with a footnote[^1].
-
-[^1]: And here is the definition.
-
-
-This is a text with a footnote[^ref].
-
-[^ref]: And here is the definition.
-
 
 [krazykat]: http://comicsalliance.com/files/2015/08/herriman-03.jpg "Krazy Kat"
 
