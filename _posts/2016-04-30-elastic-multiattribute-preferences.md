@@ -37,7 +37,7 @@ $$
 **A Good-Bad tradeoff: e.g., quality vs price; salary vs hours worked.**
 
 $$
-\xymatrix{\,
+\xymatrix{\,\\
  & A\\
  &  & B\\
 \\
@@ -55,7 +55,7 @@ There are multiple independent heuristics which we often use in adjusting prefer
 
   * The MRS shifting towards the MRT could be rationalized in at least two ways: (i) suppose you believe the social MRS to be informative about your own MRS, and you believe that the choice set reflects the market price, and finally, you believe that the price reflects the social MRS (as it would in a competitive equilibrium); (ii) suppose you believe the person who constructed the choice set to be cooperative (in the sense of Grice (1967)) - i.e., they only include things which they believe to have similar values, then the MRT in the choice set reflects their beliefs about your MRS, which is itself informative.For example: if I ask “would you prefer a poached egg or gruel for breakfast?” it's likely that I will infer that the gruel must be quite good.
 
-  * If there are just two attributes (i,j) and two alternatives (a,b) then the implicit tradeoff is $MRT_{i,j}=\frac{|a_{i}-b_{i}|}{|a_{j}-b_{j}|}$. If the MRS rotates to meet this MRT then the sensitivity to attribute $i$ will be decreasing in the range observed along that dimension, exactly as implied by the range-sensitivity theory of BR&S.
+  * If there are just two attributes (i,j) and two alternatives (a,b) then the implicit tradeoff is $MRT_{i,j}=\frac{\|a_{i}-b_{i}\|}{\|a_{j}-b_{j}\|}$. If the MRS rotates to meet this MRT then the sensitivity to attribute $i$ will be decreasing in the range observed along that dimension, exactly as implied by the range-sensitivity theory of BR&S.
 
   * A MRT can only be directly derived from the menu if the number of alternatives is equal to the number of attributes. I.e., a hyperplane in an $n$-dimensional space requires a set of $n$ points. However if this is not true then it becomes the well-known problem from statistics of fitting a line (or curve) to a set of points - e.g. by using orthogonal regression. Here is a simple example where the MRT theory and other theories give qualitatively different answers, and in which the MRS-MRT theory seems more faithful to the intuition. Suppose we have the following three options:
   
