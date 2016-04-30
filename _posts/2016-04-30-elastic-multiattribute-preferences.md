@@ -27,7 +27,7 @@ title: Elastic Multiattribute Preferences
 
 *  Existing literature: There are a lot of recent models of menu-dependent multiattribute choice.Also called “menu-dependent preferences”, “contingent-weighting” or “contingent valuation”. There are at least a dozen more models which fall into the same class, and the idea that sensitivity is related to the menu is popular in the marketing literature. For example, tradeoffs between price and quality, probability of a prize and size of the prize, hours of work and payment, bathrooms and bedrooms in a house, salary and holiday-days. Each of these models proposes that sensitivity to a dimension depends on the distribution of values along that dimension: in Koszegi and Szeidl (2011) (KS) sensitivity is positively related to the range of values on an attribute (i.e., maximum minus minimum); in Bushong et al. (2014) (BRS) it is negatively related to the range; in Cunningham (2012) (C) it is negatively related to the average; and in Bordalo et al. (2012) (BGS) it is negatively related to the proportional range.
 
-* Notation. Suppose that we have a menu-dependent utility function, $$u(x|A)$$, where $A$ is the choice set, or more generally the “comparison set.” $x\in\mathbb{R}^{n}$, and $A\subseteq\mathbb{R}^{n}$. We will assume that all attributes have positive value ($\frac{\partial u}{\partial x_{i}}>0$), meaning that an attribute which represents a bad, such as the price of a good, will be represented as a negative number. It is useful to make a sharp distinction between “goods” and 'bads”, as shown in these diagrams:
+* Notation. Suppose that we have a menu-dependent utility function, $u(x|A)$, where $A$ is the choice set, or more generally the “comparison set.” $x\in\mathbb{R}^{n}$, and $A\subseteq\mathbb{R}^{n}$. We will assume that all attributes have positive value ($\frac{\partial u}{\partial x_{i}}>0$), meaning that an attribute which represents a bad, such as the price of a good, will be represented as a negative number. It is useful to make a sharp distinction between “goods” and 'bads”, as shown in these diagrams:
 
 $$
 \xymatrix{\ar[rrrr]\ar[dddd] &  &  &  & \,\\
@@ -41,14 +41,12 @@ $$
 **A Good-Bad tradeoff: e.g., quality vs price; salary vs hours worked.**
 
 $$
-\setlength{\unitlength}{0.8mm}
-\begin{picture}(60,50)(-5,-5)
-  \put(0,0){\vector(0,1){50}} \put(0,0){\vector(1,0){50}}
-  \put(52,2){$\textbf{x}$} \put(-1,51){$\textbf{y}$}
-
-  \put(10,40){\circle*{2}\ $A$}
-  \put(30,30){\circle*{2}\ $B$}
-\end{picture}
+\xymatrix{\, &  &  &  & \,\\
+ & A\\
+ &  & B\\
+\\
+\ar[rrrr]\ar[uuuu]
+}
 $$
 
 **A Good-Good tradeoff: e.g., bedrooms vs bathrooms; MPG vs horsepower; salary vs holiday-days.**
