@@ -30,14 +30,12 @@ title: Elastic Multiattribute Preferences
 * Notation. Suppose that we have a menu-dependent utility function, $$u(x|A)$$, where $A$ is the choice set, or more generally the “comparison set.” $x\in\mathbb{R}^{n}$, and $A\subseteq\mathbb{R}^{n}$. We will assume that all attributes have positive value ($\frac{\partial u}{\partial x_{i}}>0$), meaning that an attribute which represents a bad, such as the price of a good, will be represented as a negative number. It is useful to make a sharp distinction between “goods” and 'bads”, as shown in these diagrams:
 
 $$
-\setlength{\unitlength}{0.8mm}
-\begin{picture}(60,50)(-5,-5)
-  \put(0,50){\vector(0,-1){50}} \put(0,50){\vector(1,0){50}}
-  \put(52,49){$\textbf{x}$} \put(-1,-4){$\textbf{y}$}
-
-  \put(10,40){\circle*{2}\ $A$}
-  \put(30,30){\circle*{2}\ $B$}
-\end{picture}
+\xymatrix{\ar[rrrr]\ar[dddd] &  &  &  & \,\\
+ & A\\
+ &  & B\\
+\\
+\,
+}
 $$
 
 **A Good-Bad tradeoff: e.g., quality vs price; salary vs hours worked.**
@@ -68,19 +66,19 @@ There are multiple independent heuristics which we often use in adjusting prefer
   * A MRT can only be directly derived from the menu if the number of alternatives is equal to the number of attributes.I.e., a hyperplane in an n
  -dimensional space requires a set of n
   points. However if this is not true then it becomes the well-known problem from statistics of fitting a line (or curve) to a set of points - e.g. by using orthogonal regression. Here is a simple example where the MRT theory and other theories give qualitatively different answers, and in which the MRS-MRT theory seems more faithful to the intuition. Suppose we have the following three options:
+  
   $$
   \left\{ \binom{\mbox{100K salary}}{\mbox{199 days off}},\binom{\mbox{110K salary}}{\mbox{189 days off}},\binom{\mbox{105K salary}}{\mbox{189 days off}}\right\}
   $$
- The third option is dominated by the second option, and intuitively it might make the 2nd option more desirable - because it comes to seem a better deal. This intuition is not captured by the BR&S theory, because the third option does not change the range in either dimension. The third option will change the implicit price (in the sense of the best-fitting line, i.e. orthogonal regression), and the change will be in favor of the second option.
 
-  * Even in the 3-attribute 3-alternative case, it is no longer true that $MRT_{i,j}$ is equal to the ratio of ranges on dimension i
+  The third option is dominated by the second option, and intuitively it might make the 2nd option more desirable - because it comes to seem a better deal. This intuition is not captured by the BR&S theory, because the third option does not change the range in either dimension. The third option will change the implicit price (in the sense of the best-fitting line, i.e. orthogonal regression), and the change will be in favor of the second option.
+
+* Even in the 3-attribute 3-alternative case, it is no longer true that $MRT_{i,j}$ is equal to the ratio of ranges on dimension i
   and j.
 
-  * When one attribute is a good and the other is a bad (e.g. price and quality; salary and hours) it is sometimes reasonable to think that choosing neither is an additional implicit element of the choice set, i.e. the point (0,0). In these cases the ratio of the ranges reduces to the ratio of the maximum values ($\frac{\max_{c\in C}c_{i}}{\max_{c\in C}c_{j}}$), which has similar comparative statics to the theory in (C) - which depends on the ratio of average values - than the theory in (BRS) - which depends on the ratio of the ranges.
+* When one attribute is a good and the other is a bad (e.g. price and quality; salary and hours) it is sometimes reasonable to think that choosing neither is an additional implicit element of the choice set, i.e. the point (0,0). In these cases the ratio of the ranges reduces to the ratio of the maximum values ($\frac{\max_{c\in C}c_{i}}{\max_{c\in C}c_{j}}$), which has similar comparative statics to the theory in (C) - which depends on the ratio of average values - than the theory in (BRS) - which depends on the ratio of the ranges.
 
-  * The effects of this MRS-MRT theory will not be detectable when the choice set is binary: suppose your MRS shifts towards the MRT implicit in the choice set, then although your final MRS will be closer to the MRT, it will not cross the MRT, i.e. the shift in MRS will not alter which of the two elements you prefer. This implies that the MRS-MRT theory cannot rationalize the existence of cycles in binary choice, and so cannot explain evidence for 'subadditivity' of different dimensions, such as probability, money, or delay (see Read (2001) for citations).E.g. if your prior is that a
-  is better than b, and then you observe a choice set with a and b, then you may revise upward your valuation of b, and downward your valuation of a, but the observation wouldn't cause you to switch preference, thinking that b
-  must be better than a. (This is under the assumption that the posterior MRS is between the prior MRS and the MRT; this assumption could be violated under some unusual priors, e.g. if you had bimodal beliefs about the value of b).
+* The effects of this MRS-MRT theory will not be detectable when the choice set is binary: suppose your MRS shifts towards the MRT implicit in the choice set, then although your final MRS will be closer to the MRT, it will not cross the MRT, i.e. the shift in MRS will not alter which of the two elements you prefer. This implies that the MRS-MRT theory cannot rationalize the existence of cycles in binary choice, and so cannot explain evidence for 'subadditivity' of different dimensions, such as probability, money, or delay (see Read (2001) for citations). E.g. if your prior is that a is better than b, and then you observe a choice set with a and b, then you may revise upward your valuation of b, and downward your valuation of a, but the observation wouldn't cause you to switch preference, thinking that b must be better than a. (This is under the assumption that the posterior MRS is between the prior MRS and the MRT; this assumption could be violated under some unusual priors, e.g. if you had bimodal beliefs about the value of b).
 
 **MRS shifting towards demand.** There is a second strong intuition for choice sets influencing demand: the combinations offered often tend to reflect the combinations desired, so a relative increase in attribute 1 could be interpreted as a positive signal about the value of attribute 1. Suppose we manipulate the choice set, while keeping the relative price fixed, for example consider these two choice sets, trading off the price and quantity of some good:
 
