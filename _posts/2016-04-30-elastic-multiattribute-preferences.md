@@ -5,7 +5,7 @@ title: Elastic Multiattribute Preferences
 
 ## Observations:
 
-* Some common bias across domains: Simonsohn paper. Other similarities: (1) oversensitive to small differnces; (2) diminishing sensitivity, common-difference effects; (3) compromise & asymmetric dominance effects; (4) sensitivity to reference point; (5) implied answer in the question - Schwartz. $$u(x,A)$$. and this $x$ or this $f(x)$.
+* Some common bias across domains: Simonsohn paper. Other similarities: (1) oversensitive to small differnces; (2) diminishing sensitivity, common-difference effects; (3) compromise & asymmetric dominance effects; (4) sensitivity to reference point; (5) implied answer in the question - Schwartz.
 
 * The existing papers (C, BGS, BRS) all attempt to explain roughly the same facts. So there must be sloppiness in their discussion. Some mix of (a) selectively choosing results which fit their model; and (b) playing with interpretation to get a better fit.
 
@@ -63,31 +63,33 @@ There are multiple independent heuristics which we often use in adjusting prefer
 
   * The MRS shifting towards the MRT could be rationalized in at least two ways: (i) suppose you believe the social MRS to be informative about your own MRS, and you believe that the choice set reflects the market price, and finally, you believe that the price reflects the social MRS (as it would in a competitive equilibrium); (ii) suppose you believe the person who constructed the choice set to be cooperative (in the sense of Grice (1967)) - i.e., they only include things which they believe to have similar values, then the MRT in the choice set reflects their beliefs about your MRS, which is itself informative.For example: if I ask “would you prefer a poached egg or gruel for breakfast?” it's likely that I will infer that the gruel must be quite good.
 
-  * If there are just two attributes (i,j
- ) and two alternatives (a,b
- ) then the implicit tradeoff is MRT_{i,j}=\frac{|a_{i}-b_{i}|}{|a_{j}-b_{j}|}
- . If the MRS rotates to meet this MRT then the sensitivity to attribute i
-  will be decreasing in the range observed along that dimension, exactly as implied by the range-sensitivity theory of BR&S.
+  * If there are just two attributes (i,j) and two alternatives (a,b) then the implicit tradeoff is $MRT_{i,j}=\frac{|a_{i}-b_{i}|}{|a_{j}-b_{j}|}$. If the MRS rotates to meet this MRT then the sensitivity to attribute $i$ will be decreasing in the range observed along that dimension, exactly as implied by the range-sensitivity theory of BR&S.
 
   * A MRT can only be directly derived from the menu if the number of alternatives is equal to the number of attributes.I.e., a hyperplane in an n
  -dimensional space requires a set of n
-  points. However if this is not true then it becomes the well-known problem from statistics of fitting a line (or curve) to a set of points - e.g. by using orthogonal regression. Here is a simple example where the MRT theory and other theories give qualitatively different answers, and in which the MRS-MRT theory seems more faithful to the intuition. Suppose we have the following three options:\left\{ \binom{\mbox{100K salary}}{\mbox{199 days off}},\binom{\mbox{110K salary}}{\mbox{189 days off}},\binom{\mbox{105K salary}}{\mbox{189 days off}}\right\}
+  points. However if this is not true then it becomes the well-known problem from statistics of fitting a line (or curve) to a set of points - e.g. by using orthogonal regression. Here is a simple example where the MRT theory and other theories give qualitatively different answers, and in which the MRS-MRT theory seems more faithful to the intuition. Suppose we have the following three options:
+  $$
+  \left\{ \binom{\mbox{100K salary}}{\mbox{199 days off}},\binom{\mbox{110K salary}}{\mbox{189 days off}},\binom{\mbox{105K salary}}{\mbox{189 days off}}\right\}
+  $$
  The third option is dominated by the second option, and intuitively it might make the 2nd option more desirable - because it comes to seem a better deal. This intuition is not captured by the BR&S theory, because the third option does not change the range in either dimension. The third option will change the implicit price (in the sense of the best-fitting line, i.e. orthogonal regression), and the change will be in favor of the second option.
 
-  * Even in the 3-attribute 3-alternative case, it is no longer true that MRT_{i,j} is equal to the ratio of ranges on dimension i
+  * Even in the 3-attribute 3-alternative case, it is no longer true that $MRT_{i,j}$ is equal to the ratio of ranges on dimension i
   and j.
 
-  * When one attribute is a good and the other is a bad (e.g. price and quality; salary and hours) it is sometimes reasonable to think that choosing neither is an additional implicit element of the choice set, i.e. the point (0,0). In these cases the ratio of the ranges reduces to the ratio of the maximum values (\frac{\max_{c\in C}c_{i}}{\max_{c\in C}c_{j}}), which has similar comparative statics to the theory in (C) - which depends on the ratio of average values - than the theory in (BRS) - which depends on the ratio of the ranges.
+  * When one attribute is a good and the other is a bad (e.g. price and quality; salary and hours) it is sometimes reasonable to think that choosing neither is an additional implicit element of the choice set, i.e. the point (0,0). In these cases the ratio of the ranges reduces to the ratio of the maximum values ($\frac{\max_{c\in C}c_{i}}{\max_{c\in C}c_{j}}$), which has similar comparative statics to the theory in (C) - which depends on the ratio of average values - than the theory in (BRS) - which depends on the ratio of the ranges.
 
   * The effects of this MRS-MRT theory will not be detectable when the choice set is binary: suppose your MRS shifts towards the MRT implicit in the choice set, then although your final MRS will be closer to the MRT, it will not cross the MRT, i.e. the shift in MRS will not alter which of the two elements you prefer. This implies that the MRS-MRT theory cannot rationalize the existence of cycles in binary choice, and so cannot explain evidence for 'subadditivity' of different dimensions, such as probability, money, or delay (see Read (2001) for citations).E.g. if your prior is that a
   is better than b, and then you observe a choice set with a and b, then you may revise upward your valuation of b, and downward your valuation of a, but the observation wouldn't cause you to switch preference, thinking that b
   must be better than a. (This is under the assumption that the posterior MRS is between the prior MRS and the MRT; this assumption could be violated under some unusual priors, e.g. if you had bimodal beliefs about the value of b).
 
-**MRS shifting towards demand.** There is a second strong intuition for choice sets influencing demand: the combinations offered often tend to reflect the combinations desired, so a relative increase in attribute 1 could be interpreted as a positive signal about the value of attribute 1. Suppose we manipulate the choice set, while keeping the relative price fixed, for example consider these two choice sets, trading off the price and quantity of some good:\left\{ \binom{1}{\$1},\binom{2}{\$2},\binom{3}{\$3}\right\}
+**MRS shifting towards demand.** There is a second strong intuition for choice sets influencing demand: the combinations offered often tend to reflect the combinations desired, so a relative increase in attribute 1 could be interpreted as a positive signal about the value of attribute 1. Suppose we manipulate the choice set, while keeping the relative price fixed, for example consider these two choice sets, trading off the price and quantity of some good:
+
+$$
+\left\{ \binom{1}{\$1},\binom{2}{\$2},\binom{3}{\$3}\right\}
 \left\{ \binom{2}{\$2},\binom{3}{\$3},\binom{4}{\$4}\right\}
- A natural intuition is that people will tend to switch from \binom{2}{\$2}
-  to \binom{3}{\$3}
- , going from the first to the second choice set. It is notable that none of the theories discussed gives an unambiguous prediction about the change in MRS between these two choice sets - because both the range and magnitude change by the same amount on each dimension - yet the intuition remains quite clear (I think).
+$$
+
+ A natural intuition is that people will tend to switch from $\binom{2}{\$2}$ to $\binom{3}{\$3}$, going from the first to the second choice set. It is notable that none of the theories discussed gives an unambiguous prediction about the change in MRS between these two choice sets - because both the range and magnitude change by the same amount on each dimension - yet the intuition remains quite clear (I think).
 
 This idea could be easily formalized - suppose people know the supply curve but are uncertain about the demand curve - then when they observe an increase in quantity (and infer that this because other people deamnd more) - then they infer an increase in value of the good. This is the exactly the intuition given in Kamenica (2008) - when you observe a higher price/quantity combination, you infer that demand is higher, and so you infer that the value of each marginal good must be higher.I think that a similar foundation is used in Drolet, Simonson, Tversky (2000) “Indifference Curves that Travel with the Choice Set”.
 
