@@ -27,51 +27,61 @@ title: Elastic Multiattribute Preferences
 
 *  Existing literature: There are a lot of recent models of menu-dependent multiattribute choice.Also called “menu-dependent preferences”, “contingent-weighting” or “contingent valuation”. There are at least a dozen more models which fall into the same class, and the idea that sensitivity is related to the menu is popular in the marketing literature. For example, tradeoffs between price and quality, probability of a prize and size of the prize, hours of work and payment, bathrooms and bedrooms in a house, salary and holiday-days. Each of these models proposes that sensitivity to a dimension depends on the distribution of values along that dimension: in Koszegi and Szeidl (2011) (KS) sensitivity is positively related to the range of values on an attribute (i.e., maximum minus minimum); in Bushong et al. (2014) (BRS) it is negatively related to the range; in Cunningham (2012) (C) it is negatively related to the average; and in Bordalo et al. (2012) (BGS) it is negatively related to the proportional range.
 
-• Notation. Suppose that we have a menu-dependent utility function, $u(x|A)$, where $A$
-  is the choice set, or more generally the “comparison set.” x\in\mathbb{R}^{n}
- , and A\subseteq\mathbb{R}^{n}
- . We will assume that all attributes have positive value (\frac{\partial u}{\partial x_{i}}>0
- ), meaning that an attribute which represents a bad, such as the price of a good, will be represented as a negative number. It is useful to make a sharp distinction between “goods” and 'bads”, as shown in these diagrams:
+* Notation. Suppose that we have a menu-dependent utility function, $u(x|A)$, where $A$ is the choice set, or more generally the “comparison set.” $x\in\mathbb{R}^{n}$, and $A\subseteq\mathbb{R}^{n}$. We will assume that all attributes have positive value ($\frac{\partial u}{\partial x_{i}}>0$), meaning that an attribute which represents a bad, such as the price of a good, will be represented as a negative number. It is useful to make a sharp distinction between “goods” and 'bads”, as shown in these diagrams:
 
-\setlength{\unitlength}{0.8mm}       \setlength{\unitlength}{0.8mm}
+$$
+\setlength{\unitlength}{0.8mm}
+\begin{picture}(60,50)(-5,-5)
+  \put(0,50){\vector(0,-1){50}} \put(0,50){\vector(1,0){50}}
+  \put(52,49){$\textbf{x}$} \put(-1,-4){$\textbf{y}$}
 
-• Different heuristics. There are multiple independent heuristics which we often use in adjusting preferences contingent on the choice set.
+  \put(10,40){\circle*{2}\ $A$}
+  \put(30,30){\circle*{2}\ $B$}
+\end{picture}
+$$
+**A Good-Bad tradeoff: e.g., quality vs price; salary vs hours worked.**
 
-– (A) MRS shifting towards MRT. In multiattribute choice, a choice set can be interpreted as having an implicit rate of tradeoff between the attributes (the marginal rate of transformation (MRT)), and a natural assumption is that our preferences adapt to that implicit tradeoff, i.e., the MRS rotates towards the MRT. This effect would follow from a prior belief that the elements in a choice set tend to have positively correlated values: E.g., if someone offers you a “bachooka”, you'll value it more highly if they say “bachooka or $100?” than if they say “bachooka or banana?”
+$$
+\setlength{\unitlength}{0.8mm}
+\begin{picture}(60,50)(-5,-5)
+  \put(0,0){\vector(0,1){50}} \put(0,0){\vector(1,0){50}}
+  \put(52,2){$\textbf{x}$} \put(-1,51){$\textbf{y}$}
 
-– (1) The MRS shifting towards the MRT could be rationalized in at least two ways: (i) suppose you believe the social MRS to be informative about your own MRS, and you believe that the choice set reflects the market price, and finally, you believe that the price reflects the social MRS (as it would in a competitive equilibrium); (ii) suppose you believe the person who constructed the choice set to be cooperative (in the sense of Grice (1967)) - i.e., they only include things which they believe to have similar values, then the MRT in the choice set reflects their beliefs about your MRS, which is itself informative.For example: if I ask “would you prefer a poached egg or gruel for breakfast?” it's likely that I will infer that the gruel must be quite good.
+  \put(10,40){\circle*{2}\ $A$}
+  \put(30,30){\circle*{2}\ $B$}
+\end{picture}
+$$
+**A Good-Good tradeoff: e.g., bedrooms vs bathrooms; MPG vs horsepower; salary vs holiday-days.**
 
-– (2) If there are just two attributes (i,j
+## Different heuristics. 
+
+There are multiple independent heuristics which we often use in adjusting preferences contingent on the choice set.
+
+**MRS shifting towards MRT.** In multiattribute choice, a choice set can be interpreted as having an implicit rate of tradeoff between the attributes (the marginal rate of transformation (MRT)), and a natural assumption is that our preferences adapt to that implicit tradeoff, i.e., the MRS rotates towards the MRT. This effect would follow from a prior belief that the elements in a choice set tend to have positively correlated values: E.g., if someone offers you a “bachooka”, you'll value it more highly if they say “bachooka or $100?” than if they say “bachooka or banana?”
+
+  * The MRS shifting towards the MRT could be rationalized in at least two ways: (i) suppose you believe the social MRS to be informative about your own MRS, and you believe that the choice set reflects the market price, and finally, you believe that the price reflects the social MRS (as it would in a competitive equilibrium); (ii) suppose you believe the person who constructed the choice set to be cooperative (in the sense of Grice (1967)) - i.e., they only include things which they believe to have similar values, then the MRT in the choice set reflects their beliefs about your MRS, which is itself informative.For example: if I ask “would you prefer a poached egg or gruel for breakfast?” it's likely that I will infer that the gruel must be quite good.
+
+  * If there are just two attributes (i,j
  ) and two alternatives (a,b
  ) then the implicit tradeoff is MRT_{i,j}=\frac{|a_{i}-b_{i}|}{|a_{j}-b_{j}|}
  . If the MRS rotates to meet this MRT then the sensitivity to attribute i
   will be decreasing in the range observed along that dimension, exactly as implied by the range-sensitivity theory of BR&S.
 
-– (3) A MRT can only be directly derived from the menu if the number of alternatives is equal to the number of attributes.I.e., a hyperplane in an n
+  * A MRT can only be directly derived from the menu if the number of alternatives is equal to the number of attributes.I.e., a hyperplane in an n
  -dimensional space requires a set of n
   points. However if this is not true then it becomes the well-known problem from statistics of fitting a line (or curve) to a set of points - e.g. by using orthogonal regression. Here is a simple example where the MRT theory and other theories give qualitatively different answers, and in which the MRS-MRT theory seems more faithful to the intuition. Suppose we have the following three options:\left\{ \binom{\mbox{100K salary}}{\mbox{199 days off}},\binom{\mbox{110K salary}}{\mbox{189 days off}},\binom{\mbox{105K salary}}{\mbox{189 days off}}\right\}
  The third option is dominated by the second option, and intuitively it might make the 2nd option more desirable - because it comes to seem a better deal. This intuition is not captured by the BR&S theory, because the third option does not change the range in either dimension. The third option will change the implicit price (in the sense of the best-fitting line, i.e. orthogonal regression), and the change will be in favor of the second option.
 
-– (4) Even in the 3-attribute 3-alternative case, it is no longer true that MRT_{i,j}
-  is equal to the ratio of ranges on dimension i
-  and j
- .
+  * Even in the 3-attribute 3-alternative case, it is no longer true that MRT_{i,j} is equal to the ratio of ranges on dimension i
+  and j.
 
-– (5) When one attribute is a good and the other is a bad (e.g. price and quality; salary and hours) it is sometimes reasonable to think that choosing neither is an additional implicit element of the choice set, i.e. the point (0,0). In these cases the ratio of the ranges reduces to the ratio of the maximum values (\frac{\max_{c\in C}c_{i}}{\max_{c\in C}c_{j}}
- ), which has similar comparative statics to the theory in (C) - which depends on the ratio of average values - than the theory in (BRS) - which depends on the ratio of the ranges.
+  * When one attribute is a good and the other is a bad (e.g. price and quality; salary and hours) it is sometimes reasonable to think that choosing neither is an additional implicit element of the choice set, i.e. the point (0,0). In these cases the ratio of the ranges reduces to the ratio of the maximum values (\frac{\max_{c\in C}c_{i}}{\max_{c\in C}c_{j}}), which has similar comparative statics to the theory in (C) - which depends on the ratio of average values - than the theory in (BRS) - which depends on the ratio of the ranges.
 
-– (6) The effects of this MRS-MRT theory will not be detectable when the choice set is binary: suppose your MRS shifts towards the MRT implicit in the choice set, then although your final MRS will be closer to the MRT, it will not cross the MRT, i.e. the shift in MRS will not alter which of the two elements you prefer. This implies that the MRS-MRT theory cannot rationalize the existence of cycles in binary choice, and so cannot explain evidence for 'subadditivity' of different dimensions, such as probability, money, or delay (see Read (2001) for citations).E.g. if your prior is that a
-  is better than b
- , and then you observe a choice set with a
-  and b
- , then you may revise upward your valuation of b
- , and downward your valuation of a
- , but the observation wouldn't cause you to switch preference, thinking that b
-  must be better than a
- . (This is under the assumption that the posterior MRS is between the prior MRS and the MRT; this assumption could be violated under some unusual priors, e.g. if you had bimodal beliefs about the value of b
- ).
+  * The effects of this MRS-MRT theory will not be detectable when the choice set is binary: suppose your MRS shifts towards the MRT implicit in the choice set, then although your final MRS will be closer to the MRT, it will not cross the MRT, i.e. the shift in MRS will not alter which of the two elements you prefer. This implies that the MRS-MRT theory cannot rationalize the existence of cycles in binary choice, and so cannot explain evidence for 'subadditivity' of different dimensions, such as probability, money, or delay (see Read (2001) for citations).E.g. if your prior is that a
+  is better than b, and then you observe a choice set with a and b, then you may revise upward your valuation of b, and downward your valuation of a, but the observation wouldn't cause you to switch preference, thinking that b
+  must be better than a. (This is under the assumption that the posterior MRS is between the prior MRS and the MRT; this assumption could be violated under some unusual priors, e.g. if you had bimodal beliefs about the value of b).
 
-– (B) MRS shifting towards demand. There is a second strong intuition for choice sets influencing demand: the combinations offered often tend to reflect the combinations desired, so a relative increase in attribute 1 could be interpreted as a positive signal about the value of attribute 1. Suppose we manipulate the choice set, while keeping the relative price fixed, for example consider these two choice sets, trading off the price and quantity of some good:\left\{ \binom{1}{\$1},\binom{2}{\$2},\binom{3}{\$3}\right\}
+**MRS shifting towards demand.** There is a second strong intuition for choice sets influencing demand: the combinations offered often tend to reflect the combinations desired, so a relative increase in attribute 1 could be interpreted as a positive signal about the value of attribute 1. Suppose we manipulate the choice set, while keeping the relative price fixed, for example consider these two choice sets, trading off the price and quantity of some good:\left\{ \binom{1}{\$1},\binom{2}{\$2},\binom{3}{\$3}\right\}
 \left\{ \binom{2}{\$2},\binom{3}{\$3},\binom{4}{\$4}\right\}
  A natural intuition is that people will tend to switch from \binom{2}{\$2}
   to \binom{3}{\$3}
@@ -81,10 +91,9 @@ This idea could be easily formalized - suppose people know the supply curve but 
 
 We have discussed diagonal shifts along the budget set, meaning that both attributes are varying at once; if only one attribute varied, it's not clear what a consumer would infer from this.Of course we could formalize a model where the consumer is uncertain about both supply and demand; or we could combine this model with the prior one, where the consumer is uncertain about the price.
 
-– (C) Magnitude effects. Finally it's easy to come up with a rational magnitude effect, such that when we observe a higher quantity q
-  we infer that the marginal value of each unit is less. Suppose we know the price and consumption-value of a good, when measured in units that are familiar to us, but we do not know the units that are used in the packaging. Then if we observe other people consuming a higher quantity (measured in unfamiliar units), we infer that each unit is worth less: e.g., observing a 10,000 Kronor bank note we infer each Kronor is not worth a lot; observing a 10,000 Watt bulb, we infer each Watt is worth less; observing 200mg of Oxytocin, we infer each milligram is less valuable. These examples rely on just observing quantities, not prices.
+**Magnitude effects.** Finally it's easy to come up with a rational magnitude effect, such that when we observe a higher quantity q  we infer that the marginal value of each unit is less. Suppose we know the price and consumption-value of a good, when measured in units that are familiar to us, but we do not know the units that are used in the packaging. Then if we observe other people consuming a higher quantity (measured in unfamiliar units), we infer that each unit is worth less: e.g., observing a 10,000 Kronor bank note we infer each Kronor is not worth a lot; observing a 10,000 Watt bulb, we infer each Watt is worth less; observing 200mg of Oxytocin, we infer each milligram is less valuable. These examples rely on just observing quantities, not prices.
 
-• examples:
+## Examples
 
 – These two choice sets {sea-facing room, suite} and {sea-facing room, suite with complimentary champagne}. The second choice set seems to imply a greater relative value of being sea-facing (and lower relative value of being a suite).
 
@@ -104,15 +113,11 @@ We have discussed diagonal shifts along the budget set, meaning that both attrib
 
 – when you see a camera with more megapixels, you might infer that the marginal value of each additional megapixel is smaller, yet also your desired choice (for a fixed price/megapixel) might increase.
 
-• Observations about multiattribute choice in the lab:
+## Observations about multiattribute choice in the lab:
 
-– infrequency of dominated choice. People rarely choose dominated options. More precisely: if we rank experiments by the complexity of the choice set (e.g., the number of attributes), then people only start choosing dominated options when they become fairly complex, typically with 3 or more attributes, but they show other biases at a much lower level, with just 2 or more attributes.
+* infrequency of dominated choice. People rarely choose dominated options. More precisely: if we rank experiments by the complexity of the choice set (e.g., the number of attributes), then people only start choosing dominated options when they become fairly complex, typically with 3 or more attributes, but they show other biases at a much lower level, with just 2 or more attributes.
 
-– low quality evidence on decoy effects. A decoy-effect experiment shows that people choose x
-  from \{x,y\}
-  but y
-  from \{x,y,z\}
- . Here z
+* low quality evidence on decoy effects. A decoy-effect experiment shows that people choose x from \{x,y\} but y from \{x,y,z\}. Here z
   is the “decoy”, and if people are maximizing a menu-independent utility function then adding a decoy shouldn't affect preference between existing options. There are many examples of these effects in psychology and economics, sometimes classified into particular types: (i) people are more likely to choose an alternative if another alternative is dominated by it (“asymmetric dominance effect”); (ii) people are more likely to choose an alternative if it is (“compromise effect”).Frederick, Lee & Baskin (2015) “The Limits of Attraction”.
 
 – reference point effects.
