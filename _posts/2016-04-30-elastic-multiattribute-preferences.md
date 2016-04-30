@@ -5,7 +5,7 @@ title: Elastic Multiattribute Preferences
 
 ## Observations:
 
-* Some common bias across domains: Simonsohn paper. Other similarities: (1) oversensitive to small differnces; (2) diminishing sensitivity, common-difference effects; (3) compromise & asymmetric dominance effects; (4) sensitivity to reference point; (5) implied answer in the question - Schwartz. $$u(x,A)$$.
+* Some common bias across domains: Simonsohn paper. Other similarities: (1) oversensitive to small differnces; (2) diminishing sensitivity, common-difference effects; (3) compromise & asymmetric dominance effects; (4) sensitivity to reference point; (5) implied answer in the question - Schwartz. $$u(x,A)$$. and this $x$ or this $f(x)$.
 
 * The existing papers (C, BGS, BRS) all attempt to explain roughly the same facts. So there must be sloppiness in their discussion. Some mix of (a) selectively choosing results which fit their model; and (b) playing with interpretation to get a better fit.
 
