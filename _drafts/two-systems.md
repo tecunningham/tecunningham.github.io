@@ -3,37 +3,36 @@ layout: post
 title: Biases in Judgment & Two Systems
 ---
 
-## SUMMARY
+**The quality of human judgment.** I'm going to talk about the quality of judgment -- thinking about factual judgments like:
 
-1. **The quality of human judgment.** I'm going to talk about the quality of judgment -- thinking about factual judgments like, for example:
-    * Judging which of two outcomes is more likely
-    * Judge whether to keep running a test, or just ship it.
+* estimating the age of someone you just met,
+* estimating the correlation between two variables in a scatter plot,
+* estimating the effect of changing a feature in a program.
 
-    Psychology textbooks are packed with examples where judgment is bad - perceptual illusions and trick questions - but there are also a lot of examples where human judgment is impressively good. I'm going to explain a simple theory which predicts under what circumstances we typically make mistakes, and therefore how we can protect against them.
+Psychology textbooks are packed with examples where our instinctive judgments are bad - optical illusions, brain teasers - but there are also a lot of examples where our instinctive judgment is impressively good. I'm going to describe a simple theory which predicts when we make good judgments, when we make bad ones, and how to improve the quality of our average judgments.
 
-2. **Two systems AKA Bloodhound theory:**  Our brain is divided into two parts: a conscious, logical reasoning system (system 2), and a pre-conscious pattern-recognition system (system 1). System 1, the pattern-recognition system, makes a lot of inferences, and sends them up to the conscious brain -- call them instincts or intuitions. But System 1 doesn't take into account all the information available, so we can't always trust our instincts -- we often have to make some kind of adjustment.
+**Two systems AKA Bloodhound theory:**  Let's say that our brain is divided into two parts: a conscious, logical reasoning system (system 2), and a pre-conscious pattern-recognition system (system 1). System 1, the pattern-recognition system, makes a lot of inferences, and sends them up to the conscious brain -- call them instincts or intuitions. But System 1 doesn't take into account all the information available, so we can't always trust our instincts -- we often have to make some kind of adjustment.
 
-    A good metaphor is that you have a bloodhound on a leash: on the one hand you trust the bloodhound, because it knows things you don't know, but on the other hand you sometimes have to restrain her with the leash because you also know things that she doesn't know.
+A good metaphor is that you have a bloodhound on a leash. On the one hand you trust the bloodhound, because it knows things you don't know, but on the other hand you sometimes have to restrain her with the leash because you know things that she doesn't know.
 
-    ![bloodhound](https://dl.dropboxusercontent.com/u/13046545/imgs/Bloodhound_portrait.jpg)
+![bloodhound](https://dl.dropboxusercontent.com/u/13046545/imgs/Bloodhound_portrait.jpg)
 
-3. **Two basic facts**  This basic theory explains two important facts about judgment:
-    1. Judgments are often influenced by information that is irrelevant. In addition, those influences are *usually* relevant in similar cases. The bloodhound sometimes sniffs out sausages instead of sniffing out the fugitive. 
-    2. We often make accurate judgments without knowing *how* we made them. We follow the bloodhound, because we know that she knows things that we don't know.
 
-4. **Some tips for managing your bloodhound,** This theory has some practical implications for decision-making: 
+**Three basic facts**  This basic theory explains three important facts about judgment:
+
+1. Judgments are often influenced by information that is irrelevant. The bloodhound gets distracted by things we know aren't relevant.
+2. When our instincts are influenced by irrelevant cues, those cues turn out to be *ordinarily* relevant in similar cases. The bloodhound sometimes sniffs out sausages instead of sniffing out the fugitive. 
+3. We often make accurate judgments without knowing *how* we made them. We follow the bloodhound, because we know that she knows things that we don't know.
+
+**Some tips for managing your bloodhound,** This theory has some practical implications for decision-making: 
     1. Remove irrelevant information where possible.
     2. Reframe the question in various ways.
     3. Put information in graphical format where possible.
 
-## BASIC ARGUMENT FOR TWO-SYSTEMS
 
-* **asdf.**
+## SOME EXAMPLES OF JUDGMENT BIASES 
 
-
-## SOME EXAMPLE BIASES & EXAMPLE 
-
-* **Perceptual illusions.**
+* **Perceptual illusions.** asdf
 
 
 ## SOME CASES WHERE WE NEED TO RELY ON INTUITION
@@ -55,7 +54,22 @@ title: Biases in Judgment & Two Systems
 * Cold objects feel heavier
 
 
-## EXAMPLES OF JUDGMENT BIASES
+## IMPROVING YOUR JUDGMENT
+
+**Reframe the question.** When you're considering a question.
+
+Tetlock (2015) asked the following questions to two separate groups of people:
+
+* Q: What's the probability that Assad will be deposed in the next 3 months?
+    - Average answer: 40%
+* Q: What's the probability that Assad will be deposed in the next 6 months?
+    - Average answer: 41%
+
+**Graph data.** 
+
+**Remove Irrelevant Information.** 
+
+## MORE EXAMPLES OF JUDGMENT BIASES
 * Estimate of value influenced by randomly assigned price-tag.
 
 * Interpretation of new data influenced by expectations.
@@ -66,9 +80,11 @@ title: Biases in Judgment & Two Systems
     * “A bat and a ball cost $1.10. The bat costs $1.00 more than the ball. How much does the ball cost? _ cents” 
     * “If it takes 5 machines 5 minutes to make 5 widgets, how long would it take 100 machines to make 100 widgets? __ minutes” 
     * “In a lake, there is a patch of lily pads. Every day, the patch doubles in size. If it takes 48 days for the patch to cover the entire lake, how long would it take for the patch to cover half of the lake? __ days ”
+
 * **Frequencies easier to understand than probabilities.** -- example from Gigerenzer (1996) shows that some problems are much easier when framed as *frequencies* than when framed as *probabilities*
     - **First version:** Suppose that you receive a positive test for cancer. You know (1) the probability of cancer is 1%; (2) for people with cancer the probability of a positive test is 80%; (3) for people without cancer the probability of a positive test is 10%. What is your probability of cancer if you have a positive test?
     - **Second version:** Suppose that you receive a positive test for cancer. You know (1) out of 1000 patients, will have cancer; (2) out of the 10 who have cancer, 8 will test positive; (3) out of the 990 who did not have cancer, 99 will test positive. What is your probability of cancer if you have a positive test?
+
 * **Scope Neglect** example from Tetlock (2015)
     - Q1: probability Assad will fall in the next 3 months? Average answer was 40%
     - Q2: probability Assad will fall in the next 6 months? Average answer was 41%
@@ -77,6 +93,7 @@ title: Biases in Judgment & Two Systems
 * **Effect of Plot Shape on Judgment of Correlation**
 ![correlation plots](https://dl.dropboxusercontent.com/u/13046545/imgs/correlation_Cleveland1982.png)
 
+## OTHER EVIDENCE ON THERE BEING TWO SYSTEMS
 
 ## SOME NOTES ABOUT PSYCHOLOGY RESEARCH
 
@@ -91,6 +108,8 @@ title: Biases in Judgment & Two Systems
 * **Quality of Experiments.** (...)
 
 # REFERENCES & FOLLOWUP READING
+
+* My strongest single recommendation is *SuperForecasting* by Philip Tetlock, which summarizes a lot of research on peoples' ability to make probability judgments bout political events.
 
 * A not-very-good summary of a bunch of studies on effective information visualization: https://medium.com/@kennelliott/39-studies-about-human-perception-in-30-minutes-4728f9e31a73#.tn3vf2tlj
 

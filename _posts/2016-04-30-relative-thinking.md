@@ -3,31 +3,50 @@ layout: post
 title: Relative Thinking
 ---
 
-**Nutshell: Relative-thinking effects are not hard-wired. They go in different directions in different contexts, because they are based on inferences.**
+## NUTSHELL
 
-A lot of people have noticed that, when we make decisions, our sensitivity to an attribute depends on the *relative* value of that attribute -- e.g. the value we put on 100 square feet differs depending on whether the 100 is being compared to 50 square feet, or to 200 square feet.
-
-The idea seems simple but there have been surprisingly many alternative attempts at formalizing it. The simplest ones are:
+There are a lot of intuitive cases where the value of an outcome seems different depending on what you're comparing it to. That basic idea seems simple but a lot of people have tried nailing down a common underlying principle, mostly people have said that sensitivity to an attribute (speed, height, price, square feet) depends on the distribution of values that you're comparing, for example:
 
 - **Range**: sensitivity is decreasing in the range of values observed (i.e. the difference between max and min) -- Volkmann (1951), Mellers & Cooke (1994), Bushong Schwarzstein & Rabin (2016)
 - **Negative Range**: sensitivity is *increasing* in the range of values observed -- Koszegi & Szeidl (2003)
 - **Proportional Range**: sensitivity is increasing in the *proportional* range of values -- Bordalo Gennaioli & Shleifer (2013)
-- **Loss Aversion** -- sensitivity is higher *below* some salient reference point -- Tversky & Kahneman (1991).
-- **Diminishing Sensitivity** -- sensitivity is higher *near* some salient reference point -- Tversky & Kahneman (1991).
-- and my own proposal -- **Magnitude** -- that sensitivity is decreasing in the *magnitude* of the values (e.g. the average) -- Cunningham (2015).
+- **Frequency**: sensitivity at any point is proportional to the density of values in that neighborhood (Parducci (1965), Stewart Chater & Brown (2010?))
+- and my own old proposal -- **Magnitude** -- that sensitivity is decreasing in the *magnitude* of the values (e.g. the average) -- Cunningham (2015).
+- (plus there are theories with a reference point, e.g. **Loss Aversion** says you're more sensitive *below* a reference point, and **Diminishing Sensitivity** says you're more sensitive in the *neighborhood* of a reference point (both are in Tversky & Kahneman 1991).
 
-Despite big formal differences these papers all try to explain much the *same* set of thought experiments and laboratory findings -- they talk about Weber's law, contrast illusions, compromise & asymmetric dominance effects, common-difference effects, scope insensitivity, and joint-separate reversals, and each paper claims to unify most or all of these effects.
+
+All of these models can be thought about as indifference curves that change slope as you change the elements on the choice set, e.g. adding option C could change the relative value of A and B:
+$$
+\xymatrix{\, &  &  &  &  & . & \,\, &  & \,\\
+\, & A &  &  &  &  & A\\
+\, &  &  & B & \ar@{-}[uullll] &  &  &  & B & \ar@{-}[uul]\\
+\, &  &  &  &  &  &  &  &  &  C \\
+\ar[uuuu]\ar[rrrr] &  &  &  & \ar@{-}[uullll] & \ar[uuuu]\ar[rrrr] &  &  & \ar@{-}[uuuull] & \,
+}
+$$
+
+---
+
+I'm going to try to make the following points:
+
+1. **There is no stable relationship between the perceived-value of a given quantity and the distribution of quantities which it's compared to.** In fact, if you give me an example where changing the distribution of comparisons makes perceived-value go down, then I can give you another example - with the same distributions - in which the perceived-value goes *up*.
+
+2. **However there is a common principle underlying comparison effects.** The principle is that .
+
+**Common principle:** a given quantity comes to seem more valuable when the distribution changes to .
 
 
 ---
 
-A weakness in all of these papers is that they don't explain *why* we would have this particular bias -- why our judgments would be distorted in such a predictable fashion.
+1. **None of these laws is hardwired.** It's easy to find examples where relative-value effects go in the opposite direction predicted by each of the above laws. The papers above are only able to give the impression of unifying all the observed effects by selective use of the evidence, selective use of predictions, or inconsistent interpretation of the laws.
 
-**I'm going to try to make the following points:**
+2. However **each of these laws has intuitive appeal because it fits a rational inference in certain situations.** This  identification only works in a subset of cases, and in each case, when we step outside that subset, the law stops working, and instead behaviour is governed by the inferece. Thus these laws are given at the wrong level.
 
-1. There is no single law which unites the diverse relative-thinking effects. There are multiple overlapping effects, and each of these papers is only able to give the impression of unifying all the effects by selective use of the evidence or inconsistent interpretation of the theory.
-2. Each of the laws proposed can be identified with a rational inference from the situation. However the identification only works in a certain subset of cases, and indeed when we step outside that subset, the law stops working, and instead behaviour is governed by the rational inferece. Thus these laws are given at the wrong level.
-3. Are there just a lot of different overlapping effects? No - there is a common pattern: each pattern is *locally* rational, i.e. it's a good pattern of inference in that particular context. We can tell by playing with the thought experiments, to see how they vary.
+3. Despite this, **relative-value effects are not entirely rational inferences.** We know that because many of the effects still work even when people are aware that there is no ground for the inference -- e.g. when the choice set is generated randomly. Thus the inferences must be being performed *pre-consciously*.
+
+> The church looked bigger because I was expecting it to be big
+
+> The church seemed smaller because I was expecting it to be big
 
 
 **A few other points that I'll leave for later:**
@@ -35,25 +54,58 @@ A weakness in all of these papers is that they don't explain *why* we would have
 1. There are some cute tricks for identifying different types of relative-thinking effects through intransitive choices.
 2. The quality of the evidence we have on almost all of these choice-set effects is very low. 
 3. Weber's law is not relevant to diminishing sensitivity in choice.
-4. The situation is the same among psychologists studying perception: people have tried explaining the whole variety of different context-dependent effects with a single principle (e.g. lateral inhibition, divisive normalization), but they've only managed to stuff everything in a suitcase by mangling them. Sometimes effects go one way, sometimes they go another way.
 
 
+## DIGRESSION: PERCEPTION
+
+Here's a classic contrast effect:
+![](https://dl.dropboxusercontent.com/u/13046545/imgs/illusion_contrast.gif){: .center-image }
+the same shade of grey looks darker when surrounded by white, than when surrounded by black.
+
+For a long time psychology textbooks gave this as an example of a *hardwired* contrast effect.
+
+But take a look at this (White's illusion):
+![](https://dl.dropboxusercontent.com/u/13046545/imgs/illusion_white.png){: .center-image }
+
+here the same shade of grey looks *lighter* on the left than on the right, despite the surroundings being relatively *lighter* on the left than on the right. This is exactly the opposite of what's predicted by a hardwired contrast efect in perception.
+
+In fact there are some even cleaner examples, in which making the background lighter, *ceteris paribus*, makes the foreground appear lighter, not darker. It'll take me some time to dig up those examples, I'll write about it in another post.
+
+The general point is this: **There is not a stable relationship between the perceived-lightness of an object and the lightness of surrounding objects.** There isn't even an all-else-equal relationship. The relationship can run in either direction depending on the context.
+
+But that's not the last word. We don't have to simply memorize a list of contexts where it goes one way (contrast effect), or the other way (assimilation effect). Adelson (2001) shows that you can often predict when you'll observe one effect or the other: roughly, when the surrounding lightness is a positive or negative cue for illumination. This also explains why contrast effects predominate - because surrounding lightness is *typically* a positive cue for illumination.
+
+## A LIST OF PHENOMENA
+
+The laboratory evidence for most of these effects is pretty *bad*. However the intuitive case for each of them is quite strong.
+
+* **Scope insensitivity.** A good comes to seem less valuable when you're thinking about bigger quantities.
+* **Common difference effects.** The difference between 51% and 52% seems less valuable than the difference between 1% and 2%. Likewise with $$51 and $$52 vs $$1 and $$2, and 51 and 52 days vs 1 and 2 days.
+* **Decoy Effects.** (Compromise, asymmetric dominance)
+* **Joint and Separate evaluation.**
+* **Anchoring Effects.**
+* **Contrast Effects.**
+* ...
+
+I can't continue because this reminds me of writing out this list, over and over, in my PhD. In a shitty little office, 3000 miles from my friends, 9000 miles from my family, .
+
+![desk](https://dl.dropboxusercontent.com/u/13046545/imgs/nber_desk.jpg){: .center-image }
 
 ## ALTERNATIVE HEURISTICS
 
-There are multiple independent heuristics which we often use in adjusting preferences contingent on the choice set.
+I'm going to discuss a few perfectly reasonable reasons why we might infer the value of different attributes from the choice set, and each reason will imply one of the above laws *in a subset of cases*. However I also show that the same reason can imply the exact opposite effect outside that subset.
 
 ### (1) **MRS shifting towards MRT.** 
 
-In multiattribute choice, a choice set can be interpreted as having an implicit rate of tradeoff between the attributes (the marginal rate of transformation (MRT)), and it is easy to think of cases when our preferences would adapt to that implicit tradeoff, i.e., the MRS rotates towards the MRT. This effect would follow from a prior belief that the elements in a choice set tend to have positively correlated values: E.g., if someone offers you a “bachooka”, you'll value it more highly if they say “bachooka or $100?” than if they say “bachooka or banana?”
+A choice set which varies in different attributes has an implicit rate of tradeoff between the attributes -- i.e. the marginal rate of transformation (MRT) -- and it is easy to think of cases when our preferences would adapt to that implicit tradeoff, i.e., where our MRS would rotate towards the MRT that is implicit in the choice set.
+
+The MRS shifting towards the MRT could be rationalized in at least two ways. First, suppose you believe the social MRS to be informative about your own MRS, and you believe that the choice set reflects the market price, and finally, you believe that the price reflects the social MRS (as it would in a competitive equilibrium). Second, suppose you believe the person who constructed the choice set to be cooperative (in the sense of Grice (1967)) - i.e., they only include things which they believe to have similar values, then the MRT in the choice set reflects their beliefs about your MRS, which is itself informative.For example: if I ask “would you prefer a poached egg or gruel for breakfast?” it's likely that I will infer that the gruel must be quite good.
 
 If there are just two attributes (i,j) and two alternatives (a,b) then the implicit tradeoff is $MRT_{i,j}=\frac{\|a_{i}-b_{i}\|}{\|a_{j}-b_{j}\|}$. If the MRS rotates to meet this MRT then the sensitivity to attribute $i$ will be decreasing in the range observed along that dimension, exactly as implied by the range-sensitivity theory (V, M&C, BR&S).
 
 **However the MRS-MRT effect implies range sensitivity for a 2-attribute, 2-alternative case. Outside of that case the intuitions depart.**
 
-The MRS shifting towards the MRT could be rationalized in at least two ways: (i) suppose you believe the social MRS to be informative about your own MRS, and you believe that the choice set reflects the market price, and finally, you believe that the price reflects the social MRS (as it would in a competitive equilibrium); (ii) suppose you believe the person who constructed the choice set to be cooperative (in the sense of Grice (1967)) - i.e., they only include things which they believe to have similar values, then the MRT in the choice set reflects their beliefs about your MRS, which is itself informative.For example: if I ask “would you prefer a poached egg or gruel for breakfast?” it's likely that I will infer that the gruel must be quite good.
-
-However a marginal rate of transformation can only be derived from a menu if the number of alternatives is equal to the number of attributes. I.e., to define a plane in $n$ dimensions from a set of points, you'll need at least $n$ points. If you have fewer then it becomes the well-known problem from statistics of fitting a line (or curve) to a set of points - e.g. by using orthogonal regression. Here is a simple example where the MRT theory and other theories (e.g. range-sensitivity) give qualitatively different answers, and in which the MRS-MRT theory seems more faithful to the intuition. Suppose we have the following three options:
+A marginal rate of transformation can only be directly identifed from a menu if the number of alternatives is equal to the number of attributes. I.e., to define a plane in $n$ dimensions from a set of points, you'll need exactly $n$ points. If you have fewer then it becomes the statistical problem of fitting a line to a set of points - e.g. by using orthogonal regression. Here is a simple example where the MRT theory and other theories (e.g. range-sensitivity) give qualitatively different answers, and in which the MRS-MRT theory seems more faithful to the intuition. Suppose we have the following three options:
 
 $$
 \xymatrix@C=1em@R=1em{
@@ -65,7 +117,7 @@ $$
 }
 $$
 
-The intermediate option is dominated by the by the option on the right, and intuitively - to me - that makes the rightmost option more desirable - because it makes it seem a better deal. This intuition is not captured by range sensitivity, because the third option does not change the range in either dimension. The third option will change the implicit price (in the sense of the best-fitting line, e.g. orthogonal regression), and the change will be in favor of the rightmost option.
+The intermediate option is dominated by the by the option on the right, and intuitively - to me - the existence of the intermediate option makes the rightmost option more desirable - because the choice set makes 10-days-off seem to be worth between $5K and $10K, meaning the higher salary is cheap, in terms of days-off. This intuition is not captured by range sensitivity, because the third option does not change the range in either dimension. The third option *does* change the implicit MRS, in the sense of the best-fitting line (e.g. orthogonal regression), and the change will be in favor of the rightmost option.
 
 Even in the 3-attribute 3-alternative case, it is no longer true that $MRT_{i,j}$ is equal to the ratio of ranges on dimension i and j.
 
@@ -109,16 +161,6 @@ Finally it's easy to come up with a rational magnitude effect, such that when we
 
 ## SUMMARY
 
-## A LIST OF PHENOMENA
-
-The laboratory evidence for most of these effects is pretty *bad*. However the intuitive case for each of them is quite strong.
-
-* **Scope insensitivity.** A good comes to seem less valuable when you're thinking about bigger quantities.
-* **Common difference effects.** The difference between 51% and 52% seems less valuable than the difference between 1% and 2%. Likewise with $$51 and $$52 vs $$1 and $$2, and 51 and 52 days vs 1 and 2 days.
-* **Decoy Effects.** (Compromise, asymmetric dominance)
-* **Joint and Separate evaluation.**
-* **Anchoring Effects.**
-* **Contrast Effects.**
 
 
 
