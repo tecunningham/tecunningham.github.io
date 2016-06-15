@@ -3,9 +3,15 @@ layout: post
 title: Relative Thinking
 ---
 
-## NUTSHELL
+There are a lot of intuitive cases where the value of an outcome seems different depending on what you're comparing it to. Some examples:
 
-There are a lot of intuitive cases where the value of an outcome seems different depending on what you're comparing it to. That basic idea seems simple but a lot of people have tried nailing down a common underlying principle, mostly people have said that sensitivity to an attribute (speed, height, price, square feet) depends on the distribution of values that you're comparing, for example:
+* A $5 discount off a $20 radio seems worth more than a $5 discount off a $500 bed.
+* The difference between a 1% chance and a 2% chance seems more valuable than between a 50% chance and a 51% chance
+* 
+* Writing out this list gives me a slightly nauseous feeling -- like drinking Bacardi -- it releases old unpleasant memories -- I wrote out this type of list dozens of times while drafting and redrafting my PhD.
+* 
+
+ That basic idea seems simple but a lot of people have tried nailing down a common underlying principle, mostly people have said that sensitivity to an attribute (speed, height, price, square feet) depends on the distribution of values that you're comparing, for example:
 
 - **Range**: sensitivity is decreasing in the range of values observed (i.e. the difference between max and min) -- Volkmann (1951), Mellers & Cooke (1994), Bushong Schwarzstein & Rabin (2016)
 - **Negative Range**: sensitivity is *increasing* in the range of values observed -- Koszegi & Szeidl (2003)
@@ -87,7 +93,9 @@ The laboratory evidence for most of these effects is pretty *bad*. However the i
 * **Contrast Effects.**
 * ...
 
-I can't continue because this reminds me of writing out this list, over and over, in my PhD. In a shitty little office, 3000 miles from my friends, 9000 miles from my family, .
+I can't continue because this reminds me of writing out this list, over and over, in my PhD. My train of thought would get detached and I'd end up asking myself questions like: Why are you here in this sad office, a $1000-flight from your friends and a $2000-flight from your family? Why do you spend your weekends in this sad building, where people don't look each other in the eye in the hallways? What rock did you hit in adolescence that knocked you out of orbit, and sent you sailing here? Are you trying to compensate for something you didn't have? Trying to impress your mother? Trying to avenge your father? Do these professors you work with look like the kind of man you want to be? When, when you talk about your work, do the people you admire glaze over, and the people who bore you become interested? If you're so clever why aren't you happy? Do you think that giving your life to intellectual things makes you better than other people? Do you look down on people who don't think so clearly? What are you doing on a Friday night at the NBER eating a tuna subway sandwich and reading reddit? If it takes you 5 years to get straight one point about relative thinking -- one corner of one shelf in one cupboard -- then how long is it going to take to tidy up the whole house? Why, when an undergraduate corners you, asking earnest & boring questions, does it remind you of yourself?
+
+
 
 ![desk](https://dl.dropboxusercontent.com/u/13046545/imgs/nber_desk.jpg){: .center-image }
 
