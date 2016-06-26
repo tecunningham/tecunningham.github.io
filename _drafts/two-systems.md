@@ -3,19 +3,22 @@ layout: post
 title: Biases in Judgment & Two Systems
 ---
 
+![man and dog](https://dl.dropboxusercontent.com/u/13046545/man-and-dog.png){: .center-image }
+
 **The quality of human judgment.** I'm going to talk about the quality of judgment -- thinking about factual judgments like:
 
+* judging the distance of a car,
 * estimating the age of someone you just met,
 * estimating the correlation between two variables in a scatter plot,
 * estimating the effect of changing a feature in a program.
 
 Psychology textbooks are packed with examples where our instinctive judgments are bad - optical illusions, brain teasers - but there are also a lot of examples where our instinctive judgment is impressively good. I'm going to describe a simple theory which predicts when we make good judgments, when we make bad ones, and how to improve the quality of our average judgments.
 
-**Two systems AKA Bloodhound theory:**  Let's say that our brain is divided into two parts: a conscious, logical reasoning system (system 2), and a pre-conscious pattern-recognition system (system 1). System 1, the pattern-recognition system, makes a lot of inferences, and sends them up to the conscious brain -- call them instincts or intuitions. But System 1 doesn't take into account all the information available, so we can't always trust our instincts -- we often have to make some kind of adjustment.
+**Two systems AKA Sniffer Dog theory:**  Let's say that our brain is divided into two parts: a conscious, logical reasoning system (system 2), and a pre-conscious pattern-recognition system (system 1). System 1, the pattern-recognition system, makes a lot of inferences, and sends them up to the conscious brain -- call them instincts or intuitions. But System 1 doesn't take into account all the information available, so we can't always trust our instincts -- we often have to make some kind of adjustment.
 
-A good metaphor is that you have a bloodhound on a leash. On the one hand you trust the bloodhound, because it knows things you don't know, but on the other hand you sometimes have to restrain her with the leash because you know things that she doesn't know.
+A good metaphor is that you have a sniffer dog on a leash. On the one hand you trust the sniffer dog, because it knows things you don't know, but on the other hand you sometimes have to restrain her with the leash because you know things that she doesn't know.
 
-![bloodhound](https://dl.dropboxusercontent.com/u/13046545/imgs/Bloodhound_portrait.jpg)
+![bloodhound](https://dl.dropboxusercontent.com/u/13046545/imgs/Bloodhound_portrait.jpg){: .center-image }
 
 
 **Three basic facts**  This basic theory explains three important facts about judgment:
@@ -56,6 +59,10 @@ A good metaphor is that you have a bloodhound on a leash. On the one hand you tr
 
 ## IMPROVING YOUR JUDGMENT
 
+**Othering the familiar.** 
+
+Novalis: "Make the familiar strange, and the strange familiar."
+
 **Reframe the question.** When you're considering a question.
 
 Tetlock (2015) asked the following questions to two separate groups of people:
@@ -88,10 +95,17 @@ Tetlock (2015) asked the following questions to two separate groups of people:
 * **Scope Neglect** example from Tetlock (2015)
     - Q1: probability Assad will fall in the next 3 months? Average answer was 40%
     - Q2: probability Assad will fall in the next 6 months? Average answer was 41%
-    - Interestingly this has a kind of rationalization.
+    - Interestingly this has a kind of rationalization: if I ask you "what's the probability that Heeble Jeeble will Weeble in the next 3 months?" then to answer this questions you'll naturally fall back on thinking about what kind of question that I would be asking - and so .
 
-* **Effect of Plot Shape on Judgment of Correlation**
+* **Judgment of Correlation**
 ![correlation plots](https://dl.dropboxusercontent.com/u/13046545/imgs/correlation_Cleveland1982.png)
+
+    * Cleveland (1982) finds that people judge the correlation to be higher in the left-hand side graph than in the right-hand side graph.
+
+    * Anderson (1995) "Implicit Personality Theories and Empirical Data" finds that people overestimate the correlation between two variables on a scatter plot when they have a prior belief that they are correlated in the world (in his case they are personality characteristics, e.g. 'friendly' and 'polite').
+
+    * Game to guess correlation: http://guessthecorrelation.com/
+
 
 ## OTHER EVIDENCE ON THERE BEING TWO SYSTEMS
 
@@ -120,6 +134,48 @@ Tetlock (2015) asked the following questions to two separate groups of people:
 ------------------------------------------------------------------------------
 
 # OFFCUTS
+
+## General picture of decision-making: modularity
+
+• My claim: modularity. Most of departures from orthodox decision-making can be explained by the modularity of cognition, meaning that the black box can be thought of as containing two agents - a person and a dog - and decisions are produced by their interaction. There are two different aspects to the interaction: information modularity and preference modularity.
+
+**information modularity.** We have limited conscious insight into how our judgments are formed. This seems plausible if we think of the brain as having a hierarchical organization: lower-level parts form inferences, and pass their conclusions to higher levels.Related to Fodor's (1983) notion of modularity, and “bottom-up” processing of information in the literature on perception. This separation of information has a set of implications:
+
+1. we can have very accurate judgments about cases which we have experience with, but make systematic mistakes when dealing with unusual cases,e.g. Valentine (1988) “Upside-down faces: a review of the effect of inversion upon face recognition”; inverted colour: Galper 1970; Kemp et al 1990. 
+2. we have poor ability to make general statements about what affects our own judgments,
+3. judgments obey rules of consistency when elicited jointly, but violate them when elicited separately.
+4. many judgments seem to be influenced by relative comparisonsAlso called contrast & assimilation effects, normalization, adaptation, inhibition. - and these effects have often been proposed as fundamental and hard-wired. However the logic of encapsulation can explain why (i) relativity effects only occur in some contexts (implying it's not hard-wired); and yet (ii) relativity can lead to predictable mistakes.
+
+**preference modularity.** Many patterns in choice can be explained as the interaction of systems w/ different preferences.
+
+1. variation in decision by contextDecisions made with salient outcomes, or abstract outcomes; decisions made under time pressure; decisions made with cognitive load; decisions made in advance; decisions over future choice sets; choices made in different moods, or after exerting willpower; decisions made directly or indirectly; from small or large choice sets; and attitudes which are expressed by involuntary responses (response time, skin conductance, pupil dilation).
+2. rigidities in behaviour - following personal rules
+3. strategic choice - e.g. not going to places where you think you will be tempted
+4. implicit preferences
+
+## Modularity in Preferences
+
+Nutshell:(1) many choices seem to be driven by proximal preferences: they achieve a goal which is ordinarily associated with good outcomes - though not in the current context(2) two types: (a) evolutionary proximal goals (sugar, sex, putrid smells); (b) learned proximal goals (coffee, wine, tobacco, food aversions).(3) in an important sense these are not ordinary preferences, they tend to become stronger when the outcome is more visceral. This predicts certain patterns in decision-making behaviour.
+
+**Proximal preferences from evolution.** A lot of human preferences make sense as proximal goals for achieving a long-run evolutionary purpose. I.e., often, when we get a kick out of doing X, it's because doing X is associated with reproducing more, in our evolutionary history. These goals must be hard-wired when people still do X even when it's no longer helping to reproduce. Examples: (1) we enjoy sex even when it doesn't lead to reproduction; (2) we like the taste of sugar even when it's bad for us; (3) we are scared of snakes, spiders, of heights, of blood, even in contexts where they are harmless; (4) we are disgusted by smells associated with infection, even when we know the association is irrelevant. There are also arguments that some emotions - such as anger, jealousy, love - are hardwired for a slightly different reason - because they serve as commitment devices in social interaction.(Trivers.)
+
+Why hardwired? An alternative way of constructing human desires would be to give people a single over-arching preference - to reproduce, and to pre-program the specifics as knowledge: e.g., knowledge that sex will lead to reproduction, and that some smell is associated with a risk of infection. Why do we have hard-coded preferences, instead of hard-coded knowledge? It's not obvious.
+
+**Proximal preferences from learning.** We often can explain peoples' preference for X, because X has been associated with good outcomes in the past, yet people still choose X even when they are aware it no longer has those good associations. I.e., X has turned from a means into an end in itself. This can be described as a “habit”, “learned preference.” Some examples: (1) enjoying the smell of coffee, the taste of wine, or a cigarette, when those associations must be due principally to the psychoactive drugs that have been associated with them; (2) a learned phobia; (3) a learned food aversion, even when you know it's irrelevant.
+
+**Context-specific preferences.** These preferences differ from ordinary consequentialist preferences in an important way: they vary with the salience of the outcome. 
+
+Some characteristic behaviours indicating parasitic preferences:
+
+1. preference stronger when made more salient. E.g., (1) more likely to choose a croissant when you smell it; (2) scared by certain things only if you can see them - happier to give blood if you can't see the needle; (3) you're more likely to have sex when already aroused. (Also, just thinking about certain things can make us aroused or happy or scared, so we train our thoughts in that direction).
+
+2. making personal rules. Examples: (1) setting a certain time to start & finish working; a goal number of words to write each day; (2) only getting ice-cream if you've been to the gym; (3) a rule for how much money to save. Implies you don't trust your future self - you think it will have different preferences - so you make up a rule.
+
+3. commitment - i.e. choosing to avoid certain options. E.g., (1) buying a house to force yourself to save.
+
+4. effect of distraction - You are more likely to indulge in these proximal goals when you are distracted - e.g. (1) distractedly eat a croissant. In experiments - manipulation of cognitive load.
+
+Different models which get at aspects of this type of behaviour: (1) a complementarity between a cue and consumption: the consumption becomes more valuable when exposed to an associated cueLaibson on cues & consumption.; (2) a temptation cost - you have to pay a cost to not consume something when it is possible to choose it;Gul and Pesendorfer on temptation. (3) preferences which depend on your state of arousal - e.g. willingness to be violent, have sex, changes preditably with context.Loewnstein on arousal.
 
 ## THE STATE OF PSYCHOLOGY RESEARCH.
 
