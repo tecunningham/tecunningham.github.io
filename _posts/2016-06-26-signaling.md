@@ -4,13 +4,24 @@ title: Signaling
 ---
 
 # Nutshell
-If everyone exerts effort to persuade you of some fact, then you won't be fooled on average, you'll adjust for the effort exerted. However the paper by Ines and I show that there are circumstances in which effort at persuasion will change the *decisions* you make, even though it doesn't change your average beliefs. What's more it will change your decisions in a way that benefits the persuaders. The two main conditions are that (a) you are making a binary decision, and (b) the persuaders know the information which you want to know.
+If everyone exerts effort to persuade you of some fact, then you won't be fooled on average, you'll adjust for the effort exerted. 
 
-# The Key Condition
+However Ines and I show that there are circumstances in which effort at persuasion will change the *decisions* you make, even though it doesn't change your average beliefs. What's more it will change your decisions in a way that benefits the persuaders. 
 
-The basic mathematical problem is this: suppose $t$ is what I'm trying to persuade you of, and $u$ is random noise. Given that you observe a signal which is a combination of both, $s=f(t,u)$, will the expected value of $t$, given the signal $s$, be greater or less than the fraction of signals below $s$?
+The two main conditions are that (a) you are making a binary decision, and (b) the persuaders know the information which you want to know.
 
-Put another way: will more than half of the signals above-average? This graph shows all the possible combinations of $u$ and $t$, and the red line is .
+The basic intuition: 
+
+* In equilibrium you will settle on some threshold, where you take the action if and only if you receive a signal above that threshold. 
+* The most effort will be exerted by people who are close to the threshold (because it's there where effort has the biggest marginal effect). 
+* This will lead to a bunching of signals just above your threshold (and a deficit just below it)
+* Consider a different threshold, that which admits exactly half of all signals. At that threshold, because of the bunching, the relatively higher types will be over-represented, meaning that the expected type will be *greater* than a half. And so the threshold at which the expected type is 1/2 will admit *more* than a half of all signals.
+
+# On a Diagram
+
+The key question is, when will more than half of the signals be above average? Suppose you have a prior over $t$ that is uniform between 0 and 1, and you receive a signal $s$, from which you make an inference $E[t\|s]$. Then under what conditions will more than half of the signals have $E[t\|s]>\frac{1}{2}$? 
+
+We make a couple of assumptions: the signal is $s=m+u$, where $m$ is chosen strategically by the sender who pays a cost $c(m-t)$, and $u$ is drawn from a symmetric bounded distribution. This graph shows all the possible combinations of $u$ and $t$, and the red line is the receiver's threshold, i.e. the value $k$ such that $E[t\|s=k]=0$. If you receive a signal above this threshold then you believe $t>\frac{1}{2}$, and so you perform the action that I want you to perform. 
 
 $$
 \xymatrix{
@@ -23,26 +34,47 @@ $$
 }
 $$
 
-Here the red line represents your *threshold* $k$, defined by $E[t\|m+u>k]=0$ i.e. if you receive a signal above this threshold then you believe $t>\frac{1}{2}$, and so you perform the action that I want you to perform. 
-
-We assume that $t$ is uniform between 0 and 1, and that $u$ is drawn from a symmetric MLRP distribution $g(.)$. The two quantities we are interested in are the area below the curve (A), and the expectation along the curve (E):
+The two quantities we are interested in are the area below the curve (A), and the expectation along the curve (E):
 
 $$\begin{align} A &= \int g(u)t(u)du \\
   E &= \frac{\int t(u)|t'(u)|g(u)du}{\int |t'(u)|g(u)du} \end{align}$$
 
-We can make a series of observations: 
+We say that *persuasion* occurs if A<E: this means that the area below the curve is less than the expectation along the curve, so if the expectation along the curve is $\frac{1}{2}$ then more than half of the signals are above average (i.e., more than half have $E[t\|s]>\frac{1}{2}$).
 
-1. If $t(u)$ is linear then $t'(u)$ is a constant, and it will cancel out in the fraction, so $A=E$. 
-2. If $t(u)$ is convex, as in the figure above, then there will be relatively greater weight on higher values of $t$ in the expression for $E$ (this is because $\|t'\|$ will be high when $t$ is high), so $E>A$. 
-3. If $t(u)$ is proportional to $g'$, then .
+Given this setup we can make a series of observations about the conditions for persuasion: 
+
+1. **If m(t) is linear there will be no persuasion.** If $m(t)$ is linear, then $t(u)$ is linear and $t'(u)$ is a constant, and in the expression for $E$ it will cancel out, so $A=E$.
+2. **If m(t) is concave there will be persuasion.**  If $m(t)$ is concave then $t(u)$ will be convex, as in the figure above, and then there will be relatively greater weight on higher values of $t$ in the expression for $E$ (this is because $\|t'\|$ will be high when $t$ is high), so $E>A$. 
+3. **If t(u) is linear-symmetric then there will be persuasion.** If effort is  $t(u)$ is proportional to $g$, then .
+$$$$
+4. **If m(t) is chosen subject to a cost c(m-t) there will be persuasion.** Suppose $m$ is chosen strategically, where the benefit is the probability of getting over the threshold ($G(m-k)$), and the cost is some convex function $c(m-t)$. Then the first-order condition will be:
+    $$\pi g(m-k)=c'(m-t)$$
+    and we can rewrite this as:
+    $$t=m-r(g(m-k))$$
+    where $r(\cdot)=c'^{-1}(\cdot)$ 
+    This function is linear-symmetric around $k$, so satisfies the above condition, *so persuasion occurs*.
+
+We can also make some observations about the receiver's utility.
+
+2. **The receiver's optimal commitment threshold admits half of all signals.** This is because .
 
 
+And finally some observations about the receiver's utility:
 
-The interesting question is this: what is the fraction of the times that you believe that $t>\frac{1}{2}$? 
+1. **The average benefits of persuasion equal the average costs.** The benefits of persuasion are just equal to A, i.e. admission. The cost will be:
+
+    $$C=\frac{1}{2T}\int c(r(g(u))) du$$
+    
+    which is the area between the curve and the straight line (...).
 
 
+## Notes
 
-# Slightly More Formally
+* **Borel-Kolmogorov paradox.** We have to be careful when defining a conditional expectation along a line, because falling on that line is a measure-zero event, and so the answer is only well-defined as a limit of expectations taken on positive-measure events (called the [Borel-Kolmogorove paradox](https://en.wikipedia.org/wiki/Borel%E2%80%93Kolmogorov_paradox). So what is a sensible limit to take? In the above diagram think of expanding the red line into a ribbon with positive width: but the answer changes whether the ribbon has positive *width* (limit w.r.t $u$) or positive *height* (limits w.r.t. $t$). A natural extension of the model is that you learn that the signal is between $[s-\delta,s+\delta]$, and form an expectation based on the signal falling within that ribbon. This is equivalent to a horizontal ribbon.
+
+---
+
+# IGNORE ALL THE REST -- it's all offcuts
 
 
 
