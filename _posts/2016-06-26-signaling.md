@@ -41,25 +41,25 @@ $$\begin{align} A &= \int g(u)t(u)du \\
 
 We say that *persuasion* occurs if A<E: this means that the area below the curve is less than the expectation along the curve, so if the expectation along the curve is $\frac{1}{2}$ then more than half of the signals are above average (i.e., more than half have $E[t\|s]>\frac{1}{2}$).
 
-Given this setup we can make a series of observations about the conditions for persuasion: 
+Given this setup we can make a series of observations about equilibrium:
 
-1. **If m(t) is linear there will be no persuasion.** If $m(t)$ is linear, then $t(u)$ is linear and $t'(u)$ is a constant, and in the expression for $E$ it will cancel out, so $A=E$.
-2. **If m(t) is concave there will be persuasion.**  If $m(t)$ is concave then $t(u)$ will be convex, as in the figure above, and then there will be relatively greater weight on higher values of $t$ in the expression for $E$ (this is because $\|t'\|$ will be high when $t$ is high), so $E>A$. 
-3. **If t(u) is linear-symmetric then there will be persuasion.** If effort is  $t(u)$ is proportional to $g$, then .
-$$$$
-4. **If m(t) is chosen subject to a cost c(m-t) there will be persuasion.** Suppose $m$ is chosen strategically, where the benefit is the probability of getting over the threshold ($G(m-k)$), and the cost is some convex function $c(m-t)$. Then the first-order condition will be:
+**Observations about the existence of persuasion:**
+
+1. **If $m(t)$ is linear there will be no persuasion.** If $m(t)$ is linear, then $t(u)$ is linear and $t'(u)$ is a constant, and in the expression for $E$ it will cancel out, so $A=E$.
+2. **If $m(t)$ is concave there will be persuasion.**  If $m(t)$ is concave then $t(u)$ will be convex, as in the figure above, and then there will be relatively greater weight on higher values of $t$ in the expression for $E$ (this is because $\|t'\|$ will be high when $t$ is high), so $E>A$. 
+4. **If $m(t)$ is chosen subject to a cost c(m-t) there will be persuasion.** Suppose $m$ is chosen strategically, where the benefit is the probability of getting over the threshold ($G(m-k)$), and the cost is some convex function $c(m-t)$. Then the first-order condition will be:
     $$\pi g(m-k)=c'(m-t)$$
     and we can rewrite this as:
     $$t=m-r(g(m-k))$$
     where $r(\cdot)=c'^{-1}(\cdot)$ 
-    This function is linear-symmetric around $k$, so satisfies the above condition, *so persuasion occurs*.
+    This function is linear-symmetric around $k$.  so satisfies the above condition, *so persuasion occurs*.
 
-We can also make some observations about the receiver's utility.
+**Observations about the receiver's utility:**
 
-2. **The receiver's optimal commitment threshold admits half of all signals.** This is because .
+1. **The receiver's optimal commitment threshold admits half of all signals.** This is because .
 
 
-And finally some observations about the receiver's utility:
+**Observations about the receiver's utility:**
 
 1. **The average benefits of persuasion equal the average costs.** The benefits of persuasion are just equal to A, i.e. admission. The cost will be:
 
