@@ -49,12 +49,24 @@ A final important fact is that a large fraction of households have close to zero
 
 **variance in choices,** e.g. decompose outcomes in savings, education, commuting, and exposure to risk into genetic, upbringing, environment (framing, context, accidents)
 
-**two basic genetic facts:** (1) the heritability of many behavioural outcomes is high: around 40% genetic, 40% unique environment, and 20% shared environment (see below); (2) however for most outcomes there exists no single gene which has a strong effect on that outcome (e.g., more than 1% of the R^2), suggesting many genes have a small effect.For about a decade there seemed to be evidence otherwise, using `candidate-gene' studies, however subsequent access to larger genetic databases (using GWAS) showed that the majority of those results were false positives, see Hewitt editorial in Behavioural Genetics (2012) 42:1-2. A similar conclusion seems true for the medical genetics field. http://genomesunzipped.org/2010/12/estimating-heritability-using-twins.php
+**two basic genetic facts:**
+
+1. The heritability of many behavioural outcomes is high: around 40% genetic, 40% unique environment, and 20% shared environment (see below)
+2. However for most outcomes there exists no single gene which has a strong effect on that outcome (i.e., more than around 1% of the R^2). For about a decade there seemed to be evidence otherwise, using `candidate-gene' studies, however subsequent access to larger genetic databases (using GWAS) showed that the majority of those results were false positives, see the Hewitt editorial in Behavioural Genetics (2012) 42:1-2. A similar conclusion seems true for the medical genetics field: http://genomesunzipped.org/2010/12/estimating-heritability-using-twins.php
 
 ∗ Recent meta-analysis of heritability: http://www.gwern.net/docs/2015-polderman.pdf
 
-∗ twin heritability: To estimate heritability we compare the correlation of outcomes among identical and fraternal twins: \mbox{heritability}=\mbox{2([monozygotic correlation]-[dizygotic correlation])}
- Some typical values for behavioural heritability:
+∗ twin heritability: To estimate heritability we compare the correlation of outcomes among identical and fraternal twins: $\mbox{heritability}=\mbox{2([monozygotic correlation]-[dizygotic correlation])}$
+
+* Site which shows http://match.ctglab.nl/#/home
+For the cognitive categories the average reported ACE values are genes 0.468, shared environment 0.177, non-shared environment 0.355 (estimated by subtracting the other two from 1). [Genetic variance share goes up with age and less noisy measures.]
+
+Turkheimer’s “Three Laws of Behavior Genetics”:
+
+1. All human behavioral traits are heritable.
+2. The effect of being raised in the same family is smaller than the effect of genes.
+3. A substantial portion of the variation in complex human behavioral traits is not accounted
+for by the effects of genes or families.
 
 ∗ [poor predictability from lab measures; Mischel argument; ]
 

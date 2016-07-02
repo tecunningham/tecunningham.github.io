@@ -3,25 +3,26 @@ layout: post
 title: Relative Thinking
 ---
 
-There are a lot of intuitive cases where the value of an outcome seems different depending on what you're comparing it to. Some examples:
+There are a lot of cute thought experiments where the apparent value of something depends on comparisons:
 
 * A \\$5 discount off a \\$20 radio feels more valuable than a \\$5 discount off a \\$500 bed.
-* The difference between a 1% chance and a 2% chance seems more valuable than between a 50% chance and a 51% chance
-* The probability something will happen in 3 months, or in 6 months, both feel similar, but 
+* The difference between a 1% chance and a 2% chance seems more important than between a 51% chance and a 52% chance (likes with 51 and 52 days vs 1 and 2 days).
+* Paying $10 for 1 liter of ice cream seems more attractive if the price of half-liter was $8.
+* If you're choosing between a low-price and medium-price version of a good, seeing that there's also a high-price version makes the medium-price version seem more attractive.
+* If you have to judge the value of 10 of something -- e.g. bidding on 10 bottles of wine in an auction -- they'll seem more valuable if, at the same time, you're bidding on a single bottle of wine; and 10 bottles will seem less valuable if you're also bidding on 100 bottles of wine.
 * (Writing out this list gives me a slightly nauseous feeling -- like drinking Bacardi -- it releases old unpleasant memories from times during my PhD when I wrote and rewrote lists like this dozens of time.)
-* 
 
- That basic idea seems simple but a lot of people have tried nailing down a common underlying principle, mostly people have said that sensitivity to an attribute (speed, height, price, square feet) depends on the distribution of values that you're comparing, for example:
+Many people have felt that there's a common principle at work, in particular: that the sensitivity to an attribute (price, probability, square feet) depends on the set of values that you're comparing. But the actual functions people have proposed have been very different:
 
-- **Range**: sensitivity is decreasing in the range of values observed (i.e. the difference between max and min) -- Volkmann (1951), Mellers & Cooke (1994), Bushong Schwarzstein & Rabin (2016)
-- **Negative Range**: sensitivity is *increasing* in the range of values observed -- Koszegi & Szeidl (2003)
-- **Proportional Range**: sensitivity is increasing in the *proportional* range of values -- Bordalo Gennaioli & Shleifer (2013)
-- **Frequency**: sensitivity at any point is proportional to the density of values in that neighborhood (Parducci (1965), Stewart Chater & Brown (2010?))
-- and my own old proposal -- **Magnitude** -- that sensitivity is decreasing in the *magnitude* of the values (e.g. the average) -- Cunningham (2015).
-- (plus there are theories with a reference point, e.g. **Loss Aversion** says you're more sensitive *below* a reference point, and **Diminishing Sensitivity** says you're more sensitive in the *neighborhood* of a reference point (both are in Tversky & Kahneman 1991).
+* **Range**: sensitivity is decreasing in the range of values observed (i.e. the difference between the maximum and minimum) -- Volkmann (1951), Mellers & Cooke (1994), Bushong Schwarzstein & Rabin (2016)
+* **Negative Range**: sensitivity is *increasing* in the range of values observed -- Koszegi & Szeidl (2003)
+* **Proportional Range**: sensitivity is increasing in the *proportional* range of values (range over average) -- Bordalo Gennaioli & Shleifer (2013)
+* **Frequency**: sensitivity at any point is proportional to the density of values in that neighborhood (Parducci (1965), Stewart Chater & Brown (2010))
+* **Magnitude**: sensitivity is decreasing in the magnitude of the values (e.g. the average) -- Cunningham (2015).
+- (plus there are theories with a reference point, e.g. **Loss Aversion** says you're more sensitive *below* a reference point, and **Diminishing Sensitivity** says you're more sensitive in the *neighborhood* of a reference point (both are in Tversky & Kahneman 1991)).
 
 
-All of these models can be thought about as indifference curves that change slope as you change the elements on the choice set, e.g. adding option C could change the relative value of A and B:
+All of these models can be thought about as indifference curves that change slope as you change the elements in the choice set, e.g. adding option C changes the relative value of A and B:
 $$
 \xymatrix{\, &  &  &  &  & . & \,\, &  & \,\\
 \, & A &  &  &  &  & A\\
@@ -35,25 +36,11 @@ $$
 
 I'm going to try to make the following points:
 
-1. **There is no stable relationship between the perceived-value of a given quantity and the distribution of quantities which it's compared to.** In fact, if you give me an example where changing the distribution of comparisons makes perceived-value go down, then I can give you another example - with the same distributions - in which the perceived-value goes *up*.
+1. **None of these laws is hardwired.** It's easy to find examples where relative-value effects go in the opposite direction predicted by each of the above laws. Each of the papers above are only able to give the impression of unifying all the observed effects by selective use of the evidence, selective use of predictions, or inconsistent interpretation of the laws that they propose.
 
-2. **However there is a common principle underlying comparison effects.** The principle is that .
+2. However **each of these laws has intuitive appeal because it fits a rational inference in certain situations.** E.g., in some subset of cases it's rational to infer the marginal value of a quantity from the range of quantities. However this is only true in a subset of cases, and when we step outside that subset, the law stops working, and instead behaviour is governed by the inference. Thus each of these laws (range, magnitude, etc.) are given at the wrong level, they don't identify the deep reason for these effects.
 
-**Common principle:** a given quantity comes to seem more valuable when the distribution changes to .
-
-
----
-
-1. **None of these laws is hardwired.** It's easy to find examples where relative-value effects go in the opposite direction predicted by each of the above laws. The papers above are only able to give the impression of unifying all the observed effects by selective use of the evidence, selective use of predictions, or inconsistent interpretation of the laws.
-
-2. However **each of these laws has intuitive appeal because it fits a rational inference in certain situations.** This  identification only works in a subset of cases, and in each case, when we step outside that subset, the law stops working, and instead behaviour is governed by the inferece. Thus these laws are given at the wrong level.
-
-3. Despite this, **relative-value effects are not entirely rational inferences.** We know that because many of the effects still work even when people are aware that there is no ground for the inference -- e.g. when the choice set is generated randomly. Thus the inferences must be being performed *pre-consciously*.
-
-> The church looked bigger because I was expecting it to be big
-
-> The church seemed smaller because I was expecting it to be big
-
+3. Despite this, **relative-value effects are *not* entirely rational inferences.** We know that because many of the effects still work even when people are aware that there is no ground for the inference -- e.g. when the choice set is generated randomly. Thus the inferences must be being performed *pre-consciously*.
 
 **A few other points that I'll leave for later:**
 
@@ -68,7 +55,7 @@ Here's a classic contrast effect:
 ![](https://dl.dropboxusercontent.com/u/13046545/imgs/illusion_contrast.gif){: .center-image }
 the same shade of grey looks darker when surrounded by white, than when surrounded by black.
 
-For a long time psychology textbooks gave this as an example of a *hardwired* contrast effect.
+For a long time psychology textbooks gave this as an example of a *hardwired* contrast effect -- i.e. this is caused by the basic wiring of neurons in our eyes.
 
 But take a look at this (White's illusion):
 ![](https://dl.dropboxusercontent.com/u/13046545/imgs/illusion_white.png){: .center-image }
@@ -79,23 +66,11 @@ In fact there are some even cleaner examples, in which making the background lig
 
 The general point is this: **There is not a stable relationship between the perceived-lightness of an object and the lightness of surrounding objects.** There isn't even an all-else-equal relationship. The relationship can run in either direction depending on the context.
 
-But that's not the last word. We don't have to simply memorize a list of contexts where it goes one way (contrast effect), or the other way (assimilation effect). Adelson (2001) shows that you can often predict when you'll observe one effect or the other: roughly, when the surrounding lightness is a positive or negative cue for illumination. This also explains why contrast effects predominate - because surrounding lightness is *typically* a positive cue for illumination.
+But that's not the last word. We don't have to simply memorize a list of contexts where it goes one way (contrast effect), or the other way (assimilation effect). Adelson (2001) shows that you can often predict when you'll observe one effect or the other: roughly, when the surrounding lightness is a positive or negative ecological cue for illumination. I.e., in typical circumstances, is the surrounding lightness positively or negatively associated with illumination. This also explains why contrast effects predominate - because in most contexts the surrounding lightness a positive cue for illumination.
 
-## A LIST OF PHENOMENA
+## DIGRESSION
 
-The laboratory evidence for most of these effects is pretty *bad*. However the intuitive case for each of them is quite strong.
-
-* **Scope insensitivity.** A good comes to seem less valuable when you're thinking about bigger quantities.
-* **Common difference effects.** The difference between 51% and 52% seems less valuable than the difference between 1% and 2%. Likewise with $$51 and $$52 vs $$1 and $$2, and 51 and 52 days vs 1 and 2 days.
-* **Decoy Effects.** (Compromise, asymmetric dominance)
-* **Joint and Separate evaluation.**
-* **Anchoring Effects.**
-* **Contrast Effects.**
-* ...
-
-I can't continue because this reminds me of writing out this list, over and over, in my PhD. My train of thought would get detached and I'd end up asking myself questions like: What are you doing sitting in this office, a \\$1000-flight away from your friends and a \\$2000-flight away from your family? Why do you spend your weekends in this sad building, where people pass each other in the hallway staring at the carpet? What rock did you hit in adolescence that knocked you out of orbit, and sent you drifting into this corner of the universe? Are you trying to compensate for something you didn't have? Trying to impress your mother? Trying to avenge your father? Do these professors you work with look like the kind of man you want to be? When, when you talk about your work, do the people you admire glaze over, and the people who bore you become interested? If you're so clever why aren't you happy? Do you think that giving your life to intellectual things makes you better than other people? Do you look down on people who don't think so clearly? What are you doing on a Friday night at the NBER eating a tuna subway sandwich and reading reddit? If it takes you 5 years to get straight one point about relative thinking -- one corner of one shelf in one cupboard -- then how long is it going to take to tidy up the whole house? Why, when an undergraduate corners you, asking earnest & boring questions, does it remind you of yourself?
-
-
+This reminds me of writing out this type of list, over and over, while working on my PhD. My train of thought would get detached and I'd end up asking myself questions like: What are you doing sitting in this office, a continent away from your friends and a different continent away from your family? Why do you spend your weekends in this sad building, where people stare at the carpet when they pass each other? What rock did you hit in adolescence that knocked you out of orbit, and sent you here? Are you trying to compensate for something you didn't have? Trying to impress your mother? Trying to avenge your father? Do these professors you work with look like the kind of man you want to be? Why, when you talk about your work, do the people you admire glaze over, and the people who bore you become interested? Do you think that giving your life to intellectual things makes you better than other people? Do you look down on people who don't think so clearly? What are you doing on a Friday night at the NBER eating a tuna subway sandwich and reading reddit? If it takes you 5 years to get straight one point about relative thinking -- one corner of one shelf in one cupboard -- then how long is it going to take to tidy up the whole house? When an undergraduate corners you, asking earnest & boring questions, doesn't it remind you of yourself?
 
 ![desk](https://dl.dropboxusercontent.com/u/13046545/imgs/nber_desk.jpg){: .center-image }
 
@@ -105,13 +80,13 @@ I'm going to discuss a few perfectly reasonable reasons why we might infer the v
 
 ### (1) **MRS shifting towards MRT.** 
 
-A choice set which varies in different attributes has an implicit rate of tradeoff between the attributes -- i.e. the marginal rate of transformation (MRT) -- and it is easy to think of cases when our preferences would adapt to that implicit tradeoff, i.e., where our MRS would rotate towards the MRT that is implicit in the choice set.
+A choice set which varies in different attributes has an implicit rate of tradeoff between the attributes -- i.e. the marginal rate of transformation (MRT) -- and it is easy to think of cases when our preferences would adapt to that implicit tradeoff, i.e., where our marginal rate of substitution (MRS) would rotate towards the MRT that is implicit in the choice set.
 
-The MRS shifting towards the MRT could be rationalized in at least two ways. First, suppose you believe the social MRS to be informative about your own MRS, and you believe that the choice set reflects the market price, and finally, you believe that the price reflects the social MRS (as it would in a competitive equilibrium). Second, suppose you believe the person who constructed the choice set to be cooperative (in the sense of Grice (1967)) - i.e., they only include things which they believe to have similar values, then the MRT in the choice set reflects their beliefs about your MRS, which is itself informative.For example: if I ask “would you prefer a poached egg or gruel for breakfast?” it's likely that I will infer that the gruel must be quite good.
+The MRS shifting towards the MRT could be rationalized in at least two ways. First, suppose you believe the social MRS to be informative about your own MRS, and you believe that the choice set reflects the market price, and finally, you believe that the price reflects the social MRS (as it would in a competitive equilibrium). Second, suppose you believe the person who constructed the choice set to be cooperative (in the sense of Grice (1967)) - i.e., they only include things which they believe to have similar values, then the MRT in the choice set reflects their beliefs about your MRS, which is itself informative. For example: if I'm staying in your spare room and me you and you ask me “would you prefer a poached egg or gruel for breakfast?” then I will infer that your gruel must be pretty good.
 
 If there are just two attributes (i,j) and two alternatives (a,b) then the implicit tradeoff is $MRT_{i,j}=\frac{\|a_{i}-b_{i}\|}{\|a_{j}-b_{j}\|}$. If the MRS rotates to meet this MRT then the sensitivity to attribute $i$ will be decreasing in the range observed along that dimension, exactly as implied by the range-sensitivity theory (V, M&C, BR&S).
 
-**However the MRS-MRT effect implies range sensitivity for a 2-attribute, 2-alternative case. Outside of that case the intuitions depart.**
+**However the MRS-MRT effect implies range sensitivity only for a 2-attribute, 2-alternative case. Outside of that case the intuitions depart.**
 
 A marginal rate of transformation can only be directly identifed from a menu if the number of alternatives is equal to the number of attributes. I.e., to define a plane in $n$ dimensions from a set of points, you'll need exactly $n$ points. If you have fewer then it becomes the statistical problem of fitting a line to a set of points - e.g. by using orthogonal regression. Here is a simple example where the MRT theory and other theories (e.g. range-sensitivity) give qualitatively different answers, and in which the MRS-MRT theory seems more faithful to the intuition. Suppose we have the following three options:
 
@@ -174,7 +149,7 @@ Finally it's easy to come up with a rational magnitude effect, such that when we
 
 ## MISCELLANEOUS NOTES
 
-* It is useful to make a sharp distinction between “goods” and 'bads”, as shown in these diagrams. E.g., a good-bad tradeoff: e.g., quality vs price; salary vs hours worked. A Good-Good tradeoff: e.g., bedrooms vs bathrooms; MPG vs horsepower; salary vs holiday-days.
+* It is useful to make a sharp distinction between “goods” and 'bads”. E.g., a good-bad tradeoff: e.g., quality vs price; salary vs hours worked. A Good-Good tradeoff: e.g., bedrooms vs bathrooms; MPG vs horsepower; salary vs holiday-days.
 
 * Parducci invented, as well as range-frequency theory, windsurfing.
 
@@ -189,6 +164,14 @@ Finally it's easy to come up with a rational magnitude effect, such that when we
   $$
 
 
+* Both of these sentences make sense:
+    > The church looked big because I was expecting it to be big
+
+    > The church seemed small because I was expecting it to be big
+    
+    (more generally: pairs of contradictory sentences which are both true, because of Gricean cooperative interpretation)
+
+
 ## REFERENCES
 
 KS: Koszegi and Szeidl (2011) (KS)
@@ -200,6 +183,11 @@ MC: Mellers & Cooke ()
 C: Cunningham (2013)
 
 BGS: Bordalo Gennaioli Shleifer (2012) 
+
+Simonson (2008)
+ 
+> “much of the evidence for preference construction reflects people’s difficulty in evaluating absolute attribute values and tradeoffs and their tendency to gravitate to available relative evaluations ... These illustrations suggest that many forms of preference construction reflect a key underlying principle: decision makers tend to avoid absolute value judgments and gravitate to accessible relative evaluations ... it is noteworthy that the evidence that has been accumulated to make the case for preference construction might be largely driven by a rather simple common principle. This rather simple, yet important absolute-to-relative principle lends itself to seemingly unrelated demonstrations, which have been treated as distinct phenomena and received unique labels.”
+
 
 
 
