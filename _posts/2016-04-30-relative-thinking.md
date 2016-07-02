@@ -6,13 +6,13 @@ title: Relative Thinking
 There are a lot of cute thought experiments where the apparent value of something depends on comparisons:
 
 * A \\$5 discount off a \\$20 radio feels more valuable than a \\$5 discount off a \\$500 bed.
-* The difference between a 1% chance and a 2% chance seems more important than between a 51% chance and a 52% chance (likes with 51 and 52 days vs 1 and 2 days).
-* Paying $10 for 1 liter of ice cream seems more attractive if the price of half-liter was $8.
+* The difference between a 1% chance and a 2% chance seems more important than between a 51% chance and a 52% chance (likewise with 51 and 52 days vs 1 and 2 days).
+* Paying \\$10 for 1 liter of ice cream seems more attractive if you see that the price of half-liter is \\$8
 * If you're choosing between a low-price and medium-price version of a good, seeing that there's also a high-price version makes the medium-price version seem more attractive.
-* If you have to judge the value of 10 of something -- e.g. bidding on 10 bottles of wine in an auction -- they'll seem more valuable if, at the same time, you're bidding on a single bottle of wine; and 10 bottles will seem less valuable if you're also bidding on 100 bottles of wine.
-* (Writing out this list gives me a slightly nauseous feeling -- like drinking Bacardi -- it releases old unpleasant memories from times during my PhD when I wrote and rewrote lists like this dozens of time.)
+* If you have to judge the value of 10 of something -- e.g. bidding on 10 bottles of wine in an auction -- they'll seem more valuable if, at the same time, you're also considering a bid on a single bottle of wine; and vice versa if you're also considering a bid on 100 bottles of wine.
+* (Writing out this list gives me a slightly nauseous nostalgia, like drinking Bacardi, it releases old unpleasant memories from working on my PhD when I wrote and rewrote lists like this dozens of time.)
 
-Many people have felt that there's a common principle at work, in particular: that the sensitivity to an attribute (price, probability, square feet) depends on the set of values that you're comparing. But the actual functions people have proposed have been very different:
+Many people have felt that there's a common principle at work, in particular: that the sensitivity to an attribute (price, probability, square feet) depends on the set of quantities that you're considering. But the details of how that comparison effect works vary a lot:
 
 * **Range**: sensitivity is decreasing in the range of values observed (i.e. the difference between the maximum and minimum) -- Volkmann (1951), Mellers & Cooke (1994), Bushong Schwarzstein & Rabin (2016)
 * **Negative Range**: sensitivity is *increasing* in the range of values observed -- Koszegi & Szeidl (2003)
@@ -38,7 +38,7 @@ I'm going to try to make the following points:
 
 1. **None of these laws is hardwired.** It's easy to find examples where relative-value effects go in the opposite direction predicted by each of the above laws. Each of the papers above are only able to give the impression of unifying all the observed effects by selective use of the evidence, selective use of predictions, or inconsistent interpretation of the laws that they propose.
 
-2. However **each of these laws has intuitive appeal because it fits a rational inference in certain situations.** E.g., in some subset of cases it's rational to infer the marginal value of a quantity from the range of quantities. However this is only true in a subset of cases, and when we step outside that subset, the law stops working, and instead behaviour is governed by the inference. Thus each of these laws (range, magnitude, etc.) are given at the wrong level, they don't identify the deep reason for these effects.
+2. However **each of these laws has intuitive appeal because it fits a rational inference in certain situations.** E.g., in some subset of cases the range of values *is* a good informative cue about the value of that attribute. However this is only true in a subset of cases, and when we step outside that subset, the law stops working, and instead behaviour is governed by the inference (and this explains where the counterexamples come from, as in the previous point). Thus each of these laws (range, magnitude, etc.) are given at the wrong level: we cannot predict comparison effects just from the distribution of quantities on each dimension.
 
 3. Despite this, **relative-value effects are *not* entirely rational inferences.** We know that because many of the effects still work even when people are aware that there is no ground for the inference -- e.g. when the choice set is generated randomly. Thus the inferences must be being performed *pre-consciously*.
 
@@ -51,6 +51,8 @@ I'm going to try to make the following points:
 
 ## DIGRESSION: PERCEPTION
 
+Comparison effects have been studied in perception for a long time, and it's a similar story there: at first people proposed that these were hardwired things, mechanical effects, but on further study it turned out that they were context-dependent, in a way that makes them look like sensible inferences.
+
 Here's a classic contrast effect:
 ![](https://dl.dropboxusercontent.com/u/13046545/imgs/illusion_contrast.gif){: .center-image }
 the same shade of grey looks darker when surrounded by white, than when surrounded by black.
@@ -62,15 +64,15 @@ But take a look at this (White's illusion):
 
 here the same shade of grey looks *lighter* on the left than on the right, despite the surroundings being relatively *lighter* on the left than on the right. This is exactly the opposite of what's predicted by a hardwired contrast efect in perception.
 
-In fact there are some even cleaner examples, in which making the background lighter, *ceteris paribus*, makes the foreground appear lighter, not darker. It'll take me some time to dig up those examples, I'll write about it in another post.
+(An even cleaner example would be *ceteris paribus*, i.e. where making some part of the background lighter, all else held equal, makes the foreground appear lighter. The above illustration implies there must exist at least one such case: imagine a third set of grey rectangles which are surrounded only by white. That new case must serve as a *ceteris paribus* case for at least one of the two cases above (probably both).)
 
 The general point is this: **There is not a stable relationship between the perceived-lightness of an object and the lightness of surrounding objects.** There isn't even an all-else-equal relationship. The relationship can run in either direction depending on the context.
 
-But that's not the last word. We don't have to simply memorize a list of contexts where it goes one way (contrast effect), or the other way (assimilation effect). Adelson (2001) shows that you can often predict when you'll observe one effect or the other: roughly, when the surrounding lightness is a positive or negative ecological cue for illumination. I.e., in typical circumstances, is the surrounding lightness positively or negatively associated with illumination. This also explains why contrast effects predominate - because in most contexts the surrounding lightness a positive cue for illumination.
+But that's not the last word. We don't have to simply memorize a list of contexts where it goes one way (called "contrast effects"), or the other way ("assimilation effects"). Adelson (2001) shows that you can generally predict when you'll observe one effect or the other: roughly, whether or not the surrounding lightness is a positive or negative ecological cue for illumination. I.e., in typical circumstances, is the surrounding lightness positively or negatively associated with illumination? This also explains why contrast effects are observed more often than assimilation effects - because in most contexts the surrounding lightness a positive cue for illumination.
 
-## DIGRESSION
+## DIGRESSION 2
 
-This reminds me of writing out this type of list, over and over, while working on my PhD. My train of thought would get detached and I'd end up asking myself questions like: What are you doing sitting in this office, a continent away from your friends and a different continent away from your family? Why do you spend your weekends in this sad building, where people stare at the carpet when they pass each other? What rock did you hit in adolescence that knocked you out of orbit, and sent you here? Are you trying to compensate for something you didn't have? Trying to impress your mother? Trying to avenge your father? Do these professors you work with look like the kind of man you want to be? Why, when you talk about your work, do the people you admire glaze over, and the people who bore you become interested? Do you think that giving your life to intellectual things makes you better than other people? Do you look down on people who don't think so clearly? What are you doing on a Friday night at the NBER eating a tuna subway sandwich and reading reddit? If it takes you 5 years to get straight one point about relative thinking -- one corner of one shelf in one cupboard -- then how long is it going to take to tidy up the whole house? When an undergraduate corners you, asking earnest & boring questions, doesn't it remind you of yourself?
+I would write out lists of comparison-effect examples over and over while working on my PhD. My train of thought would get detached and I'd end up asking myself questions like: What are you doing sitting in this office, a continent away from your friends and a different continent away from your family? Why do you spend your weekends in this sad building, where people stare at the carpet when they pass each other? What rock did you hit in adolescence that knocked you out of orbit, and sent you here? Are you trying to compensate for something you didn't have? To impress your mother, avenge your father? Do these professors you work with look like the kind of man you want to be? Why, when you talk about your work, do the people you admire glaze over, and the people who bore you become interested? Do you think that giving your life to intellectual things makes you better than other people? Do you look down on people who don't think so clearly? What are you doing on a Friday night at the NBER eating a tuna subway sandwich and reading reddit? If it takes you 5 years to get straight one point about relative thinking -- one corner of one shelf in one cupboard -- then how long is it going to take to tidy up the whole house? When an undergraduate corners you, asking earnest & boring questions, doesn't it remind you of yourself?
 
 ![desk](https://dl.dropboxusercontent.com/u/13046545/imgs/nber_desk.jpg){: .center-image }
 
@@ -184,7 +186,7 @@ C: Cunningham (2013)
 
 BGS: Bordalo Gennaioli Shleifer (2012) 
 
-Simonson (2008)
+Simonson (2008) "Will I like a Medium Pillow?"
  
 > “much of the evidence for preference construction reflects people’s difficulty in evaluating absolute attribute values and tradeoffs and their tendency to gravitate to available relative evaluations ... These illustrations suggest that many forms of preference construction reflect a key underlying principle: decision makers tend to avoid absolute value judgments and gravitate to accessible relative evaluations ... it is noteworthy that the evidence that has been accumulated to make the case for preference construction might be largely driven by a rather simple common principle. This rather simple, yet important absolute-to-relative principle lends itself to seemingly unrelated demonstrations, which have been treated as distinct phenomena and received unique labels.”
 
