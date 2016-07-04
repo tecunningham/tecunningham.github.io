@@ -146,7 +146,17 @@ Finally it's easy to come up with a rational magnitude effect, such that when we
 
 ## SUMMARY
 
+In conclusion:
 
+1. There are many good examples of comparison effects (cases where judgment of value is influenced by comparisons known to be irrelevant)
+2. The success of simple models to unify those different effects have been grossly exaggerated.
+3. However each of those simple models .
+
+Formally, the standard assumption is this:
+$$c(A)=\max{x\inA}u(x)$$
+but we can think of many cases where this is violated. So various people have proposed a menu-dependent utility function:
+$$c(A)=\max{x\inA}u(x,A)$$
+with some simple assumption on how $\frac{\partial u}{\partial x_i}$ depends on the distribution of values in $A$. 
 
 
 ## MISCELLANEOUS NOTES
@@ -190,6 +200,8 @@ Simonson (2008) "Will I like a Medium Pillow?"
  
 > “much of the evidence for preference construction reflects people’s difficulty in evaluating absolute attribute values and tradeoffs and their tendency to gravitate to available relative evaluations ... These illustrations suggest that many forms of preference construction reflect a key underlying principle: decision makers tend to avoid absolute value judgments and gravitate to accessible relative evaluations ... it is noteworthy that the evidence that has been accumulated to make the case for preference construction might be largely driven by a rather simple common principle. This rather simple, yet important absolute-to-relative principle lends itself to seemingly unrelated demonstrations, which have been treated as distinct phenomena and received unique labels.”
 
+David Stove (1991) "What is Wrong With our Thoughts?" 
+    http://web.maths.unsw.edu.au/~jim/wrongthoughts.html"
 
 
 

@@ -58,7 +58,7 @@ A final important fact is that a large fraction of households have close to zero
 
 ∗ twin heritability: To estimate heritability we compare the correlation of outcomes among identical and fraternal twins: $\mbox{heritability}=\mbox{2([monozygotic correlation]-[dizygotic correlation])}$
 
-* Site which shows http://match.ctglab.nl/#/home
+* Site with twin data for various attributes:  http://match.ctglab.nl/#/home
 For the cognitive categories the average reported ACE values are genes 0.468, shared environment 0.177, non-shared environment 0.355 (estimated by subtracting the other two from 1). [Genetic variance share goes up with age and less noisy measures.]
 
 Turkheimer’s “Three Laws of Behavior Genetics”:

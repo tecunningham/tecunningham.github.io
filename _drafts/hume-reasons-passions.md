@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Signaling
+title: Hume Reasons & Passions
 date: 2016-06-29
 ---
 

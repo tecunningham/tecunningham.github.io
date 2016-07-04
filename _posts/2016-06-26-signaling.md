@@ -6,16 +6,16 @@ title: Signaling
 # Nutshell
 If everyone exerts effort to persuade you of some fact, then you won't be fooled on average, you'll adjust for the effort exerted. 
 
-However Ines and I show that there are circumstances in which effort at persuasion will change the *decisions* you make, even though it doesn't change your average beliefs. What's more it will change your decisions in a way that benefits the persuaders. 
+However Ines and I show that there are circumstances in which, although effort won't affect your average belief, it will change the *decisions* you make. What's more it will change your decisions in a way that benefits the persuaders. 
 
-The two main conditions are that (a) you are making a binary decision, and (b) the persuaders know the information which you want to know.
+The two main conditions are that (a) you are making a binary decision, and (b) the persuader knows the information which you want to know.
 
 The basic intuition: 
 
 * In equilibrium you will settle on some threshold, where you take the action if and only if you receive a signal above that threshold. 
-* The most effort will be exerted by people who are close to the threshold (because it's there where effort has the biggest marginal effect). 
-* This will lead to a bunching of signals just above your threshold (and a deficit just below it)
-* Consider a different threshold, that which admits exactly half of all signals. At that threshold, because of the bunching, the relatively higher types will be over-represented, meaning that the expected type will be *greater* than a half. And so the threshold at which the expected type is 1/2 will admit *more* than a half of all signals.
+* The most effort at affecting the signal will be exerted by people who are close to the threshold (because it's there where effort has the biggest marginal effect). 
+* This will lead to disproportionately many signals just above your threshold (and disproportionately few just below it)
+* Suppose your threshold admitted exactly half of all signals. At that threshold, because of the bunching, the relatively higher types will be over-represented, meaning that the expected type will be *greater* than a half. And so the threshold at which the expected type is 1/2 will admit *more* than a half of all signals.
 
 # On a Diagram
 
