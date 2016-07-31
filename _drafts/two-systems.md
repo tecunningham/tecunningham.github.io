@@ -191,3 +191,23 @@ Different models which get at aspects of this type of behaviour: (1) a complemen
 
 * **Expert judgment.**
 
+
+## FURTHER READING
+
+* 1960, M L Johnson Abercrombie, "The Anatomy of Judgment"
+    - Based on her experience teaching clinical judgment to medical students at UCL in the 1950s. Has a pretty good discussion of optical illusions and memory illusions, and the implication that you have to work hard to think of alternative interpretations of the data you see. Tries to teach medical students to be careful about distinguishing between observation & inference.
+    - "The argument of this book runs as follows. In receiving information from a given stimulus pattern we select from the total amount of information available ... and from our own store of information. The receipt fo information therefore involves making a judgment, but in many cases (as for instance in seeing familiar things) this is done so rapidly and automatically that we are unaware of the extent of our personal involvement in the act, tending to regard the information as given. In such cases we might obtain more valid information if we could consider alternative selections from the information available. Many factors of which we are unconscious influence our judgments, both in cases where we are not aware of making any (as in seeing) and in those where we are (as in evaluating evidence from an experiment). It is postulated that we might make more valid judgements if we could become conscious of some of these factors. A situation (free group discussion) is described in which alternative judgments of the same stimulus pattern are discussed, and some of the factors influencing the judgements become apparent. The validity of the contribution of the various factors can then be assessed. The results of a test support the hypothesis that judgment is improved after this experience."
+    - "Discussion in a group does for thinking, what testing on reality does for seeing. We become aware of discrepancies between different peoples' interpretations of the same stimulus and are driven to weigh the evidence in favor of alternative explanations."
+
+* 1984, Robert Cialdini, "Influence: the Psychology of Persuasion"
+    - Excellent short book mainly about ways that people are persuaded to buy things. A common thread is that people find it difficult to depart from behaviour that is *expected* in a situation, so you can persuade people to take your desired action if you make it seem expected. Examples: (1) give them a gift, they feel obliged to reciprocate; (2) tell them that everyone else does this; (3) ask if they'll buy for a high price, then ask again at lower price; (4) ask "what would you need to see to buy this?".
+
+* 2005, Charles Munger, "The Psychology of Human Misjudgment"
+http://web.archive.org/web/20151004200748/http://law.indiana.edu/instruction/profession/doc/16_1.pdf
+    * A short essay that is a collection of observations - from history, business, & psychology - about psychological quirks. Very little attempt to theorize, but well written.
+
+* 2011, Daniel Kahneman, "Thinking Fast & Slow"
+
+* 2015, Philip Tetlock, "Superforecasters"
+
+
