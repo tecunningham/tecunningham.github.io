@@ -10,4 +10,4 @@ Episodes in science
 - oxytocin
 
 
-Use *these*. To set priors on new research. 
+Use *these* facts to set priors on new research.
