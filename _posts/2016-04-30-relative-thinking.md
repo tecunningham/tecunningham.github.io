@@ -8,20 +8,19 @@ There are a lot of cute thought experiments where the apparent value of somethin
 * A \\$5 discount off a \\$20 radio feels more valuable than a \\$5 discount off a \\$500 bed.
 * The difference between a 1% chance and a 2% chance seems more important than between a 51% chance and a 52% chance (likewise with 1 and 2 days vs 51 and 52 days).
 * Paying \\$10 for a liter of ice cream seems more attractive if you see that the price of half-liter is \\$8
-* If you're choosing between a low-price and medium-price version of a good, seeing that there's also a high-price version makes the medium-price version seem relatively more attractive.
-* (Writing out this list gives me a slightly nauseous nostalgia - releasing old memories from working on my PhD when I wrote and rewrote lists like this dozens of time. I'll leave some more examples at the bottom.)
+* (I list some more examples at the bottom).
 
-Many people have felt that there's a common principle at work, in particular: that the sensitivity to an attribute (price, probability, square feet) depends on the set of quantities that you're considering. But different people have proposed very different principles:
+Many people have felt that there's a common principle at work, in particular: that the sensitivity to an attribute (price, probability, square feet) depends on the set of quantities that you're considering. But different people have proposed different principles:
 
 * **Range**: sensitivity is decreasing in the range of values observed (i.e. you're less sensitive as the difference between the maximum and minimum increases) -- Volkmann (1951), Mellers & Cooke (1994), Bushong Schwarzstein & Rabin (2016)
 * **Negative Range**: sensitivity is *increasing* in the range of values observed, the opposite of the above -- Koszegi & Szeidl (2003)
 * **Proportional Range**: sensitivity is increasing in the *proportional* range of values (the range divided by the average) -- Bordalo Gennaioli & Shleifer (2013)
-* **Frequency**: sensitivity at any point is proportional to the density of values in that neighborhood (Parducci (1965), Stewart Chater & Brown (2010))
+* **Frequency**: sensitivity at any point is increasing in the density of values in that neighborhood (Parducci (1965), Stewart Chater & Brown (2010))
 * **Magnitude**: sensitivity is decreasing in the magnitude of the values (e.g. the average) -- my own paper: Cunningham (2015).
 - (There are lots of other variants, most notably ones with a reference point, e.g. **Loss Aversion** says you're more sensitive *below* a reference point, and **Diminishing Sensitivity** says you're more sensitive in the *neighborhood* of a reference point (both are in Tversky & Kahneman 1991)).
 
 
-All of these models can be thought about as indifference curves that change slope as you change the elements in the choice set, e.g. adding option C changes the relative value of A and B:
+All of these models can be thought about as indifference curves that change slope as you change the elements in the choice set, e.g. below adding option C makes the indifference curves rotate clockwise, and so makes you prefer B to A:
 $$
 \xymatrix{\, &  &  &  &  & . & \,\, &  & \,\\
 \, & A &  &  &  &  & A\\
@@ -31,7 +30,7 @@ $$
 }
 $$
 
-But each theory has different assumption about how the angle of the indifference curves depends on the placement of element C.
+But each theory has different assumption about how the slope of the indifference curves depends on the placement of the options.
 
 ---
 
@@ -39,7 +38,7 @@ I'm going to try to make the following points:
 
 1. **None of these laws is hardwired.** It's easy to find examples where relative-value effects go in the opposite direction to that predicted by each of the laws above. Each of the papers listed above are only able to give the impression of unifying many observed effects by selective use of the evidence, selective use of predictions, or inconsistent interpretation of the laws that they propose.
 
-2. However **each of these laws has intuitive appeal because it fits a rational inference in certain situations.** For example in some subset of cases the range of values *is* a good informative cue about the value of that attribute. However this is only true inside that subset, and when we step outside, the law stops working, and instead behaviour is governed by the inference (and this explains where the counterexamples come from, as in the previous point). Each of these laws (range, magnitude, etc.) are given at the wrong level: we *cannot* meaningfully predict comparison effects just from the distribution of quantities on each dimension, we need to know something about the context to see what people usually infer.
+2. However **each of these laws has intuitive appeal because it fits a rational inference in certain situations.** For example in some subset of cases the range of values *is* a good informative cue about the value of that attribute. However this is only true inside that subset, and when we step outside, the law stops working, and instead behaviour is governed by the inference (and this explains where the counterexamples mentioned in the previous point come from). Each of these laws (range, magnitude, etc.) are specified at the wrong level: we *cannot* meaningfully predict comparison effects just from the distribution of quantities on each dimension, we need to know something about the context to see what kind of inference is at work.
 
 3. Despite all this, **relative-value effects are *not* entirely rational inferences.** We know that because many of the effects still work even when people are aware that there is no ground for the inference -- e.g. when the choice set is generated randomly. The inferences are performed *pre-consciously* -- the inferences are baked into instincts, that we can't suppress, but none of the laws listed above does a good job of summarizing those instincts.
 
@@ -73,13 +72,13 @@ But that's not the last word. The set of contexts where it goes one way or the o
 
 ## DIGRESSION 2
 
-I would write out lists of comparison-effect examples over and over while working on my PhD. My train of thought would get detached and I'd end up asking myself questions like: What are you doing sitting in this office, a continent away from your friends and an ocean and a continent away from your family? Why do you spend your weekends in this sad building, where people stare at the carpet when they pass each other? What rock did you hit in adolescence that knocked you out of orbit, and sent you here? Are you trying to compensate for something you didn't have? To make your mother proud? To avenge your father? Do these professors you work with look like the kind of man you want to be? Did you stumble into one of those fields that people snigger about? Why, when you talk about your work, do the people you admire glaze over, and the people who bore you perk up? Do you think that giving your life to intellectual things makes you better than other people? Do you look down on people who don't think so clearly? What are you doing on a Friday night at the NBER eating a tuna subway sandwich and reading reddit? If it takes you 5 years to get straight one point about relative thinking -- one corner of one shelf in one cupboard -- then how long is it going to take to tidy up the whole house? When an undergraduate corners you, asking earnest & tedious questions, doesn't it remind you of yourself?
+I would write out lists of comparison-effect examples over and over while working on my PhD. My train of thought would get detached and I'd end up asking myself questions like: What are you doing sitting in this office, a continent away from your friends and an ocean and a continent away from your family? Why do you spend your weekends in this sad building, where people stare at the carpet when they pass each other? What rock did you hit in adolescence that knocked you out of orbit, and sent you here? Are you trying to make your mother proud? Avenge your father? Do these professors you work with look like the kind of man you want to be? Did you stumble into one of those academic fields that people snigger about? Why, when you talk about your work, do the people you admire glaze over, and the people who bore you perk up? Do you think that giving your life to intellectual things makes you better than other people? Do you look down on people who don't think so clearly? What are you doing on a Friday night at the NBER eating a tuna subway sandwich and reading reddit? If it takes you 5 years to get straight one point about relative thinking -- one corner of one shelf in one cupboard -- then how long is it going to take to tidy up the whole house? When an undergraduate corners you, asking earnest & tedious questions, doesn't it remind you of yourself?
 
 ![desk](https://dl.dropboxusercontent.com/u/13046545/imgs/nber_desk.jpg){: .center-image }
 
 ## ALTERNATIVE HEURISTICS
 
-I'm going to discuss a few perfectly reasonable reasons why we might infer the value of different attributes from the choice set, and each reason will imply one of the above laws *in a subset of cases*. However I also show that the same reason can imply the exact opposite of that law, for cases outside that subset.
+OK. Well, here's the body of the argument: I'm going to discuss a few perfectly reasonable reasons why we might infer the value of different attributes from the choice set, and each reason will imply one of the above laws *in a subset of cases*. However I also show that the same reason can imply the exact opposite of that law, for cases outside that subset.
 
 ### (1) **MRS shifting towards MRT.** 
 
@@ -170,7 +169,7 @@ with some assumption on how $\frac{\partial u}{\partial x_i}$ depends on the dis
 
 * Parducci invented, as well as range-frequency theory, windsurfing.
 
-* Bordalo Gennaioli and Shleifer (2013) has a weird feature: the *salience* of an attribute depends on relative levels ($q-\bar{q}$ and $p-\bar{p}$), but the *utility* of an attribute depends on absolute levels ($q$ and $p$). I think this is just a mistake -- the underlying intuition is matched much better if  $U(q,p) = \hat{\theta}_q(q-\bar{q}) + \hat{\theta}_p(p-\bar{q})$ instead of $U(q,p) = \hat{\theta}_q + \hat{\theta}_p p$. This removed a lot of the weird comparative statics of the theory, such as the severe non-monotonicity of the decoy effects. Also for two-alternative two-attribute choices the theory (as stated in the paper) has a utility representation, i.e. many of the predictions of that paper are equivalent to a model with menu-*independent* preferences:
+* Bordalo Gennaioli and Shleifer (2013) has a weird feature: the *salience* of an attribute depends on relative levels ($q-\bar{q}$ and $p-\bar{p}$), but the *utility* of an attribute depends on absolute levels ($q$ and $p$). I think this is just a mistake -- the underlying intuition is matched much better if  $U(q,p) = \hat{\theta}_q(q-\bar{q}) + \hat{\theta}_p(p-\bar{q})$ instead of $U(q,p) = \hat{\theta}_q q + \hat{\theta}_p p$. This alternation removes a lot of the weird comparative statics of the theory, such as the severe non-monotonicity of the decoy effects. Another note: for two-alternative two-attribute choices the theory (as stated in the paper) has a utility representation, i.e. many of the predictions of that paper are equivalent to a model with menu-*independent* preferences. For a sufficiently large value of $M$:
 
   $$
   U(q,p)=\begin{cases}
@@ -179,15 +178,6 @@ with some assumption on how $\frac{\partial u}{\partial x_i}$ depends on the dis
   M+q-\delta p & ,\,q>\delta^{-1}p
   \end{cases}
   $$
-
-
-* Both of these sentences make sense:
-
-    > The church looked big because I was expecting it to be big
-
-    > The church seemed small because I was expecting it to be big
-    
-    (more generally: pairs of contradictory sentences which are both true, because of Gricean cooperative interpretation)
 
 
 ## REFERENCES
@@ -213,6 +203,8 @@ David Stove (1991) "What is Wrong With our Thoughts?"
 ## More Examples
 
 * If you have to judge the value of 10 of something -- say you're bidding on 10 bottles of wine in an auction -- they'll seem more valuable if, at the same time, you're also considering a single bottle of wine; and vice versa if you're also considering 100 bottles of wine.
+* If you're choosing between a low-price and medium-price version of a good, seeing that there's also a high-price version makes the medium-price version seem relatively more attractive.
+* (See my 'comparisons and choice' paper for more examples).
 
 <!--
 ## EXAMPLES
