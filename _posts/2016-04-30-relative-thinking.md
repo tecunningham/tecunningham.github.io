@@ -152,6 +152,7 @@ Does this mean that comparison effects are all just rational inferences? We want
 
 So then why would we make bad inferences that resemble good inferences? I think for the same reason that our perception makes bad inferences that resemble good inferences -- because perceptual processes interpret cues according to their *ordinary* significance, without adjusting for all relevant information. Perception is carried out in a locked cabinet, whirring through the sense data, and printing out conclusions for the conscious mind to read. The cabinet is locked, we only have access to the output. That is the argument of my paper on 'implicit knowledge'. That paper doesn't discuss.
 
+<!--
 
 ## FORMALLY
 
@@ -160,7 +161,7 @@ $$c(A) = \max{x\inA}u(x)$$
 We can think of many cases where this is violated, where comparisons queer our indifference curves. So a lot of people have proposed menu-dependent utility functions:
 $$c(A)=\max{x\inA}u(x,A)$$
 with some assumption on how $\frac{\partial u}{\partial x_i}$ depends on the distribution of values in $A$. 
-
+-->
 
 
 ## MISCELLANEOUS NOTES
