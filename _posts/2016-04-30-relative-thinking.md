@@ -3,6 +3,8 @@ layout: post
 title: Relative Thinking
 ---
 
+![peaches](https://dl.dropboxusercontent.com/u/13046545/peaches-wall-painting-ercolano.jpg){: .center-image }
+
 There are a lot of cute thought experiments where the apparent value of something depends on what it's compared to:
 
 * A \\$5 discount off a \\$20 radio feels more valuable than a \\$5 discount off a \\$500 bed.
@@ -47,6 +49,8 @@ I'm going to try to make the following points:
 1. There are some cute tricks for identifying different types of relative-thinking effects through intransitive choices.
 2. The quality of the evidence we have on almost all of these choice-set effects is very low. 
 3. Weber's law is not relevant to diminishing sensitivity in choice.
+
+![party](https://dl.dropboxusercontent.com/u/13046545/mosaique_5th.jpg){: .center-image }
 
 
 ## DIGRESSION: PERCEPTION
@@ -180,6 +184,7 @@ with some assumption on how $\frac{\partial u}{\partial x_i}$ depends on the dis
   \end{cases}
   $$
 
+![skeleton](https://dl.dropboxusercontent.com/u/13046545/scheletro_con_askoi.jpg){: .center-image }
 
 ## REFERENCES
 
