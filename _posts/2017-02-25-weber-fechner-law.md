@@ -3,11 +3,15 @@ layout: post
 title: Some Notes on the Weber-Fechner Law
 ---
 
+![runningman](https://dl.dropboxusercontent.com/u/13046545/runningman.jpg)
+
 **Nutshell.**
 
 1. Our ability to discriminate between sensations is falling in the magnitude of the sensations, across a range of domains (Weber's law)
 2. Weber's law is often interpreted as implying both (i) a concave internal representation of value; and (ii) a concave bias in judging magnitudes.
 3. However this is not the case -- I given examples to show that Weber's law is compatible with both (i) linear and concave internal representations of value; and (ii) linear and concave biases in judging magnitudes.
+
+(I'm sure these points must have been made elsewhere but I've never been able to find them.)
 
 # History.
 
@@ -15,16 +19,18 @@ Ernst Weber (1795-1878) tested subjects' ability to discriminate between the str
 
 # In Decision-Making
 
-In the 19th century a number of economists made a connection between the Weber-Fechner law and the diminishing marginal utility of consumption. However Max Weber, the sociologist, wrote an essay in 1908 to explain that they are fundamentally distinct phenomena ("Marginal Utility Theory and  the Fundamental Law of Psychophysics"). Stigler later wrote about Max Weber's essay and agreed that there is little meaningful connection.
+In the 19th century a number of economists made a connection between the Weber-Fechner law and the diminishing marginal utility of consumption. However Max Weber -- a different Weber -- Weber the sociologist, wrote an essay in 1908 to explain that they are fundamentally distinct phenomena ("Marginal Utility Theory and  the Fundamental Law of Psychophysics"). Stigler later wrote about Max Weber's essay and agreed that there is little meaningful connection.
 
 More recently the Weber-Fechner law has been cited by a number of economists to explain diminishing sensitivity in other domains (not just in absolute consumption): Thaler (1980), Tversky & Kahneman (1992), Thaler (1999), Gonzalez & Wu (1999) all argue that the curvature of a gain/loss
-function, and of probability-weighting function, are connected with the Weber-Fechner law in perception.
+function, and of probability-weighting function, are somehow connected with the Weber-Fechner law in perception.
 
-However, I show below that the Weber behaviour (that the proportional JND is invariant to scale) does not imply a concave bias, and it is compatible with a variety of plausible models of subjective representations of intensity.
+However, I show below that the Weber behaviour (the proportional JND being invariant to scale) does not imply either (A) a concave internal representation of magnitude; or (B) a concave bias in judgment of magnitudes.
+
+(It's also worth noting that a *literal* application of Weber's law to decision-making would be the following: that subjects are equally likely to choose \\$7 over \\$8, as they are to choose \\$70 over \\$80. I'm not sure if this has ever been tested, it doesn't seem like an especially interesting fact for economic decision-making.)
 
 # Weber's Law & Linear vs Concave Representations of Value
 
-First I show that Weber's law does *not* imply that we must have, in some sense, a concave representation of value. I show that the law can be derived from two different setups: one in which we have a linear representation, and multiplicative noise; one with a concave representation and additive noise.
+First I show that Weber's law does not imply that we must have, in some sense, a concave representation of value. I show that the law can be derived from two different setups: one in which we have a linear representation and multiplicative noise; one with a concave representation and additive noise.
 
 Suppose that we can observe subjects' judgments about which of two values ($v_{1}$ and $v_{2}$) is greater. Then we can define a just noticeable difference, $JND(v,p)$, as the difference in values, such that subjects correctly discriminate $v$ and $v+JND(v,p)$ in a proportion $p$ of trials.
 
@@ -55,7 +61,7 @@ In other words, the just noticeable difference is proportional to the value, $v_
 
 ## A Concave Representation & Additive Noise
 
-Suppose that the decision-maker receives a signal $s=\ln v+e$ with Gaussian $e$, then the derivation is very similar:
+Suppose that the decision-maker receives a concave signal of value with additive noise, i.e. $s=\ln v+e$, with Gaussian $e$. Then the derivation is very similar:
 
 $$
 \begin{aligned}
@@ -68,7 +74,7 @@ The rest of the derivation is the same: i.e., the JND in the neighborhood of $v_
 
 # Weber's Law & Bias in Judgment
 
-Weber's law implies that perception is noisy. We can then ask what is the appropriate Bayesian posterior given noise. In particular, what will the relationship be between a value $v$, and the subjective best-estimate of that value given the signal $s(v)$, i.e. $E[E[v|s]|v]$.
+Weber's law implies that perception is noisy. We can then ask what is the appropriate Bayesian posterior given noise. In particular, what will the relationship be between a value $v$, and the subjective best-estimate of that value given the signal $s(v)$, i.e. $E[E[v\|s]\|v]$.
 
 It has often been assumed that Weber's law will imply or justify a concave bias in estimates of value. However I show that this is not necessarily so.
 

@@ -506,11 +506,12 @@ title: Psychology Literature
 
 – Swami and Harris (2012) “The Effect of Striped Clothing on Perceptions of Body Size”Horizontal stripes cause you to be judged to be fatter. However Helmholtz predicted the opposite: “An empty room looks smaller than one that is furnished; and a wall covered with a paper pattern looks larger than one painted uniformly in one colour. Ladies' frocks with cross stripes on them make the figure look taller”(I think there are other papers that find the opposite)
 
-* Temperature/Weight Effects
+* **Temperature/Weight Effects**
 
 – Stevens (1979) “Thermal intensification of touch sensation: Further extensions of the Weber phenomenon”
 
-– Ross (1995) “Weber on Temperature and Weight Perception”- good quick summary of the literature1846: “Weber placed coins cooled to -7 deg C, or warmed to 38 deg C, on the forehead of a reclining subject. He found that a cold coin felt equal in weight to about two warm coins. He concluded that “Cold bodies lying on thes skin appear to be heavier, and warm bodies lighter, than they should be. The sensation of cold appears to summate with that of pressure; that of warmth does not appear to do so, but rather may be considered to act like a negative pressure...”
+– Ross (1995) “Weber on Temperature and Weight Perception”- good quick summary of the literature
+    * 1846: “Weber placed coins cooled to -7 deg C, or warmed to 38 deg C, on the forehead of a reclining subject. He found that a cold coin felt equal in weight to about two warm coins. He concluded that “Cold bodies lying on thes skin appear to be heavier, and warm bodies lighter, than they should be. The sensation of cold appears to summate with that of pressure; that of warmth does not appear to do so, but rather may be considered to act like a negative pressure...”
 
 – [note: an alternative explanation is that lighter objects will change temperature quicker, coming closer to skin temperature quicker.]
 

@@ -3,6 +3,8 @@ layout: post
 title: Economist Explorers
 ---
 
+![clown](https://dl.dropboxusercontent.com/u/13046545/explorers.jpg)
+
 Imagine a group of adventurers set out to explore a new continent, each one choosing a different valley to map. And suppose that, instead of sending back reports of what they found ("a forest, a swamp, mosquitoes"), each one wrote reports calculated to appear as exciting as possible ("a forest, abundant water, rich fauna, couldn't disconfirm rumors of a city of gold").
 
 This is how I feel when I'm refereeing economics papers: everyone's trying to tell an exciting story, and it takes a great deal of work to figure out what actual novel facts they have discovered. It's frustrating because it's such an inefficient way to explore the territory: so many people have spent so much time on this, and we have so little to show. What have we discovered about decision-making in the last 50 years after proposing thousands of different models, running tens of thousands of experiments, and regressing millions of variables? Couldn't we have accumulated more knowledge if we'd organized things differently?
