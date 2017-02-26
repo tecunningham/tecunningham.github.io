@@ -1,11 +1,15 @@
-Episodes in science
+---
+layout: post
+title: Episodes in Science
+---
 
 - pill and breast cancer -- 1996 analysis with pooled data finds that most associations in prior studies don't replicate
     + http://www.ncbi.nlm.nih.gov/pubmed/8656904
-- genes and behavior, gwas, "most published associations are wrong"
-- gambles and utility fn
+- genes and behavior, GWAS, Laibson: "most published associations are wrong"
+    + editorial about GWAS
+- gambles and the utility fn - what a waste of effort
 - priming replications
-- fat , cholesterol, change of mind
+- fat, cholesterol, change of mind
 - Feynman on measuring weight of electron, physical constants
 - Meta-analyses where an effect disappears:
     + Oxytocin & sociality (Gidi)

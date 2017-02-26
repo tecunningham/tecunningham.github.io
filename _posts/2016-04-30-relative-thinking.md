@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Relative Thinking
+header-includes:
+    - \usepackage{xypic}
 ---
 
 ![peaches](https://dl.dropboxusercontent.com/u/13046545/peaches-wall-painting-ercolano.jpg){: .center-image }
@@ -154,10 +156,9 @@ When we dig into the intuitions behind comparison effects, we often find that th
 
 Does this mean that comparison effects are all just rational inferences? We want to know whether comparison effects occur even when inference can be entirely ruled out -- e.g. when we run an experiment that explicitly randomizes the choice sets. Some papers do this, but few do it well. I am persuaded that comparisons *do* affect us on a pre-conscious level, i.e. that our instincts latch onto comparisons without being careful about the significance of the comparison in the particular circumstance, but there's not a lot of unambiguous evidence on this. I can at least say that most people find the types of example listed above pretty beguiling: they get strong intuitions about relative value, but struggle to explain where the intuitions come from, implying that the inference isn't conscious.
 
-So then why would we make bad inferences that resemble good inferences? I think for the same reason that our perception makes bad inferences that resemble good inferences -- because perceptual processes interpret cues according to their *ordinary* significance, without adjusting for all relevant information. Perception is carried out in a locked cabinet, whirring through the sense data, and printing out conclusions for the conscious mind to read. The cabinet is locked, we only have access to the output. That is the argument of my paper on 'implicit knowledge'. That paper doesn't discuss.
+So then why would we make bad inferences that resemble good inferences? I think for the same reason that our perception makes bad inferences that resemble good inferences -- because perceptual processes interpret cues according to their *ordinary* significance, without adjusting for all relevant information. Perception is carried out in a cabinet, whirring through the sense data, and printing out conclusions for the conscious mind to read. The cabinet is locked, we only have access to the output. That is the argument of my paper on 'implicit knowledge'.
 
 <!--
-
 ## FORMALLY
 
 The standard assumption about choice from a choice set, c(A), is this:
