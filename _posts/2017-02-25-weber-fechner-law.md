@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Some Notes on the Weber-Fechner Law
+title: Weber's Law Doesn't Imply Concave Representations or Concave Judgments
 ---
 
 ![runningman](https://dl.dropboxusercontent.com/u/13046545/runningman.jpg)
