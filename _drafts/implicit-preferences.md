@@ -15,9 +15,9 @@ header-includes:
 things that remain to do:
 
 - [ ] improve discussion of Freud, & examples of his diagnoses
-- [ ] replace guide-dog example with something 
-- [ ] discussion of why guide-dog model implies getting hypotheticals wrong
-- [ ] add results of experiment demonstrating unconscious knowledge
+- [ ] ⧸⧸explain how guide-dog examples leads to inconsistent choices⧸⧸replace guide-dog example with something ⧸⧸
+- [ ] discussion of why guide-dog model implies getting hypotheticals ⧸⧸wrong.⧸⧸wrong
+- [ ] add results of experiment demonstrating unconscious knowledge⧸⧸
 
 # Introduction
 
@@ -94,7 +94,8 @@ A second type of evidence is to compare self-reported influences on behaviour wi
 
 1. In the mid 20th-century behaviourists found that they could shape their subjects choices through conditioning with rewards and punishments, while the subjects seemed to remain ignorant of this shaping. For example if you say 'mm-hmm' whenever someone uses a plural noun, then after a while that person ends up using plural nouns more often, apparently unaware of the influence (Thorndike and Rock (1934); Greenspoon (1955)).
 2. Since the 1970s social psychologists have published all sorts of experiments in which they vary an apparently irrelevant factor and find that this can affect peoples' decision-making. Nisbett and Wilson (1977) summarize a lot of experiments and say "subjects are sometimes (a) unaware of the existence of a stimulus that importantly influenced a response, (b) unaware of the existence of the response, and (c) unaware that the stimulus has affected the response."
-3. Since the 1970s a smaller group of psychologists have been running experiments in which people learn a complicated pattern, and then are asked about their insight into it. E.g. in Arthur Reber's "artificial grammar" experiments subjects learn, through trial and error, to discriminate between two categories of words. After some time they become very good at the task, but when asked to explain how they are making decisions they are very bad at explaining rules that they seem to know.
+3. Another paradigm from the 1970s asks people to make a judgement - e.g. which stock to pick - and also rate the importance of factors which contributed to their decision. Slovic et al. (1972) find a correlation of only 0.34 between the implicit and explicit weights of 13 stockbrokers.
+4. Finally, since the 1970s a smaller group of psychologists have been running experiments in which people learn a complicated pattern, and then are asked about their insight into it. E.g. in Arthur Reber's "artificial grammar" experiments subjects learn, through trial and error, to discriminate between two categories of words. After some time they become very good at the task, but when asked to explain how they are making decisions they are very bad at explaining rules that they seem to know.
 
 Similarly to the previous category, a lot of this evidence is very fragile: either hard to replicate, or based on delicate interpretations of what is happening in the experiment. Newell and Shanks (2014) again give a good summary.
 
@@ -106,7 +107,9 @@ Some more examples of describing influences: the "sugar factory" game; sequence 
 
 ## Isolation of Unconscious Influences
 
-Finally there's a third type of evidence which is more strictly behavioural: an unconscious factor is one which is *isolated* from your other conscious beliefs and desires -- i.e. it does not interact with conscious factors -- and that isolation will be reflected in your behaviour. This isolation criterion has been given various names, but I don't think it's ever been explained as clearly as it could be.
+Finally there's a third type of evidence which is more strictly behavioural: an unconscious factor is one which is *isolated* from your other conscious beliefs and desires -- i.e. it does not interact with conscious factors -- and that isolation will be reflected in your behaviour. This isolation criterion has been given various names, but I don't think it's ever been explained as clearly as it could ⧸⧸be.
+
+New dog example. ⧸⧸be.⧸⧸
 
 To be completely precise think of the blind man (the conscious part of the brain) and the guide dog (the unconscious). The guide dog can know something -- e.g. she knows when the crossing light is flashing -- which the man does not know, and her knowledge can influence the man's decisions. The guide dog's knowledge is isolated from the man's knowledge: it only influences his decisions through the guide dog's recommendation which is transmitted by pulling on the leash. Suppose you tell the man that the crossing lights are not working properly, and so any flashing is entirely at random and uninformative. The man and dog, considered as a system, has two pieces of information: (1) the light is flashing; and (2) the flashing is uninformative. However the first piece of information is isolated from the second, implying that they will not be integrated, because neither the man or dog knows both. This will be reflected in the man's behaviour: he will still be influenced by the guide-dog's recommendation, because the dog sees more things besides the crossing-light, and so his decision about crossing the road will be influenced by the light, even though he *knows* that the light is irrelevant. [Explain that this will produce inconsistencies in decision-making.]
 
@@ -126,6 +129,10 @@ This isn't quite the same as the case of the blind man and the guide dog. In the
 
 Finally the isolation argument has appeared in the literature on human "associative learning," and whether or not the associations that we learn through conditioning are unconscious. A typical experiment involves ringing a bell and giving an electric shock. After a while people learn to flinch when they hear the bell. For a long time psychologists tried to map out the logic of how such associations would form, trying to figure out the rule which governed learning of associations. However in the last few decades an argument has been made that these learned associations are not in fact mechanical - there is no simple rule - instead they are more-or-less optimal responses to the environment based on the entirety of the information available, i.e. they are not *isolated* from other knowledge (though the argument isn't usually put in terms of conscious vs unconscious knowledge). For example Colgan (1970) told subjects, after they learned an association, that the association is no longer valid ("from now on the bell will not signal an electric shock") and he found that, although this didn't entirely extinguish the flinching, it did cause it to markedly decrease. So the flinching is not isolated from your conscious knowledge: the association, at least to some degree, interacts with more abstract knowledge. There are many other circumstances where rule-based theories of association-learning have foundered because it turns out that peoples' responses respond to outside considerations. De Houwer, Vandorpe and Beckers (2005) say 
 > The two types of models can be differentiated ... by manipulating variables that influence the likelihood that people will reason in a certain manner but that should have no impact on the operation of the associative model. We have seen that such variables (e.g., instructions, secondary tasks, ceiling effects, nature of the cues and outcomes) do indeed have a huge effect. Given these results, it is justified to entertain the belief that participants are using controlled processes such as reasoning and to look for new ways to model and understand these processes. 
+
+Mitchell says: 
+
+> “The results consistently show evidence for skin conductance [effects] only in participants who are aware of the [relationship] ... [a]lthough there are many papers arguing for unaware conditioning, close inspection reveals, in almost all cases, that the measure of conditioning was most likely more sensitive than that of awareness.”
 
 In retrospect a lot of behavior that was studied in the lab, which was thought to be telling us about the wiring of the animals, actually was telling us about the world outside the animal, because it has turned out that the animals' response is the *optimal* response to the typical circumstances it faces in the world. (See also Mitchell et al. (2009) section 4.3.)
 
@@ -313,4 +320,5 @@ When Quine wrote this, linguists were talking a lot about how people had unconsc
 
 > p191: "For all the shortcomings in the concepts proposed by Freud and Breuer in *Studies*, the twenty-first century has brought no great advances to a better understanding of the mechanism for this disorder. The terms dissociation and conversion are still widely in use ... the general principles of modern dissociation are not very different to those of Victorian times ... in day-to-day practice Janet's and Freud's theories are regularly used, or misused."
 
-**Singal (2016) in New York Magazine** - article on Implicit Association Test.
+**Singal (2016) in New York Magazine** - article on Implicit Association ⧸⧸Test.⧸⧸Test.
+⧸⧸<!--se_discussion_list:{"ocXfjxP63PHGq4skQ964ob7A":{"selectionStart":500,"type":"conflict","selectionEnd":607,"discussionIndex":"ocXfjxP63PHGq4skQ964ob7A"},"Cd0eElNtKVhJU1s8FZgWnv5I":{"selectionStart":678,"type":"conflict","selectionEnd":763,"discussionIndex":"Cd0eElNtKVhJU1s8FZgWnv5I"},"O7PKMh95cx1e5ycVmR4qUu0E":{"selectionStart":16829,"type":"conflict","selectionEnd":16860,"discussionIndex":"O7PKMh95cx1e5ycVmR4qUu0E"},"umlE9CgwlKTVigMqwf63OR8g":{"selectionStart":43436,"type":"conflict","selectionEnd":43453,"discussionIndex":"umlE9CgwlKTVigMqwf63OR8g"}}-->

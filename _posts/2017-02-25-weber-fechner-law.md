@@ -7,11 +7,12 @@ title: Weber's Law Doesn't Imply Concave Representations or Concave Judgments
 
 **Nutshell.**
 
-1. Our ability to discriminate between sensations is falling in the magnitude of the sensations, across a range of domains (Weber's law)
-2. Weber's law is often interpreted as implying both (i) a concave internal representation of value; and (ii) a concave bias in judging magnitudes.
-3. However this is not the case -- I given examples to show that Weber's law is compatible with both (i) linear and concave internal representations of value; and (ii) linear and concave biases in judging magnitudes.
-
-(I'm sure these points must have been made elsewhere but I've never been able to find them.)
+1. If you spend any time reading about behavioural economics you'll come across "diminishing sensitivity" pretty soon, applied to all sorts of things in decision-making (probability weighting, value-function weighting, relative thinking), and often you'll find a reference to "Weber's law" from psychology.
+2. Weber's law says that if you can tell the difference between a 1-pound and a 1.2-pound weight 90% of the time, then you will also be able to tell the difference between a 10-pound and 12-pound weight about 90% of the time (and generally, the ability to discriminate between two sensations is a function of the ratio of the magnitudes).
+3. This finding is often interpreted as implying that we have, in some sense, *concave* representations of value. And indeed this behaviour *would* be implied by a model in which we receive a signal which is a concave function of the underlying value, plus additive noise.
+4. However Weber's law would also be seen if we have a linear representation of value with multiplicative noise. And there are good reasons to think that perceptual noise is generally closer to multiplicative than additive (but I leave that for another time).
+5. Also of interest is, given our assumptions about value and noise, how a person's posteriors look. I.e., what is the average best-guess of the weight of an object, given it's true weight. I also derive those below (you have to make assumptions about a person's priors), and show that, under multiplicative noise & lognormal priors, expected weight is concave function of true weight, while under additive noise & uniform priors, expected weight is a linear function of true weight.
+6. In general I think that Weber's law is *not* relevant most of the anomalies we see in decision-making. This note doesn't really tie the knot on that argument, but I think these are useful results going in that direction. (I'm sure these mathematical points must have been made elsewhere but I've never been able to find them.)
 
 # History.
 

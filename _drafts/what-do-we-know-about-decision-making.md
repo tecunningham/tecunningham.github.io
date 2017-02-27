@@ -3,7 +3,6 @@ layout: post
 title: What do we know about Decision-Making
 ---
 
-
 # Benchmark model
 
 In economics we have a very clear benchmark model of decision-making. We assume that (1) people care only about consumption and leisure; (2) they discount the future exponentially; and (3) they take the expected value of uncertain outcomes:

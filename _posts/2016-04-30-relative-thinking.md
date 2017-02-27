@@ -50,7 +50,7 @@ I'm going to try to make the following points:
 
 1. There are some cute tricks for identifying different types of relative-thinking effects through intransitive choices.
 2. The quality of the evidence we have on almost all of these choice-set effects is very low. 
-3. Weber's law is not relevant to diminishing sensitivity in choice.
+3. Weber's law is not relevant to diminishing sensitivity in choice. ([Now written up!](./2016/02/25/weber-fechner-law/))
 
 ![party](https://dl.dropboxusercontent.com/u/13046545/mosaique_5th.jpg){: .center-image }
 
@@ -70,11 +70,12 @@ But take a look at this (White's illusion):
 
 here the same shade of grey looks *lighter* on the left than on the right, despite the surroundings being relatively *lighter* on the left than on the right. This is exactly the opposite of what's predicted by a hardwired contrast effect in perception.
 
-(An even cleaner example would be *ceteris paribus*, where making some part of the background lighter, all else held equal, makes the foreground appear lighter. The figure above does implies there must exist at least one such case: imagine a third set of grey rectangles which are surrounded only by white. That third case must serve as a *ceteris paribus* case for one or other of the two cases above, probably both.)
+(An even cleaner example would be *ceteris paribus*, where making some part of the background lighter, all else held equal, makes the foreground appear lighter. The figure above does imply that there must exist at least one such case: imagine a third set of grey rectangles which are surrounded only by white. That third case must serve as a *ceteris paribus* case for one or other of the two cases above, probably both.)
 
 The general point is this: **There is not a stable relationship between the perceived-lightness of an object and the lightness of surrounding objects.** There isn't even an all-else-equal relationship. The relationship can run in either direction depending on the context.
 
-But that's not the last word. The set of contexts where it goes one way or the other way aren't arbitrary ("contrast effects" and "assimilation effects"). Adelson (2001) shows that you can usually predict when you'll observe one effect or the other: roughly, whether or not the surrounding lightness is a positive or negative ecological cue for illumination. I.e., in typical circumstances, is the surrounding lightness positively or negatively associated with illumination?
+But that's not the last word. The set of contexts where it goes one way or the other way aren't arbitrary ("contrast effects" and "assimilation effects"). Adelson (2001) shows that you can usually predict when you'll observe one effect or the other: roughly, whether or not the surrounding lightness is a positive or negative ecological cue for illumination. I.e., in typical circumstances, is the surrounding lightness positively or negatively associated with illumination? (See an example at the bottom of this post.)
+
 
 ## DIGRESSION 2
 
@@ -154,7 +155,7 @@ Finally it's easy to come up with a rational magnitude effect, such that when we
 
 When we dig into the intuitions behind comparison effects, we often find that they resemble *inferences* that we would make every day. The laws that have been proposed to explain comparison effects only work because they coincide with one or other of the inferences in certain subsets of cases -- e.g. range-sensitivity coincides with MRS-MRT inference, magnitude-sensitivity coincides with unit-value inference. But these overlaps occur only in a subset of cases, and stepping outside that subset we find that the law fails, while the inference remains.
 
-Does this mean that comparison effects are all just rational inferences? We want to know whether comparison effects occur even when inference can be entirely ruled out -- e.g. when we run an experiment that explicitly randomizes the choice sets. Some papers do this, but few do it well. I am persuaded that comparisons *do* affect us on a pre-conscious level, i.e. that our instincts latch onto comparisons without being careful about the significance of the comparison in the particular circumstance, but there's not a lot of unambiguous evidence on this. I can at least say that most people find the types of example listed above pretty beguiling: they get strong intuitions about relative value, but struggle to explain where the intuitions come from, implying that the inference isn't conscious.
+Does this mean that comparison effects are all just rational inferences? What we would like to know is whether comparison effects occur even when inference can be entirely ruled out -- e.g. when we run an experiment that explicitly randomizes the choice sets. Some papers do this, but few do it well. I am persuaded that comparisons *do* affect us on a pre-conscious level, i.e. that our instincts latch onto comparisons without being careful about the significance of the comparison in the particular circumstance, but there's not a lot of unambiguous evidence on this. I can at least say that most people find the types of example listed above pretty beguiling: they get strong intuitions about relative value, but struggle to explain where the intuitions come from, implying that the inference isn't entirely conscious.
 
 So then why would we make bad inferences that resemble good inferences? I think for the same reason that our perception makes bad inferences that resemble good inferences -- because perceptual processes interpret cues according to their *ordinary* significance, without adjusting for all relevant information. Perception is carried out in a cabinet, whirring through the sense data, and printing out conclusions for the conscious mind to read. The cabinet is locked, we only have access to the output. That is the argument of my paper on 'implicit knowledge'.
 
@@ -171,7 +172,7 @@ with some assumption on how $\frac{\partial u}{\partial x_i}$ depends on the dis
 
 ## MISCELLANEOUS NOTES
 
-* It is useful to make a sharp distinction between “goods” and 'bads”. E.g., a good-bad tradeoff: e.g., quality vs price; salary vs hours worked. A Good-Good tradeoff: e.g., bedrooms vs bathrooms; MPG vs horsepower; salary vs holiday-days.
+* It is useful to make a sharp distinction between “goods” and 'bads”. Examples of good-bad tradeoffs are quality vs price; salary vs hours worked. Examples of good-good tradeoffs are bedrooms vs bathrooms; MPG vs horsepower; salary vs holiday-days.
 
 * Parducci invented, as well as range-frequency theory, windsurfing.
 
@@ -203,9 +204,18 @@ Simonson (2008) "Will I like a Medium Pillow?"
  
 > “much of the evidence for preference construction reflects people’s difficulty in evaluating absolute attribute values and tradeoffs and their tendency to gravitate to available relative evaluations ... These illustrations suggest that many forms of preference construction reflect a key underlying principle: decision makers tend to avoid absolute value judgments and gravitate to accessible relative evaluations ... it is noteworthy that the evidence that has been accumulated to make the case for preference construction might be largely driven by a rather simple common principle. This rather simple, yet important absolute-to-relative principle lends itself to seemingly unrelated demonstrations, which have been treated as distinct phenomena and received unique labels.”
 
-David Stove (1991) "What is Wrong With our Thoughts?" 
-    http://web.maths.unsw.edu.au/~jim/wrongthoughts.html"
+David Stove (1991) ["What is Wrong With our Thoughts?"](http://web.maths.unsw.edu.au/~jim/wrongthoughts.html)
 
+
+## Another Illusion
+
+Adelson's "steps" illusion:
+
+![](https://dl.dropboxusercontent.com/u/13046545/AdelsonSteps.png){: .center-image }
+
+In the first picture the two squares with arrows on them look similar, but in the second picture they seem to have different shades. They are (as you guessed) all the same shade, and in fact the shades are all identical between the first and second image, just arranged a little differently.
+
+In particular, the tilt gives an the impression of an angle, and so influences our judgment of where the illumination is coming from. In the first image both squares seem to be on the same plane; in the second image the upper square seems to be on a plane with light squares, and the lower square seems to be on a plane with dark squares. If we use, as proxies of illumination for a square, the shade of squares coplanar with it, then we get the predicted effect.
 
 ## More Examples
 

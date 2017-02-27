@@ -8,7 +8,7 @@ title: Modularity in Decision-Making
 3. **Preference modularity** -- we often have preferences for *proximal* outcomes, that are detached from the ultimate goal which those outcomes are associated with. This also leads to certain characteristic patterns in choice.
 
 
-# Information Modularity                                                
+# Information Modularity (bloodhound)                                              
 
 We have limited conscious insight into how our judgments are formed. We can think of the brain as having a hierarchical organization: lower-level parts form inferences, and pass their conclusions to higher levels. This separation of information has a set of implications:
 
@@ -22,7 +22,7 @@ We have limited conscious insight into how our judgments are formed. We can thin
 
 4. **Comparison effects.** Many judgments seem to be influenced by relative comparisons. Also called contrast & assimilation effects, normalization, adaptation, inhibition. These effects have often been proposed as fundamental and hard-wired. However the logic of encapsulation can explain why (i) relativity effects only occur in some contexts (implying it's not hard-wired); and yet (ii) relativity can lead to predictable mistakes.
 
-# Preference Modularity                                                     
+# Preference Modularity (bulldog)                                                    
 
 Some characteristic behaviours indicating modularity of preferences:
 
