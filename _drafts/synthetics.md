@@ -29,7 +29,7 @@ layout: post
 
 12. Social. asdf
 
-13. History. Synthetic invention and manufacturing has advanced in wartime, during depressions, and under communism, times when aesthetic things have been put aside and production has very functional goals. Margarine was invented to win a prize offered by Napoleon, as a cheap and storable source of fat for troops. During WWI Germany was blockaded, and started making rubber from oil, oil from coal, coffee from barley and oats (then coffee from walnuts, then from carrots, as they exhausted the prior source), tea from linden blooms, and cocoa from coal-tar extracts. During WWII [xxx].
+13. History. Synthetic invention and manufacturing has advanced in wartime, during depressions, and under communism, times when aesthetic things have been put aside and production has very functional goals. Margarine was invented to win a prize offered by Napoleon, as a cheap and storable source of fat for troops. During WWI Germany was blockaded, and started making rubber from oil, oil from coal, coffee from barley and oats (then coffee from walnuts, then coffee from carrots), tea from linden blooms, and cocoa from coal-tar extracts. During WWII [xxx].
 
 14. the WC Handy song “Loveless love” from 1931 complains about synthetic substitutes in the depression:
 

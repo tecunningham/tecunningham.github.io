@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Biases in Judgment and Two Systems
+geometry: margin=1in
 ---
 
 ![man and dog](https://dl.dropboxusercontent.com/u/13046545/man-and-dog.png){: .center-image }
