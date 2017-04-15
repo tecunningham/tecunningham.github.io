@@ -6,7 +6,7 @@ title: The Repeated Failure of Laws of Behaviour
 # Nutshell
 
 1. In retrospect a lot of behaviour that was studied in the lab, which we thought was telling us about the wiring of animals, actually was telling us about the world outside the animal. 
-
+ 
 2. It has turned out, over and over again, that an animal's response to a stimulus reflects the animal's *beliefs* about what that stimulus represents in the world. So the "laws" of behaviour that we discovered are actually just describing, at a remove, regularities in the world.
 
     |                                                         "law" of behaviour                                                        |                                        truth about the environment                                         |
@@ -23,16 +23,16 @@ title: The Repeated Failure of Laws of Behaviour
 
    Given some pattern of behaviour $r(s)$, we can back out the beliefs that would justify that behaviour, $f(x\|s)$, and we've seen -- many times repeated -- that those beliefs turn out to be *accurate*, as in the cases above.
 
-1. You could say that, sure, it's optimal in the typical situation, but animals keep applying the same rule in cases where it's not optimal. There are some cases like that, but it seems to me that there are many more cases which go in the other direction: when the situation is changed, the behaviour changes, and the "law" gets contradicted.
+1. You could say that, sure, it's optimal in the typical situation, but animals keep applying the same rule in cases where it's not optimal. There are some cases like that, but it seems to me that there are many more cases which go in the other direction: when the situation is changed, the behaviour changes, and it turns out the animal does what's optimal, not what the law implies.
 
 
-2. The biggest example of the failure of behavioural laws is the theory of conditioning and associative learning. Psychologists started with proposing a simple function that governs behaviour -- the more often you are rewarded for doing something, the more often you do it -- but then were forced to add a long list of qualifications and special cases (context-dependence, blocking, intermittent reinforcement, extinction, matching). It gradually became clear that the complications were not arbitrary, but made sense from the animal's point of view: they are sensible strategies based on what you should expect in a typical environment. So the complex rules that we had been mapping out were not telling us about the animal's wiring, they were instead telling us about the world that the animal lives in. Animals tend to repeat actions that are rewarded (i.e. obey the laws of reinforcement learning) only when they have reason to believe that rewards will be positively correlated across time, and when they are in a situation where they don't expect that correlation, then they no longer obey the rules of reinforcement learning. Mitchell et al. (2009) cite a lot of evidence about human associative learning and say:
+2. The biggest example of the failure of behavioural laws is the theory of **conditioning and associative learning**. Psychologists started with proposing a simple function that governs behaviour -- the more often you are rewarded for doing something, the more often you do it -- but then were forced to add a long list of qualifications and special cases (context-dependence, blocking, intermittent reinforcement, extinction, matching). It gradually became clear that the complications were not arbitrary, but made sense from the animal's point of view: they are sensible strategies based on what you should expect in a typical environment. So the complex rules that we had been mapping out were not telling us about the animal's wiring, they were instead telling us about the world that the animal lives in. Animals tend to repeat actions that are rewarded (i.e. obey the laws of reinforcement learning) only when they have reason to believe that rewards will be positively correlated across time. When they are in a situation where they don't expect that correlation, then they no longer obey the rules of reinforcement learning. Mitchell et al. (2009) cite a lot of evidence about human associative learning and say:
 
     > "we reconsider (and reject) one of the oldest and most deeply entrenched dual-system theories in the behavioral sciences, namely the traditional view of associative learning as an unconscious, automatic process that is divorced from higher-order cognition."
 
-3. There's a very similar case in perception, where psychologists have been trying to learn the function from sensation to perception. A famous observation was of **lateral inhibition**: a stimulus seems less bright when the neighbouring stimulus gets brighter. In the 1950s this was thought to be due to wiring of neurons in the eye, but gradually it became clear that the effect only occurs in certain cases, and in other cases the opposite effect is observed. And then people realized that the cases in which it works are exactly the cases where it would be a reasonable inference in a typical environment . Adelson (1993, *Science*):
+3. There's a very similar case in **perception**, where psychologists have been trying to learn the function from sensation to perception. A famous observation was of lateral inhibition: a stimulus seems less bright when the neighbouring stimulus gets brighter. In the 1950s this was thought to be due to wiring of neurons in the eye, but gradually it became clear that the effect only occurs in certain cases, and in other cases the opposite effect is observed. And then people realized that the cases in which it works are exactly the cases where it would be a reasonable inference in a typical environment . Adelson (1993, *Science*):
  
-    > “All of the phenomena discussed above lead to the same conclusion: Brightness judgments cannot be simply explained with low-level mechanisms. Geometrical changes that should be inconsequential for low-level mechanisms can cause dramatic changes in the brightness report."
+    > “All of the phenomena discussed above lead to the same conclusion: Brightness judgments cannot be simply explained with low-level mechanisms. Geometrical changes that should be inconsequential for low-level mechanisms can cause dramatic changes in the brightness report. It is as if the visual system automatically estimates the reflectances of surfaces in the world[.]"
 
 4. A similar thing has happened in the study of **control laws**, or invariants, simple principles which map stimulus to response. For example Lee's (1976) tau-dot model of braking: you brake when $\dot{\tau}$ is above some threshold, where $\tau=\frac{\theta}{\dot{\theta}}$, and $\theta$ is the angle of an approaching object. Many people spent a lot of time proposing control laws for different domains, and testing control laws against each other, but the field (I believe) has now mostly given up the hope of finding simple laws to model behaviour. Weber and Fajen (2014) say:
 
@@ -74,9 +74,9 @@ In the 1950s there were some classic studies in which human behaviour was manipu
 
 I believe that lots of animal training still uses principles of conditioning: you give the animal a small reward whenever it does something you want it to, and you gradually build up more complicated behaviours. They also use other concepts from conditioning like secondary reinforcers and intermittent reinforcement.
 
-In 1992 IBM built a backgammon-playing neural net that used a kind of reinforcement learning: given a layout, the computer was more likely to choose an action if, in its history, that action was past, each action (a move) was reinforced depending on whether the outcome was better or worse than expected. The ultimate reinforcement was from winning the game, and expectations propagated back from that, to learn the value of positions in the middle of the game. The program was a great success -- it was trained against itself, and quickly became good enough to beat most human players.
+In 1992 IBM built a backgammon-playing neural net that used a kind of reinforcement learning -- in short the computer would be more likely to make the same move again if it had a good outcome in previous cases. The ultimate reinforcement was from winning the game, and expectations propagated back from that, to learn the value of positions in the middle of the game. The program was a great success -- it was trained against itself, and quickly became good enough to beat most human players.
 
-In the 1990s there was great excitement when some neuroscientists discovered that levels of dopamine in the mid-brain responded to rewards in a way consistent with a reinforcement-learning model. In particular, dopamine didn't correlate with the level of reward, but correlated with the level of *unexpected* reward: i.e., if you receive a reward in a situation where you wouldn't normally. This is the kind of calculation which an algorithm would do if it was implementing reinforcement learning: it would update weights when a rewards is different from the expected level of reward.
+In the 1990s there was a lot of excitement when some neuroscientists discovered that levels of dopamine in the mid-brain responded to rewards in a way consistent with a reinforcement-learning model. In particular, dopamine didn't correlate with the level of reward, but correlated with the level of *unexpected* reward: i.e., if you receive a reward in a situation where you wouldn't normally. This is the kind of calculation which an algorithm would do if it was implementing reinforcement learning: it would update weights when a rewards is different from the expected level of reward.
 
 
 # Additional Laws
@@ -96,7 +96,7 @@ At the height of the enthusiasm for conditioning many people thought these laws 
 
 # Difficult Cases
 
-In the first few decades of reinforcement learning many confirmations of the basic theory were published but, as often happens in academic disciplines, the published evidence became less coherent as time went on. Many of the laws of reinforcement learning turn out to apply only in a subset of situations, and in other situations the effects seem to reverse.
+In the first few decades of reinforcement learning many confirmations of the basic theory were published but, as often happens, the published evidence became less coherent as time went on. Many of the laws of reinforcement learning turn out to apply only in a subset of situations, and in other situations the effects seem to reverse.
 
 **reverse reinforcement.** An old finding, regarding rats running mazes, is that when the rat finds a piece of cheese down one passage, then they were *less* likely to go down that passage the next time they were in the maze. According to reinforcement learning they should be more likely to go down that passage.
 
@@ -135,11 +135,23 @@ Mitchell (2009) also notes that there is *less* blocking when you introduce cogn
 > The two types of models can be differentiated ... by manipulating variables that influence the likelihood that people will reason in a certain manner but that should have no impact on the operation of the associative model. We have seen that such variables (e.g., instructions, secondary tasks, ceiling effects, nature of the cues and outcomes) do indeed have a huge effect. Given these results, it is justified to entertain the belief that participants are using controlled processes such as reasoning and to look for new ways to model and understand these processes. 
 
 
+# Conclusion
+
+I guess there are two natural followup questions to this argument:
+
+**(1) If you looked in the history of psychology, could you find as many examples of making the opposite mistake?**
+
+In other words, how often have we have over-estimated the rationality of human behaviour. Yeah, maybe you're right. It's not hard to find economists who are like that -- who'll insist that, whatever people do, it's in their best interest.
+
+**(2) If you're so down on it, then why is reinforcement learning useful to dog trainers and to computer programmers?**
+
+
 
 # Misc Notes 
 
 
-**Q: If you're so down on it, then why is reinforcement learning useful to dog trainers and to computer programmers?**
+
+Good question. 
 
 <!--
 **Barto & Sutton chapter on the history of reinforcement learning.**
@@ -149,7 +161,11 @@ Mitchell (2009) also notes that there is *less* blocking when you introduce cogn
   4. when you win game, reinforce all sequence of actions, or instead just-prior state.
 -->
 
+---
+
 **economic applications of association-based decision-making.** Gilboa & Schmeidler: case-based decision-making; Camerer: experience-weighted attraction learning. The NYU guy has a paper. Erev & Roth (1998) say that reinforcement learning does a good job predicting behaviour in some games, better than equilibrium play. I wouldn't defend completely rational behaviour, but on the other hand I wouldn't expect RL behaviour to be *stable*: probably behaviour approximates RL in some contexts, and does the opposite in others. It's not obvious that the RL model is a very good level of abstraction to describe behaviour at. Charness & Levin (2005) run an experiment where reinforcement & Bayesian updating give different predictions:  you choose between urns, one more sensitive to state, one less sensitive. If you draw from the less-sensitive urn, and you receive a positive outcome, then you update about the state, and the Bayesian prediction is that you should switch urns, while reinforcement learning says you'll stay with the same urn. They find that people largely stay with the same urn.
+
+---
 
 **the gambler’s fallacy goes in the opposite direction to reinforcement learning.** The gambler's fallacy: winning a gamble at time $t$ makes you *decrease* the expectation of winning at $t+1$, i.e. the *opposite* prediction of a simple reinforcement model. There's a heuristic rationalization similar to the rationalization of rats in a maze: caveman Ug is shaking trees to get coconuts out. If there’s no coconut at time t, then there's an increased probability of a coconut at t+1.
 
