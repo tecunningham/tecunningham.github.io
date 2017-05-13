@@ -3,7 +3,7 @@ layout: post
 title: Samuelson & Expected Utility
 ---
 
-![clown](https://dl.dropboxusercontent.com/u/13046545/clownleopard.jpg)
+![clown](https://www.dropbox.com/s/3oikh1bx9s0ywhd/clownleopard.jpg?dl=1)
 
 > "If in every event which can possibly occur the consequence of action I is not preferred to that of action II, and if in some possible event the consequence of II is preferred to that of I, then any sane preferer would prefer II to I." 
 
