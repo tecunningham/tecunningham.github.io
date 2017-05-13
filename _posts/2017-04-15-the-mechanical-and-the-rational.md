@@ -5,48 +5,50 @@ title: The Repeated Failure of Laws of Behaviour
 
 # Nutshell
 
-1. In retrospect a lot of behaviour that was studied in the lab, which we thought was telling us about the wiring of animals, actually was telling us about the world outside the animal. 
- 
+1. In retrospect a lot of behaviour that was studied in the lab, which we thought was telling us about the wiring of animals, actually was telling us about the world outside the animal.
+
 2. It has turned out, over and over again, that an animal's response to a stimulus reflects the animal's *beliefs* about what that stimulus represents in the world. So the "laws" of behaviour that we discovered are actually just describing, at a remove, regularities in the world.
 
-    |                                                         "law" of behaviour                                                        |                                        truth about the environment                                         |
-    |-----------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
-    | Animals will tend to repeat whichever action is rewarded                                                                         | Actions which have been rewarded in the past tend to be rewarded in the future                       |
-        | Objects appear darker when neighboring objects are brighter                                                                       | Objects *are* darker when neighboring objects are brighter                                                 |
-    | Blue objects appear more distant                                                                                                  | Blue objects *are* more distant                                                                            |
-    | People brake when the rate of change of the angle of an approaching object ($\frac{\dot{\theta}}{\theta}$) exceeds some threshold | $$\frac{\dot{\theta}}{\theta}$$ determines the time to impact of an approaching object in typical circumstances, and so the optimal time to brake  |
-    | Consumers' expenditure increases less than proportionally with changes in income                                          | Changes in income are typically temporary, and so imply a less-than-proportional response to maintain stable long-run expenditure |
+    |                                                        "law" of behaviour                                                         |                                                            truth about the environment                                                            |
+    | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | Animals will tend to repeat whichever action is rewarded                                                                          | Actions which have been rewarded in the past tend to be rewarded in the future                                                                    |
+    | Objects appear darker to people when neighboring objects are brighter                                                             | Objects *are* darker when neighboring objects are brighter                                                                                        |
+    | Blue objects appear more distant to people                                                                                        | Blue objects *are* more distant                                                                                                                   |
+    | People brake when the rate of change of the angle of an approaching object ($\frac{\dot{\theta}}{\theta}$) exceeds some threshold | $$\frac{\dot{\theta}}{\theta}$$ determines the time to impact of an approaching object in typical circumstances, and so the optimal time to brake |
+    | Consumers' expenditure increases less than proportionally with changes in income                                                  | Changes in income are typically temporary, and so imply a less-than-proportional response to maintain stable long-run expenditure                 |
 
-3. Formally, here's the idea. Someone scientist observes response $r$ and stimulus $s$, and proposes a law of behaviour, a simple function from $s$ to $r$. But for any such law, $r(s)$ there exists at least one rationalization, under which the organism has beliefs about an unobserved variable $x$, and they choose $r$ optimally given what they infer about $x$ from observing $s$, i.e.,
+3. Here's the point expressed formally. Some scientist observes response $r$ and stimulus $s$, and proposes a law of behaviour, a simple function from $s$ to $r$. But for any such law, $r(s)$ there exists at least one rationalization, under which the organism has beliefs about an unobserved variable $x$, and they choose $r$ optimally given what they infer about $x$ from observing $s$, i.e.,
 
     $$r(s) = \arg \max_{r} \int u(s,r,x) f(x|s)$$
 
-   Given some pattern of behaviour $r(s)$, we can back out the beliefs that would justify that behaviour, $f(x\|s)$, and we've seen -- many times repeated -- that those beliefs turn out to be *accurate*, as in the cases above.
+   Given some pattern of behaviour $r(s)$, we can back out the beliefs that would justify that behaviour, $f(x\|s)$, and we've seen -- many times repeated -- that those beliefs turn out to be *accurate* -- as in the cases above, even when the scientist wasn't aware of that truth.
 
-1. You could say that, sure, it's optimal in the typical situation, but animals keep applying the same rule in cases where it's not optimal. There are some cases like that, but it seems to me that there are many more cases which go in the other direction: when the situation is changed, the behaviour changes, and it turns out the animal does what's optimal, not what the law implies.
+1. You could reply that, sure, it's optimal in the typical situation, but animals keep applying the same behaviours in cases where it's not optimal, and that's why they are laws of behaviour. There are some cases like that, but it seems to me that there are many more cases which go in the other direction: when the situation is changed, the behaviour changes, and it turns out the animal does what's optimal, not what the law implies.
 
 
-2. The biggest example of the failure of behavioural laws is the theory of **conditioning and associative learning**. Psychologists started with proposing a simple function that governs behaviour -- the more often you are rewarded for doing something, the more often you do it -- but then were forced to add a long list of qualifications and special cases (context-dependence, blocking, intermittent reinforcement, extinction, matching). It gradually became clear that the complications were not arbitrary, but made sense from the animal's point of view: they are sensible strategies based on what you should expect in a typical environment. So the complex rules that we had been mapping out were not telling us about the animal's wiring, they were instead telling us about the world that the animal lives in. Animals tend to repeat actions that are rewarded (i.e. obey the laws of reinforcement learning) only when they have reason to believe that rewards will be positively correlated across time. When they are in a situation where they don't expect that correlation, then they no longer obey the rules of reinforcement learning. Mitchell et al. (2009) cite a lot of evidence about human associative learning and say:
+2. The biggest example of the failure of behavioural laws is the theory of **conditioning and associative learning**. Psychologists started with proposing a simple function that governs behaviour -- the more often you are rewarded for doing something, the more often you do it -- but then were forced to add a long list of qualifications and special cases (context-dependence, blocking, intermittent reinforcement, extinction, matching). It gradually became clear that the complications were not arbitrary, but made sense from the animal's point of view: they are sensible strategies based on what an animal should expect in a typical environment. So the complex rules that we had been mapping out were not telling us about the animal's wiring, they were instead telling us about the world that the animal lives in. Animals tend to repeat actions that are rewarded (i.e. obey the laws of reinforcement learning) only when they have reason to believe that rewards will be positively correlated across time. When they are in a situation where they don't expect that correlation, then they no longer obey the rules of reinforcement learning. Mitchell et al. (2009) cite a lot of evidence about human associative learning and say:
 
     > "we reconsider (and reject) one of the oldest and most deeply entrenched dual-system theories in the behavioral sciences, namely the traditional view of associative learning as an unconscious, automatic process that is divorced from higher-order cognition."
 
-3. There's a very similar case in **perception**, where psychologists have been trying to learn the function from sensation to perception. A famous observation was of lateral inhibition: a stimulus seems less bright when the neighbouring stimulus gets brighter. In the 1950s this was thought to be due to wiring of neurons in the eye, but gradually it became clear that the effect only occurs in certain cases, and in other cases the opposite effect is observed. And then people realized that the cases in which it works are exactly the cases where it would be a reasonable inference in a typical environment . Adelson (1993, *Science*):
- 
+    Their rejection is based on evidence that, when people learn associations, they only follow them insofar as those associations are good guides to achieving their goals.
+
+3. There's a very similar case in **perception**, where psychologists have been trying to learn the function from sensation to perception. A famous observation was of lateral inhibition: a stimulus seems less bright when the neighbouring stimulus gets brighter. In the 1950s this was thought to be due to wiring of neurons in the eye, but gradually it became clear that the effect only occurs in certain cases, and in other cases the opposite effect is observed. And then people realized that the cases in which it works are exactly the cases where it would be a reasonable inference in a typical environment. Adelson (1993, *Science*):
+
     > “All of the phenomena discussed above lead to the same conclusion: Brightness judgments cannot be simply explained with low-level mechanisms. Geometrical changes that should be inconsequential for low-level mechanisms can cause dramatic changes in the brightness report. It is as if the visual system automatically estimates the reflectances of surfaces in the world[.]"
 
 4. A similar thing has happened in the study of **control laws**, or invariants, simple principles which map stimulus to response. For example Lee's (1976) tau-dot model of braking: you brake when $\dot{\tau}$ is above some threshold, where $\tau=\frac{\theta}{\dot{\theta}}$, and $\theta$ is the angle of an approaching object. Many people spent a lot of time proposing control laws for different domains, and testing control laws against each other, but the field (I believe) has now mostly given up the hope of finding simple laws to model behaviour. Weber and Fajen (2014) say:
 
-    > “numerous studies have demonstrated that observers often rely on non-invariants and that the particular optical variables upon which they rely to guide action can change—as a consequence of practice, as a function of the range of conditions that are encountered, and as a function of the dynamics of the controlled system.” 
+    > “numerous studies have demonstrated that observers often rely on non-invariants and that the particular optical variables upon which they rely to guide action can change—as a consequence of practice, as a function of the range of conditions that are encountered, and as a function of the dynamics of the controlled system.”
 
-5. Slightly more of a stretch - there are some similar episodes in the study of **economic decision-making**. In the 1950s economists had established various laws about how expenditure related to a person's income. Milton Friedman, in 1957, showed that many properties and puzzles of the expenditure function could be understood as byproducts of a person rationally planning to spread their income over time. In the same spirit Lucas (1976) argued that, in three different cases, where a statistical regularity in decisions was observed, you could explain *why* they occur if you model people as making tradeoffs given sensible beliefs about their economic prospects.
+5. Slightly more of a stretch - there are some similar episodes in the study of **economic decision-making**. In the 1950s economists had established various laws about how expenditure related to a person's income. Milton Friedman, in 1957, showed that many properties and puzzles of the expenditure function could be understood as byproducts of a person rationally planning to spread their income over time. Likewise Lucas (1976) argued that, in three different cases, where a statistical regularity in decisions was observed, you could explain *why* they occur if you model people as making tradeoffs given sensible beliefs about their economic prospects.
 
-6. I'm not trying to argue that all behaviour is rational and that the brain optimally combines all available information. But looking at the track record of psychologists, they have had a tendency to propose simple behavioural rules -- response as a function of stimulus -- which later turn out to be only true insofar as they reflect some deeper principle, of responding optimally to the environment.
+6. I'm not trying to argue that all behaviour is rational and that the brain optimally combines all available information. But looking at the track record of psychologists they have systematically underestimated the brain -- they keep proposing simple behavioural rules -- response as a function of stimulus -- which later turn out to be only true insofar as they reflect some deeper organizing principle.
 
 7. I think the same is true for a lot of **behavioural biases.** Economists sometimes treat "loss aversion", "probability weighting", etc., as if they are hard-wired, and scratch their heads when an experiment finds behaviour going in the opposite direction. But almost certainly these regularities are just local manifestations of some deeper - as yet unknown - principles. (An earlier [post](/2016/04/30/relative-thinking/) makes this point about "relative thinking" effects).
 
 8. The rest of this note gives some more detail about how this pattern played out in the history of reinforcement learning.
 
-![Krazy Kat](https://dl.dropboxusercontent.com/u/13046545/herriman-03.jpg)
+![Krazy Kat](https://www.dropbox.com/s/u3pqkseoxfqvh1k/herriman-03.jpg?dl=1)
 
 # Reinforcement Learning
 
@@ -121,7 +123,7 @@ The other laws of reinforcement can also be recast in terms of beliefs. And the 
 
 **matching.** There's an obvious argument that probability matching is rational -- in your usual environment the probability of reward changes over time, so it makes sense to do some searching (see Estes, 1976).
 
-**blocking.** Blocking can be explained by a learning model, given a prior that *either* A or B is predictive of the reward, but not both. (See “Explaining away in Weight Space” by Dayan and Kakade, and good summary at http://www.cs.cmu.edu/~ggordon/conditioning-slides.pdf ). 
+**blocking.** Blocking can be explained by a learning model, given a prior that *either* A or B is predictive of the reward, but not both. (See “Explaining away in Weight Space” by Dayan and Kakade, and good summary at http://www.cs.cmu.edu/~ggordon/conditioning-slides.pdf ).
 
 Sometimes we observe that forward blocking occurs but not backward blocking. This can be explained by a mechnical prediction model (a Kalman filter), where you update weights only when unexpected things happen. So, you learn that A & B are both associated with reward, then you are exposed to cases with just A and reward. Can this model be rationalized? It's not clear to me. (AKA, what priors would justify a Kalman filter, given that it depends on the order of presentation?)
 
@@ -132,7 +134,7 @@ Mitchell (2009) also notes that there is *less* blocking when you introduce cogn
 
 **context specificity.** De Houwer, Vandorpe and Beckers (2005) say (in "Why have associative models fared so well?")
 
-> The two types of models can be differentiated ... by manipulating variables that influence the likelihood that people will reason in a certain manner but that should have no impact on the operation of the associative model. We have seen that such variables (e.g., instructions, secondary tasks, ceiling effects, nature of the cues and outcomes) do indeed have a huge effect. Given these results, it is justified to entertain the belief that participants are using controlled processes such as reasoning and to look for new ways to model and understand these processes. 
+> The two types of models can be differentiated ... by manipulating variables that influence the likelihood that people will reason in a certain manner but that should have no impact on the operation of the associative model. We have seen that such variables (e.g., instructions, secondary tasks, ceiling effects, nature of the cues and outcomes) do indeed have a huge effect. Given these results, it is justified to entertain the belief that participants are using controlled processes such as reasoning and to look for new ways to model and understand these processes.
 
 
 # Conclusion
@@ -147,11 +149,11 @@ In other words, how often have we have over-estimated the rationality of human b
 
 
 
-# Misc Notes 
+# Misc Notes
 
 
 
-Good question. 
+Good question.
 
 <!--
 **Barto & Sutton chapter on the history of reinforcement learning.**
@@ -168,6 +170,3 @@ Good question.
 ---
 
 **the gambler’s fallacy goes in the opposite direction to reinforcement learning.** The gambler's fallacy: winning a gamble at time $t$ makes you *decrease* the expectation of winning at $t+1$, i.e. the *opposite* prediction of a simple reinforcement model. There's a heuristic rationalization similar to the rationalization of rats in a maze: caveman Ug is shaking trees to get coconuts out. If there’s no coconut at time t, then there's an increased probability of a coconut at t+1.
-
-
-
