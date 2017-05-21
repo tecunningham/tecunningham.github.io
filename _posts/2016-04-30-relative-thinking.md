@@ -5,7 +5,7 @@ header-includes:
     - \usepackage{xypic}
 ---
 
-![peaches](https://dl.dropboxusercontent.com/u/13046545/peaches-wall-painting-ercolano.jpg){: .center-image }
+![peaches](https://www.dropbox.com/s/35e22lkdea8mcwh/peaches-wall-painting-ercolano.jpg?dl=1){: .center-image }
 
 There are a lot of cute thought experiments where the apparent value of something depends on what it's compared to:
 
@@ -49,10 +49,10 @@ I'm going to try to make the following points:
 **A few other points that I'll leave for later:**
 
 1. There are some cute tricks for identifying different types of relative-thinking effects through intransitive choices.
-2. The quality of the evidence we have on almost all of these choice-set effects is very low. 
+2. The quality of the evidence we have on almost all of these choice-set effects is very low.
 3. Weber's law is not relevant to diminishing sensitivity in choice. ([Now written up!](./2016/02/25/weber-fechner-law/))
 
-![party](https://dl.dropboxusercontent.com/u/13046545/mosaique_5th.jpg){: .center-image }
+![party](https://www.dropbox.com/s/iuzozpx81eakwyl/mosaique_5th.jpg?dl=1){: .center-image }
 
 
 ## DIGRESSION: PERCEPTION
@@ -60,13 +60,13 @@ I'm going to try to make the following points:
 Comparison effects have been studied in perception for a long time, and the same points I make here also apply there. At first people proposed that perceptual comparison effects were hardwired things, mechanical effects, but on further study it turned out that they were context-dependent, in a way that makes them look like sensible inferences.
 
 Here's a classic contrast effect:
-![](https://dl.dropboxusercontent.com/u/13046545/imgs/illusion_contrast.gif){: .center-image }
+![](https://www.dropbox.com/s/xq7j30n5j822lji/illusion_contrast.gif?dl=1){: .center-image }
 the same shade of grey looks darker when surrounded by white, than when surrounded by black.
 
 For a long time psychology textbooks gave this as an example of a *hardwired* contrast effect -- i.e. this is caused by the basic wiring of neurons in our eyes. (Some still do).
 
 But take a look at this (White's illusion):
-![](https://dl.dropboxusercontent.com/u/13046545/imgs/illusion_white.png){: .center-image }
+![](https://www.dropbox.com/s/pgc6oj9hxgrz1uv/illusion_white.png?dl=1){: .center-image }
 
 here the same shade of grey looks *lighter* on the left than on the right, despite the surroundings being relatively *lighter* on the left than on the right. This is exactly the opposite of what's predicted by a hardwired contrast effect in perception.
 
@@ -81,13 +81,13 @@ But that's not the last word. The set of contexts where it goes one way or the o
 
 I would write out lists of comparison-effect examples over and over while working on my PhD. My train of thought would get detached and I'd end up asking myself questions like: What are you doing sitting in this office, a continent away from your friends and an ocean and a continent away from your family? Why do you spend your weekends in this sad building, where people stare at the carpet when they pass each other? What rock did you hit in adolescence that knocked you out of orbit, and sent you here? Are you trying to make your mother proud? Avenge your father? Do these professors you work with look like the kind of man you want to be? Did you stumble into one of those academic fields that people snigger about? Why, when you talk about your work, do the people you admire glaze over, and the people who bore you perk up? Do you think that giving your life to intellectual things makes you better than other people? Do you look down on people who don't think so clearly? What are you doing on a Friday night at the NBER eating a tuna subway sandwich and reading reddit? If it takes you 5 years to get straight one point about relative thinking -- one corner of one shelf in one cupboard -- then how long is it going to take to tidy up the whole house? When an undergraduate corners you, asking earnest & tedious questions, doesn't it remind you of yourself?
 
-![desk](https://dl.dropboxusercontent.com/u/13046545/imgs/nber_desk.jpg){: .center-image }
+![desk](https://www.dropbox.com/s/ne3zsq37srpobul/nber_desk.jpg?dl=1){: .center-image }
 
 ## ALTERNATIVE HEURISTICS
 
 OK. Well, here's the body of the argument: I'm going to discuss a few perfectly reasonable reasons why we might infer the value of different attributes from the choice set, and each reason will imply one of the above laws *in a subset of cases*. However I also show that the same reason can imply the exact opposite of that law, for cases outside that subset.
 
-### (1) **MRS shifting towards MRT.** 
+### (1) **MRS shifting towards MRT.**
 
 A choice set which varies in different attributes has an implicit rate of tradeoff between the attributes -- i.e. the marginal rate of transformation (MRT) -- and it is easy to think of cases where our preferences would naturally adapt to the implicit tradeoff, i.e., where our relative value, AKA our marginal rate of substitution (MRS), would rotate towards the tradeoff that is implicit in the choice set (i.e. the MRT).
 
@@ -166,7 +166,7 @@ The standard assumption about choice from a choice set, c(A), is this:
 $$c(A) = \max{x\inA}u(x)$$
 We can think of many cases where this is violated, where comparisons queer our indifference curves. So a lot of people have proposed menu-dependent utility functions:
 $$c(A)=\max{x\inA}u(x,A)$$
-with some assumption on how $\frac{\partial u}{\partial x_i}$ depends on the distribution of values in $A$. 
+with some assumption on how $\frac{\partial u}{\partial x_i}$ depends on the distribution of values in $A$.
 -->
 
 
@@ -186,7 +186,7 @@ with some assumption on how $\frac{\partial u}{\partial x_i}$ depends on the dis
   \end{cases}
   $$
 
-![skeleton](https://dl.dropboxusercontent.com/u/13046545/scheletro_con_askoi.jpg){: .center-image }
+![skeleton](https://www.dropbox.com/s/0xvbvy3m836zex8/scheletro_con_askoi.jpg?dl=1){: .center-image }
 
 ## REFERENCES
 
@@ -198,10 +198,10 @@ MC: Mellers & Cooke ()
 
 C: Cunningham (2013)
 
-BGS: Bordalo Gennaioli Shleifer (2012) 
+BGS: Bordalo Gennaioli Shleifer (2012)
 
 Simonson (2008) "Will I like a Medium Pillow?"
- 
+
 > “much of the evidence for preference construction reflects people’s difficulty in evaluating absolute attribute values and tradeoffs and their tendency to gravitate to available relative evaluations ... These illustrations suggest that many forms of preference construction reflect a key underlying principle: decision makers tend to avoid absolute value judgments and gravitate to accessible relative evaluations ... it is noteworthy that the evidence that has been accumulated to make the case for preference construction might be largely driven by a rather simple common principle. This rather simple, yet important absolute-to-relative principle lends itself to seemingly unrelated demonstrations, which have been treated as distinct phenomena and received unique labels.”
 
 David Stove (1991) ["What is Wrong With our Thoughts?"](http://web.maths.unsw.edu.au/~jim/wrongthoughts.html)
@@ -211,7 +211,7 @@ David Stove (1991) ["What is Wrong With our Thoughts?"](http://web.maths.unsw.ed
 
 Adelson's "steps" illusion:
 
-![](https://dl.dropboxusercontent.com/u/13046545/AdelsonSteps.png){: .center-image }
+![](https://www.dropbox.com/s/yhpp2qyd1x4yzke/AdelsonSteps.png?dl=1){: .center-image }
 
 In the first picture the two squares with arrows on them look similar, but in the second picture they seem to have different shades. They are (as you guessed) all the same shade, and in fact the shades are all identical between the first and second image, just arranged a little differently.
 

@@ -3,7 +3,7 @@ layout: post
 title: Economist Explorers
 ---
 
-![clown](https://dl.dropboxusercontent.com/u/13046545/explorers.jpg)
+![explorers](https://www.dropbox.com/s/nuzwl1edqelaeim/explorers.jpg?dl=1)
 
 Imagine a group of adventurers set out to explore a new continent, each one choosing a different valley to map. And suppose that, instead of sending back reports of what they found ("a forest, a swamp, mosquitoes"), each one wrote reports calculated to appear as exciting as possible ("a forest, abundant water, rich fauna, couldn't disconfirm rumors of a city of gold").
 
@@ -15,6 +15,6 @@ This is how I feel when I'm refereeing economics papers: everyone's trying to te
 
 --
 
-Followup: what have we discovered about decision-making in the last 50 years? 
+Followup: what have we discovered about decision-making in the last 50 years?
 
 Once, when I taught a graduate class in behavioural economics, a couple of students came from civil engineering & dentistry, hoping to learn something useful that they could use in modelling decision-making - e.g. in modelling how people make decisions about commuting. I was embarrassed in how little I could help them. I was able to think of a lot of useful stuff about decision making that's ~50 years or older: utility & expected utility, exponential (& hyperbolic) discounting, Engel curves, responses to permanent & temporary income, tractable demand estimation, the offsetting income & substitution effects of wages. All of this is immediately useful in quantifying decision-making. But I can think of few recent examples of quantitatively useful findings. Special mention to kahneman & tversky. If you ask, say, about attitudes to uncertainty, to time, to temptation, to intertemporal complementarities, I would begin my answer with "there are various schools of thought...".

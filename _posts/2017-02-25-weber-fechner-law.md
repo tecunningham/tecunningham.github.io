@@ -3,7 +3,7 @@ layout: post
 title: Weber's Law Doesn't Imply Concave Representations or Concave Judgments
 ---
 
-![runningman](https://dl.dropboxusercontent.com/u/13046545/runningman.jpg)
+![runningman](https://www.dropbox.com/s/24cumup0i7uiksn/runningman.jpg?dl=1)
 
 **Nutshell.**
 
@@ -118,7 +118,7 @@ E[E[v|s]|v] & = & \int(v\cdot e)^{\alpha}f(e)de\\
 \end{eqnarray*}
 $$
 
-## Additive Noise => Posteriors are Linear in $v$ 
+## Additive Noise => Posteriors are Linear in $v$
 
 Suppose again that the decision-maker receives a logarithmic signal with additive noise: $s=\ln v+u$,  and let $u$ be Gaussian. (I changed notation from $e$ to $u$ because I use a lot of exponential functions in the derivation.) Now assume that, in addition, $v$ is drawn from an improper uniform $(0,\infty)$. Consider the expected value of $v$ given the signal $s$ (I drop the constant term from the Gaussian distribution for conciseness):
 
@@ -158,4 +158,3 @@ E[E[v|s]|v] & = & \int_{-\infty}^{\infty}E[v|s=\ln v+u]\text{e}^{-u^{2}}du\\
 $$
 
 I.e., despite the logarithmic internal representation, the average posterior is linear in the value.
-
