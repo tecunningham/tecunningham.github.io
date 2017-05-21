@@ -2,6 +2,7 @@
 title: Against Inattention as an Explanation of Textbook Anomalies
 layout: post
 geometry: margin=1in
+output: pdf_document
 ---
 
 # Summary
@@ -59,18 +60,18 @@ Which of the following would you choose?
 
 If you have noisy perception of outcomes, then you should, at least occasionally, choose (B''). But in fact people very rarely make dominated choices. More precisely, choice anomalies are observed for very simple alternatives, but people only make dominated choices when the outcomes become moderately complex (e.g., gambles with 3 outcomes).[^dominance]
 
-You could avoid this by saying that people have a two-stage process: they first detect and remove dominated choices, and only then go to the trouble of doing the algebra (this means positing a separate process which has much less noise in its perception). But you still have a problem with near-dominated choices. Which of the following would you choose?
+You could avoid this implication by saying that people have a two-stage process: they first detect and remove dominated choices, and only then go to the trouble of doing the algebra. This means positing a separate cognitive process which has much less noise in its perception, and so losing some elegance of the theory. But even then you still have a problem with near-dominated choices. Which of the following would you choose?
 
 * (A''') a 50% chance of $11
-* (B''') a 50.01% chance of $10
+* (B''') a 50.1% chance of $10
 
 Neither alternative dominates the other, so the dominance rule won't apply. An inattention-based theory says that a significant fraction of people will choose (B'''). But I suspect that almost no-one would choose it.
 
 # (3) The anomalies are too consistent.
 
-If inattention is the reason that a significant fraction of people choose (B) over (A), you'd expect that a large fraction of people would make the rational choice -- i.e. would choose (A) over (B). However in this case I think that the majority of people would make the anomalous choice.
+If inattention is the reason that a significant fraction of people choose (B) over (A), you'd expect that a large fraction of people would make the rational choice -- i.e. would choose (A) over (B) -- because the noise can go in either direction. However in this case I think that the majority of people would make the anomalous choice.
 
-This is not a direct contradiction of an inattention theory. You can be rationally inattentive and have a *consistent* bias (e.g. E[x|s]>x for all realizations of s with f(s|x)>0), but if you have a consistent bias for one value of x, then you must have a stochastic bias for other values of x, and I believe that would be hard to rationalize.
+This is not a direct contradiction of an inattention theory. You can be rationally inattentive and have a *consistent* bias (e.g. for some $x$, $E[x|s]>x$ for all realizations of $s$ with $f(s|x)>0$), but if you have a consistent bias for one value of $x$, then you must have a stochastic bias for other values of $x$, and I'm suspicious about whether those other biases will be found in the data.
 
 # Conclusion.
 
@@ -82,5 +83,5 @@ If it's not inattention that explains anomalies then what is it? Here's my expla
 
 
 [^dominance]: Carbone (1995) say “[w]hat is startling ... are the results of the satisfaction or violation of dominance ... [with a] mean violation rate of just 0.3 percent. In contrast the average inconsistency rate of the repeated pairs was 12 percent.” Similar findings are described in Loomes (1998) and Hey (2001).
-    
+
     People do sometimes directly choose a stochastically dominated gamble, but most example in the literature involve choices among gambles with at least four different outcomes (Tversky et al. (1986)). Caplin et al. (2013) find mistakes when subjects have to count a large number of dots. In experiments documenting “bracketing”, subjects make dominated choices only when they have to combine pairs of gambles (Tversky 1981, Rabin 2009).

@@ -1,10 +1,11 @@
 ---
 title: On Unconscious Influences
 layout: post
+output: pdf_document
 header-includes:
     - \usepackage[color,matrix,arrow,curve]{xy}
     - \usepackage{color}
-    - \usepackage{graphicx} 
+    - \usepackage{graphicx}
     - \usepackage{amsmath}
     - \newcommand{\rsucc}[1]{\rotatebox[origin=c]{#1}{$\succ$}}
     - \newcommand{\rsucceq}[1]{\rotatebox[origin=c]{#1}{$\succeq$}}
@@ -15,9 +16,9 @@ header-includes:
 things that remain to do:
 
 - [ ] improve discussion of Freud, & examples of his diagnoses
-- [ ] replace guide-god example which gets the right predictions⧸⧸explain how guide-dog examples leads to inconsistent choices
-- [ ] discussion of why guide-dog model implies getting hypotheticals ⧸⧸wrong.⧸⧸wrong
-- [ ] add results of experiment demonstrating unconscious knowledge⧸⧸
+- [ ] replace guide-god example which gets the right predictions / explain how guide-dog examples leads to inconsistent choices
+- [ ] discussion of why guide-dog model implies getting hypotheticals  / wrong.
+- [ ] add results of experiment demonstrating unconscious knowledge
 
 # Introduction
 
@@ -127,10 +128,10 @@ A separate place where this separation has come up is in the work of Zenon Pylys
 
 This isn't quite the same as the case of the blind man and the guide dog. In the example above the pre-conscious process has a *subset* of the information available to the conscious brain. I.e., the man doesn't need to be blind in this metaphor -- it's just a case where the dog leads in a different direction than the man would. Fodor and Pylyshyn were mostly interested in cases where the pre-conscious processing works with a strict *subset* of the information available to the conscious brain -- although Fodor (1983) does have a brief discussion on whether early perceptual processes have access to information not available to the conscious brain, which would imply unconscious influences, in my sense.
 
-Finally the isolation argument has appeared in the literature on human "associative learning," and whether or not the associations that we learn through conditioning are unconscious. A typical experiment involves ringing a bell and giving an electric shock. After a while people learn to flinch when they hear the bell. For a long time psychologists tried to map out the logic of how such associations would form, trying to figure out the rule which governed learning of associations. However in the last few decades an argument has been made that these learned associations are not in fact mechanical - there is no simple rule - instead they are more-or-less optimal responses to the environment based on the entirety of the information available, i.e. they are not *isolated* from other knowledge (though the argument isn't usually put in terms of conscious vs unconscious knowledge). For example Colgan (1970) told subjects, after they learned an association, that the association is no longer valid ("from now on the bell will not signal an electric shock") and he found that, although this didn't entirely extinguish the flinching, it did cause it to markedly decrease. So the flinching is not isolated from your conscious knowledge: the association, at least to some degree, interacts with more abstract knowledge. There are many other circumstances where rule-based theories of association-learning have foundered because it turns out that peoples' responses respond to outside considerations. De Houwer, Vandorpe and Beckers (2005) say 
-> The two types of models can be differentiated ... by manipulating variables that influence the likelihood that people will reason in a certain manner but that should have no impact on the operation of the associative model. We have seen that such variables (e.g., instructions, secondary tasks, ceiling effects, nature of the cues and outcomes) do indeed have a huge effect. Given these results, it is justified to entertain the belief that participants are using controlled processes such as reasoning and to look for new ways to model and understand these processes. 
+Finally the isolation argument has appeared in the literature on human "associative learning," and whether or not the associations that we learn through conditioning are unconscious. A typical experiment involves ringing a bell and giving an electric shock. After a while people learn to flinch when they hear the bell. For a long time psychologists tried to map out the logic of how such associations would form, trying to figure out the rule which governed learning of associations. However in the last few decades an argument has been made that these learned associations are not in fact mechanical - there is no simple rule - instead they are more-or-less optimal responses to the environment based on the entirety of the information available, i.e. they are not *isolated* from other knowledge (though the argument isn't usually put in terms of conscious vs unconscious knowledge). For example Colgan (1970) told subjects, after they learned an association, that the association is no longer valid ("from now on the bell will not signal an electric shock") and he found that, although this didn't entirely extinguish the flinching, it did cause it to markedly decrease. So the flinching is not isolated from your conscious knowledge: the association, at least to some degree, interacts with more abstract knowledge. There are many other circumstances where rule-based theories of association-learning have foundered because it turns out that peoples' responses respond to outside considerations. De Houwer, Vandorpe and Beckers (2005) say
+> The two types of models can be differentiated ... by manipulating variables that influence the likelihood that people will reason in a certain manner but that should have no impact on the operation of the associative model. We have seen that such variables (e.g., instructions, secondary tasks, ceiling effects, nature of the cues and outcomes) do indeed have a huge effect. Given these results, it is justified to entertain the belief that participants are using controlled processes such as reasoning and to look for new ways to model and understand these processes.
 
-Mitchell says: 
+Mitchell says:
 
 > “The results consistently show evidence for skin conductance [effects] only in participants who are aware of the [relationship] ... [a]lthough there are many papers arguing for unaware conditioning, close inspection reveals, in almost all cases, that the measure of conditioning was most likely more sensitive than that of awareness.”
 
@@ -138,7 +139,7 @@ In retrospect a lot of behavior that was studied in the lab, which was thought t
 
 If this line of thought were entirely correct -- if all information was integrated and fed into every decision -- then there would be no unconscious influences in my sense. However I do think that there's plenty of evidence that remains for a lack of integratation between cognitive processes.
 
-<!-- in a sense this is similar to the previous section: it's about your ability to describe influences. --> 
+<!-- in a sense this is similar to the previous section: it's about your ability to describe influences. -->
 
 # Summary so far
 
@@ -190,7 +191,7 @@ But there are also a lot of deeper ones, which I find pretty difficult to answer
 
 Jon and my paper builds on this basic idea -- that when factors are *bundled*, then the unconscious influence will tend to increase.
 
-Here we need to make a fine distinction: suppose an unconscious factor $x$ has a weight $w$ in your judgment.  
+Here we need to make a fine distinction: suppose an unconscious factor $x$ has a weight $w$ in your judgment.
 
 Here are a collection of inconsistent choices that a person could make, each of them revealing an unconscious preference for White over Black:
 
@@ -240,10 +241,10 @@ Think of your responses to different outcomes as a landscape of hills (positive 
 
 * **The little things that a family does to unconsciously spite each other: someone says that Thursday doesn't suit them, in part because they know that Thursday suits you best.**
 
-Here the factor influencing you unconsciously is whether your family-member is free on Thursday. 
+Here the factor influencing you unconsciously is whether your family-member is free on Thursday.
 
-* Judging hypotheticals: 
-* Judging jointly: 
+* Judging hypotheticals:
+* Judging jointly:
 
 
 * **All the Freudian literature on repressed desires and childhood traumas manifesting themselves in adult decision-making. Maslow: “A desire for an ice cream cone might actually be an indirect expression of a desire for love."**
@@ -281,7 +282,7 @@ The existence of the unconscious is one of the few modern philosophical ideas, i
 
 In 1817 in *Mansfield Park* Jane Austen wrote about Thomas Bertram perceiving that a rich suitor was showing interest in his niece, and that he could not “refrain (though unconsciously) from giving a more willing assent to invitations on that account’.” Austen had used the word "unsconscious" before that, but only to mean that people were doing something unintentionally, not that they were unaware that some factor was influencing their judgment. In the same year, 1817, Coleridge first used the term "the unconscious" in English (imitating Schiller's use in German).
 
-It's an interesting question why people didn't talk about unconscious influences prior to the 18th century, given that it's been such a popular thing to talk about ever since. They weren't stupid -- Plato, Augustine, & Shakespeare weren't naive about human nature -- if unconscious influences are a big deal, why didn't they talk about them? If it was there all along, why did it take us so long to discover it? 
+It's an interesting question why people didn't talk about unconscious influences prior to the 18th century, given that it's been such a popular thing to talk about ever since. They weren't stupid -- Plato, Augustine, & Shakespeare weren't naive about human nature -- if unconscious influences are a big deal, why didn't they talk about them? If it was there all along, why did it take us so long to discover it?
 
 Perhaps this answer is too cute, but you could say that the unconscious is only a problem for people who expect to be able to give a reason for everything they do. Let's say that human motivation is an emulsion -- drops of logic suspended in a liquid instinct. We often make little logical jumps, like preferring two dollars to one dollar. But more often we have to consult our instincts: when we have to choose between a kiss and a dollar, logic doesn't help, and we don't have a schedule of preferences we can consciously consult to decide whether it's a good deal. Only in the 18th century did European intellectuals begin to expect that we should find an entire logical skeleton underneath our decisions and give an explicit reason for every choice, and perhaps our failure in being able to explain ourselves led to the practice of talking about the unconscious as a separate mental process.
 
@@ -320,5 +321,4 @@ When Quine wrote this, linguists were talking a lot about how people had unconsc
 
 > p191: "For all the shortcomings in the concepts proposed by Freud and Breuer in *Studies*, the twenty-first century has brought no great advances to a better understanding of the mechanism for this disorder. The terms dissociation and conversion are still widely in use ... the general principles of modern dissociation are not very different to those of Victorian times ... in day-to-day practice Janet's and Freud's theories are regularly used, or misused."
 
-**Singal (2016) in New York Magazine** - article on Implicit Association ⧸⧸Test.⧸⧸Test.
-⧸⧸<!--se_discussion_list:{"ocXfjxP63PHGq4skQ964ob7A":{"selectionStart":500,"type":"conflict","selectionEnd":607,"discussionIndex":"ocXfjxP63PHGq4skQ964ob7A"},"Cd0eElNtKVhJU1s8FZgWnv5I":{"selectionStart":678,"type":"conflict","selectionEnd":763,"discussionIndex":"Cd0eElNtKVhJU1s8FZgWnv5I"},"O7PKMh95cx1e5ycVmR4qUu0E":{"selectionStart":16829,"type":"conflict","selectionEnd":16860,"discussionIndex":"O7PKMh95cx1e5ycVmR4qUu0E"},"umlE9CgwlKTVigMqwf63OR8g":{"selectionStart":43436,"type":"conflict","selectionEnd":43453,"discussionIndex":"umlE9CgwlKTVigMqwf63OR8g"}}-->
+**Singal (2016) in New York Magazine** - article on Implicit Association Test.

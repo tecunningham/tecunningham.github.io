@@ -2,9 +2,25 @@
 layout: post
 title: Biases in Judgment and Two Systems
 geometry: margin=1in
+output: pdf_document
 ---
 
-![man and dog](https://dl.dropboxusercontent.com/u/13046545/man-and-dog.png){: .center-image }
+![man and dog](https://www.dropbox.com/s/hab4dc2j9lvqqvm/man-and-dog.png?dl=1){: .center-image }
+
+# Nutshell
+
+1. Judgment has two stages (1) an automatic, unconscious stage, and (2) conscious judgment.
+1. Our instincts are informative --- they incorporate information that we do not have direct conscious access to.
+2. However our instincts are also *greedy* - meaning that they are sensitive to all information, even information that we know consciously to be irrelevant.
+
+This has a few implications for how you should improve judgment:
+
+1. **Organize information in a way that helps your instincts to recognize patterns** -- for example (a) use graphs to show data; (b) use frequencies instead of probabilities to express information.
+1. **Remove information that you know to be irrelevant**  -- you cannot just choose to ignore that information, because your instincts will be affected by whatever they see.
+3. **Ask yourself variations on the same question** -- it will help to extract more information from your instincts.
+
+
+# Introduction
 
 I'm going to talk about factual judgments like
 
@@ -12,38 +28,48 @@ I'm going to talk about factual judgments like
 * judging which route will get you home quicker,
 * judging which of two stocks is the better investment.
 
-Sometimes human judgments are pretty good, sometimes pretty bad. I'm going to try to explain when they are one or the other, and, hopefully, how to turn some bad judgments good.
+Sometimes human judgments are pretty good, sometimes pretty bad. I'm going to try to explain when they are one or the other, and, ideally, how to turn some bad judgments good.
 
-**Where judgment is bad.** Psychologists have collected hundreds of examples of optical illusions. There are also auditory, tactile, and olfactory illusions. And then there are illusions of cognition, where our instinctive judgments about a fact or logical implication are wrong. In addition, looking at the history of human judgment,  big chunks seem to be pathological, seeing patterns where none exist: astrology, homeopathy, parts of biblical scholarship, psychoanalysis, or stock picking.
+**Where judgment is bad.** Psychologists have collected hundreds of examples of optical illusions, as well as auditory, tactile, and olfactory illusions. There are also illusions of cognition, where people make simple mistakes about facts or logical implications. These are all inside the lab. Stepping outside, looking at history, big chunks of human judgment appear pathological -- astrology, homeopathy, parts of theology, psychoanalysis, or stock picking -- there are many cases where sensible people have been convinced that they see meaningful patterns, where we know that none exist.
 
-**Where judgment is good.** Crossing to the sunny side of the street, most of our judgments about our surroundings are super-accurate, in the sense that we can still beat computers in doing things like recognizing faces or reading handwriting. Certain chess players, doctors, and weather forecasters are able to make very subtle and accurate judgments. Our brains aren't so addled that we can't build 100-story skyscrapers, or 30,000-foot aeroplanes.
+**Where judgment is good.** Crossing to the sunny side of the street, most of our everyday judgments are remarkably accurate, in the sense that we can still beat computers in doing things like recognizing faces or reading handwriting. Experts are able to make very subtle and accurate judgments (e.g. chess players, doctors, weather forecasters). Our brains aren't so scrambled that we can't build 100-story skyscrapers, or aeroplanes to fly at 30,000 feet.
 
-**Baseline standard of judgment.** The basic problem of judgment is *extrapolating* from old cases to new cases. You've observed y(1) and y(5), and now you have to guess y(2). 
+**Judgment as extrapolation.** I'm going to treat the basic problem of judgment as *extrapolation*. You have observed a lot of prior cases, and now you have to guess how a new one will turn out -- guessing how far away a tree is from how it sounds, guessing how old someone is from their face.
+
+The simplest type of bias is when your judgment is influenced by a factor that you know is irrelevant, e.g.:
+
+- Your judgment of the colour of an object is influenced by the colour of surrounding objects.
+- Your judgment of the value of a bottle of wine is influenced by the price tag (even when you know the price tag is randomly generated),
+- Your judgment of an exam script is influenced by the race or gender of the exam-taker.
 
 
-> OLD: I'll start with a baseline description of what judgment should look like if everything was working properly: judgment is simply extrapolation from experience. When you want to estimate some unknown quantity (e.g. a distance, a probability) from observed details, then your extrapolation should be based on your experience -- wrinkles make you think someone is old, haziness makes you think that something is far away -- because these are associations you have learned from experience. If you stick to this principle then you will only be wrong in unusual cases, where the relationship between unobserved quantity and observed details is different from the relationship in your experience. It's bad luck, not bad judgment, if you underestimate the age of an old man because he doesn't have any wrinkles. For the typical biases in perception and judgment it would take a great stretch to rationalize them as being reasonable in the situation.
+<!-- OLD: I'll start with a baseline description of what judgment should look like if everything was working properly: judgment is simply extrapolation from experience. When you want to estimate some unknown quantity (e.g. a distance, a probability) from observed details, then your extrapolation should be based on your experience -- wrinkles make you think someone is old, haziness makes you think that something is far away -- because these are associations you have learned from experience. If you stick to this principle then you will only be wrong in unusual cases, where the relationship between unobserved quantity and observed details is different from the relationship in your experience. It's bad luck, not bad judgment, if you underestimate the age of an old man because he doesn't have any wrinkles. For the typical biases in perception and judgment it would take a great stretch to rationalize them as being reasonable in the situation. -->
 
-**Two systems AKA Sniffer Dog theory.** On to a theory which *is* able explain some of the biases above. Let's say that our brain is divided into two parts, "System 1" and "System 2". And let's assume that each of the systems make good judgments, in the sense that they make estimates consistent with their experience. And assume that judgments are made sequentially: first System 1 makes it's best guess, then System 2 makes a final decision, taking into account what System 1's guess was.
+# Two systems AKA Sniffer Dog theory.
 
-Think of having a sniffer dog on a leash. You both want the same thing, but each of you has slightly different information. The dog pulls towards where she wants to go, based on what she smells and what she knows. You can choose to follow her, but you may also want to pull her in another direction, because of other things you're aware of that she doesn't know. (Other metaphors to make the same point: a scout sending dispatches to a general; an analyst sending reports to an executive; a deaf person leading a blind person).
+Let's say that our brain is divided into two parts, "System 1" and "System 2". And let's assume that each of the systems make good judgments, in the sense that they make extrapolations consistent with their experience. And assume that judgments are made sequentially: first System 1 makes it's best guess, then System 2 makes a final decision, taking into account what System 1's guess was.
 
-How would this 2-part system cause biases in judgment? Biases will occur when two things happen:
-1. Your unconscious brain knows things your conscious brain doesn't.
-2. Your conscious brain knows things your unconscious brain doesn't.
+Think of having a sniffer dog on a leash. You both want the same thing, but each of you has slightly different information. The dog pulls towards where she wants to go, based on what she smells and what she knows. You can choose to follow her, but you may also want to pull her in another direction, because of other things you're aware of that she doesn't know. (Some other metaphors to make the same point, about information being aggregated in two stages: a scout sending dispatches to a general; an analyst sending reports to an executive; a deaf person leading a blind person).
 
-![bloodhound](https://dl.dropboxusercontent.com/u/13046545/imgs/Bloodhound_portrait.jpg){: .center-image }
+How would this 2-part system cause biases in judgment? Biases will occur when both of these things are true:
+
+1. Your unconscious brain knows something relevant that your conscious brain doesn't.
+2. Your conscious brain knows something relevant that your unconscious brain doesn't.
+
+![bloodhound](https://www.dropbox.com/s/d99xy5nnbzc54tt/Bloodhound_portrait.jpg?dl=1){: .center-image }
 
 **Three basic facts.**  This basic theory explains three important facts about judgment:
 
 1. Judgments are often influenced by cues that we know to be irrelevant.
 2. When our judgments are influenced by irrelevant cues, those cues turn out to be *ordinarily* relevant in similar cases.
-3. We often make accurate judgments without knowing *how* we made them. 
+3. We often make accurate judgments without knowing *how* we made them.
 
-Translated into the language of the metaphor:
+<!-- Translated into the language of the metaphor:
 
 1. The sniffer dog gets distracted by things we know aren't relevant.
-2. The sniffer dog sometimes sniffs out sausages instead of sniffing out the fugitive. 
+2. The sniffer dog sometimes sniffs out sausages instead of sniffing out the fugitive.
 3. We follow the sniffer dog, because we know that she knows things that we don't know.
+-->
 
 **Where we should expect intuition to be unreliable.**
 
@@ -57,13 +83,14 @@ Worse, the reorganization of information can cause us to make systematic mistake
 
 The general point is that information is aggregated in a hierarchy -- each level draws inferences and passes them up to the next level -- and some information is necessarily lost in that process. What's more, conscious reasoning is relatively recent: human fore-brains emerged over the last 200,000 years, while mammals have been around for 400 million years.
 
+
 # Applications
 
 Returning to the initial examples, we can apply the sniffer-dog theory.
 
-**(1) Judging the distance of an object.** It's easy to get a feeling for how far away something is, but the process is actually very complicated. Our judgments are affected by dozens of different details: the colour, shape, blur of an image, the parallax between the eyes, and the contraction in the lens of the eye needed to bring the image into focus. Most of this inference is done pre-consciously in the brain.
+**(1) Judging the distance of an object.** It's easy to get a feeling for how far away something is, but the process is actually very complicated. Our judgments are affected by dozens of different details: the colour, shape, the blur of the image on the eye, the parallax between the eyes, and the contraction in the lens of the eye needed to bring the image into focus. Most of this inference is entirely unconscious -- we just get a sense of how far off an object is, without knowing what contributed to that sense.
 
-Explains:
+This explains a few observations:
 
 1. We have certain predictable biases in our estimates of distance. The blurriness of an object is ordinarily a good cue for its distance, but on foggy days everything is blurry, and so on foggy days people systematically overestimate distances. For the same basic reason people tend to overestimate the distance of blue objects, and overestimate the weight of cold objects.
 2. Failure to introspect laws;
@@ -75,22 +102,27 @@ A famous example is the following: suppose I tell you that Linda is intellectual
 
 Explains:
 
-1. Chaotically bad at judging probabilities. / Can get better with practice -- e.g. weather forecasters, superforecasters / 
+1. Chaotically bad at judging probabilities. / Can get better with practice -- e.g. weather forecasters, superforecasters /
 
+**(3) judging which of two stocks is the better investment.**
 
-# Tips for Managing your Sniffer Dog
+# Implications for Judgment
 
-The theory has some practical implications for decision-making: 
+**Present the data in a way that your instincts will recognize it.**
 
-**Remove irrelevant information.**
-
-**Reframe the question.**
-
-**Put information in graphical format.**
+(frequencies v probabilities)
 
 [example: table of numbers and timeline]
 
 You can spot patterns much more quickly if data is shown on a graph, instead of in a table. You can immediately see averages, relative values, trends, and cycles. Intuitively this is because you have enormous processing power in your visual cortex, and so by piping information through that part of the brain you are able to see many more patterns. (Put it this way: how long would it take you to write an algorithm to spot all the patterns you see in a graph?).
+
+**Ask yourself another question.**
+
+The theory has some practical implications for decision-making: (reframe the question); (ask yourself another question).
+
+**Remove irrelevant information.**
+
+**Work through iteration.** E.g. plot a graph, see how it looks, then modify it. Painter who paints, looks, then paints some more.
 
 **Othering the data**
 
@@ -110,7 +142,7 @@ Novalis said that poetry should make the familiar strange, and the strange famil
 * I can recognize patterns in data, but I cannot write an algorithm to detect the same patterns. (Note: Artificial Intelligence has been largely replaced by Machine Learning because we can’t explain to computers what we do automatically.)
 
 
-## More Examples of Judgment Biases
+## Examples of Judgment Biases
 
 * **Perceptual biases.** (1) objects look darker when next to lighter objects; (2) large objects feel lighter; (3) blue objects look more distant; (4) cold objects feel heavier.
 
@@ -122,8 +154,8 @@ Novalis said that poetry should make the familiar strange, and the strange famil
 
 * **Questions with intuitive but wrong answers** -- Frederick (2005) --  'Cognitive Reflection Test'.
 
-    * “A bat and a ball cost $1.10. The bat costs $1.00 more than the ball. How much does the ball cost? _ cents” 
-    * “If it takes 5 machines 5 minutes to make 5 widgets, how long would it take 100 machines to make 100 widgets? __ minutes” 
+    * “A bat and a ball cost \$1.10. The bat costs \$1.00 more than the ball. How much does the ball cost? _ cents”
+    * “If it takes 5 machines 5 minutes to make 5 widgets, how long would it take 100 machines to make 100 widgets? __ minutes”
     * “In a lake, there is a patch of lily pads. Every day, the patch doubles in size. If it takes 48 days for the patch to cover the entire lake, how long would it take for the patch to cover half of the lake? __ days ”
 
 * **Frequencies easier to understand than probabilities.** -- example from Gigerenzer (1996) shows that some problems are much easier when framed as *frequencies* than when framed as *probabilities*
@@ -136,49 +168,52 @@ Novalis said that poetry should make the familiar strange, and the strange famil
     - Interestingly this has a kind of rationale. Suppose I ask you "what's the probability that Bryan Cadogan will resign from his mayoralty of the Clutha district in the next 3 months?" You don't know anything about Clutha district politics. To answer the questions you'll fall back on thinking about what kind of question I would be asking - why would I ask the question if I didn't think it was a real possibility? And whether I ask "in the next 3 months" or "in the next 6 months" makes a difference.
 
 * **Judgment of Correlation**
-![correlation plots](https://dl.dropboxusercontent.com/u/13046545/imgs/correlation_Cleveland1982.png)
+![correlation plots](https://www.dropbox.com/s/d0fynogo6il0wkx/correlation_Cleveland1982.png?dl=1)
 
-+ Cleveland (1982) finds that people judge the correlation to be higher in the left-hand side graph than in the right-hand side graph.
+    + Cleveland (1982) finds that people judge the correlation to be higher in the left-hand side graph than in the right-hand side graph.
 
-+ Anderson (1995) "Implicit Personality Theories and Empirical Data" finds that people overestimate the correlation between two variables on a scatter plot when they have a prior belief that they are correlated in the world (in his case they are personality characteristics, e.g. 'friendly' and 'polite').
+    + Anderson (1995) "Implicit Personality Theories and Empirical Data" finds that people overestimate the correlation between two variables on a scatter plot when they have a prior belief that they are correlated in the world (in his case they are personality characteristics, e.g. 'friendly' and 'polite').
 
-+ Game to guess correlation: http://guessthecorrelation.com/
+    + Game to guess correlation: http://guessthecorrelation.com/
 
 
 ## Other Evidence on Two Systems
 
-# Judging Familiar Things
+## Judging Familiar Things
 
-People are bad at judging things that they are familiar with. Some examples:
+here's an interesting observation: in some cases I think I'm objectively *worse* at judging things that I'm more familiar with:
 
+* I find it very difficult to judge whether my friends and family look old or young, pretty or ugly (but easy to judge a stranger)
 * I'll look at a drawing I did yesterday & realize "oh, the left arm is out of proportion"
-* I'll read an article I wrote yesterday & realize "oh, the first sentence doesn't make any sense"
-* I find it really difficult to judge whether my friends and family look old or young, pretty or ugly.
+* I'll read a note I wrote yesterday & realize "oh, the first sentence doesn't make any sense" -- i.e., I make a better judgment when I'm less familiar with it.
+
 
 It seems paradoxical that we should be worse at judging things that we know better.
 
-However this is consistent with sniffer-dog theory, where our judgments are instinctive, and we have little insight.
+However this is consistent with sniffer-dog theory (AKA 2 systems), where our judgments are instinctive, and we have little insight.
 
-In the cases above I wouldn't say that my judgment of the world gets worse -- but my judgment of *appearances* gets worse. Suppose my pre-conscious system sends to the conscious brain the results of its inferences. As it gets more information about an object, it will send me inferences based on more information, but at the same time I will lose the initial impression, i.e. I'll lose the knowledge of how it appears at a first impression to other people.
+In each of the cases above I actually wouldn't say that my judgment of the world gets worse -- but my judgment of *appearances* gets worse. Suppose my pre-conscious system sends to the conscious brain the results of its inferences. As it gets more information about an object, it will send me inferences based on more information, more accurate inferences, but at the same time I will lose the initial impression, i.e. I'll lose the knowledge of how it *appears* at a first impression to other people.
 
-Sniffer dog metaphor: in general, what your sniffer dog is interested in will be similar to what other sniffer dogs are interested in. However inside your own house, your dog is used to all the smells, so it could be hard to judge what other sniffer dogs are interested in.
+Sniffer dog metaphor: in general, what your sniffer dog is interested in will be similar to what other sniffer dogs are interested in. However inside your own house, your dog is used to all the smells, so there is now a lower correlation between what your sniffer dog is interested in and what other sniffer dogs are interested in.
 
-In many cases we don't want to judge what something *is*, but want to judge how something *appears*. For example in judging a drawing, we only care about how it *appears*. Likewise with writing.
+In many cases we don't want to judge what something *is*, but want to judge how something *appears*. For example in judging a drawing, we only care about how it appears. I know what object the drawing is meant to represent, but I don't know whether you'll figure it out. the same with writing -- I know what idea I'm trying to express -- but it's difficult for me to check that the words will get across to you.
 
-Can we think of a case where our judgment of what something *is* gets worse? 
+I couldn't think of a case where my judgment of what something *is* gets worse (as opposed to what something *appears* to be).
 
 
-***
+Corollary: beauty is in the eye of the beholder -- even though there is a lot of agreement about which faces are more beautiful than others, when we see the faces of people we know, then everything diverges (...).
 
 Some more philosophical examples:
 * If you met yourself at a party, what would you think?
 * If you read a transcript of an argument with your spouse, with the names changed, who would you agree with?
 
+**put more strongly:** I can judge strangers all day, and I know how strangers would judge strangers, but I do not know how strangers would judge me.
 
 
-## Notes on Psychology Research.
 
-* **Lists of Biases.** A lot of popular literature consists of lists of biases: e.g. the "hot-hand fallacy," or "base rate neglect," etc. I personally don't find this a very useful way of thinking about judgment. In many cases you can find that people have proposed exactly opposite biases: 
+# Notes on Psychology Research.
+
+* **Lists of Biases.** A lot of popular literature consists of lists of biases: e.g. the "hot-hand fallacy," or "base rate neglect," etc. I personally don't find this a very useful way of thinking about judgment. In many cases you can find that people have proposed exactly opposite biases:
     * the "contrast effect" vs the "assimilation effect"
     * the "gambler's fallacy" vs the "hot hand fallacy"
     * the "recency effect" vs "confirmation bias"
@@ -207,14 +242,13 @@ Asterisks by the ones that I think are worth reading.
 
 * **2005, Charles Munger, "The Psychology of Human Misjudgment"**
 http://web.archive.org/web/20151004200748/http://law.indiana.edu/instruction/profession/doc/16_1.pdf
-    * A short essay that is a collection of observations - from history, business, & psychology - about psychological quirks. Very little attempt to theorize, but well written.
+    * A short essay that is a collection of observations - from history, business, & psychology - about quirks of judgment. Very little attempt to theorize, but well written.
 
 * **2009: Kahneman & Klein, "Conditions for intuitive expertise: A failure to disagree."**
     - This paper summarizes agreements of two researchers coming from different points of view: Kahneman is famous for finding cases where human judgment is bad ("heuristics and biases"); Klein is famous for finding cases where judgment is good ("naturalistic decision-making").
-    - "We describe task environments as “high-validity” if there are stable relationships between objectively identifiable cues and subsequent events or between cues and the outcomes of possible actions. Medicine and firefighting are practiced in environments of fairly high validity. In contrast, outcomes are effectively unpredictable in zero-validity environments. To a good approximation, predictions of the future value of individual stocks and long-term forecasts of political events are made in a zero-validity environment."
+   - "We describe task environments as “high-validity” if there are stable relationships between objectively identifiable cues and subsequent events or between cues and the outcomes of possible actions. Medicine and firefighting are practiced in environments of fairly high validity. In contrast, outcomes are effectively unpredictable in zero-validity environments. To a good approximation, predictions of the future value of individual stocks and long-term forecasts of political events are made in a zero-validity environment."
     - "An environment of high validity is a necessary condition for the development of skilled intuitions. Other necessary conditions include adequate opportunities for learning the environment (prolonged practice and feedback that is both rapid and unequivocal). If an environment provides valid cues and good feedback, skill and expert intuition will eventually develop in individuals of sufficient talent."
 
 * **2011, Daniel Kahneman, "Thinking Fast & Slow"**
 
 * **2015, Philip Tetlock, "Superforecasters"**
-

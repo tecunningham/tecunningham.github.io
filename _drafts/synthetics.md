@@ -7,17 +7,17 @@ layout: post
 
 1. The history of synthetics contains many false dawns. Many times a natural material has been prepared for retirement because the synthetic version is ready to take its place, having matched each of its desirable attributes. But many times the original wormed its way back to the top: cotton pushes aside rayon, piano pushes aside keyboard, sugar pushes aside sweetener, butter margarine, revealing some subtle property which the synthesizers had not noticed.
 
-2. I think there are some interesting patterns which form when you arrange history according to the gradual development of synthetic substitutes. At each step scientists are analysing the natural experience into its components, and engineers are synthesising, from these components, a substitute or an improvement. One recurring pattern is the anticipation: introducing a substitute before it's ready. Another pattern is the hesitation which sudden freedom causes in designers: they are confronted with an enormous palette, and they are awed in the face of such freedom.
+2. I think there are some interesting patterns which form when you arrange history according to the gradual development of synthetic substitutes. At each step scientists are analysing the natural experience into its components, turning their findings over to the engineers, who synthesise, from these components, a substitute. One recurring pattern is the anticipation: introducing a substitute before it's ready. Another pattern is the hesitation which sudden freedom causes in designers: they are confronted with an enormous palette, and they are frozen in the face of such freedom.
 
-3. Modernist design, starting from the early 20th century, criticised earlier generations for using the new synthetic materials timidly, and for mimicking styles suited to the old materials (e.g. Bruno Munari in Design as Art).
+3. Modernist design, starting from the early 20th century, criticised earlier generations for using the new synthetic materials timidly, and for mimicking styles suited to the old materials.
 
 4. Modernist slogans to express the alternative were along these lines: Wright: “form follows function,” Gropius: ”the shape of a building is not there for its own sake.”
 
-5. The aping of old styles in new materials still remains in popular taste: most modern hard furniture is made from chipboard but has a wood-grain veneer, the grain of leather is imprinted into synthetic materials for car seats and sofas, linoleum often still has a marble print. Buttons, neckties and shoelaces. Plastic on car bodies, sunglasses, furniture and appliances is coated with metallic paint.
+5. The aping of old styles in new materials still remains in popular taste: most modern hard furniture is made from chipboard but has a wood-grain veneer, the grain of leather is imprinted into synthetic materials for car seats and sofas, linoleum often still has a marble print. Buttons, neckties and shoelaces. Metallic paint is put on top of plastic when it's used on car bodies, sunglasses, furniture and appliances.
 
 6. Besides the public's sentimental taste, there have been other interesting problems in modernist design. One is simply that features which seemed to be artefacts of old techniques, once discarded, turn out to have important functions: [xxx].
 
-7. Another problem has been indeterminacy: function is not sufficient to pin down a unique form. A designer of lamps for mass-production in 1900 works under severe constraints: what material can be used, what colours, what shapes can be cheaply milled, and how the parts can be assembled. A designer in 2000 faces much weaker forces: even a cheap lamp can have almost any colour, any shape, and any texture. Function is insufficient to dictate form. 
+7. Another problem has been indeterminacy: function is not sufficient to pin down a unique form. A designer of lamps for mass-production in 1900 works under severe constraints: what material can be used, what colours, what shapes can be cheaply milled, and how the parts can be assembled. A designer in 2000 faces much weaker forces: even a cheap lamp can have almost any colour, any shape, and any texture. Function is insufficient to dictate form.
 
 8. In many domains there used to be a few prototypical designs where now there is a continuum. There used to be 3 types of bridge you could build – improvisation of a new type is dangerous because it could fall down – but for a long time now we have been able to calculate the load any structure will bear, so that now you can build a bridge made of glass.
 
@@ -40,7 +40,7 @@ layout: post
 >  Such grafting times we never saw
 >  That’s why we have a pure food law
 >  In everything we find a flaw
->  Even love oh love oh loveless love 
+>  Even love oh love oh loveless love
 
 
 # Notes
@@ -83,7 +83,7 @@ layout: post
 
 ## Nylon
 
-* dupont family. Eleuthere Inrenee du Pont was apprentice to Lavoisier; after the French revolution they fled to America, & Jefferson helped them set up a gunpwder plant in Delaware in 1802, “Eleutherian Mills”. Nobel invented dynamtite 
+* dupont family. Eleuthere Inrenee du Pont was apprentice to Lavoisier; after the French revolution they fled to America, & Jefferson helped them set up a gunpwder plant in Delaware in 1802, “Eleutherian Mills”. Nobel invented dynamtite
 
 * farming with dynamite. p14: 1916 DuPont magazine article: “Farming with Dynamite”
 
@@ -95,9 +95,9 @@ layout: post
 
 * cellulose fibres. First problem is to detach the cellulose, done with acid; then need to get rid of nitric part. (1) in 1840s Schoenbein mixed cotton with nitric acid, making nitrocellulose (gun cotton); (2) Audemars took out a patent for artificial silk in 1855, many attempts but often explosive; (3) in 1892 Cross, Bevan and Beadle patented “viscose”, without nitric acid, treat wood pulp with caustic soda then bi-sulphide. Create fibres by forcing through a jet, & into an acid coagulating bath. To make cellophane, force it through a slit. In 1902 “viscose development company”, which sold the patent rights to different firms.
 
-* courtalds. Huguenot refugees in 17th century, “George Courtauld I ... was apprenticed to a silk throwster in the famous Huguenot weaving settlement in London's Spitalfields.” They were principal manufacturers of black mourning crape (silk). “Something New in Fashionable Mourning.” In 1904 they bought patents giving them exclusive British rights to viscose process, quickly became their largest manufacture. In 1914 was exclusive manufacturer in UK and US. 
+* courtalds. Huguenot refugees in 17th century, “George Courtauld I ... was apprenticed to a silk throwster in the famous Huguenot weaving settlement in London's Spitalfields.” They were principal manufacturers of black mourning crape (silk). “Something New in Fashionable Mourning.” In 1904 they bought patents giving them exclusive British rights to viscose process, quickly became their largest manufacture. In 1914 was exclusive manufacturer in UK and US.
 
-* dupont: manufactured “Fabrikoid”, treated fabric, as a substitute for leather in cars. Imitation ivory, “Today, skilled craftsmen versed in the magic lore of chemistry recreate for you and I the excxquisite graining and delicate mellowness of those gleaming tusks of old.” In 1920 they bought rights to a french viscose, called it “fibersilk”. 
+* dupont: manufactured “Fabrikoid”, treated fabric, as a substitute for leather in cars. Imitation ivory, “Today, skilled craftsmen versed in the magic lore of chemistry recreate for you and I the excxquisite graining and delicate mellowness of those gleaming tusks of old.” In 1920 they bought rights to a french viscose, called it “fibersilk”.
 
 * name rayon. National Retail Dry Goods Association advertised a competition for a new name for viscose, winner was “rayon”, registered by FTC in 1925. Accepted in the UK.
 
@@ -109,21 +109,21 @@ layout: post
 
 Nylon is made by heating the proper intermediates - a dibasic acid and a diamine, for example - at a temperature somewhere between 400 and 600 degrees F. When that is done - and here you have the secret of Nylon - the molecules begin to hook themselves together in long chains. Nylon is first formed in icy-white ribbons of any width and thickness that happens to be convenient for handling in the factory. If intended for use as a textile fiber, these ribbons are broken into little chips. The chips are melted, an the water-clear liquid, looking like thick glycerine, is squirted through tiny nozzles to form cobwebby filaments, which solidify in the air and are wound on spools ... stretching makes Nylon stronger.”
 
-* Carothers. Had a nervous breakdown in 1936. In 1937, just after a patent application, and 4 months after his marriage, he booked into a Philadelphia hotel & took a vial of cyanide. 
+* Carothers. Had a nervous breakdown in 1936. In 1937, just after a patent application, and 4 months after his marriage, he booked into a Philadelphia hotel & took a vial of cyanide.
 
 * introduction of nylon. (31) Announced in 1938 by Stine in forum at the World's Fair. “a new word and a new material: Nylon.” Philadelphia record said implications “so incredible that they cuold barely be summarized”
 
-* WORDS: filament, clew, force it through a jet to fall into a coagulating bath of acid, extrude, spool, Nylon has “high tenacity and low modulus”, denier per filament, worst, tex, bobbin, 
+* WORDS: filament, clew, force it through a jet to fall into a coagulating bath of acid, extrude, spool, Nylon has “high tenacity and low modulus”, denier per filament, worst, tex, bobbin,
 
 * THINGS:
 
 – complaints that early impressions were bad but it's better now / that manufacturers do not handle it rightly / that it is thought of as a substitute rather than a thing in itself.
 
-– Breaking the world into finer pieces, & building them up again. (1) just a sheepskin; (2) extracting wool, weave it; (3) then smash wood into pulp, separate with acid into cellulose, extrude it, weave it; (4) break into tiniest 
+– Breaking the world into finer pieces, & building them up again. (1) just a sheepskin; (2) extracting wool, weave it; (3) then smash wood into pulp, separate with acid into cellulose, extrude it, weave it; (4) break into tiniest
 
 – Nature has similar purposes to us. Cows wear leather jackets, not vinyl, probably for good reason, but they may be things that you only discover slowly.
 
-– Everything in the production line has to be adapted to be continuous: bobbins wind slower as they fill up - pressure on filter gets higher as filter gets caked with filtrate; (but can do these things just with thermostat type mechanisms, not complex control); axis on the bobbin tilts, so that the thread winds in a helix going up and down; 
+– Everything in the production line has to be adapted to be continuous: bobbins wind slower as they fill up - pressure on filter gets higher as filter gets caked with filtrate; (but can do these things just with thermostat type mechanisms, not complex control); axis on the bobbin tilts, so that the thread winds in a helix going up and down;
 
 * MISC
 
@@ -171,21 +171,21 @@ Nylon is made by heating the proper intermediates - a dibasic acid and a diamine
 
 Materials
 
-* Form follows function : maybe on circuit boards, nowhere else : (Bauhaus) : You don't know what to do with your new flexibility in form, so you follow old function : as brick-lines in concrete, cast iron as if wrought. 
+* Form follows function : maybe on circuit boards, nowhere else : (Bauhaus) : You don't know what to do with your new flexibility in form, so you follow old function : as brick-lines in concrete, cast iron as if wrought.
 
 – Gropius: “To build means to shape the ativities of life. The organism of a house derives from the course of the activities which take place within it… The shape of a building is not there for its own sake…” /
 
 * nature of the materials influences the curves you like : wood vs stone people : )
 
-* dates of introduction: bakelite / cellophane / concrete / 
+* dates of introduction: bakelite / cellophane / concrete /
 
 * Blue jeans in East Germany : made your legs sweat, and when you washed them they would turn all the other clothes purple.
 
-* remanants of old constraints: Qwerty keyboards / concrete buildings with lines / broadsheet British newspapers ( http://archive.thisisthenortheast.co.uk/2006/1/14/216134.html ) / serifs in typography, were used to keep the stone from crumbling / 
+* remanants of old constraints: Qwerty keyboards / concrete buildings with lines / broadsheet British newspapers ( http://archive.thisisthenortheast.co.uk/2006/1/14/216134.html ) / serifs in typography, were used to keep the stone from crumbling /
 
-* decoration which flows naturally: table leg turned; cutouts in a wooden plank versus carvings in stone ; 
+* decoration which flows naturally: table leg turned; cutouts in a wooden plank versus carvings in stone ;
 
-* imitation of old styles: 
+* imitation of old styles:
 
 * Crayola test sheets: http://www.sil.si.edu/exhibitions/doodles/cf/doodles_alt.cfm
 
@@ -209,15 +209,15 @@ Stories
 
 Social
 
-* successes of WWII social engineering: Kurt Lewin's offal discussion groups; Battle for the Mind; 
+* successes of WWII social engineering: Kurt Lewin's offal discussion groups; Battle for the Mind;
 
 History
 
-* WWII: Ersatz this & that. / churchill on chickens & his special suit / 
+* WWII: Ersatz this & that. / churchill on chickens & his special suit /
 
-* Eastern Europe : 
+* Eastern Europe :
 
-* ebb & flow of enthusiasm : (adopting things too soon): 
+* ebb & flow of enthusiasm : (adopting things too soon):
 
 
 
@@ -225,11 +225,11 @@ History
 
 * Two stages: analytics & synthetics.
 
-* capital-S system :: things work, but no-one knows why, so don't meddle with it. // 
+* capital-S system :: things work, but no-one knows why, so don't meddle with it. //
 
-* Important stages in history of synthetics: 
+* Important stages in history of synthetics:
 
-– WWII program to find substitutes - & social engineering. 
+– WWII program to find substitutes - & social engineering.
 
 – Eastern Bloc
 
