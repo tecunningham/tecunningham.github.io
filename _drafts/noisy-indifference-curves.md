@@ -5,6 +5,8 @@ geometry: margin=1in
 output: pdf_document
 ---
 
+
+
 # Summary
 
 One way of explaining anomalies in decision-making (i.e. departures from rational choice theory) is that people have noisy perception of the options that they're choosing between -- often called "inattention". But I don't think this can be an important part of the explanation because:
