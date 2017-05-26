@@ -10,10 +10,11 @@ geometry: margin=1in
 
 ## Short Version
 
-1. If we think of perception as inference, it has impliciations about the types of biases we would have.
+1. If we think of perception as inference, it has implications about the types of biases we would have.
 2. Yet many biases and illusions seems to go in the exact *opposite* direction -- sometimes called "anti-Bayesian" biases -- in particular there are ubiquitous *contrast* effects, while Bayesian inference seems to imply *assimilation* effects.
 3. Wei and Stocker (2015) say they can rationalize these contrast effects, under the assumption that our sensory mechanisms are tuned to the environment, such that they are relatively more sensitive to more likely signals. They say that this will imply contrast effects (that the bias is inversely proportional to the slope of the prior).
 4. Yet their results contradict some simple laws of Bayesian inference -- the law of iterated expectations, and law of total variance -- so there is something odd going on.
+5. (If this explanation doesn't work, then why do we get repulsion? I think that Ted Adelson explained the basic reason in the 70s. Will write another post on this.)
 
 ## Shortish Version
 
