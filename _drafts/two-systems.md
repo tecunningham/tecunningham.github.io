@@ -10,14 +10,15 @@ output: pdf_document
 # Nutshell
 
 1. Judgment has two stages (1) an automatic, unconscious stage, and (2) conscious judgment.
-1. Our instincts are informative --- they incorporate information that we do not have direct conscious access to.
+1. The first stage incorporates information that we do not have direct conscious access to.
 2. However our instincts are also *greedy* - meaning that they are sensitive to all information, even information that we know consciously to be irrelevant.
 
-This has a few implications for how you should improve judgment:
+This has a few implications for how you can improve your judgments:
 
-1. **Organize information in a way that helps your instincts to recognize patterns** -- for example (a) use graphs to show data; (b) use frequencies instead of probabilities to express information.
-1. **Remove information that you know to be irrelevant**  -- you cannot just choose to ignore that information, because your instincts will be affected by whatever they see.
-3. **Ask yourself variations on the same question** -- it will help to extract more information from your instincts.
+1. **Organize information in a way that helps your instincts to recognize patterns.** -- for example (a) use graphs to show data; (b) use frequencies instead of probabilities to express information.
+1. **Remove information that you know to be irrelevant.**  Your instincts will pick up on all available cues -- even irrelevant ones -- trying to ignore them will be ineffective.
+3. **Ask yourself variations on the same question.** -- it will help to extract more information from your instincts.
+4. **Write down your predictions.** -- it is difficult to recall what your expectations used to be, and so to calibrate.
 
 
 # Introduction

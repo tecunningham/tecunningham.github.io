@@ -79,6 +79,8 @@ Weber's law implies that perception is noisy. We can then ask what is the approp
 
 It has often been assumed that Weber's law will imply or justify a concave bias in estimates of value. However I show that this is not necessarily so.
 
+**Note on expectations:** In a continuous setup, like the below, you can't just write the conditional expectation as an integral without further notes. The conditional expectation is undefined without specifying which *limit* you're taking ([AKA Borel-Kolmogorov paradox](https://en.wikipedia.org/wiki/Borel%E2%80%93Kolmogorov_paradox)). Below I *believe* that the integrals follow from taking limits with respect to the noise. Intuitively, this is like assuming that you observe only that the signal is in some range $(s-\varepsilon,s+\varepsilon)$, and taking limits as $\varepsilon\rightarrow0$.
+
 ## Multiplicative Noise => Posteriors are Concave in $v$
 
 Suppose we have lognormal priors for both $v$ and $e$:

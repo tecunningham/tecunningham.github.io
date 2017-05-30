@@ -208,13 +208,17 @@ title: Psychology Literature
 
 – Simoncelli (2003) “Vision and the statistics of the visual environment”- Evaluates Barlow's efficient coding hypothesis, and various criticisms.- Experimental tests: firing rates seem well tuned to statistics of environment.
 
-– Wei & Stocker (2012, NIPS) **“Efficient coding provides a direct link between prior and likelihood in perceptual Bayesian inference”**
-They explicitly say that they're interested in explaining biases, and they add to the Bayesian model by imposing neural noise.They derive a Bayesian contrast effect from efficient coding: sensitivity is decreasing in density around prior. Result: the bias is proportional to the slope of the prior, so positive bias in neighborhood of decreasing prior. Very surprising! They have an analytic result (given some simplifications), but not trivial to follow.The main result is that the bias is proportional to the slope of the prior. Given some $\theta_{0}$, then bias is defined as (I think):
-
+* Wei & Stocker (2012, NIPS) **“Efficient coding provides a direct link between prior and likelihood in perceptual Bayesian inference”**
+  * They explicitly say that they're interested in explaining biases, and they add to the Bayesian model by imposing neural noise.They derive a Bayesian contrast effect from efficient coding: sensitivity is decreasing in density around prior. Result: the bias is proportional to the slope of the prior, so positive bias in neighborhood of decreasing prior. Very surprising! They have an analytic result (given some simplifications), but not trivial to follow.The main result is that the bias is proportional to the slope of the prior. Given some $\theta_{0}$, then bias is defined as (I think):
 $$b(\theta_{0})   =   \int F^{-1}(\tilde{\theta})L(\tilde{\theta})d\tilde{\theta}-F^{-1}(\tilde{\theta}_{0})$$
 which is I think just this:
 $$b(\theta_{0})=E[\hat{\theta}_{MSE}|\theta_{0}]-\theta_{0}$$
-[p5 has a discussion of internal vs external noise, and say that you won't get contrast effects for external noise, not clear why (but they don't discuss correlated noise)][Note that they say they're working within Bayesian perception; but actually they're imposing an additional constraint, so people are imperfeclty bayesian (i.e,. constrainedly bayesian)]
+
+  * **parametric setup.** They say by email you can get exact results if you substitute $F(t)=\ln(t)$. so this means that $f(t)=\frac{1}{t}$, i.e. improper prior. So:
+  $$s=\frac{1}{t}+e$$
+  so $$E[t|s]=...$$
+
+   * [p5 has a discussion of internal vs external noise, and say that you won't get contrast effects for external noise, not clear why (but they don't discuss correlated noise)][Note that they say they're working within Bayesian perception; but actually they're imposing an additional constraint, so people are imperfeclty bayesian (i.e,. constrainedly bayesian)]
 
 * **Wei & Stocker (2015, Nature Neuroscience) "A Bayesian observer model constrained by efficient coding can explain ‘anti-Bayesian’ percepts"**
     > "We found that the bias was always repulsive if the prior distribution is well approximated by a monotonic function over the support of the likelihood function."

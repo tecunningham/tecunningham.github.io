@@ -89,6 +89,12 @@ This implies that there cannot be a consistent upward or downward bias, i.e. it 
 
 $$E[\hat{x}|x]>x, \forall x$$
 
+## An Additional Note
+
+To figure out what's going on here the sensible thing is to set up a parametric model, and figure out which laws it obeys. I recently did something similar in my [note on Weber's law](http://tecunningham.github.io/2017/02/25/weber-fechner-law/). In the final section I show that, when $s=\ln x+e$, and $x$ is drawn from a uniform distribution, then there is no bias, i.e.: $$E[\hat{x}|x]=x$$
+This doesn't fit Wei & Stocker's setup, but it would do if $x$ was drawn from a distribution with $f(x)=\frac{1}{x}$. But then the prior would be downward-sloping everywhere, and this would surely cause posteriors to shift downwards (i.e., lower values of $x$ are relatively more likely), i.e.:$$E[\hat{x}|x]<x$$
+Which directly contradicts Wei & Stocker's prediction. (In this case, of course, the above inequality couldn't be true everywhere, it would violate the law of iterated expectations. So it means that if it was a proper prior, then the bias would go in the offsetting direction at either edge.)
+
 ## References
 
 * Schwartz, Hsu & Dayan (2007, Nature Review Neuro) “Space and Time in Visual Context”
