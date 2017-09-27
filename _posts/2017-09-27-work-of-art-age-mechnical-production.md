@@ -1,16 +1,16 @@
 ---
 layout: post
-title: the Work of Art in the Age of Mechanical Production
+title: The Work of Art in the Age of Mechanical Production
 geometry: margin=1in
 ---
 
-# AKA machine learning, aesthetics, & the unconscious
+## AKA machine learning, aesthetics, & the unconscious
 
 1. When I heard about the neural nets that copy the styles of famous painters I thought it would be the same old junk.
 
 2. Academics have been saying forever that they were on the verge of discovering the principles of aesthetics, and that they would soon be able to automate the production of beauty -- melody, harmony, proportion, plot.
 
-2. When I was a kid I was excited to read about this sort of thing. But they always turn out to be fatuous, catastrophically oversimplified and overconfident, and written by people who are probably intimidated & resentful of the culture around them. Our technical understanding of what makes something look good is still weak, and I don't think it's improving very fast. I learned to, when I come across an article about art written by a scientist, turn the page.
+2. When I was a kid I was excited to read about this sort of thing. But they always turn out to be fatuous, catastrophically oversimplified and overconfident, written - I'm speculating - by people who are intimidated & resentful of the culture around them. Our technical understanding of what makes something look good is still weak, and I don't think it's improving very fast. I learned to, when I come across an article about art written by a scientist, turn the page.
 
 4. But now I think that maybe the automatic production of beauty will arrive soon. The machine learning algorithms work by extrapolating from existing examples, which means that they can produce new examples that fit some pattern (such as the pattern of beauty) without anyone involved having any explicit understanding of what the pattern is or how it can be defined.
 
