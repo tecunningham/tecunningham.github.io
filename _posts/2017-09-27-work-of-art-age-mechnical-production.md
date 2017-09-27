@@ -18,8 +18,9 @@ geometry: margin=1in
 
 6. I think the same basic point is true of aesthetic things. We really struggle trying to explain why we like a picture or dislike a melody, because most of the work is done at an unconscious level. The progress in understanding those principles will probaby continue to be slow.
 
-7. But I think that, before long, machines will be able to do all these things on demand -- play some brand new Mozart, make elegant little drawings of animals, write a pretty good pop song. And the programmer who implements them could be -- probably will be -- some bozo who has no clue why it works.
+7. But now it seems like to me that, before long, machines will be able to do all these things on demand -- play some brand new Mozart, make elegant little drawings of animals, write a pretty good pop song. And the programmer who implements them could be -- probably will be -- some bozo who has no clue why it works.
 
 [1] 2017-05: SIGGRAPH video with style transfer
+
 [2] 2017-05: Michael Elad "Deep, Deep Trouble: Deep Learning’s Impact on Image Processing, Mathematics, and Humanity"
 https://sinews.siam.org/Details-Page/deep-deep-trouble-4
