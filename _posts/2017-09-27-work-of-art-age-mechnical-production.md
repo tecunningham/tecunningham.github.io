@@ -20,7 +20,7 @@ geometry: margin=1in
 
 7. But now it seems likely to me that, before long, machines will be able to do all these things on demand -- play some brand new Mozart, make elegant little drawings of animals, write a pretty good pop song. And the programmer who implements them could be -- probably will be -- some bozo who has no clue why it works.
 
-[1] 2017-05: SIGGRAPH video with style transfer
+[1] 2017-05: SIGGRAPH video with style transfer - https://www.youtube.com/watch?v=HYhzZ-Abku8
 
 [2] 2017-05: Michael Elad "Deep, Deep Trouble: Deep Learning’s Impact on Image Processing, Mathematics, and Humanity"
 https://sinews.siam.org/Details-Page/deep-deep-trouble-4
