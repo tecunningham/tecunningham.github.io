@@ -35,7 +35,7 @@ $$s=F(x)+\varepsilon.$$
 6. In the note below I give a proof that implies that it is impossible to have repulsion effects everywhere -- which seems to contradict the results of Wei & Stocker.
 7. I'm not sure what the source of the contradiction is -- it could be either (a) Wei & Stocker's results are true locally, but do not apply at the tails of the distribution, and so things balance out that way; (b) there is a difference in the implicit assumption used when taking conditional expectations (AKA the Borel-Kolmogorov paradox); or (c) I made a mistake.
 7. I also mention below a related result, that there cannot be a consistent upward or downward bias (i.e., it cannot be that $E[\hat{x}\|x]>x$ for all $x$). This is relevant for Wei & Stocker's result applied to asymmetric priors -- e.g. if the prior is everywhere decreasing -- where the result seems to imply a consistent upward bias.
-8. Finally I give an example of an analytic solution for $E[\hat{x}|x]$ (with uniform prior and $x$ and with $x=\ln x$), and show that  this seems to imply the opposite result as derived by Wei and Stocker.
+<!-- 8. Finally I give an example of an analytic solution for $E[\hat{x}|x]$ (with uniform prior and $x$ and with $x=\ln x$), and show that  this seems to imply the opposite result as derived by Wei and Stocker. -->
 
 
 ![](https://www.dropbox.com/s/hwbeyp8ldrmwysp/rabbit.jpg?dl=1){: .center-image }
@@ -90,11 +90,13 @@ This implies that there cannot be a consistent upward or downward bias, i.e. it 
 
 $$E[\hat{x}|x]>x, \forall x$$
 
+<!--
 ## An Additional Note
 
 To figure out what's going on here the sensible thing is to set up a parametric model, and figure out which laws it obeys. I recently did something similar in my [note on Weber's law](http://tecunningham.github.io/2017/02/25/weber-fechner-law/). In the final section I show that, when $s=\ln x+e$, and $x$ is drawn from a uniform distribution, then there is no bias, i.e.: $$E[\hat{x}|x]=x$$
 This doesn't fit Wei & Stocker's setup, but it would do if $x$ was drawn from a distribution with $f(x)=\frac{1}{x}$. But then the prior would be downward-sloping everywhere, and this would surely cause posteriors to shift downwards (i.e., lower values of $x$ are relatively more likely), i.e.:$$E[\hat{x}|x]<x$$
 Which directly contradicts Wei & Stocker's prediction. (In this case, of course, the above inequality couldn't be true everywhere, it would violate the law of iterated expectations. So it means that if it was a proper prior, then the bias would go in the offsetting direction at either edge.)
+-->
 
 ## References
 

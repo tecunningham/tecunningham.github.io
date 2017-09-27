@@ -210,6 +210,8 @@ Some more philosophical examples:
 
 **put more strongly:** I can judge strangers all day, and I know how strangers would judge strangers, but I do not know how strangers would judge me.
 
+Related literature: Berg (2016) "Balancing on the Creative Highwire: Forecasting the Success of Novel Ideas in Organizations"
+   * Finds that circus artists are better at judging *others* routines than their own. Has some more citations inside may be useful.
 
 
 # Notes on Psychology Research.
