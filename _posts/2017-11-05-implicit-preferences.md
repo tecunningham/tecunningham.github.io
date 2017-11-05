@@ -23,9 +23,11 @@ things that remain to do:
 
 # Introduction
 
-Over a couple of years I spent a lot of time in coffee shops looking out the window, thinking about decision-making & the unconscious, scribbling little bits & pieces in a notebook. I ended up writing two papers - "[Hierarchical Aggregation of Information and Decision-Making](https://dl.dropboxusercontent.com/u/13046545/paper_heuristics.pdf)" by myself and "[Implicit Preferences Inferred from Choice](http://bit.ly/paper_implicit)" with Jon de Quidt. The papers are fairly technical, and this post is meant to be a layperson's guide to the whole area, and an informal statement of the ideas in the papers.
+Over a couple of years I spent a lot of time in coffee shops looking out the window, thinking about decision-making & the unconscious, scribbling little bits & pieces in a notebook.
 
 ![](2017-11-05-implicit-preferences/a4e4a1ef3f9f1d2726cf0250502de02e.png)
+
+I ended up writing two papers - "[Hierarchical Aggregation of Information and Decision-Making](https://dl.dropboxusercontent.com/u/13046545/paper_heuristics.pdf)" by myself and "[Implicit Preferences Inferred from Choice](http://bit.ly/paper_implicit)" with Jon de Quidt. The papers are fairly technical, and this post is meant to be a layperson's guide to the whole area, and an informal statement of the ideas in the papers.
 
 
 I'm mostly going to leave it to another post to make the case for the *magnitude* of unconscious influences -- here I talk about different methods of identifying unconscious influences, and reasons why some methods are better than others.
