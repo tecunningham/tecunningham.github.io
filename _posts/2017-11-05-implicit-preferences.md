@@ -53,6 +53,8 @@ Here is the argument in a nutshell:
 3. Ways of measuring implicit preferences
 4. The proposal
 
+![](https://www.dropbox.com/s/lt96t4u3qoh7ywp/harvard_office.png?dl=1)
+
 
 # Motivating Examples
 
@@ -114,6 +116,8 @@ An additional problem is that these findings could reflect knowledge being diffi
 Some more examples of describing influences: the "sugar factory" game; sequence learning; Mitchell on evaluative conditioning (p191); Perruchet's air puffs.
 
 <!-- One final note about this method for detecting unconscious influences: you could say that the bulk of late 20th century literary and cultural theory is, broadly speaking, looking for traces of unconscious factors in decision-making: finding signs of the hegemony, the patriarchy, orientalism, colonialism, in the apparently trivial details of texts. -->
+
+![](https://www.dropbox.com/s/bczy68n3k08s6yl/tel_aviv_office.png?dl=1)
 
 ## Isolation of Unconscious Influences
 
