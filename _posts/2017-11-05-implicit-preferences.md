@@ -25,7 +25,7 @@ things that remain to do:
 
 Over a couple of years I spent a lot of time in coffee shops looking out the window, thinking about decision-making & the unconscious, scribbling little bits & pieces in a notebook.
 
-![](2017-11-05-implicit-preferences/a4e4a1ef3f9f1d2726cf0250502de02e.png)
+![](https://www.dropbox.com/s/be1p2urgqwri2hp/nber_snow.png?dl=1)
 
 I ended up writing two papers - "[Hierarchical Aggregation of Information and Decision-Making](https://dl.dropboxusercontent.com/u/13046545/paper_heuristics.pdf)" by myself and "[Implicit Preferences Inferred from Choice](http://bit.ly/paper_implicit)" with Jon de Quidt. The papers are fairly technical, and this post is meant to be a layperson's guide to the whole area, and an informal statement of the ideas in the papers.
 
