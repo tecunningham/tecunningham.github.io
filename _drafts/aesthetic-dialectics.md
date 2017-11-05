@@ -20,13 +20,13 @@ A common pattern:
 
 1. Blue jeans get worn & frayed;
 2. jeans-makers make pre-stressed jeans;
-3. jeans-makers make jeans with holes that are perfectly square, or yellowed patches that are perfectly circular.
+3. jeans-makers make jeans with perfectly square holes, or perfectly circular yellow patches.
 
 ---
 
 1. Travelers bring back t-shirts with Japanese or Thai logos, foreign army uniforms;
 2. shops sell shirts with fake foreign logos, khaki fatigues;
-3. the foreign logos get exaggerated, the badges and epaulettes get more florid, the camouflage is done in pink on purple.
+3. the foreign logos get exaggerated, the badges and epaulettes get more florid, the camouflage is printed in pink on purple.
 
 ---
 
@@ -48,9 +48,11 @@ A common pattern:
 
 ---
 
-There's a nice aspect when you have all three stages going simultaneously, and people are arguing over whether the imitation versions are pretty. Conservatives say that some feature originally served a purpose, but now it doesn't, and that if you like the imitation it shows that you like something because of its associations not for the thing itself. The imitation exposes your pretentiousness. The radicals say that to only like something if it's made of the original materials is the real pretentiousness -- it's like reserving your judgment of a painting until you see the signature. If something looks good then it looks good, whatever it's made of.
+Sometimes you have all three stages going simultaneously, and people argue over the imitation. Conservatives say that there was a reason for the feature originally (the column held up the building), but now it doesn't, and that if you like the imitation it shows that you care about it because of its associations, not for the thing itself. The imitation exposes your pretentiousness.
 
-(More examples: plastic flowers that nobody mistakes for real flowers; serifs on the ends of our letters because Roman masons used to tap the ends of their letters with a chisel to keep the stone from crumbling; collars on shirts; lapels and cuff buttons on jackets; ties and bowties; bath feet shaped like the paws of a lion; Acanthus ornament on buildings, and wallpaper).
+Then on the other side the radicals say that to only like something if it's made of the original materials is the real pretentiousness -- it's like reserving your judgment of a painting until you see the signature. If something looks good then it looks good, whatever it's made of.
+
+(More examples: plastic flowers that nobody mistakes for real flowers; serifs on the ends of our letters because masons in Roman times would tap the ends of their letters with a chisel to keep the stone from crumbling; collars on shirts; lapels and cuff buttons on jackets; ties and bowties; the feet on a bath like the paws on a lion; Acanthus ornament on buildings, and on wallpaper).
 
 ---
 
