@@ -2,6 +2,7 @@
 title: On Unconscious Influences (Part 1)
 layout: post
 output: pdf_document
+date: 2017-12-08
 header-includes:
     - \usepackage[color,matrix,arrow,curve]{xy}
     - \usepackage{color}
@@ -25,7 +26,7 @@ things that remain to do:
 
 Over a couple of years I spent a lot of time in coffee shops looking out the window, thinking about decision-making & the unconscious, scribbling little bits & pieces in a notebook.
 
-![](https://www.dropbox.com/s/be1p2urgqwri2hp/nber_snow.png?dl=1)
+![NBER](https://www.dropbox.com/s/be1p2urgqwri2hp/nber_snow.png?dl=1)
 
 I ended up writing two papers - "[Hierarchical Aggregation of Information and Decision-Making](https://dl.dropboxusercontent.com/u/13046545/paper_heuristics.pdf)" by myself and "[Implicit Preferences Inferred from Choice](http://bit.ly/paper_implicit)" with Jon de Quidt. The papers are fairly technical, and this post is going to be a layperson's guide to the background, what's known about unconscious knowledge, and a tiny bit about the ideas in those papers.
 
@@ -50,7 +51,7 @@ Here is the argument in a nutshell:
 3. Ways of measuring implicit preferences
 4. The proposal
 
-![](https://www.dropbox.com/s/lt96t4u3qoh7ywp/harvard_office.png?dl=1)
+![Littauer](https://www.dropbox.com/s/lt96t4u3qoh7ywp/harvard_office.png?dl=1)
 
 
 # Motivating Examples
@@ -114,7 +115,7 @@ Some more examples of describing influences: the "sugar factory" game; sequence 
 
 <!-- One final note about this method for detecting unconscious influences: you could say that the bulk of late 20th century literary and cultural theory is, broadly speaking, looking for traces of unconscious factors in decision-making: finding signs of the hegemony, the patriarchy, orientalism, colonialism, in the apparently trivial details of texts. -->
 
-![](https://www.dropbox.com/s/bczy68n3k08s6yl/tel_aviv_office.png?dl=1)
+![tel aviv](https://www.dropbox.com/s/bczy68n3k08s6yl/tel_aviv_office.png?dl=1)
 
 ## Isolation of Unconscious Influences
 
@@ -152,7 +153,7 @@ If this line of thought were entirely correct -- if all information was integrat
 
 <!-- in a sense this is similar to the previous section: it's about your ability to describe influences. -->
 
-![Lynn in Boston](https://www.dropbox.com/s/d5s41vykojhy4cv/iies.jpg?dl=1)
+![IIES](https://www.dropbox.com/s/d5s41vykojhy4cv/iies.jpg?dl=1)
 
 # Summary So Far
 
