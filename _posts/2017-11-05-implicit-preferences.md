@@ -27,10 +27,7 @@ Over a couple of years I spent a lot of time in coffee shops looking out the win
 
 ![](https://www.dropbox.com/s/be1p2urgqwri2hp/nber_snow.png?dl=1)
 
-I ended up writing two papers - "[Hierarchical Aggregation of Information and Decision-Making](https://dl.dropboxusercontent.com/u/13046545/paper_heuristics.pdf)" by myself and "[Implicit Preferences Inferred from Choice](http://bit.ly/paper_implicit)" with Jon de Quidt. The papers are fairly technical, and this post is meant to be a layperson's guide to the whole area, and an informal statement of the ideas in the papers.
-
-
-I'm mostly going to leave it to another post to make the case for the *magnitude* of unconscious influences -- here I talk about different methods of identifying unconscious influences, and reasons why some methods are better than others.
+I ended up writing two papers - "[Hierarchical Aggregation of Information and Decision-Making](https://dl.dropboxusercontent.com/u/13046545/paper_heuristics.pdf)" by myself and "[Implicit Preferences Inferred from Choice](http://bit.ly/paper_implicit)" with Jon de Quidt. The papers are fairly technical, and this post is going to be a layperson's guide to the background, what's known about unconscious knowledge, and a tiny bit about the ideas in those papers.
 
 Here is the argument in a nutshell:
 
@@ -154,6 +151,8 @@ In retrospect a lot of behavior that was studied in the lab, which was thought t
 If this line of thought were entirely correct -- if all information was integrated and fed into every decision -- then there would be no unconscious influences in my sense. However I do think that there's plenty of evidence that remains for a lack of integratation between cognitive processes.
 
 <!-- in a sense this is similar to the previous section: it's about your ability to describe influences. -->
+
+![Lynn in Boston](https://www.dropbox.com/s/d5s41vykojhy4cv/iies.jpg?dl=1)
 
 # Summary So Far
 
