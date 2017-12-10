@@ -24,7 +24,7 @@ things that remain to do:
 
 # Introduction
 
-Over a couple of years I spent a lot of time in coffee shops looking out the window, thinking about decision-making & the unconscious, scribbling little bits & pieces in a notebook.
+Over a couple of years I spent a lot of time in offices looking out the window, thinking about decision-making & the unconscious, scribbling little bits & pieces in a notebook.
 
 ![NBER](https://www.dropbox.com/s/be1p2urgqwri2hp/nber_snow.png?dl=1)
 
@@ -33,15 +33,15 @@ I ended up writing two papers - "[Hierarchical Aggregation of Information and De
 Here is the argument in a nutshell:
 
 1. There are plenty of reasons to think that unconscious influences are strong -- in other words, that people have limited insight into what factors influence their decisions.
-2. The idea of unconscious influences has been in and out of the mainstream of psychology for the last 200 years, but always hounded by arguments over what it means, i.e. over what evidence would be sufficient to show that a decision was influenced by an unconscious factor. The battle has had many reversals: a new types of evidence has been proposed which is thought to reveal unconscious influences, and then later the technique or interpretation is shown to have substantial flaws and the line of inquiry fizzles out. A couple of decades pass and a new approach becomes popular.
-3. Two common sources of evidence: (A) people reveal their unconscious preoccupations in their involuntary responses -- in how their pupils dilate, how quickly they respond to a stimulus, in their word associations, dreams, slips of the tongue; (B) people reveal unconscious influences in discrepancies between how they act and how they explain their behaviour. Both sources of evidence have got tangled in debates about interpretation, and there are substantial camps on either side with not much agreement on what constitutes sufficient evidence for unconscious influences.
+2. The idea of unconscious influences has been in and out of the mainstream of psychology for the last 200 years, but always hounded by arguments over what it means, i.e. over what evidence would be sufficient to show that a decision was influenced by an unconscious factor. The battle has had many reversals: a new types of evidence has been proposed which is thought to reveal unconscious influences, and then later the technique or interpretation is shown to have substantial flaws and the line of inquiry fizzles out. A couple of decades pass and a different approach becomes popular.
+3. Two broad classes of evidence are the following: (A) people reveal their unconscious preoccupations in their involuntary responses -- in how their pupils dilate, how quickly they respond to a stimulus, in their word associations, dreams, slips of the tongue; (B) people reveal unconscious influences in discrepancies between how they act and how they explain their behaviour. Both sources of evidence have got tangled in debates about interpretation, and there are substantial camps on either side with not much agreement on what constitutes sufficient evidence for unconscious influences.
 4. A third type of evidence is less common but, I think, more powerful: evidence from inconsistencies in decision-making. The idea being that unconscious factors are by their nature *isolated* from conscious factors, i.e. they don't interact with conscious beliefs and desires, and this isolation will cause certain characteristic inconsistencies among decisions.
-4. This can be made precise with an analogy: the relationship between the conscious and unconscious brain is like the relationship between a blind man and his guide dog. The blind man makes decisions based, in part, on which way the guide dog is pulling, so the guide dog's beliefs and desires influence the man's decisions, but without the man knowing exactly what those beliefs and desires are, and so he couldn't tell you how much any particular factor contributed to his decision, because he doesn't know how much it contributed to the guide-dog's decision. Testing for unconscious influences in behaviour is just testing the degree to which your brain is being led by guide dogs.
-5. The internal-consistency definition of unconscious influences implies two ways of looking for them: (1) testing whether people can accurately answer hypothetical questions about their own decisions; and (2) testing whether people make consistent judgments when judging two outcomes at a time.
+4. This can be made precise with an analogy: the relationship between the conscious and unconscious brain is like the relationship between a blind man and his guide dog. The blind man makes decisions based, in part, on which way the guide dog is pulling, so the guide dog's beliefs and desires influence the man's decisions, but without the man knowing exactly what those beliefs and desires are, and so he couldn't tell you how much any particular factor contributed to his decision, because he doesn't know how much it contributed to the guide-dog's decision. Testing for unconscious influences in behaviour is just testing the degree to which your brain is being led by a guide dog.
+5. The internal-consistency definition of unconscious influences implies two ways of looking for them: (1) testing whether people can accurately answer hypothetical questions about their own decisions - i.e. navigating without your guide dog; and (2) testing whether people make consistent judgments when judging two outcomes at a time.
 6. First, hypothetical questions. We can ask people, how would your judgment change if this factor changed? Would you still like this painting if the name of the artist was different? Would this drawing look more like your cousin if the nostrils were bigger? Unconscious influences imply that people will not be able to give accurate answers to these hypothetical questions -- they don't know what they would do until they are actually in the situation (AKA, they don't know which direction they would go in without knowing what their guide dog will say).
 7. The second way of testing for unconscious influences is what my paper with Jon is about: unconscious influences leave their mark in *comparisons*. In cases where you evaluate two outcomes simultaneously or consecutively, or when you choose between two outcomes. When you make comparisons you surface two unconscious judgments - and that gives you some insight into what is affecting those judgments - and that insight will affect your conscious decision.
 8. Suppose you had an unconscious preference for men over women, this can manifest as the following pattern of inconsistent behaviour: (A) when you see two CVs which are identical, except that one is a man and one is a woman, then you're indifferent between them; (B)) when you see two CVs which differ in some other respect (e.g. one has a PhD, the other has an MBA), then you consistently have a preference for the CV belonging to the man. Your guide dog has a bias towards men, which you're not aware of: the bias will only sway your decision in the second case because, in the second case, when your guide dog pulls you towards the man with a PhD, you cannot figure out how much of that pull is due to his being a man, and how much is due to his PhD.
-8. In the end I think that our brains are full of guide dogs all pulling in different directions, often leading us in inconsistent circles. If we had the stomach for it we could plot out our decisions all on a map -- measure how each factor influences our judgment -- and would see the surface influences and the deeper latent influences.
+8. In the end I think that our brains *are* full of guide dogs all pulling in different directions. If we had the stomach for it we could plot out our decisions all on a map -- measure how each factor influences our judgment -- and we would be able to see both the surface influences and the deeper latent influences.
 
 
 ## Contents
@@ -70,6 +70,8 @@ To help with being clear on what I'm talking about here are some examples of unc
 5. Knowledge used in your judgments, but not consciously accessible: knowledge of grammar implicit in your judgements of whether a sentence sounds right; knowledge of the physical world implicit in your judgements of distance and velocity of the things you see; knowledge of faces implicit in recognizing your cousins.
 
 My examples include both unconscious knowledge and unconscious desires. I'm not going to talk about unconscious *sensations* -- flashes of advertisement that persuade you to drink Coca Cola -- but I think the way that those things work, insofar as they do, is through a similar channel.
+
+![tel aviv](https://www.dropbox.com/s/bczy68n3k08s6yl/tel_aviv_office.png?dl=1)
 
 #  Ways of Measuring Unconscious Influences
 
@@ -115,7 +117,7 @@ Some more examples of describing influences: the "sugar factory" game; sequence 
 
 <!-- One final note about this method for detecting unconscious influences: you could say that the bulk of late 20th century literary and cultural theory is, broadly speaking, looking for traces of unconscious factors in decision-making: finding signs of the hegemony, the patriarchy, orientalism, colonialism, in the apparently trivial details of texts. -->
 
-![tel aviv](https://www.dropbox.com/s/bczy68n3k08s6yl/tel_aviv_office.png?dl=1)
+![IIES](https://www.dropbox.com/s/d5s41vykojhy4cv/iies.jpg?dl=1)
 
 ## Isolation of Unconscious Influences
 
@@ -153,7 +155,7 @@ If this line of thought were entirely correct -- if all information was integrat
 
 <!-- in a sense this is similar to the previous section: it's about your ability to describe influences. -->
 
-![IIES](https://www.dropbox.com/s/d5s41vykojhy4cv/iies.jpg?dl=1)
+![Caltech](https://www.dropbox.com/s/hvaaahkc9eshz6z/office_caltech.jpg?dl=0)
 
 # Summary So Far
 
