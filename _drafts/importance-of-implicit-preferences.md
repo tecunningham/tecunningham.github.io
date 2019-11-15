@@ -16,11 +16,25 @@ Extra: can you explain *why* you made a choice, & whether you would've made it d
 3. **Social norms.** It is common to modify your choices to obey social norms - e.g., you would take care to treat a male & female applicant in the same way if they both arrive at the same time - though you might treat them differently if they arrived separately. This will look like implicit preferences, though it can be perfectly conscious.
 4. **Excess agreeableness.** I think it's common for your preferences to systematically change in the presence of other people - partly conscious, partly unconscious - and I think this probably has a large effect in making behaviour inconsistent.
 
+## Tacit Knowledge
+
+
+1. can recognize an ungrammatical sentence, but hard to rework it to be grammatical, and much harder to explain the rules of why it's ungrammatical.v
+2. recognising picture of cousin, can't draw it, recognise melody;
+3. we find it difficult to evaluate generalisations (e.g., “i before e except after c”), but we can immediately recognise exceptions (“seize”). http://oxforddictionaries.com/us/words/is-there-an-eight-letter-word-with-five-vowels-in-a-row , and similar links there. - five vowels in a row: "queueing"- “ultrarevolutionaries” contains every vowel twice- “rhythm” has no vowels- all the vowels in order: "abstemious" and "facetious" - all the vowels: "miscellaneous" (two “e”s) and "uncopyrightable" - there are no words that end with “-gry” apart from “hungry” and “angry” / More word facts here: http://jeff560.tripod.com/words1.html-
+4. identikit picture of a criminal: when we get to choose face elements, we are very bad, but we are still good at recognizing (mentioned in Polanyi's “tacit knowledge & philosophical problems”).
+5. Instant judgment: car dealer, or house appraiser. (Q: does performance changes when elements jumbled?)
+6. Reddit: “My brain knows how to type without looking at the keyboard yet I can not draw a QWERTY keyboard from memory” https://m.reddit.com/r/Showerthoughts/comments/3zch5t/my_brain_knows_how_to_type_without_looking_at_the/
+7. can change lanes in a car, but can't describe the motions (in fact people get it wrong)
+8. can't draw a bicycle, but recognize a drawing of a bicycle.
+9. Order of adjectives: http://languagelog.ldc.upenn.edu/nll/?p=27890 e.g., “big round house” or “round big house”-
+
+
 ## Race & Sex
 
-Simple tests: we can look for the effect of race & sex on various measures: (1) grading exams, (2) hiring job candidates, (3) choosing tenants for an apartment, (4) sentencing convicted criminals, (5) setting welfare payments, (6) awarding scholarships. For each outcome we can measure explicit and implicit preferences separately. Much research finds a bias in this kind of setting although there is surely a strong selection effect in what is reported. E.g., Sendhil Mullainathan's NYT editorial lists a lot of findings, but he isn't listing the *average* findings in the literature, he's listing the most extreme findings among the credible findings that he knows of.
+Simple tests: we can look for the effect of race & sex on various measures: (1) grading exams, (2) hiring job candidates, (3) choosing tenants for an apartment, (4) sentencing convicted criminals, (5) setting welfare payments, (6) awarding scholarships. For each outcome we can measure explicit and implicit preferences separately. Much research finds a bias in this kind of setting although there is surely a strong selection effect in what is reported. E.g., Sendhil Mullainathan's NYT editorial lists a lot of findings, but he isn't listing the *average* findings in the literature, he's listing the most extreme findings, among those that are credible.
 
-A digression regarding explicit discrimination: Insofar as it is based on beliefs, then we can make a distinction between (1) beliefs about demographic facts (about differences in education, crime, teenage pregnancy, IQ); (2) beliefs about the relationship of demographic facts and circumstances - i.e., beliefs about whether a change in circumstances would lead to a change in outcomes. I think that the latter is probably more important in the big picture: Lee Jussim says that in fact stereotypes are fairly accurate - people are fairly good judges of demographic facts. However we also know that throughout history people have underestimated the influence of circumstances on outcomes - people have observed differences in outcomes among groups and thought they were due to differences in essential character between those groups. Irish, Africans, Huns, Slavs, Chinese, English, women & men,  fundamental characteristics to account for the differences in outcomes, and they keep underestimating the effect of circumstances (e.g. the debate between Carlyle and Mill).
+A digression regarding explicit discrimination: Insofar as it is based on beliefs, then we can make a distinction between (1) beliefs about demographic facts (about differences in education, crime, teenage pregnancy, IQ); (2) beliefs about the relationship of demographic facts and circumstances - i.e., beliefs about whether a change in circumstances would lead to a change in outcomes. I think that the latter is probably more important in the big picture: Lee Jussim says that in fact stereotypes are fairly accurate - people are fairly good judges of demographic facts. However it seems reasonable to say that, in most ages, people have underestimated the influence of circumstances on outcomes - people have observed differences in outcomes among groups and thought they were due to differences in essential character between those groups. Irish, Africans, Huns, Slavs, Chinese, English, women & men, fundamental characteristics to account for the differences in outcomes, and they keep underestimating the effect of circumstances (e.g. the debate between Carlyle and Mill).
 
 There is an argument that discrimination is stitched into the fabric of everyday thought: (1) masculine default in language (“he”, “guys”, “human”, “man”); (2) difference in the words used - talk about black “thugs” and white “youths”; talk about a black “ghetto” and a white “poor neighborhood”; talk about black people “looting” and white people “scavenging.” There was a famous case of two similar photos with different captions, though by itself it is not conclusive. http://www.snopes.com/katrina/photos/looters.asp. (3) results of the IAT. I'm not convinced that these effects have a big effect for the majority of people.
 
@@ -36,17 +50,17 @@ When your decisions reveal some implicit considerations - being passive-aggressi
 
 Examples:
 
-1. A wife who always finds fault in her husband's decisions, or a husband finding fault in his wife's: if she turns left at a junction then the husband would say it was a bad decision, and if she turns right then he would've said the same. If the husband said "let's walk there," she'll say “what? in our best clothes?” if he said "let's take a taxi" she'll say “what? just around the corner?” Wife notices husband driving w one hand on the steering wheel, & says that it's unsafe, but in fact she does the same things when she's driving. 
-2. You blame your spouse for a bad decision when it turns out badly -- but you didn't blame them for the same decision when it turned out well (you only say it's a stupid thing to open the garage door with the manual release *after* you find out that doing that broke the door.). 
+1. A wife who always finds fault in her husband's decisions, or a husband finding fault in his wife's: if she turns left at a junction then the husband would say it was a bad decision, and if she turns right then he would've said the same. If the husband said "let's walk there," she'll say “what? in our best clothes?” if he said "let's take a taxi" she'll say “what? just around the corner?” Wife notices husband driving w one hand on the steering wheel, & says that it's unsafe, but in fact she does the same things when she's driving.
+2. You blame your spouse for a bad decision when it turns out badly -- but you didn't blame them for the same decision when it turned out well (you only say it's a stupid thing to open the garage door with the manual release *after* you find out that doing that broke the door.).
 3. If your pompous friend says he liked a movie, it makes you more likely to agree with a different friend who says they didn't like it, & vice versa.
 2.  A teenager irritated by what their parent does - no matter what they do, it's irritating.
-3.  A friend who contrives to be in the bathroom when the bill arrives. 
-4.  A colleague who, in meetings, agrees or disagrees with suggestions depending on who made the suggestion. 
+3.  A friend who contrives to be in the bathroom when the bill arrives.
+4.  A colleague who, in meetings, agrees or disagrees with suggestions depending on who made the suggestion.
 5.  Observing someone doing something unpleasant, and then deliberately working to spite them. If someone is standing very close behind me in a queue, I might sometimes let a gap open up in front of me, in part because I know it will annoy the person behind me. Seeing someone you dislike running towards you, you don't move out of their way, forcing them to slow down.
 
-A general observation is that we all have certain areas of discretion: we can claim (a) to feel tired, (b) to feel sick, or (c) to have work to do. These can be used to cover implicit preferences. E.g.: 
+A general observation is that we all have certain areas of discretion: we can claim (a) to feel tired, (b) to feel sick, or (c) to have work to do. These can be used to cover implicit preferences. E.g.:
 
-1. someone who is more likely to say they're busy with work when they are invited to dinner by someone they don't like; 
+1. someone who is more likely to say they're busy with work when they are invited to dinner by someone they don't like;
 2. a person who says they feel sick when they wants attention.
 
 Overall I think everyone does this in small ways - making excuses, being perverse - but for only a minority of people does it substantially affect their decision-making.
@@ -77,9 +91,9 @@ Lots of classic studies find that your choice among goods (mugs, paintings, bott
 
 Behaving differently when observed:
 
-1. When someone is watching your computer screen, you become more likely to read the NY Times and less likely to read Facebook. 
-2. When a friend accompanies you to the supermarket, you buy more vegetables and fewer bags of chips. 
-3. Scrubbing and flossing your teeth just before an appointment with the dentist. 
+1. When someone is watching your computer screen, you become more likely to read the NY Times and less likely to read Facebook.
+2. When a friend accompanies you to the supermarket, you buy more vegetables and fewer bags of chips.
+3. Scrubbing and flossing your teeth just before an appointment with the dentist.
 4. Changing your preferences over jobs, or houses, or spouses, depending on who you're talking to, and your perception of what that person thinks.
 5. Shyness about saying what you think: saying yes to a hairdresser, bartender, waiter, or salesperson, and later regretting that you didn't say no.
 
@@ -187,18 +201,18 @@ This doesn't imply unconscious influences. It would imply unconscious influences
 
 # Conclusion
 
-Let's circle back to the point that Scott Alexander was making. Recently a lot of studies, which purport to find unconscious influences on decision-making, have been debunked. 
+Let's circle back to the point that Scott Alexander was making. Recently a lot of studies, which purport to find unconscious influences on decision-making, have been debunked.
 
 * **add:** Power posing might turn out to be bullshit; but for sure there are some magic things that make me persuaded by some people, and not persuaded by others. There's *something* there, but I guess it's deeper than just posing.
 * **add:** There have been a lot of intellectual fads about unconscious influences: reinforcement learning; evolutionary psychology; Freudian psychology; postwar social psychology - people are conformists & rationalizers; .
-* add: social psych argument: black kids do badly because of teachers expectations; big placebo effects; sex influences evaluation and performance influenced by expectations. 
-    - They are largely *right* in the big picture. There has been a massive win of nurture over nature, relative to position of 18th century. We say that nature determines half of variance, but that's within a fairly homogenous country. 
+* add: social psych argument: black kids do badly because of teachers expectations; big placebo effects; sex influences evaluation and performance influenced by expectations.
+    - They are largely *right* in the big picture. There has been a massive win of nurture over nature, relative to position of 18th century. We say that nature determines half of variance, but that's within a fairly homogenous country.
 
 ***
 
 (Upton Sinclair said that it's difficult to get a person to understand something, when their salary depends on their not understanding it.)
 
-Looking back across the bloody bedspread of human history, does it seem like people have generally had insight into their own motivations? Religion stands out. Politics - Republicans think that X is a terrible thing when they see Democrats doing X, and vice versa. (family arguments) 
+Looking back across the bloody bedspread of human history, does it seem like people have generally had insight into their own motivations? Religion stands out. Politics - Republicans think that X is a terrible thing when they see Democrats doing X, and vice versa. (family arguments)
 
 
 # Links & Notes
@@ -228,7 +242,7 @@ In social psychology over the last few decades there has been a boom in unconsci
 
 ***
 
-There's an important distinction - 
+There's an important distinction -
 
 1. Cases when I don't know how I'd act if things were different.
 2. Cases when I *think* I know, but I'm wrong.
@@ -256,5 +270,3 @@ Finally here's a little observation about the history of unconscious influences.
 ***
 
 References
-
-

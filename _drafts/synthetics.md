@@ -3,9 +3,11 @@ title: We Occupy a Giant Room but we Live in a Corner of It
 layout: post
 ---
 
-We occupy a giant room but we live in a corner of it. Our movements are very similar to those our our ancestors, even though the ropes that had been constraining them have all been cut.
+We have cut away all sorts of ropes that constrained our ancestors, but our motions still follow the same patterns marked out by those constraints.
 
-Most of what we used to make was dictated by the limitations of our materials. We now have new materials, massively increasing the scope of what's possible, opening up giant caverns of possibility, yet we choose to stay where we are and just make imitations of what we did with the old materials.
+We occupy a giant room but we choose to live in a corner of it. <!-- Our movements are very similar to those our our ancestors, even though the ropes that had been constraining them have all been cut. -->
+
+<!-- Most of what we used to make was dictated by the limitations of our materials. We now have new materials, massively increasing the scope of what's possible, opening up giant caverns of possibility, yet we choose to stay where we are and just make imitations of what we did with the old materials. -->
 
 <!--## New Materials Start out Imitating Old Materials -->
 
@@ -17,7 +19,7 @@ Most modern hard furniture is made from chipboard but has a wood-grain veneer, t
 
 Cast iron is made to look like wrought iron. Lines are cut into concrete to make it look like brickwork.
 
-The foods in a supermarket all existed 100 years ago, but the ingredients have changed (now they're made from corn starch, corn syrup, colours and flavours). We have had margarine for 200 years, but we still add a yellow dye to margarine make it look like butter.
+The foods in a supermarket all existed 100 years ago, but the ingredients have changed (now they're made from corn starch, corn syrup, colours and flavours). We have had margarine for 200 years but we still add a yellow dye to it to make it look like butter.
 
 We have serifs on our letters because the Romans, putting inscriptions on monuments, chiseled a cap on the end of each line to keep the stone from crumbling.
 
@@ -133,6 +135,10 @@ Function is not sufficient to pin down a unique form. A designer of lamps for ma
 * Sound/music theory:
 
 – good discussion of sampling theory & ear perceptionhttp://people.xiph.org/~xiphmont/demo/neil-young.html
+
+* 1962, "Natural Sounding Artificial Reverberation"
+* http://charlesames.net/pdf/MRSchroeder/artificial-reverb.pdf
+   * and https://news.ycombinator.com/item?id=16304354
 
 ## Nylon
 

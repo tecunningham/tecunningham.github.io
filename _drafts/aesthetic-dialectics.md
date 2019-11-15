@@ -14,31 +14,31 @@ A common pattern:
 
 1. Frames for glasses were once made from the shells of tortoises;
 2. celluloid frames were made to look like tortoiseshell by mixing brown and yellow;
-3. now no-one assumes that your glasses are made of tortoise, even though they're made to look that way.
+3. now no-one assumes that your glasses are made of tortoiseshell, but we still make a lot of them to look that way.
 
 ---
 
 1. Blue jeans get worn & frayed;
-2. jeans-makers make pre-stressed jeans;
-3. jeans-makers make jeans with perfectly square holes, or perfectly circular yellow patches.
+2. jeans-makers make distressed jeans;
+3. jeans-makers make jeans with implausible wear marks: perfectly square holes, perfectly circular discoloration.
 
 ---
 
 1. Travelers bring back t-shirts with Japanese or Thai logos, foreign army uniforms;
 2. shops sell shirts with fake foreign logos, khaki fatigues;
-3. the foreign logos get exaggerated, the badges and epaulettes get more florid, the camouflage is printed in pink on purple.
+3. the foreign logos get exaggerated, the epaulettes get more florid, the camouflage is printed in pink on purple.
 
 ---
 
 1. Masons and carpenters figure out ways of putting things together to keep a building upright (lintels, columns, arches, buttresses);
-2. old features are reproduced on buildings when it's no longer a necessity (concrete is etched to make it look like stonework, iron is cast to look like it's wrought, siding done in plastic, columns which are held up by the portico they are meant to support);
-3. facades display added-on decorations (battlements on apartments, wattle & daub over concrete, windows painted with black lines in the pattern of stained glass, freestanding columns).
+2. old features are reproduced on buildings when it's no longer a necessity: concrete is etched to make it look like stonework, iron is cast to look like it's wrought, wood siding done in plastic, columns added to buildings which don't need their support;
+3. facades display added-on decorations: battlements on apartments, wattle & daub over concrete, windows painted with black lines in the pattern of stained glass, freestanding columns.
 
 ---
 
 1. Chiefs and emperors wear leopard skins;
 2. Cow skins are dyed orange and black to make them look like leopardskin;
-3. Leopardskin print becomes a standard pattern alongside the stripe, polka dot, check, plaid, gingham, houndstooth.
+3. Leopardskin print becomes a standard pattern,  along with stripes, polka dots, check, plaid, gingham, houndstooth.
 
 ---
 

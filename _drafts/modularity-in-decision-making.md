@@ -1,36 +1,38 @@
 ---
 layout: post
 title: Modularity in Decision-Making
+geometry: margin=1in
+output: pdf_document
 ---
 
 1. Many strange patterns in decision-making can be explained as coming from the *modularity* of the brain: from an interaction of two systems, which together make decisions. Like a guide dog and a blind person together make decisions. Two distinct forms:
-2. **Information modularity** -- much of our knowledge is stored pre-consciously, meaning we often get strong intuitions but with little introspection into *why* we feel that way. This can lead to inconsistencies in decision-making: especially we are influenced by features that are *ordinarily* informative, but may not be informative in the current situation.
+2. **Information modularity** -- much of our knowledge is stored pre-consciously, meaning we often get strong intuitions but with little introspection into *why* we feel that way. This can lead to inconsistencies in decision-making: a typical one is when you are influenced by a feature that you know to be irrelevant in the current situation, but which is *ordinarily* informative, in most typical situations, and so you cannot suppress its influence.
 3. **Preference modularity** -- we often have preferences for *proximal* outcomes, that are detached from the ultimate goal which those outcomes are associated with. This also leads to certain characteristic patterns in choice.
 
 
-# Information Modularity (bloodhound)                                              
+# Information Modularity (Bloodhound)
 
 We have limited conscious insight into how our judgments are formed. We can think of the brain as having a hierarchical organization: lower-level parts form inferences, and pass their conclusions to higher levels. This separation of information has a set of implications:
 
-1. **Introspection of judgments we don't trust.** There are many cases where there is an intuitive but wrong answer, and even when we know the right answer we can still *feel* the pull of the intuitive answer. Just as, even when we know that we are looking at a misleading picture (an illusion), that knowledge doesn't dissolve the illusion. (Sloman's 'criterion S').
+1. **Introspection of judgments we don't trust.** There are many cases where there is an intuitive but wrong answer, and even when we know the right answer we can still *feel* the pull of the intuitive answer. This is very similar to visual illusions: even when we know that a picture is misleading, that knowledge doesn't dissolve the illusion. (Sloman's "criterion S").
 
 1. **Biases occur in unusual cases.** We can have very accurate judgments about cases which we have experience with, but we make systematic mistakes when dealing with unusual cases. (e.g. Valentine (1988) “Upside-down faces: a review of the effect of inversion upon face recognition”; inverted colour: Galper 1970; Kemp et al 1990.)
 
-2. **Failure of making hypothetical judgments.** We have poor ability to state how our judgment would change if one factor changed, unless we are put in a situation where that factor actually changed.
+2. **Failure of making hypothetical judgments.** We have poor ability to state how our judgment would change if one factor changed, unless we are put in a situation where that factor actually changed. E.g., would this drawing look more like your cousin if the nostrils were more flared? Would you judge a woman the same for making this remark? Hard to say without seeing it.
 
 3. **Joint & separate judgments.** Judgments obey rules of consistency when elicited jointly, but violate them when elicited separately.
 
 4. **Comparison effects.** Many judgments seem to be influenced by relative comparisons. Also called contrast & assimilation effects, normalization, adaptation, inhibition. These effects have often been proposed as fundamental and hard-wired. However the logic of encapsulation can explain why (i) relativity effects only occur in some contexts (implying it's not hard-wired); and yet (ii) relativity can lead to predictable mistakes.
 
-# Preference Modularity (bulldog)                                                    
+# Preference Modularity (Bulldog)
 
 Some characteristic behaviours indicating modularity of preferences:
 
-1. **Preferences are stronger when made more salient.** E.g., (1) more likely to choose a croissant when you smell it; (2) you're scared by certain things only if you can see them - happier to give blood if you can't see the needle; (3) you're more likely to have sex when already aroused. (Also, just thinking about certain things can make us aroused or happy or scared, so we take care to train our thoughts in that direction -- don't think about X, do think about Y).
+1. **Preferences are stronger when made more salient.** E.g., (1) more likely to choose a croissant when you smell it; (2) you're scared by certain things only if you can see them - you're happier to give blood if you can't see the needle; (3) you're more likely to have sex when already aroused. (Also, just thinking about certain things can make us aroused or happy or scared, so we take care to train our thoughts in that direction -- don't think about X, do think about Y).
 
 2. **Making personal rules.** such as setting a certain time to start & finish working; a goal number of words to write each day; only getting ice-cream if you've been to the gym; setting a rule for how much money to save. Implies you don't trust your future self so you make up a rule, even though there's no way to enforce them.
 
-3. **strategic choices.** - i.e. choosing to avoid certain options. E.g., (1) buying a house to force yourself to save. (2) avoiding situations where you think you'll be tempted. 
+3. **strategic choices.** - i.e. choosing to avoid certain options. E.g., (1) buying a house to force yourself to save. (2) avoiding situations where you think you'll be tempted.
 
 4. **effect of distraction.** - You are more likely to indulge in these proximal goals when you are distracted - e.g. (1) distractedly eat a croissant. In experiments - manipulation of cognitive load.
 
@@ -38,7 +40,7 @@ Some characteristic behaviours indicating modularity of preferences:
 
 Other variation in decision by context: Decisions made with salient outcomes, or abstract outcomes; decisions made under time pressure; decisions made with cognitive load; decisions made in advance; decisions over future choice sets; choices made in different moods, or after exerting willpower; decisions made directly or indirectly; from small or large choice sets; and attitudes which are expressed by involuntary responses (response time, skin conductance, pupil dilation).
 
-#Why would we have modular preferences?                                             
+#Why would we have modular preferences?
 
 Two types: (a) evolutionary proximal goals (sugar, sex, putrid smells); (b) learned proximal goals (coffee, wine, tobacco, food aversions).
 
@@ -48,6 +50,16 @@ Why would these be hardwired? Or rather, instead of hardwiring *preferences*, wh
 
 **Proximal preferences from learning.** We often can explain peoples' preference for X, because X has been associated with good outcomes in the past, yet people still choose X even when they are aware it no longer has those good associations. I.e., X has turned from a means into an end in itself. This can be described as a “habit”, “learned preference.” Some examples: (1) enjoying the smell of coffee, the taste of wine, or a cigarette, when those associations must be due principally to the psychoactive drugs that have been associated with them; (2) a learned phobia; (3) a learned food aversion, even when you know it's irrelevant (e.g. chemotherapy patients develop aversions to whatever food they were eating during the chemotherapy).
 
-It's harder to answer why *learned* preferences should be hard-wired.  
+It's harder to answer why *learned* preferences should be hard-wired.
 
 Different models which get at aspects of this type of behaviour: (1) a complementarity between a cue and consumption: the consumption becomes more valuable when exposed to an associated cue (Laibson); (2) a temptation cost - you have to pay a cost to not consume something when it is possible to choose it -- (Gul and Pesendorfer) (3) preferences which depend on your state of arousal - e.g. willingness to be violent, have sex, changes preditably with context (Loewenstein on arousal).
+
+
+# What is the Equilibrium effect of Modular Preferences?
+
+Evolution and upbringing fitted us with all these attractions and repulsions — that are hard wired, and don't make much sense day to day 
+
+But these forces are only local: e.g., the repulsion falls off with the square of the distance, while the attraction falls of in proportion to distance, meaning that in equilibrium many things float at arms reach: we keep slaughterhouses just out of sight; turn out the lights when doing distasteful things; feel bad about a desparate drug addict on your walk to work, but not if they're in a different neighborhood. 
+
+* What if attraction is quadratic and repulsion is linear? Then equilibrium is you hold it very close. 
+* chemistry of segregation: each city has a wrong-side-of-tracks, because of this interplay of attraction and repulsion.
