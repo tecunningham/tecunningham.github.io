@@ -29,4 +29,12 @@ All of this is treating the number of cases as a continuous variable which means
 
 There's been some discussion of zig-zagging by the Imperial group ([paper]([URL](https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf))) and by Timothy Gowers ([twitter & post](https://twitter.com/wtgowers/status/1243973167879794691)) 
 
-Gowers says the optimal policy is very short zig-zags (changing policy every other day). But in fact this is a bad policy if you know the end-point, you'd be far better off having one very long zig-zag (i.e. harsh then loose). Gowers finds the "short zig-zag" result because he assumes the lower threshold is given and solves for the optimal upper threshold. In this case your upper threshold should be as close as possible to the lower threshold, and therefore cycles will be rapid. You can see this in the diagram below: the total infections is approximately the area under the zig-zag (not quite: because the y-axis is ln(cases), but this won't matter for the argument). Thus you can reduce the area under the line by lowering the upper threshold. However if you instead take the *upper* threshold as fixed, then it's optimal to choose a lower threshold that is as low as possible, i.e. you want *long* cycles, not short cycles.
+Gowers says the optimal policy is very short zig-zags (changing policy every other day), however I think this is misleading. It comes from fixing the lower-threshold and optimizing the upper-threshold. If instead you fixed the upper-threshold and optimized the lower-threshold, then the optimal cycle-length will be long.
+
+If you choose both the upper and lower threshold (both T and S) then he notes that they'll both be arbitarily low. However this ignores the cost of *getting* to zero given current cases. 
+
+Instead a well-defined problem is to choose an optimal time-path of policy given some start-point and end-point. In that case it'll be a path of gradually decreasing strictness (without zig-zags).
+
+You can see the intuition in the diagram below: the total infections is approximately the area under the zig-zag (not quite: because the y-axis is ln(cases), but this won't matter for the argument). Thus you can reduce the area under the line by lowering the upper threshold. However if you instead take the *upper* threshold as fixed, then it's optimal to choose a lower threshold that is as low as possible, i.e. you want *long* cycles, not short cycles.
+
+![abc](https://www.dropbox.com/s/jj93tz0k0kuau49/zigzag.png?dl=1)
