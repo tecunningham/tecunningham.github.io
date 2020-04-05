@@ -9,11 +9,11 @@ header-includes:
 
 # Biases in Judgment of Sensation
 
-[remains to add: (1) prediction: unsupervised neural net should show assimilation, supervised should show contrast; (2) the "relief" problem: people should have enough information to fix this, unless they're ignorant of strength of spillovers]
+[remains to add: (1) prediction: unsupervised neural net should show assimilation, supervised should show contrast; (2) the "relief" problem: people should have enough information to fix this, unless they're ignorant of strength of spillovers.]
 
-There are many cases where people make systematic mistakes about    their own sensations - what they see, what they hear, what they touch. Most well known are optical illusions, such as the Muller-Lyer illusion in which one line appears longer than another, even though they are both identical, because each has slightly different adjoining lines.
+There are many cases where people make systematic mistakes about    their own sensations - what they see, what they hear, what they touch. Most well-known are optical illusions, such as the Muller-Lyer illusion in which one line appears longer than another, even though they are both the same length, because each has slightly different adjoining lines.
 
-These are not just imperfections in inferences about the world, they are misjudgments of the sensations themselves. The two lines cast two identical projections upon your retina, yet you perceive them to have different lengths, both different in the world and different on your eye.
+These are not just imperfections in inferences about the world, they are misjudgments of the sensations themselves. The two lines cast two identical projections upon your retina, yet you perceive them to have different lengths -- they seem to be both different in the world and different on your eye.
 
 **A common pattern of many illusions is *comparison* effects,** where judgment of the strength of some sensation $s$ is affected by the strength of another sensation, $s'$ shown alongside or prior to $s'$. These effects can be split into assimilation effects, where an increase in $s'$ causes an increase in the apparent size of $s$, and contrast effects, where an increase in $s'$ causes a decrease in the apparent size of $s$. A second class of effects is cross-modal where, for example, judgment of a visual stimulus is affected by a sound, or vice versa. In general I will define a bias as an effect:
    $$\frac{d\hat{s}}{ds'}\neq0,$$

@@ -24,6 +24,7 @@ I will argue that weaknesses in human perception and judgment (illusions, biases
 
 The diagrams below shows the basic idea. The first diagram represents a model of judgment in which all information is integrated optimally: there is some fact about the world, $v$, a set of observations $x_1,\ldots,x_7$ which relate to that fact, and finally the conscious brain, $\xymatrix{*+[o][F-]{c}}$, which has access to all those observations, and forms an inference about $v$ from them. Next I show the hierchical model in which there are various intermediary aggregations of information, drawing on inputs that are not themselves directly accessible to the conscious brain.
 
+
 $$\begin{matrix}\xymatrix@R-2pc{
 & \boxed{x_{1}}\ar[dddr] \\
 & \boxed{x_{2}}\ar[ddr] \\
@@ -53,9 +54,9 @@ A very brief survey of applications of the theory:
 **APPLICATIONS IN PERCEPTION**
 
 1. **Sensitivity to presentation.** Peoples' ability to recognize a pattern will be sensitive to the presentation.
-1. **Cross-modal influences on judgment of sensation.** When judging a direct sensation (the brightness of a light, pressure from an object) people make mistakes, and are influenced by other sensations, and the direction of the influence is predictable from an assumption that the hierarchy is inferring properties of the world.
-2. **Contrast and assimilation effects.** Sometimes we find contrast effects in perception (an object appears lighter when placed next to a darker object, etc.), sometimes assimilation effects - the opposite. In the model above, contrast effects are predicted when there's relatively higher autocorrelation in signal than in noise, and assimilation otherwise.
-3. **Reproduction.** People find it easy to recognize patterns but hard to reproduce them -- e.g. to paint a picture, to transcribe a melody. This is consistent with the model above insofar as the recognition is done pre-consciously, and certain biases in reproduction are predictable: that people underestimate the darkness of shadows.
+2. **Cross-modal influences on judgment of sensation.** When judging a direct sensation (the brightness of a light, pressure from an object) people make mistakes, and are influenced by other sensations, and the direction of the influence is predictable from an assumption that the hierarchy is inferring properties of the world.
+3. **Contrast and assimilation effects.** Sometimes we find contrast effects in perception (an object appears lighter when placed next to a darker object, etc.), sometimes assimilation effects - the opposite. In the model above, contrast effects are predicted when there's relatively higher autocorrelation in signal than in noise, and assimilation otherwise.
+4. **Reproduction.** People find it easy to recognize patterns but hard to reproduce them -- e.g. to paint a picture, to transcribe a melody. This is consistent with the model above insofar as the recognition is done pre-consciously, and certain biases in reproduction are predictable: that people underestimate the darkness of shadows.
 
 
 **APPLICATIONS IN JUDGMENT**
