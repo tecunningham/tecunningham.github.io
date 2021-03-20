@@ -14,7 +14,7 @@ EXAMPLES
 
 1. **Consequentialist & deontological morality.**
 2. **Learned tastes & aversions** -- macaroni cheese & chemotherapy.
-3. **The chemistry of segregation** -- cities sort black and white into different neighborhoods, but they don't explode into separate black cities and white cities: this implies that there exists both attraction and repulsion, but the repulsion falls off faster than the attraction -- they are pulled towards each other, but won't tolerate being next-door to each other.
+3. **The chemistry of segregation** -- cities sort black and white into different neighborhoods, but they don't explode into separate black cities and white cities: this implies that there is both attraction and repulsion, and the repulsion falls off faster than the attraction -- they are pulled towards each other, but won't tolerate being next-door to each other.
 4. **Immigration in the US,** in a weird stalemate for decades where no-one is satisfied: the law isn't enforced, but nothing changes.
 
 
@@ -37,4 +37,4 @@ Unease in dealing with people who work at lower wages & at worse conditions.
    For example: unwilling to buy clothes made by people paid a very low wage; unwilling to rent out cheap housing, people call you a slumlord; the ugliness of living as a rich person in a poor country, or a rich person in a poor neighbourhood, next to poor people, without sharing your wealth.
 
 * [Russian woman at the theatre, cabman freezing outside]
-* Glen Weyl's argument about middle east: large positive welfare effects, from having second-class citizens. / But Shrivats says he's quite ambivalent about Dubai: an unpleasant society.
+* Glen Weyl's argument about middle east: large positive welfare effects from having second-class citizens. / But Shrivats' ambivalence about Dubai: an unpleasant society.

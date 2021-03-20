@@ -13,7 +13,7 @@ The standard interpretation of Hume is that he's pointing out an error of logic:
 
 However there's a different way of putting his point, which makes it more a question of fact than a question of logic: as a disagreement over whether or not certain desires are fundamental or only instrumental.
 
-Is your desire for cheese a desire for cheese *qua* cheese, or only insofar as cheese contributes to some higher goal? If your desire for cheese is instrumental, then we can call that *desire* irrational, depending on whether it contribute to the higher desires.
+Is your desire for cheese a desire for cheese *qua* cheese, or only insofar as cheese contributes to some higher goal? If your desire for cheese is instrumental, then we can call that desire irrational depending on whether it contribute to the higher desires.
 
 Put this way Hume's point is more empirical. Philosophers prior to Hume had tended to suppose that most desires -- lust, sympathy, sloth -- all descended angel-like from some higher fundamental desire, though, they would say, it remained obscure and arguable exactly what that fundamental purpose is, and precisely how the apparent conflicts between lower desires could be resolved.
 

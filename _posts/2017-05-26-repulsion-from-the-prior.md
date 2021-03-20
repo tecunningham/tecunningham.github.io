@@ -100,5 +100,5 @@ Which directly contradicts Wei & Stocker's prediction. (In this case, of course,
 
 ## References
 
-* Schwartz, Hsu & Dayan (2007, Nature Review Neuro) “Space and Time in Visual Context”
-* Wei & Stocker (2015, Nature Neuroscience) **"A Bayesian observer model constrained by efficient coding can explain ‘anti-Bayesian’ percepts"**
+- Schwartz, Hsu & Dayan (2007, Nature Review Neuro) “Space and Time in Visual Context”
+- Wei & Stocker (2015, Nature Neuroscience) **"A Bayesian observer model constrained by efficient coding can explain ‘anti-Bayesian’ percepts"**

@@ -5,8 +5,10 @@ geometry: margin=1in
 output: pdf_document
 ---
 
-1. Many strange patterns in decision-making can be explained as coming from the *modularity* of the brain: from an interaction of two systems, which together make decisions. Like a guide dog and a blind person together make decisions. Two distinct forms:
-2. **Information modularity** -- much of our knowledge is stored pre-consciously, meaning we often get strong intuitions but with little introspection into *why* we feel that way. This can lead to inconsistencies in decision-making: a typical one is when you are influenced by a feature that you know to be irrelevant in the current situation, but which is *ordinarily* informative, in most typical situations, and so you cannot suppress its influence.
+1. **Many strange patterns in decision-making can be explained as coming from the *modularity* of the brain:** from an interaction of two systems, which together make decisions. Like a guide dog and a blind person together make decisions. There are two distinct forms:
+
+2. **Information modularity** -- much of our knowledge is stored pre-consciously, meaning we often get strong intuitions but with little introspection into *why* we feel that way. This can lead to inconsistencies in decision-making: a typical one is when you are influenced by a feature that you know to be irrelevant in the current situation, but you cannot suppress its influence, because the influence goes through subconscious channels. In addition: the direction of the influence is often the way in which that features is *ordinarily* informative, in typical situations.
+
 3. **Preference modularity** -- we often have preferences for *proximal* outcomes, that are detached from the ultimate goal which those outcomes are associated with. This also leads to certain characteristic patterns in choice.
 
 
@@ -40,7 +42,7 @@ Some characteristic behaviours indicating modularity of preferences:
 
 Other variation in decision by context: Decisions made with salient outcomes, or abstract outcomes; decisions made under time pressure; decisions made with cognitive load; decisions made in advance; decisions over future choice sets; choices made in different moods, or after exerting willpower; decisions made directly or indirectly; from small or large choice sets; and attitudes which are expressed by involuntary responses (response time, skin conductance, pupil dilation).
 
-#Why would we have modular preferences?
+# Why would we have modular preferences?
 
 Two types: (a) evolutionary proximal goals (sugar, sex, putrid smells); (b) learned proximal goals (coffee, wine, tobacco, food aversions).
 
@@ -59,7 +61,7 @@ Different models which get at aspects of this type of behaviour: (1) a complemen
 
 Evolution and upbringing fitted us with all these attractions and repulsions — that are hard wired, and don't make much sense day to day 
 
-But these forces are only local: e.g., the repulsion falls off with the square of the distance, while the attraction falls of in proportion to distance, meaning that in equilibrium many things float at arms reach: we keep slaughterhouses just out of sight; turn out the lights when doing distasteful things; feel bad about a desparate drug addict on your walk to work, but not if they're in a different neighborhood. 
+But these forces are only local: e.g., the repulsion falls off with the square of the distance, while the attraction falls of in proportion to distance, meaning that in equilibrium many things float at arms reach: we keep slaughterhouses just out of sight; turn out the lights when doing distasteful things; feel bad about a desparate drug addict on your walk to work, but don't feel bad if they're in a different neighborhood. 
 
 * What if attraction is quadratic and repulsion is linear? Then equilibrium is you hold it very close. 
 * chemistry of segregation: each city has a wrong-side-of-tracks, because of this interplay of attraction and repulsion.

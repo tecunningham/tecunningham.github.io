@@ -22,7 +22,9 @@ Note: difficult to get encircled numbers. See following references:
 
 I will argue that weaknesses in human perception and judgment (illusions, biases, inconsistencies) can be understood as products of the *hierarchical* way in which the brain processes information.
 
-The diagrams below shows the basic idea. The first diagram represents a model of judgment in which all information is integrated optimally: there is some fact about the world, $v$, a set of observations $x_1,\ldots,x_7$ which relate to that fact, and finally the conscious brain, $\xymatrix{*+[o][F-]{c}}$, which has access to all those observations, and forms an inference about $v$ from them. Next I show the hierchical model in which there are various intermediary aggregations of information, drawing on inputs that are not themselves directly accessible to the conscious brain.
+The diagrams below shows the basic idea. The first diagram represents a model of judgment in which all information is integrated optimally: there is some fact about the world, $v$, a set of observations $x_1,\ldots,x_7$ which relate to that fact, and finally the conscious brain, $\xymatrix{*+[o][F-]{c}}$, which has access to all those observations, and forms an inference about $v$ from them.
+
+The second diagram shows the hierchical model in which information is aggregated in stages, drawing on inputs that are not themselves directly accessible to the conscious brain.
 
 
 $$\begin{matrix}\xymatrix@R-2pc{
@@ -47,23 +49,23 @@ v\ar[uuur]\ar[uur]\ar[ur]\ar[r]\ar[dr]\ar[ddr]\ar[dddr] &  \boxed{x_{4}}\ar[rru]
 
 The intermediate nodes can be thought of as automatic unconscious judgments -- e.g. judgments about the distance of an object, the age of a person, or the value of a bottle of wine. The conscious brain only has access to those intermediate judgments, not the raw data, and this fact causes the many inconsistencies we observe in human judgment.
 
-The setup can be modelled formally such that assumptions about the structure of the hierarchy -- about which nodes are connected to which -- generate predictions about what biases will be exhibited. In principle the theory can explain virtually any pattern of biases, but I will argue that quite simple assumptions about the structure of the hierarchy can explain and unify a broad range of observed biases.
+The setup can be modelled formally such that assumptions about the structure of the hierarchy -- about which nodes are connected to which -- generate predictions about what biases will be exhibited. I will argue that simple assumptions about the structure of the hierarchy can explain and unify a broad range of observed biases.
 
 A very brief survey of applications of the theory:
 
 **APPLICATIONS IN PERCEPTION**
 
 1. **Sensitivity to presentation.** Peoples' ability to recognize a pattern will be sensitive to the presentation.
-2. **Cross-modal influences on judgment of sensation.** When judging a direct sensation (the brightness of a light, pressure from an object) people make mistakes, and are influenced by other sensations, and the direction of the influence is predictable from an assumption that the hierarchy is inferring properties of the world.
-3. **Contrast and assimilation effects.** Sometimes we find contrast effects in perception (an object appears lighter when placed next to a darker object, etc.), sometimes assimilation effects - the opposite. In the model above, contrast effects are predicted when there's relatively higher autocorrelation in signal than in noise, and assimilation otherwise.
-4. **Reproduction.** People find it easy to recognize patterns but hard to reproduce them -- e.g. to paint a picture, to transcribe a melody. This is consistent with the model above insofar as the recognition is done pre-consciously, and certain biases in reproduction are predictable: that people underestimate the darkness of shadows.
+2. **Cross-modal influences on judgment of sensation.** When people are asked to judge the intensity of a raw sensation (e.g. the brightness of a light, pressure from an object on the hand) they are often influenced by other irrelevant stimuli. The direction of those influence is predictable from an assumption that the hierarchy is inferring properties of the world.
+3. **Contrast and assimilation effects.** Sometimes we find contrast effects in perception (an object appears lighter when placed next to a darker object, etc.), sometimes assimilation effects (the opposite). The model above predicts that contrast effects will occur when there's relatively higher autocorrelation in signal than in noise, and assimilation otherwise.
+4. **Reproduction.** People find it easy to recognize patterns but hard to reproduce them, for example to paint a picture or to transcribe a melody. This is consistent with the model above insofar as the recognition is done pre-consciously. The model also predicts certain biases in reproduction, e.g. that people will paint shadows too-light.
 
 
 **APPLICATIONS IN JUDGMENT**
 
-1. **Influence of irrelevant cues.** A common pattern is that people are influenced by cues that they know to be irrelevant -- i.e., when told to ignore some fact they will still be moved by it. This occurs when cues are integrated into preconscious judgments.
-3. **Hypothetical questions.** People will be unable to accurately answer hypothetical questions about their own judgments: e.g., would you value this bottle of whisky the same, if it had a different price on it?
-4. **Joint evaluation.** When two judgments are being made at the same time -- e.g., two items being valued -- then .
+1. **Influence of irrelevant cues.** A common finding is that judgment is influenced by irrelevant cues, i.e. when told to ignore some fact people will still be moved by it. This can occur in our model when those cues are integrated into preconscious judgments.
+2. **Hypothetical questions.** The model predicts that people will be unable to accurately answer hypothetical questions about their own judgments, e.g.: Would you value this bottle of whisky the same if it had a different price on it? Would you like this house as much if it was a different colour?
+3. **Joint evaluation.** When two judgments are being made at the same time -- e.g., two items being valued -- then we should expect some anomalies to disappear.
 
 
 <!-- The hierarchical model, illustrated on the right, implies that the conscious brain,  $\xymatrix{*+[o][F-]{c}}$, has access mainly to pre-interpreted information, and limited insight into the raw material - the stimuli and learned regularities - from which our judgments are formed. This structure also implies the existence of certain characteristic biases, which occur when one branch of the hierarchy does not have access to relevant information available to another branch. I will argue that many of the biases we observe in perception, judgment, and decision-making have explanations which fit this model -- i.e., they are side-effects of the pre-processing of information by the brain. Some of the points are not novel, just formalized into my hierarchical framework. I think the most important contribution is to show an isomorphism between the structure of the hierarchy and the nature of the biases, and the consequence that the hierarchy in the brain can be systematically mapped by documenting the biases in judgment.
@@ -159,3 +161,5 @@ More precisely, here are some suggested tests for implicit knowledge:
 1.  In knowledge of grammar.
 
 2.  (\...)
+
+-->

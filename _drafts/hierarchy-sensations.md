@@ -13,10 +13,10 @@ header-includes:
 
 There are many cases where people make systematic mistakes about    their own sensations - what they see, what they hear, what they touch. Most well-known are optical illusions, such as the Muller-Lyer illusion in which one line appears longer than another, even though they are both the same length, because each has slightly different adjoining lines.
 
-These are not just imperfections in inferences about the world, they are misjudgments of the sensations themselves. The two lines cast two identical projections upon your retina, yet you perceive them to have different lengths -- they seem to be both different in the world and different on your eye.
+These are not just imperfections in inferences about the world, they are misjudgments of the raw sensations themselves. Two lines cast two identical projections upon your retina, yet you perceive them to have different lengths -- they seem to be both different in the world and different on your eye.
 
 **A common pattern of many illusions is *comparison* effects,** where judgment of the strength of some sensation $s$ is affected by the strength of another sensation, $s'$ shown alongside or prior to $s'$. These effects can be split into assimilation effects, where an increase in $s'$ causes an increase in the apparent size of $s$, and contrast effects, where an increase in $s'$ causes a decrease in the apparent size of $s$. A second class of effects is cross-modal where, for example, judgment of a visual stimulus is affected by a sound, or vice versa. In general I will define a bias as an effect:
-   $$\frac{d\hat{s}}{ds'}\neq0,$$
+   $$\frac{d\hat{s}(s,s')}{ds'}\neq0,$$
 
 where $\hat{s}$ is an estimate of some sensation $s$, and $s'$ is the intensity of some other sensation.
 
@@ -24,13 +24,13 @@ where $\hat{s}$ is an estimate of some sensation $s$, and $s'$ is the intensity 
 
 **Before stating the theory we need to be claer about the distinction between sensations and the values inferred from those sensations.** Some examples are as follows:
 
-| sensation ($s$)  | values inferred ($v$)                           |
-| ---------------- | ----------------------------------------------- |
-| size on retina   | size and distance of object                     |
-| sound heard      | syllable spoken and the speaker                 |
-| pressure on hand | weight and density of object                    |
-| colour on retina | colour of object, colour of light               |
-| motion on retina | motion of object, motion of eye, motion of head |
+| sensation ($s$)      | values inferred ($v$)                           |
+| -------------------- | ----------------------------------------------- |
+| size on retina       | size of object, distance of object                     |
+| vibration on eardrum | syllable spoken, word spoken, identity of speaker                   |
+| pressure on hand     | weight of object, size of object, density of object                    |
+| colour on retina     | colour of object, colour of illumination, tint from the air                |
+| motion on retina     | motion of object, motion of eye, motion of head |
 
 Table: The distinction between sensation and value.
 
@@ -166,7 +166,7 @@ $$\begin{aligned}
 
 Meaning that a contrast effect in value $\frac{d\hat{v}_{1}}{ds_{2}}<0$ will occur if and only if errors are more correlated than values ($\rho_{v}>\rho_{e}$).
 
-An important limitation of this 2-element model is that it does *not* imply any comparison effects in sensations ($\frac{d\hat{s}_{1}}{ds_{2}}<0$), because, in this case, $\hat{v}$is invertible, i.e. both $s_{1}$ and $s_{2}$ can be identified from observing $v_{1}$ and $v_{2}$. Comparison effects in sensationscould be derived if we add some additional noise, however I believe they would be of a relatively small magnitude.
+An important limitation of this 2-element model is that it does *not* imply any comparison effects in sensations ($\frac{d\hat{s}_{1}}{ds_{2}}<0$), because, in this case, $\hat{v}$ is invertible, i.e. both $s_{1}$ and $s_{2}$ can be identified from observing $v_{1}$ and $v_{2}$. Comparison effects in  sensationscould be derived if we add some additional noise, however I believe they would be of a relatively small magnitude.
 
 ## Applications of the Model
 
@@ -238,6 +238,10 @@ The back-inference theory implies that bias in judgment of $s$ will be smaller f
 
 A common observation in psychophysics is that relative judgment is much more sensitive than absolute judgment. This will obviously be true if errors are positively correlated in relative judgment. Take the derivation of the Just-Noticeable Difference (JND) above. Suppose that the two observations have noise with variance $\sigma_{e}^{2}$ and correlation $\rho_{e}$, then the JND will be: $$\begin{aligned} JND(v_{1},p)=\delta & = & v_{1}\left[\exp(2(\sigma_{e}^{2}-\rho_{e}\sigma_{e}^{2})\Phi^{-1}(p))-1\right].\end{aligned}$$ As the correlation increases, the JND will fall, and it will go to zero as $\rho_{e}$ goes to 1.
 
+
+### Back-Inference and Memory
+
+Deese–Roediger–McDermott paradigm in false memory: False recognition when something is *semantically* related to what you do remember. E.g. you're told to memorize a list ("bed", "duvet", "dreams"), then later if you're asked whether "sleep" was in the list, you say yes.
 
 ### Back-inference and Reproduction (AKA bad painters)
 
@@ -365,6 +369,20 @@ If this analysis is correct it seems to imply that we are making a certain type 
 This helps to solve an apparent puzzle in perception: do expectations influence perception positively or negatively? Both findings are common, and indeed there are strong intuitions about both cases: each of the following two sentences makes intuitive sense:
    > "It looked big to me because I was expecting it to be big." > > "It looked big to me because I was expecting it to be small."
    According to the back-inference theory, expectations will have a positive effect for values ($\frac{d\hat{v}}{d\mu_{v}}>0$), but a negative effect for sensations ($\frac{d\hat{v}}{d\mu_{s}}<0$).[^16]
+
+**Top-down effects.** Here's a simple model to account for top-down influences on perception. Each system influences the other one, until they come into equilibrium ($\hat{v}_1=\hat{v}_2$), but will still not be an efficient pooling of information. Precisely: it allows top-down influences only through certain channels, i.e. the channels of interest for inference.
+
+$$\xymatrix{
+                     & x_1\ar[dr]                      \\
+                     & x_2\ar[r] & \hat{v}_1\ar@/_/[dd]           \\
+   v \ar[uur]\ar[ur]\ar[dr]\ar[ddr]                              \\
+                     & x_3\ar[r] & \hat{v}_2\ar@/_/[uu] \\
+                     & x_4\ar[ur]
+}$$
+$$\begin{aligned}
+   \hat{v}_1 &= E[v|x_1,x_2,\hat{v}_2] \\
+   \hat{v}_2 &= E[v|x_3,x_4,\hat{v}_1] \\
+\end{aligned}$$
 
 
 **smoothness effects.** (In some cases people don't notice changes: acclimatisation, cornsweet effect. A natural Bayesian interpretation is that both value and error are correlated, but there is a spike at zero in the prior about changes in value, i.e. we expect there to be flat surfaces of value, not smoothly changing surfaces. This implies (I think) there should be an assimilation effect for small changes, and a contrast effect for large changes. I ran some experiments but didn't find it.).

@@ -11,23 +11,37 @@ We occupy a giant room but we choose to live in a corner of it. <!-- Our movemen
 
 <!--## New Materials Start out Imitating Old Materials -->
 
-The first generation of plastics, in the late 19th century, were mostly made to look like something else: marble, tortoiseshell, wood, porcelain. It wasn't until the 1930s that people started to buy plastic goods that didn't imitate something else. And still today we have tortoiseshell glasses, woodgrain laminate, plastic siding.
+The first generation of plastics, in the late 19th century, were mostly made to look like something else: marble, tortoiseshell, wood, porcelain. It wasn't until the 1930s that people started to buy plastic goods that didn't imitate something else. And still today we have tortoiseshell glasses, woodgrain laminate, plastic siding. 
+
+When glass was invented in ancient Mesopotamia it was coloured to imitate stones: lapis lazuli, turquoise, carnelian.
 
 <!-- ## Everywhere You Can See Marks Of Constraints That No Longer Bind -->
 
-Most modern hard furniture is made from chipboard but has a wood-grain veneer, the grain of leather is imprinted into synthetic materials for car seats and sofas, linoleum still has a marble print. Buttons, neckties and shoelaces. Metallic paint is put on top of plastic when it's used on car bodies, sunglasses, furniture and appliances.
+Most modern hard furniture is made from chipboard but has a wood-grain veneer, the grain of leather is imprinted into synthetic materials for car seats and sofas, linoleum still has a marble print. Metallic paint is put on top of plastic when it's used on car bodies, sunglasses, furniture and appliances. <!-- Buttons, neckties and shoelaces. -->
 
 Cast iron is made to look like wrought iron. Lines are cut into concrete to make it look like brickwork.
 
-The foods in a supermarket all existed 100 years ago, but the ingredients have changed (now they're made from corn starch, corn syrup, colours and flavours). We have had margarine for 200 years but we still add a yellow dye to it to make it look like butter.
+Most types of food in a supermarket existed 100 years ago but the ingredients have changed: now they're made from corn starch, corn syrup, colours and flavours. We have had margarine for 200 years but we still add a yellow dye to it to make it look like butter.
 
 We have serifs on our letters because the Romans, putting inscriptions on monuments, chiseled a cap on the end of each line to keep the stone from crumbling.
+
+<!-- 
+This was written in 1875 by Henry Hudson Holly:
+Our materials, climates, and habits differ enough from those of Europe to demand a distinctive change in their use and arrangement. For example, in European countries, wood, a most valuable building material, is rare and expensive, while in most sections of our own it is very abundant. But instead of using this in accordance with its nature and capacities, we have stupidly employed it in copying, as exactly as we can, details of foreign architecture which were designed with reference to the constructive capacities of brick and stone. Hence we see rounded arches, keystones, and buttresses of wood… Fortunately our people are beginning to recognize the folly of such unmeaning shams, and when stone or brick is adopted, it is treated as such; and when wood is employed, we are properly commencing to show details adapted to its nature. Until, however, we come to possess a vernacular style, we must content ourselves to copying; and the question arises, which of the innumerable systems is best suited to our requirements?
+-->
+
+<!-- 
+
+- Wasabi is horseradish dyed green.
+- 
+
+-->
 
 |                    |             old materials              |                             new materials                             |
 | ------------------ | -------------------------------------- | --------------------------------------------------------------------- |
 | fabric             | cotton, wool, leather                  | rayon, nylon, vinyl                                                   |
 | goods              | tortoiseshell, ceramic, wood           | celluloid, plastic, fibreglass                                        |
-| building materials | brick, wood                            | concrete, chipboard/particleboard (1887), plasterboard/drywall (1888) |
+| building materials | stone, wood                            | bricks, concrete, chipboard/particleboard (1887), plasterboard/drywall (1888) |
 | music              | 50 instruments in a symphony orchestra | theremin, synthesizer                                                 |
 | colours            | mummy brown, beetle red, indigo        | coal tar pigments                                                     |
 | scents             | musk, lavender                         | esters                                                                |
@@ -36,7 +50,7 @@ We have serifs on our letters because the Romans, putting inscriptions on monume
 
 ## Synthetics Flourish under Pressure.
 
-Synthetic invention and manufacturing has advanced in wartime, during depressions, and under communism, times when aesthetic things have been put aside and production has very functional goals. Margarine was invented to win a prize offered by Napoleon for a cheap and storable source of fat for troops. Plastics finally got wide acceptance from consumers during the great depression. When Germany was blockaded in WWI they started making rubber from oil, oil from coal, coffee from barley and oats (then coffee from walnuts, then coffee from carrots), tea from linden blooms, and cocoa from coal-tar extracts. Clothes in East Germany were almost all from synthetic fibres, and East Germans made the first car with a completely plastic body.
+Synthetic invention and manufacturing has advanced in wartime, during depressions, and under communism, times when aesthetic things have been put aside and production has very functional goals. Margarine was invented to win a prize offered by Napoleon for a cheap and storable source of fat for troops. Plastics finally got wide acceptance from consumers during the great depression. When Germany was blockaded in WWI they started making rubber from oil, oil from coal, coffee from barley (then coffee from walnuts, then coffee from carrots), tea from linden blooms, and cocoa from coal-tar extracts. Clothes in East Germany were almost all from synthetic fibres, and East Germans made the first car with a completely plastic body.
 
 ## Natural Materials Have Returned from Retirement Many Times
 
@@ -57,6 +71,8 @@ Function is not sufficient to pin down a unique form. A designer of lamps for ma
 
 1. how much our preferences are fixed by our experience - not by the attributes of the thing itself.
 2. how we keep underestimating ourselves.
+
+----
 
 # Essay
 
@@ -331,3 +347,16 @@ Updike, Rabbit Redux, p327:
 >  From the breakfast table he surveys his house. The kitchen on one side, the living room on the other are visible.The furniture that frames his life looks Martian in the morning light: an armchair covered in synthetic fabric enlivened by a silver thread,a sofa of airfoam slabs, a low table hacked to imitate an antique cobbler's bench, a piece of driftwood that is a lamp, nothing shaped directly for its purpose, gadgets designed to repel repair, nothing straight from a human hand, furniture Rabbit has lived among but has never known, made of substances he cannot name, that has aged as in a department store window, worn out without once conforming to his body. The orange juice tastes acid; it is not even frozen orange juice but some chemical mix tinted orange.
 
 http://scienceblogs.com/oscillator/2010/07/synthetic_aesthetics.php#more
+
+
+- **Harry Harlow's synthetic monkey mother:** as synthetics - he could produce a doll which carried out the function of the mother, if it's soft & rocks to-and-fro, then it's capable of raising healthy monkeys;
+
+# 2020-10-12 Monday ---------------- JBS Haldane, Daedalus
+
+"No less disgusting a priori is the process of corruption which yields our wine and beer. But in actual fact the process of milking and of the making and drinking of beer appear to us profoundly natural; they have even tended to develop a ritual of their own whose infraction nowadays has a certain air of impropriety. There is something slightly disgusting in the idea of milking a cow electrically or drinking beer out of tea-cups. And all this of course applies much more strongly to the sexual act.
+
+"The biological invention then tends to begin as a perversion and end as a ritual supported by unquestioned beliefs and prejudices. Even now surgical cleanliness is developing its rites and its dogmas, which, it may be remarked, are accepted most religiously by women."
+
+" man armed with science is like a baby armed with a box of matches.
+
+""

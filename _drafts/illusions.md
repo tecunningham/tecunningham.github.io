@@ -10,7 +10,7 @@
       \text{motion} =& \text{shape} + \text{deformation}
      \end{aligned}$$
      because you're inverting to a higher-order space, necessarily you must use priors.
-2. **Illusions from unusual arrangements.** Illusions occur when you get a signal that is more common from one .
+2. **Illusions from unusual arrangements.** Illusions occur when you get a signal that is more common from one setup than another.
 3. **Examples.**
       * **Contrast illusion from covariance of signal and noise.**
       * **Motion illusion from mapping local movements.**

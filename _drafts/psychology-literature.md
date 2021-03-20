@@ -6,258 +6,563 @@ title: Psychology Literature
 * TOC
 {:toc}
 
+# Basic Theory
+
+### Basic Theory
+
+1. **Can think of perception as a function.** A person receives a set of cues, $\bm{x}=x_1,\ldots,x_n$, and forms a perceptual judgment, $\hat{v}(\bm{x})$, we study the function $\hat{v}(\cdot)$. E.g. we study judgment of distance of an object from its size, shape, colour. 
+
+2. **The natural benchmark is inference.** We can treat judgments are rational expectations given some set of cues, i.e.:
+$$\underbrace{\hat{v}(\bm{x})}_{\text{perception}}
+      =\underbrace{E[v|\bm{x}]}_{\text{inference}}.$$
+
+1. **Inference can explain some puzzles of perception.** We should see that perceptual effects of cues should correspond to real-world associations, roughly:
+      $$\underbrace{\frac{d\hat{v}(\bm{x})}{dx_i}>0}_{\text{perceptual effect}}
+         \iff 
+         \underbrace{\text{corr}(x_i,v)>0.}_{\text{association in the world}}$$
+   For example lab studies have found that cold objects feel heavier, blue objects appear more distant, and in each case there's a strong argument that those are valid statistical associations in the real world.
+
+2. **It's hard to test the inference theory.** The theory depends on the joint distribution:
+         $$f(v,\bm{x}).$$
+    which is hard to observe.^[Also unclear whether the relevant distribution is over the person's recent experience, their lifetime experience, or their evolutionary experience.] Productive ways of testing the theory have been finding a situation where you expect one cue to change the interpretation of another cue, e.g.:
+      $$\text{corr}(x_1,v|x_2=1)>0 \\
+      \text{corr}(x_1,v|x_2=0)<0$$
+      and see if perception follows the predicted pattern.
+<!--
+1. **The benchmark model implies we aren't studying the brain, we're studying the world.**
+      The model implies that the brain is essentially a mirror of the world, and so when we study the function $\hat{v}(\bm{x})$, we are not learning general properties of the brain, we are just learning about the empirical distribution $f(v,\bm{x})$. E.g., in a simple case we have a correspondence:
+--->  
+
+   
+8. **There's a long history of under-estimating the complexity of perceptual inference.**
+   - Many "laws" of perception have turned out to be just local bylaws of perception: they hold for some restricted range of phenomena, but they reverse for others. E.g. lateral inhibition, adaptation.^[Could also say the same about operant conditioning.]
+   - Many projects have tried to teach a computer human-level perception (e.g. scene recognition, speech recognition) but failed due to under-estimating the complexity.
+
+9. **Illusions and encapsulation.** A simple model of illusions is that perceptual inference is done by an "encapsulated" module in the brain, which only has access to a subset of available information, $\bar{\bm{x}}\subset\bm{x}$:
+      $$\begin{aligned}
+         \underbrace{\hat{v}(\bm{x})}_{\text{perception}}
+            =  \underbrace{E[v|\bar{\bm{x}}]}
+               _{\text{inference using}\atop\text{subset of cues}}
+            &\neq \underbrace{E[v|\bm{x}]}
+               _{\text{inference using}\atop\text{all cues}}.
+      \end{aligned}$$
+   Schematically, we can think of two systems in the brain: the first system receives only a subset of all the available information, and then sends its posterior to the second system:
+   $$\xymatrix{
+   &  &  &  &  & \\
+      v  \ar@/^1pc/[rr]|(.3){x_{1}}
+         \ar@/_1pc/[rr]|(.3){x_2} 
+         \ar@/_3pc/[rrrr]|{x_3}
+      &  
+      & \boxed{1}\ar[rr]^{E[v|x_1,x_2]} 
+      &  
+      & \boxed{2} \ar[rrr]^{\hat{v}=E[v|E[v|x_1,x_2],x_3]} & & & \\
+      & \,\ar@{.}[uu] & 
+   }$$
+   Application to illusions:
+   1. Generally we expect illusions when some cue is *ordinarily* relevant, but not relevant in this particular context. The information about the change in relevance is high-level ($x_3$).
+   2. The persistence of illusions: even when someone is aware that something is illusory, they still retain a visceral feeling of the illusion, because the first system maintains its inference.
+
+10. **Back-inference:** In many cases we make mistakes not just about features of the world but about our own perceptions: e.g., judging the size on the retina, loudness of sound. We can understand this as being due to encapsulation, when our conscious brain does not have direct access to the underlying sensations, and so infers them: 
+   $$\xymatrix{
+   &  &  &  &  & \hat{x}_{1}=x_{1}|\hat{v}\\
+   v  \ar@/^2pc/[rr]|(.3){x_{1}}
+      \ar[rr]|(.3){x_{i}}
+      \ar@/_2pc/[rr]|(.3){x_{n}} 
+   &  
+   & \boxed{1}\ar[rr]^{\hat{v}=v|\mathbf{x}} 
+   &  
+   & \boxed{2}
+      \ar@/^1pc/[ur]
+      \ar[r]
+      \ar@/_1pc/[dr] 
+   & \hat{x}_{i}=x_{i}|\hat{v}\\
+   & \,\ar@{.}[uu] 
+   &  
+   &  
+   &  
+   & \hat{x}_{n}=x_{n}|\hat{v}
+   }$$
+      This predicts:
+      - Spillovers between neighboring sensations: e.g. contrast and assimilation effects, and where we expect them to happen.
+      - Cross-modal effects, e.g. vision will affect judgment of auditory sensations and vice-versa.
+
+11. **Top-down influences.**
+      - Top-down influences are cases where contextual information has an effect on perception: e.g. when you are primed to see a horse in an ambiguous picture, you see a horse.
+      - Top-down influences are commonly interpreted as evidence against the encapsulation of perceptual processing. Two remarks:
+         1. Evidence of top-down information affecting judgments of sensation ($\hat{x}_i$) are consistent with the back-inference model given above.
+         2. We can extend the model to allow System 1 to have access to System 2's posterior.
+      $$\xymatrix{
+         &  &  &  &  & \\
+            v  \ar@/^1pc/[rr]|(.3){x_{1}}
+               \ar@/_1pc/[rr]|(.3){x_2} 
+               \ar@/_3pc/[rrrrr]|{x_3}
+            &  
+            & \boxed{1}\ar@/_1pc/[rrr]|{\hat{v}_1=E[v|x_1,x_2,\hat{v}_2]} 
+            &  &
+            & \boxed{2}
+               \ar@/_1pc/[lll]|{\hat{v}_2=E[v|x_3,\hat{v}_1]}
+            & & & \\
+            & \,\ar@{.}[uu] & 
+         }$$
+      This predicts that System 1 will [XXX].
+
+12. **Digression: the definition of an illusion.** Here are two definitions of an illusion:
+   $$\begin{aligned}
+         \hat{v}(\bm{x}) &\neq v           && \text{(illusion as an}\textit{ incorrect }\text{perception)} \\
+         \hat{v}(\bm{x}) &\neq E[v|\bm{x}] && \text{(illusion as an}\textit{ unjustified }\text{perception)}.
+      \end{aligned}$$
+      There has often been confusion in philosophical writing between these two definitions.
+
+12. **Digression: perception and wiring.**
+      - Against perceptual coding.
+
+
 # Some Stylized Facts
 
-1. **Perception requires a lot of inference, & we usually do it very well.** Theorists often neglect how complicated it is to infer things from raw sense data (note how badly artificial intelligence does ([meer2012we])), even well-defined tasks like character recognition- Kersten et al. (2004): “Bayesian ideal observer models provide a first approximation to human performance that has been surprisingly effective.”
+### Stylized Facts
 
-2. **Our reports of raw sensations are influenced in a predictable way by both (a) high-level expectations and (b) other sensations.** Helmholtz: “Another general characteristic property of our sense-perceptions is, that we are not in the habit of observing our sensations accurately, except as they are useful in enabling us to recognize external objects. On the contrary, we are wont to disregard all those parts of the sensations that are of no importance so far as external objects are concerned. Thus in most cases some special assistance and training are needed in order to observe these latter subjective sensations. ... For instance, the phenomena of the blind spot were discovered by Mariotte from theoretical considerations.”- However Pylyshyn says that these are either local influences (within-system), or driven by selective attention. Observation: the experimental demonstrations of top-down influences also show that it's not entirely top-down.
+1. **Perception requires a lot of inference and we usually do it very well.**
+   - *Historical examples of psychologists under-estimating complexity of perception* -- they think it's some hard-wired process, but actually broadly optimal. Kersten et al. (2004): “Bayesian ideal observer models provide a first approximation to human performance that has been surprisingly effective.” / Hubel & Wiesel's explanation of illusions; Skinner's explanation of verbal behaviour; Bargh's priming.
+   - *Historical examples of engineers under-estimating complexity of perception* -- theorists neglecting how complicated it is to infer things from raw sense data (note how badly artificial intelligence does ([meer2012we])), even in well-defined tasks like character recognition. 1960s vision and translation AI work.
+
+2. **Our reports of raw sensations are biased in a predictable way by both (a) high-level expectations and (b) other sensations.** 
+   - Helmholtz: “Another general characteristic property of our sense-perceptions is, that we are not in the habit of observing our sensations accurately, except as they are useful in enabling us to recognize external objects. On the contrary, we are wont to disregard all those parts of the sensations that are of no importance so far as external objects are concerned. Thus in most cases some special assistance and training are needed in order to observe these latter subjective sensations. ... For instance, the phenomena of the blind spot were discovered by Mariotte from theoretical considerations.”
+   - Pylyshyn says that influences are either local influences (within-system, not cross-system), or driven by selective attention. Observation: the experimental demonstrations of top-down influences also show that it's not entirely top-down.
 
 3. **Judgments of perception can be influenced by sensations that are not consciously reported**
+   - (examples? I guess cross-modal subliminal perceptions that disambiguate)
 
-4. **People are often bad at explaining the reasons why they made a particular judgment.** - Reber, learning artificial grammar.
+4. **People are often bad at explaining the reasons why they made a particular judgment.** 
+   - Reber, learning artificial grammar.
 
-5. **A transformations of cues without changing informational content can significantly lower recognition.** - E.g. upside-down face ; negative images.
+5. **A transformations of cues without changing informational content can significantly lower recognition.** 
+   - E.g. upside-down face ; negative images.
 
-6. **Illusions tend to affect action less than judgment.** - E.g. illusions which affect verbal reports but not grasping (refs in Pylyshyn 1990, 7.3.1).
+6. **Illusions tend to affect action less than judgment.** 
+   - E.g. illusions which affect verbal reports but not grasping (refs in Pylyshyn 1990, 7.3.1).
 
-7. **Often people report holding two contradictory judgments simultaneously.** - Sloman / Pylyshyn.
+7. **People often report holding two contradictory judgments simultaneously.**
+   - Sloman / Pylyshyn.
 
-8. **Relative judgment is far more precise than absolute judgment.** (see also change blindness, e.g. in flickering gifs).
+8. **Relative judgment is far more precise than absolute judgment.** 
+   - (see also change blindness, e.g. in flickering gifs).
 
-9. **Perception is quite plastic - new patterns can be learnt** (e.g., vision on the tongue, stroke recovery).
+9. **Perception is quite plastic - new patterns can be learnt**
+   - e.g., vision on the tongue, stroke recovery).
 
-10. **Perception often influenced by high-level information (top-down effects).** E.g. you don't see a dalmatian in an ambiguous picture until you're told it's there. But once you see it, difficult to stop seeing it.
+10.  **Perception often influenced by high-level information (top-down effects).**
+      - E.g.: you don't see a dalmatian in an ambiguous picture until you're told it's there, but once you see it, it's difficult to stop seeing it.
+      - E.g.: if you're told to imagine certain things, it can make your recognition of patterns better (Brockmole, 2002)
 
-11. **Pareidolia -- certain circumstances you perceive patterns in random noise.** Esp. if you're on drugs.
+11. **Pareidolia -- in certain circumstances you perceive patterns in random noise.**
+      - Esp. if you're on drugs.
 
 
-# Evidence for Automatic/Encapsulated/Modular Responses
+
+ 
+# Remarks on the Literature
+
+1. **Disappointing progress on illusions.**
+
+2. **Succession of theories that are not *wrong* but *mis-stated*.**
+
+3. **Field settles on a model species: but then learns too-much just about variations on that specific one.**
+
+4. **10,000 feet: the issue is whether perception is flexible or brittle.** (A) built up a library of places where it's brittle, illusions; (B) attempts to generalize about brittleness have been failures; (C) problem was not carving at joints.
+
+5. **Common mistake: defining illusion as a mistake.** E.g. Austin or Lotto: that illusions are just mistakes.
+      $$\begin{aligned}
+         \hat{v}(\bm{x}) &\neq v           && \text{(bad definition of illusion)} \\
+         \hat{v}(\bm{x}) &\neq E[v|\bm{x}] && \text{(good definition of illusion)}
+      \end{aligned}$$
+
+# Evidence Regarding Automatic/Encapsulated/Modular Responses
 
 1. **Basic patterns**
-
-    * learned associations influence behaviour even when you know they are irrelevant in the current case
-
-    ** learned associations influence behaviour even when you know that association was incidental in your history, so not informative in the future.
-
-    * your automatic response and your conscious response sometimes indicate different beliefs (where we measure automatic response either by introspection, or skin conductance, pupil dilation, response under cognitive load).
+    - Learned associations influence behaviour even when you know they are irrelevant in the current case
+    - Learned associations influence behaviour even when you know that association was incidental in your history, so not informative in the current case.
+    - Your automatic response and your conscious response sometimes indicate different beliefs -- where we measure automatic response by introspection, or skin conductance, pupil dilation, response under cognitive load.
 
 2. **Physiological evidence**
-
-* Lesions: dissociations and double dissociations (i.e., we associate region A with faculty X, and region B with facultyY, if lesioning A disables only X, and lesioning B disables only Y).
-
-* Amnesiacs can still learn, but they don't remember learning (Gabrieli (1995) “Intact delay-eyeblink classical conditioning in amnesia”).
-
-* Decorticate animals still learn (Patterson et al., (1973), “effects of a classical conditioning paradigm ... in immobilized spinal cats”) ; also decorticate cats can perform many behaviours, even survive (eat, walk, make cat love).
+   - Lesions: dissociations and double dissociations (i.e., we associate region A with faculty X, and region B with faculty Y, if lesioning A disables only X, and lesioning B disables only Y).
+   - Amnesiacs can still learn, but they don't remember learning (Gabrieli (1995) “Intact delay-eyeblink classical conditioning in amnesia”).
+   - Decorticate animals still learn (Patterson et al., (1973), “effects of a classical conditioning paradigm ... in immobilized spinal cats”) ; also decorticate cats can perform many behaviours, even survive (eat, walk, make cat love).
 
 3. **Perception: Whether your perceptual interpretations fail to condition on all the available information.** (quotes below)
-
-* Still get perceptual impressions that you know are wrong: Muller-Lyer, phantom limb, chili pepper as hot, referred pain.
+   - Still get perceptual impressions that you know are wrong: Muller-Lyer, phantom limb, chili pepper as hot, referred pain.
 
 4. **Language**
+   - *cross-modal influences*: whether high-level information influences language interpretation -- McGurk effect implies that it is influenced by other information
+   - *irrelevant/distractor influences*: interpretation of stimulus influenced by distractor known to be irrelevant- e.g., Stroop, McGurk?
+   - General discussion on specificity: Pinker & Jackendoff (2005, Cognition) “The nature of the language faculty and its implications for evolution of language.” Argument with Chomsky & Hauser, who say that the brain must have a special recursion module. P&J say that actually recursion also occurs in visual perception.
 
-* *cross-modal influences*: whether high-level information influences language interpretation- McGurk effect implies that it is influenced by other information
+5. **Pavlovian/Classical Learning:**
+   - Remember we are only intersted in cases in which automatic response to a stimulus differs from the conscious or normative response.
 
-* *irrelevant/distractor influences*: interpretation of stimulus influenced by distractor known to be irrelevant- e.g., Stroop, McGurk?
+   - **Complex contingencies**: do automatic responses learn complex relationships?
+      - **Blocking effects, but perhaps rational.** if you give the organism AB+, i.e. expose them to stimulus A and B, plus a reinforcer, they will learn an association for both A & B, but they will not learn B if you first present them with A+. Mitchell (2009): blocking can be rationalised with some priors, and in fact there is *less* blocking when you introduce cognitive load, implying that it's not automatic. “... showed blocking of skin conductance CRs only when blocking was a valid inference.” [Intuitively: blocking would be rational if you have a prior belief that there is exactly one valid cue, so the fact that A is sufficient makes you think that B is not; however this also implies that reverse-blocking will get the same effect; I don't know whether there are strong order effects].
+      - **Transfer of patterns across domains.** there are some examples where organisms can transfer patterns they have learned across quite different stimuli, e.g. learning patterns of complementarity/substitutability (Mitchell (2009) p190)
+      - **Learning is influenced by apparently irrelevant details:** e.g., learn to expect a higher $P(O|C)$ when $P(O|\not C)=0$, i.e. some contrast effect. Mitchell (2009) says that Shanks (2007) considers this the “most compelling evidence of an irrational link-formation mechanism in the context of contingency learning.”
 
-* General discussion: Pinker & Jackendoff (2005, Cognition) “The nature of the language faculty and its implications for evolution of language.” Argument with Chomsky & Hauser, who say that the brain must have a special recursion module. P&J say that recursion also occurs in visual perception.
+   - **Evaluative conditioning: mixed evidence on awareness**: You pair a novel flavor with a liked/disliked flavor, see if it influences evaluation of the new flavor. Baeyens (1990) reports flavor-flavor learning without awareness, and no color-flavor learning, but awareness discusssed in Mitchell (2009). Boakes (2009) “Learning without thinking” argues that associations are best built up when the subject finds the situation difficult to think about, and undergraduates are bad material because they expect to solve a problem. Says you get strong effects with smells; and “changes in human flavor preferences produced, for example, by caffeine-based conditioning, also appear independent of belief or awareness (e.g., Chambers et al. 2007).”
 
-5. **Pavlovian/Classical Learning:** Cases in which automatic response to a stimulus differs from the conscious or normative response.
+   - **Phobias without beliefs.** E.g. people are “fearful of spiders despite claiming to know that spiders are not harmful ”Mitchell (2009) says most phobias may be genetic
 
-* *complex contingencies*: do automatic responses learn complex relationships?
-    * blocking: if you give the organism AB+, i.e. expose them to stimulus A and B, plus a reinforcer, they will learn an association for both A & B, but they will not learn B if you first present them with A+. Mitchell (2009): blocking can be rationalised with some priors, and in fact there is *less* blocking when you introduce cognitive load, implying that it's not automatic. “... showed blocking of skin conductance CRs only when blocking was a valid inference.” [Intuitively: blocking would be rational if you have a prior belief that there is exactly one valid cue, so the fact that A is sufficient makes you think that B is not; however this also implies that reverse-blocking will get the same effect; I don't know whether there are strong order effects].
-    * there are some examples where organisms can transfer patterns they have learned across quite different stimuli, e.g. learning patterns of complementarity/substitutability (Mitchell (2009) p190)
-    * examples where learning is influenced by apparently irrelevant details: e.g., learn to expect a higher $P(O|C)$ when $P(O|\not C)=0$, i.e. some contrast effect. Mitchell (2009) says that Shanks (2007) considers this the “most compelling evidence of an irrational link-formation mechanism in the context of contingency learning.”
+   - **Verbal Instructions sometimes work as well as associations.**: whether being told about an association will produce the same skin-conductance response as learning itMitchell (2009) p190 says that verbal instructions work.
 
-* *evaluative conditioning*: pair a novel flavor with a liked/disliked flavor - Baeyens (1990): flavor-flavor learning without awareness ; and no color-flavor learning, but awarenessdiscusssed in Mitchell (2009)Boakes (2009) “Learning without thinking” argues that associations are best built up when the subject finds the situation difficult to think about, and undergraduates are bad material because they expect to solve a problem. Says you get strong effects with smells; and “changes in human flavor preferences produced, for example, by caffeine-based conditioning, also appear independent of belief or awareness (e.g., Chambers et al. 2007).”
+   - **Learning and awareness: mixed evidence**: E.g., pair a light with an electric shock, and check for both skin-conductance learning and conscious learning. Mitchell (2009) “The results consistently show evidence for skin conductance CRs only in participants who are aware of the CS-US contingency ... [a]lthough there are many papers arguing for unaware conditioning, close inspection reveals, in almost all cases, that the measure of conditioning was most likely more sensitive than that of awareness.”
+      - Iowa gambling task
+      - Perruchet (1985): subjects learn that a tone sometimes precedes a puff of air. But eye blink expects positive autocorrelation, while conscious reports expect negative autocorrelation. Discussed in Mitchell (2009) & they seem to believe this interpretation.
 
-* *phobias*: e.g., “fearful of spiders despite claiming to know that spiders are not harmful”Mitchell (2009) says most phobias may be genetic
+   - **Cognitive load seems to harm contingency learning.**: can people automatically learn an association even when their attention is distracted? Mitchell (2009) “the addition of the masking task substantially reduced both contingency knowledge and differential electrodermal CRs ... learning is not automatic”
 
-* *verbal instructions*: whether being told about an association will produce the same skin-conductance response as learning itMitchell (2009) p190 says that verbal instructions work.
+   -  **Preference formation**: our basic cultural preferences for food, colour, music, & style of interaction must be based on raw association-based preferences - not beliefs. Baker, Baetu & Murphy (2009) “propositional learning is a useful research heuristic but it is not a theoretical algorithm”
 
-* *learning w/o awareness*: e.g., pair a light with an electric shock, and check for both skin-conductance learning and conscious learning.Mitchell (2009) “The results consistently show evidence for skin conductance CRs only in participants who are aware of the CS-US contingency ... [a]lthough there are many papers arguing for unaware conditioning, close inspection reveals, in almost all cases, that the measure of conditioning was most likely more sensitive than that of awareness.”- Iowa gambling task- Perruchet (1985): subjects learn that a tone sometimes precedes a puff of air. But eye blink expects positive autocorrelation, and conscious reports expect negative autocorrelation. Discussed in Mitchell (2009) & they seem to believe it.
+   -  **History:** Mitchell (2009), p194, discuss different simple models of how pavlovian learning works. But they say that, in every case pavlovian learning has turned out to be cleverer than that.(e.g. measure skin conductance, eye blink). Olsen and Ohman (2002) comment on Mitchell say that the startle reflex is the most low-level behaviour, separated from high-level cognition.
 
-* *cognitive load*: can people automatically learn an association even when their attention is distracted?Mitchell (2009) “the addition of the masking task substantially reduced both contingency knowledge and differential electrodermal CRs ... learning is not automatic”
+6. **Instrumental/Operant Learning** Whether your actions respond to associations that are not relevant. Seligman & Johnston in 1973 argued that instrumental learning is not just associative: it's based on representations & expectancies.
 
-* *preference formation*: our basic cultural preferences for food, colour, music, & style of interaction must be based on raw association-based preferences - not beliefs. Baker, Baetu & Murphy (2009) “propositional learning is a useful research heuristic but it is not a theoretical algorithm”
+   - Overlearning & extinction: you associate S-R,
 
-* History: Mitchell (2009), p194, discuss different simple models of how pavlovian learning works. But they say that, in every case pavlovian learning has turned out to be cleverer than that.(e.g. measure skin conductance, eye blink). Olsen and Ohman (2002) comment on Mitchell say that the startle reflex is the most low-level behaviour, separated from high-level cognition.
+   - Habits:
 
-6. **Instrumental/Operant Learning** Whether your actions respond to associations that are not relevant.- Seligman & Johnston in 1973 argued that instrumental learning is not just associative: it's based on representations & expectancies.
+   - Learning without awareness of stimuli:
 
-* Overlearning & extinction: you associate S-R,
+   - **Learning without awareness of associations: weak evidence.** E.g. whether reinforcement of behaviour makes you do something more, you don't know why. Dulany’s (1968) studies of verbal conditioning. Earlier studies had indicated that human subjects’ employment of linguistic items – such as use of plural nouns – could be manipulated by social reinforcement without their awareness, a form of conditioning commonly known as the “Greenspoon effect” (Greenspoon 1955). Dulany’s work suggests that in many of these studies, not only were subjects conscious of the relevant response-reinforcement connection, but that consciousness was a condition of associative learning.” Greenspoon: you ask subjects to say as many words as they can; if you give subtle positive reinforcement when they say a plural word, then they're more likely to say plural words.
 
-* Habits:
+   - **Associative learning varies a lot by domain, suggesting priors.** Garcia & Koelling (1966): rats can learn to avoid foods just with a single response of getting sick, and with 12 hours delay, suggesting some sophistication. Mackintosh (1978): “Simple associative learning is simple in name only. Animals do not automatically associate all events that happen to occur together. If they did, they would be at the mercy of every chance conjunciton of events. In fact, they behave in an altogether more rational manner. By conditioning selectively to good predictors of reinforcement at the expense of poor predictors, and by taking their past experience into account, they succeed in attributing reinforcers to their most probable causes.”[the red book on unity of action also has a nice story about animal trainers, & the difficulty of learning some associations]
 
-* Learning without awareness of stimuli:
-
-* Learning without awareness of associations: - e.g. reinforcement of behaviour makes you do something more, you don't know why“Dulany’s (1968) studies of verbal conditioning. Earlier studies had indicated that human subjects’ employment of linguistic items – such as use of plural nouns – could be manipulated by social reinforcement without their awareness, a form of conditioning commonly known as the “Greenspoon effect” (Greenspoon 1955). Dulany’s work suggests that in many of these studies, not only were subjects conscious of the relevant response-reinforcement connection, but that consciousness was a condition of associative learning.” Greenspoon: you ask subjects to say as many words as they can; if you give subtle positive reinforcement when they say a plural word, then they're more likely to say plural words.
-
-* Contingencies & associative learning. Garcia & Koelling (1966): rats can learn to avoid foods just with a single response of getting sick, and with 12 hours delay, suggesting some sophistication. Mackintosh (1978): “Simple associative learning is simple in name only. Animals do not automatically associate all events that happen to occur together. If they did, they would be at the mercy of every chance conjunciton of events. In fact, they behave in an altogether more rational manner. By conditioning selectively to good predictors of reinforcement at the expense of poor predictors, and by taking their past experience into account, they succeed in attributing reinforcers to their most probable causes.”[the red book on unity of action also has a nice story about animal trainers, & the difficulty of learning some associations]
-
-* Soto Gershman Niv (2014, Psych Review) “Explaining Compound Generlization in Associative and Causal Learning Through Rational Principles of Dimensional Generalization”Question: when are different stimuli additive/averaging for predicting outcome? E.g., in blocking experiments. Basic problem is .
+   -  Soto Gershman Niv (2014, Psych Review) “Explaining Compound Generlization in Associative and Causal Learning Through Rational Principles of Dimensional Generalization” Question: how do we generalize from prior stimuli to predict new outcome? E.g., in blocking experiments.
 
 7. **Mistakes in reasoning**- Sloman (1996): we get a vivid intuitive answer , separate from the answer we know to be correct.
 
 8. **Localisation**
-
-* Elman, Bates, et al. (1996) “Rethinking Innateness: A connectionist perspective on development” – they argue that double-dissasociations are rarely clean.
+   - Elman, Bates, et al. (1996) “Rethinking Innateness: A connectionist perspective on development” – they argue that double-dissasociations are rarely clean.
 
 # Theoretical Points
 
-1. **Most perceptual mistakes/illusions can be understood as rational inference, given only low-level information.** e.g. (i) fog; (ii) contrast illusions; (iii) train-window illusions; (iv) back-spinning wheel; (v) colder objects seem heavier; (vi) blue objects seem more distant; (vii) press on your eyeball & world seems to move; (viii) press on your neck and world seems to move; (ix) concave mask looks convex; (x) unfocus eyes & looks like two objects; (xi) .- note that people often define illusions just as mistakes, which is not fair
+1. **Inference theories are often under-determined.** Inference theories typically make tacit assumption about *what* attribute you are inferring, but there could be many, and the implications of the theory depends on which is chosen.
+   - E.g., when holding an object could infer weight, volume, density, temperature.
+   - E.g., when look at an object could infer color (many variations), size, distance, orientation.
+   - E.g., perceiving a person could infer gender, ethnicity, age, likeability, trustworthiness, etc..
+   - E.g., Gibson's Ecological theory: we infer affordances, i.e. functional use of an object.
 
-2. **Two conceptually different types of top-down influence, which has confused the argument:**- (1) whether judgment of percept (v) is affected (this is normatively appropriate, and we find strong limits on it)- (2) whether judgment of sensation (x) is affected by other knowledge/sensations (this is a mistake, but can be side-effect of limited transmission of information)
+2. **Most perceptual mistakes/illusions can be understood as rational inference from low-level information.** e.g. (i) fog and distance; (ii) contrast illusions; (iii) train-window illusions; (iv) back-spinning wheel; (v) colder objects seem heavier; (vi) blue objects seem more distant; (vii) press on your eyeball & light appears on opposite side; (viii) press on your neck and world seems to move; (ix) concave mask looks convex; (x) unfocus eyes & looks like two objects.
 
-3. **Two distinct applications of Bayesian inference to perception.** First, the inverse problem: infer the 3D characteristics from a 2D representation (Helmholtz, ).Second, given a noisy version of what you're seeing, try to infer the thing. E.g., pressure from an object, judging direction of faint dots, etc.
+3. **Two conceptually different types of top-down influence, which has confused the argument:**
+   1. Whether judgment of *percept* (v) is affected: this is normatively appropriate, and we find strong limits on it.
+   2. Whether judgment of *sensation* (x) is affected by other knowledge/sensations: this is a violation of normaitve principles, but it can be a side-effect of limited transmission of information.
 
-4. **Brain doesn't want to compress & decode pixels, it wants to infer objects.** it's not very useful to reconstruct all the pixels, instead we want to infer what's causing those pixels- theories of coding (efficient & predictive) are about pixels.- the difference will be whether the loss function is (x-\hat{x}), or v-\hat{v}; in some cases they'll coincide.
+4. **Two distinct applications of Bayesian inference to perception.**
+   1. First, the inverse problem: infer the 3D characteristics from a 2D representation (Helmholtz).
+   2. Second, denoise. E.g., pressure from an object, judging direction of faint dots, etc.
 
-5. **Some different possible objective functions in processing sensory information:** (a) compressing the raw sensory information (efficient coding and predictive coding)(b) inferring features of the world - infer time to contactDerived by Hoyle in 1957: time to contact \tau=\frac{\theta}{\dot{\theta}}, i.e. ratio of visual angle & change of visual angle. Some papers suggest this is the basic thing inferred.(c) don't infer, but process to receive the relative intensity of a sensation, or its rank in the historical distribution of sensations (Purves & Lotto) Purves: [puzzle: under-determination of physical reality by sensory experience] “A plausible answer to this puzzle is to simply abandon the long-held assumption that vision involves seeing or estimating physical properties. In this alternative interpretation, vision works by having patterns of light on the retina trigger reflex patterns of neural activity that have been shaped entirely by the past consequences of visually guided behavior over evolutionary and individual life time. Using the only information available on the retina (i.e. frequencies of occurrence of visual stimuli, light intensities), this strategy gives rise to percepts which incorporate experience from trial and error behaviors in the past. Percepts generated on this basis thus correspond only coincidentally with the measured properties of the stimulus or the underlying objects. ”- “The conceptual basis of this alternative approach is that the percept elicited by any particular stimulus parameter (e.g., the brightness elicited by the luminance of a stimulus) corresponds not to a statistically determined value of the relevant qualities in the physical world (e.g., the most likely illumination and reflectance values underlying that luminance), but rather to the relative frequency of occurrence of that particular stimulus parameter in relation to all other instances of that parameter experienced in the past.”
+5. **Brain doesn't want to compress *pixels*, it wants to infer *objects*.** it's not very useful to reconstruct all the pixels, instead we want to infer what's causing those pixels- theories of coding (efficient & predictive) are about pixels. The difference will be whether the loss function is ($(x-\hat{x})^2$), or $(v-\hat{v})^2$, in some cases they'll coincide.
 
-6. **Learning & extinction: could be learning preferences v learning information.** We say “he likes to do X because it's been associated with reward,” (i.e. persists in extinction); this could have two meanings: when he sees X, knowing that it does not signify reward in this situation (a) it induces a good feeling, irrationally biasing him; (b) he will do X for its own sake anyway. — discriminate between these with joint evaluation.
+6. **Some different possible objective functions in processing sensory information:**
+   1. Compressing the raw sensory information (efficient coding and predictive coding)
+   2. Inferring features of the world - e.g. infer time to contact from motion on visual field. Derived by Hoyle in 1957: time to contact \tau=\frac{\theta}{\dot{\theta}}, i.e. ratio of visual angle & change of visual angle. Some papers suggest this is the basic thing inferred.
+   3. Don't infer, but process to receive the relative intensity of a sensation, or its rank in the historical distribution of sensations (Purves & Lotto)
+      - Purves: [puzzle: under-determination of physical reality by sensory experience] “A plausible answer to this puzzle is to simply abandon the long-held assumption that vision involves seeing or estimating physical properties. In this alternative interpretation, vision works by having patterns of light on the retina trigger reflex patterns of neural activity that have been shaped entirely by the past consequences of visually guided behavior over evolutionary and individual life time. Using the only information available on the retina (i.e. frequencies of occurrence of visual stimuli, light intensities), this strategy gives rise to percepts which incorporate experience from trial and error behaviors in the past. Percepts generated on this basis thus correspond only coincidentally with the measured properties of the stimulus or the underlying objects. ”
+      - “The conceptual basis of this alternative approach is that the percept elicited by any particular stimulus parameter (e.g., the brightness elicited by the luminance of a stimulus) corresponds not to a statistically determined value of the relevant qualities in the physical world (e.g., the most likely illumination and reflectance values underlying that luminance), but rather to the relative frequency of occurrence of that particular stimulus parameter in relation to all other instances of that parameter experienced in the past.”
 
-# Timeline
+7. **Learning & extinction: could be learning preferences v learning information.** We say “he likes to do X because it's been associated with reward,” (i.e. preferences persists even in extinction); this could have two meanings: when he sees X, knowing that it does not signify reward in this situation (a) it induces a good feeling, irrationally biasing him; (b) he will do X for its own sake anyway. Can discriminate between these with joint evaluation.
 
-(hubris: some examples in which brain is underestimated: Hubel & Wiesel's explanation of illusions; Savage's explanation of verbal behaviour; Reber's implicit learning; Bargh's priming; computer scientists in the 60s doing vision and translation)
+# History
 
 * **1011: Alhazen, “Book of Optics”** (people say he talked about unconscious inference, but I can't find a quote)
 
 * **1425: Brunelleschi's first drawings with perspective**
 
 * **~1500: Leonardo's Treatise on Painting** (but wasn't published until much later)
+   - DaVinci, “Treatise on Painting” (c1510) seems to have covered many cues, see discussion in http://www.jstor.org/stable/1412712?seq=2
+   – **fog makes you overestimate distance:** p192: “To our obtaining a correct idea of the magnitude and distance of any object seen from afar, it is necessary that we consider how much of distinctness an object loses at a distance (from the mere interposition of the air) ... [t]his calculation, as to distinctness, must be made upon the idea that the air is clear, as, if by any accident it is otherwise, we shall (knowing the proportion in which clear air dims a prospect) be led to conclude this farther off than it is ... ”[problem is that he doesn't explicitly say it still occurs when we know it's foggy][he also mentions how fog makes you overestimate size of objects]
+   – **top of mountain appears closer than the bottom:** p195: “Any dark object will appear lighter when removed to some distance from the eye ... Therefore the inferior parts of any object whatever, placed in thick air [which makes it lighter] will appear farther from the eye at the bottom than at the top; for that reason the lower parts of a mountain appear farther off than its top, which is in reality the farthest.”[problem is that you could say people are ignorant that there's more air at the bottom]
+   – **contrast effect:** “Of different bodies equal in whiteness, and in distance from the eye, that which is surrounded by the greatest darkness will appear the whitest and on the contrary, that shadow will appear the darkest which has the brightest white round it.”
+   – **blueness and distance.** “"Thus if one is to be five times as distant, make it five times bluer."”
+   – (has some propositions about towers looking narrower at their bases, because of lightness of background, but less convincing.)
 
-* **1709: Berkeley “Essay towards a new theory of vision”** contra Descartes, spatial depth is not directly observable, but we infer it from cues. We learn cues from association with tactile experience. (E.g., we infer from a red face that a person is embarrassed, because we noticed historical correlation between red face & embarrassment) [need a good quote about this]
 
-* **Weber's law:** just noticeable differences are a constant fraction of the magnitude of the stimulus
+- **1709: Berkeley “Essay towards a new theory of vision”** Contra Descartes, spatial depth is not directly observable, instead we infer it from cues. We learn cues from association with tactile experience. E.g., we infer from a red face that a person is embarrassed, because we noticed historical correlation between red face & embarrassment. [Should find a good quote from this.]
+   - *“It is I think agreed by all that distance of itself, and immediately, cannot be seen. For distance being a line directed end-wise to the eye, it projects only one point in the fund of the eye, which point remains invariably the same whether the distance be longer or shorter.”* [disagreeing with Descartes]
 
-* **Fechner's law:** sensation increases with log of the stimulus (a reinterpretation of Weber's law ; I think he proposed that sensation had a discrete internal representation). Q: what does he mean by sensation?
 
-* **1866s: Helmholtz:** perception must require interpreting the signals under some assumptions, “unconscious inference.” (unbewusster Schluss).Note: he mainly meant the unconscious inference to refer to how we learn associations, i.e. we learn a, and he was opposed to school of thought that this is innate.Especially: sensations do not resembles objects, like a key imprinted on wax. Instead they are “signs”, like a signature represents a person.
-    * Pylyshyn: “Helmholtz, as well as most vision researchers in the 1950s through the 1970s, assumed that this was inference from knowledge of the world because the inversion was almost always correct (e.g., we see the veridical 3-D layout even from 2-D pictures). ”Adelson: Helmholtz has generally been represented as believing in “high-level” inference, i.e. we use all our knowledge
-    * Helmholtz: I would never believe anything solely on the evidence of my eyes."
+* **Weber's law (1795-1878):** just noticeable differences are a constant fraction of the magnitude of the stimulus.
 
-* **1880s: Gestalt School:** Wertheimer, Kohler and Koffka (1880s) found that perceptions did not always correspond to sensations – e.g. flashing two neighbouring lights consecutively causes a perception of a moving light. They tried to discover the laws by which percepts are constructed (most important law is pragnanz, “good figure”, general idea is about finding the simplest thing which fits the evidence). Subsequently many of these laws can be reinterpreted as inference (& proved by predicting when the laws will be violated).Adelson: these guys are usally interpreted as believing in mid-level inference ; i.e. they use somewhat blunt principles, not sensitive to the full information set
+* **Fechner's law (1801-1887):** An interpretation of Weber's law: under the assumption that each JND has an equal subjective difference, this implies a logarithmic relationship between objective and subjective magnitude.
 
-* 1935: Koffka, “Principles of Gestalt Psychology”"On the west side of Lake Cayuga, a couple of hundred feet or so above its level, stands a public building on a wide lawn that slants slightly towards the lake. To everyone this building seems to be tilted in a direction away from the lake in a most striking manner." [Similarly] when we look through the window of [a] mountain railway carriage, this window becomes our spatial framework and appears, therefore, in normal horizontal-vertical orientation. The contours of the objects seen through the window do not intersect the sash at right angles. Therefore, if the sash is seen as horizontal, these objects cannot be seen as vertical. . . . If one sticks one's head out of the window, [a] telegraph pole will soon look vertical; when then, without losing sight of it, one withdraws the head, the telegraph pole will still appear vertical and the windows, the whole carriage, tilted. One factor in these two situations is invariant, the angle between ground and object. It is easy to apply the same principle to the house on the western shores of Cayuga waters. The big lawn here provides the base, and therefore looks level. Consequently the house upon it must appear tilted, (pp. 217-218)
+* **1866s: Helmholtz:** perception must require interpreting the signals under some assumptions, “unconscious inference.” ("unbewusster Schluss").
+   - Note: he mainly meant the unconscious inference to refer to how we learn associations, i.e. we learn a, and he was opposed to school of thought that this is innate. Especially: sensations do not *resemble* objects, like a key imprinted on wax. Instead they are “signs”, like a signature represents a person.
+    - Pylyshyn: “Helmholtz, as well as most vision researchers in the 1950s through the 1970s, assumed that this was inference from knowledge of the world because the inversion was almost always correct (e.g., we see the veridical 3-D layout even from 2-D pictures).
+    - Adelson: "Helmholtz has generally been represented as believing in “high-level” inference, i.e. we use all our knowledge"
+    - Helmholtz: "I would never believe anything solely on the evidence of my eyes."
 
-* 1950s: Signal Detection Theory:
+* **1880s: Gestalt School:** Wertheimer, Kohler and Koffka (1880s) found that perceptions did not always correspond to sensations – e.g. flashing two neighbouring lights consecutively causes a perception of a moving light. They tried to discover the laws by which percepts are constructed: most important law is pragnanz, “good figure”, the general idea is about finding the simplest thing which fits the evidence. Subsequently many of these laws can be reinterpreted as inference, and the laws are violated just when the laws diverge from what's predicted by inference. Adelson: these guys are usally interpreted as believing in mid-level inference: i.e. using somewhat blunt principles, not sensitive to the full information set
 
-– If you make categorical judgments using signals with Gaussian error, the model has two parameters: signal/noise ratio, and the tradeoff between type 1 & type 2 errors.Theory started in 1950s for radar operators, often used in psychology since.
+* **1935: Koffka, “Principles of Gestalt Psychology”**
+   -"On the west side of Lake Cayuga, a couple of hundred feet or so above its level, stands a public building on a wide lawn that slants slightly towards the lake. To everyone this building seems to be tilted in a direction away from the lake in a most striking manner." [Similarly] when we look through the window of [a] mountain railway carriage, this window becomes our spatial framework and appears, therefore, in normal horizontal-vertical orientation. The contours of the objects seen through the window do not intersect the sash at right angles. Therefore, if the sash is seen as horizontal, these objects cannot be seen as vertical. . . . If one sticks one's head out of the window, [a] telegraph pole will soon look vertical; when then, without losing sight of it, one withdraws the head, the telegraph pole will still appear vertical and the windows, the whole carriage, tilted. One factor in these two situations is invariant, the angle between ground and object. It is easy to apply the same principle to the house on the western shores of Cayuga waters. The big lawn here provides the base, and therefore looks level. Consequently the house upon it must appear tilted, (pp. 217-218)
 
-– Related to Bayesian perception, see discussion in (Kersten and Schrater, 2002, pp. 193-199).
+* **1950s: Signal Detection Theory:**
+   – If you make categorical judgments using signals with Gaussian error, the model has two parameters: signal/noise ratio, and the tradeoff between type 1 & type 2 errors.Theory started in 1950s for radar operators, often used in psychology since.
+   – Related to Bayesian perception, see discussion in (Kersten and Schrater, 2002, pp. 193-199).
 
-* 1950s: “New Look”: Bruner: “According to this view, we perceive in cognitive categories. There is no such thing as a “raw” appearance or an “innocent eye”: we see something as a chair or a table or a face or a particular person, and so on. As Bruner put it, “all perceptual experience is necessarily the end product of a categorization process” and therefore “perception is a process of categorization in which organisms move inferentially from cues to category identity and . . . in many cases, as Helmholtz long ago suggested, the process is a silent one.”According to Bruner, perception is characterized by two essential properties: it is categorical and it is inferential. Thus it can be thought of as a form of problem solving in which part of the input happens to come in through the senses and part through needs, expectations, and beliefs, and in which the output is the category of the object being perceived. Because of this there is no distinction between perception and thought.” [much apparent experimental verification from the 1950s to 1970s, though later reinterpreted] “New Look investigators assumed that 'anomalous or unexpected stimuli tend to be assimilated to their regular or expected counterparts' just as occurs in the case of proofreaders' errors”. Sounds like top-down influences.Bargh & Morsella (2008): “the New Look research in perception involving the preconscious analysis of stimuli prior to the products of the analysis being furnished to conscious awareness,”
+* **1950s: “New Look”**
+   - Bruner: “According to this view, we perceive in cognitive categories. There is no such thing as a “raw” appearance or an “innocent eye”: we see something as a chair or a table or a face or a particular person, and so on. As Bruner put it, “all perceptual experience is necessarily the end product of a categorization process” and therefore “perception is a process of categorization in which organisms move inferentially from cues to category identity and . . . in many cases, as Helmholtz long ago suggested, the process is a silent one.” According to Bruner, perception is characterized by two essential properties: it is categorical and it is inferential. Thus it can be thought of as a form of problem solving in which part of the input happens to come in through the senses and part through needs, expectations, and beliefs, and in which the output is the category of the object being perceived. Because of this there is no distinction between perception and thought. 
+   - [much apparent experimental verification from the 1950s to 1970s, though later reinterpreted] “New Look investigators assumed that 'anomalous or unexpected stimuli tend to be assimilated to their regular or expected counterparts' just as occurs in the case of proofreaders' errors”. Sounds like top-down influences.Bargh & Morsella (2008): “the New Look research in perception involving the preconscious analysis of stimuli prior to the products of the analysis being furnished to conscious awareness,”
 
-* 1952: Brunswik, “The Conceptual Framework of Psychology” [introduced the Lens model, but not sure what point he was trying to make, something about holism]1955: Hammond, “Probabilistic Function and the Clinical Method” - applied Brunswik lens model to clinical judgment.Application was assessment of IQ from Rorsach test results.
+* **1952: Brunswik, “The Conceptual Framework of Psychology”** 
+   - [introduced the Lens model, but not sure what point he was trying to make, something about holism]
+   - 1955: Hammond, “Probabilistic Function and the Clinical Method” - applied Brunswik lens model to clinical judgment. Application was assessment of IQ from Rorsach test results. (?!)
 
-* **1953(?) Stevens' Power Law:** \psi(I)=kI^{a}, based on experiments where subjects report the subjective cardinal value of sensations.
+* **1953(?) Stevens' Power Law:** $\psi(I)=kI^{a}$, based on experiments where subjects report the subjective cardinal value of sensations.
 
-* 1955: Perceptual Learning: Apparent consensus that perceptual system does not learn new associations. (Gibson & Gibson, quoted in Haijiang (2006)).
+* **1955: Perceptual Learning:** Apparent consensus that perceptual system does not learn new associations [example?] (Gibson & Gibson, quoted in Haijiang (2006)).
 
-* 1961: Efficient Coding:Proposed in the 1950s by Barlow and Attneave independently. Barlow (1961), General principle that neurons encode information in the most efficient way (& so encoding scheme should correspond to natural distribution of sense data), roughly Shannon's information theory.Dawkins (2000, Unweaving the Rainbow): “By exploiting redundancy, it is possible to devise codes that convey the same information at a cost of fewer pulses. Temperatures in the world mostly stay the same for long periods at a time. To signal 'It is hot, it is hot, it is still hot ...' by a continuously high rate of machine-gun pulses is wasteful; it is better to say, 'It has suddenly bcome hot' (now you can assume that it will stay the same until further notice).”Dawkins: “to push the idea to an extreme, most of the time the brain does not need to be told anything because what is going on is the norm. The message would be redundant. The brain is protected from redundancy by a hierarchy of filters, each filter tuned to remove expected features of a certain kind.” ... “the set of nervous filters constitutes a kind of summary descrition of hte norm, of the statistical properties of the world in which the animal lives.”- “efficient coding hypothesis states that the optimal code is the one that leads to a uniform probability over firing rates .... if stimuli is distributed normally, then the optimal normalized code ... is the Gaussian CDF” (from Rangel & Clithero)- I think that this is commonly interpreted as contrast enhancement, though Brayanov & Smith say the predictions are based on downstream failing to decode the signal (“coding catastrophe”, Schwartz et al. 2007).- No: Series, Stocker & Simoncelli say that (i) adaptation does makes sense for efficient coding, however (ii) it will predicts changes in patterns of sensitivity, but it won't predict (quantitatively interesting) biases, without unaware decoding.- NOTE! Barlow (2001) “Redundancy reduction revisited” now seems to have largely walked back the theory. Because (1) there aren't bottlenecks in neurons, and (2) compressed information is not useful for processing. He says “two points have become clear since those early days. First, anatomical evidence shows that there are very many more neurons at higher levels in the brain, suggesting that redundancy does not decrease, but actually increases. Second, the obvious forms of compressed, non-redundant, representation would not be at all suitable for the kinds of task that brains have to perform with the information represented.”“I think one has to recognize that the information capacity of the higher representations is likely to be greater than that of the representation in the retina or optic nerve. If this is so, redundancy must increase, not decrease, because information cannot be created.”
+* **1961: Efficient Coding:**
+   - Proposed in the 1950s by Barlow and Attneave independently.
+   - Barlow (1961): General principle that neurons encode information in the most efficient way (& so encoding scheme should correspond to natural distribution of sense data), roughly Shannon's information theory.
+   - Dawkins (2000, Unweaving the Rainbow): “By exploiting redundancy, it is possible to devise codes that convey the same information at a cost of fewer pulses. Temperatures in the world mostly stay the same for long periods at a time. To signal 'It is hot, it is hot, it is still hot ...' by a continuously high rate of machine-gun pulses is wasteful; it is better to say, 'It has suddenly bcome hot' (now you can assume that it will stay the same until further notice).”
+      - “to push the idea to an extreme, most of the time the brain does not need to be told anything because what is going on is the norm. The message would be redundant. The brain is protected from redundancy by a hierarchy of filters, each filter tuned to remove expected features of a certain kind.” ... “the set of nervous filters constitutes a kind of summary descrition of the norm, of the statistical properties of the world in which the animal lives.”
+      - Rangel & Clithero: “efficient coding hypothesis states that the optimal code is the one that leads to a uniform probability over firing rates .... if stimuli is distributed normally, then the optimal normalized code ... is the Gaussian CDF”
+      - I think that this is commonly interpreted as contrast enhancement, though Brayanov & Smith say those predictions are based on downstream failing to decode the signal (“coding catastrophe”, Schwartz et al. 2007).
+      - Series, Stocker & Simoncelli say that (i) adaptation does makes sense for efficient coding, however (ii) it will predicts changes in patterns of sensitivity, but it won't predict (quantitatively interesting) biases, without unaware decoding.
+      - Barlow (2001) “Redundancy reduction revisited” now seems to have largely walked back the theory. Because (1) there aren't bottlenecks in neurons, and (2) compressed information is not useful for processing. He says “two points have become clear since those early days. First, anatomical evidence shows that there are very many more neurons at higher levels in the brain, suggesting that redundancy does not decrease, but actually increases. Second, the obvious forms of compressed, non-redundant, representation would not be at all suitable for the kinds of task that brains have to perform with the information represented.”
+         - “I think one has to recognize that the information capacity of the higher representations is likely to be greater than that of the representation in the retina or optic nerve. If this is so, redundancy must increase, not decrease, because information cannot be created.”
 
-* 1970s: Ecological Perception (Gibson, “the Ecological Approach to Visual Perception”)- The first half of this book is just about the statistics of the environment – e.g. correlations between cues- I think the idea is that, instead of each sense being designed to sense a particular thing, you use *all* your senses to detect things in the world. So distance perception affected by all 6 senses. [nice application of this to flavor perception in Auvray & Spence “the multisensory perception of flavor”]- Came up with the idea of “affordances”: we automatically perceive things according to their function; e.g. low stable things we immediately perceive as possible seats.- Gregory (1997) says that Gibson *contradicts* the unconscious inference theory, but not clear why.
+* **1970s: Ecological Perception** (Gibson, “the Ecological Approach to Visual Perception”)
+   - The first half of this book is just about the statistics of the environment – e.g. correlations between cues- I think the idea is that, instead of each sense being designed to sense a particular thing, you use *all* your senses to detect things in the world. So distance perception affected by all 6 senses. [nice application of this to flavor perception in Auvray & Spence “the multisensory perception of flavor”]
+   - Came up with the idea of “affordances”: we automatically perceive things according to their function; e.g. we perceive something as a seat if it's low and stable. // [nice evidence that inference is towards *functional* categories, not natural categories.]
+   - Gregory (1997) says that Gibson contradicts the unconscious inference theory but not clear to me why.
 
-* 1970s: Object-Based Computer Perception.Pylyshyn: “in the 60s and 70s a great deal of the research effort in computer vision went into the development of various 'edge-finding' schemes in order to extract reliable features to use as a starting point for object recognition and scene analysis (Clowes 1971). Despite this effort the edge finders were not nearly as successful as they needed to be if they were to serve as the primary inputs to subsequent analysis and identification stages. .. This dilemma led to attempts to guide the edge finders into more promising image locations or to vary the edge threshold depending on whether an edge was more likely at those locaitons than at other places in the image.”[& I think Pylyshyn thinks this misled people into expecting ubiquitous top-down effects]Interesting technically: that aggregation at a low level is not very efficient, & so you can solve for the efficient level at which to aggregate.“Early vision does not respond to any other kind of knowledge or new information related to these constraints (eg., the constraints show up even if the observer knows that there are conditions in a certain scene that render the constraints invalid in that particular case)”
+* **1970s: Object-Based Computer Perception.**
+   - Pylyshyn: “in the 60s and 70s a great deal of the research effort in computer vision went into the development of various 'edge-finding' schemes in order to extract reliable features to use as a starting point for object recognition and scene analysis (Clowes 1971). Despite this effort the edge finders were not nearly as successful as they needed to be if they were to serve as the primary inputs to subsequent analysis and identification stages. .. This dilemma led to attempts to guide the edge finders into more promising image locations or to vary the edge threshold depending on whether an edge was more likely at those locaitons than at other places in the image.” [& I think Pylyshyn thinks this misled people into expecting ubiquitous top-down effects]
+   - Interesting technically: that aggregation at a low level is not very efficient, & so you can solve for the efficient level at which to aggregate.
+   - “Early vision does not respond to any other kind of knowledge or new information related to these constraints (eg., the constraints show up even if the observer knows that there are conditions in a certain scene that render the constraints invalid in that particular case)”
 
-* 1972: Rescorla-Wagner “A theory of Pavlovian conditioning: Variations in the effectiveness of reinforcement and nonreinforcement”Basic equation for updating associative strength based on history.
+* **1972: Rescorla-Wagner “A theory of Pavlovian conditioning: Variations in the effectiveness of reinforcement and nonreinforcement”**
+   - Basic equation for updating associative strength based on history. Influential, but I'm not sure exactly what the content is.
 
-* 1973: Seligman & Johnson: “A Cognitive Theory of Avoidance Learning”Avoidance is not instrumental conditioning – it's actually driven by cognition.
+* **1973: Seligman & Johnson: “A Cognitive Theory of Avoidance Learning”**
+   - Avoidance is not instrumental conditioning – it's actually driven by cognition.
+   - I think this came from Seligman's experiments on dogs learning to avoid shocks.
+   - Seligman went on to develop cognitive theories of depression, and cognitive-behavioural therapy: that *thinking* in a different way can change your behaviour. (I guess experiments that show cognitive effects?)
 
-* 1974: Brewer: “There is no convincing evidence for operant or classical conditioning in adult humans.”I.e., most associations learned associations can be easily modulated; they are cognitively penetrable. “The college sophomore does not leave his higher mental processes outside the door when he walks into the experimental room, but he uses them to try to understand what is going on and what he should do about it.”
+* **1974: Brewer: “There is no convincing evidence for operant or classical conditioning in adult humans.”**
+   - I.e., most associations learned associations can be easily modulated; they are cognitively penetrable. “The college sophomore does not leave his higher mental processes outside the door when he walks into the experimental room, but he uses them to try to understand what is going on and what he should do about it.”
 
-* 1979: Gaetano Kanizsa “Organization in Vision”Shimojo's description of the book “when one views an entire visual scene, perceptual organization/integration occurs mostly in a bottom-up, task-irrelevant fashion”
+* **1979: Gaetano Kanizsa “Organization in Vision”**
+   - Shimojo's description of the book “when one views an entire visual scene, perceptual organization/integration occurs mostly in a bottom-up, task-irrelevant fashion”
 
-* 1980: Treisman & Gelade “A Feature-Integration Theory of Attention”Certain features are identified automatically & in parallel (colour, shape, etc.), but attention is required to do more complicated operations, especially combining features & detecting conjunctions.Evidence mostly that automatic processing according to features, but not conjunctions of features. (1) easy to find object by single distinctive feature, difficult by conjunction; (2) ... ; (3) without attention, often misallocate features to stimuli; (4) we can know a feature occurred without knowing where, but not true for conjunction of features; (5) interference from unattended stimuli depends only on single features, not on conjunctions.
+* **1980: Treisman & Gelade “A Feature-Integration Theory of Attention”**
+   - Experiments showing that simple features (e.g. colour, shape) are identified automatically & in parallel, but more complex features (e.g. colour+shape) require attention and cognition.
+   - Evidence: (1) it's easy to locate an object with a single distinctive feature, difficult by conjunction; (2) (???) ; (3) without attention, people often misallocate features to stimuli; (4) we can be aware that a feature occurred without knowing where, but this is not true for complex features; (5) interference from unattended stimuli works with simple features, not with complex features.
 
-**1980: Pylyshyn, “Cognitive Impenetrability”**
-    Pylyshyn (1980) “Computation and cognition: issues in the foundation of cognitive science”
-    * That the visual system is separate from cognition: “defends the position that an important part of visual perception, corresponding to what some people have called early vision, is prohibited from accessing relevant expectations, knowledge and utilities in determining the function it computes — in other words, it is cognitively impenetrable.”
-    * methodological condition: “Functions are said to be cognitively impenetrable if they cannot be influenced by such purely cognitive factors as goals, beliefs, inferences, tacit knowledge, and so on.”
-    * Arguments:
-        * 1. illusions persist even when you know they're not there
-        * 2. visual perception is influenced only by local information
-        * 3. neurologically pathways seem somewhat independent (& lesions can knock out specific functions, agnosia)
-        * 4. evidence of the effect of expectations usually operates through the channel of attention (or intra-visual-system effects). Note that his impenetrability is at a lower level than mine: I also want learned recognition to be impenetrable (e.g., is this a Rembrandt? Is this worth $10? He seems to think these things are high-level). Also I want two-way impenetrability.
+**1980: Pylyshyn, “Computation and cognition: issues in the foundation of cognitive science”**
+   - That the visual system is separate from cognition: “defends the position that an important part of visual perception, corresponding to what some people have called early vision, is prohibited from accessing relevant expectations, knowledge and utilities in determining the function it computes — in other words, it is cognitively impenetrable.”
+   - methodological condition: “Functions are said to be cognitively impenetrable if they cannot be influenced by such purely cognitive factors as goals, beliefs, inferences, tacit knowledge, and so on.”
+   - Arguments:
+      1. illusions persist even when you know they're not there
+      2. visual perception is influenced only by local information
+      3. neurologically pathways seem somewhat independent (& lesions can knock out specific functions, agnosia)
+      4. evidence of the effect of expectations usually operates through either (a) directing attention, or (2) or intra-visual-system effects.
+   - Note that his impenetrability is at a lower level than mine: I also want *learned* recognition to be impenetrable (e.g., is this a Rembrandt? Is this worth $10?) He seems to think these things are high-level. Also I want two-way impenetrability: the higher-order system lacks information that the lower-order system has.
 
-* 1982: David Marr, “Vision”Very influential analysis: breaking vision up into sequential information-processing stages (modular), esp. having a 2\frac{1}{2}-D intermediate representation.He says in his introduction that a crucial step was hearing about patients with lesions can accurately judge the shape of familiar objects without recognizing them, implying “vision alone can deliver an internal description of the shape of a viewed object, even when the object was not recognized in the conventional sense of understanding its use and purpose.”
+- **1982: David Marr, “Vision”**
+   - Very influential analysis: breaking vision up into sequential information-processing stages (modular), esp. having a 2\frac{1}{2}-D intermediate representation.
+   - He says in his introduction that a crucial step was hearing about patients with lesions can accurately judge the shape of familiar objects without recognizing them, implying “vision alone can deliver an internal description of the shape of a viewed object, even when the object was not recognized in the conventional sense of understanding its use and purpose.”
 
-* 1983: Rock, “The Logic of Perception”Collection of articles arguing for perception as (constrained) unconscious inference. Mostly identifying rules by which perception is constructed from sensations, “perception as problem solving.” [Q: relation to 'new look'?]
+* **1983: Rock, “The Logic of Perception”**
+   - Collection of articles arguing for perception as (constrained) unconscious inference. Mostly work which identified rules by which perception is constructed from sensations, “perception as problem solving.”
+   - An example was inferring reflectance of objects.
+   - Says “perception must rigidly adhere to the appropriate internalized rules, so that it often seems unintelligent and inflexible in its imperviousness to other kinds of knowledge.” / But Pylyshyn seems to think he's *more* of an advocate of encapsulation than Rock.
+   - [Q: relation to 'new look'?]
 
-* 1983: Fodor, “The Modularity of Mind”For perception, he emphasises information encapsulation of perception: “the data that can bear on the confirmation of perceptual hypotheses includes, in the general case, considerably less than the organism may know.”[good discussion in Stanford encyclopedia]- Two main arguments: (i) perception & language parsing are modular, most importantly they are informationally encapsulated, against the 'new look' theories; (ii) general thought is not modular, because it has access to all information.- Historically 'faculty psychology' associated with individual differences: replaced by associationist schools in early 20th century. In associationist theories mental content determined by patterns in the world: “the strategy of dissolving presumptive psychological mechanisms into parameters of the association relation, or properties of the associated relata.”- Defn: “roughly, modular cognitive systems are domain specific, innately specified, hardwired, autonomous, and not assembled.”- Arguments for input systems as modules: (i) they are domain specific(ii) their operation is mandatory - cannot avoid interpreting them in this way(iii) limited access to the mental representations that the input systems compute“one simply cannot see the world under its retinal projection and one has practically no access ot the acoustics of utterances in languages that one speaks.” – could be that you can perceive it if you're attending, but forget; but also there are some distinctions you can only implicitly perceive, not explicitly perceive, unless you have training. About noise: “Proximal variation is very often misleading; the world is, in general, considerably more stable than are its projections onto the surfaces of transducers.”(iv) input systems are fastE.g., if exposed to 3000 photos for 10 seconds each, subjects have 90% recognition rate after an hour.  – and always fast, independent of how complicated they are(v) input systems are informationally encapsulated – i.e. the top-down effects, e.g. phoneme-restoration, are only from other information at the modular level (e.g. syntactical or associational information, not semantic information)“there is the widely noted persistence of many perceptual illusions”- and when you press the side of your eye, you get the perception of motion.note: ugly argument here: that somehow it's optimal to ignore high-level information, because your perception should be of the world, not of your expectations. – gives a justification: if we need to make quick decisions, and extra information slows it down(vi) input systems have 'shallow' outputs – i.e., basic shapes & concepts, not sophisticated ones like atoms(vii) input systems are associated with a fixed neural architecture(viii) input systems exhibit characteristic and specific breakdown patterns(ix) the ontogeny of input systems exhibits a characteristic pace & sequencing
+* **1983: Fodor, “The Modularity of Mind”**
+   - He emphasises information encapsulation of perception: “the data that can bear on the confirmation of perceptual hypotheses includes, in the general case, considerably less than the organism may know.” [good discussion in Stanford encyclopedia]
+   - Two main arguments:
+      1. perception & language parsing are modular, most importantly they are informationally encapsulated, contrary to the "new look" theories;
+      2. general thought is not modular, because it has access to all information.
+   - Historically 'faculty psychology' was associated with individual differences, replaced by associationist schools in early 20th century. In associationist theories mental content is determined by patterns in the world: “the strategy of dissolving presumptive psychological mechanisms into parameters of the association relation, or properties of the associated relata.”
+   - Definition: “roughly, modular cognitive systems are domain specific, innately specified, hardwired, autonomous, and not assembled.”
+   - Arguments for input systems as modules:
+      1. they are domain specific
+      2. their operation is mandatory - cannot avoid interpreting them in this way
+      3. limited access to the mental representations that the input systems compute “one simply cannot see the world under its retinal projection and one has practically no access ot the acoustics of utterances in languages that one speaks.” It could be that you can perceive it if you're attending, but you forget; but also there are some distinctions you can only implicitly perceive, not explicitly perceive, unless you have training. About noise: “Proximal variation is very often misleading; the world is, in general, considerably more stable than are its projections onto the surfaces of transducers.”
+      4. Input systems are fast. E.g., if exposed to 3000 photos for 10 seconds each, subjects have 90% recognition rate after an hour. Always fast, independent of how complicated they are.
+      5. Input systems are informationally encapsulated – i.e. the top-down effects, e.g. phoneme-restoration, are only from other information at the modular level (e.g. syntactical or associational information, not semantic information) “there is the widely noted persistence of many perceptual illusions”- and when you press the side of your eye, you get the perception of motion. Note: ugly argument here: that somehow it's optimal to ignore high-level information because your perception should be of the world not of your expectations. Gives a justification: if we need to make quick decisions, and extra information slows it down.
+      6. Input systems have 'shallow' outputs – i.e., basic shapes & concepts, not sophisticated ones like atoms.
+      7. Input systems are associated with a fixed neural architecture
+      8. Input systems exhibit characteristic and specific breakdown patterns
+      9. The ontogeny of input systems exhibits a characteristic pace & sequencing
 
-* 1988: Fodor & Pylyshyn, Systematicity - “Connectionism and Cognitive Architecture: a Critical Analysis”Argue that connectionism models can't explain logical operation of the brain - systematicity - e.g. NN could recognize that “mary loves john” is grammatical w/o recognizing “john loves mary.” is grammatical. [Encyclopedia: “It has been over twenty-five years since the systematicity debate first began, with over 2,600 citations to Fodor and Pylyshyn’s original paper.”]
+* **1988: Fodor & Pylyshyn, Systematicity - “Connectionism and Cognitive Architecture: a Critical Analysis”**
+   - Argue that connectionism models can't explain logical operation of the brain - systematicity - e.g. a NN could recognize that “mary loves john” is grammatical w/o recognizing “john loves mary.” is grammatical. [Encyclopedia: “It has been over twenty-five years since the systematicity debate first began, with over 2,600 citations to Fodor and Pylyshyn’s original paper.”]
 
-* 1995: Barto & Sutton, Reinforcement Learning / (Montague: Dopamine as Reward Prediction Error)Good history of the reinforcement learning theory across fields in Barto & Sutton book: http://webdocs.cs.ualberta.ca/~sutton/book/ebook/node12.htmlDayan perhaps also contributed to the dopamine discovery.Good short review: Niv & Schoenbaum (2008) “Dialogues on Prediction Errors”- they contrast it with 'supervised learning' used in a lot of AI, where you don't choose the stimulus (Q: what is psychology term that corresponds? )- 1980s Barto & Sutton show that temporal difference reinforceent learning is efficient & easily implementable- 1995 Montague proposes this idea that Serotonin encodes differences from prediction, & therefore selective reinforcement.- reinforcement learning: you get to choose action / temporal-difference: you get secondary reinforcement based on predicted payoffs
+* **1995: Barto & Sutton, Reinforcement Learning**
+* **(1995?): Montague: Dopamine as Reward Prediction Error**
+   - Good history of the reinforcement learning theory across fields in Barto & Sutton book: http://webdocs.cs.ualberta.ca/~sutton/book/ebook/node12.html
+   - Dayan perhaps also contributed to the dopamine discovery.
+   - Good short review: Niv & Schoenbaum (2008) “Dialogues on Prediction Errors”- they contrast it with 'supervised learning' used in a lot of AI, where you don't choose the stimulus (Q: what is psychology term that corresponds? )
+   - 1980s Barto & Sutton show that temporal difference reinforceent learning is efficient & easily implementable. TD-learning: you get a reward based on difference of payoff from predicted.
+   - 1995 Montague proposes this idea that Dopamine encodes differences from prediction, & therefore selective reinforcement.- reinforcement learning: you get to choose action / temporal-difference: you get secondary reinforcement based on predicted payoffs
 
-* 1999: Rao & Ballard, Predictive Codinghttp://homes.cs.washington.edu/~rao/predcoding2011.pdfUpstream sends an expectation, and downstream just sends back a diff file. Means there should be top-down influences.“Minimizing the total description length ... is thus equivalent to maximizing the posterior probability of the parameters under the predictive coding assumption. Therefore, the so-called minimum description length (MDL) framework can be seen to be formally equivalent to Bayesian maximum a posteriori (MAP) estimation.” [?][See a discussion & comments in BBS: Clark (2013) “Whatever Next? Predictive Brains, Situated Agents, and the Future of Cognitive Science,”](From encyclopedia: “It must be admitted that there is still no convincing evidence that the essential features of PC models are directly implemented as anatomical structures in the brain. Although it is conjectured that superficial pyramidal cells may transmit prediction error, and deep pyramidal cells predictions, we do not know that that is how they actually function. On the other hand, PC models do appear more neurally plausible than backpropagation architectures, for there is no need for a separate process of training on an externally provided set of training samples. Instead, predictions replace the role of the training set, so that learning and interacting with the environment are two sides of a unified unsupervised process.”) [Predictive coding still suffers from misconception that we are representing the sensations, rather than the causes themselves.]
+* **1999: Rao & Ballard, Predictive Coding**
+   - http://homes.cs.washington.edu/~rao/predcoding2011.pdf
+   - Different from "efficient coding"
+   - Upstream sends an expectation, and downstream just sends back a diff file. Means there can be top-down influences.
+   - “Minimizing the total description length ... is thus equivalent to maximizing the posterior probability of the parameters under the predictive coding assumption. Therefore, the so-called minimum description length (MDL) framework can be seen to be formally equivalent to Bayesian maximum a posteriori (MAP) estimation.”
+   - See a discussion & comments in BBS: Clark (2013) “Whatever Next? Predictive Brains, Situated Agents, and the Future of Cognitive Science,”
+   - From encyclopedia: “It must be admitted that there is still no convincing evidence that the essential features of PC models are directly implemented as anatomical structures in the brain. Although it is conjectured that superficial pyramidal cells may transmit prediction error, and deep pyramidal cells predictions, we do not know that that is how they actually function. On the other hand, PC models do appear more neurally plausible than backpropagation architectures, for there is no need for a separate process of training on an externally provided set of training samples. Instead, predictions replace the role of the training set, so that learning and interacting with the environment are two sides of a unified unsupervised process.”
+   - Predictive coding still suffers from misconception that we are representing the sensations, rather than the causes themselves. [not sure if this is a quote or my words]
+   - From a review: "Over the last two decades, several innovative theories of visual perception have been developed based on the notion of predictive coding (e.g., Rao & Ballard, 1999; Friston 2005; Summerfield & de Lange, 2014). These theories are based on assumptions that sensory systems are continuously attempting to infer the underlying causes of incoming sensory signals, and that discrepancies between an organism’s internal models and reality are reflected in patterns of neural activity"
+   - Evidence: *Expectation Suppression* -- there's less brain activity when people expect a stimulus -- but critical review by Feuerriegela et al. (2020).
+
+- **2014: Summerfield & deLange "Expectation in perceptual decision making: neural and computational mechanisms"**
+   - Concrete impact: "During decision making, expectation can alter the gain of information processing towards stimuli that are expected to occur."
+
+- **2009: Friston, "The free-energy principle: a rough guide to the brain?"**
+   - Quite cryptic, also suspiciously ambitious.
+   - I think core is that both perception & action driven can be described with same formalism: minimizing some kind of surprise. // 
+   - Agents act to minimize surprise: "Surprise rests on predictions about sensations, which depend on an internal generative model of the world. Although surprise cannot be measured directly, a free-energy bound on surprise can be, suggesting that agents minimize free energy by changing their predictions (perception) or by changing the predicted sensory inputs (action)."
+   - ("Friston is the most widely cited neuroscientist in the world," -- but mainly neuroimaging)
+
+
+      
+      
 
 # PERCEPTION - Theory
 
-* overview
+## Overview
 
-– David Heeger lecture noteshttp://www.cns.nyu.edu/~david/courses/perception/lecturenotes/psychophysics/psychophysics.html
+– [David Heeger lecture notes](http://www.cns.nyu.edu/~david/courses/perception/lecturenotes/psychophysics/psychophysics.html)
 
-* coding
+## Perceptual Coding (incl. some Bayesian stuff)
 
-– Ballard & Rao (1999, Nature Neuro) “Predictive coding in the visual cortex: a functional interpretation of some extra-classical receiptive-field effects”- In short: “nonclassical surround effects ... result from cortico-ocrtical feedback”- Motivation: certain cells have “extra-classical receptive fields”, esp. a cell tuned to detect a line is *less* likely to fire if neighboring cells also detect a line. They say that this is optimal behaviour if there's a feedback equilibrium.
+– **Ballard & Rao (1999, Nature Neuro) “Predictive coding in the visual cortex: a functional interpretation of some extra-classical receiptive-field effects”**   
+   - “Nonclassical surround effects ... result from cortico-ocrtical feedback”
+   - Motivation: certain cells have “extra-classical receptive fields”, esp. a cell tuned to detect a line is *less* likely to fire if neighboring cells also detect a line. They say that this is optimal behaviour if there's a feedback equilibrium.
 
-– Barlow (2001) “Redundancy Reduction Revisited”He says that signal-transfer cannot just be compression because (i) there is an increase in channel capacity coming out from teh sensory organs; (ii) compressed information is not very useful to work with. Says that it's more about inference than about compression:
+– **Barlow (2001) “Redundancy Reduction Revisited”**
+   - Argument *against* his earlier hypothesis about efficient coding, about reducing redundancy.
+   - He says that signal-transfer cannot just be compression because (i) there is an increase in channel capacity coming out from the sensory organs; (ii) compressed information is not very useful to work with. Says that it's more about inference than about compression:
+   - “The lesson from this is that we should be thinking how perceptual mechanisms form probability estimates, how probabilities are represented in the brain and how they are transmitted from place to place in it. This is not a new idea (see Helmholtz 1925, Barlow 1969, Gregory 1970) but we defer accepting it because we persist in thinking of sensory messages and perceptions just as transformations of the physical stimuli. It is, however, the probabilities that are required to select appropriate behaviour.”
 
-“The lesson from this is that we should be thinking how perceptual mechanisms form probability estimates, how probabilities are represented in the brain and how they are transmitted from place to place in it. This is not a new idea (see Helmholtz 1925, Barlow 1969, Gregory 1970) but we defer accepting it because we persist in thinking of sensory messages and perceptions just as transformations of the physical stimuli. It is, however, the probabilities that are required to select appropriate behaviour.”.
+– **Simoncelli (2003) “Vision and the statistics of the visual environment”**
+   - Evaluates Barlow's efficient coding hypothesis, and various criticisms.
+   - Experimental tests: firing rates do seem well tuned to statistics of environment.
 
-– Simoncelli (2003) “Vision and the statistics of the visual environment”- Evaluates Barlow's efficient coding hypothesis, and various criticisms.- Experimental tests: firing rates seem well tuned to statistics of environment.
+* **Wei & Stocker (2012, NIPS) “Efficient coding provides a direct link between prior and likelihood in perceptual Bayesian inference”**
+  - They explicitly say that they're interested in explaining biases, and they add to the Bayesian model by imposing neural noise. They derive a Bayesian contrast effect from efficient coding: sensitivity is decreasing in density around prior. Result: the bias is proportional to the slope of the prior, so positive bias in neighborhood of decreasing prior. Very surprising! They have an analytic result (given some simplifications), but not trivial to follow.
+  - The main result is that the bias is proportional to the slope of the prior. Given some $\theta_{0}$, then bias is defined as (I think):
+   $$b(\theta_{0})   =   \int F^{-1}(\tilde{\theta})L(\tilde{\theta})d\tilde{\theta}-F^{-1}(\tilde{\theta}_{0})$$
+      which is I think just this:
+   $$b(\theta_{0})=E[\hat{\theta}_{MSE}|\theta_{0}]-\theta_{0}$$
 
-* Wei & Stocker (2012, NIPS) **“Efficient coding provides a direct link between prior and likelihood in perceptual Bayesian inference”**
-  * They explicitly say that they're interested in explaining biases, and they add to the Bayesian model by imposing neural noise.They derive a Bayesian contrast effect from efficient coding: sensitivity is decreasing in density around prior. Result: the bias is proportional to the slope of the prior, so positive bias in neighborhood of decreasing prior. Very surprising! They have an analytic result (given some simplifications), but not trivial to follow.The main result is that the bias is proportional to the slope of the prior. Given some $\theta_{0}$, then bias is defined as (I think):
-$$b(\theta_{0})   =   \int F^{-1}(\tilde{\theta})L(\tilde{\theta})d\tilde{\theta}-F^{-1}(\tilde{\theta}_{0})$$
-which is I think just this:
-$$b(\theta_{0})=E[\hat{\theta}_{MSE}|\theta_{0}]-\theta_{0}$$
+  * **Parametric setup.** They say by email you can get exact results if you substitute $F(t)=\ln(t)$. so this means that $f(t)=\frac{1}{t}$, i.e. an improper prior. So:
+         $$s=\frac{1}{t}+e$$
+         so 
+         $$E[t|s]=...$$
 
-  * **parametric setup.** They say by email you can get exact results if you substitute $F(t)=\ln(t)$. so this means that $f(t)=\frac{1}{t}$, i.e. improper prior. So:
-  $$s=\frac{1}{t}+e$$
-  so $$E[t|s]=...$$
-
-   * [p5 has a discussion of internal vs external noise, and say that you won't get contrast effects for external noise, not clear why (but they don't discuss correlated noise)][Note that they say they're working within Bayesian perception; but actually they're imposing an additional constraint, so people are imperfeclty bayesian (i.e,. constrainedly bayesian)]
+   * p5 has a discussion of internal vs external noise, and say that you won't get contrast effects for external noise, not clear why (but they don't discuss correlated noise). Note that they say they're working within Bayesian perception; but actually they're imposing an additional constraint, so people are imperfeclty bayesian (i.e,. constrainedly bayesian).
 
 * **Wei & Stocker (2015, Nature Neuroscience) "A Bayesian observer model constrained by efficient coding can explain ‘anti-Bayesian’ percepts"**
     > "We found that the bias was always repulsive if the prior distribution is well approximated by a monotonic function over the support of the likelihood function."
     > appendix: "if the prior is monotonic ... This means that the bias and the local slope of the prior have opposite signs. It implies that the bias is repulsive, that is, away from the peak of the prior."
     > They also talk about two types of noise -- internal & external noise.
 
-* bayesian psychophysics
+– **Sun et al. (2014?, J Mat Psych) “A framework for Bayesian optimality of psychophysical laws”**
+   - They say that Weber-Fechner arises as a byproduct of optimal storage. Involves optimal coding, but not 100% clear.
 
-– Sun et al. (2014?, J Mat Psych) “A framework for Bayesian optimality of psychophysical laws”They say that Weber-Fechner arises as a byproduct of optimal storage. Involves optimal coding, but not 100% clear.
+– **Petzschner et al. (2015, Trends Cog Sci) “A Bayesian perspective on magnitude estimation”**
+   - Basically get assimilation effects with Bayesian setup. Seems a bit obvious. They also discuss Weber-Fechner but I didn't follow it completely.
 
-– Petzschner et al. (2015, Trends Cog Sci) “A Bayesian perspective on magnitude estimation”Basically get assimilation effects with Bayesian setup. Seems a bit obvious. They also discuss Weber-Fechner but I didn't follow it completely.
+* **crossmodal effects / multisensory processes / multimodal integration / bayesian integration**
+   - Important ambiguity: whether you are asked to judge sensation, or judge cause of sensation (perception). / Cross-modal influeces degrade the former, improve the latter. To distinguish these could randomise one of the stimuli, then it shouldn't have any cross-modal effect.
 
-* crossmodal effects / multisensory processes / multimodal integration / bayesian integrationImportant ambiguity: whether you are asked to judge sensation, or judge cause of sensation (perception). / Cross-modal degrades former, improves latter.To distinguish these: (a) could randomise one of the stimuli, then it shouldn't have effect.
+– **McGurk & McDonald (1976) / McGurk Effect**
+   - From Wikipedia: a person’s phoneme production was dubbed with a video of that person speaking a different phoneme. The end result was the perception of a third phoneme. McGurk and MacDonald (1976) explained that phonemes such as ba, da, ka, ta, ga and pa can be divided into four groups, those that can be visually confused, i.e. (da, ga, ka, ta) and (ba and pa), and those that can be audibly confused. Hence, when `ba` – voice and `ga` - lips are processed together, the visual modality sees `ga` or `da`, and the auditory modality hears `ba` or `da`, combining to form the percept `da`.
 
-– McGurk & McDonald (1976)from wikipedia: a person’s phoneme production was dubbed with a video of that person speaking a different phoneme. The end result was the perception of a third, different phoneme. McGurk and MacDonald (1976) explained that phonemes such as ba, da, ka, ta, ga and pa can be divided into four groups, those that can be visually confused, i.e. (da, ga, ka, ta) and (ba and pa), and those that can be audibly confused. Hence, when ba – voice and ga lips are processed together, the visual modality sees ga or da, and the auditory modality hears ba or da, combining to form the percept da.
+– **Howard & Templeton (1966) Ventriloquism Illusion** (???)
 
-– Howard & Templeton (1966) Ventriloquism Illusion
+– **Wolpert et al. (1995, science) “an internal model for sensorimotor integration”**
 
-– Wolpert et al. (1995, science) “an internal model for sensorimotor integration”
+– **Sekuler R, Sekuler AB, Lau R. (1997, Nature) Sound alters visual motion perception.**
+   - Two dots which pass each other, perceived either as colliding and rebounding if you play a noise when they hit.
 
-– Sekuler R, Sekuler AB, Lau R. (1997, Nature) Sound alters visual motion perception.Two dots which pass each other, perceived either as colliding and rebounding if you play a noise when they hit.
+– **Shams, Kamitani, Shimojo (2000) “Illusions: What you see is what you hear”**
+   - “participants are presented combinations of one to four flashes accompanied by zero to 4 beeps. They were then asked to say how many flashes they perceived. Participants perceived illusory flashes when there were more beeps than flashes” (& subsequent FMRI studies say that you really think you saw a flash)
 
-– Shams, Kamitani, Shimojo (2000) “Illusions: What you see is what you hear”“participants are presented combinations of one to four flashes accompanied by zero to 4 beeps. They were then asked to say how many flashes they perceived. Participants perceived illusory flashes when there were more beeps than flashes”(& subsequent FMRI studies say that you really think you saw a flash)
+– **Ernst & Banks (2002, nature) “Humans integrate visual and haptic information in a statistically optimal fashion”**
+   - Subjects choose which of two ridges is higher. Get either visual or haptic information, or both. The rate of error in the *both* condition is proportinately smaller than either other condition, consistent with optimal Bayesian integration of information.
 
-– Ernst & Banks (2002, nature) “Humans integrate visual and haptic information in a statistically optimal fashion”Subjects choose which of two ridges is higher. Get either visual or haptic information, or both. The rate of error in the *both* condition is proportinately smaller than either other condition, consistent with optimal Bayesian integration of information.
+– **Körding & Wolpert (2004, nature) “Bayesian integration in sensorimotor learning”**
+   - When you give people feedback with noise, they quickly learn optimal amount to discount the noise [Q: what is the stimulus?]
 
-– Körding & Wolpert (2004, nature) “Bayesian integration in sensorimotor learning”When you give people feedback with noise, they quickly learn optimal amount to discount the noise[Q: what is the stimulus?]
+– **Kording et al. (2004, J Neurophysiol) “Bayesian Integration in Force Estimation”**
 
-– Kording et al. (2004, J Neurophysiol) “Bayesian Integration in Force Estimation”
+– **Stocker & Simoncelli (2006, nature neuro) “Noise characteristics and prior expectations in human visual speed perception”**
+   - Perceptions of the speed of a stimulus, when you vary the noise. When you increase the noise, people revert back towards the mean of the prior.(the paper backs out a prior, with fatter-than-gaussian tails)
 
-– Stocker & Simoncelli (2006, nature neuro) “Noise characteristics and prior expectations in human visual speed perception”Perceptions of the speed of a stimulus, when you vary the noise. When you increase the noise, people revert back towards the mean of the prior.(the paper backs out a prior, with fatter-than-gaussian tails)
+– **Shams & Kim (2010, Physics of Life reviews) “Crossmodal inﬂuences on visual perception”**
+   - They say that common belief is that vision is dominant - affects other perceptions, not the reverse. They compile examples where vision affected by other senses. Many examples - but in all different directions, not all Bayesian, and some difficult to interpret - e.g. sound makes you more/less sensitive to visual stimuli. They say that, for a subset, people combine the cues optimally. “visual perception can be strongly altered by sound and touch, and such alterations can occur even at early stages of processing, as early as primary visual cortex”
+   - “we ... review several recent studies that demonstrate that these interactions are statistically optimal.”
+   - “In contrast with the modular view of perception, ... the accumulating evidence, especially over the last several years has revealed that visual perception can both quantitatively and qualitatively be modified by the input from other modalities.”
+   - “Human multisensory perception appears to perform the tasks of causal inference and sensory integration in a statistically optimal fashion by combining the sensory evidence with prior knowledge”
+   - “When a single flash of light is accompanied by two or more beeps, its percept often changes from a single flash to two or more flashes”; “When a single flash is accompanied by two taps, it is often perceived as two flashes.” ; “if the visual coincidence of the two objects is accompanied by a brief sound, the visual perception of motion is biased towards the bouncing motion”
+   – Comments on Shams & Kim:
+      1. Spence, Oxford: “It turns out that the simultaneous presentation of multiple auditory or tactile stimuli influences neural activity at some of the earliest levels of information, including the primary visual cortex”
+      2. Alais, Sydney: The binding problem. Lots of research on conditions under which two separate signals are synethsized (“signal combination”).
+      3. Barone, Toulouse: direct cross-modal wiring: “Shams and Kim bring into focus the intriguing observation that multisensory interactions can occur at very short delays in regions historically defined as unimodal, so excluding the origin of MSI in a feedback influence from high order associative areas.”
 
-– Shams & Kim (2010, Physics of Life reviews) “Crossmodal inﬂuences on visual perception”They say that common belief is that vision is dominant - affects other perceptions, not the reverse. They compile examples where vision affected by other senses. Many examples - but in all different directions, not all Bayesian, and some difficult to interpret - e.g. sound makes you more/less sensitive to visual stimuli. They say that, for a subset, people combine the cues optimally. “visual perception can be strongly altered by sound and touch, and such alterations can occur even at early stages of processing, as early as primary visual cortex” “we ... review several recent studies that demonstrate that these interactions are statistically optimal.” “In contrast with the modular view of perception, ... the accumulating evidence, especially over the last several years has revealed that visual perception can both quantitatively and qualitatively be modified by the input from other modalities.” “Human multisensory perception appears to perform the tasks of causal inference and sensory integration in a statistically optimal fashion by combining the sensory evidence with prior knowledge”“When a single flash of light is accompanied by two or more beeps, its percept often changes from a single flash to two or more flashes”; “When a single flash is accompanied by two taps, it is often perceived as two flashes.” ; “if the visual coincidence of the two objects is accompanied by a brief sound, the visual perception of motion is biased towards the bouncing motion”;
+- Shams has some more recent papers on integration: http://shamslab.psych.ucla.edu/publications/MultisensoryCausalInferenceintheBrain.pdf http://shamslab.psych.ucla.edu/publications/Shams-chapter-includingFigs-2011.pdf http://shamslab.psych.ucla.edu/publications/ShamsBeierholm-chapter-2011.pdf
 
-– Comments on Shams & Kim:(1) Spence, Oxford: “It turns out that the simultaneous presentation of multiple auditory or tactile stimuli influences neural activity at some of the earliest levels of information, including the primary visual cortex”(2) Alais, Sydney: The binding problem. Lots of research on conditions under which two separate signals are synethsized (“signal combination”). (3) Barone, Toulouse: direct cross-modal wiring: “Shams and Kim bring into focus the intriguing observation that multisensory interactions can occur at very short delays in regions historically defined as unimodal, so excluding the origin of MSI in a feedback influence from high order associative areas.”(4)
+- **2016: Scott Alexander, "Book Review: Surfing Uncertainty"**
+   - [watch out for: inferring sensations, rather than inferring the objects].
+   - [distinction between *inference* and *learning* new distributions, I think predictive-coding could do both]
+   - "All neural processing consists of two streams: a bottom-up stream of sense data, and a top-down stream of predictions.
+   - Multiple levels, sending signals up and down. "Their goal is to minimize surprisal – to become so good at predicting the world (conditional on the predictions sent by higher levels) that nothing ever surprises them" -> [but is this any different from just doing inference?]
+   - **Application: top-down influences.** E.g. dalmatian photo.
+   - **Application: not seeing inconsistent information.** E.g. ignoring repeated "the". [not sure about this]
+   - **Application: attention allocated to things that are unexpected.** [but this comes from simple maximization]
+   - **Application: priming.** E.g. flash NURSE and you're quicker to recognize a jumbled DOCTOR.
+   - **Application: action.** "if you want to lift your arm, your brain just predicts really really strongly that your arm has been lifted, and then lets the lower levels’ drive to minimize prediction error do the rest."
+   - **Application: placebo effect.** You expect the placebo to reduce pain, & so you're less likely to interpret neural buzz as pain.
+   - **Application: autism.** "autism as an unusually high reliance on bottom-up rather than top-down information, leading to “weak central coherence” and constant surprisal as the sensory data fails to fall within pathologically narrow confidence intervals." // Autistic dislike for interruption or unexpected things. 
+   - **Application: schizophrenia.** Also weak priors. They see patterns that others don't, and patterns where none exist. / Not fooled by hollow mask illusion.
+   - **[Constructing a world].**
+      - Asch conformity experiment: "So the middle layers “cooked the books” and replaced the perceived sensation with the predicted one."
+      - "you’re perceiving only a vague outline of the sensory image with your predictions filling in the rest." -> something wierd in this, you're not perceiving the sensory image at all. It's back-inference.
+   - **Two separate claims:**
+      1. PP implements bayesian inference in a hierarchical way. Some departures from Bayesian
+      2. The brain's actual objective is to minimize surprise, "the brain really hates prediction error and does its best to minimize it." 
+   
+   - [note: common pattern in psych and econ: start with vanilla beliefs/prefs, find some weird behaviour. You add some bias to beliefs or non-standard preference. But actually it's just a somewhat more complicated optimization/inference problem with vanilla beliefs & preferences.]
+   
 
-– [Shams has some more recent papers on integration:http://shamslab.psych.ucla.edu/publications/MultisensoryCausalInferenceintheBrain.pdfhttp://shamslab.psych.ucla.edu/publications/Shams-chapter-includingFigs-2011.pdfhttp://shamslab.psych.ucla.edu/publications/ShamsBeierholm-chapter-2011.pdf]
+- **2018: Scott Alexander, "God Help Us, Let’s Try To Understand Friston On Free Energy"**
+   - Finds it's inconclusive.
 
-* Adaptation effects
+- **2019: Gershman "What does the free energy principle tell us about the brain?"**
+   - **Summary**
+      1. Start with a standard dynamic problem of choice with endogenous information: you make decisions to maximize future information. This can also be rewritten as minimizing free energy, but this is just a reformulation. Two applications:
+      2. **Predictive coding:** Under some restrictions on distributions you get certain quantities in the minimizing-free-energy formulation which seem to correspond to signals we see in neural circuits of perception, going back & forth between low-level and high-level.
+      3. **Minimizing uncertainty.** There's additionally a loose argument that the model can explain all behaviour, without any preferences, just as minimizing uncertainty. However there seems to be argument that this is mostly just semantic, renaming existing variables.
+      4. [*this paper is good and simple notation. However (1) doesn't give a worked example of a problem w/ comparative statics; (2) loses energy at the end, where probabilities=utilities.*]
+   - **Take home messages.**
+      - "For passive observations (no actions), the predictions of FEP are indistinguishable from the predictions of the Bayesian brain hypothesis when the variational family is unrestricted (i.e., the when the exact posterior is in the variational family, and hence minimizing free energy is equivalent to exact inference).
+      - "Predictive coding is not a generic consequence of FEP; it arises only under certain restrictions of the variational family and a specific choice of optimization scheme.
+      - "In the active setting (observations can be influenced by actions), active inference is equivalent to an information gain policy when the approximate posterior is exact and the observations are deterministic functions of actions. When observations are stochastic, active inference induces a form of risk-aversion not found in the information gain policy.
+      - "When utilities are interpreted as log probabilities, FEP corresponds to a form of planning as inference, a class of algorithms for utility maximization. The predictions of FEP are distinguished from utility maximization when utilities don’t correspond to log probabilities.
+      - "When utilities are interpreted as prior preferences, FEP places value on information gain. This also arises naturally in Bayesian decision theory applied to sequential decision problems and hence is not a distinctive prediction.
+   - **Other notes.**
+      - The theory only applies to action, not inference. If inference then Bayesian still seems fine.
+      - Doesn't seem much discussion of which exact variable is the object of inference, & that seems an important question (e.g., is it the cube, or the light-source?).
+      - **Predictive-coding vs encapsulation.** The assumption that the likehood factorizes seems importantly related to encapsulated-inference, because if everything factorizes nicely then there's no loss from encapsulation.
+      - "Although the Bayesian brain hypothesis has received considerable support, there are numerous empirical deviations from its claims (e.g., [14, 15],) some of which may be rationalized by considering approximate inference algorithms [16]"
+      - Rahnev & Denison, "Suboptimality in Perceptual Decision-Making", BBS 2018.
+
+
+## Adaptation effects
 
 – Helson (1947) “Adaptation-level as frame of reference for prediction of psychophysical data”
 
@@ -265,230 +570,305 @@ $$b(\theta_{0})=E[\hat{\theta}_{MSE}|\theta_{0}]-\theta_{0}$$
 
 – Parducci (1965)
 
-* Bayesian Perception - theory
+## Bayesian Perception - Theory
 
-– Helmholtz (1860s) “Treatise on Physiological Optics”http://poseidon.sunyopt.edu/helmholtz/OCRVolume3.pdfGood
-    * quotes @ start of voume 3.“the tendency to abide by the false conclusions persists in spite of the better insight into the matter based on conscious deliberation.”“urged on our consciousness, so to speak, as if an external power had constrained us, over which our will has no control" “never once can be elevated to the plane of conscious judgments” … “strikes our consciousness as a foreign and overpowering force of nature”
-    * volume 3: “The general rule determining the ideas of vision that are formed whenever an impression is made on the eye, with or without the aid of optical instruments, is that such objects are always imagined as being present in the field of vision as would have to be there in order to produce the same impression on the nervous mechanism, the eyes being used under ordinary normal conditions.” Example: if you press your eyeball on the outer edge, you get the impression of brightness coming from the bridge of the nose. “Thus it happens, that when the modes of stimulation of the organs of sense are unusual, incorrect ideas of objects are apt to be formed; which used to be described, therefore, as ilusions of the senses.”“The psychic activities that lead us to infer that there in front of us at a certain place there is a certain object of a certain character, are generally not conscious activities, but unconscious ones. In their result they are equivalent to a conclusion [aka inference], ... But what seems to differentiate them from a conclusion, in the ordinary sense of that word, is that a conclusion is an act of conscious thought ... [analogy with astronomer] ... while it is true that there has been, and probably always will be, a measure of doubt as to the similarity of the psychic activity in the two cases, there can be no doubt as to the similarity between the results of such unconscious conclusions and those of conscious conclusions.”- “The tactile sensation of wetness is composed of that of coldness and that of smoothness of surface. Consequently, on inadvertently touching a cold piece of smooth metal, we often get the impression of having touched something wet.”- “no matter how clearly we recognize that it has been produced in some anomalous way, still the illusion does not disappear by comprehending the process.”
+– **Helmholtz (1860s) “Treatise on Physiological Optics”**
+   http://poseidon.sunyopt.edu/helmholtz/OCRVolume3.pdfGood
+    - quotes @ start of voume 3: “the tendency to abide by the false conclusions persists in spite of the better insight into the matter based on conscious deliberation.”
+    - “urged on our consciousness, so to speak, as if an external power had constrained us, over which our will has no control"
+    - “never once can be elevated to the plane of conscious judgments” … “strikes our consciousness as a foreign and overpowering force of nature”
+    * volume 3: “The general rule determining the ideas of vision that are formed whenever an impression is made on the eye, with or without the aid of optical instruments, is that such objects are always imagined as being present in the field of vision as would have to be there in order to produce the same impression on the nervous mechanism, the eyes being used under ordinary normal conditions.”
+    * Example: if you press your eyeball on the outer edge, you get the impression of brightness coming from the bridge of the nose. “Thus it happens, that when the modes of stimulation of the organs of sense are unusual, incorrect ideas of objects are apt to be formed; which used to be described, therefore, as ilusions of the senses.”
+    * “The psychic activities that lead us to infer that there in front of us at a certain place there is a certain object of a certain character, are generally not conscious activities, but unconscious ones. In their result they are equivalent to a conclusion [aka inference], ... But what seems to differentiate them from a conclusion, in the ordinary sense of that word, is that a conclusion is an act of conscious thought ... [analogy with astronomer] ... while it is true that there has been, and probably always will be, a measure of doubt as to the similarity of the psychic activity in the two cases, there can be no doubt as to the similarity between the results of such unconscious conclusions and those of conscious conclusions.”
+    * “The tactile sensation of wetness is composed of that of coldness and that of smoothness of surface. Consequently, on inadvertently touching a cold piece of smooth metal, we often get the impression of having touched something wet."
+    * “no matter how clearly we recognize that it has been produced in some anomalous way, still the illusion does not disappear by comprehending the process.”
 
-– Gogel's equations on inferring things from stimuli
+– (Gogel's equations on inferring things from stimuli)
 
-– Control laws. (Ask Romann about this)
+– (Control laws)
 
-– Poggio, Torre, and Koch. “Computational Vision and Regularization Theory” (Nature, 1985)Poggio says around 1983 he realized that perception can be thought of as an inverse problem, which does not have a single solution, so must be regularized “a la Tikhonov”: “All problems in vision and more general perception were inverse problems, going back from the image to 3-D properties of objects and scenes. They were also, as typical for inverse problems, ill-posed. We used regularization techniques to “solve” specific vision problems such as edge detection and motion computation. In the process, we found that some of the existing algorithms for shape-from-shading, optical flow, and surface interpolation were a form of regularization. Our main contribution was to recognize illposedness as the main characteristic of vision problems and regularization as the set of techniques to be used for solving them.”See Poggio's autobiography @ http://cbcl.mit.edu/publications/tomasopoggio.pdf
+– **Poggio, Torre, and Koch. “Computational Vision and Regularization Theory” (Nature, 1985)**
+   - Poggio says around 1983 he realized that perception can be thought of as an inverse problem, which does not have a single solution, so must be regularized “a la Tikhonov”: “All problems in vision and more general perception were inverse problems, going back from the image to 3-D properties of objects and scenes. They were also, as typical for inverse problems, ill-posed. We used regularization techniques to “solve” specific vision problems such as edge detection and motion computation. In the process, we found that some of the existing algorithms for shape-from-shading, optical flow, and surface interpolation were a form of regularization. Our main contribution was to recognize illposedness as the main characteristic of vision problems and regularization as the set of techniques to be used for solving them.” See Poggio's autobiography @ http://cbcl.mit.edu/publications/tomasopoggio.pdf
 
-– Knill and Richards (1996).[important collection of papers establishing bayesian perception?]
+– **Knill and Richards (1996).[important collection of papers establishing bayesian perception?]**
 
-– Kersten, Mammasian, Yule (2004) “Object Perception as bayesian inference”Also they wrote (2003) “Bayesian models of object perception”
+- **Chater (1996) "Reconciling simplicity and likelihood principles in perceptual organization"**
+   - Two theories of perceiving ambiguous sensations:
+      1. **Simplicity principle.** Choose the simplest cause (original Gestalt principle, "law of pragnanz")
+      2. **Likelihood principle.** Choose the most-likely cause.
+   We can reconcile them if (1) world is such that simple things tend to be more likely, (2) perceptual coding such that more-likely things get simpler codes. 
+   The paper uses Kolmogorov complexity somehow to reconcile them.
 
-– Stocker & Simoncelli (2006) “Sensory Adaptation within a Bayesian Framework for Perception”They show that if adaptation changes the *mean* then you'll get assimilation but if adaptation changs the *sensitivity* then you can get a kind of contrast effect.Description of the paper: “In a Bayesian model that makes inferences based on the mean of the posterior distribution (assuming a flat prior), they show that it is possible to capture substantial biases and discriminability changes without assuming the coding catastrophe.”
+– **Kersten, Mammasian, Yule (2004) “Object Perception as bayesian inference”**
+   - Also they wrote (2003) “Bayesian models of object perception”
 
-– Schwartz, Hsu & Dayan (2007, Nature Review Neuro) “Space and Time in Visual Context”- they consider perception of orientation, & contrast effects in it; they show that simultaneous & sequential effects are very similar in many ways- they consider a coding theory, but to get bias it requires “coding catastrophe”, i.e. downstream interprets it naively. They say there may be some ways of defending it but “none of the answers they provide is yet completely compelling.”They criticise coding theories, I think, for assuming a “coding catastrophe” to get contrast effects. - They eventually mention the Adelson-style theory I think: but they call it a “generative Bayesian model”. “Crudely, brightness illusions arise when correct Bayesian inference about these properties is at variance with the manner in which particular scenes were generated.”- Bayesian assimilation: “If spatial and temporal smoothness are interpreted as implying a prior that favours the same orientation for the target as for the context, Stocker and Simoncelli point out that this would lead, if anything, to a bias favouring attraction rather than repulsion.”- The discuss discriminability but don't quantify it (and say that comparison effects on discriminability are controversial)
+– **Stocker & Simoncelli (2006) “Sensory Adaptation within a Bayesian Framework for Perception”**
+   - They show that if adaptation changes the *mean* then you'll get assimilation but if adaptation changs the *sensitivity* then you can get a kind of contrast effect. Description of the paper: “In a Bayesian model that makes inferences based on the mean of the posterior distribution (assuming a flat prior), they show that it is possible to capture substantial biases and discriminability changes without assuming the coding catastrophe.”
 
+– **Schwartz, Hsu & Dayan (2007, Nature Review Neuro) “Space and Time in Visual Context”**
+   - they consider perception of orientation, & contrast effects in it; they show that simultaneous & sequential effects are very similar in many ways- they consider a coding theory, but to get bias it requires “coding catastrophe”, i.e. downstream interprets it naively. They say there may be some ways of defending it but “none of the answers they provide is yet completely compelling.” 
+   - They eventually mention the Adelson-style theory I think: but they call it a “generative Bayesian model”: “Crudely, brightness illusions arise when correct Bayesian inference about these properties is at variance with the manner in which particular scenes were generated.”- Bayesian assimilation: “If spatial and temporal smoothness are interpreted as implying a prior that favours the same orientation for the target as for the context, Stocker and Simoncelli point out that this would lead, if anything, to a bias favouring attraction rather than repulsion.”- The discuss discriminability but don't quantify it (and say that comparison effects on discriminability are controversial)
 
-
-* **Series, Stocker & Simoncelli (2009, Neural Computation) “Is the Homunculus 'Aware' of Sensory Adaptation?”**
-  Adaptation effects: (1) repulsive bias only in neighborhood of adapter; (2) lower discriminability either side of the adapter.
-  * “prolonged exposure to a visual stimulus of a particular orientation, contrast, or direction of movement induces a systematic bias in the estimation of the orientation (Gibson & Radner, 1937; Clifford, 2002), contrast (Hammett, Snowden, & Smith, 1994), or direction (Levinson & Sekuler, 1976) of subsequent stimuli. Adaptation also profoundly modulates the perceptual discrimination performance of these same variables (Regan & Beverley, 1985; Clifford, 2002).”
-  * They assume gain *reduction* for neurons adapted to the stimulus. Note that elsewhere they assume the opposite to get repulsive biases.
-  *  “we find that this simple encoder is qualitatively compatible with psychophysically measured biases and discriminability, but only when the decoder is unaware of the adaptation”.
-  *  They find (I think) that when they give the model enough power to fit the discriminability data, the bias is essentially zero. p3297 they use 100 neurons in their baseline model, but p3283: they get a quantitatively OK bias with 6 neurons (bias goes in the wrong direction, because tuning curves weaker in adapted direction).
-
-
-
-– [jones2011bayesian] “Bayesian Fundamentalism or Enlightenment?”Criticism of Bayesian models of cognition – says, like behaviourism & evolutionary psychology, it ignores mechanics. And it's difficult to gauge accuracy, because priors are unobserved.
-
-– Wei & Stocker (—) “Efficient coding provides a direct link between prior and likelihood in perceptual Bayesian inference” They analytically derive that, if sensitivity is proportional to density, this will give a bias *away* from the prior, not towards it. [discussed elsewhere in this file I thnk]
-
-– Bowers & Davis (2012, Psych Buletin) “Bayesian Just-So Stories in Psych & Neuroscience”The evidence is weak because prior is free variable.
-
-– Feldman (2013) “Bayesian models of perceptual organization”Vanilla overview of the field- “[Bayesian] optimality helps explain why the perceptual system, notwithstanding its many apparent quirks and special rules, works the way it does— because these rules approximate the Bayesian posterior.”- “the essential role of the prior poses a puzzle in the context of perception .... there is a great deal of evidence (see Pylyshyn, 1999) that perception is singularly uninfluenced by certain kinds of knowledge, which at the very least suggests that the Bayesian model must be limited in scope to an encapsulated perception module walled off from information that an all-embracing Bayesian account would deem relevant.”
-
-– [LOTTO & PURVES]
-
-* Hierarchical Models of Perception (& deep learning)
-
-– Poggio (c2007) “magic theory”- Question: how can we learn categories so easily? Esp. with just 1 exposure.- Note: it's far easier to distinguish categories when they are normalized (e.g., horses vs dogs, far easier to learn when images are normalized)- Proposal: we store a sequence of frames corresponding to some transformation (e.g. rotation), then when we get a new image we do the dot product with all the frames. The CDF of the set of values is then invariant to rotation, so we should store this CDF (or something similar) as our memory of the object. And neurons can easily implement dot products.- He needs a hierarchy to get rid of clutter in scenes, and the theory becomes a bit woolier there. [objection: he says that matrices can learn linear transformations, but why learn *specific* linear transforms, why not learn *all* linear transforms? (I think that perhaps eigenvalue is invariant to linear transforms)]
-
-* Coding
-
-* Bayesian Interpretation of Illusions
-
-– Gregory (1968) “Illusions and Brain Models”Argues for inference interpretation of Muller-Lyer, (prediction: bias correlates very well with estimated distance.)Theory: describes perception as a “look up system”, which triggers pre-prepared learned representations. Also argues for binary mental representations.
-
-– Gilchrist (1977, Science) “Perceived lightness depends on perceived spatial arrangement”“The perceived shade of gray depends primarily on the luminance relationship between surfaces percieved to lie in the same plane and not between surfaces that are merely adjacent in the retinal image. This result implies that depth perception must precede lightness perception and that lateral inhibition cannot explain lightness constancy.”[he's at Rutgers, has subsequent papers arguing against lateral-inhibition models]
-
-– Rock (1983) “The Logic of Perception”[quoted in Pylyshyn] Lightness perception based on principles, “(1) that luminance differences are caused by reflectance-property differences or by illumination differences, (2) that illumination tends to be equal for nearby regions in a plane ... and (3) that illumination is unequal for adjacent planes that are not parallel”Rock seems to interpret these as cases of general problem-solving, whereas Pylysyn thinks they're hard-wired.
-
-– Adelson (1993, Science) “Perceptual Organization and the Judgment of Brightness”“All of the phenomena discussed above lead to the same conclusion: Brightness judgments cannot be simply explained with low-level mechanisms. Geometrical changes that should be inconsequential for low-level mechanisms can cause dramatic changes in the brightness report. It is as if the visual system automatically estimates the reflectances of surfaces in the world, and the resulting lightness percepts inevitably sway the judgment of brightness.”
-
-– Gregory (1997) “Knowledge and perception in illusion”
-
-– Pylyshyn (1999, Behav Brain Sci) “Is vision continuous with cognition? The case for cognitive impenetrability of visual perception”His analysis of illusions: “Early vision does not respond to any other kind of knowledge or new information related to these constraints (e.g., the constraints show up even if the observer knows that there are conditions in a certain scene that render the constraints invalid in that particular case) .... the natural constraints involved in examples of intelligent perception are of a rather specific sort that might reasonably be expected to be wired into the visual system because of their generality and evolutionary utility. .... What is perhaps surprising is that other properties of our world - about which our intuitions are equally strong - do not appear to share this special status in the early visual system. In particular the resolution of perceptual conflicts by such physical principles that solid objects do not pass through on another rarely occurs, with the consequence that some percepts constructed by the visual system fail a simple test of rationality or of coherence with certain basic facts about the world know to every observer.”- Q: admits that the contraints could be locally rational?- Q: says anything about *congruence*?- "It is a remarkable fact about the perceptual illusions that knowing about them does not make them disappear ... Knowing that you measured two lines to be exactly equal does not make them look equal when arrowheads are added to them to form the Müller-Lyer illusion, or when a background of converging perspective lines are added to form the Ponzo illusion"- "What is noteworthy is not that there are perceptual illusions, it is that in these cases there is a very clear separation between what you see and what you know is actually there – what you believe." - “that a major portion of vision, called the early vision system, does its job without the intervention of knowledge, beliefs or expectations, even when using that knowledge would prevent it from making errors. ”- in his reply to comments: “The commentators were largely sympathetic, but frequently disagreed on how to draw the boundary, on exactly what early vision delivers, on the role that attention plays, and on how to interpret the neurophysiological data showing top-down effects.”[similarly, Rock (1983) says “perception must rigidly adhere to the appropriate internalized rules, so that it often seems unintelligent and inflexible in its imperviousness to other kinds of knowledge.”]
-
-– Adelson (2000, in “the new cognitive neuroscience”) “Lightness Perception and Lightness Illusions”Discussion of many illusions using the basic reflectivity\timesillumination logic. Unfortunately doesn't make very good general statements, just dicusses details.- “To function in this world, the visual system must exploit the ecology of images—it must “know” the likelihood of various things in the world, and the likelihood that a given image-property could be caused by one or another world-property. This world-knowledge may be hard-wired or learned, and may manifest itself at various levels of processing”- “The various lightness principles might be thought of as heuristics that the visual system has arbitrarily adopted. These principles begin to make sense, however, if we consider the lightness problem from the standpoint of statistical estimation.”
-
-– Eagleman, DM (2001, Nature Reviews Neuroscience) "Visual Illusions and Neurobiology."Breezy history of interaction of neuroscience & optical-illusion research.He supports the lateral-inhibition interpretation of many illusions (i.e., non-bayesian). GOOD- He says that contrast after-effects can *not* be explained by neuron-level mechanisms, because the after-effects are contingent on higher-order interpretations.it now seems clear that the fatigue of neuronal populations falls short as an explanation for after-effects. Even as early as 1911, Wohlgemuth showed that the motion after-effect can be stored: motion is viewed, the eyes are closed, and the after-effect remains when the eyes are later reopened29. In addition, we do not see a motion after-effect resulting from driving a car, and under certain circumstances, non-moving stimuli can induce an after-effect. In 1965, Celeste McCollough reported the first contingent after-effect, in which prolonged viewing of a pattern consisting of, say, horizontal and vertical coloured stripes, results in the subsequent colour- and orientation-specific misperception of uncoloured stripes30 (Fig. 3). Even more strikingly than the motion after-effect, the McCollough effect can last overnight and sometimes for days. This seems less likely to represent fatigue than some sort of active recalibration. That is, perhaps the visual system seeks to eliminate (possibly spurious) correlations between colour and orientation by actively adjusting the perceived colour of particular forms31. Whatever the case, the motion after-effect is still not fully understood.
-
-– Weiss, Simoncelli & Adelson (2002, nature neuro) “Motion illusions as optimal percepts”Various patterns of perception of velocity seem to fit a pattern of Bayesian inference.(They have interesting Taylor approximations for calculating posteriors)“.. in addition to accounting for normal motion percepts, it also systematically explains certain illusions of motion as side-effects of rational inference”“Many motion ‘illusions’ are not the result of sloppy computation by various components in the visual system, but rather a result of a coherent computational strategy that is optimal under reasonable assumptions”[Q: is this noisy observation, or inferring multiplicative noise?]
-
-– Geisler & Kersten (2002, Nature Neuro) “Illusions, perception and Bayes”(a discussion of the Weiss (2002) paper. Not a big survey.)
-
-– Fermuller & Malm (2004, Vision Research) “Uncertainty in Visual Processes Predicts Geometrical Optical Illusions”They have a model where you estimate edges from a blurry version of the actual pattern you observe.It's OLS estimation of edges (i.e., set zero third derivatives), & they show there are predictable biases when you add noise (explain intuition as measurement-error bias).Seems a little bit outside of the mainstream. They go through a bunch of different examples.
-
-– Howe & Purves (2005) “Perceiving Geometry: Geometrical Illusions Explained by Natural Scene Statistics”Contains good discussion of different theories of illusions. They seem to *reject* the standard depth-cue explanation of muller-lyer & ponzo.
-
-– Gregory (2006, Perception) editorial, vol 35 p431Classifies illusions into Bayesian & anti-Bayesian, and contrast illusions classified as anti-bayesian“many well-known illusions go exactly `the wrong way round'öexactly opposite to what Bayes would straightforwardly predict. Negative examples are the Ponzo and the Mu«ller-Lyer distortions. These are illusory expansions from represented distance; though increased distance is associated with smaller retinal images. The reversal suggests compensation to optical shrinking of images with increased object distanceöto give size constancy. Though based on perceptual Bayesian inference, this is not simply Bayesian, as it goes exactly the wrong way round.”http://www.perceptionweb.com/perception/editorials/p3504ed.pdf
+**Series, Stocker & Simoncelli (2009, Neural Computation) “Is the Homunculus 'Aware' of Sensory Adaptation?”**
+- Adaptation effects: (1) repulsive bias only in neighborhood of adapter; (2) lower discriminability either side of the adapter.
+- “prolonged exposure to a visual stimulus of a particular orientation, contrast, or direction of movement induces a systematic bias in the estimation of the orientation (Gibson & Radner, 1937; Clifford, 2002), contrast (Hammett, Snowden, & Smith, 1994), or direction (Levinson & Sekuler, 1976) of subsequent stimuli. Adaptation also profoundly modulates the perceptual discrimination performance of these same variables (Regan & Beverley, 1985; Clifford, 2002).”
+- They assume gain *reduction* for neurons adapted to the stimulus. Note that elsewhere they assume the opposite to get repulsive biases.
+-  “we find that this simple encoder is qualitatively compatible with psychophysically measured biases and discriminability, but only when the decoder is unaware of the adaptation”.
+-  They find (I think) that when they give the model enough power to fit the discriminability data, the bias is essentially zero. p3297 they use 100 neurons in their baseline model, but p3283: they get a quantitatively OK bias with 6 neurons (bias goes in the wrong direction, because tuning curves weaker in adapted direction).
 
 
+**[jones2011bayesian] “Bayesian Fundamentalism or Enlightenment?”**
+- Criticism of Bayesian models of cognition – says, like behaviourism & evolutionary psychology, it ignores mechanics. And it's difficult to gauge accuracy, because priors are unobserved.
 
-– Graham, Chandler & Field (2006) “Can the theory of ‘‘whitening’’ explain the center-surround properties of retinal ganglion cell receptive ﬁelds?”Has a discussion of the center-surround pattern of firing of retinal ganglion cells, and different justifications for this pattern. Esp., efficient-coding theories say that it saves bandwidth to have lateral inhibition. In the end they say it's inconclusive, probably a mixture of things.
+**Wei & Stocker (—) “Efficient coding provides a direct link between prior and likelihood in perceptual Bayesian inference”**
+- They analytically derive that, if sensitivity is proportional to density, this will give a bias *away* from the prior, not towards it. [discussed elsewhere in this file I thnk]
 
-– Schwartz Hsu & Dayan (2007) “”- “The most common inferential Bayesian treatment of perceptual biases suggests that they arise from the imposition of prior expectations that are inappropriate for a particular scene.”- They note that Bayesian interpretation seems to imply *assimilation*, not contrast: “If spatial and temporal smoothness are interpreted as implying a prior that favours the same orientation for the target as for the context, Stocker and Simoncelli point out that this would lead, if anything, to a bias favouring attraction rather than repulsion. ”
+**Bowers & Davis (2012, Psych Buletin) “Bayesian Just-So Stories in Psych & Neuroscience”**
+The evidence is weak because prior is free variable.
 
-– Sato et al. (2007, Neural Computation) “Bayesian Inference Explains Perception of Unity and Ventriloquism Aftereffect: Identiﬁcation of Common Sources of Audiovisual Stimuli”Bayesian model of ventriloquism effect (judged position of noise is biased towards where you saw some visual stimulus)
+**Feldman (2013) “Bayesian models of perceptual organization”**
 
-– Corney & Lotto (2007, PLoS Computational Biology) “What Are Lightness Illusions and Why Do We See Them?”They calibrate a neural network to pull out reflectance vs illumination from an artificially generated scene. They then get it to get qualitatively good profiles for contrast, Vasarely, Mach bands, Chevreul, Hermann, White illusions. (Though selective, because this would predict phantom ridges.)
+- Vanilla overview of the field- “[Bayesian] optimality helps explain why the perceptual system, notwithstanding its many apparent quirks and special rules, works the way it does— because these rules approximate the Bayesian posterior.”
+- “the essential role of the prior poses a puzzle in the context of perception .... there is a great deal of evidence (see Pylyshyn, 1999) that perception is singularly uninfluenced by certain kinds of knowledge, which at the very least suggests that the Bayesian model must be limited in scope to an encapsulated perception module walled off from information that an all-embracing Bayesian account would deem relevant.”
 
-– Bach (2013, from a book review): “the usually quite apt inferences of our perceptual system, always based on incomplete information, occasionally go wrong when given atypical input. This is known as the Bayesian interpretation of perception.”
 
-– Murray (2013) “Human Lightness Perception is Guided by Simple Assumptions about Reflectance and Lighting”He shows that the postulates of anchoring theory (model of lightness-perception) can be derived from Bayesian priors.
+- **Poggio (c2007) “Magic Theory”**
+  - Question: how can we learn categories so easily? Esp. with just 1 exposure.
+  - Note: it's far easier to distinguish categories when they are normalized (e.g., horses vs dogs, far easier to learn when images are normalized)
+  - Proposal: we store a sequence of frames corresponding to some transformation (e.g. rotation), then when we get a new image we do the dot product with all the frames. The CDF of the set of values is then invariant to rotation, so we should store this CDF (or something similar) as our memory of the object. And neurons can easily implement dot products.
+  - He needs a hierarchy to get rid of clutter in scenes, and the theory becomes a bit woolier there. [objection: he says that matrices can learn linear transformations, but why learn *specific* linear transforms, why not learn *all* linear transforms? (I think that perhaps eigenvalue is invariant to linear transforms)]
 
-– Q: overview of illusions research?
 
-∗ Gillam (1998) “Illusions at Century's End” article is not badhttp://www.sciencedirect.com/science/article/pii/B9780123011602500071
+## Bayesian Interpretation of Illusions
 
-∗ Stuart Anstis (2009) “Illusions” in oxford companion to consciousness. Good. Discusses four different theories of geometric illusions.
+- **Gregory (1968) “Illusions and Brain Models”**
+   - Argues for inference interpretation of Muller-Lyer, (prediction: bias correlates very well with estimated distance.) Theory: describes perception as a “look up system”, which triggers pre-prepared learned representations. Also argues for binary mental representations.
 
-– Q: definitions of illusion
+- **Gilchrist (1977, Science) “Perceived lightness depends on perceived spatial arrangement”**
+   - “The perceived shade of gray depends primarily on the luminance relationship between surfaces percieved to lie in the same plane and not between surfaces that are merely adjacent in the retinal image. This result implies that depth perception must precede lightness perception and that lateral inhibition cannot explain lightness constancy.”[he's at Rutgers, has subsequent papers arguing against lateral-inhibition models]
 
-∗ Helmholtz: “Thus it happens, that when the modes of stimulation of the organs of sense are unusual, incorrect ideas of objects are apt to be formed; which used to be described, therefore, as ilusions of the senses.” [talks more about what is usual – e.g., light entering the eye from the front – but note this introduces a fudge factor: why isn't usual just average correlation? ]
+- **Rock (1983) “The Logic of Perception”** (quoted in Pylyshyn)
+   - Lightness perception based on principles, “(1) that luminance differences are caused by reflectance-property differences or by illumination differences, (2) that illumination tends to be equal for nearby regions in a plane ... and (3) that illumination is unequal for adjacent planes that are not parallel” -- Rock seems to interpret these as cases of general problem-solving, whereas Pylysyn thinks they're hard-wired.
+
+- **Adelson (1993, Science) “Perceptual Organization and the Judgment of Brightness”**
+   - “All of the phenomena discussed above lead to the same conclusion: Brightness judgments cannot be simply explained with low-level mechanisms. Geometrical changes that should be inconsequential for low-level mechanisms can cause dramatic changes in the brightness report. It is as if the visual system automatically estimates the reflectances of surfaces in the world, and the resulting lightness percepts inevitably sway the judgment of brightness.”
+
+– **Gregory (1997) “Knowledge and perception in illusion”**
+
+– **Pylyshyn (1999, Behav Brain Sci) “Is vision continuous with cognition? The case for cognitive impenetrability of visual perception”**
+   - His analysis of illusions: “Early vision does not respond to any other kind of knowledge or new information related to these constraints (e.g., the constraints show up even if the observer knows that there are conditions in a certain scene that render the constraints invalid in that particular case) .... the natural constraints involved in examples of intelligent perception are of a rather specific sort that might reasonably be expected to be wired into the visual system because of their generality and evolutionary utility. .... What is perhaps surprising is that other properties of our world - about which our intuitions are equally strong - do not appear to share this special status in the early visual system. In particular the resolution of perceptual conflicts by such physical principles that solid objects do not pass through on another rarely occurs, with the consequence that some percepts constructed by the visual system fail a simple test of rationality or of coherence with certain basic facts about the world know to every observer.”
+   - Q: admits that the contraints could be locally rational?
+   - Q: says anything about *congruence*?
+   - "It is a remarkable fact about the perceptual illusions that knowing about them does not make them disappear ... Knowing that you measured two lines to be exactly equal does not make them look equal when arrowheads are added to them to form the Müller-Lyer illusion, or when a background of converging perspective lines are added to form the Ponzo illusion"
+   - "What is noteworthy is not that there are perceptual illusions, it is that in these cases there is a very clear separation between what you see and what you know is actually there – what you believe."
+   - “that a major portion of vision, called the early vision system, does its job without the intervention of knowledge, beliefs or expectations, even when using that knowledge would prevent it from making errors. ”
+   - In his reply to comments: “The commentators were largely sympathetic, but frequently disagreed on how to draw the boundary, on exactly what early vision delivers, on the role that attention plays, and on how to interpret the neurophysiological data showing top-down effects.”
+
+– **Adelson (2000, in “the new cognitive neuroscience”) “Lightness Perception and Lightness Illusions”**
+   - Discussion of many illusions using the basic reflectivity x illumination logic. Unfortunately doesn't make very good general statements, just dicusses details.
+   - “To function in this world, the visual system must exploit the ecology of images—it must “know” the likelihood of various things in the world, and the likelihood that a given image-property could be caused by one or another world-property. This world-knowledge may be hard-wired or learned, and may manifest itself at various levels of processing"
+   - “The various lightness principles might be thought of as heuristics that the visual system has arbitrarily adopted. These principles begin to make sense, however, if we consider the lightness problem from the standpoint of statistical estimation.”
+
+– **Eagleman, DM (2001, Nature Reviews Neuroscience) "Visual Illusions and Neurobiology."**
+   - Breezy history of interaction of neuroscience & optical-illusion research. He supports the lateral-inhibition interpretation of many illusions (i.e., non-bayesian).
+   - GOOD- He says that contrast after-effects can *not* be explained by neuron-level mechanisms, because the after-effects are contingent on higher-order interpretations.
+   - "it now seems clear that the fatigue of neuronal populations falls short as an explanation for after-effects. Even as early as 1911, Wohlgemuth showed that the motion after-effect can be stored: motion is viewed, the eyes are closed, and the after-effect remains when the eyes are later reopened. In addition, we do not see a motion after-effect resulting from driving a car, and under certain circumstances, non-moving stimuli can induce an after-effect. In 1965, Celeste McCollough reported the first contingent after-effect, in which prolonged viewing of a pattern consisting of, say, horizontal and vertical coloured stripes, results in the subsequent colour- and orientation-specific misperception of uncoloured stripes (Fig. 3). Even more strikingly than the motion after-effect, the McCollough effect can last overnight and sometimes for days. This seems less likely to represent fatigue than some sort of active recalibration. That is, perhaps the visual system seeks to eliminate (possibly spurious) correlations between colour and orientation by actively adjusting the perceived colour of particular forms. Whatever the case, the motion after-effect is still not fully understood."
+
+– **Weiss, Simoncelli & Adelson (2002, nature neuro) “Motion illusions as optimal percepts”**
+   - Various patterns of perception of velocity seem to fit a pattern of Bayesian inference.(They have interesting Taylor approximations for calculating posteriors)“.. in addition to accounting for normal motion percepts, it also systematically explains certain illusions of motion as side-effects of rational inference”
+   - “Many motion ‘illusions’ are not the result of sloppy computation by various components in the visual system, but rather a result of a coherent computational strategy that is optimal under reasonable assumptions” [Q: is this noisy observation, or inferring multiplicative noise?]
+
+– **Geisler & Kersten (2002, Nature Neuro) “Illusions, perception and Bayes”** (a discussion of the Weiss (2002) paper. Not a big survey.)
+
+– **Fermuller & Malm (2004, Vision Research) “Uncertainty in Visual Processes Predicts Geometrical Optical Illusions”**
+   - They have a model where you estimate edges from a blurry version of the actual pattern you observe. It's OLS estimation of edges (i.e., set zero third derivatives), & they show there are predictable biases when you add noise (explain intuition as measurement-error bias).Seems a little bit outside of the mainstream. They go through a bunch of different examples.
+
+– **Howe & Purves (2005) “Perceiving Geometry: Geometrical Illusions Explained by Natural Scene Statistics”**
+   - Contains good discussion of different theories of illusions. They seem to *reject* the standard depth-cue explanation of muller-lyer & ponzo.
+
+– **Gregory (2006, Perception) editorial, vol 35**
+   - p431Classifies illusions into Bayesian & anti-Bayesian, and contrast illusions classified as anti-bayesia: n“many well-known illusions go exactly `the wrong way round' -- exactly opposite to what Bayes would straightforwardly predict. Negative examples are the Ponzo and the Muuller-Lyer distortions. These are illusory expansions from represented distance; though increased distance is associated with smaller retinal images. The reversal suggests compensation to optical shrinking of images with increased object distance -- to give size constancy. Though based on perceptual Bayesian inference, this is not simply Bayesian, as it goes exactly the wrong way round.” http://www.perceptionweb.com/perception/editorials/p3504ed.pdf
+
+
+
+– **Graham, Chandler & Field (2006) “Can the theory of ‘‘whitening’’ explain the center-surround properties of retinal ganglion cell receptive ﬁelds?”**
+   - Has a discussion of the center-surround pattern of firing of retinal ganglion cells, and different justifications for this pattern. Esp., efficient-coding theories say that it saves bandwidth to have lateral inhibition. In the end they say it's inconclusive, probably a mixture of things.
+
+– **Schwartz Hsu & Dayan (2007)**
+   - “The most common inferential Bayesian treatment of perceptual biases suggests that they arise from the imposition of prior expectations that are inappropriate for a particular scene.”- They note that Bayesian interpretation seems to imply *assimilation*, not contrast: “If spatial and temporal smoothness are interpreted as implying a prior that favours the same orientation for the target as for the context, Stocker and Simoncelli point out that this would lead, if anything, to a bias favouring attraction rather than repulsion. ”
+
+– **Sato et al. (2007, Neural Computation) “Bayesian Inference Explains Perception of Unity and Ventriloquism Aftereffect: Identiﬁcation of Common Sources of Audiovisual Stimuli”**
+   - Bayesian model of ventriloquism effect (judged position of noise is biased towards where you saw some visual stimulus)
+
+– **Corney & Lotto (2007, PLoS Computational Biology) “What Are Lightness Illusions and Why Do We See Them?”**
+   - They calibrate a neural network to pull out reflectance vs illumination from an artificially generated scene. They then get it to get qualitatively good profiles for contrast, Vasarely, Mach bands, Chevreul, Hermann, White illusions. (Though I think this is selective, because this would predict phantom ridges where there are none.)
+
+– **Bach (2013, from a book review): “the usually quite apt inferences of our perceptual system, always based on incomplete information, occasionally go wrong when given atypical input. This is known as the Bayesian interpretation of perception.”**
+
+– **Murray (2013) “Human Lightness Perception is Guided by Simple Assumptions about Reflectance and Lighting”**
+   - He shows that the postulates of anchoring theory (model of lightness-perception) can be derived from Bayesian priors.
+
+### Overview of Illusions Research
+
+∗ Gillam (1998) “Illusions at Century's End” article is not bad
+
+∗ Stuart Anstis (2009) “Illusions” in oxford companion to consciousness. Good: discusses four different theories of geometric illusions.
+
+### Q: Definitions of Illusions
+
+∗ Helmholtz: “Thus it happens, that when the modes of stimulation of the organs of sense are unusual, incorrect ideas of objects are apt to be formed; which used to be described, therefore, as ilusions of the senses.” [talks more about what is usual – e.g., light entering the eye from the front – but note this introduces a fudge factor: why isn't usual just average correlation?]
 
 ∗ Boring (1942): “[s]trictly speaking, the concept of illusion has no place in psychology, because no experience actually copies reality…. In the sense that perception is normally dependent upon subjective factors as well as upon the stimulus, all perception is ‘illusory’ in so far as it does not precisely mirror the stimulus. In this broad sense, the term illusion becomes practically meaningless.”
 
-∗ Corney & Lotto (2007): “- “These data suggest that “illusions” arise in humans because (i) natural stimuli are ambiguous, and (ii) this ambiguity is resolved empirically by encoding the statistical relationship between images and scenes in past visual experience. Since resolving stimulus ambiguity is a challenge faced by all visual systems, a corollary of these findings is that human illusions must be experienced by all visual animals regardless of their particular neural machinery. - “[a] definition of illusion: the condition in which the true source of a stimulus differs from what is its most likely (and thus perceived) source.”
+∗ Corney & Lotto (2007): “- “These data suggest that “illusions” arise in humans because (i) natural stimuli are ambiguous, and (ii) this ambiguity is resolved empirically by encoding the statistical relationship between images and scenes in past visual experience. Since resolving stimulus ambiguity is a challenge faced by all visual systems, a corollary of these findings is that human illusions must be experienced by all visual animals regardless of their particular neural machinery. 
+   - “[a] definition of illusion: the condition in which the true source of a stimulus differs from what is its most likely (and thus perceived) source.”
+   - [NOTE: This is *wrong*, an illusion is not just an incorrect inference. ]
 
 ∗ [gregory1997knowledge] says “errors of perception (phenomena of illusions) [are often] due to knowledge being inappropriate or being misapplied.”
 
 ∗ Bach (2013, from a book review): “the usually quite apt inferences of our perceptual system, always based on incomplete information, occasionally go wrong when given atypical input. This is known as the Bayesian interpretation of perception.”
 
-* Magic & Illusions:
+### Magic & Illusions:
 
-– [MY THEORY: MAGIC TAKES ADVANTAGE OF ASSUMPTION THAT ERRORS ARE INDEPENDENT.] I.E., you direct your attention to things that are unexpected, so you can *offset* your actions such that they don't trigger attention. E.g., pick pocket exactly at point when you're expecting sensation in that area for an unrelated reason.
+– [MY THEORY: MAGIC TAKES ADVANTAGE OF ASSUMPTION THAT ERRORS ARE INDEPENDENT.] I.e., you direct your attention to things that are unexpected, so you can *offset* your actions such that they don't trigger attention:
+   - You pick a pocket exactly at point when the victim is expecting a sensation in that area for an unrelated reason, so they don't perceive a delta.
+   - You move object A at exactly the same time you flash object B. Then observer doesn't notice that object A is moved.
 
-* Measurement Theory (two papers by Jose Diez, “A Hundred Years of Numbers: An Historical Introduction to Measurement Theory 1887-1990”)
+### Measurement Theory
+
+- Measurement Theory (two papers by Jose Diez, “A Hundred Years of Numbers: An Historical Introduction to Measurement Theory 1887-1990”)
 
 – Helmholtz (1887): axioms on ranking and combining elements allow you to define an affine measurement
 
 – Campbell (1920) : more explicit statement of the axioms
 
-– Stevens (1946) “On the theory of scales of measurement”Classified different scales according to possible invariances: ordinal, interval scale (no zero defined, like celcius/farenheit), and proportional scale (zero defined)
+– Stevens (1946) “On the theory of scales of measurement”
+   - Classified different scales according to possible invariances: ordinal, interval scale (no zero defined, like celcius/farenheit), and proportional scale (zero defined)
 
-* Leonardo:
-
-– DaVinci, “Treatise on Painting” (c1510) seems to have covered many cues, see discussion in http://www.jstor.org/stable/1412712?seq=2
-
-– fog makes you overestimate distance: p192: “To our obtaining a correct idea of the magnitude and distance of any object seen from afar, it is necessary that we consider how much of distinctness an object loses at a distance (from the mere interposition of the air) ... [t]his calculation, as to distinctness, must be made upon the idea that the air is clear, as, if by any accident it is otherwise, we shall (knowing the proportion in which clear air dims a prospect) be led to conclude this farther off than it is ... ”[problem is that he doesn't explicitly say it still occurs when we know it's foggy][he also mentions how fog makes you overestimate size of objects]
-
-– top of mountain appears closer than the bottom: p195: “Any dark object will appear lighter when removed to some distance from the eye ... Therefore the inferior parts of any object whatever, placed in thick air [which makes it lighter] will appear farther from the eye at the bottom than at the top; for that reason the lower parts of a mountain appear farther off than its top, which is in reality the farthest.”[problem is that you could say people are ignorant that there's more air at the bottom]
-
-– contrast effect: “Of different bodies equal in whiteness, and in distance from the eye, that which is surrounded by the greatest darkness will appear the whitest and on the contrary, that shadow will appear the darkest which has the brightest white round it.”
-
-– “"Thus if one is to be five times as distant, make it five times bluer."”
-
-– (has some propositions about towers looking narrower at their bases, because of lightness of background, but less convincing.)
-
-* Artificial vision / perception
+### Artificial vision / perception
 
 – “Deep learning”: divide up learning into hierarchical parts
 
 – Top 10 data mining algorithms:http://www.cs.uvm.edu/~icdm/algorithms/10Algorithms-08.pdf
 
-– NYT (1958) “New Navy Device Learns by Doing”Good quotes on optimism about how quickly these things will work.
+– NYT (1958) “New Navy Device Learns by Doing” -- Has good quotes on optimism about how quickly these things will work.
 
-– Meer (2012) “Are we making real progress in computer vision?”“Take two images, wherein the second image has many changes relative to the ﬁrst; objects in the second image have altered illumination and exhibit completely different 3D poses. ... Even when robust estimators assist in the recovery process, most of the correspondences amongst the points will not be valid. Though many of the points in the second image will be above a threshold, they will be in the wrong place. On the other hand, a human being is able to recognize this mapping immediately and with no trouble.”
+– **Meer (2012) “Are we making real progress in computer vision?”**
+   - “Take two images, wherein the second image has many changes relative to the ﬁrst; objects in the second image have altered illumination and exhibit completely different 3D poses. ... Even when robust estimators assist in the recovery process, most of the correspondences amongst the points will not be valid. Though many of the points in the second image will be above a threshold, they will be in the wrong place. On the other hand, a human being is able to recognize this mapping immediately and with no trouble.”
 
-– Gary Marcus (2013, New Yorker) “Hyping Artificial Intelligence, Yet Again”http://www.newyorker.com/tech/elements/hyping-artificial-intelligence-yet-again
+– Gary Marcus (2013, New Yorker) “Hyping Artificial Intelligence, Yet Again”
+   - http://www.newyorker.com/tech/elements/hyping-artificial-intelligence-yet-again
 
 * Humans vs Machine-learning / artificial intelligence
 
-– Stallkamp et al. (2012) “Man vs. Computer: Benchmarking Machine Learning Algorithms for Traffic Sign Recognition”First time (?) that computers beat humans in image recognitionhttp://image.diku.dk/igel/paper/MvCBMLAfTSR.pdf
+– Stallkamp et al. (2012) “Man vs. Computer: Benchmarking Machine Learning Algorithms for Traffic Sign Recognition”
+   - First time (?) that computers beat humans in image recognitionhttp://image.diku.dk/igel/paper/MvCBMLAfTSR.pdf
 
-* motivated perception (you see what you want to see: esp Emily Balcetis)
+## motivated perception (you see what you want to see)
 
-– Balcetis & Dunning (2006) “See What You Want to See: Motivational Influences on Visual Perception”- You're more likely to construe an ambiguous figure as “B” than as “13” if that would be good news.- Balcetis has various papers on similar things
+– **Balcetis & Dunning (2006) “See What You Want to See: Motivational Influences on Visual Perception”**
+   - You're more likely to construe an ambiguous figure as “B” than as “13” if that would be good news.- Balcetis has various papers on similar things
 
-* Perception & art
+## Perception & Art
 
-– Margaret Livingstone (at Harvard), has a book “vision and art”.- Mona Lisa's smile is different @ low frequency and high frequency- Rembrandt may have been wall-eyed (& so better at producing 2D images)
+– **Margaret Livingstone (at Harvard), has a book “vision and art”.**
+   - Mona Lisa's smile is different @ low frequency and high frequency- Rembrandt may have been wall-eyed (& so better at producing 2D images)
 
-– Mamassin (2010) “Ambiguities and conventions in the perception of visual art”Survey article. Not so amazing.
+– **Mamassin (2010) “Ambiguities and conventions in the perception of visual art”**
+   - Survey article. Not so amazing.
 
-* Philosophy
+## Philosophy
 
-1. Berkeley (New Theory of Vision) “It is I think agreed by all that distance of itself, and immediately, cannot be seen. For distance being a line directed end-wise to the eye, it projects only one point in the fund of the eye, which point remains invariably the same whether the distance be longer or shorter.”[disagreeing with Descartes who thought that distance could be directly observed?]
+- **Quine (1953?) “Word & Object”**
+   - “The familiar desk manifests its presence by resisting my pressures and by deflecting light to my eyes. Physical things generally, however remote, become known to us only through the effects which they help to induce at our sensory surfaces. Yet our common-sense talk of physical things goes forward without benefit of explanations in more intimately sensory terms. Entification begins at arm’s length; the points of condensation in the primordial conceptual scheme are things glimpsed, not glimpses.”
 
-2. Quine (1953?) “Word & Object”“The familiar desk manifests its presence by resisting my pressures and by deflecting light to my eyes. Physical things generally, however remote, become known to us only through the effects which they help to induce at our sensory surfaces. Yet our common-sense talk of physical things goes forward without benefit of explanations in more intimately sensory terms. Entification begins at arm’s length; the points of condensation in the primordial conceptual scheme are things glimpsed, not glimpses.”
+- Joshua Greene @ Harvard has a dual-systems model of moral judgment, but not Bayesian in an interesting way.
 
-3. Joshua Greene @ Harvard has a dual-systems model of moral judgment, but not Bayesian in an interesting way.
+- David Bennett @ Brown has some things: http://brown.academia.edu/DavidBennett
 
-4. David Bennett @ Brown has some things:http://brown.academia.edu/DavidBennett
+- Michael Rescorla (UCSB, 2012) “Bayesian Perceptual Psychology” in a Handbook
+   - http://www.philosophy.ucsb.edu/people/profiles/faculty/cvs/papers/bayesian.pdf
 
-5. Michael Rescorla (UCSB, 2012) “Bayesian Perceptual Psychology” in a Handbookhttp://www.philosophy.ucsb.edu/people/profiles/faculty/cvs/papers/bayesian.pdf
+- **Ned Block**
+   - Has a 1983 paper on mental imagery.
+   - Has a 2020 book "the border between seeing and thinking", argues I think that mental imagery contradicts impenetrability.
 
-* Marketing / Product Design
+## Marketing / Product Design
 
-1. Priya Raghubir and Aradhna Krishna (1999) “Vital Dimensions in Volume Perception: Can the Eye Fool the Stomach?”
+- Priya Raghubir and Aradhna Krishna (1999) “Vital Dimensions in Volume Perception: Can the Eye Fool the Stomach?”
 
-2. Simonson's “Would I like a Medium Pillow?”
+- Simonson's “Would I like a Medium Pillow?”
 
-3. Fitzsimons et al. (2001) “Non-Conscious Influences on Consumer Choice”
+- Fitzsimons et al. (2001) “Non-Conscious Influences on Consumer Choice”
 
 # PERCEPTION - Empirical findings
 
-6.1 General Phenomena
+## General Phenomena
 
-* Normalization:
+### Normalization:
 
-– Carandini & Heeger (2011) “Normalization as a canonical neural computation”
+– **Carandini & Heeger (2011) “Normalization as a canonical neural computation”**
 
-– Rangel & clithero (2012) “Value normalization in decision making: theory and evidence”- “Although the issue of normalization is relatively new to decision neuroscience, it has been widely investigated in sensory systems, where it has been found to be a pervasive feature of sensory coding ”- Stimulus value (SV), Outcome value (OV), and prediction error (PE). Need to dissociate.- Argument that normalization is due to efficient coding- Lots of data about normalization of neural signals (i.e., bigger range of inputs, then signals become less sensitive)- Decision predictions: More frequent errors when people are used to a bigger range.
+– **Rangel & clithero (2012) “Value normalization in decision making: theory and evidence”**
+   - “Although the issue of normalization is relatively new to decision neuroscience, it has been widely investigated in sensory systems, where it has been found to be a pervasive feature of sensory coding ”
+   - Stimulus value (SV), Outcome value (OV), and prediction error (PE). Need to dissociate.
+   - Argument that normalization is due to efficient coding
+   - Lots of data about normalization of neural signals (i.e., bigger range of inputs, then signals become less sensitive)- Decision predictions: More frequent errors when people are used to a bigger range.
 
-– Glimcher (2014) “Understanding the Hows and Whys of Decision-Making: From EU to Divisive Normalization”Says that Simoncelli proved that, if there is positive correlation, then this is efficient way to encode: R_{1}=\frac{Stim_{1}}{\sigma^{2}+\sum\omega_{i}Stim_{i}}. - Monkey experiment: LIP (lateral intraparietal) neurons influenced by value of alternatives, good fit from divisive normalization (i.e., not just absolute difference).- Simoncelli's work to show how networks can calculate divisive normalized variables- Predictions about decoy effects: if you make worst option better, then difference among other options diminshes.
+– **Glimcher (2014) “Understanding the Hows and Whys of Decision-Making: From EU to Divisive Normalization”**
+   - Says that Simoncelli proved that, if there is positive correlation, then this is efficient way to encode: $R_{1}=\frac{Stim_{1}}{\sigma^{2}+\sum\omega_{i}Stim_{i}}$.
+   - Monkey experiment: LIP (lateral intraparietal) neurons influenced by value of alternatives, good fit from divisive normalization (i.e., not just absolute difference).
+   - Simoncelli's work to show how networks can calculate divisive normalized variables.
+   - Predictions about decoy effects: if you make worst option better, then difference among other options diminshes.
 
-* Contrast effects:
+### Contrast effects:
 
-– Coren & Miller (1974, ) “Size Contrast as a Function of Figural Similarity”- Ebbinghaus illusion is modulated by the shape of surrounding cobjects - much stronger when center & surround are the same shape.
+– **Coren & Miller (1974) “Size Contrast as a Function of Figural Similarity”**
+   - Ebbinghaus illusion is modulated by the shape of surrounding cobjects - much stronger when center & surround are the same shape.
 
-* Top-down influences:
+### Top-down influences:
 
-* Tau / Kappa effects:
+### Tau / Kappa effects:
 
-* Sensory integration:
+### Sensory integration:
 
-* interference effects:
+### Interference effects:
 
-– Variation (Garner) interference: you ask subjects to classify some stimulus A, while holding another stimulus B either fixed, or varying. If variation in B slows reaction time for classifying A, then you say there's interference (and say that A and B must be “integrated”).
+– **Variation (Garner) interference:** you ask subjects to classify some stimulus A, while holding another stimulus B either fixed, or varying. If variation in B slows reaction time for classifying A, then you say there's interference (and say that A and B must be “integrated”).
 
-– Congruity (Stroop) interference: an incongruent irrelevant stimuli slows down judgment (or makes it worse), relative to a congruent stimulus, even when not rationally related. E.g. “it takes longer to say "top" to a word appearing at the top of a screen when the word itself is bottom rather than top ... it is harder to decide which of two stimuli is present in the center of the screen when it is flanked by (irrelevant) copies of the alternative letter.”Simon interference: people are quicker at responding if the location of the response is close to the location of the stimulus (even if logically irrelevant).e.g. Marks (2004) “Cross-Modal Interactions in Speeded Classifciations”“subjects respond more quickly and accurately, both while classifying pitch and while classifying color, when presented with the congruent combinations of stimuli, low pitch + black and high pitch + white, than when presented with the incongruent combinations, low pitch + white and high pitch + black.”
+– **Congruity (Stroop) interference:** an incongruent irrelevant stimuli slows down judgment (or makes it worse), relative to a congruent stimulus, even when not rationally related. E.g. “it takes longer to say "top" to a word appearing at the top of a screen when the word itself is bottom rather than top ... it is harder to decide which of two stimuli is present in the center of the screen when it is flanked by (irrelevant) copies of the alternative letter.”Simon interference: people are quicker at responding if the location of the response is close to the location of the stimulus (even if logically irrelevant).e.g. Marks (2004) “Cross-Modal Interactions in Speeded Classifciations”“subjects respond more quickly and accurately, both while classifying pitch and while classifying color, when presented with the congruent combinations of stimuli, low pitch + black and high pitch + white, than when presented with the incongruent combinations, low pitch + white and high pitch + black.”
 
-6.2 Modalities
+## Modalities
 
-* numerical judgment
+### numerical judgment
 
-– Moyer & Landauer (1967, Nature) “Time required for judgements of numerical inequality”- Time required to discriminate between numbers related to *proportional* difference, not absolute difference- Fraction of errors follows the same pattern- They say the same is true for psychophysical stimuli (length of line, pitch, colour)
+– **Moyer & Landauer (1967, Nature) “Time required for judgements of numerical inequality”**
+   - Time required to discriminate between numbers related to *proportional* difference, not absolute difference- Fraction of errors follows the same pattern- They say the same is true for psychophysical stimuli (length of line, pitch, colour)
 
-* lightness perception:
+### lightness perception:
 
-– Tappen, Freeman & Adelson (2002?) Recovering Intrinsic Images from a Single Image Algorithm to recover reflectance + illumination from the final image.
+– **Tappen, Freeman & Adelson (2002?) Recovering Intrinsic Images from a Single Image.** Algorithm to recover reflectance + illumination from the final image.
 
-* Tactile:
+### Tactile
 
-– referred pain. E.g. infected appendix usually manifests as pain on the skin of your belly. L says genital pain in kids often manifests in pain on the left shoulder.Q: does this imply that information is pre-interpreted?A: Not by itself, it can be just due to nerve stimulation being a noisy measure of various thing. A: But encapsulation is implied when you still have the feeling even when you know it's not true. Strongest case in phantom limbs.A: Test behaviourally? You need to elicit an automatic response, e.g. reflex.Q: what about referred pain and implicit knowledge?
+– **referred pain.** E.g. infected appendix usually manifests as pain on the skin of your belly.
+   - L says genital pain in kids often manifests in pain on the left shoulder.
+   - Q: does this imply that information is pre-interpreted?
+   - A: Not by itself, it can be just due to nerve stimulation being a noisy measure of various thing.
+   - A: But encapsulation is implied when you still have the feeling even when you know it's not true. Strongest case in phantom limbs.
+   - A: Test behaviourally? You need to elicit an automatic response, e.g. reflex.
+   - Q: what about referred pain and implicit knowledge?
 
 – examples: chilli pepper making your body think it's hot.
 
-* expectations & sensation / perception / top down / learning new perceptual associations[evidence for top down influences: (1) voluntary gestalt switches like duck-rabbit; (2) you perform faster on a task if you're told what to expect; (3) illusory contours, feel like real contours; (4) Stroop task ]
+### Olfactory
+
+- **Andreas Keller, BBS, Olfaction is Evaluative:**
+   - "Plato wrote that odors “have no name and they have not many, or definite and simple kinds; but they are distinguished only as painful and pleas- ant” (Timaeus 67a). More recently, multidimensional scaling tech- niques confirmed that valence is the most important perceptual dimension in olfaction (Haddad et al. 2008). In humans, olfaction has evolved to be an evaluative sense. Olfactory information is used mainly to make decisions about rejecting or accepting food, mates, or locations (Stevenson 2009). Put differently, more “than any other sensory modality, olfaction is like emotion in attributing positive (appetitive) or negative (aversive) valence to the environment” (Soudry et al. 2011, p. 21). Olfaction is a judg- mental sense in which perceiving and judging are intertwined.
+
+## Top-Down Influences
+
+* expectations & sensation / perception / top down / learning new perceptual associations[evidence for top down influences: (1) voluntary gestalt switches like duck-rabbit; (2) you perform faster on a task if you're told what to expect; (3) illusory contours, feel like real contours; (4) Stroop task (colour names and colour words) ]
 
 – “innate statistical biases in the processing of natural images (Kersten et al., 2004), as well as the effects of learning (Gilbert et al., 2001), local environmental context ( [Bar, 2004] and [Palmer, 1975]), or task set (O'Craven et al., 1999) on the processing of visual objects and scenes.”
 
@@ -496,82 +876,140 @@ $$b(\theta_{0})=E[\hat{\theta}_{MSE}|\theta_{0}]-\theta_{0}$$
 
 – Deliza, Rosires, and Halliday J. H. MacFie. (1996) “The Generation of Sensory Expectation by External Cues and its affect on Sensory Perception and Hedonic Ratings: A Review”
 
-– Ballard & Rao (1999, Nature Neuro) “Predictive coding in the visual cortex: a functional interpretation of some extra-classical receptive-field effects”asdf
-
 – [Shimojo mentions random dot stereogram as famous example that binocular fusion is *not* subsequent to feature detection ; but Marr & Poggio wrote papers about Stereograms prior to his Vision book, so does this contradict marr's bottom-up view?]
 
 – Lee, Frederick & Ariely (2006, Psych Science) “Try it: you'll like it: The Inﬂuence of Expectation, Consumption, and Revelation on Preferences for Beer”They compare giving quality information about a sensation *before* or *after* you try a beer. They find a difference. However tyler williams paper noting that it could be attention-allocation.
 
-– Gilbert & Sigman (2007, Neuron) “Brain states: top-down influences in sensory processing”More neurological
+– **Gilbert & Sigman (2007, Neuron) “Brain states: top-down influences in sensory processing”**
+   - More neurological
 
-– Bar and Bubic (in press, Oxford Handbook) “Top-down Effects in Visual Perception”
+– **Bar and Bubic (in press, Oxford Handbook) “Top-down Effects in Visual Perception”**
 
-– Tyler Williams (2007) The Effects of Expectations on Perception: Experimental Design Issues and Further Evidence(A weak replication of Lee-Frederick-Ariely, not entirely clear what else he does, discusses some other issues.)
+– **Tyler Williams (2007) The Effects of Expectations on Perception: Experimental Design Issues and Further Evidence**
+   - (A weak replication of Lee-Frederick-Ariely, not entirely clear what else he does, discusses some other issues.)
 
-– Gilbert & Li (Nature Reviews, 2013) “Top-down influences on visual processing”asdf
+– **Gilbert & Li (Nature Reviews, 2013) “Top-down influences on visual processing”**
 
-– Firestone & Scholl (2013, Psych Science) ““Top-down” effects where none should be found: The El Greco fallacy in perception research”- “initial claims that poorer children perceived coins as larger than richer children did (e.g. Bruner & Goodman, 1947) were later found to instead reflect biases in memory rather than in perception (e.g. Carter & Schooler, 1949).”- El Greco fallacy: he painted everything long, but perhaps he suffered from astigmatism, so that everything looked longer. But then the canvas would look longer too (e.g. Rock, 1966; see also Anstis, 2002.)- They say if top-down influences perception, & measured with matching tasks, then both the stimuli and the match should be affected equally, & so there should be no measurable difference.
+– **Firestone & Scholl (2013, Psych Science) ““Top-down” effects where none should be found: The El Greco fallacy in perception research”**
+   - “initial claims that poorer children perceived coins as larger than richer children did (e.g. Bruner & Goodman, 1947) were later found to instead reflect biases in memory rather than in perception (e.g. Carter & Schooler, 1949).”
+   - El Greco fallacy: he painted everything long, but perhaps he suffered from astigmatism, so that everything looked longer. But then the canvas would look longer too (e.g. Rock, 1966; see also Anstis, 2002.)
+   - They say if top-down influences perception, & measured with matching tasks, then both the stimuli and the match should be affected equally, & so there should be no measurable difference.
 
-– Chalk Seitz Series (2012) - This paper and others by Series find that you can change peoples' priors by exposing them to experience. Not very surprising.
-
-– (Series mentioned in a talk that you can change rabbit/duck prior by exposure to rabbits or ducks)
+– **Chalk Seitz Series (2012)** - This paper and others by Series find that you can change peoples' priors by exposing them to experience. Not very surprising.
+   – (Series mentioned in a talk that you can change rabbit/duck prior by exposure to rabbits or ducks)
 
 – (Tomaso Poggio mentions in his autobiography experiments done in the mid-80s with Anya Hurlbert, where “learning to associate to a variety of images with different iliuminant the underlying 'true' reflectances”)
 
-* Sound perception
+- **Firestone & Scholl (2016, BBS) "Cognition does not affect perception: Evaluating the evidence for “top-down” effects"**
+   - Penetration view: "cognitive states routinely “penetrate” perception, such that what we see is an alloy both of bottom-up factors and of beliefs, desires, motivations, linguistic representations, and other such states." ... "the postulation of the existence of visual processes being functionally encapsulated...cannot be justified anymore”
+   - **Definition of top-down:** "At issue is the extent to which what and how we see is functionally independent from what and how we think, know, desire, act, and so forth."
+   - **Excluded:** attention; descending neural pathways; Adelson-style unconscious inference; .
+   - [**examples I think are persuasive:** 
+      - bistable stimuli which you can switch intentionally;
+      - seeing a dalmatian when primed;
+      - expectations about lighting affect both \hat{v} and \hat{x}
+      - see banana as yellow when there's no yellow]
+   - **Setup.** 
+      - You give people two stimuli, low-level ($x_L$) and high-level ($x_H$).
+      - You find that peoples' report of the low-level stimulus $\hat{x}_L(x_L,x_H)$ is sensitive to $x_H$, i.e. you find that:
+      $$\hat{x}_L(x_L,x_H) < \hat{x}_L(x_L,x_H').$$
+   - **Pitfalls.**
+      1. **Matched object has same high-level stimuli.** Suppose you elicit response by asking people to match $x_L$ against some other stimulus, and you find that the matched value varies as $x_H$ varies. A common mistake is that they don't pay attention to $x_H$ for the *matched* stimulus, and actually it may stay constant. Thus the experimental result must be interpreted as:
+         $$\hat{x}_L(x_L,x_H) = \hat{x}_L(\bar{x}_L,x_H)\\
+            \hat{x}_L(x_L,x_H') = \hat{x}_L(\bar{x}'_L,x_H')\\
+            \bar{x}_L<\bar{x}_L'.$$
+         *Examples*: (1) El Greco painted elongated faces: some say it's due to astigmatism, but that should also affect perception of the painting, and so unclear it'd distort the painted object; (2) reflecting on unethical actions make the world look darker: but the effect even works on swatches, which should be affected just-as-much by the unethical actions.
+      
+      2. **Perception vs judgment.** The way you ask people about perception could be interpreted as asking about *object*, not *perception*, and it can be rational to incorporate $x_H$ into inference about object. 
+         
+         *Examples:* (1) throwing a heavier ball at a target increases estimate of distance; (2) accuracy in throwing darts affects judgment of size of target.
+      
+      3. **Demand and response biases.** If the manipulation is pretty clear to the subject, then they might report perception as desired. Should control this by giving a plausible pretext for manipulation.
+         
+         *Examples:* (1) heavy backpack makes you judge slopes to be heavier; (2) asking whether traffic light looks more yellow or orange.
+      
+      4. **Low-level differences.** The low-level stimuli actually differ when you vary high-level, they're not the same.
+         
+         *Examples:* (1) black faces reported as darker than white faces, even when matched for luminance; (2) .
+      
+      5. **Peripheral attention effects.** Uncontroversial that there's an attention channel, and many effects could be interpreted as operating through that channel.
+         
+         *Examples:* (1) switching Necker orientation comes from looking at a corner - doesn't need downward wiring; (2) scary music biases the interpretation of ambiguous figures, could just be looking for that.
+      
+      6. **Memory and recognition.** Effects could operate through high-level stimulus priming a concept, and then being more receptive to low-level signals related to that concept.
+      
+         *Examples:* (1) find it easier to recognize morally loaded words, but experiment had multiple morally-loaded words & so could be priming; (2) hungry people more likely to recognize words about food.
+
+## Sound perception
 
 – McGurk effect: seeing motion of lips affects which syllable you hear
 
 – Reverse McGurk effect (sound influences your perception of lips)
 
-* Stripes
+## Stripes
 
-– Swami and Harris (2012) “The Effect of Striped Clothing on Perceptions of Body Size”Horizontal stripes cause you to be judged to be fatter. However Helmholtz predicted the opposite: “An empty room looks smaller than one that is furnished; and a wall covered with a paper pattern looks larger than one painted uniformly in one colour. Ladies' frocks with cross stripes on them make the figure look taller”(I think there are other papers that find the opposite)
+– Swami and Harris (2012) “The Effect of Striped Clothing on Perceptions of Body Size”Horizontal stripes cause you to be judged to be fatter. However Helmholtz predicted the opposite: “An empty room looks smaller than one that is furnished; and a wall covered with a paper pattern looks larger than one painted uniformly in one colour. Ladies' frocks with cross stripes on them make the figure look taller” (I think there are other papers that find the opposite)
 
-* **Temperature/Weight Effects**
+## Temperature/Weight Effects
 
-– Stevens (1979) “Thermal intensification of touch sensation: Further extensions of the Weber phenomenon”
+– **Stevens (1979) “Thermal intensification of touch sensation: Further extensions of the Weber phenomenon”**
 
-– Ross (1995) “Weber on Temperature and Weight Perception”- good quick summary of the literature
-    * 1846: “Weber placed coins cooled to -7 deg C, or warmed to 38 deg C, on the forehead of a reclining subject. He found that a cold coin felt equal in weight to about two warm coins. He concluded that “Cold bodies lying on thes skin appear to be heavier, and warm bodies lighter, than they should be. The sensation of cold appears to summate with that of pressure; that of warmth does not appear to do so, but rather may be considered to act like a negative pressure...”
+– **Ross (1995) “Weber on Temperature and Weight Perception”**
+   - good quick summary of the literature
+   - 1846: “Weber placed coins cooled to -7 deg C, or warmed to 38 deg C, on the forehead of a reclining subject. He found that a cold coin felt equal in weight to about two warm coins. He concluded that “Cold bodies lying on the skin appear to be heavier, and warm bodies lighter, than they should be. The sensation of cold appears to summate with that of pressure; that of warmth does not appear to do so, but rather may be considered to act like a negative pressure...”
+   – [note: an alternative explanation is that lighter objects will change temperature quicker, coming closer to skin temperature quicker.]
 
-– [note: an alternative explanation is that lighter objects will change temperature quicker, coming closer to skin temperature quicker.]
+- Size/Weight Illusion: larger objects are judged to be lighter (for a given weight)
 
-* Size/Weight Illusion: larger objects are judged to be lighter (for a given weight)
+– Usnadze (1931) Shows the same effect happens for passively feeling the weight of an object as picking it up (you vary the height of the object)
 
-– Usnadze (1931)Shows the same effect happens for passively feeling the weight of an object as picking it up (you vary the height of the object)
+– Plaisier & Smeets (2012) They find that even if you let subjects *push* an object suspended from a string, you get the same illusion
 
-– Plaisier & Smeets (2012)They find that even if you let subjects *push* an object suspended from a string, you get the same illusion
-
-– Brayanov & Smith (2010) “Bayesian and Anti-Bayesian Biases in Sensory Integration”- they find that your hand (measuring response in preparing to receive item) anticipates that larger objects are heavier (i.e., the opposite effect, the correct inference). So they say that your motor system is Bayesian, but your top-brain is anti-Bayesian.(Brayanov & Smith are both at Harvard).- To say to Smith: (1) actually contrast effects are Bayesian; (2) potential explanation: you get a signal of *density*, not weight; & prediction: heavier objects should be judged to be bigger.
+– **Brayanov & Smith (2010) “Bayesian and Anti-Bayesian Biases in Sensory Integration”**
+   - they find that your hand (measuring response in preparing to receive item) anticipates that larger objects are heavier (i.e., the opposite effect, the correct inference). So they say that your motor system is Bayesian, but your top-brain is anti-Bayesian.(Brayanov & Smith are both at Harvard).
+   - To say to Smith: (1) actually contrast effects are Bayesian; (2) potential explanation: you get a signal of *density*, not weight; & prediction: heavier objects should be judged to be bigger.
 
 – [there is a paper about judging which object to throw — I think they say that the size-weight illusion still affects that judgment]
 
-* Face recognition:
+### Face recognition
 
-– Sinha et al. (2005) “Face Recognition by Humans: 19 Results all Computer Vision Researchers Should Know About ”- Humans better than computers @ low resolution – can recognise many majority of famous faces at 7x10 pixels.- “just just one feature (such as the eyes or, notably, the eyebrows) can be enough for recognition of many famous faces. However, when features on the top half of one face are combined with the bottom half of another face, the two distinct identities are very difficult to recognize” FANTASTIC! – see figure 4.- “Vertical inversion dramatically reduces recognition performance”- “: Contrast polarity inversion dramatically impairs recognition performance, possibly due to compromised ability to use pigmentation cues .... Though no information is lost, our ability to use the information in the image is severely compromised. This suggests that some normally useful information is rendered unusable by negation.”- “: Latency of responses to faces in IT cortex is about 120 ms, suggesting a largely feed-forward computation”
+– **Sinha et al. (2005) “Face Recognition by Humans: 19 Results all Computer Vision Researchers Should Know About”**
+   - Humans better than computers @ low resolution – can recognise many majority of famous faces at 7x10 pixels.
+   - “just just one feature (such as the eyes or, notably, the eyebrows) can be enough for recognition of many famous faces. However, when features on the top half of one face are combined with the bottom half of another face, the two distinct identities are very difficult to recognize” FANTASTIC! – see figure 4.
+   - “Vertical inversion dramatically reduces recognition performance”
+   - “Contrast polarity inversion dramatically impairs recognition performance, possibly due to compromised ability to use pigmentation cues .... Though no information is lost, our ability to use the information in the image is severely compromised. This suggests that some normally useful information is rendered unusable by negation.”
+   - “Latency of responses to faces in IT cortex is about 120 ms, suggesting a largely feed-forward computation”
 
-– Frowd (2008, The Psychologist) “Changing the face of criminal identification”- early technology asked people to select individual features one by one.- UK-developed technology has people judge overall face, & shifts face towards what you recognise- (FBI prefers hand-drawn pictures)
+– **Frowd (2008, The Psychologist) “Changing the face of criminal identification”**
+   - early technology asked people to select individual features one by one.- UK-developed technology has people judge overall face, & then shifts face towards what you recognise. The FBI prefers hand-drawn pictures.
 
-* Recognition / Reproduction:
+### Recognition / Reproduction:
 
-– - Can't draw a bicycle from memory ( http://road.cc/content/blog/90885-science-cycology-can-you-draw-bicycle ) HOWEVER she also finds that a similar fraction of people make mistakes in multiple-choice among drawings of bicycles.
+– **Can't draw a bicycle from memory** ( http://road.cc/content/blog/90885-science-cycology-can-you-draw-bicycle ) HOWEVER she also finds that a similar fraction of people make mistakes in multiple-choice among drawings of bicycles.
 
-– - Can't draw a cartoon character from memory ( http://www.badtoonrising.com/ )
+– **Can't draw a cartoon character from memory** ( http://www.badtoonrising.com/ )
 
-– - Reddit: “why can't I draw what I visualise?”http://www.reddit.com/r/askscience/comments/1jshui/why_can_i_not_draw_exactly_what_i_visualize_in_my/
+– **Reddit: “why can't I draw what I visualise?”**
+   - http://www.reddit.com/r/askscience/comments/1jshui/why_can_i_not_draw_exactly_what_i_visualize_in_my/
 
-– Blake et al. (2015, Q J Exp Psych) “The Apple of the mind's eye: Everyday attention, metamemory, and reconstructive memory for the Apple logo”“Only 1 participant out of 85 correctly recalled the Apple logo, and fewer than half of all participants correctly identified the logo.”
+– **Blake et al. (2015, Q J Exp Psych) “The Apple of the mind's eye: Everyday attention, metamemory, and reconstructive memory for the Apple logo”**
+   - Only 1 participant out of 85 correctly recalled the Apple logo, and fewer than half of all participants correctly identified the logo.”
 
-* Vestibular system
+- **Recognition Memory** (wikipedia article)
+   - Standing (1973): can recognize 1000s of images after 5-second exposures. " the capacity for pictures is almost limitless"
+   - Mandler (1980): Dual-process: "recollection" (know associations), and "familiarity" (just raw feeling you recognize). Wikipedia: "neuroscientific research has not provided a definitive answer to this controversy, although it heavily favors dual-process models"
+   - "signal detection theory clearly explains the results of recognition memory tests."
+   - Deese–Roediger–McDermott -> false recognition when something is *semantically* related to what you do remember. E.g. you're told to memorize a list ("bed", "duvet", "dreams"), then later if you're asked whether "sleep" was in the list, you say yes. **nice example of back-inference.**
 
-– Nick Cutfield: he was trying to fit some kind of threshold model to vestibular perception – using data from rotating sensory-deprived people – he says there's been little progress since Mach blindfolded people sitting in chairs
+### Vestibular system
 
-* Cute tricks
+– Nick Cutfield: he was trying to fit some kind of threshold model to vestibular perception – using data from rotating sensory-deprived people – he says there's been little progress since Mach blindfolded people sitting in chairs.
+
+### Cute tricks
 
 1. Cutaneous rabbit: tap three times at the elbow, then at the wrist, people report four evenly spaced taps.
 
-2. eye tracking: when you shake your head you can still read a sign; but if you shake the sign the same amount, you can't read it (because when you shake your head, a nerve goes directly from your neck to the eye, to make it rotate in compensation the right amount, Nick Cutfield ; also in the Morgan book)
+2. Eye tracking: when you shake your head you can still read a sign; but if you shake the sign the same amount, you can't read it (because when you shake your head, a nerve goes directly from your neck to the eye, to make it rotate in compensation the right amount, Nick Cutfield ; also in the Morgan book).
 
 3. Cross your index & middle finger, & run them along an edge: feels like two edges.(similar: moving something along an upside down tongue generates perception of opposite motion)
 
@@ -581,7 +1019,7 @@ $$b(\theta_{0})=E[\hat{\theta}_{MSE}|\theta_{0}]-\theta_{0}$$
 
 6. Many tactile aftereffects: (1) get off treadmill & world seems pushing forwards (2) lie down, hold your arms off the ground for a minute, then put them by your side, will feel like they are sunk into the ground (3) thumb & forefinger hold a an acute angle on an object, afterwards a right angle on an object will feel like it's oblique. [ref?!]
 
-#  GENERAL COGNITION
+# GENERAL COGNITION
 
 * **Barrett & Kurzban (2006, Psych Review) “Modularity in Cognition: Framing the Debate”**
     * The new type of modularity is based on “functional specialization, rather than Fodorian criteria such as automaticity and encapsulation”. But then they go through all the things which it is not - doesn't need to be innate, or automatic, or informationally encapsulated; so makes it pretty vague. (They say “Sperberian rather than Fodorian”)
@@ -592,15 +1030,22 @@ $$b(\theta_{0})=E[\hat{\theta}_{MSE}|\theta_{0}]-\theta_{0}$$
 
 # LANGUAGE PERCEPTION / KNOWLEDGE
 
-* McGurk effect (same sound is perceived as different syllable depending on which lips you see)
+- **McGurk effect** (same sound is perceived as different syllable depending on which lips you see)
 
-* Miller & Isard (1963) : recognizing words with noise is much better when context indicates that word [cited in Fodor]
+- **Miller & Isard (1963)** : recognizing words with noise is much better when context indicates that word [cited in Fodor]
 
-* Pinker (1999) “Words & Rules”- observation: most verbs are regular (X-Xed), 164 are irregular (e.g. run-ran). [similar with plurals: most use -s, some are irregular]- Pinker's theory (i) we have a couple of basic rules; & (ii) we learn particular exceptions.- Chomsky & Halle (1968) “The Sound Pattern of English”: every word has a deep sound (not same as root sound), and a set of rules to transform, which predicts all these things (& they find clever rules which can substantially reduce complexity). However Pinker notes that these observations could reflect etymological similarity, not actual rules used in processing. .- Rumelhart & McLelland (1986) - neural network / perceptron model is able to predict the past tense for many verbs based on associations. Pinker showed that it fails in many ways - e.g., some homophones have different past tenses (lie & lay) - again, the regularities may be etymological but not functional.- basic evidence: new words get inflected using the regular rule, even if they are similar to irregular inflections. Even irregular words become regular when used in a different sense (e.g., “lowlifes” not “lowlives,” and a batter “flied out” not “flew out”, and “the Julia Childs” not “the Julia Children”).- how to think of this? Clearly we have some sentence rules at higher level. Looks like pluralisation and past-tense also use these rules.[observation: an apparently complex structure could be built from simple rules, as in Reber's artificial grammar; however people seem to be able to produce new things with these regular rules, i.e. seems to be some deeper representation.]last chapter on fuzzy vs aristotilean categories: (i)
+* **Pinker (1999) “Words & Rules”**
+   - observation: most verbs are regular (X-Xed), 164 are irregular (e.g. run-ran). [similar with plurals: most use -s, some are irregular]
+   - Pinker's theory (i) we have a couple of basic rules; & (ii) we learn particular exceptions.
+   - Chomsky & Halle (1968) “The Sound Pattern of English”: every word has a deep sound (not same as root sound), and a set of rules to transform, which predicts all these things (& they find clever rules which can substantially reduce complexity). However Pinker notes that these observations could reflect etymological similarity, not actual rules used in processing.
+   - Rumelhart & McLelland (1986) - neural network / perceptron model is able to predict the past tense for many verbs based on associations. Pinker showed that it fails in many ways - e.g., some homophones have different past tenses (lie & lay)
+   - again, the regularities may be etymological but not functional.
+   - basic evidence: new words get inflected using the regular rule, even if they are similar to irregular inflections. Even irregular words become regular when used in a different sense (e.g., “lowlifes” not “lowlives,” and a batter “flied out” not “flew out”, and “the Julia Childs” not “the Julia Children”).
+   - How to think of this? Clearly we have some sentence rules at higher level. Looks like pluralisation and past-tense also use these rules. [observation: an apparently complex structure could be built from simple rules, as in Reber's artificial grammar; however people seem to be able to produce new things with these regular rules, i.e. seems to be some deeper representation.]
+   - Final chapter on fuzzy vs aristotilean categories.
 
-* McLelland (2013) “Bayesian Inference, Generative Models, and Probabilistic Computations in Interactive Neural Networks”http://web.stanford.edu/class/psych209a/ReadingsByDate/01_23/BayesianInfGenModsProbCompsNNets.pdf
-
-– Discusses Bayesian nets, where a neural network implements the optimal inference of deep structure. Includes top-down and bottom-up cues. And discusses exact solution & Gibbs sampling.
+- **McLelland (2013) “Bayesian Inference, Generative Models, and Probabilistic Computations in Interactive Neural Networks”**
+   – Discusses Bayesian nets, where a neural network implements the optimal inference of deep structure. Includes top-down and bottom-up cues. And discusses exact solution & Gibbs sampling.
 
 # LEARNING (passive learning)
 
@@ -662,22 +1107,15 @@ Two separate issues: (i) can you learn without awareness of the stimuli; (ii) ca
 
 # Tacit Knowledge / Knowledge / Implicit Learning / subconscious knowledge / intuition / procedural learning
 
-[Note: Arthur Reber is father, Paul Reber is son, both work on implicit learning / knowledge] Reber's arguments in the 70s were most famous for people learning relationships without being able to explain; but subsequent scepticism.Common definition is “people know it, but don't know they know it”. Which is not what happens in my two-agent model.
+[Note: Arthur Reber is father, Paul Reber is son, both work on implicit learning / knowledge] Reber's arguments in the 70s were most famous for people learning relationships without being able to explain; but subsequent scepticism. Common definition is “people know it, but don't know they know it”. That is distinct from what happens in my two-agent model: people do know they know it, but don't have access to the knowledge.
 
-## Everyday examples
-1. linguists know grammar better than us
-2. recognising picture of cousin, can't draw it, recognise melody;
-3. we find it difficult to evaluate generalisations (e.g., “i before e except after c”), but we can immediately recognise exceptions (“seize”). http://oxforddictionaries.com/us/words/is-there-an-eight-letter-word-with-five-vowels-in-a-row , and similar links there. - five vowels in a row: "queueing"- “ultrarevolutionaries” contains every vowel twice- “rhythm” has no vowels- all the vowels in order: "abstemious" and "facetious" - all the vowels: "miscellaneous" (two “e”s) and "uncopyrightable" - there are no words that end with “-gry” apart from “hungry” and “angry” / More word facts here: http://jeff560.tripod.com/words1.html-
-4. identikit picture of a criminal: when we get to choose face elements, we are very bad, but we are still good at recognizing (mentioned in Polanyi's “tacit knowledge & philosophical problems”).
-5. Instant judgment: car dealer, or house appraiser. (Q: does performance changes when elements jumbled?)
-6. Reddit: “My brain knows how to type without looking at the keyboard yet I can not draw a QWERTY keyboard from memory” https://m.reddit.com/r/Showerthoughts/comments/3zch5t/my_brain_knows_how_to_type_without_looking_at_the/
-7. can change lanes in a car, but can't describe the motions (in fact people get it wrong)
-8. can't draw a bicycle, but recognize a drawing of a bicycle.
-9. Order of adjectives: http://languagelog.ldc.upenn.edu/nll/?p=27890 e.g., “big round house” or “round big house”-
+## Everyday Examples of Unconscious Knowledge
 
-## History
+(see "importance of implicit perferences" for a list of examples of unconscious knowledge)
 
-* General sources on history of unconscious / implicit: Ellenberger (1970) “The Discovery of the Unconscious”, 1000 pages including Mesmer, Janet, Freud, etc.[many of following quotes are from him, I think]
+## History of Unconscious Knowledge
+
+- **Ellenberger (1970) “The Discovery of the Unconscious”**, 1000 pages including Mesmer, Janet, Freud, etc. Many of following quotes are from him, I think.
 
 * **Descartes (1649)** “Descartes in his 1649 The Passions of the Soul (cited by Perry & Laurence, 1984), in which he observed that a frightening or aversive childhood experience may "remain imprinted on his [the child's] brain to the end of his life" without "any memory remaining of it afterwards" (Haldane & Ross, 1967, p. 391). Descartes did not, however, elaborate on the philosophical consequences of this phenomenon.”
 
@@ -697,7 +1135,7 @@ Two separate issues: (i) can you learn without awareness of the stimuli; (ii) ca
 
 * **1845: Dunn**: Schacter: “In 1845, the British physician Robert Dunn described the case of a woman who became amnesic after a near drowning and a long period of unconsciousness. During her amnesic state, the woman learned how to make dresses, even though she apparently did not explicitly remember that she had made any dresses: "She applied herself closely to her new occupation and abandoned altogether the old one. Still she had no recollection from day to day what she had done, and every morning began something new unless her unfinished work was placed before her" (1845, p. 588). Dunn did not discuss the theoretical implications of his observations.“
 
-* book “Philosophy of the Unconscious” (1880s)
+* **Book “Philosophy of the Unconscious” (1880s)**
 
 * **schiller** "
 Subsequently, in The Interpretation of Dreams, Freud cites as a precursor of free association a letter from Schiller, the letter maintaining that, "where there is a creative mind, Reason - so it seems to me - relaxes its watch upon the gates, and the ideas rush in pell-mell".[4]"
@@ -888,8 +1326,8 @@ Subsequently, in The Interpretation of Dreams, Freud cites as a precursor of fre
     * In Penn's reply: “there is overwhelming evidence that many forms of learning are implicit and non-inferential ... the most obvious examples: priming, motor-skill learning, fear conditioning, and implicit category learning.”
     * Evidence:
         1."whether learning can take place in the absence of awareness of the CS-US (or cue- outcome) contingencies is relevant to this debate. The propositional approach assumes that learning involves testing hypotheses and that it results in conscious propositional beliefs. One would, therefore, expect participants who successfully learn the CS-US contingencies to be aware of, and be able to report, those contingencies. By contrast, if learning is automatic, it may take place in the absence of such awareness."
-        2. "the propositional approach suggests that all learning is effortful and so should depend on the availability of sufficient cognitive resources. The link-formation mechanism, because it is automatic (in the sense that it is efficient) should be less dependent on cognitive resources."
-        3. "Third, hypotheses about how events are related to each other can be acquired by verbal instruction and will be influenced by abstract rules and deductive reasoning processes. Therefore, the propositional approach predicts that learning will similarly be affected by these factors. The automatic link-formation mechanism is non-propositional. It cannot, therefore, be affected directly by verbal instruction, rules, or deduction."
+        1. "the propositional approach suggests that all learning is effortful and so should depend on the availability of sufficient cognitive resources. The link-formation mechanism, because it is automatic (in the sense that it is efficient) should be less dependent on cognitive resources."
+        2. "Third, hypotheses about how events are related to each other can be acquired by verbal instruction and will be influenced by abstract rules and deductive reasoning processes. Therefore, the propositional approach predicts that learning will similarly be affected by these factors. The automatic link-formation mechanism is non-propositional. It cannot, therefore, be affected directly by verbal instruction, rules, or deduction."
     * **"instructed extinction"**: "if one first presents tone-shock trials and then verbally instructs the participants that the tone will no longer be followed by the shock (instructed extinction), the skin conductance CR will be dramatically reduced (e.g., Colgan 1970). Thus, verbal instructions can lead to the same effects as the actual experience of a contingency, and can interact with knowledge derived from actual experience.""
 
 * **Newell & Shanks (2014, ) “Unconscious Influences on Decision-Making: A Critical Review”**
@@ -1041,9 +1479,9 @@ Subsequently, in The Interpretation of Dreams, Freud cites as a precursor of fre
 
 * visual perception & painters
 
-– Perdrau & Cavanagh (2013) “Is artists' perception more veridical?”They say no, but discuss about a dozen studies with mixed results. Generally they say it looks more like Gombrich says: it's not that our perception changes, it' just that we learn certain tricks.“However, in all these tasks, artists were as much affected by visual context as novices. We concluded that artists have no special abilities to access early, non-corrected visual representations and that better accuracy in artists' drawings cannot be attributed to the effects of expertise on early visual processes.”
+– **Perdrau & Cavanagh (2013) “Is artists' perception more veridical?”** -- They say no, but discuss about a dozen studies with mixed results. Generally they say it looks more like Gombrich says: it's not that our perception changes, it' just that we learn certain tricks. “However, in all these tasks, artists were as much affected by visual context as novices. We concluded that artists have no special abilities to access early, non-corrected visual representations and that better accuracy in artists' drawings cannot be attributed to the effects of expertise on early visual processes.”
 
-11 JUDGMENT / DECISION-MAKING
+# JUDGMENT / DECISION-MAKING
 
 * Quality of human judgment
 
@@ -1085,7 +1523,7 @@ Subsequently, in The Interpretation of Dreams, Freud cites as a precursor of fre
 
 – Popetchsova & Nomensky (2012, JCR) “When Do Incidental Mood Effects Last? Lay Beliefs versus Actual Effects”Putting subjects in a bad mood made them rate the prettiness of a painting less (and vice versa). When the rating is done at a lag, there is less effect, *unless* you also asked them to rate it at the time. [could be just forgetting]They also test for lay beliefs about context effects: when subjects are reminded about the context, this shifts their evaluations. But reminders cause people to shift their judgments down for both positive & negative contexts.
 
-* Memory
+## Memory
 
 – Loftus (1974) “Reconstruction of Automobile Destruction”You watch a movie & then asked how fast the car was going when it “smashed” or “contacted”. Large effect of word used on judgment of speed.
 
@@ -1095,7 +1533,7 @@ Subsequently, in The Interpretation of Dreams, Freud cites as a precursor of fre
 
 – Aminoff, Schachter & Bar (2008) “The cortical underpinnings of context-based memory distortion”When people incorrectly claim to remember something, it correlated with context, they mention a few different experiments.
 
-* Reinforcement Learning:
+## Reinforcement Learning
 
 – Erev & Roth (1998) “Predicting How People Play Games: Reinforcement Learning in Experimental Games with Unique, Mixed Strategy Equilibria”In data from repeated games, reinforcement learning does better than equilibrium predictions. Fit can be improved if you allow experimentation, forgetting, & fictitious play.
 
@@ -1109,19 +1547,28 @@ Subsequently, in The Interpretation of Dreams, Freud cites as a precursor of fre
 
 – David Redish (podcast): Acquiring automaticity: Says that reinforcement of an action is more driven by repetition than by reward-prediction-error. ... if you choose to do the same thing again, it will get burnt into the automatic system. [acquiring an automatic action is slightly different from reinforcement learning].
 
-* Theory
+## Theory
 
-– Tenenbaum & Griffiths (2001) “The Rational Basis of Representativeness”They define representativeness: data d is representative of hypothesis h to the degree that it increases belief in h, i.e., \frac{P(h|d)}{P(h)}. So, having wings is very representative of being a bird. But not clear what they want to do with this.
+– Tenenbaum & Griffiths (2001) “The Rational Basis of Representativeness”
+   They define representativeness: data d is representative of hypothesis h to the degree that it increases belief in h, i.e., \frac{P(h|d)}{P(h)}. So, having wings is very representative of being a bird. But not clear what they want to do with this.
 
-– Norbert Schwarz (USC)Makes a nice point that many framing/etc. Effects look like Gricean implicature – and that this often can explain anomalies in answers to survey questions. (e.g., different answer if scale is 0 to 10 than if it's -5 to 5).
+– Norbert Schwarz (USC)
+   Makes a nice point that many framing/etc. Effects look like Gricean implicature – and that this often can explain anomalies in answers to survey questions. (e.g., different answer if scale is 0 to 10 than if it's -5 to 5).
 
-* Misattribution / Schwarz: “feelings as information”
+- Misattribution / Schwarz: “feelings as information”
 
 – Dutton & Aron (1974)Approach people on a scary bridge. They had more sexually-aroused responses to sexual stimuli.
 
 – Schwarz & Clore (1981) “Mood, Misattribution, and Judgments of Well-Being: Informative and Directive-Effects of Affective States.”- Judgments of happiness/satisfaction are influenced by irrelevant context conditions- BUT influence disappears if you are given some other reason to think that you're in a bad mood[Schwarz has a lot of followup on this]
 
 – Schwarz (2010, in Handbook of Theories of Soc Psych) “Feelings-as-Information Theory”Survey of his work in which our judgment can be influenced by irrelevant things via the conduit of feelings, & he clearly states that it's rational to listen to your feelings. Classic studies: on sunny days, people judge everything to be better; but if you draw their attention to the weather, then the effect disappears. [Many studies but intricate theories for when it does & doesn't occur].
+
+- **Michel & Peters (2020) "Confirmation Bias without Rhyme or Reason".**
+   - [not very good]
+   - *Confirmation bias in perception:* Discuss Stocker and Simoncelli (2008), "the results were most successfully modeled with a Bayesian observer which essentially resets the probabilty of the unchosen motion category to zero after the choice. ... observers being by making a motion decision ... and then infer the exact direciton of this motion *conditioned* on their original decision."
+   - *Confirmation bias in perceptual confidence:* Zylberberg (2012) "in rating their confidence in dot-motion direction discrimiatnio decisions, observers tend to over-weight evidence supporting the decision that was just made."
+   - *Confirmation bias in non-human animals:* Odegaard (2018): Rhesus monkeys could choose "left", "right" or "not sure". When they're given more evidence, though equally ambiguous, they're less likely to say "not sure". 
+   - "these results suggest the computations underlying both perception and perceptual confidence are influenced by a *positive evidence bias*, i.e. an over-relience on evidence supporting one's decision,"
 
 # DUAL SYSTEMS / TWO SYSTEMS THEORIES
 
@@ -1425,9 +1872,12 @@ we have cold & warm receptors. There are areas of the skin not covered by heat s
 
 # BOOKS
 
-1. Goldstein (2010) “Encylopedia of Perception”http://books.google.se/books?id=Y4TOEN4f5ZMCGOOD! SHOULD GET A COPY FROM LIBRARY
+1. Goldstein (2010) “Encylopedia of Perception”
+   - Have a PDF copy (downloaded from archive.org)
 
-2. Stevens' Handbook of Experimental Psychology (2002)[downloaded]
+2. "The Stevens' Handbook of Experimental Psychology and Cognitive Neuroscience" (2018)
+   - Five volumes
+   - (don't confuse with Blackwell "Handbooks of Experimental Psychology")
 
 3. Goldstein (2005) “Blackwell Handbook of Sensation and Perception”
 
@@ -1437,6 +1887,7 @@ we have cold & warm receptors. There are areas of the skin not covered by heat s
 
 6. Wade (2004) “Perception and Illusion: Historical Perspectives”
 
-7. Wandell, “Useful Numbers in Vision Science”http://www.stanford.edu/group/vista/cgi-bin/wandell/a-brief-organized-list/
+7. Wandell, “Useful Numbers in Vision Science”
+   - http://www.stanford.edu/group/vista/cgi-bin/wandell/a-brief-organized-list/
 
 8. Wandell (????) “Foundations of Vision” [available online]

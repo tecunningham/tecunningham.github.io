@@ -20,13 +20,13 @@ It's an interesting further question to what degree these expectations of an und
 
 **Labov (1973) and Rosch (1978) showed that most categories do not elegantly decompose in the way that bachelor does.** They showed that, between subjects, there is substantial disagreement over the boundaries between categories -- e.g. whether a telephone is furniture, whether a shoe is clothing. However there is remarkable agreement between subjects and within subjects on the ranking of salience within a category (a robin is a more salient bird than an albatross; a chair is more saliently furniture than a cupboard). These rankings remain strong across different means of testing them. 
 
-Another regularity was that objects were not categorised just on their objective features, but also on their use (if it had soup in it it's a bowl, if tea, a cup; a tree stump can be a stool).
+Another regularity was that objects were not categorised just on their objective features, but also on their use: if it had soup in it it's a bowl, if tea, a cup; a tree stump can be a stool.
 
-**There were  different interpretations of what this evidence showed about categories,** but certainly there was agreement that this showed what they are not: binary, and defined by the overlapping of simpler categories.  (To attack the original example: is the pope a bachelor?). 
+**There were  different interpretations of what this evidence showed about categories,** but certainly there was agreement that this showed what they are not: binary, and defined by the overlapping of simpler categories. To return to the original example: is the pope a bachelor? 
 
 **However a new set of problems is created by this method** of defining a category by the propensity to apply a categorical term, or the salience of a member within a category.
 
-1. Armstrong et al. (1983) showed that the cues interpreted as partial membership differently to different members of a category, even where there is no question about degree of membership (e.g., "odd number", "female").
+1. Armstrong et al. (1983) showed that the behaviours which Rosch had interpreted as revealing that there are gradations of category membership applied also to cases where there is really no question about degree of membership, e.g., "odd number", "female".
 2. If you pour the soup from a container and replace it with tea, now it's a bowl containing tea; and vice versa -- showing the subject's own presumption that a category is defined by objective features.
 
 **It seems that the Katz & Fodor idea of a category corresponds to peoples' instincts about what a category *should* be** - that it is precise, objective, and defined by some combination of features. People aspire to having such categories, they try to approximate that idea, and they are embarrassed when their own lapses are exposed.
@@ -41,8 +41,8 @@ and elsewhere, *"I think we are forced to conclude that ... probabilistic models
 
 Against this, Norvig argues that:
  
-1. In fact, a very simple statistical model does predict that "colourless green ideas sleep furiously" <i>is</i> much more likely than "furiously sleep ideas green colourless". (Contra Chomsky)
-2. There are many anomolous case ("it quaked her bowels," though quake is usually intransitive)
+1. In fact, a very simple statistical model does predict that "colourless green ideas sleep furiously" *is* much more likely than "furiously sleep ideas green colourless". (Contra Chomsky)
+2. There are many anomalous case ("it quaked her bowels," though quake is usually intransitive).
 3. A continuous measure of grammaticality is necessary to understand language change.
 4. If you try to fit huge corpus of language use, it's clear that there are few discontinuities - everything is smooth.
 
@@ -58,42 +58,41 @@ A common interpretation of these experiments is that peoples' preferences are se
 
 These theories have a tighter fit to peoples' choice behaviour, as a function of the context. However, again, they generate problems of their own: the factors which seem irrelevant to decision theorists also seem, on reflection, irrelevant to experimental subjects.
 
-And in fact existing behavioural theories are hedged around with qualifications, in essence to say "the deviations from consequentialism only occur when the deviation is not obvious." 
+And in fact existing behavioral theories are hedged around with qualifications, in essence to say "the deviations from consequentialism only occur when the deviation is not obvious." 
 
 For example consider prospect theory: (i) the original theory included a first stage where all dominated options are removed (i.e., options dominated according to consequentialist evaluation); (ii)  second-generation prospect theory added a cumulative probability weighting function, because 1st generation theory predicted that five 1% chances of winning \$10 will be preferred to one 4% chance of winning \$10; (iii) when pairs of choices which, when bracketed separately, would lead to a consequentially dominated option, are bracketed together, the predictions break down.
 
-Consider some other anomalies of choice: (i) people pay $500 more for a car with 99,000 miles than for a car with 100,000 miles; and (ii) people pay more for 10 good baseball cards than for 10 good plus 3 bad baseball cards. You could calibrate a decision theory to predict these patterns, but they would all disappear when the decisions are taken <i>jointly</i>: people know that 1000 miles is not worth $500, and that 3 bad cards are better than nothing; i.e. people <i>aspire to consequentialist evaluations</i>, but their ability for achieving those evaluations is imperfect.
+Consider some other anomalies of choice: (i) people pay $500 more for a car with 99,000 miles than for a car with 100,000 miles; and (ii) people pay more for 10 good baseball cards than for 10 good plus 3 bad baseball cards. You could calibrate a decision theory to predict these patterns, but they would all disappear when the decisions are taken *jointly*: people know that 1000 miles is not worth $500, and that 3 bad cards are better than nothing; i.e. people *aspire to consequentialist evaluations*, but their ability for achieving those evaluations is imperfect.
 
 ## Morality.
 
-A similar pattern in moral philosophy: experiments show that moral judgement and decision-making is influenced not just by the objective features of the situation, but also how it is conceptualised: e.g., will make different decision around allocation of money depending on whether it's described as "giving less" or "taking more."
+A similar pattern in moral philosophy: experiments show that moral judgement and decision-making is influenced not just by the objective features of the situation but also how it is conceptualized: e.g., will make different decision around allocation of money depending on whether it's described as "giving less" or "taking more."
 
-Again some people say that we have established that moral judgement depends on the context.  But there is some tension: people do have an expectation that morality is independent of conceptualisation, and will feel a tension that they try to resolve when you show them how they are influenced.
+Again some people say that we have established that moral judgement depends on the context.  But there is some tension: people do have an expectation that morality is independent of conceptualization, and will feel a tension that they try to resolve when you show them how they are influenced.
 
 ## Aesthetics
 
-Aristotle, Aquinas, Kant & Hegel attempted characterisations of the beautiful & sublime.
+Aristotle, Aquinas, Kant & Hegel attempted characterizations of the beautiful & sublime.
 
-Hume, in "On the Standard of Taste", says that there is no objective standard of taste -- "[t]o seek the real beauty, or real deformity, is as fruitless an inquiry, as to pretend to ascertain the real sweet or real bitter. According to the disposition of the organs, the same object may be both sweet and bitter; and the proverb has justly determined it to be fruitless to dispute concerning tastes."
+Hume, in "On the Standard of Taste", says that there is no objective standard of taste -- *"[t]o seek the real beauty, or real deformity, is as fruitless an inquiry, as to pretend to ascertain the real sweet or real bitter. According to the disposition of the organs, the same object may be both sweet and bitter; and the proverb has justly determined it to be fruitless to dispute concerning tastes."*
 
-But in that essay he goes on to remark on ways in which aesthetic judgment seems like factual judgment: we discount people who claim Ogilby is better than Milton, we learn from experience the principles of quality, some critics discover underlying principles of what is beautiful & what is not, practice & experience improve judgment, & so the judgment of esteemed critics should set the standard of taste, over time there is much agreement over what has quality (everyone likes Homer), & some disagreement can be explained as people misunderstanding the context of an artwork.
+But in that essay he goes on to remark on ways in which aesthetic judgment does seem like factual judgment: we discount people who claim Ogilby is better than Milton, we learn from experience the principles of quality, some critics discover underlying principles of what is beautiful & what is not, practice & experience improve judgment. So in the end he argues the judgment of esteemed critics should set the standard of taste, over time there is much agreement over what has quality (everyone likes Homer), & some disagreement can be explained as people misunderstanding the context of an artwork.
 
  * * *
 
 Put another way my ontological point is this: it seems more useful to either talk about ideal categories, or about the mechanics which does an imperfect implementation of ideal categories, but it's confusing to talk about non-classical categories. (or: it's better to talk about objective rationality and its implementation, than to talk about subjective things in the utility function.)
 
-
 An exemplar is sense perception. There are all sorts of quirks in feelings of heat, light, etc., but we *have* found deep underlying principles that explain & unify all these observations: temperature as motion of molecules; light as waves & particles; sound as vibration; smell as volatile molecules; touch as repellent electrical force).
 
 So the successes we had with sense perception, the same aspiration can be applied to other things (aesthetics, semantics, justice).
-
 
 ---
 
 ## Logic
 
-If you go really cross-eyed, you can see a similar pattern in logic, & Quine's criticism of the possibility of analytic statements. But we are always just grasping at analytic statements - and though words have fluid meanings, it's clear when a statement is intended to be analytic, even though the actual extension isn't quite hammered down yet - *all bachelors are men* is analytic because it's obviously intended as such, despite the question over whether the Pope is a bachelor.
+If you go really cross-eyed, you can see a similar pattern in logic, & Quine's criticism of the possibility of analytic statements. Against Quine: we are always just grasping at analytic statements - and though words have fluid meanings, it's clear when a statement is intended to be analytic, even though the actual extension isn't quite hammered down yet - *all bachelors are men* is analytic because it's obviously intended as such, and it's true even if we're unsure whether the Pope is a bachelor.
 
+[Can interpret Grice in this way: on the surface it looks like the meaning of a word is very complicated and nuanced, because it takes a lot to describe the situations where it's applicable; but actually we use words to indirectly indicate meanings, it's the logic of the situation that maps the simple meaning to the interpretation in this particular case.]
 
  * * *
 
@@ -101,19 +100,19 @@ If you go really cross-eyed, you can see a similar pattern in logic, & Quine's c
 
  - &ldquo;<i>Do I contradict myself? Very well then I contradict myself, (I am large, I contain multitudes.)</i>&rdquo; -- on the contrary, consistency is a property of largeness, inconsistency of smallness.
 
- - Fodor and Katz were themselves reacting against the semantics of Skinner (&ldquo;<i>the basic processes and relations which give verbal behavior its special characteristics are now fairly well understood ... the results [of this experimental work] have been surprisingly free of species restrictions. Recent work has shown that the methods can be extended to human behavior without serious modification</i>&rdquo;), and perhaps Savage felt he was reacting against Freud and Keynes' condescending judgement of human decision-making.
+ - Fodor and Katz were themselves reacting against the semantics of Skinner ("the basic processes and relations which give verbal behavior its special characteristics are now fairly well understood ... the results [of this experimental work] have been surprisingly free of species restrictions. Recent work has shown that the methods can be extended to human behavior without serious modification"), and perhaps Savage felt he was reacting against Freud and Keynes' condescending judgement about human decision-making.
 
- 
- -  Isaiah Berlin: "*If men never disagreed about the ends of life, if our ancestors had remained undisturbed in the Garden of Eden, the studies to which the Chichele Chair of Social and Political Theory is dedicated could scarcely have been conceived...*", he argues that politics should remain agnostic about the ends of life (negative liberty over positive liberty). But another reading is that he sees the expectation of a some true ends of life, beyond our temporal arguments, as fundamentally misplaced.
+-  Isaiah Berlin: "*If men never disagreed about the ends of life, if our ancestors had remained undisturbed in the Garden of Eden, the studies to which the Chichele Chair of Social and Political Theory is dedicated could scarcely have been conceived...*", he argues that politics should remain agnostic about the ends of life (negative liberty over positive liberty). But another reading is that he sees the expectation of a some true ends of life, beyond our temporal arguments, as fundamentally misplaced.
 
- -  The standard interpretation of Hume's phrase &ldquo;<i>reason is, & ought to be, only the slave of the passions</i>&rdquo; is that he's pointing out an error of logic: that it is a common mistake for people to call desires rational or irrational; whereas it is only choices that can properly be called such. However there's another way of putting the disagreement, which makes it more a question of fact than a question of logic: as a disagreement over whether or not certain desires are fundamental or only instrumental. The problem now returns because it is fair (Hume admits) to call an <i>instrumental</i> desire irrational: just when it fails to contribute to the fundamental desire which justifies it. 
+-  The standard interpretation of Hume's phrase &ldquo;<i>reason is, & ought to be, only the slave of the passions</i>&rdquo; is that he's pointing out an error of logic: that it is a common mistake for people to call desires rational or irrational; whereas it is only choices that can properly be called such. However there's another way of putting the disagreement, which makes it more a question of fact than a question of logic: as a disagreement over whether or not certain desires are fundamental or only instrumental. The problem now returns because it is fair (Hume admits) to call an <i>instrumental</i> desire irrational: just when it fails to contribute to the fundamental desire which justifies it. 
+
   So from this new angle you can see it another way: philosophers pre-Hume had tended to suppose that most desires (lust, sympathy, laziness) all descended angel-like from some higher fundamental desire, though it was obviously obscure and arguable exactly what that was, and precisely how the apparent conflicts between lower desires could be resolved. So the difference with Hume was he thought that a lot of these desires just existed independently and in competition, without being fundamentally connected, i.e., they are themselves fundamental desires, not instrumental, and so not capable of being called rational or otherwise. 
   For a very long time philosophers had been searching for the unifying principle among the diverse desires. By the time Hume arrived (1711) it was getting to look a bit silly, & Hume announced it was time to call off the search.
  (Darwin later said he found it.)
 
- - There's one important qualification: sometimes people can become estranged from themselves, and consider their own minds as part of the objective environment, & so objectivism becomes subjectivism. So: I know I have a weakness for coffee, so I avoid the coffee shop; or I know my guilt will be worse if I'm a witness, so I avert my eyes. These things make the objective/subjective distinction more sticky, but they are only important for the social science of degenerates: most people feel, most of the time, that they can make an exercise of willpower to consider things objectively.
+- There's one important qualification: sometimes people can become estranged from themselves, and consider their own minds as part of the objective environment, & so objectivism becomes subjectivism. So: I know I have a weakness for coffee, so I avoid the coffee shop; or I know my guilt will be worse if I'm a witness, so I avert my eyes. These things make the objective/subjective distinction more sticky, but they are only important for the social science of degenerates: most people feel, most of the time, that they can make an exercise of willpower to consider things objectively.
 
-<hr />
+---
 
  Labov (1973)
 
@@ -179,7 +178,3 @@ On the other hand in each case there are a few killer examples, where it seems t
 2. **In the last chapter he says that this distinction applies more generally:** (1) we have fuzzy categories (family resemblance, prototype, nearest-neighbour) which are well-adapted for the world, because it tends to cluster itself into chunks, e.g. categorizing animals, and this is implemented in the rear brain; (2) we have logical categories which are important for reasoning: examples: (i) noticing that cats & cows have children, & so reasoning that dogs have children (because they're also animals); (ii) deciding to return to a place next year at the same time, to eat the food that's ripe now; (iii) reasoning about family relations: your mother is your grandmother's daughter. (and this is implemented in the cortex, and this is special to our species).
    He says that the pattern-learning literature finds that 2-type models work best (i.e., either learn a rule, or a family association).
  [a nice observation that we make many gradual relationships crisp with social ceremonies: when you become a man; when you get married; when you become leader of the tribe, there's a ceremony]
-
-
-
-

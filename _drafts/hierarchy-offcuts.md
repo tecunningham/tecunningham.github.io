@@ -415,6 +415,7 @@ SlateStarCodex: "This can go one of two directions: either it eventually fully r
 
 # Notes
 
+[Note: Marschack and Radner, "The Economic Theory of Teams", studies organizations where different parts have the same preferences, but different infromation.]
 
 \bibliographystyle{plainnat}
 

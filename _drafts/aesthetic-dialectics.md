@@ -52,10 +52,14 @@ Sometimes you have all three stages going simultaneously, and people argue over 
 
 Then on the other side the radicals say that to only like something if it's made of the original materials is the real pretentiousness -- it's like reserving your judgment of a painting until you see the signature. If something looks good then it looks good, whatever it's made of.
 
-(More examples: plastic flowers that nobody mistakes for real flowers; serifs on the ends of our letters because masons in Roman times would tap the ends of their letters with a chisel to keep the stone from crumbling; collars on shirts; lapels and cuff buttons on jackets; ties and bowties; the feet on a bath like the paws on a lion; Acanthus ornament on buildings, and on wallpaper).
+(More examples: plastic flowers that nobody mistakes for real flowers; serifs on the ends of our letters because masons in Roman times would tap the ends of their letters with a chisel to keep the stone from crumbling; collars on shirts; lapels and cuff buttons on jackets; ties and bowties; the feet on a bath like the paws on a lion; Acanthus ornament on buildings and on wallpaper).
 
 ---
 
 Bruno Munari, from "Design as Art" (1971):
 
 > a photo-frame like a pocket watch, scissors like a flamingo, a salt-cellar like a wheelbarrow with a spoon like a shovel. A dish for fish shaped like a fish, a dish for pig’s foot shaped like a pig’s foot, a tureen for tomato soup shaped like a tomato. A hammer like a fish. a fish like a hammer, a cheese-dish in the form of a sitting hen, a thermo flask for ice, shaped like a football [...] these are certainly not objects produced by designers, for designers do not have such raging imaginations. They confine themselves to making candlesticks that look like candlesticks.
+
+---
+
+<!-- Related: aesthetic argument for authenticity. / Recording music and trying to be as authentic as possible to some ideal; but then other people recording some inauthentic music. -->

@@ -16,12 +16,12 @@ There are a lot of cute thought experiments where the apparent value of somethin
 
 Many people have felt that there's a common principle at work, in particular: that the sensitivity to an attribute (price, probability, square feet) depends on the set of quantities that you're considering. But different people have proposed different principles:
 
-* **Range**: sensitivity is decreasing in the range of values observed (i.e. you're less sensitive as the difference between the maximum and minimum increases) -- Volkmann (1951), Mellers & Cooke (1994), Bushong Schwarzstein & Rabin (2016)
-* **Negative Range**: sensitivity is *increasing* in the range of values observed, the opposite of the above -- Koszegi & Szeidl (2003)
-* **Proportional Range**: sensitivity is increasing in the *proportional* range of values (the range divided by the average) -- Bordalo Gennaioli & Shleifer (2013)
-* **Frequency**: sensitivity at any point is increasing in the density of values in that neighborhood (Parducci (1965), Stewart Chater & Brown (2010))
-* **Magnitude**: sensitivity is decreasing in the magnitude of the values (e.g. the average) -- my own paper: Cunningham (2015).
-- (There are lots of other variants, most notably ones with a reference point, e.g. **Loss Aversion** says you're more sensitive *below* a reference point, and **Diminishing Sensitivity** says you're more sensitive in the *neighborhood* of a reference point (both are in Tversky & Kahneman 1991)).
+* **Range**: sensitivity is decreasing in the range of values observed, i.e. you're less sensitive as the difference between the maximum and minimum increases: Volkmann (1951), Mellers & Cooke (1994), Bushong Schwarzstein & Rabin (2016).
+* **Negative Range**: sensitivity is *increasing* in the range of values observed, the exact opposite of the above: Koszegi & Szeidl (2003).
+* **Proportional Range**: sensitivity is increasing in the *proportional* range of values (the range divided by the average): Bordalo Gennaioli & Shleifer (2013).
+* **Frequency**: sensitivity at any point is increasing in the density of values in that neighborhood: Parducci (1965), Stewart Chater & Brown (2010).
+* **Magnitude**: sensitivity is decreasing in the magnitude of the values (e.g. the average): my own paper: Cunningham (2015).
+- There are lots of other variants, most notably ones with a reference point, e.g. **Loss Aversion** says you're more sensitive *below* a reference point, and **Diminishing Sensitivity** says you're more sensitive in the *neighborhood* of a reference point (both are in Tversky & Kahneman 1991)..
 
 
 All of these models can be thought about as indifference curves that change slope as you change the elements in the choice set, e.g. below adding option C makes the indifference curves rotate clockwise, and so makes you prefer B to A:
