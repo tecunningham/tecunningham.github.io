@@ -3,6 +3,8 @@ title: We Occupy a Giant Room but we Live in a Corner of It
 layout: post
 ---
 
+(See also `economics|synthetic.txt`, )
+
 We have cut away all sorts of ropes that constrained our ancestors, but our motions still follow the same patterns marked out by those constraints.
 
 We occupy a giant room but we choose to live in a corner of it. <!-- Our movements are very similar to those our our ancestors, even though the ropes that had been constraining them have all been cut. -->
@@ -353,10 +355,8 @@ http://scienceblogs.com/oscillator/2010/07/synthetic_aesthetics.php#more
 
 # 2020-10-12 Monday ---------------- JBS Haldane, Daedalus
 
-"No less disgusting a priori is the process of corruption which yields our wine and beer. But in actual fact the process of milking and of the making and drinking of beer appear to us profoundly natural; they have even tended to develop a ritual of their own whose infraction nowadays has a certain air of impropriety. There is something slightly disgusting in the idea of milking a cow electrically or drinking beer out of tea-cups. And all this of course applies much more strongly to the sexual act.
+> "No less disgusting a priori is the process of corruption which yields our wine and beer. But in actual fact the process of milking and of the making and drinking of beer appear to us profoundly natural; they have even tended to develop a ritual of their own whose infraction nowadays has a certain air of impropriety. There is something slightly disgusting in the idea of milking a cow electrically or drinking beer out of tea-cups. And all this of course applies much more strongly to the sexual act.
 
-"The biological invention then tends to begin as a perversion and end as a ritual supported by unquestioned beliefs and prejudices. Even now surgical cleanliness is developing its rites and its dogmas, which, it may be remarked, are accepted most religiously by women."
+> "The biological invention then tends to begin as a perversion and end as a ritual supported by unquestioned beliefs and prejudices. Even now surgical cleanliness is developing its rites and its dogmas, which, it may be remarked, are accepted most religiously by women."
 
-" man armed with science is like a baby armed with a box of matches.
-
-""
+> "man armed with science is like a baby armed with a box of matches.

@@ -1385,7 +1385,7 @@ A model of hierarchical integration.
 -   Suppose there are two systems (1 and 2), that they have private
     access to information $\alpha$ and $\beta$, respectively, and that
     they form inferences about $v$ in a sequential fashion:
-    $$\xymatrix{%
+    $$\xymatrix{
          \makeatletter
          \xydef@\xymatrixrowsep@{12px}
          \makeatother
