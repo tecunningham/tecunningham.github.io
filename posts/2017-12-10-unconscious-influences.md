@@ -3,14 +3,14 @@ title: On Unconscious Influences (Part 1)
 layout: post
 output: pdf_document
 date: "2017-12-08"
-header-includes:
-    - \usepackage[color,matrix,arrow,curve]{xy}
-    - \usepackage{color}
-    - \usepackage{graphicx}
-    - \usepackage{amsmath}
-    - \newcommand{\rsucc}[1]{\rotatebox[origin=c]{#1}{$\succ$}}
-    - \newcommand{\rsucceq}[1]{\rotatebox[origin=c]{#1}{$\succeq$}}
-    - \newcommand{\rsuccsim}[1]{\rotatebox[origin=c]{#1}{$\succsim$}}
+# header-includes:
+#     - \usepackage[color,matrix,arrow,curve]{xy}
+#     - \usepackage{color}
+#     - \usepackage{graphicx}
+#     - \usepackage{amsmath}
+#     - \newcommand{\rsucc}[1]{\rotatebox[origin=c]{#1}{$\succ$}}
+#     - \newcommand{\rsucceq}[1]{\rotatebox[origin=c]{#1}{$\succeq$}}
+#     - \newcommand{\rsuccsim}[1]{\rotatebox[origin=c]{#1}{$\succsim$}}
 ---
 
 <!--
