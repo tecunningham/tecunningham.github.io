@@ -3,6 +3,7 @@ layout: post
 title: Relative Thinking
 header-includes:
     - \usepackage{xypic}
+date: 2016-04-30
 ---
 
 ![peaches](https://www.dropbox.com/s/35e22lkdea8mcwh/peaches-wall-painting-ercolano.jpg?raw=1)

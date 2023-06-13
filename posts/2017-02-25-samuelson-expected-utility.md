@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Samuelson & Expected Utility
+date: 2017-02-25
 ---
 
 <script type="text/javascript" charset="utf-8" 

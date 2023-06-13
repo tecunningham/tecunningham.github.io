@@ -2,7 +2,7 @@
 title: On Unconscious Influences (Part 1)
 layout: post
 output: pdf_document
-date: 2017-12-08
+date: "2017-12-08"
 header-includes:
     - \usepackage[color,matrix,arrow,curve]{xy}
     - \usepackage{color}

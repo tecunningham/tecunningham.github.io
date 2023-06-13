@@ -2,6 +2,7 @@
 layout: post
 title: Repulsion from the Prior
 geometry: margin=1in
+date: "2017-05-26"
 ---
 
 **the shortest version:** *contrary to recent reports, I do not think it's possible for you to be a Bayesian and consistently exaggerate things.*

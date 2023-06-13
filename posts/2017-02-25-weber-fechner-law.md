@@ -2,6 +2,7 @@
 layout: post
 title: Weber's Law Doesn't Imply Concave Representations or Concave Judgments
 usemathjax: true # not sure if this necessary
+date: 2017-02-25
 ---
 
 ![runningman](https://www.dropbox.com/s/24cumup0i7uiksn/runningman.jpg?raw=1)

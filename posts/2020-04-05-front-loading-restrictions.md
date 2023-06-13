@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Optimal Coronavirus Policy Should be Front-Loaded
+date: 2020-04-05
 ---
 
 **Q: How should you sequence policies over time?** E.g. suppose you want to manage the epidemic until a vaccine arrives and you have policies (lockdowns, distancing, masks) each of which is associated with a certain effect on the growth-rate of cases, but each also has some fixed social cost per day. How should you apply the policies over time?

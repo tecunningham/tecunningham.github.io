@@ -1,6 +1,7 @@
 ---
 layout: post
 title: The Repeated Failure of Laws of Behaviour
+date: 2017-04-15
 ---
 
 ![krazy kat](https://www.dropbox.com/s/g5zrkpncc4mff29/krazy.jpg?raw=1)

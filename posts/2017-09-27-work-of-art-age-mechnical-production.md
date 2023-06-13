@@ -2,6 +2,7 @@
 layout: post
 title: The Work of Art in the Age of Mechanical Production
 geometry: margin=1in
+date: "2017-09-27"
 ---
 
 ## AKA machine learning, aesthetics, & the unconscious
