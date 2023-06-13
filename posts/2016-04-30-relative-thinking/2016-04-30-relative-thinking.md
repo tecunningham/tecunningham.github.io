@@ -1,8 +1,6 @@
 ---
 layout: post
 title: Relative Thinking
-header-includes:
-    - \usepackage{xypic}
 date: 2016-04-30
 format:
    html:
