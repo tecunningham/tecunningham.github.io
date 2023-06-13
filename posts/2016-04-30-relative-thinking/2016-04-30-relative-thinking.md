@@ -4,6 +4,23 @@ title: Relative Thinking
 header-includes:
     - \usepackage{xypic}
 date: 2016-04-30
+format:
+   html:
+      html-math-method:
+         method: mathjax
+         url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js"
+         #     ^ this forces SVG instead of CHTML, otherwise xypic renders weird
+      include-in-header:
+         - text: |
+            <script>window.MathJax = {
+               loader: { load: ["https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/xypic.js"]},
+               tex: {packages: {'[+]': ['xypic','bm']},
+                     macros: {  bm: ["\\boldsymbol{#1}", 1],
+                                ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+                                utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3] }
+               }
+            };
+            </script>
 ---
 
 ![peaches](https://www.dropbox.com/s/35e22lkdea8mcwh/peaches-wall-painting-ercolano.jpg?raw=1)
