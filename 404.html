@@ -1,0 +1,72 @@
+---
+permalink: /404.html
+layout: default
+---
+
+<style type="text/css" media="screen">
+   .container {
+      margin: 10px auto;
+      max-width: 600px;
+      text-align: center;
+   }
+
+   h1 {
+      margin: 30px 0;
+      font-size: 4em;
+      line-height: 1;
+      letter-spacing: -1px;
+   }
+</style>
+
+<div class="container">
+   <h1>404</h1>
+
+   <p><strong>Page not found :(</strong></p>
+   <p>The requested page could not be found.</p>
+</div>
+
+<script>
+   var htaccess = `
+{% include_absolute '.htaccess' %}
+`;
+
+
+   function extract_htaccess_redirects(htaccess) {
+      const regex = /RewriteRule\s*([^\s]*)\s*([^\s]*)/gm;
+
+      var redirects = {};
+      var lines = htaccess.split(/\r?\n/);
+      for (line of lines) {
+         m = regex.exec(line);
+         if (m) {
+            redirects[m[1]] = m[2];
+         }
+      }
+
+      return redirects;
+   }
+
+   var redirects = extract_htaccess_redirects(htaccess);
+
+   function findRedirect(redirect) {
+      // redirects[redirect];
+      var found = Object.entries(redirects).find(v => redirect.match(new RegExp(v[0])) ? v[1] : null);
+      return (found) ? found[1] : null;
+   }
+
+   // Avoid infinite redirects
+   if (!document.location.hash.includes("redirected")) {
+      var page = document.location.pathname.replace("/", "");
+      var redirect = findRedirect(page);
+      while (redirect && (found = findRedirect(redirect))) redirect = found;
+      if (redirect) {
+         var fullTo = document.location.origin + "" + redirect + "#redirected";
+         document.location.href = fullTo;
+      } else {
+         console.log("Not found", page, redirect, { redirects, htaccess });
+      }
+   } else {
+      console.log("Already redirected, not good.")
+   }
+
+</script>
