@@ -28,6 +28,10 @@ engine: knitr
 ![](images/2023-06-14-13-38-42.png)
 :::
 
+<!-- TO ADD:
+   - Arms race for quality in google search (article below), and in FB public content.
+-->
+
 #           Introduction
 
 <!-- 
@@ -64,19 +68,19 @@ I also have a short appendices on the history of forged documents, and on releva
 
 #           Predictions
 
-##       Background: computers have become much better at analyzing and synthesizing content
+**Background: computers have become much better at analyzing and synthesizing content.**
 
 Over the last 50 years there have been steady improvements in computer interpretation of text and images, and especially since around 2012 (the introduction of deep neural nets), now often surpassing the performance of an average human. Since around 2018 computers have also become very good at *synthesizing* content, e.g. creating text, images, or video, to match some description.
 
 ![](images/2023-06-16-05-55-29.png)^[Source: [Our World in Data](https://ourworldindata.org/brief-history-of-AI).]
 
-##             The prevalence of policy-violating content on platforms will decline
+**(1) The prevalence of policy-violating content on platforms will decline.**
 
 AI models will keep getting better at detecting nudity, obscenity, hate speech, slur words, incitement, illegal acts, violence. The same AI models will also allow producers to obfuscate violating content but as the AI models become arbitrarily close to human judgment then fewer and fewer exceptions will slip through, i.e. fewer items which a human recognizes as violating but the computer does not. Below I give a more formal argument for this ("Venn diagram model"). This prediction applies just to "internal" categories of content where the ground truth is human interpretation without reference to outside information, not to "external" categories such as deepfakes or misinformation, discussed below.
 
 This prediction is consistent with recent trends. For example Meta reports that the prevalence of nudity, bullying, hate speech, and graphic content have each declined over 2017-2022 by a factor of between 2 and 5, and that the share of actioned content that is detected by an ML model ("proactive rate") is approaching 100% for most categories.[^metaDecline]
 
-![](http://localhost:3471/posts/2023-01-31-social-media-suspensions-data_files/figure-html/unnamed-chunk-28-1.png)
+![](./2023-01-31-social-media-suspensions-data_files/figure-html/unnamed-chunk-28-1.png)
 
 This prediction also applies to censorship. If an authoritarian governments uses crude pattern-matching to detect anti-government language then that can be circumvented by using indirect language. Better AI will allow governments to classify every post with reliability as high as if they had a human read each one of them, and so indirect language or obfuscation will no longer be an effective workaround.
 
@@ -88,12 +92,11 @@ Whether prevalence will go precisely to zero depends on the definition of preval
 
 <!-- Suppose our "ground truth" definition used for prevalence calculations was when 2/3 of experienced raters mark content as violating. In this case even filtering with a theoretically perfect AI model would not drive prevalence to zero (a theoretically perfect AI model would predict the ground truth but still be stochastic because of between-rater and within-rater variation). -->
 
-
-##          (2) Context-specific violations will increase
+**Context-specific violations will increase.**
 
 Prevalence of policy-violating content seems likely to decline. However we should expect substitution towards content that violates the policy's spirit without violating the letter.
 
-I will use the phrase "context-specific violations" to refer to posts that are interpreted by most of their viewers to have a significance that is violating, but interpreted by professional raters (who are not given any information about context) as having a non-violating significance. Some examples:
+I will use the phrase "context-specific violations" to refer to posts that are interpreted by most of their viewers to have a significance that is violating, but interpreted by professional raters (who are not given any information about context) as having a non-violating significance. Some examples:[^selective]
 
 - Saying "globalist" when your audience understands it to mean "jewish"
 - Saying the opposite of what is meant, e.g. a bigot saying excessively positive things about a hated ethnic group, or a pro-anorexia poster making sarcastic anti-anorexic statements.
@@ -103,41 +106,33 @@ I will use the phrase "context-specific violations" to refer to posts that are i
 
 As AI improves the ability to detect violations it seems likely that there will be at least some substitution towards context-specific violations.
 
-It is unclear to me how much appetite platforms will have for adding context to their evaluation process so that they can also identify context-specific violations. It is not technically difficult: raters could be given more detail about the context of the post and the prior history of the post's author, and raters could be assigned to posts depending on their experience with the argot of that post's audience. Likewise AI models could be trained to include details about the context.
+It is possible that platforms will try to catch more context-specific violations: raters could be given more detail about the context and the prior history of the post's author, and raters could be assigned to posts depending on their experience with the argot of the community. Likewise AI models could be trained to include rich representation of the context.^[Platforms already have some policies that include context, e.g. Facebook's ["Bullying and Harassment policy"](https://transparency.fb.com/policies/community-standards/bullying-harassment/)  bans "repeatedly contacting someone in a manner that is unwanted or sexually harassing."] An additional advantage of adding context is that it can identify and exempt posts that violate the letter but not the spirit of the policy.
 
-If platforms continue to judge violations in a context-free way then we might expect an increase in context-specific violations. It is hard to anticipate whether platforms will wish to extend their definition to include context-specific violations. Authoritarian governments are willing to punish speech based on the effect (pragmatics) rather than just the semantics, e.g. in 2022 Hong Kong police arrested protestors for holding blank pieces of paper. However platforms might wish to .
+However there are reasons why platforms may be reluctant to use context in determining violations: it is more complex, and can lead to awkward PR where the platform is shown to be censoring apparently harmless words and images. Additionally platforms may care more about being seen to restrict harmful content than about the actual harm prevented.
 
-where violation is judged by human evaluators.
-
-The prior discussion applied to the typical interpretation of policies as "context free", meaning that the violation is judged without reference to the audience or prior history of the author.
-
-We can distinguish between "context-free" and "context-specific" violations, e.g. whether a post would be interpreted as denigrating an ethnic group by any observer, or only by an observer who is member of a subcommunity or .
-
-Platforms typically measure policy violations in a "context-free" way: they send a post to a human who makes a determination without information about who is seeing the post, the context in which the post appears, or the author of the post.
-
-Thus it is possible for a post to be evaluated as non-violating but *in context* to be interpreted as having a policy-violating significance. For example using double entendres, substituting "globalist" for "jewish", saying the opposite of what is meant (e.g. saying excessively positive things about a hated ethnic group, or a pro-anorexia community speaking as if they were anti-anorexia), using euphemisms for illegal acts, using emojis of eggplants and peaches, using photos without nudity but which can be read as pornographic.[^selective] 
-
-If platforms continue to judge violations in a context-free way then we might expect an increase in context-specific violations. It is hard to anticipate whether platforms will wish to extend their definition to include context-specific violations. Authoritarian governments are willing to punish speech based on the effect (pragmatics) rather than just the semantics, e.g. in 2022 Hong Kong police arrested protestors for holding blank pieces of paper. However platforms might wish to .
+In contrast government censorship is unlikely to be constrained by context-specific violations: once a censor discovers that a term has an anti-government significance in a certain context then they are likely to start censoring that term. E.g. China seems to suppress online mentions of [Winnie the Pooh](https://www.bbc.com/news/blogs-china-blog-40627855), thinking that they would be used to belittle Xi Jinping, and in 2022 Hong Kong police arrested protestors for holding blank pieces of paper.[^HongKong]
 
    <!-- Old Soviet joke: A man hands out leaflets on Red Square, and the KGB arrest him. But when they get him to the station, they find that the leaflets are all blank. And he says "Well, everyone knows what the problem is, so why bother writing it down?" -->
 
 [^HongKong]: https://www.axios.com/2022/11/28/china-protests-blank-paper-covid 
 
-[^selective]: A related phenomena is people using selective truths to give a false impression. E.g. it is common for anti-vaccination groups to avoid posting false claims about vaccines and instead selectively post negative claims among the pool of true claims. It is common for people with a bias against some ethnic group to avoid posting false claims but selectively post negative claims. Because the pool of true claims is enormous it is easy to give a false impression without any post being false.
+[^selective]: A related phenomena is people using selective truths to give an impression that is false. E.g. it is common for anti-vaccination groups to refrain from posting provably false claims and instead post only those true claims which reflect badly on vaccines. People with a bias against some ethnic group likewise often refrain from posting provably false claims but post only those true claims that reflect badly on the hated group. Because the pool of true claims is enormous it is easy to collect a large set of true claims that collectively give a false impression.
 
-##          (3) The prevalence of database-matched violating content on platforms will approach zero
+**(3) The prevalence of database-matched violating content on platforms will approach zero.**
 
-Many platforms try to detect content that matches content in a database, e.g. databases of illegal sexual media (CSAM), IP-protected content (Content ID), or terrorist recruitment content (GIFCT). Content producers often obfuscate their content to confuse the matching algorithms, e.g. by adding noise. Improvements to AI will help both parties but it seems likely to help platforms relatively more: as AI recognition approaches a human level it will be impossible to upload a recognizable variant of a known piece of violating content without the platform automatically labelling it as such.
+Many platforms try to detect content that matches content in a database, e.g. databases of illegal sexual media (CSAM), IP-protected content (Content ID), or terrorist recruitment content (GIFCT). People who upload this content thus will try to obfuscate their content to confuse the matching algorithms, e.g. by adding noise. 
 
-##          (4) Platforms will not be able to identify bots from their behavior
+Improvements to AI will help both parties but it seems likely that the AI will help platforms relatively more. As I argue in the model below: as AI recognition approaches a human level it will be difficult to upload a recognizable variant of a known piece of violating content without the platform automatically labelling it as such.
+
+**(4) Platforms will not be able to identify bots from their behavior.**
 
 Most online platforms struggle with automated users (bots) who are disruptive in a variety of ways. One way of protecting against bots is with behavioral tests, e.g. a CAPTCHA test asking users an image-recognition task[^captcha], or by using on-platform behavior to detect whether a user is human. However improvements in AI mean that computers can now recognize most images as well as humans, and can learn to imitate human-style behavior patterns, so it seems likely these behavioral tests will become ineffective against sophisticated actors.
 
-   This does not imply that the prevalence of bots will increase. All platforms need some defense against bots so they will have to rely relatively more on other forms of authentication: monetary payment, offline identity credentials (government ID, credit card number), hard-to-fake metadata (e.g. unique IP address, device ID), or 3rd-party authentication (e.g. from Google, Apple).^[The 3rd-party identity providers will themselves have to rely on some other ground truth when accepting signups.] Thus the barriers to signing up for a service (and especially posting on it) will become higher.
+This does not imply that the prevalence of bots will increase. All platforms need some defense against bots so they will have to rely relatively more on other forms of authentication: monetary payment, offline identity credentials (government ID, credit card number), hard-to-fake metadata (e.g. unique IP address, device ID), or 3rd-party authentication (e.g. from Google, Apple).^[The 3rd-party identity providers will themselves have to rely on some other ground truth when accepting signups.] Thus the barriers to signing up for a service (and especially posting on it) will become higher.
 
-   [^captcha]: CAPTCHA stands for Completely Automated Public Turing test to tell Computers and Humans Apart.
+[^captcha]: CAPTCHA stands for Completely Automated Public Turing test to tell Computers and Humans Apart.
 
-##       (5) Platforms will find it hard to discriminate between real and fake media.
+**(5) Platforms will find it hard to discriminate between real and fake media.**
 
 There are a number of properties where the ground truth depends on the relationship between the content and the real world:
 
@@ -151,7 +146,7 @@ There are a number of properties where the ground truth depends on the relations
 
    [^ranking]: See discussion in my note on [how platforms rank](http://tecunningham.github.io/2023-04-28-ranking-by-engagement.html). 
    
-##       (6) Fake media (deepfakes) will not have a substantial influence on politics.
+**(6) Fake media (deepfakes) will not have a substantial influence on politics.**
 
 As it becomes cheaper to manipulate and synthesize media then people are likely to become more skeptical and rely relatively more on the *provenance* of information. Thus although synthetic media will likely circulate I do not think it will have a substantial influence on beliefs in equilibrium.
 
@@ -169,7 +164,7 @@ As it becomes cheaper to manipulate and synthesize media then people are likely 
 
    <!-- Circulation of fake information: we have already adapted (1) skepticism ("don't believe what u read on the internet"); (2) platforms get burned by it so try to reduce distribution. Not sure whether adding audio/video would add to this. -->
 
-##       (7) Communication will migrate towards large closed platforms
+**(7) Communication will migrate towards large closed platforms.**
 
 It seems likely that smaller platforms who cannot afford sophisticated defences will become overrun with AI-created bots, spam, obfuscated violating content, and fake media. This would imply that consumers will tend to migrate to larger closed platforms with more effective defences, and which have more restriction on participation. This continues a general movement over the last 20 years of communication moving from small open platforms (independent email, small forums, mailing lists, independent websites) to large closed platforms (large email providers, large social media platforms).
 
@@ -181,14 +176,14 @@ It seems likely that smaller platforms who cannot afford sophisticated defences 
 
    I don't expect that adoption of cryptographic signing will markedly increase, in short because (...) -->
 
-##          (8) Things will get weird
+**(8) Things will get weird.**
 
 Much of our common-sense understanding of media will be violated when we routinely use AI models to manipulate and synthesize artefacts. Some examples:
 
-   - **Entertainment content may become overwhelmingly synthetic.** A classifier that can detect whether a photo is pretty can also generate a synthetic photo that is pretty, and a classifier that can detect whether a joke is funny should also be able to generate funny jokes.^[I think language models haven't yet been very good at jokes because they generate one word at a time (autoregressive), while jokes typically have a logical structure such that the setup is probable given the punchline, but not the other way around. When we get language models which generate text using different statistical algorithms (e.g. diffusion instead of autoregressive generation) then it seems likely they'll be able to create good jokes.] On average people spend around 3 hours per day watching entertainment (TV, YouTube, TikTok, Instagram). It seems likely that trained models will be able to synthesize content that is highly engaging though it's hard to anticipate what it will look like.
+ - **Entertainment content may become overwhelmingly synthetic.** A classifier that can detect whether a photo is pretty can also generate a synthetic photo that is pretty, and a classifier that can detect whether a joke is funny should also be able to generate funny jokes.^[I think language models haven't yet been very good at jokes because they generate one word at a time (autoregressive), while jokes typically have a logical structure such that the setup is probable given the punchline, but not the other way around. When we get language models which generate text using different statistical algorithms (e.g. diffusion instead of autoregressive generation) then it seems likely they'll be able to create good jokes.] On average people spend around 3 hours per day watching entertainment (TV, YouTube, TikTok, Instagram). It seems likely that trained models will be able to synthesize content that is highly engaging though it's hard to anticipate what it will look like.
 
-   - **Producers will synthesize content to sit on the *edge* of a category.** If platforms take action whenever content passes some threshold then adversarial actors will generate or perturb content such that it sits right below the threshold. If a platform removes a photo whenever more than 50% of raters would say it depicts nudity then producers would upload photos which 49% of raters would say depicts nudity. People would upload movies which *almost* look like an existing IP-protected movie, and students might submit essays that are close to existing sources but don't quite trigger the plagiarism detector.
-   
+ - **Producers will synthesize content to sit on the *edge* of a category.** If platforms take action whenever content passes some threshold then adversarial actors will generate or perturb content such that it sits right below the threshold. If a platform removes a photo whenever more than 50% of raters would say it depicts nudity then producers would upload photos which 49% of raters would say depicts nudity. People would upload movies which *almost* look like an existing IP-protected movie, and students might submit essays that are close to existing sources but don't quite trigger the plagiarism detector.
+ 
    <!-- - **Producers will produce ambiguous / bistable  safcontent.** -->
    <!-- - Will synthesize CSAM. -->
 
@@ -199,37 +194,90 @@ Much of our common-sense understanding of media will be violated when we routine
 -->
 
 
-#           Internal vs External Properties [UNFINISHED]
+
+#           Appendix: Historical Observations on Forgeries
+
+**Forgeries usually purport to be leaks.** The typical influential forged document purports to be a private communication that reveals a lie or hidden motive.
+
+**Influential leaks of political documents since 1997:**
+ 
+|                                                     |      |                   |                                                |
+| --------------------------------------------------- | ---- | ----------------- | ---------------------------------------------- |
+| Tripp Tapes                                         | 1997 | audio             | Linda Tripp to Kenneth Starr                   |
+| [**FORGERY**] Iraq letters to Niger ("yellowcake")  | 2002 | documents         | Unknown to Italian intelligence to CIA         |
+| [**FORGERY**] Bush military transcripts ("Killian") | 2004 | fax of 1970s memo | Unknown to retired colonel to Dan Rather / CBS |
+| Abu Ghraib photos                                   | 2004 | photos            | Unnkown to CBS                                 |
+| Baghdad Airstrike ("Collateral Murder")             | 2007 | video             | Chelsea Manning to Wikileaks                   |
+| US Iraq war logs                                    | 2010 | digital docs      | Chelsea Manning to Wikileaks                   |
+| US Diplomatic cables                                | 2010 | digital docs      | Chelsea Manning to Wikileaks                   |
+| Romney Fundraiser Tape ("47%")                      | 2012 | audio             | Bartender to Mother Jones                      |
+| NSA Surveillance Leaks                              | 2013 | digital docs      | Edward Snowden to the Guardian, WaPo           |
+| DNC emails                                          | 2016 | emails            | Unknown to Wikileaks                           |
+| Podesta emails                                      | 2016 | emails            | Unknown to Wikileaks                           |
+| Colin Powell emails                                 | 2016 | emails            | Unknown to DCLeaks                             |
+| Panama papers                                       | 2016 | documents         | Unknown to Süddeutsche Zeitung                 |
+| Donald Trump Access Hollywood Tape                  | 2016 | video             | Unknown to Washington Post                     |
+| [**MIXED**] Macron emails                           | 2017 | emails            | Unknown to Pastebin                            |
+| China Cables                                        | 2019 | digital docs      | Unknown to the ICIJ                            |
+| Hunter Biden laptop                                 | 2020 | docs,audio,video  | computer shop to Giuliani to NY Post           |
+| Los Angeles Council call ("changuito")              | 2022 | audio             | Unknown to Reddit to LA Times                  |
+
+
+**Why are forgerties not more common?** I can think of three possible reasons:
+
+1. It's difficult to forge credible documents -- e.g. even a simple memo is hard to fake because there are lots of small details like the letterforms and formatting and jargon used.
+2. It's easy to forge credible documents but intelligence agencies and the media won't believe them without independent confirmation.
+3. It's easy to forge credible documents and for them to get coverage but not many people are motivated to try.
+
+**Older examples of forgeries.**
+
+|                                                           |      |                                                               |
+| --------------------------------------------------------- | ---- | ------------------------------------------------------------- |
+| Mark Antony's will                                        | 33BC | read out by Octavian in the senate (disputed whether forgery) |
+| Dreyfus letters sharing military info w Germany           | 1894 | fabricated by French military                                 |
+| Protocols of Elders of Zion (Jewish plans for domination) | 1903 |                                                               |
+| Castle Document, letter to British govt in Dublin         | 1916 | unclear source, contributed to 1916 Easter rising             |
+| Zinoviev letter from Russia to UK Labour party            | 1924 | unclear source                                                |
+
+**Notes.** 
+
+- The Macron email leaks seemed to include both real and fake content ([ref](https://www.csis.org/analysis/successfully-countering-russian-electoral-interference)). In fact one report says that Macron's team sent each other outrageous implausible emails as a pre-emptive defense to make any subsequent leaks seem less credible ([ref](https://www.lawfareblog.com/macron-leaks-are-they-real-and-it-russia)).
+
+- The Steele dossier isn't really a forgery: it doesn't purport to have a different author than its true author. The problem with the dossier is that the author makes knowingly false claims of fact. This .
+
+
+#           Appendix: Internal vs External Properties [UNFINISHED]
 
 **A common thread unifies many of the predictions above: internal vs external properties.** I say an "internal" property of a piece of content is one where the ground truth is human judgment of that content without reference to any external facts. An "external" property depend on some external fact, e.g. about provenance of the content (who created it, how it was made), or about the accuracy of what the content claims or depicts.
 
 
 
-| property                                             | internal/external | detection method                  | obfuscation methods  |
-| ---------------------------------------------------- | ----------------- | --------------------------------- | -------------------- |
-| whether text contains a curse/slur                   | internal          | string matching                   | misspell, neologisms |
-| whether text contains criticism of government        | internal          | string matching                   | indirect language    |
-| whether text is match against database               | internal          | plagiarism detection (e.g. Chegg) | misspell, reword     |
-| whether photo contains nudity                        | internal          |                                   | add noise, transform |
-| whether media is match against database              | internal          | PhotoDNA                          | add noise, transform |
-| whether image contains a specific watermark          |                   |                                   |                      |
-| whether a message is signed by a specific public key | internal          |                                   |                      |
-|                                                      |                   |                                   |                      |
-| whether a picture looks good                         | internal          |                                   |                      |
-| whether a joke is funny                              | internal          |                                   |                      |
-| whether user will engage (like, comment, share)      | internal          |                                   |                      |
-|                                                      |                   |                                   |                      |
-| whether email is mass and unsolicited (spam)         | external          | naive Bayes                       |                      |
-| whether message is from a real human (vs bot)        | external          | naive Bayes                       |                      |
-| whether artwork is by a specific person              | external          |                                   |                      |
-| whether writing is by a specific person              | external          | stylometry               |                      |
-| whether media has been altered                       | external          |                                   |                      |
-| whether media is synthetic (deepfake)                | external          |                                   |                      |
-| whether text is generated by an LLM                  | external          |                                   |                      |
-| whether user behavior is by a bot                    | external          | CAPTCHA                           |                      |
-| whether an article is misinformation                 | external          |                                   |                      |
-| whether a photo is misleading                        | external          |                                   |                      |
-| whether content is retentive                         | external          |                                   |                      |
+| property                                             | internal/external | detection method                  | obfuscation methods             |
+| ---------------------------------------------------- | ----------------- | --------------------------------- | ------------------------------- |
+| whether text contains a curse/slur                   | internal          | string matching                   | misspell, neologisms            |
+| whether text contains criticism of government        | internal          | string matching                   | indirect language               |
+| whether text is match against database               | internal          | plagiarism detection (e.g. Chegg) | misspell, reword                |
+| whether photo contains nudity                        | internal          |                                   | add noise, transform            |
+| whether media is match against database              | internal          | PhotoDNA                          | add noise, transform            |
+| whether image contains a specific watermark          |                   |                                   |                                 |
+| whether a message is signed by a specific public key | internal          |                                   |                                 |
+|                                                      |                   |                                   |                                 |
+| whether a picture looks good                         | internal          |                                   |                                 |
+| whether a joke is funny                              | internal          |                                   |                                 |
+| whether user will engage (like, comment, share)      | internal          |                                   |                                 |
+|                                                      |                   |                                   |                                 |
+| whether email is mass and unsolicited (spam)         | external          | naive Bayes                       |                                 |
+| whether message is from a real human (vs bot)        | external          | naive Bayes                       |                                 |
+| whether artwork is by a specific person              | external          |                                   |                                 |
+| whether writing is by a specific person              | external          | stylometry                        |                                 |
+| whether media has been altered                       | external          |                                   |                                 |
+| whether media is synthetic (deepfake)                | external          |                                   |                                 |
+| whether text is generated by an LLM                  | external          |                                   |                                 |
+| whether user behavior is by a bot                    | external          | CAPTCHA                           |                                 |
+| whether an article is misinformation                 | external          |                                   |                                 |
+| whether a photo is misleading                        | external          |                                   |                                 |
+| whether content is retentive                         | external          |                                   |                                 |
+| whether a web page answers a query                   | external          | PageRank, embedding               | content farm, synthetic content |
 
 <!-- 
 **On-demand filtering is not the primary tool.** Even if we have highly imperfect ways of detecting a property, whether internal or external, still we can drive down prevalence through using metadata and repeated interactions, and arguably that's been the primary reason for the decline.
@@ -257,7 +305,7 @@ Much of our common-sense understanding of media will be violated when we routine
 - -->
 
 
-#           Model of AI and Internal Properties (Venn Model)
+#           Appendix: Model of AI and Internal Properties (Venn Model)
 
 **In short: *improvements in AI are likely to reduce overall prevalence of violating content on platforms*.** 
 
@@ -324,57 +372,6 @@ Suppose that we remove all detected violating posts (i.e. $\hat{V}$). In the cas
 4. **Content will cluster just below the classifier threshold.** So far we have discussed everything in binary terms, thought realistically most things are continuous. If we action posts in a binary manner, e.g. filtering posts with a classifier score above some threshold, then producers will have an incentive to produce posts which are just below the threshold for filtering.
 
 <!-- **Followup: "open" policies.** This discussion has been predicated on there being an unambiguous ground truth, $V$. However in some cases violation of the policy can depend on facts outside of the content itself. E.g. whether a post is misinformation (depends on facts in the world), whether a link is exaggerating or leads to an ads-farm (depends on the content of the link), whether a post provokes hate speech (depends on user response to the post), whether a post is inauthentic (depends on whether author is who they claim to be). I think the analysis will be a bit different then. -->
-
-#           Appendix: Historical Observations on Forgeries
-
-**Forgeries usually purport to be leaks.** The typical influential forged document purports to be a private communication that reveals a lie or hidden motive.
-
-**Influential leaks of political documents since 1997:**
- 
-|                                                     |      |                   |                                                |
-| --------------------------------------------------- | ---- | ----------------- | ---------------------------------------------- |
-| Tripp Tapes                                         | 1997 | audio             | Linda Tripp to Kenneth Starr                   |
-| [**FORGERY**] Iraq letters to Niger ("yellowcake")  | 2002 | documents         | Unknown to Italian intelligence to CIA         |
-| [**FORGERY**] Bush military transcripts ("Killian") | 2004 | fax of 1970s memo | Unknown to retired colonel to Dan Rather / CBS |
-| Abu Ghraib photos                                   | 2004 | photos            | Unnkown to CBS                                 |
-| Baghdad Airstrike ("Collateral Murder")             | 2007 | video             | Chelsea Manning to Wikileaks                   |
-| US Iraq war logs                                    | 2010 | digital docs      | Chelsea Manning to Wikileaks                   |
-| US Diplomatic cables                                | 2010 | digital docs      | Chelsea Manning to Wikileaks                   |
-| Romney Fundraiser Tape ("47%")                      | 2012 | audio             | Bartender to Mother Jones                      |
-| NSA Surveillance Leaks                              | 2013 | digital docs      | Edward Snowden to the Guardian, WaPo           |
-| DNC emails                                          | 2016 | emails            | Unknown to Wikileaks                           |
-| Podesta emails                                      | 2016 | emails            | Unknown to Wikileaks                           |
-| Colin Powell emails                                 | 2016 | emails            | Unknown to DCLeaks                             |
-| Panama papers                                       | 2016 | documents         | Unknown to Süddeutsche Zeitung                 |
-| Donald Trump Access Hollywood Tape                  | 2016 | video             | Unknown to Washington Post                     |
-| [**MIXED**] Macron emails                           | 2017 | emails            | Unknown to Pastebin                            |
-| China Cables                                        | 2019 | digital docs      | Unknown to the ICIJ                            |
-| Hunter Biden laptop                                 | 2020 | docs,audio,video  | computer shop to Giuliani to NY Post           |
-| Los Angeles Council call ("changuito")              | 2022 | audio             | Unknown to Reddit to LA Times                  |
-
-
-**Why are forgerties not more common?** I can think of three possible reasons:
-
-1. It's difficult to forge credible documents -- e.g. even a simple memo is hard to fake because there are lots of small details like the letterforms and formatting and jargon used.
-2. It's easy to forge credible documents but intelligence agencies and the media won't believe them without independent confirmation.
-3. It's easy to forge credible documents and for them to get coverage but not many people are motivated to try.
-
-**Older examples of forgeries.**
-
-|                                                           |      |                                                               |
-| --------------------------------------------------------- | ---- | ------------------------------------------------------------- |
-| Mark Antony's will                                        | 33BC | read out by Octavian in the senate (disputed whether forgery) |
-| Dreyfus letters sharing military info w Germany           | 1894 | fabricated by French military                                 |
-| Protocols of Elders of Zion (Jewish plans for domination) | 1903 |                                                               |
-| Castle Document, letter to British govt in Dublin         | 1916 | unclear source, contributed to 1916 Easter rising             |
-| Zinoviev letter from Russia to UK Labour party            | 1924 | unclear source                                                |
-
-**Notes.** 
-
-- The Macron email leaks seemed to include both real and fake content ([ref](https://www.csis.org/analysis/successfully-countering-russian-electoral-interference)). In fact one report says that Macron's team sent each other outrageous implausible emails as a pre-emptive defense to make any subsequent leaks seem less credible ([ref](https://www.lawfareblog.com/macron-leaks-are-they-real-and-it-russia)).
-
-- The Steele dossier isn't really a forgery: it doesn't purport to have a different author than its true author. The problem with the dossier is that the author makes knowingly false claims of fact. This .
-
 
 #           Appendix: Forecasts from Metaculus [UNFINISHED]
 
@@ -484,5 +481,11 @@ $$\begin{aligned}
 
 2023-02: Goldstein et al. ["Generative Language Models and Automated Influence Operations: Emerging Threats and Potential Mitigations"](https://cdn.openai.com/papers/forecasting-misuse.pdf) 
    - ![](images/2023-02-07-17-15-00.png)
+
+-->
+
+<!-- 
+
+- [Arms race in google search SEO](https://www.theverge.com/23753963/google-seo-shopify-small-business-ai)
 
 -->
