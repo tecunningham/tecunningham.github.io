@@ -1,48 +1,34 @@
 ---
 title: The Influence of AI on Content Moderation and Communication
+author: Tom Cunningham
+date: 2023-06-06
 execute:
   echo: false
   cache: true # caches chunk output
-date: 2023-06-06
-#fontsize: 10pt
 fig-align: center
 reference-location: margin
 citation-location: margin
-format:   html
-#      embed-resources: true
-      # html-math-method:
-      #    method: mathjax
-      #    url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js"
-      #    #     ^ this forces SVG instead of CHTML, otherwise xypic renders weird
-      # include-in-header:
-      #    - text: |
-      #       <script>window.MathJax = {
-      #          loader: { load: ["https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/xypic.js"]},
-      #          tex: {packages: {'[+]': ['xypic','bm']},
-      #                macros: {  bm: ["\\boldsymbol{#1}", 1],
-      #                           ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
-      #                           utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3] }
-      #          }
-      #       };
-      #       </script>
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    toc-location: left
 engine: knitr
 # editor:
 #    render-on-save: true
 ---
 <style>
     h1 {  border-bottom: 4px solid black;}
-    h2 {  border-bottom: 1px solid #ccc;}
+    h2 {  border-bottom: 0px; font-size: 14px; color: black; }
 </style>
 
-***Tom Cunningham***[^note]
-
-First version June 6 2023. ***Still a draft, don't circulate!***
-
-[^note]: tom.cunningham@gmail, [\@testingham](https://twitter.com/testingham), resident fellow at the [Integrity Institute](https://integrityinstitute.org). I worked at FB for 5 years, and Twitter for 1 year, but this note entirely based on public information.
+<span style="background:yellow;">==*Still a draft, don't circulate!*==</span>
 
 ::: {.column-margin}
 ![](images/2023-06-14-13-38-42.png)
 :::
+
+#           Introduction
 
 <!-- 
 ONLINE: http://tecunningham.github.io/2023-06-06-effect-of-ai-on-communication.html
@@ -55,19 +41,17 @@ SEE ALSO:
    - 2020-12-17-social-media-master.md    -- has a table of diff types of decentralized media and exploitations
 -->
 
-**It is difficult to anticipate the effect of AI on communication.** AI models have already had big effects on content moderation (detecting spam, bots, misinformation), but they are also starting to have big effects on content production (obfuscation, generating synthetic spam, deepfakes).
+**It is difficult to anticipate the effect of AI on communication.** AI models have already had big effects on content moderation (detecting spam, bots, policy-violating content), but they are also starting to have big effects on content production (obfuscation, generating synthetic spam, deepfakes).
 
-**In this note I will try to make some predictions about the equilibrium impact of AI.** Below I discuss and give predictions about the impact on a variety of outcomes such as the prevalence of policy-violating content on platforms (e.g. porn, hate speech), the prevalence of bots, the prevalence and influence of synthetic media (e.g. deepfakes), and the shift of overall communication between platforms.
+**In this note I try to make some predictions about the equilibrium impact of AI.** Briefly:
 
-**It is useful to distinguish between "internal" and "external" properties of content:**
+1. **For "internal" properties, AI is likely to benefit the receiver.** I define an "internal" property as something that is a function solely of the content: whether an image contains nudity, whether text contains hate speech, whether a joke is funny. AI classifiers are rapidly approaching human-level accuracy for these properties and this means that platforms (and governments) will be able to near-perfectly filter out content that violates their rules, even when content-producers have access to the same technology.
 
-1. **For "internal" properties, AI is likely to benefit the receiver.** I define an "internal" property as something that is a function solely of the content: whether an image contains nudity, whether text contains hate speech, whether a joke is funny. AI classifiers are rapidly approaching human-level accuracy for these properties and this means that platforms (and governments) will be able to near-perfectly filter out content that violates their rules, even when senders have access to the same technology.
-
-2. **For "external" properties, AI is likely to benefit the sender.** An "external" property of a message depends on some fact outside the content itself: e.g. whether an image was computer-generated, or whether a headline is true. Platforms will get better at predicting external properties but they will be outpaced by motivated actors who can manipulate their fakes until they become indistinguishable from genuine articles (and manipulate lies so they're indistinguishable from the truth).
+2. **For "external" properties, AI is likely to benefit the sender.** An "external" property of a message depends on some fact outside the content itself: e.g. whether an image was computer-generated, whether a headline is true, whether a message is from a specific person. Platforms will get better at predicting external properties but they will be outpaced by motivated actors who can manipulate their fakes until they become indistinguishable from genuine articles (and manipulate lies so they're indistinguishable from the truth).
 
 3. **AI will increase the demand for intermediaries.** As a consequence of both of the points above individual users will see relatively more value from moving to platforms which have protection against those adversaries (spammers, scammers, short sellers, trolls, state actors). Thus it seems likely that there will be a further consolidation onto platforms that are large and tightly controlled.
 
-**The remainder of this note:**
+**In the remainder of this note:**
 
 1. A series of specific predictions about different aspects of communication systems.
 
@@ -80,33 +64,82 @@ I also have a short appendices on the history of forged documents, and on releva
 
 #           Predictions
 
-**(1) The prevalence of policy-violating content on platforms will approach zero.** AI models will keep getting better at detecting nudity, obscenity, hate speech, slur words, incitement, illegal acts, violence. Producers will also get better at obfuscating their content to avoid the classifiers. However as the AI models become arbitrarily close to human judgment then fewer and fewer exceptions will slip through, i.e. fewer items which a human recognizes as violating but the computer does not. Below I give a more formal argument for this ("Venn diagram model"). This prediction applies just to "self contained" categories of content where the ground truth is human interpretation without reference to outside information. The prediction does not apply to deepfakes or misinformation, discussed below.
+##       Background: computers have become much better at analyzing and synthesizing content
 
-   This prediction is consistent with recent historical trends. Meta reports that the prevalence of nudity, bullying, hate speech, and graphic content have each declined over 2017-2022 by a factor of between 2 and 5.[^metaDecline]
-   
-   [^metaDecline]: See Meta's [Community Standards report](https://transparency.fb.com/data/community-standards-enforcement/) and [my visualization of this data](http://tecunningham.github.io/2023-01-31-social-media-suspensions-data.html#meta-facebook-instagram).
+Over the last 50 years there have been steady improvements in computer interpretation of text and images, and especially since around 2012 (the introduction of deep neural nets), now often surpassing the performance of an average human. Since around 2018 computers have also become very good at *synthesizing* content, e.g. creating text, images, or video, to match some description.
 
-   This prediction also applies to censorship. Authoritarian governments often use crude pattern-matching to identify content that expresses, for example, anti-government sentiment. Citizens get around this by using indirect language. Better AI will allow governments to classify every post with reliability as high as if they had a human read every individual post, and so indirect language or obfuscation will no longer be an effective workaround.
+![](images/2023-06-16-05-55-29.png)^[Source: [Our World in Data](https://ourworldindata.org/brief-history-of-AI).]
 
-   This prediction would fail if there were substantial limits on the performance of AI, e.g. if there were ways of obfuscating content that AI will remain unable to recognize. It seems plausible that AI systems will remain less flexible than humans in general, but they are trained on enormous quantities of data, so although a novel means of obfuscation would confuse them in the short-run they would be likely to learn to recognize it very quickly.
+##             The prevalence of policy-violating content on platforms will decline
 
-   An important qualification is that even if human-evaluted policy-violating content goes to zero there will likely remain a lot of content that is *interpreted* in a violating way. This can occur in equilibrium when a community uses context or pragmatics to change the significance of a message, e.g. using double entendres, substituting "globalist" for "jewish", saying the opposite of what is meant (e.g. saying excessively positive things about a hated ethnic group, or a pro-anorexia community speaking as if they were anti-anorexia), using euphemisms for illegal acts, using emojis of eggplants and peaches, using photos without nudity but which can be read as pornographic.[^selective] In each of these cases a human evaluator might judge the content to be non-violating because they interpret it in a non-violating way, yet the typical audience for these posts interprets them in a violating way. This is fundamentally a limitation of treating the policy's ground truth as the significance of a message when interpreted without context.
+AI models will keep getting better at detecting nudity, obscenity, hate speech, slur words, incitement, illegal acts, violence. The same AI models will also allow producers to obfuscate violating content but as the AI models become arbitrarily close to human judgment then fewer and fewer exceptions will slip through, i.e. fewer items which a human recognizes as violating but the computer does not. Below I give a more formal argument for this ("Venn diagram model"). This prediction applies just to "internal" categories of content where the ground truth is human interpretation without reference to outside information, not to "external" categories such as deepfakes or misinformation, discussed below.
 
-   <!-- need some discussion of  why you can't just evaluate with context-->
+This prediction is consistent with recent trends. For example Meta reports that the prevalence of nudity, bullying, hate speech, and graphic content have each declined over 2017-2022 by a factor of between 2 and 5, and that the share of actioned content that is detected by an ML model ("proactive rate") is approaching 100% for most categories.[^metaDecline]
+
+![](http://localhost:3471/posts/2023-01-31-social-media-suspensions-data_files/figure-html/unnamed-chunk-28-1.png)
+
+This prediction also applies to censorship. If an authoritarian governments uses crude pattern-matching to detect anti-government language then that can be circumvented by using indirect language. Better AI will allow governments to classify every post with reliability as high as if they had a human read each one of them, and so indirect language or obfuscation will no longer be an effective workaround.
+
+This prediction would fail if there were substantial limits on the performance of AI, e.g. if there were ways of obfuscating content so that a human would recognize it but an AI would not. It seems plausible that AI systems will remain less flexible than humans in general but because they are trained on enormous quantities of data, what they miss in the short-run they should be able to quickly learn to recognize.
+
+[^metaDecline]: It is important to remember that the "proactive rate" is the share of *detected* content that is detected by AI, the share of *violating* content that is detected by AI will certainly be significantly lower but is not generally reported. See Meta's [Community Standards report](https://transparency.fb.com/data/community-standards-enforcement/) and [my visualization of this data](http://tecunningham.github.io/2023-01-31-social-media-suspensions-data.html#meta-facebook-instagram). It's also worth noting that Mark Zuckerberg made a series of predictions that human raters could be substituted with AI, which I think has turned out to be largely correct despite widespread skepticism (including by me), e.g. in late 2018 he [said](https://www.facebook.com/notes/751449002072082/) "through the end of 2019, we expect to have trained our systems to proactively detect the vast majority of problematic content."
+
+Whether prevalence will go precisely to zero depends on the definition of prevalence used. An AI model can never perfectly predict human-rater evaluation because there will still exist significant between-rater and within-rater variation in labelling for any given piece of content.
+
+<!-- Suppose our "ground truth" definition used for prevalence calculations was when 2/3 of experienced raters mark content as violating. In this case even filtering with a theoretically perfect AI model would not drive prevalence to zero (a theoretically perfect AI model would predict the ground truth but still be stochastic because of between-rater and within-rater variation). -->
+
+
+##          (2) Context-specific violations will increase
+
+Prevalence of policy-violating content seems likely to decline. However we should expect substitution towards content that violates the policy's spirit without violating the letter.
+
+I will use the phrase "context-specific violations" to refer to posts that are interpreted by most of their viewers to have a significance that is violating, but interpreted by professional raters (who are not given any information about context) as having a non-violating significance. Some examples:
+
+- Saying "globalist" when your audience understands it to mean "jewish"
+- Saying the opposite of what is meant, e.g. a bigot saying excessively positive things about a hated ethnic group, or a pro-anorexia poster making sarcastic anti-anorexic statements.
+- Using euphemisms for illegal substances or illegal acts.
+- Using emojis of eggplants and peaches.
+- Using photos without nudity but which can be read as pornographic.[^selective] 
+
+As AI improves the ability to detect violations it seems likely that there will be at least some substitution towards context-specific violations.
+
+It is unclear to me how much appetite platforms will have for adding context to their evaluation process so that they can also identify context-specific violations. It is not technically difficult: raters could be given more detail about the context of the post and the prior history of the post's author, and raters could be assigned to posts depending on their experience with the argot of that post's audience. Likewise AI models could be trained to include details about the context.
+
+If platforms continue to judge violations in a context-free way then we might expect an increase in context-specific violations. It is hard to anticipate whether platforms will wish to extend their definition to include context-specific violations. Authoritarian governments are willing to punish speech based on the effect (pragmatics) rather than just the semantics, e.g. in 2022 Hong Kong police arrested protestors for holding blank pieces of paper. However platforms might wish to .
+
+where violation is judged by human evaluators.
+
+The prior discussion applied to the typical interpretation of policies as "context free", meaning that the violation is judged without reference to the audience or prior history of the author.
+
+We can distinguish between "context-free" and "context-specific" violations, e.g. whether a post would be interpreted as denigrating an ethnic group by any observer, or only by an observer who is member of a subcommunity or .
+
+Platforms typically measure policy violations in a "context-free" way: they send a post to a human who makes a determination without information about who is seeing the post, the context in which the post appears, or the author of the post.
+
+Thus it is possible for a post to be evaluated as non-violating but *in context* to be interpreted as having a policy-violating significance. For example using double entendres, substituting "globalist" for "jewish", saying the opposite of what is meant (e.g. saying excessively positive things about a hated ethnic group, or a pro-anorexia community speaking as if they were anti-anorexia), using euphemisms for illegal acts, using emojis of eggplants and peaches, using photos without nudity but which can be read as pornographic.[^selective] 
+
+If platforms continue to judge violations in a context-free way then we might expect an increase in context-specific violations. It is hard to anticipate whether platforms will wish to extend their definition to include context-specific violations. Authoritarian governments are willing to punish speech based on the effect (pragmatics) rather than just the semantics, e.g. in 2022 Hong Kong police arrested protestors for holding blank pieces of paper. However platforms might wish to .
 
    <!-- Old Soviet joke: A man hands out leaflets on Red Square, and the KGB arrest him. But when they get him to the station, they find that the leaflets are all blank. And he says "Well, everyone knows what the problem is, so why bother writing it down?" -->
 
-   [^selective]: A related phenomena is people using selective truths to give a false impression. E.g. it is common for anti-vaccination groups to avoid posting false claims about vaccines and instead selectively post negative claims among the pool of true claims. It is common for people with a bias against some ethnic group to avoid posting false claims but selectively post negative claims. Because the pool of true claims is enormous it is easy to give a false impression without any post being false.
+[^HongKong]: https://www.axios.com/2022/11/28/china-protests-blank-paper-covid 
 
-**(2) The prevalence of database-matched violating content on platforms will approach zero.** Many platforms try to detect content that matches content in a database, e.g. databases of illegal sexual media (CSAM), IP-protected content (Content ID), or terrorist recruitment content (GIFCT). Content producers often obfuscate their content to confuse the matching algorithms, e.g. by adding noise. Improvements to AI will help both parties but it seems likely to help platforms relatively more: as AI recognition approaches a human level it will be impossible to upload a recognizable variant of a known piece of violating content without the platform automatically labelling it as such.
+[^selective]: A related phenomena is people using selective truths to give a false impression. E.g. it is common for anti-vaccination groups to avoid posting false claims about vaccines and instead selectively post negative claims among the pool of true claims. It is common for people with a bias against some ethnic group to avoid posting false claims but selectively post negative claims. Because the pool of true claims is enormous it is easy to give a false impression without any post being false.
 
-**(3) Platforms will not be able to identify bots from their behavior.** Most online platforms struggle with automated users (bots) who are disruptive in a variety of ways. One way of protecting against bots is with behavioral tests, e.g. a CAPTCHA test asking users an image-recognition task[^captcha], or by using on-platform behavior to detect whether a user is human. However improvements in AI mean that computers can now recognize most images as well as humans, and can learn to imitate human-style behavior patterns, so it seems likely these behavioral tests will become ineffective against sophisticated actors.
+##          (3) The prevalence of database-matched violating content on platforms will approach zero
+
+Many platforms try to detect content that matches content in a database, e.g. databases of illegal sexual media (CSAM), IP-protected content (Content ID), or terrorist recruitment content (GIFCT). Content producers often obfuscate their content to confuse the matching algorithms, e.g. by adding noise. Improvements to AI will help both parties but it seems likely to help platforms relatively more: as AI recognition approaches a human level it will be impossible to upload a recognizable variant of a known piece of violating content without the platform automatically labelling it as such.
+
+##          (4) Platforms will not be able to identify bots from their behavior
+
+Most online platforms struggle with automated users (bots) who are disruptive in a variety of ways. One way of protecting against bots is with behavioral tests, e.g. a CAPTCHA test asking users an image-recognition task[^captcha], or by using on-platform behavior to detect whether a user is human. However improvements in AI mean that computers can now recognize most images as well as humans, and can learn to imitate human-style behavior patterns, so it seems likely these behavioral tests will become ineffective against sophisticated actors.
 
    This does not imply that the prevalence of bots will increase. All platforms need some defense against bots so they will have to rely relatively more on other forms of authentication: monetary payment, offline identity credentials (government ID, credit card number), hard-to-fake metadata (e.g. unique IP address, device ID), or 3rd-party authentication (e.g. from Google, Apple).^[The 3rd-party identity providers will themselves have to rely on some other ground truth when accepting signups.] Thus the barriers to signing up for a service (and especially posting on it) will become higher.
 
    [^captcha]: CAPTCHA stands for Completely Automated Public Turing test to tell Computers and Humans Apart.
 
-**(4) Platforms will find it hard to discriminate between real and fake media.** There are a number of properties where the ground truth depends on the relationship between the content and the real world:
+##       (5) Platforms will find it hard to discriminate between real and fake media.
+
+There are a number of properties where the ground truth depends on the relationship between the content and the real world:
 
    - Whether some media (audio, photo, video) has been manipulated or synthesized.
    - Whether text was written by a human or a computer (e.g. by GPT).
@@ -118,7 +151,9 @@ I also have a short appendices on the history of forged documents, and on releva
 
    [^ranking]: See discussion in my note on [how platforms rank](http://tecunningham.github.io/2023-04-28-ranking-by-engagement.html). 
    
-**(5) Fake media (deepfakes) will not have a substantial influence on politics.**  As it becomes cheaper to manipulate and synthesize media then people are likely to become more skeptical and rely relatively more on the *provenance* of information. Thus although synthetic media will likely circulate I do not think it will have a substantial influence on beliefs in equilibrium.
+##       (6) Fake media (deepfakes) will not have a substantial influence on politics.
+
+As it becomes cheaper to manipulate and synthesize media then people are likely to become more skeptical and rely relatively more on the *provenance* of information. Thus although synthetic media will likely circulate I do not think it will have a substantial influence on beliefs in equilibrium.
 
    It is already fairly easy to forge or alter documents, or edit video in a misleading way, and as a consequence mainstream media organizations typically do not publish leaked materials unless they have either a chain or provenance for the leaks or independent confirmation of their content. Influential forgeries have been historically much rarer than influential true leaks: over the past 25 years I estimate perhaps 10% of all influential leaks were based on forged materials.[^twoCases][^videoLeaks]
 
@@ -134,7 +169,9 @@ I also have a short appendices on the history of forged documents, and on releva
 
    <!-- Circulation of fake information: we have already adapted (1) skepticism ("don't believe what u read on the internet"); (2) platforms get burned by it so try to reduce distribution. Not sure whether adding audio/video would add to this. -->
 
-**(6) Communication will migrate towards large closed platforms.** It seems likely that smaller platforms who cannot afford sophisticated defences will become overrun with AI-created bots, spam, obfuscated violating content, and fake media. This would imply that consumers will tend to migrate to larger closed platforms with more effective defences, and which have more restriction on participation. This continues a general movement over the last 20 years of communication moving from small open platforms (independent email, small forums, mailing lists, independent websites) to large closed platforms (large email providers, large social media platforms).
+##       (7) Communication will migrate towards large closed platforms
+
+It seems likely that smaller platforms who cannot afford sophisticated defences will become overrun with AI-created bots, spam, obfuscated violating content, and fake media. This would imply that consumers will tend to migrate to larger closed platforms with more effective defences, and which have more restriction on participation. This continues a general movement over the last 20 years of communication moving from small open platforms (independent email, small forums, mailing lists, independent websites) to large closed platforms (large email providers, large social media platforms).
 
    It also seems likely that people will come to rely more on established sources of truth because they can trust veridical evidence less, e.g. they will rely relatively more on Wikipedia, Community Notes, and mainstream recognized media sources.
 
@@ -144,7 +181,9 @@ I also have a short appendices on the history of forged documents, and on releva
 
    I don't expect that adoption of cryptographic signing will markedly increase, in short because (...) -->
 
-**(7) Things will get weird.** Much of our common-sense understanding of media will be violated when we routinely use AI models to manipulate and synthesize artefacts. Some examples:
+##          (8) Things will get weird
+
+Much of our common-sense understanding of media will be violated when we routinely use AI models to manipulate and synthesize artefacts. Some examples:
 
    - **Entertainment content may become overwhelmingly synthetic.** A classifier that can detect whether a photo is pretty can also generate a synthetic photo that is pretty, and a classifier that can detect whether a joke is funny should also be able to generate funny jokes.^[I think language models haven't yet been very good at jokes because they generate one word at a time (autoregressive), while jokes typically have a logical structure such that the setup is probable given the punchline, but not the other way around. When we get language models which generate text using different statistical algorithms (e.g. diffusion instead of autoregressive generation) then it seems likely they'll be able to create good jokes.] On average people spend around 3 hours per day watching entertainment (TV, YouTube, TikTok, Instagram). It seems likely that trained models will be able to synthesize content that is highly engaging though it's hard to anticipate what it will look like.
 
@@ -153,10 +192,11 @@ I also have a short appendices on the history of forged documents, and on releva
    <!-- - **Producers will produce ambiguous / bistable  safcontent.** -->
    <!-- - Will synthesize CSAM. -->
 
-**TO ADD:** (1) discussion of whether cryptographic and blockchain tech will become more useful; (2) discussion of the value of documentary evidence in more mundane situations -- e.g. using photos and videos as proof in ordinary disputes or criminal trials; (3) using AI to generate content, e.g. letters to the editor, journal submissions: can no longer use superficial coherence as a proxy for underlying quality.
+<!--
+   TO ADD: (1) discussion of whether cryptographic and blockchain tech will become more useful; (2) discussion of the value of documentary evidence in more mundane situations -- e.g. using photos and videos as proof in ordinary disputes or criminal trials; (3) using AI to generate content, e.g. letters to the editor, journal submissions: can no longer use superficial coherence as a proxy for underlying quality.
 
-
-<!-- TO ADD: limits on the classifiers, types of content which they cannot recognize or cannot synthesize to human level. E.g. chess with new rules. -->
+   TO ADD: limits on the classifiers, types of content which they cannot recognize or cannot synthesize to human level. E.g. chess with new rules. 
+-->
 
 
 #           Internal vs External Properties [UNFINISHED]
@@ -440,8 +480,9 @@ $$\begin{aligned}
 
 **Risks and Harms.** Generally absorbing hegemonic worldview. E.g. (1) assuming doctor will be male, nurse female; (2) outputting abusive language; (3) could generate meaningless text & used, e.g., to recruit terrorists. / Especially this point: *apparent* fluency will mislead people into thinking that there's some genuine content. *"the human tendency to attribute meaning to text, in combination with large LMs’ ability to learn patterns of forms that humans associate with various bi- ases and other harmful attitudes, leads to risks of real-world harm."*
 
-**Proposal.** Value-sensitive design. -->
+**Proposal.** Value-sensitive design.
 
-
-2023-02: Goldstein et al. ["Generative Language Models and Automated Influence Operations: Emerging Threats and Potential Mitigations"](https://cdn.openai.com/papers/forecasting-misuse.pdf)
+2023-02: Goldstein et al. ["Generative Language Models and Automated Influence Operations: Emerging Threats and Potential Mitigations"](https://cdn.openai.com/papers/forecasting-misuse.pdf) 
    - ![](images/2023-02-07-17-15-00.png)
+
+-->
