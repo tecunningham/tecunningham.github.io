@@ -1,5 +1,5 @@
 ---
-title: Experimentation - Notes from CIDER
+title: Four Experimentation Problems
 author: Tom Cunningham
 execute:
   echo: false
@@ -29,7 +29,7 @@ engine: knitr
 reference-location: margin
 citation-location: margin
 figure-location: margin
-fontsize: 10pt
+#fontsize: 10pt
 draft: true
 editor:
    render-on-save: true
@@ -40,20 +40,20 @@ editor:
 </style>
 
 <!-- 
-- tecunningham.github.io/posts/2023-04-18-netflix-cider-experimentation-note.html
+- http://tecunningham.github.io/posts/2023-04-18-netflix-cider-experimentation-note.html
 - **Leontief sandwich.**
 - **Everyone is implicitly Bayesian.** The choice of which treatment to run an experiment on, and which metrics to look at, reflects your priors. We are doing mostly *empirical Bayes* here. Empirical Bayes is half-baked bread, frequentist is just raw dough, completely inedible.
 -->
 
 #              Introduction
 
-**Tech firms have thousands of experiments running at a given time.** E.g. experiments changing user interface, changing weights in a ranking algorithm, changing price, changing the number of ads shown, or just canary experiments confirming that a new piece of code hasn't broken anything.
+<!-- **Tech firms have thousands of experiments running at a given time.** E.g. experiments changing user interface, changing weights in a ranking algorithm, changing price, changing the number of ads shown, or just canary experiments confirming that a new piece of code hasn't broken anything. -->
 
-**Experiment-related problems can be broken into four types:**
+**In this note I try to describe four different experiment-related issues with a common Bayesian framework:**^[The impetus for writing this up was Netflix's 2023 CIDER conference, many thanks to all participants especially Martin Tingley.]
 
 1. **The inference problem.** What's our best estimate of the true effect given the observed effect? This comes up especially when we have a set of different observed effects, e.g. across experiments, across subgroups, or across time.
 
-   Often people deal with these problems by adjusting confidence intervals (e.g. Bonferroni, always-valid). However I think a better approach is to let users make their own judgments but help them with *benchmark* statistics so they can compare this experiment's result to a reference group.
+   Often people deal with these problems by adjusting confidence intervals (e.g. Bonferroni, always-valid). However I think a better approach is to let users make their own judgments but provide them with the most informative *benchmark* statistics so they can compare the results of any given experiment to the results from a reference group.
 
 2. **The extrapolation problem.** Given an effect on metric 1 what's our best estimate of the effect on metric 2? This describes the problem of observational inference, proximal goals, and extrapolation.
 
@@ -415,6 +415,14 @@ Some general observations:
    - If you give product leaders a goal on a metric that is a proxy for quality they'll increase the metric and meet the goal but in a way that doesn't increase quality.
 
    - If you let data scientists use observational-causal-inference tools they'll use them indiscriminately, hardly spending any time to think about whether the exogeneity assumption hold in their cases.
+
+There are three broad approaches: 
+
+1. Put restrictions on experimenters to prevent them from misinterpreting experiment results.
+2. Change incentives for experimenters to prevent them from misusing experiment results.
+3. Educate experiments so they use experiment resuts better.
+
+[UNFINISHED]
 
 <!-- **Taking culture as fixed.** People are trying to develop.
 
