@@ -204,14 +204,8 @@ ga('send', {
     h1 {  border-bottom: 4px solid black;}
     h2 {  border-bottom: 1px solid #ccc;}
 </style>
-<!-- 
-- http://tecunningham.github.io/posts/2023-04-18-netflix-cider-experimentation-note.html
-- **Leontief sandwich.**
-- **Everyone is implicitly Bayesian.** The choice of which treatment to run an experiment on, and which metrics to look at, reflects your priors. We are doing mostly *empirical Bayes* here. Empirical Bayes is half-baked bread, frequentist is just raw dough, completely inedible.
--->
 <section id="introduction" class="level1 page-columns page-full">
 <h1>Introduction</h1>
-<!-- **Tech firms have thousands of experiments running at a given time.** E.g. experiments changing user interface, changing weights in a ranking algorithm, changing price, changing the number of ads shown, or just canary experiments confirming that a new piece of code hasn't broken anything. -->
 <div class="page-columns page-full"><p><strong>In this note I give recommendation for four experiment-related issues using a common Bayesian framework:</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;The impetus for writing this up was Netflix’s 2023 CIDER conference, many thanks to all participants especially Martin Tingley.</p></li></div></div>
 <ol type="1">
 <li><p><strong>The inference problem.</strong> What’s our best estimate of the true effect given the observed effect? This comes up especially when we have a set of different observed effects, e.g.&nbsp;across experiments, across subgroups, or across time.</p>
@@ -241,7 +235,7 @@ ga('send', {
          &amp;&amp; \text{(true effect on metric 2 given observed effect on metric 1)}
    \end{aligned}
    \]</span></p>
-<p><!-- - Key point - conditional expectations ; observational inference condition can be empirically checked ; classical conditions are a waste of time ;  --></p>
+<p></p>
 </section>
 <section id="the-inference-problem" class="level1 page-columns page-full">
 <h1>The Inference Problem</h1>
@@ -333,22 +327,6 @@ ga('send', {
 </tr>
 </tbody>
 </table>
-<!-- 
-**When does observational inference work well?** It will work well when the $e_1$ and $e_2$ vary in the same way.
-   - Will work when the upstream variable is quasirandom.
-   - Will work when 
-
-   $$\xymatrix{
-         *++[F:<15pt>]{unobserved}\ar[d]\ar@{.>}[dr]
-         & *++[F:<15pt>]{unobserved}\ar[d]
-         \\ *++[F]\txt{upstream}
-         & *++[F]\txt{downstream}
-      }
-   $$    -->
-<!-- **Observational inference has been disappointing.** Many projects in tech have tried to measure causal effects with observational inference but have been disappointing. [UNFINISHED]. -->
-<!-- 
-- Someone built a system at LinkedIn for observational inference (OCELOT), included various algorithms (matching, ), had a review committee. But eventually petered out and defunded.
--->
 <p>For concreteness we will treat the problem of predicting the long-run (LR) effect of an experiment on DAU from its short-run (SR) estimated effects on all metrics:</p>
 <p><span class="math display">\[E[\utt{\Delta\text{DAU}_{LR}}{true long-run}{effect on DAU} |
        \utt{\Delta \widehat{\text{DAU}}_{SR}, \ldots, \Delta\widehat{\text{engagement}}_{SR}}{estimated short-run effects}{}]\]</span></p>
@@ -411,36 +389,6 @@ ga('send', {
 </section>
 <section id="observational-inference" class="level2">
 <h2 class="anchored" data-anchor-id="observational-inference">Observational Inference</h2>
-<!-- **Engagement and retention.** Returning to our application, we want to know the effect of an experiment on retention but we only measure the effect on short-run engagement. We can write this as:
-      $$\xymatrix{
-         *+[F]{\text{experiment}} \ar[r] \ar@{.>}@/_2pc/[rr]
-         & *+[F]{\text{SR engagement}}\ar[r]
-         & *+[F]{\text{LR retention}} 
-      }$$
-
-The identifying assumptions:
-
-1. **Exclusion:** The effect of an experiment on LR retention is exclusively via its effects on SR engagement.
-2. **Unconfoundedness.** The correlation betweeen engagement and retention is exclusively due to the causal effect of engagement on retention.
-
-As stated these are slightly weird assumptions: we don't really believe that clicking "like" on a post *causes* retention, instead it's more plausible that high-quality contnet causes both engagement and retention:
-      $$\xymatrix@R=.5cm{
-         *+[F]\txt{experiment} \ar[r]
-      &  *+[F-:<6pt>]\txt{timeline quality}\ar[d] \ar[r]
-      &  *+[F]\txt{LR retention}
-      \\
-      &  *+[F]\txt{SR engagement}
-      }$$
-
-We can then think of factors which might violate this:
-
-1. If someone's in a good mood that might increase both engagement and retention, but not via timeline quality.
-2. If someone gets spooked about being tracked, that might lower engagement but not affect retention (and so cause attenuation).
-
-To justify our identifying assumption we should be specific about what type of unobserved factors will affect propensity to engage and DAU. Some examples:
-
-1. Things that make you use Twitter more: a holiday, a new phone, bad weather.
-2. Random variation in tweets you see: some tweets you are more likely to engage, and may also cause you to return more often. -->
 <p><strong>What we want to know:</strong> Given the short-run effect of a content experiment on engagement we want to predict the long-run effect on DAU. We can start with a simple regression along these lines: <span class="math display">\[\utt{\text{DAU}_{u,t+1}}{long-run}{retention} \sim \utt{\text{engagement}_{u,t}}{short-run}{engagement}\]</span></p>
 <p><strong>We could set up a DAG and discuss the surrogacy conditions.</strong> The condition are that (1) all effects of an experiment on DAU are via short-run engagement; and (2) there is no unobserved factor which affects both SR engagement and LR DAU:</p>
 <p><span class="math display">\[\xymatrix{
@@ -555,9 +503,6 @@ In each case showing some content that is <em>less</em> interesting to the user,
 <p><strong>We can use the data generated to explore other aspects:</strong> (1) whether there are significant interaction effects between the different experiments (e.g.&nbsp;if the users who have both increasing <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> have a different effect), and (2) whether there are significant heterogeneities in outcomes across subgroups.</p>
 <p><strong>This is the simplest general framework I know of for continuous optimization of a set of parameters.</strong> I think that simplicity is by far the most important criterion: I have seen a long history of optimization projects get tangled in complexity and fail. Because of the past history of failures I think it’s crucial to do the simplest and most transparent thing at each point until you have a steady rhythm and track record of making progress.</p>
 <p><strong>The hard work is the choice of parameters to tune.</strong> Once you have a small set of parameters to tune it’s not too hard to find the global optimum. However in typical problems there are thousands or millions or billions of possible parameters, how should you choose which ones to tune?</p>
-<!-- 
-- (Meta's AX is used for hyperparameter tuning, but not that much for product experiments)
--->
 </section>
 <section id="the-culture-problem-unfinished" class="level1">
 <h1>The Culture Problem [UNFINISHED]</h1>
@@ -574,16 +519,6 @@ In each case showing some content that is <em>less</em> interesting to the user,
 <li>Educate experiments so they use experiment resuts better.</li>
 </ol>
 <p>[UNFINISHED]</p>
-<!-- **Taking culture as fixed.** People are trying to develop.
-
-**Tech companies are full of quack doctors.** infested with dousing people ; witch hunters ; quack doctors ; medicine men.  -->
-<!-- 
-#                                   Bibliography
-
-
-Tom Cunningham and Dominic Coey (2019, WWW) **[Improving Treatment Effect Estimators Through Experiment Splitting](https://research.fb.com/wp-content/uploads/2019/02/Improving-Treatment-Effect-Estimators-Through-Experiment-Splitting.pdf)**.
-
-Tom Cunningham and Josh Kim (2020, CODE) **[Interpreting Experiments with Multiple Outcomes](https://t.co/cmP24ywRj5)** -->
 
 
 </section>
