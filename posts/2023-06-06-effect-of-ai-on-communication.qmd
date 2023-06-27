@@ -14,6 +14,7 @@ format:
     toc-depth: 2
     toc-location: left
 engine: knitr
+draft: true
 editor:
    render-on-save: true
 ---
@@ -37,7 +38,8 @@ Thanks to many comments, esp. Ravi Iyer and Sahar Massachi.
 #           Introduction
 
 <!-- 
-ONLINE: http://tecunningham.github.io/2023-06-06-effect-of-ai-on-communication.html
+OLD: http://tecunningham.github.io/2023-06-06-effect-of-ai-on-communication.html
+NEW: https://tecunningham.github.io/posts/2023-06-06-effect-of-ai-on-communication.html
 
 SEE ALSO:
    - 2021-08-16 technology and adversarial situations / does technology help the center or periphery?
@@ -62,56 +64,65 @@ SEE ALSO:
 
 **I also sketch a broader theory of the effect of AI on communication,** making the distinction between "internal" and "external" properties. I define an "internal" property as something that is a function solely of the content: whether an image contains nudity, whether text contains hate speech, whether a joke is funny. AI classifiers are rapidly approaching human-level accuracy for these properties and this means that platforms (and governments) will be able to near-perfectly filter out content that violates their rules, even when content-producers have access to the same technology. An "external" property of a message depends on some fact outside the content itself: e.g. whether an image was computer-generated, whether a headline is true, whether a message is from a specific person. Platforms will get better at predicting external properties but they will be outpaced by motivated actors who can manipulate their fakes until they become indistinguishable from genuine articles (and manipulate lies so they're indistinguishable from the truth).
 
+
 Finally the notes has short appendices on the history of forged documents and on relevant forecasting questions from Metaculus.
+
+**What I don't talk about.** Two big topics that I won't touch on: (1) super-intelligent AI and alignment; (2) social biases in machine learning.
 
 
 #           Predictions
 
 **Background: computers have become much better at analyzing and synthesizing content.**
 
-Over the last 50 years there have been steady improvements in computer interpretation of text and images, and especially since around 2012 (the introduction of deep neural nets), now often surpassing the performance of an average human. Since around 2018 computers have also become very good at *synthesizing* content, e.g. creating text, images, or video, to match some description.
+Over the last 50 years computers have been steadily getting better at recognize text and images, with particularly rapid progress since around 2012, so that today computers can out-perform the average humans on many classification tasks. Since around 2018 computers have also become good at *synthesizing* media to match a description, e.g. creating text, images, or video.
 
 ![](images/2023-06-16-05-55-29.png)^[Source: [Our World in Data](https://ourworldindata.org/brief-history-of-AI).]
 
 **The prevalence of policy-violating content on platforms will decline.**
 
-AI models will keep getting better at detecting nudity, obscenity, hate speech, slur words, incitement, illegal acts, violence. The same AI models will also allow producers to obfuscate violating content but as the AI models become arbitrarily close to human judgment then fewer and fewer exceptions will slip through, i.e. fewer items which a human recognizes as violating but the computer does not. Below I give a more formal argument for this ("Venn diagram model"). This prediction applies just to "internal" categories of content where the ground truth is human interpretation without reference to outside information, not to "external" categories such as deepfakes or misinformation, discussed below.
+Each of the large internet platforms has a list of prohibited categories, e.g. nudity, obscenity, hate speech, incitement, etc.. Early automated detection systems used lists of prohibited words. Then platforms started training classifiers from human labels. Early classifiers had relatively high precision and recall but made predictable mistakes: they would rely on identifying words and phrases typically used in violating posts which led to [false positives](https://www.surgehq.ai/blog/are-popular-toxicity-models-simply-profanity-detectors) and [false negatives](https://www.surgehq.ai/blog/25-examples-of-twitters-content-moderation-failures). Such classifiers can also be easily tricked by adding some noise, e.g. "insert typos, change word boundaries or add innocuous words" ([Gröndahl et al.](https://arxiv.org/abs/1808.09115) (2018)). However more recent production models are built on deeper language models and are much more effective at identifying the meaning of posts ([Whitlock Lees et al.](https://research.google/pubs/pub51952/) (2022)).
 
-This prediction is consistent with recent trends. For example Meta reports that the prevalence of nudity, bullying, hate speech, and graphic content have each declined over 2017-2022 by a factor of between 2 and 5, and that the share of actioned content that is detected by an ML model ("proactive rate") is approaching 100% for most categories.[^metaDecline]
+Prevalence of policy-violating content seems to have consistently trended down on most platforms. Meta reports that the prevalence of nudity, bullying, hate speech, and graphic content each declined by a factor of between 2 and 5 between 2017 and 2022, and that the share of identified-violating content that was first identified by an ML model ("proactive rate") is approaching 100% for most categories.[^metaDecline]
+
+<!-- precision and recall will change over time endogenously -->
 
 ![](./2023-01-31-social-media-suspensions-data_files/figure-html/unnamed-chunk-28-1.png)
 
-This prediction also applies to censorship. If an authoritarian governments uses crude pattern-matching to detect anti-government language then that can be circumvented by using indirect language. Better AI will allow governments to classify every post with reliability as high as if they had a human read each one of them, and so indirect language or obfuscation will no longer be an effective workaround.
+On the other side content producers can use AI models to avoid platforms rules, however they seem to run into diminishing returns. If they had access to the platform's classifier then they could keep testing different variants of a violating post until they found a variant that was not identified as violating. However as the model becomes more accurate then more variants will need to be tested, thus the exercise becomes progressively harder, and the balance of power seems to shift in favor of the platform. Below I give a more formal argument for this ("Venn diagram model").
 
-This prediction would fail if there were substantial limits on the performance of AI, e.g. if there were ways of obfuscating content so that a human would recognize it but an AI would not. It seems plausible that AI systems will remain less flexible than humans in general but because they are trained on enormous quantities of data, what they miss in the short-run they should be able to quickly learn to recognize.
+The same prediction also applies to government censorship. Governments which use simple word-matching to detect anti-government language can be circumvented by using indirect language. Better AI will allow governments to classify every post with reliability as high as if they had a human read each one, and so indirect language or obfuscation will no longer be an effective workaround for censorship (however see below for context-specific violations).
+
+This prediction would fail if there were substantial limits on the performance of AI, e.g. if there were ways of obfuscating content so that a human would recognize it but no AI could. It seems plausible that AI systems will remain less flexible than humans in understanding for a long time but, because they are trained on enormous quantities of data, if they miss a subclass of violating content in the short-run they would be able to quickly learn to identify it from fresh human-labeled data.
+
+Whether prevalence will decline all the way to zero depends on the definition of prevalence used. An AI model can never perfectly predict human-rater evaluation because humans are themselves noisy: there is typically substantial between-rater and within-rater variation in labelling for any given piece of content.
 
 [^metaDecline]: It is important to remember that the "proactive rate" is the share of *detected* content that is detected by AI, the share of *violating* content that is detected by AI will certainly be significantly lower but is not generally reported. See Meta's [Community Standards report](https://transparency.fb.com/data/community-standards-enforcement/) and [my visualization of this data](http://tecunningham.github.io/2023-01-31-social-media-suspensions-data.html#meta-facebook-instagram). It's also worth noting that Mark Zuckerberg made a series of predictions that human raters could be substituted with AI, which I think has turned out to be largely correct despite widespread skepticism (including by me), e.g. in late 2018 he [said](https://www.facebook.com/notes/751449002072082/) "through the end of 2019, we expect to have trained our systems to proactively detect the vast majority of problematic content."
-
-Whether prevalence will go precisely to zero depends on the definition of prevalence used. An AI model can never perfectly predict human-rater evaluation because there will still exist significant between-rater and within-rater variation in labelling for any given piece of content.
 
 <!-- Suppose our "ground truth" definition used for prevalence calculations was when 2/3 of experienced raters mark content as violating. In this case even filtering with a theoretically perfect AI model would not drive prevalence to zero (a theoretically perfect AI model would predict the ground truth but still be stochastic because of between-rater and within-rater variation). -->
 
 **The prevalence of *context-specific* violations will increase.**
 
-Prevalence of policy-violating content seems likely to decline. However we should expect substitution towards content that violates the policy's spirit without violating the letter.
-
-I will use the phrase "context-specific violations" to refer to posts that are interpreted by most of their viewers to have a significance that is violating, but interpreted by professional raters (who are not given any information about context) as having a non-violating significance. Some examples:[^selective]
+Prevalence of policy-violating content seems likely to decline. How ever we should expect platform users to substite towards producing content that achieves their intent (communicating a violating message) without being flagged as violating (having a human rater recognize the message as violating). This can be achieved with "context-specific violations": posts that are interpreted by the intended viewers to have a significance that is violating, but interpreted by professional raters (who are not given any information about context) as having a non-violating significance.[^definition] Some examples:[^selective]
 
 - Saying "globalist" when your audience understands it to mean "jewish"
 - Saying the opposite of what is meant, e.g. a bigot saying excessively positive things about a hated ethnic group, or a pro-anorexia poster making sarcastic anti-anorexic statements.
 - Using euphemisms for illegal substances or illegal acts.
 - Using emojis of eggplants and peaches.
-- Using photos without nudity but which can be read as pornographic.[^selective] 
+- Using photos without nudity but which can be read as pornographic.
 
 As AI improves the ability to detect violations it seems likely that there will be at least some substitution towards context-specific violations.
 
-It is possible that platforms will try to catch more context-specific violations: raters could be given more detail about the context and the prior history of the post's author, and raters could be assigned to posts depending on their experience with the argot of the community. Likewise AI models could be trained to include rich representation of the context.^[Platforms already have some policies that include context, e.g. Facebook's ["Bullying and Harassment policy"](https://transparency.fb.com/policies/community-standards/bullying-harassment/)  bans "repeatedly contacting someone in a manner that is unwanted or sexually harassing."] An additional advantage of adding context is that it can identify and exempt posts that violate the letter but not the spirit of the policy.
+Platforms could expand their operational definition of a violation by either (1) giving raters more detail about the context and the prior history of the post's author, or (2) raters could be assigned to posts depending on their experience with the argot of the community. Likewise AI models could be trained to include rich representation of the context.^[Platforms already have some policies that include context, e.g. Facebook's ["Bullying and Harassment policy"](https://transparency.fb.com/policies/community-standards/bullying-harassment/)  bans "repeatedly contacting someone in a manner that is unwanted or sexually harassing."] An additional advantage of adding context is that it can identify and exempt posts that violate the letter but not the spirit of the policy.
 
 However there are reasons why platforms may be reluctant to use context in determining violations: it is more complex, and can lead to awkward PR where the platform is shown to be censoring apparently harmless words and images. Additionally platforms may care more about being seen to restrict harmful content than about the actual harm prevented.
 
-In contrast government censorship is unlikely to be constrained by context-specific violations: once a censor discovers that a term has an anti-government significance in a certain context then they are likely to start censoring that term. E.g. China seems to suppress online mentions of [Winnie the Pooh](https://www.bbc.com/news/blogs-china-blog-40627855), thinking that they would be used to belittle Xi Jinping, and in 2022 Hong Kong police arrested protestors for holding blank pieces of paper.[^HongKong]
+   <!-- add Google papers on detecting toxicity in context -->
+
+In contrast government censorship is unlikely to be constrained by context-specific violations: once a censor discovers that a term has an anti-government significance in a certain context then they are likely to start censoring that term. E.g. China has suppressed online mentions of [Winnie the Pooh](https://www.bbc.com/news/blogs-china-blog-40627855) because it is associated with criticism of Xi Jinping, and in 2022 Hong Kong police arrested protestors for holding blank pieces of paper.[^HongKong]
 
    <!-- Old Soviet joke: A man hands out leaflets on Red Square, and the KGB arrest him. But when they get him to the station, they find that the leaflets are all blank. And he says "Well, everyone knows what the problem is, so why bother writing it down?" -->
+
+[^definition]: Other literature talks about "veiled", "disguised", or "covert" toxic speech, however with a different definition, instead focussing on toxic speech that existing classifiers do poorly on but which humans can accurately label without context. E.g. [Han et al. (2020)](https://aclanthology.org/2020.emnlp-main.622/) say veiled toxicity includes "codewords, novel forms of offense, and subtle and often unintentional manifestations of social bias such as microaggressions and condescension." [Lees (2021)](https://aclanthology.org/2021.hcinlp-1.3/) say "covert toxicity ... includes types of toxicity that may not be immediately obvious. Covertly toxic comments may use obfuscation, code words, suggestive emojis, dark humor, or sarcasm ...[and] [m]icroaggressions." Both papers train models to identify veiled toxicity using content along, without surrounding context.]
 
 [^HongKong]: https://www.axios.com/2022/11/28/china-protests-blank-paper-covid 
 
