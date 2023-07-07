@@ -1,7 +1,7 @@
 ---
 title: The Influence of AI on Content Moderation and Communication
 author: Tom Cunningham
-date: 2023-06-06
+date: 2023-07-07
 execute:
   echo: false
   cache: true # caches chunk output
@@ -20,14 +20,15 @@ editor:
 ---
 <style>
     h1 {  border-bottom: 4px solid black;}
-    h2 {  border-bottom: 0px; font-size: 14px; color: black; }
+    h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; font-size: 14px; color: black; }
 </style>
 
 <span style="background:yellow;">==*Still a draft, don't circulate!*==</span>
 
 ::: {.column-margin}
-![](images/2023-06-14-13-38-42.png)
-Thanks to many comments, esp. Ravi Iyer and Sahar Massachi.
+   <!-- ![](images/2023-06-14-13-38-42.png) -->
+   ![](images/2023-07-07-10-34-40.png)
+   Thanks to many comments, esp. Ravi Iyer, Sahar Massachi, and Tal Yarkoni .
 :::
 
 <!-- TO ADD:
@@ -35,32 +36,38 @@ Thanks to many comments, esp. Ravi Iyer and Sahar Massachi.
    - UV light in scanning banknotes
 -->
 
-#           Introduction
+#           Summary
 
 <!-- 
 OLD: http://tecunningham.github.io/2023-06-06-effect-of-ai-on-communication.html
 NEW: https://tecunningham.github.io/posts/2023-06-06-effect-of-ai-on-communication.html
 
 SEE ALSO:
-   - 2021-08-16 technology and adversarial situations / does technology help the center or periphery?
+   - 2023-04-16 shallow and deep quality
    - 2022-03-26-moderation-models: Producer Incentives -- has a model of producer incentives
    - 2022-01-03-models-of-communication-and-spam.md
-   - 2023-04-16 shallow and deep quality
+   - 2021-08-16 technology and adversarial situations / does technology help the center or periphery?
    - 2020-12-17-social-media-master.md    -- has a table of diff types of decentralized media and exploitations
 -->
 
 **It is difficult to anticipate the effect of AI on online communication.** AI models have already had big effects on content moderation but they are now starting to have effects on content production, e.g. through generating synthetic spam and deepfakes. How is the balance likely to play out?
 
+<!-- For Twitter: 
+
+Ten tentative predictions about the effect of AI on online communication (spam, misinfo, etc.). I'm working on a much longer writeup so would love to hear arguments or references to good literature. -->
+
 **This note discusses a range of evidence and theory, summarized with a set of predictions:**
 
-1. **The prevalence of policy-violating content on platforms will decline.** E.g. the share of nudity, hate speech, and harassment.
-2. **The prevalence of "context-specific" violating content will increase.** This refers to content which superficially appears to be non-violating, but whose intended audience interprets it in a policy-violating way.
-3. **The prevalence of database matched content will decrease.** E.g. content that can be matched to databases of illegal sexual media, IP-protected content, or terrorist recruitment content.
-4. **Platforms will not be able to identify bots from their behavior.** Behavioral tests like CAPTCHAs will become ineffective against sophisticated actors, platforms will have to rely on other proofs of identity.
-5. **Platforms will not be able to discriminate between real and fake media based only on the content.** Platforms will not be able to reliably identify fake news, fake media, manipulated media, or computer-synthesized media, without relying on their provenance.
-6. **Fake media will not have a substantial influence on politics.** Forged documents have circulated for thousands of years but generally with a limited influence on politics because documents have always been evaluted not just on their content but their provenance. Advances in forgery seem likely to be accompanied by advances in skepticism.
-7. **Communication will migrate further towards large closed platforms.** The rise of synthetic content will make it harder for individuals to discriminate between reliable and unreliable information sources, and so likely to increase the demand for intermediaries, which likely means reliance on closed platforms.
-8. **Things will get weird.** Our intuitions about meaning and interpretation are based on experience with human-created representations. When computers can generate representations then strange things are likely to happen.
+1. **The prevalence of policy-violating content on platforms will decline.** E.g. the share of nudity, hate speech, and harassment. Classifiers are already approaching human-level performance, which is the ground truth, and so prevalence should approach zero. The same argument applies to censorship.
+2. **The prevalence of "context-specific" violating content will increase.** This refers to content which appears to be non-violating to the average person but is interpreted in a policy-violating way by its intended audience, or in the specific context where it is posted.
+3. **The prevalence of variations of known-violating content will decrease.** E.g. content that is a match against databases of illegal sexual media (PhotoDNA), IP-protected content (ContentID), or terrorist recruitment content (GIFCT). Obfuscation will become harder as AI models get better.
+4. **Platforms will not be able to identify bots from their behavior.** Behavioral tests like CAPTCHAs will become ineffective against sophisticated actors and so platforms will have to rely relatively more on direct proofs of identity.
+5. **People will not be able to discriminate between real and fake media based only on the content.** Until now it has been often possible for people to detect whether recorded evidence was manipulated (photo, audio, video). That will no longer be true.
+6. **Platforms will not be able to discriminate between real and fake media based only on the content.** It is unlikely that AI classifiers will be able to detect AI-manipulated media. This doesn't change the status quo: historicall misinformation classifiers are very poor if they use only content features.
+7. **Fake media will not have a substantial influence on politics.** Forged documents have circulated for thousands of years but generally with a limited influence on politics because documents have always been evaluted not just on their content but their provenance. Advances in forgery technology seem likely to be accompanied by advances in skepticism.
+8. **Computer-generated content will not be hyper-persuasive.** LLMs are unlikely to find the hidden key for manipulating public opinion. LLMs imitate what other people say, they have very limited insight into how it works. Social scientists have warned about hyper-persuasion for a century and been wrong every time.
+9. **Communication will migrate further towards large closed platforms.** The rise of synthetic content will make it harder for individuals to discriminate between reliable and unreliable information sources, and so likely to increase the demand for intermediaries, which implies greater demand for verification and closed platforms.
+10. **Things will get weird.** Our intuitions about meaning and interpretation are based on experience with human-created representations. When computers can generate representations then strange things are likely to happen.
 
 **I also sketch a broader theory of the effect of AI on communication,** making the distinction between "internal" and "external" properties. I define an "internal" property as something that is a function solely of the content: whether an image contains nudity, whether text contains hate speech, whether a joke is funny. AI classifiers are rapidly approaching human-level accuracy for these properties and this means that platforms (and governments) will be able to near-perfectly filter out content that violates their rules, even when content-producers have access to the same technology. An "external" property of a message depends on some fact outside the content itself: e.g. whether an image was computer-generated, whether a headline is true, whether a message is from a specific person. Platforms will get better at predicting external properties but they will be outpaced by motivated actors who can manipulate their fakes until they become indistinguishable from genuine articles (and manipulate lies so they're indistinguishable from the truth).
 
@@ -72,13 +79,13 @@ Finally the notes has short appendices on the history of forged documents and on
 
 #           Predictions
 
-**Background: computers have become much better at analyzing and synthesizing content.**
+##          Background: computers have become much better at analyzing and synthesizing content
 
 Over the last 50 years computers have been steadily getting better at recognize text and images, with particularly rapid progress since around 2012, so that today computers can out-perform the average humans on many classification tasks. Since around 2018 computers have also become good at *synthesizing* media to match a description, e.g. creating text, images, or video.
 
 ![](images/2023-06-16-05-55-29.png)^[Source: [Our World in Data](https://ourworldindata.org/brief-history-of-AI).]
 
-**The prevalence of policy-violating content on platforms will decline.**
+##          The prevalence of policy-violating content on platforms will decline
 
 Each of the large internet platforms has a list of prohibited categories, e.g. nudity, obscenity, hate speech, incitement, etc.. Early automated detection systems used lists of prohibited words. Then platforms started training classifiers from human labels. Early classifiers had relatively high precision and recall but made predictable mistakes: they would rely on identifying words and phrases typically used in violating posts which led to [false positives](https://www.surgehq.ai/blog/are-popular-toxicity-models-simply-profanity-detectors) and [false negatives](https://www.surgehq.ai/blog/25-examples-of-twitters-content-moderation-failures). Such classifiers can also be easily tricked by adding some noise, e.g. "insert typos, change word boundaries or add innocuous words" ([Gröndahl et al.](https://arxiv.org/abs/1808.09115) (2018)). However more recent production models are built on deeper language models and are much more effective at identifying the meaning of posts ([Whitlock Lees et al.](https://research.google/pubs/pub51952/) (2022)).
 
@@ -98,9 +105,11 @@ Whether prevalence will decline all the way to zero depends on the definition of
 
 [^metaDecline]: It is important to remember that the "proactive rate" is the share of *detected* content that is detected by AI, the share of *violating* content that is detected by AI will certainly be significantly lower but is not generally reported. See Meta's [Community Standards report](https://transparency.fb.com/data/community-standards-enforcement/) and [my visualization of this data](http://tecunningham.github.io/2023-01-31-social-media-suspensions-data.html#meta-facebook-instagram). It's also worth noting that Mark Zuckerberg made a series of predictions that human raters could be substituted with AI, which I think has turned out to be largely correct despite widespread skepticism (including by me), e.g. in late 2018 he [said](https://www.facebook.com/notes/751449002072082/) "through the end of 2019, we expect to have trained our systems to proactively detect the vast majority of problematic content."
 
+[^employment]: A corollary of this prediction is that employment of human moderators will decline: as computer accuracy improves there will be less need for humans, and newer computer models require less human-labeled training data ( Whitlock Lees (2022) above demonstrates that their model can do well at zero-shot or one-shot tasks).
+
 <!-- Suppose our "ground truth" definition used for prevalence calculations was when 2/3 of experienced raters mark content as violating. In this case even filtering with a theoretically perfect AI model would not drive prevalence to zero (a theoretically perfect AI model would predict the ground truth but still be stochastic because of between-rater and within-rater variation). -->
 
-**The prevalence of *context-specific* violations will increase.**
+##             The prevalence of *context-specific* violations will increase
 
 Prevalence of policy-violating content seems likely to decline. How ever we should expect platform users to substite towards producing content that achieves their intent (communicating a violating message) without being flagged as violating (having a human rater recognize the message as violating). This can be achieved with "context-specific violations": posts that are interpreted by the intended viewers to have a significance that is violating, but interpreted by professional raters (who are not given any information about context) as having a non-violating significance.[^definition] Some examples:[^selective]
 
@@ -128,13 +137,13 @@ In contrast government censorship is unlikely to be constrained by context-speci
 
 [^selective]: A related phenomena is people using selective truths to give an impression that is false. E.g. it is common for anti-vaccination groups to refrain from posting provably false claims and instead post only those true claims which reflect badly on vaccines. People with a bias against some ethnic group likewise often refrain from posting provably false claims but post only those true claims that reflect badly on the hated group. Because the pool of true claims is enormous it is easy to collect a large set of true claims that collectively give a false impression.
 
-**(3) The prevalence of database-matched violating content on platforms will approach zero.**
+##          The prevalence of database-matched violating content on platforms will approach zero
 
-Many platforms try to detect content that matches content in a database, e.g. databases of illegal sexual media (CSAM), IP-protected content (Content ID), or terrorist recruitment content (GIFCT). People who upload this content thus will try to obfuscate their content to confuse the matching algorithms, e.g. by adding noise. 
+Many platforms try to detect content that matches content in a database, e.g. databases of illegal sexual media (PhotoDNA), IP-protected content (Content ID), or terrorist recruitment content (GIFCT). People who upload this content thus will try to obfuscate their content to confuse the matching algorithms, e.g. by adding noise. 
 
 Improvements to AI will help both parties but it seems likely that the AI will help platforms relatively more. As I argue in the model below: as AI recognition approaches a human level it will be difficult to upload a recognizable variant of a known piece of violating content without the platform automatically labelling it as such.
 
-**(4) Platforms will not be able to identify bots from their behavior.**
+##          Platforms will not be able to identify bots from their behavior
 
 Most online platforms struggle with automated users (bots) who are disruptive in a variety of ways. One way of protecting against bots is with behavioral tests, e.g. a CAPTCHA test asking users an image-recognition task[^captcha], or by using on-platform behavior to detect whether a user is human. However improvements in AI mean that computers can now recognize most images as well as humans, and can learn to imitate human-style behavior patterns, so it seems likely these behavioral tests will become ineffective against sophisticated actors.
 
@@ -142,7 +151,7 @@ This does not imply that the prevalence of bots will increase. All platforms nee
 
 [^captcha]: CAPTCHA stands for Completely Automated Public Turing test to tell Computers and Humans Apart.
 
-**(5) Platforms will find it hard to discriminate between real and fake media.**
+##             Platforms will find it hard to discriminate between real and fake media
 
 There are a number of properties where the ground truth depends on the relationship between the content and the real world:
 
@@ -156,7 +165,7 @@ There are a number of properties where the ground truth depends on the relations
 
    [^ranking]: See discussion in my note on [how platforms rank](http://tecunningham.github.io/2023-04-28-ranking-by-engagement.html). 
    
-**(6) Fake media (deepfakes) will not have a substantial influence on politics.**
+##             Fake media (deepfakes) will not have a substantial influence on politics
 
 As it becomes cheaper to manipulate and synthesize media then people are likely to become more skeptical and rely relatively more on the *provenance* of information. Thus although synthetic media will likely circulate I do not think it will have a substantial influence on beliefs in equilibrium.
 
@@ -176,11 +185,30 @@ As it becomes cheaper to manipulate and synthesize media then people are likely 
 
    <!-- Circulation of fake information: we have already adapted (1) skepticism ("don't believe what u read on the internet"); (2) platforms get burned by it so try to reduce distribution. Not sure whether adding audio/video would add to this. -->
 
-**(7) Influence Operations will not be substantially affects.**
 
-   A 2022 [report](https://arxiv.org/pdf/2301.04246.pdf) from the Stanford Internet Observatory lists a number of ways in which LLMs could be used by influence operations: .
+##          Computer-Generated Content will not be Hyper-Persuasive
 
-**(8) Communication will migrate towards large closed platforms.**
+There has been some anxiety that computers will be used to create messages that are much more persuasive than would be created by a human, e.g. .
+
+It is difficult to make generalizations about overall human persuadability:
+
+1. Each decade of the 20th century has had some prophets warning of the new technologies of human manipulation: using subcoscious associations (Bernays), using conditioning (Skinner), using subliminal messages (Packard), using brainwashing (Sargant), using propaganda techniques of Fascism (), using the power of conformity (Asch, Zimbardo), using priming and nudges (Bargh, Thaler), or using psychological profiling (Cambridge Analytica).
+
+2. Carefully measured evidence of persuasive effects tend to be low. 
+
+3. Nevertheless 1/3 of the economy is devoted to persuasion, and attitudes and preferences vary between populations primarily due to social context implying there must be *some* extra-rational means by which people form their attitudes.
+
+As a bsaeline I think it's fair to say that over the last 100 years public discourse has consistently over-rated the suggestibility of humans. Freudian 
+
+
+
+##          Influence Operations will not be substantially affected
+
+A 2022 [report](https://arxiv.org/pdf/2301.04246.pdf) from the Stanford Internet Observatory lists a number of ways in which LLMs could be used by influence operations, mainly by writing copy either for social media posts or for 1:1 message threads. There does not seem to be evidence that the current generation of LLM-created messages would be more persuasive than human-created messages.[^LLMpersuasion] Thus the effect on Influence Operations will be to lower the cost of content production, however I'm not sure this will have a dramatic effect on their overall effectiveness because it's not clear that they're primarily constrained on the volume of text that they can produce, influence operations also are constrained on creating accounts, compromising existing accounts, building audiences, and monitoring and experimenting with different messages.
+
+[^LLMpersuasion]: This is also my interpretation of Goldstein et al. (2023) ["Can AI Write Persuasive Propaganda"](https://osf.io/preprints/socarxiv/fp87b/): they use GPT-3 to write persuasive text and get humans to rate its persuasiveness. Under some narrow circumstances they find GPT-3's text is as persuasive as human-written text.
+
+##          Communication will migrate towards large closed platforms
 
 It seems likely that smaller platforms who cannot afford sophisticated defences will become overrun with AI-created bots, spam, obfuscated violating content, and fake media. This would imply that consumers will tend to migrate to larger closed platforms with more effective defences, and which have more restriction on participation. This continues a general movement over the last 20 years of communication moving from small open platforms (independent email, small forums, mailing lists, independent websites) to large closed platforms (large email providers, large social media platforms).
 
@@ -198,7 +226,7 @@ It seems likely that smaller platforms who cannot afford sophisticated defences 
 
    I don't expect that adoption of cryptographic signing will markedly increase, in short because (...) -->
 
-**(8) Things will get weird.**
+##          Things will get weird
 
 Much of our common-sense understanding of media will be violated when we routinely use AI models to manipulate and synthesize artefacts. Some examples:
 
@@ -216,6 +244,7 @@ Much of our common-sense understanding of media will be violated when we routine
 
    TO ADD: limits on the classifiers, types of content which they cannot recognize or cannot synthesize to human level. E.g. chess with new rules. 
 -->
+
 
 
 
@@ -275,33 +304,32 @@ Much of our common-sense understanding of media will be violated when we routine
 **A common thread unifies many of the predictions above: internal vs external properties.** I say an "internal" property of a piece of content is one where the ground truth is human judgment of that content without reference to any external facts. An "external" property depend on some external fact, e.g. about provenance of the content (who created it, how it was made), or about the accuracy of what the content claims or depicts.
 
 
-
-| property                                             | internal/external | detection method                  | obfuscation methods             |
-| ---------------------------------------------------- | ----------------- | --------------------------------- | ------------------------------- |
-| whether text contains a curse/slur                   | internal          | string matching                   | misspell, neologisms            |
-| whether text contains criticism of government        | internal          | string matching                   | indirect language               |
-| whether text is match against database               | internal          | plagiarism detection (e.g. Chegg) | misspell, reword                |
-| whether photo contains nudity                        | internal          |                                   | add noise, transform            |
-| whether media is match against database              | internal          | PhotoDNA                          | add noise, transform            |
-| whether image contains a specific watermark          |                   |                                   |                                 |
-| whether a message is signed by a specific public key | internal          |                                   |                                 |
-|                                                      |                   |                                   |                                 |
-| whether a picture looks good                         | internal          |                                   |                                 |
-| whether a joke is funny                              | internal          |                                   |                                 |
-| whether user will engage (like, comment, share)      | internal          |                                   |                                 |
-|                                                      |                   |                                   |                                 |
-| whether email is mass and unsolicited (spam)         | external          | naive Bayes                       |                                 |
-| whether message is from a real human (vs bot)        | external          | naive Bayes                       |                                 |
-| whether artwork is by a specific person              | external          |                                   |                                 |
-| whether writing is by a specific person              | external          | stylometry                        |                                 |
-| whether media has been altered                       | external          |                                   |                                 |
-| whether media is synthetic (deepfake)                | external          |                                   |                                 |
-| whether text is generated by an LLM                  | external          |                                   |                                 |
-| whether user behavior is by a bot                    | external          | CAPTCHA                           |                                 |
-| whether an article is misinformation                 | external          |                                   |                                 |
-| whether a photo is misleading                        | external          |                                   |                                 |
-| whether content is retentive                         | external          |                                   |                                 |
-| whether a web page answers a query                   | external          | PageRank, embedding               | content farm, synthetic content |
+| property                                        | internal/external | detection method            | obfuscation methods     |
+| ----------------------------------------------- | ----------------- | --------------------------- | ----------------------- |
+| whether text contains a curse/slur              | internal          | string matching             | misspell, neologisms    |
+| whether text contains criticism of government   | internal          | string matching             | indirect language       |
+| whether text is match against database          | internal          | plagiarism detector (Chegg) | misspell, reword        |
+| whether photo contains nudity                   | internal          |                             | add noise, transform    |
+| whether media is match against database         | internal          | PhotoDNA                    | add noise, transform    |
+| whether image contains a specific watermark     |                   |                             |                         |
+| whether a message is signed by a public key     | internal          |                             |                         |
+|                                                 |                   |                             |                         |
+| whether a picture looks good                    | internal          |                             |                         |
+| whether a joke is funny                         | internal          |                             |                         |
+| whether user will engage (like, comment, share) | internal          |                             |                         |
+|                                                 |                   |                             |                         |
+| whether email is mass and unsolicited (spam)    | external          | naive Bayes                 |                         |
+| whether message is from a real human (vs bot)   | external          | naive Bayes                 |                         |
+| whether artwork is by a specific person         | external          |                             |                         |
+| whether writing is by a specific person         | external          | stylometry                  |                         |
+| whether media has been altered                  | external          |                             |                         |
+| whether media is synthetic (deepfake)           | external          |                             |                         |
+| whether text is generated by an LLM             | external          |                             |                         |
+| whether user behavior is by a bot               | external          | CAPTCHA                     |                         |
+| whether an article is misinformation            | external          |                             |                         |
+| whether a photo is misleading                   | external          |                             |                         |
+| whether content is retentive                    | external          |                             |                         |
+| whether a web page answers a query              | external          | PageRank, embedding         | content farm, synthetic |
 
 <!-- 
 **On-demand filtering is not the primary tool.** Even if we have highly imperfect ways of detecting a property, whether internal or external, still we can drive down prevalence through using metadata and repeated interactions, and arguably that's been the primary reason for the decline.
