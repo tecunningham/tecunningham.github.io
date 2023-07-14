@@ -37,8 +37,6 @@ editor:
    - UV light in scanning banknotes
 -->
 
-#           Summary
-
 <!-- 
 OLD: http://tecunningham.github.io/2023-06-06-effect-of-ai-on-communication.html
 NEW: https://tecunningham.github.io/posts/2023-06-06-effect-of-ai-on-communication.html
@@ -50,6 +48,10 @@ SEE ALSO:
    - 2021-08-16 technology and adversarial situations / does technology help the center or periphery?
    - 2020-12-17-social-media-master.md    -- has a table of diff types of decentralized media and exploitations
 -->
+
+
+#           Summary
+
 
 **It is difficult to anticipate the effect of AI on online communication.** AI models have already had big effects on content moderation but they are now starting to have effects on content production, e.g. through generating synthetic spam and deepfakes. How is the balance likely to play out?
 
@@ -161,11 +163,13 @@ Improvements to AI will help both parties but it seems likely that the AI will h
 
 ##          Platforms will not be able to identify bots from their behavior
 
-Most online platforms struggle with automated users (bots) who are disruptive in a variety of ways. One way of protecting against bots is with behavioral tests, e.g. a CAPTCHA test asking users an image-recognition task[^captcha], or by using on-platform behavior to detect whether a user is human. However improvements in AI mean that computers can now recognize most images as well as humans, and can learn to imitate human-style behavior patterns, so it seems likely these behavioral tests will become ineffective against sophisticated actors.
+Most online platforms struggle with automated users (bots) who are disruptive in a variety of ways. One way of protecting against bots is with behavioral tests, e.g. a CAPTCHA test asking users an image-recognition task[^captcha], or by using on-platform behavior to detect whether a user is human. However improvements in AI mean that computers can now recognize most images as well as humans, and can learn to imitate human-style behavior patterns, so it seems likely these behavioral tests will become ineffective against sophisticated actors.[^fingerprinting]
 
 This does not imply that the prevalence of bots will increase. All platforms need some defense against bots so they will have to rely relatively more on other forms of authentication: monetary payment, offline identity credentials (government ID, credit card number), hard-to-fake metadata (e.g. unique IP address, device ID), or 3rd-party authentication (e.g. from Google, Apple).^[The 3rd-party identity providers will themselves have to rely on some other ground truth when accepting signups.] Thus the barriers to signing up for a service (and especially posting on it) will become higher.
 
 [^captcha]: CAPTCHA stands for Completely Automated Public Turing test to tell Computers and Humans Apart.
+
+[^fingerprinting]: Similarly behavioural fingerprinting will become ineffective against advanced actors, e.g. using voice recognition to verify identity.
 
 ##          Platforms will find it hard to discriminate between real and fake media
 
@@ -334,7 +338,7 @@ Much of our common-sense understanding of media will be violated when we routine
 | Tripp Tapes                                         | 1997 | audio             | Linda Tripp to Kenneth Starr                   |
 | [**FORGERY**] Iraq letters to Niger ("yellowcake")  | 2002 | documents         | Unknown to Italian intelligence to CIA         |
 | [**FORGERY**] Bush military transcripts ("Killian") | 2004 | fax of 1970s memo | Unknown to retired colonel to Dan Rather / CBS |
-| Abu Ghraib photos                                   | 2004 | photos            | Unnkown to CBS                                 |
+| Abu Ghraib photos                                   | 2004 | photos            | Unkown to CBS                                 |
 | Baghdad Airstrike ("Collateral Murder")             | 2007 | video             | Chelsea Manning to Wikileaks                   |
 | US Iraq war logs                                    | 2010 | digital docs      | Chelsea Manning to Wikileaks                   |
 | US Diplomatic cables                                | 2010 | digital docs      | Chelsea Manning to Wikileaks                   |
@@ -405,6 +409,9 @@ Much of our common-sense understanding of media will be violated when we routine
 | whether a photo is misleading                   | external          |                             |                         |
 | whether content is retentive                    | external          |                             |                         |
 | whether a web page answers a query              | external          | PageRank, embedding         | content farm, synthetic |
+| whether audio matches someone's voice           | external          |                             |                         |
+| whether a user is over 18                       | external          |                             |                         |
+| whether nude photo subject is under 18          | external          |                             |                         |
 
 <!-- 
 **On-demand filtering is not the primary tool.** Even if we have highly imperfect ways of detecting a property, whether internal or external, still we can drive down prevalence through using metadata and repeated interactions, and arguably that's been the primary reason for the decline.
@@ -499,6 +506,23 @@ Suppose that we remove all detected violating posts (i.e. $\hat{V}$). In the cas
 4. **Content will cluster just below the classifier threshold.** So far we have discussed everything in binary terms, thought realistically most things are continuous. If we action posts in a binary manner, e.g. filtering posts with a classifier score above some threshold, then producers will have an incentive to produce posts which are just below the threshold for filtering.
 
 <!-- **Followup: "open" policies.** This discussion has been predicated on there being an unambiguous ground truth, $V$. However in some cases violation of the policy can depend on facts outside of the content itself. E.g. whether a post is misinformation (depends on facts in the world), whether a link is exaggerating or leads to an ads-farm (depends on the content of the link), whether a post provokes hate speech (depends on user response to the post), whether a post is inauthentic (depends on whether author is who they claim to be). I think the analysis will be a bit different then. -->
+
+#           Appendix: Discrimination Model
+
+```{tikz}
+\begin{tikzpicture}[scale=2]
+   %\draw (-1,-1)--(1,-1)--(1,1)--(-1,1)--(-1,-1);
+   
+   \draw[black] (-2,0) -- plot[domain=-2:2] (\x,{exp(-(\x)^2)}) -- (2,0) -- cycle;
+   \node at (0,1.2) {real};
+
+   \draw[red] (-2,0) -- plot[domain=-2:2] (\x,{exp(-(\x+1.5)^2)}) -- (2,0) -- cycle;
+   \node at (-1.5,1.2) {fake};
+
+   \draw[dashed] (-.75,0) -- (-.75,1) node[above] {blah};
+
+\end{tikzpicture}
+```
 
 #           Appendix: Forecasts from Metaculus
 
