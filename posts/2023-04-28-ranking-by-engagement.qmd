@@ -1,8 +1,7 @@
 ---
 title: Ranking by Engagement
-#subtitle: 
 date: 2023-05-08
-author: Tom Cunningham, Resident Fellow at the  [Integrity Institute](https://integrityinstitute.org)
+author: Tom Cunningham
 #institute: "This should be orange"
 aliases:
   - 2023-04-28-ranking-by-engagement.html
@@ -215,6 +214,7 @@ See also:
 15. **Platforms additionally care about engagement because of network effects.** I said above that platforms care about engagement primarily insofar as it's a proxy for retention, however there is an additional reason to pay attention to engagement. When one user engages (likes, comments, retweets) this increases the value of the platform to all the other users, and so has an indirect positive effect on retention. For this reason platforms are generally willing to sacrifice some retention in return for engagement, as measured in an experiment, if the sacrifice is sufficiently small.
 
 #           Technical Appendix: Expressed as a Covariance Matrix
+
 
 **We can express most of the argument above with a covariance matrix.** Given a user we can give scores to each piece of content with respect to the five attributes defined above. Then we can give a reasonable characterization of the platform ranking problem with the following covariance matrix:
 
@@ -496,3 +496,61 @@ Andrew Mauboussin (2022, SurgeAI) ["Moving Beyond Engagement: Optimizing Faceboo
 
 
 Arvin Narayanan (2023) ["Understanding Social Media Recommendation Algorithms"](https://knightcolumbia.org/content/understanding-social-media-recommendation-algorithms)
+
+Lubin & Gilbert (2023) ["Accountability Infrastructure: How to implement limits on platform optimization to protect population health"](https://arxiv.org/abs/2306.07443)
+
+Bengani, Stray & Thorburn (2022,Medium) ["What’s Right and What’s Wrong with Optimizing for Engagement"](https://medium.com/understanding-recommenders/whats-right-and-what-s-wrong-with-optimizing-for-engagement-5abaac021851)
+   <!-- Jonathan says "this was quite influential when published" -->
+
+
+
+#           Appendix: Taxonomy of Metrics
+
+This is meant to be a parsimonious taxonomy of metrics used in a recommender. They are organized by the the types of entity they apply to. For simplicity I omit aggregations (e.g. a user's like rate is just the average over likes over user-item pairs), and I omit predictions (e.g. an item's pToxic is just the prediction of whether a paid rater would rate the item as toxic).
+
+| **entity**    | **type of metric**   | **metric**                                         |
+| ------------- | -------------------- | -------------------------------------------------- |
+| user          | activity             | login (DAU/DAP)                                    |
+|               |                      | time spent                                         |
+|               |                      |                                                    |
+|               | evaluation           | survey ("are you satisfied?")                      |
+|               |                      |                                                    |
+| ------------- | -------------------- | -------------------------------------------------- |
+| item          | paid rater           | policy-violating ("does this violate policy?")     |
+|               |                      | quality evaluation ("does this fit quality defn?") |
+|               |                      |                                                    |
+|               |                      |                                                    |
+|               | objective features   | recency                                            |
+|               |                      | item contains author info                          |
+|               |                      | item contains link                                 |
+|               |                      |                                                    |
+| ------------- | -------------------- | -------------------------------------------------- |
+| producer      | objective features   | off-platform popularity                            |
+|               |                      |                                                    |
+|               | graph statistics     | network centrality                                 |
+|               |                      |                                                    |
+| ------------- | -------------------- | -------------------------------------------------- |
+| user-item     | social interaction   | like (heart/fav/emoji reaction)                    |
+|               |                      | comment (reply)                                    |
+|               |                      | reshare (retweet/forward)                          |
+|               |                      | downstream interactions                            |
+|               |                      |                                                    |
+|               | interest signal      | linger (time spent watching)                       |
+|               |                      | click (follow link, expand)                        |
+|               |                      |                                                    |
+|               | evaluation           | star-rating                                        |
+|               |                      | upvote (downvote)                                  |
+|               |                      | survey ("did you find this worth your time?")      |
+|               |                      | see-more                                           |
+|               |                      | dislike (see less)                                 |
+|               |                      |                                                    |
+|               | other                | report                                             |
+|               |                      | dislike                                            |
+|               |                      |                                                    |
+| ------------- | -------------------- | -------------------------------------------------- |
+| user-producer | interest signal      | follow (subscribe, friend)                         |
+|               |                      | block                                              |
+|               |                      |                                                    |
+
+
+
