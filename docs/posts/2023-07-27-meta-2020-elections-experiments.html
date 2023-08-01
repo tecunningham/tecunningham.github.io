@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2023-07-07">
 <meta name="description" content="Tom Cunningham blog">
 
-<title>Meta 2020 Elections Experiments | Tom Cunningham</title>
+<title>How Large is Facebook’s Effect on Polarization? | Tom Cunningham</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,7 +23,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -76,10 +95,22 @@ ga('send', {
   'anonymizeIp': true,
 });
 </script>
+<script>window.MathJax = {
+         loader: { load: ['[custom]/xypic.js'],
+                     paths: {custom: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/'}},
+      tex: {packages: {'[+]': ['xypic']},
+         macros: {
+            bm: ["\\boldsymbol{#1}", 1],
+            ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+            utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3]
+         }}};
+</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../styles.css">
-<meta name="twitter:title" content="Meta 2020 Elections Experiments | Tom Cunningham">
+<meta name="twitter:title" content="How Large is Facebook’s Effect on Polarization? | Tom Cunningham">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="tecunningham.github.io/posts/images/2023-07-27-15-03-32.png">
 <meta name="twitter:image-height" content="1338">
@@ -133,7 +164,7 @@ ga('send', {
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Meta 2020 Elections Experiments</h1>
+      <h1 class="title">How Large is Facebook’s Effect on Polarization?</h1>
                       </div>
   </div>
     
@@ -166,9 +197,16 @@ ga('send', {
    
   <ul class="collapse">
   <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background">Background</a></li>
+  <li><a href="#in-a-diagram" id="toc-in-a-diagram" class="nav-link" data-scroll-target="#in-a-diagram">In a Diagram</a></li>
+  <li><a href="#summary-of-results" id="toc-summary-of-results" class="nav-link" data-scroll-target="#summary-of-results">Summary of Results</a></li>
   <li><a href="#comparing-experimental-to-aggregate-effects" id="toc-comparing-experimental-to-aggregate-effects" class="nav-link" data-scroll-target="#comparing-experimental-to-aggregate-effects">Comparing Experimental to Aggregate Effects</a></li>
-  <li><a href="#appendix-aggregate-trends-in-affective-polarization" id="toc-appendix-aggregate-trends-in-affective-polarization" class="nav-link" data-scroll-target="#appendix-aggregate-trends-in-affective-polarization">Appendix: Aggregate Trends in Affective Polarization</a></li>
+  <li><a href="#appendix-data-on-media-and-polarization" id="toc-appendix-data-on-media-and-polarization" class="nav-link" data-scroll-target="#appendix-data-on-media-and-polarization">Appendix: Data on Media and Polarization</a></li>
   <li><a href="#other-evidence-on-facebook-and-polarization" id="toc-other-evidence-on-facebook-and-polarization" class="nav-link" data-scroll-target="#other-evidence-on-facebook-and-polarization">Other Evidence on Facebook and Polarization</a></li>
+  <li><a href="#appendix-how-to-describe-a-null-result" id="toc-appendix-how-to-describe-a-null-result" class="nav-link" data-scroll-target="#appendix-how-to-describe-a-null-result">Appendix: How to Describe a Null Result</a></li>
+  <li><a href="#appendix-discussions-of-power" id="toc-appendix-discussions-of-power" class="nav-link" data-scroll-target="#appendix-discussions-of-power">Appendix: Discussions of Power</a></li>
+  <li><a href="#appendix-model-of-media-effects" id="toc-appendix-model-of-media-effects" class="nav-link" data-scroll-target="#appendix-model-of-media-effects">Appendix: Model of Media Effects</a></li>
+  <li><a href="#appendix-additional-literature-on-media-effects" id="toc-appendix-additional-literature-on-media-effects" class="nav-link" data-scroll-target="#appendix-additional-literature-on-media-effects">Appendix: Additional Literature on Media Effects</a></li>
+  <li><a href="#bibliography" id="toc-bibliography" class="nav-link" data-scroll-target="#bibliography">Bibliography</a></li>
   </ul>
 </nav>
 </nav>
@@ -186,14 +224,80 @@ ga('send', {
     h1 {  border-bottom: 4px solid black;}
     h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; font-size: 14px; color: black; }
 </style>
-<div class="page-columns page-full"><p><strong>Three new experiments seem to show FB is not make a major contribution to polarization:</strong> The experiments rule out effects on affective polarization more than 0.02 standard deviations (SD), compared to a nationwide increase of 0.5 SD over the last 20 years.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Thanks to Dean Eckles, Solomon Messing, Jeff Allen, Brandon Silverman, Jeff Allen for discussion which led to this post. I put together the spreadsheet along with Dean and Solomon.</p></li></div></div>
-<p><strong>However we can be confident these experiments under-estimate the aggregate effect of Facebook use on polarization.</strong> This is because they are (a) short-run, (b) user-level, (c) only on single features, (d) run during a period of conservative ranking. If each reason contributes a factor of 2X to effect-sizes then the long-run aggregate effect could be 16X larger than what is measured in these experiments, i.e.&nbsp;meaning we could only rule out an effect of 0.32 SDs.</p>
-<p><strong>In any case there are other non-experimental reasons to think Facebook hasn’t made a large contribution to US polarization.</strong> Specifically most of the aggregate growth in polarization in the last 40 years was among people without internet access, and there are a number of other big potential culprits, especially cable TV. See discussion below.</p>
+<p>==draft: don’t circulate please==</p>
+<div class="page-columns page-full"><p><strong>Three new experiments appear to show Facebook has a small impact on political polarization:</strong> The experiments rule out effects on affective polarization of more than 0.02 standard deviations (SD), a much smaller effect than the aggregate increase of 0.5 SD over the last 20 years.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Thanks to Dean Eckles, Solomon Messing, Jeff Allen, &amp; Brandon Silverman for discussion which led to this post. I put together the <a href="https://docs.google.com/spreadsheets/d/1_96kEzP9MFLcBFppVV0Bl7O3Cv9hQFxKArwS2zVCtXE/edit#gid=0">spreadsheet summary of results</a> with Dean and Solomon.</p></li></div></div>
+<p><strong>However we can be confident these experiments under-estimate the aggregate effect of Facebook use on polarization.</strong> This is because they are (a) short-run, (b) user-level, (c) manipulate individual features, (d) were run during a period of conservative ranking. If each reason contributes a factor of 2X to effect-sizes then the long-run aggregate effect could be 16X larger than what is measured in these experiments, i.e.&nbsp;meaning we could only rule out an aggregate effect of 0.32 SDs.</p>
+<p><strong>In any case there are other non-experimental reasons to think Facebook hasn’t made a large contribution to US polarization.</strong> Specifically (1) Facebook is only a small share of all political exposure, (2) most of the aggregate growth in polarization in the last 40 years was among people without internet access, (3) there are a number of other big potential culprits for polarization growth.</p>
 <section id="background" class="level1">
 <h1>Background</h1>
-<p><strong>Basic facts.</strong> The experiments show that three feature-changes on FB (ranking, reshares, downranking like-minded) have effects on affective polarization of less than 0.02 SD after 3 months. In the US affective polarization has increased by roughly 0.5SD over 20 years, so if we compare the raw effects then our CIs would say FB cannot contribute more than 1/25th of this increase.</p>
+<p><strong>The New Experiments.</strong> The new papers report on 3 experiments (removing ranking, removing reshares, and downranking like-minded) run for 3 months in late 2020 on Facebook and Instagram. The results show effects on affective polarization of less than 0.03 SD. In the US affective polarization has increased by roughly 0.5 SD over 20 years, so if we compare the raw effects then our CIs would say FB could not have contributed more than 1/25th of this increase.</p>
+<p><strong>Is this effect small or large?</strong> Most of the reporting has described the effects as “negligible” or “undetectable”. I find that a little irritating: we want to know whether the effects are small or large relative to what we expected them to be, that will tell us what we have learned from these experiments.</p>
+<p><strong>What is the question?</strong> It’s worth trying to be crisp about the counterfactual: suppose it’s the world in whcih there was no social media, and .</p>
 <p><strong>Data.</strong> Dean Eckles, Solomon Messing, and myself put together a rough <a href="https://docs.google.com/spreadsheets/d/1_96kEzP9MFLcBFppVV0Bl7O3Cv9hQFxKArwS2zVCtXE/edit#gid=0">spreadsheet summary</a> of the results from all the experiments reported so far, along with other results from the literature on political effects of media.</p>
-<p><strong>What is the counterfactual?</strong> (some discussion of the counterfactual)</p>
+<p><strong>Quality of the papers.</strong> The papers are very impressive pieces of work, and I thank the authors and everyone involved in getting them published. I have a couple of usual complaints about economics research: First, it’s very confusing to describe an effect as “undetectable,” the reader has no idea how to interpret that without knowing the confidence intervals, every effect is non-zero, we need to focus purely on how large they are. Second, I wish the papers and supplementary materials had far more rich descriptive visualizations, I think it’d give the reader a much better sense of what’s going on.</p>
+</section>
+<section id="in-a-diagram" class="level1">
+<h1>In a Diagram</h1>
+<p>Here’s a simple model of what we’re doing: <span class="math display">\[\xymatrix{
+*+[F:&lt;5pt&gt;]\txt{chronological\\timeline}  \ar[dr] &amp; \\
+*+[F:&lt;5pt&gt;]\txt{no reshares}  \ar[r] &amp;
+   *+[F:&lt;5pt&gt;]\txt{exposure\\to partisan\\content}\ar[r]|\gamma &amp;
+   *+[F:&lt;5pt&gt;]\txt{affective\\polarization}\\
+   *+[F:&lt;5pt&gt;]\txt{downrank\\likeminded}  \ar[ur]
+}
+\]</span></p>
+<p>I think none of the three treatments change overall exposure to partisan content (including off-Facebook) by more than around 10%, so I’m a bit doubtful whether we can learn much about the aggregate impact of exposure to partisan content on affective polarization.</p>
+</section>
+<section id="summary-of-results" class="level1">
+<h1>Summary of Results</h1>
+<table class="table">
+<colgroup>
+<col style="width: 41%">
+<col style="width: 15%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>effects on FB News Feed</th>
+<th>political</th>
+<th>cross-cutting</th>
+<th>untrustworthy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>baseline share</td>
+<td>14pp</td>
+<td>21pp</td>
+<td>3pp</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>- rank chronologically</td>
+<td>+12%</td>
+<td>-10%</td>
+<td>+60%</td>
+</tr>
+<tr class="even">
+<td>- remove reshares</td>
+<td>-14%</td>
+<td>-3%</td>
+<td>-32%</td>
+</tr>
+<tr class="odd">
+<td>- downrank likeminded posts</td>
+<td>-5%</td>
+<td>+7%</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="comparing-experimental-to-aggregate-effects" class="level1 page-columns page-full">
 <h1>Comparing Experimental to Aggregate Effects</h1>
@@ -206,19 +310,297 @@ ga('send', {
 </ol>
 <div class="no-row-height column-margin column-container"><li id="fn2"><p><sup>2</sup>&nbsp;I could not find <em>any</em> discussion of dynamic effects in any of the so-far published experiment analyses, despite each one having an online appendix with around 300 pages of supplementary material.</p></li></div><p>If each factor contributed a 2X amplification then the aggregate effect would be 16X larger than the experimentally-measured effect, i.e.&nbsp;effective confidence intervals would be 0.32 SDs instead of 0.02SD.</p>
 </section>
-<section id="appendix-aggregate-trends-in-affective-polarization" class="level1">
-<h1>Appendix: Aggregate Trends in Affective Polarization</h1>
-<p><a href="https://scholar.harvard.edu/files/shapiro/files/cross-polar.pdf">Boxell, Gentzkow, Shapiro</a> (2021) document affective polarization across a dozen countries, 1978-2020:</p>
-<p><img src="images/2023-07-27-15-03-32.png" class="img-fluid"></p>
+<section id="appendix-data-on-media-and-polarization" class="level1 page-columns page-full">
+<h1>Appendix: Data on Media and Polarization</h1>
+<p>I have made very rough estimates for affective polarization and for time-spent on partisan content:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;">2004</th>
+<th style="text-align: center;">2016</th>
+<th style="text-align: center;">2020</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>affective polarization score</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">45</td>
+<td style="text-align: center;">50</td>
+</tr>
+<tr class="even">
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td>minutes/day/adult</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>- media</td>
+<td style="text-align: center;">300</td>
+<td style="text-align: center;">300</td>
+<td style="text-align: center;">300</td>
+</tr>
+<tr class="odd">
+<td>- media civic</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">15</td>
+</tr>
+<tr class="even">
+<td>- media civic partisan</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr class="odd">
+<td>- Facebook</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">60</td>
+<td style="text-align: center;">60</td>
+</tr>
+<tr class="even">
+<td>- Facebook civic</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="odd">
+<td>- Facebook civic partisan</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><span class="citation" data-cites="guess2023chronological">Guess et al. (<a href="#ref-guess2023chronological" role="doc-biblioref">2023</a>)</span>:</p>
+<div class="no-row-height column-margin column-container"></div><table class="table">
+<thead>
+<tr class="header">
+<th>Share of Impressions</th>
+<th>Facebook</th>
+<th>Instagram</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Political</td>
+<td>14%</td>
+<td>5%</td>
+</tr>
+<tr class="even">
+<td>Political news</td>
+<td>6%</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td>From untrustworthy sources</td>
+<td>3%</td>
+<td>1%</td>
+</tr>
+<tr class="even">
+<td>Uncivil</td>
+<td>3%</td>
+<td>2%</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://www.pewresearch.org/journalism/fact-sheet/news-platform-fact-sheet/?tabId=tab-4ef8dece-845a-4b25-8637-ceb3114503c5">Pew 2022 report on news platforms</a></p>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th>pct adults regularly get news from</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>television</td>
+<td>65%</td>
+</tr>
+<tr class="even">
+<td>news websites</td>
+<td>63%</td>
+</tr>
+<tr class="odd">
+<td>search</td>
+<td>60%</td>
+</tr>
+<tr class="even">
+<td>social media</td>
+<td>50%</td>
+</tr>
+<tr class="odd">
+<td>radio</td>
+<td>47%</td>
+</tr>
+<tr class="even">
+<td>print</td>
+<td>33%</td>
+</tr>
+<tr class="odd">
+<td>podcasts</td>
+<td>23%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Radio show popularity.</strong> Around half of the top 20 most-listened radio shows in the US are conservative talk, with around 90M weekly listeners (this is double-counting overlapping users).</p>
+<p><a href="https://en.wikipedia.org/wiki/List_of_most-listened-to_radio_programs">In 2021</a></p>
+<p>These types of story are common on FB but relatively rare off FB. Most American political media is relatively centre-ist and not exaggerated. The prominent exceptions are political talk radio (<a href="https://en.wikipedia.org/wiki/List_of_most-listened-to_radio_programs">perhaps 40M weekly listeners</a>) and Fox news (<a href="http://www.adweek.com/tvnewser/2016-ratings-fox-news-channel-is-cable-tvs-most-watched-network/315009">perhaps 5M regular viewers</a>).</p>
+<p><span class="citation" data-cites="boxell2022PolarizationTrends">Boxell, Gentzkow, and Shapiro (<a href="#ref-boxell2022PolarizationTrends" role="doc-biblioref">2022</a>)</span> document affective polarization across a dozen countries, 1978-2020:</p>
+<div class="no-row-height column-margin column-container"><div id="ref-boxell2022PolarizationTrends" class="csl-entry" role="listitem">
+Boxell, Levi, Matthew Gentzkow, and Jesse M. Shapiro. 2022. <span>“<span class="nocase">Cross-Country Trends in Affective Polarization</span>.”</span> <em>The Review of Economics and Statistics</em>, January, 1–60. <a href="https://doi.org/10.1162/rest_a_01160">https://doi.org/10.1162/rest_a_01160</a>.
+</div></div><p><img src="images/2023-07-27-15-03-32.png" class="img-fluid"></p>
 <ol type="1">
 <li><p>In the US affective polarization index increased from around 25 to 50, <em>“an increase of 1.08 standard deviations as measured in the 1978 distribution.”</em> (I’m not sure if the SD increased).</p></li>
 <li><p>Across the world there’s no clear trend: some countries increased, other countries decreased. This weakens the simple argument that polarization has increased at the same time as social media use.</p></li>
 </ol>
+<p><a href="https://www.statista.com/statistics/433871/daily-social-media-usage-worldwide/">Statista</a>: Average time-spent 150 minutes/day/person on social networks</p>
 </section>
 <section id="other-evidence-on-facebook-and-polarization" class="level1">
 <h1>Other Evidence on Facebook and Polarization</h1>
 <p><strong>Observational data finds that much of the growth in polarization in the US was among people who were not online.</strong> <a href="https://www.nber.org/papers/w23258">Boxell et al.&nbsp;2017</a>) say <em>“the growth in polarization in recent years [1996-2012] is largest for the demographic groups least likely to use the internet and social media”</em></p>
-<p><strong>The economics and political science literature has identified a lot of different possible culprits.</strong> I’m not sure there’s a consensus. Some potential causes: southern realignment, 1968 changes to the primary system, the Obama presidency, the tea party movement. Martin &amp; Yurcoglu (2017) argue that a large part of recent growth is due to cable news: <em>“the cable news channels can explain an increase in political polarization of similar size to that observed in the US population over [2000-2008]. … In absolute terms, however, this increase is fairly small.”</em></p>
+<p><strong>The academic literature has identified many other suspects.</strong> I’m not sure there’s a consensus. Some potential causes: southern realignment, 1968 changes to the primary system, the Obama presidency, the tea party movement (though each of these could be in part proximal causes). Martin &amp; Yurcoglu (2017) argue that a large part of recent growth is due to cable news: <em>“the cable news channels can explain an increase in political polarization of similar size to that observed in the US population over [2000-2008]. … In absolute terms, however, this increase is fairly small.”</em></p>
+<p>See also Haidt and Bail’s long document <a href="https://docs.google.com/document/d/1vVAtMCQnz8WVxtSNQev_e1cGmY9rnY96ecYuAj6C548/edit#heading=h.96bogdklzo1j">Social Media and Political Dysfunction: A Collaborative Review</a></p>
+</section>
+<section id="appendix-how-to-describe-a-null-result" class="level1 page-columns page-full">
+<h1>Appendix: How to Describe a Null Result</h1>
+<p><strong>Description of effect sizes from the abstracts:</strong></p>
+<p>Guess et al.&nbsp;(2023) <a href="https://www.science.org/doi/full/10.1126/science.add8424">“Reshares on social media amplify political news but do not detectably affect beliefs or opinions”</a></p>
+<blockquote class="blockquote">
+<p>“Contrary to expectations, the treatment does not significantly affect political polarization or any measure of individual-level political attitudes.”</p>
+</blockquote>
+<p>Guess et al.&nbsp;(2023) <a href="https://www.science.org/doi/10.1126/science.abp9364?adobe_mc=MCMID%3D34187371435160557723817445106394877226%7CMCORGID%3D242B6472541199F70A4C98A6%2540AdobeOrg%7CTS%3D1690484833">“How do social media feed algorithms affect attitudes and behavior in an election campaign?”</a></p>
+<blockquote class="blockquote">
+<p>“Despite these substantial changes in users’ on-platform experience, the chronological feed did not significantly alter levels of issue polarization, affective polarization, political knowledge, or other key attitudes during the 3-month study period.</p>
+</blockquote>
+<p>Nyhan et al.&nbsp;(2023) <a href="https://www.nature.com/articles/s41586-023-06297-w">“Like-minded sources on Facebook are prevalent but not polarizing”</a></p>
+<blockquote class="blockquote">
+<p>“[treatment] had no measurable effects on eight preregistered attitudinal measures such as affective polarization, ideological extremity, candidate evaluations and belief in false claims. These precisely estimated results suggest that although exposure to content from like-minded sources on social media is common, reducing its prevalence during the 2020 US presidential election did not correspondingly reduce polarization in beliefs or attitudes.”</p>
+</blockquote>
+<p><strong>Discussion of Power:</strong></p>
+<p><span class="citation" data-cites="guess2023chronological">Guess et al. (<a href="#ref-guess2023chronological" role="doc-biblioref">2023</a>)</span>:</p>
+<div class="no-row-height column-margin column-container"><div id="ref-guess2023chronological" class="csl-entry" role="listitem">
+Guess, Andrew M., Neil Malhotra, Jennifer Pan, Pablo Barberá, Hunt Allcott, Taylor Brown, Adriana Crespo-Tenorio, et al. 2023. <span>“How Do Social Media Feed Algorithms Affect Attitudes and Behavior in an Election Campaign?”</span> <em>Science</em> 381 (6656): 398–404. <a href="https://doi.org/10.1126/science.abp9364">https://doi.org/10.1126/science.abp9364</a>.
+</div></div><blockquote class="blockquote">
+<p>“The large samples … allowed for adequate statistical power to detect small effects (for example, for affective polarization, we were powered to detect population average treatment effects with Cohen’s d = 0.032 or larger for both Facebook and Instagram).”</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>“In all cases, we could rule out effect sizes smaller than those found in previous research [citation to Allcott 2020]</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>“did not cause detectable changes in downstream political attitudes, knowledge, or offline behavior, including survey-based measures of polarization and political participation.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>“these findings suggest that social media algorithms may not be the root cause of phenomena such as increasing political polarization”</p>
+</blockquote>
+<p><strong>Description of effect sizes from authors’ subsequent commentary:</strong></p>
+<p><a href="https://twitter.com/andyguess/status/1684632256403628035">Andy Guess</a>:</p>
+<blockquote class="blockquote">
+<p>“Despite these changes in users’ on-platform experience, the chronological feed did not significantly alter levels of issue or affective polarization, political knowledge, political behavior or other key attitudes during the study. … It’s interesting to note the disconnect between the relatively powerful effects we document in terms of platform experiences and behavior, and the downstream outcomes focused on knowledge, attitudes, and off-platform behavior.””</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>“As with the chrono-feed experiment, removing reshares did not significantly affect political polarization or other individual-level political attitudes.”</p>
+</blockquote>
+<p><a href="https://twitter.com/jenjpan/status/1684628685645832195">Jennifer Pan</a>:</p>
+<blockquote class="blockquote">
+<p>“Contrary to common belief, chronological feed did not significantly alter polarization, politics knowledge, or other survey-based outcomes, even though chronological feed led users to spend much less time on FB and Insta + changed what content they saw.”</p>
+</blockquote>
+<p><a href="https://twitter.com/BrendanNyhan/status/1684631397443489793">Brendan Nyhan</a></p>
+<blockquote class="blockquote">
+<p>“Median FB user gets 50.4% of content from like-minded sources. But reducing exposure by ~1/3 for 3 months had no measurable effect on attitudes … Decreasing exposure to content from like-minded sources had no measurable effect on a series of measures of political attitudes including affective polarization and ideological extremity.”</p>
+</blockquote>
+<p><strong>Other description of effect sizes:</strong></p>
+<p><a href="https://twitter.com/mattyglesias/status/1684654101626302464">Matthew Yglesias:</a></p>
+<blockquote class="blockquote">
+<p>“Eliminating the filter bubble doesn’t seem to change political attitudes… why is the stuff we write/share so unpersuasive?</p>
+</blockquote>
+<p><a href="https://about.fb.com/news/2023/07/research-social-media-impact-elections/">Nick Clegg</a>:</p>
+<blockquote class="blockquote">
+<p>“show … there is little evidence that key features of Meta’s platforms alone cause harmful ‘affective’ polarization, or have meaningful effects on key political attitudes, beliefs or behaviors.”</p>
+</blockquote>
+</section>
+<section id="appendix-discussions-of-power" class="level1">
+<h1>Appendix: Discussions of Power</h1>
+<p>Guess et al.&nbsp;(2023) <a href="https://www.science.org/doi/10.1126/science.abp9364?adobe_mc=MCMID%3D34187371435160557723817445106394877226%7CMCORGID%3D242B6472541199F70A4C98A6%2540AdobeOrg%7CTS%3D1690484833">“How do social media feed algorithms affect attitudes and behavior in an election campaign?”</a></p>
+<blockquote class="blockquote">
+<p>The large samples (Facebook: n = 23,391; Instagram: n = 21,373), comprising participants who completed the first two surveys and at least one of the subsequent three waves, allowed for adequate statistical power to detect small effects (for example, for affective polarization, we were powered to detect population average treatment effects with Cohen’s d = 0.032 or larger for both Facebook and Instagram).</p>
+</blockquote>
+<p>(the supplement and pre-analysis plan do not mention “power” or seem to discuss effect-sizes)</p>
+<p>Guess et al.&nbsp;(2023) <a href="https://www.science.org/doi/full/10.1126/science.add8424">“Reshares on social media amplify political news but do not detectably affect beliefs or opinions”</a></p>
+<blockquote class="blockquote">
+<p>“allow for adequate statistical power to detect small effects (e.g., for affective polarization, we are powered to detect population average treatment effects with Cohen’s d = 0.032 or larger and sample average treatment effects d = 0.023 or larger).”</p>
+</blockquote>
+</section>
+<section id="appendix-model-of-media-effects" class="level1 page-columns page-full">
+<h1>Appendix: Model of Media Effects</h1>
+<p>The simplest model: <span class="math display">\[\utt{y}{consumer}{attitude}
+      = \utt{(1-\gamma)\cdot \tilde{y}}{pre-existing}{attitude}
+         +\utt{\gamma \cdot m}{attitude}{in media}.\]</span></p>
+<p>We can extend the model (1) to be dynamic, (2) where media attitude is the weighted average of all the media you’re exposed to:</p>
+<p><span class="math display">\[\begin{aligned}
+   \utt{y_t}{attitude at}{time $t$}
+      &amp;= \utt{(1-\gamma)\tilde{y}}{exogenous}{attitude} +
+         \ut{\gamma \sum_{s=0}^\infty \beta^s \utt{\bar{m}_{t-s}}{attitude in}{media at $t-s$}}{media effect}
+      &amp;&amp; \text{(attitude a weighted avg of exogenous and exposure)} \\
+   \bar{m}_t &amp;= \frac{\sum_{i=1}^n x_{i,t}m_{i,t}}{\sum_{i=1}^nx_{i,t}}
+      &amp;&amp; \text{(avg attitude in media exposed to)} \\
+   x_{i,t} &amp;= \text{exposure to source $i$ at time $t$} \\
+   m_{i,t} &amp;= \text{attitude of source $i$ at time $t$}
+\end{aligned}\]</span></p>
+<p>This still leaves out (1) differently persuasive media; (2) non-exponential decay in influence; (3) interactions in influence over time; (4) persuasion depending on total.</p>
+<div class="cell page-columns page-full" data-hash="2023-07-27-meta-2020-elections-experiments_cache/html/unnamed-chunk-1_80e7e53731c0209cc28a6afccf76f35a">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2023-07-27-meta-2020-elections-experiments_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption"><strong>Persuasion depends on total exposure:</strong> The marginal effect of exposure is independent of the share of total exposure.</figcaption>
+</figure>
+</div>
+</div></div></div>
+<div class="cell page-columns page-full" data-hash="2023-07-27-meta-2020-elections-experiments_cache/html/unnamed-chunk-2_69b825d58af28e70893b7d369037abab">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2023-07-27-meta-2020-elections-experiments_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption"><strong>Persuasion depends on average exposure:</strong> The marginal effect of exposure is proportional to the share of total exposure.</figcaption>
+</figure>
+</div>
+</div></div></div>
+<p><strong>Note: two types of aggregation.</strong> We could write the aggregator in two ways:</p>
+<p><span class="math display">\[\begin{aligned}
+      y  &amp;= (1-\gamma)\tilde{y} + \gamma\frac{\sum_{i=1}^n x_{i,t}m_{i,t}}{\sum_{i=1}^n x_{i,t}}
+         &amp;&amp; \text{(depends on avg exposure)}\\
+      y  &amp;= (1-\gamma)\tilde{y} + \gamma \sum_{i=1}^n x_{i,t}m_{i,t}
+         &amp;&amp; \text{(depends on total exposure)}
+   \end{aligned}\]</span></p>
+</section>
+<section id="appendix-additional-literature-on-media-effects" class="level1">
+<h1>Appendix: Additional Literature on Media Effects</h1>
+<p>Lazer, D., Rubineau, B., Chetkovich, C., Katz, N., &amp; Neblo, M. (2010). The coevolution of networks and political attitudes. Political communication, 27(3), 248-274.</p>
+<p>MacKuen, M., &amp; Brown, C. (1987). Political context and attitude change. American Political Science Review, 81(2), 471-490.</p>
+<p>Chong, D., &amp; Druckman, J. N. (2010). Dynamic public opinion: Communication effects over time. American Political Science Review, 104(4), 663-680.</p>
+<p>This reports lab experiments: <em>“we find that competing messages received at the same time neutralize one another. However, when competing messages are separated by days or weeks, most individuals give disproportionate weight to the most recent communication because previous effects decay over time.”</em></p>
+<p>Druckman, J. N., &amp; Lupia, A. (2016). Preference change in competitive political environments. Annual Review of political science, 19.</p>
+<p>https://www.pnas.org/doi/10.1073/pnas.1804840115</p>
+</section>
+<section id="bibliography" class="level1">
+<h1>Bibliography</h1>
+
 
 
 </section>
