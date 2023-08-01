@@ -9,6 +9,7 @@ execute:
   echo: false
   cache: true # caches chunk output
 fig-align: center
+bibliography: social-media.bib
 reference-location: margin
 citation-location: margin
 format:
@@ -128,7 +129,7 @@ See also:
    Note that "quality" and "sensitivity" apply to pieces of content, while the other three attributes apply to relationship between a user and a piece of content.
 
 
-2. **Social media platforms rank their content primarily by predicted engagement.** The core ranking model for most social platforms is a weighted average of predicted engagement rates.^[I believe this is true for almost all platforms with personalized recommendations including YouTube, Netflix, and Amazon.]
+2. **Social media platforms rank their content primarily by predicted engagement.** The core ranking model for most social platforms is a weighted average of predicted engagement rates.^[I believe this is true for almost all platforms with personalized recommendations including YouTube, Netflix, and Amazon. An excellent reference for how recommenders work, with illustrations and links, is Thorburn, Bengani, & Stray (2022) ["How Platform Recommenders Work"](https://medium.com/understanding-recommenders/how-platform-recommenders-work-15e260d9a15a).]
 
    However ranking functions also include hundreds of other tweaks incorporating non-engagement features, upranking or downranking content depending on, for example, the media type (photo/text/video), the relationship between the user and the author (whether you follow this person), various predictions of  of objective quality (classifiers predicting whether the content is spam, offensive, adult, misinformation, etc.), or other features (network centrality, off-platform popularity, etc.). They also often have some diversity rules to prevent the content that is shown from being too similar.^[For simplicity the rest of the discussion treats the causal effect of content as purely separable.]
 
@@ -142,13 +143,17 @@ See also:
    
    <!-- Arguably there are misalignments of incentives such that lower-level employees tend to ship features that increase short-run engagement at the expense of long-run retention. -->
 
-5. **Engagement-ranked feeds have substantially higher long-term retention and time-spent than chronologically-ranked feeds.** Users who are given engagement-ranked feeds in experiments typically have higher long-term DAU by single-digit percentages (1%-9%), and higher long-term time-spent by double-digit percentages (10%-99%). Accounting for network effects makes the aggregate difference even larger.^[Huszar et al. (2021) note that since Twitter introduced a ranked timeline in 2016 they maintained a 1% of users with a chronological feed.]
+5. **Engagement-ranked feeds have substantially higher long-term retention and time-spent than chronologically-ranked feeds.** Users who are given engagement-ranked feeds in experiments typically have higher long-term DAU by single-digit percentages (1%-9%), and higher long-term time-spent by double-digit percentages (10%-99%). Accounting for network effects makes the aggregate difference even larger.^[@huszar2022twitter note that since Twitter introduced a ranked timeline in 2016 they maintained an experiment with 1% of users with a chronological feed.]
+
+   - **Meta 2020 experiments with chronological ranking showed a 20% time-spent decline on Facebook and a 10% decline on Instagram.** The experiments ran for 3 months and they reported the average effect over the whole period, it is likely that the time-spent effects continued declining. The effects on DAU were not reported. See @guess2023chronological.
+   - **A Facebook 2018 experiment showed a 3% decline in time-spent after 10 days.** The effects on time-spent seemed to be linearly trending down at the time the analysis was posted. Engagement (MSI) declined by about 20%, and politics impression reduced by 15% (the share of politics impressions is more complicated to calculate but seems unambiguously down).  The effects on DAU were not reported ([source](https://www.bigtechnology.com/p/facebook-removed-the-news-feed-algorithm?s=09).). The experiment was not on a purely chronological feed: they retained "diversity rules, client-side ranking, read-state logging, comment-bumping" as well as integrity ranking rules.
 
    <!-- A lot of work inside platforms is experimenting with varying the weights on different engagement types to try to increase user retention. -->
 
 6. **Engaging content is often low quality.** Despite the positive relationship between engagement and retention, many studies have found that highly-engaging content is has lower-than-average quality:
 
-   - **In summer 2016 half of Facebook's most-seen posts related to the US election were misinformation.** As [reported](https://www.buzzfeednews.com/article/craigsilverman/viral-fake-election-news-outperformed-real-news-on-facebook) by Craig Silverman at Buzzfeed. This exceeds the *average* rate of misinformation, i.e. most-engaging posts have much lower than average quality.
+   - **Meta chronological-ranking experiments.** @guess2023chronological found that replacing feed-ranking algorithms with simple chronological ranking (i.e., the most-recent posts are shown first) for 3 months (1) the share of impressions that were classified as political increased by 15% on Facebook and by 5% on Instagram, the share that were classified as "political news" increased by 40% on Facebook.
+   - **In summer 2016 half of Facebook's most-seen posts related to the US election were misinformation.** As [reported](https://www.buzzfeednews.com/article/craigsilverman/viral-fake-election-news-outperformed-real-news-on-facebook) by Craig Silverman at Buzzfeed. This exceeds the *average* rate of misinformation, i.e. the most-engaging posts have a much lower-than-average quality.
    - **Facebook's top group and pages were run by troll farms in 2019.** A series of internal analyses by by Jeff Allen  ([subsequently leaked](https://s3.documentcloud.org/documents/21063547/oct-2019-facebook-troll-farms-report.pdf)) found that a substantial share of Facebook's top pages, groups, and posts, were run by "troll farms," whose main tactic was reposting copied content that had high engagement rates.  <!-- Troll farms' pages, when combined, were  included Facebook's top overall page, top Christian American page, top African American page, 2nd largest Native American page, and 5th largest Womens' page. -->
    - **On Facebook high-quality content received lower engagement.** In the late 2010s Facebook maintained an internal "quality" score for content (FUSS="Feed Unified Scoring System"). A data scientist's analysis from 2019 ([subsequently leaked, see p.10](https://s3.documentcloud.org/documents/21063547/oct-2019-facebook-troll-farms-report.pdf)) found that low-quality content had significantly higher predicted engagement rates.^[These correlations can be difficult to interpret: suppose there is no correlation between engagement and quality in the pool of all available content, there will nevertheless be a negative correlation among the subset of content that is *seen* if the ranking algorithm penalizes low-quality content, meaning low-engagement low-quality content will never be shown to users.] 
    - **Facebook's most-viewed posts remain very low quality.** Since early 2021 FB has been releasing a dataset of their 20 most-viewed links and posts. An [Integrity Institute analysis](https://lookerstudio.google.com/u/0/reporting/28bc32fd-a067-4b4a-9be0-637e8c9bd917/page/0Z3mC?s=g7_EWEyFjrc) by Jeff Allen has found that each quarter 60-80% of the posts fail some basic checks, either "the account behind it is anonymous, is posting unoriginal content, using spammy page or group networks, or if the post or link violated Facebook's community standards."
@@ -489,30 +494,41 @@ They have a model of quality and ranking-by-popularity but I found it hard to fo
 #             Appendix: Literature
 
 
-##            Description of Recommender Systems
+##            Overview of Recommender Systems
 
 Davidson et al. (2010) ["The YouTube Video Recommendation System"](https://www.inf.unibz.it/~ricci/ISR/papers/p293-davidson.pdf)
    > "[videos] are scored and ranked using ... signals [which] can be broadly categorized into three groups corresponding to three different stages of ranking: 1) video quality, 2) user specificity and 3) diversification.""
 
-   > "The primary metrics we consider include click through rate (CTR), long CTR (only counting clicks that led to watches of a substantial fraction of the video), session length, time until first long watch, and rec- ommendation coverage (the fraction of logged in users with recommendations)."
+   > "The primary metrics we consider include click through rate (CTR), long CTR (only counting clicks that led to watches of a substantial fraction of the video), session length, time until first long watch, and recommendation coverage (the fraction of logged in users with recommendations)."
 
    They say recommendations are good because they have high click-through rate.
 
 Gomez-Uribe and Hunt (2015) ["The Netflix Recommender System: Algorithms, Business Value, and Innovation"](https://dl.acm.org/doi/abs/10.1145/2843948)
 
-   Clearly states that they evalaute AB tests using engagement, but theyare using it only as an imperfect proxy for retention: *"we have observed that improving engagement—the time that our members spend viewing Netflix content—is strongly correlated with improving retention. Accordingly, we design randomized, controlled experiments ... to compare the medium-term engagement with Netflix along with member cancellation rates across algorithm variants. Algorithms that improve these A/B test metrics are considered better."*
+   Clearly states that they evalaute AB tests using engagement, but it is regarded as an imperfect proxy for retention: *"we have observed that improving engagement—the time that our members spend viewing Netflix content—is strongly correlated with improving retention. Accordingly, we design randomized, controlled experiments ... to compare the medium-term engagement with Netflix along with member cancellation rates across algorithm variants. Algorithms that improve these A/B test metrics are considered better."*
 
 Akos Lada, Wang, & Yan (2021, FB Blog) [How does news feed predict what you want to see?](https://tech.facebook.com/engineering/2021/1/news-feed-ranking/)
 
-Luke Thorburn, Priyanjana Bengani, Jonathan Stray (2022, Understanding Recommenders) ["How Platform Recommenders Work"](https://medium.com/understanding-recommenders/how-platform-recommenders-work-15e260d9a15a)
+Thorburn, Bengani, & Stray (2022, Understanding Recommenders) ["How Platform Recommenders Work"](https://medium.com/understanding-recommenders/how-platform-recommenders-work-15e260d9a15a)
 
-   A short article with description of the stages in building a slate of content: moderation, candidate generation, ranking, and reranking. Includes links to many posts from platforms describing their systems.
+   This is an excellent short article with description and illustration of the stages in building a slate of content: moderation, candidate generation, ranking, and reranking. Includes links to many posts from platforms describing their systems.
+
+   ![](images/2023-07-31-15-45-00.png)
+
+   ![](images/2023-07-31-16-09-47.png)
 
 Arvin Narayanan (2023) ["Understanding Social Media Recommendation Algorithms"](https://knightcolumbia.org/content/understanding-social-media-recommendation-algorithms)
 
-Ovadya, & Thorburn (2023). Bridging Systems: Open Problems for Countering Destructive Divisiveness across Ranking, Recommenders, and Governance (arXiv:2301.09976). arXiv. https://doi.org/10.48550/arXiv.2301.09976
+   A good overview of recommendation algorithms, with in-depth discussion of Facebook's MSI. 
+
+   Criticisms of social media recommendation: (1) harm users because "implicit-feedback-based feeds cater to our basest impulses," (2) harm creators because "engagement optimization ... is a fickle overlord," (3) harms society because "social media platforms are weakening institutions by undermining their quality standards and making them less trustworthy. While this has been widely observed in the case of news ... my claim is that every other institution is being affected, even if not to the same degree."
+
+   I think the technical part of the essay is excellent but I found some of the arguments about harm and social effects hard to follow. 
+
 
 ##             Proposals for Change
+
+Ovadya, & Thorburn (2023). [Bridging Systems: Open Problems for Countering Destructive Divisiveness across Ranking, Recommenders, and Governance](https://doi.org/10.48550/arXiv.2301.09976)
 
 Stray, Iyer, Larrauri (2023) ["The Algorithmic Management of Polarization and Violence on Social Media"](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4429558). Argument:
    1. Our overall goal should be to minimize "destructive conflict".
@@ -553,7 +569,7 @@ Lubin & Gilbert (2023) ["Accountability Infrastructure: How to implement limits 
 
    > It is possible to introduce a new, additional feedback loop to intervene as a “breaker” upon these types of effects. Such a loop would appear in the system as an alternative set of metrics calculated alongside engagement which define constraints on feedback. If these constraints are properly calibrated over time and explicitly evaluated in relation to harmful outcomes, a new equilibrium could be reached.
 
-Bengani, Stray & Thorburn (2022,Medium) ["What’s Right and What’s Wrong with Optimizing for Engagement"](https://medium.com/understanding-recommenders/whats-right-and-what-s-wrong-with-optimizing-for-engagement-5abaac021851)
+Bengani, Stray, & Thorburn (2022,Medium) ["What’s Right and What’s Wrong with Optimizing for Engagement"](https://medium.com/understanding-recommenders/whats-right-and-what-s-wrong-with-optimizing-for-engagement-5abaac021851)
    
    They define engagement as "a set of user behaviors, generated in the normal course of interaction with the platform, which are thought to correlate with value to the user, the platform, or other stakeholders."
 
