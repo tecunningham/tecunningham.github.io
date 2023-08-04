@@ -2,6 +2,8 @@
 title: The Economics of Social Media
 author: Tom Cunningham
 date: July 2023
+bibliography: social-media.bib
+reference-location: margin
 execute:
   echo: false
   warning: false
@@ -24,7 +26,7 @@ fontsize: 9pt
 
 **The core fact: mobile internet has made it possible for people to continuously send each other messages.** The average person produces hundreds of messages a day (text messages, DMs, social media posts) and consumes thousands of messages. This seems to have had big effects on social behaviour, mental health, and politics. However radical changes to communication are not unprecedented, we should be able to learn something from the changes accompanying the invention of the alphabet, the printing press, newspaper, telegram, telephone, radio, television, cellphone, & email. 
 
-**Instead of building up a body of evidence I will do the opposite.** I will begin with a block of raw conjecture and whittle it down. I feel the academic approach to studying social media is often far too conservative, refusing to give any opinion about the majority of the consequential issues. At the end of the note I will go into more detail about my complaints.
+**Instead of building up a body of evidence I will do the opposite.** I will begin with a block of conjecture and whittle it down. I feel the academic approach to studying social media is often far too conservative, refusing to give any opinion about the majority of the consequential issues. At the end of the note I will go into more detail about my complaints.
 
 **A diagnosis.** 
 
@@ -88,17 +90,24 @@ This table summarizes some basic empirical facts about social media. I put an as
 
 #                             Platform Usage [UNFINISHED]
 
-**Data.** I do not know of high-quality broad references on descriptive facts about social network usage. Useful data is spread across commercial suppliers (e.g. AppAnnie), and some public decks by investors (e.g. "state of mobile"), and some academic papers.
+**Data.** High-quality descriptive ata about social network usage is relatively sparse. Useful data is spread across commercial suppliers (e.g. AppAnnie), nonprofits (Our World in Data), public decks by investors (e.g. "state of mobile"), and some academic papers.[^data]
 
-**Overall usage of social media.** Roughly 90% of the world uses some social media app, most people use many. Most countries have a single dominant messaging app, i.e. there is limited multi-homing. However most countries have many broadcast apps which are differentiated by the graph: whether clustered by friends, family, neighborhood, industry, or shared interest.
+   [^data]: Best: Our World in Data report on the [Rise of Social Media](https://ourworldindata.org/rise-of-social-media) but it only has data since 2018. See esp. [global MAU by platform 2004-2018](https://ourworldindata.org/grapher/users-by-social-media-platform).
+
+      Pew Research have data on platform usage in the US since 2012, but it's a bit of work to put together (each wave is a separate CSV file). Microdata allows us to do demographics and intersection in usage. [Pew visualization](https://www.pewresearch.org/internet/fact-sheet/social-media/#panel-c14683cb-c4f4-41d0-a635-52c4eeae0245)
+      
+      Others: [Business of Apps](https://www.businessofapps.com/data/twitter-statistics/); [Statista](https://www.statista.com/statistics/970920/monetizable-daily-active-twitter-users-worldwide/); Simon Kemp / DataReportal; [Digital 2022: Global Overview Report](https://datareportal.com/reports/digital-2022-global-overview-report); American Time Use Survey (ATUS); AppAnnie.
+
+
+**Overall usage of social media.** Roughly 90% of the world uses some social media app, most people use many. For direct messaging (e.g. WhatsApp, iMessage) most countries have a single dominant platform, i.e. multi-homing is limited. However for broadcast sharing most countries have many apps which are differentiated by the graph: whether clustered by friends, family, neighborhood, industry, or shared interest.
    
-**Reach-engagement relationship.** For social apps time-spent is roughly linear in reach (consistent with Metcalfe's law), while for non-social apps it's closer to flat.
+**Reach-engagement relationship.** For social apps time-spent is roughly linear in reach (surprisingly consistent with Metcalfe's law), while for non-social apps it's closer to flat.
 
 **Dynamics/lifecycle.** Social network markets tend to be dominated by the first mover and are rarely replaced. Since around 2010 it has been rare for an established social network (greater than 50% reach within some demographic) to show a significant decline in usage, seeming to imply that sunk network costs are high (non-social apps don't show the same persistence). However over that period there have been many new social networks (e.g. Instagram, Snapchat, TikTok), typically adopted by new cohorts of phone users, or adopted alongside existing apps by existing cohorts.
 
 **Usage overlap.** I don't think there is very good data on overlap (AKA multi-homing).
 
-**Simple model of usage.** Let $p$ be the share of the population who are active on a platform ("reach"), and each person has a threshold $p$ at which point they will join the platform, then we get an equilibrium where $p=F(p)$. This gives you a model with tipping points and a marginal network multiplier. You can also assume time-spent is proportional to each user's surplus in this model. To add to this model: (1) speed of adjustment, (2) degree of substitutability between other networks, (3) nature of clustering: friends/family/geographically/interest-based.
+**Simple model of usage.** Let $p$ be the share of the population who are active on a platform ("reach"), and each person has a threshold $p_i$ at which point they will join the platform, then we get an equilibrium where $p=F(p)$. This gives you a model with tipping points and a marginal network multiplier. You can also assume time-spent is proportional to each user's surplus in this model. To add to this model: (1) speed of adjustment, (2) degree of substitutability between other networks, (3) nature of clustering: friends/family/geographically/interest-based.
 
 **Network effects.** We know that usage of apps is *all* network effects, i.e. you only use Instagram because other people use it. Thus the relevant estimand is the marginal network effect: what's the effect of one extra person, or one extra minute. The ratio between the marginal and average can be described as the network elasticity. Marginal network effects are hard to estimate on most social networks because they are composed of many weak edges, this means that even enormous experiments will have very little power (power is linear in effect-size but sub-linear in sample-size). Thus even companies with 2 billion users are quite uncertain about the strength of marginal network effects. I think a  reasonable starting point is an elasticity of 1/2: i.e. for the average user a 1% increase in usage by all their peers would cause an 0.5% increase in their own usage.
 
@@ -174,44 +183,74 @@ Some observations:^[Some references for this table:
 
 ##             Online Advertising [UNFINISHED]
 
-_Incrementality of online advertising._ An advantage of online over offline advertising is that you can observe whether people who saw your advertisement later purchased your product, and use this data to estimate the causal effect of the advertisment on sales. However these estimates are typically too high because those who are exposed to an advertisement likely would have purchased the product anyway.
+**Model of advertising.** We can call the relationship between expenditure and (incremental) conversions the *ROI curve*, and use that curve to estimate advertiser surplus.^[This is based on @varian2009online. Additional remarks: (1) advertisers tend to be budget-constrained in the short-run but will not be in the long-run; (2) if advertisers have zero marginal costs then their ROAS (return on ad spend) will reveal their elasticity, see [this thread](https://twitter.com/testingham/status/1646162229304213505); (3) this model depends on the marginal value of a conversion being constant, it would break down if the advertiser's lifetime value from a marginal conversion is meaningfully different from the lifetime value of the average conversion.]
 
-_Value of offsite tracking._ A number of experiments have compared offsite data to target advertisments increases conversion rates by factor of around 2.^[Wernerfelt et al. (2023)]
+```{tikz}
+#| column: margin
+   \begin{tikzpicture}[scale=.8]
+   \draw[<->] (0,6)--(0,0)node[above,align=center,midway,rotate=90]{conversions}--
+         (6,0) node[below,midway]{spend};
+   \draw [domain=0:4.5, variable=\x, line width=2, color=gray!50]
+      plot ({\x}, {2*\x^.5})
+      node[anchor=north west,color=black] {ROI curve};
+   \draw[dashed] (0,0) -- (4,2.82/2*4) 
+      node[anchor=south east,align=center] {average\\CPA};
+   % slope @ 2 = 2^-.5 =.71
+   \draw[dashed] (0,2.82-2*.71) -- (2+2.8,2.82+2.8*.71)
+      node[anchor=south west,align=center] {marginal\\CPA}; 
+   \node at (2,2.82) {\textbullet};
+   \end{tikzpicture}
+```
 
-_Advertiser elasticity._ The simplest model of advertisers is that they spend on ads up until the point that the marginal cost of a conversion is equal to its marginal value. We can then reason about advertiser choice if we know the ratio between the marginal and average cost of a conversion (i.e. the elasticity of their conversion curve). This can be estimated purely from platform data, i.e. it does not require running experiments on advertisers. Varian (2009) estimates an elasticity in Google Adwords data between 2-3.3, I do not know of other published sources but I think this estimate is a reasonable benchmark.^[Additional remarks: (1) as Varian notes if we know the elasticity we can immediately infer the advertiser surplus from their expenditure on advertising; (2) advertisers tend to be budget-constrained in the short-run but will not be in the long-run; (3) if advertisers have zero marginal costs then their ROAS (return on ad spend) will reveal their elasticity, see this [thread](https://twitter.com/testingham/status/1646162229304213505); (4) this model depends on the marginal value of a conversion being constant, it would break down if the advertiser's lifetime value from a marginal conversion is meanginfully different from the lifetime value of the average conversion (or if they had different incrementality).]
+**We can estimate the ROI curve by varying advertiser expenditure.** A useful statistic to summarize the curvature of the ROI curve is the ratio of the marginal CPA to the average CPA (CPA=cost per acquisition=cost per conversion). This ratio will typically be greater than 1 because expenditure has diminishing returns. The ratio can also be interpreted as the *elasticity* of total expenditure with respect to total conversions, $\varepsilon=\frac{d\text{expenditure}}{d\text{conversions}}\frac{\text{conversions}}{\text{expenditure}}$.
+
+**We can use the elasticity to estimate advertiser surplus.** If we assume that (1) advertisers choose expenditure such that marginal cost=marginal value, and (2) the marginal value of a conversion is constant, then the elasticity represents the ratio between advertiser value and advertiser expenditure. E.g. suppose the marginal cost of a conversion is 3X the average cost of a conversion ($\varepsilon=3$), then if the marginal cost of a conversion represents the value of a conversion to an advertiser, the total value of conversions must be 3X spending on advertising. More formally:
+
+   $$\frac{\text{avg value per conversion}}{\text{avg cost per conversion}}=\frac{\text{marginal CPA}}{\text{average CPA}}
+      =\varepsilon.
+   $$
+
+
+```{tikz}
+#| column: margin
+\usetikzlibrary{patterns,decorations.pathreplacing,arrows.meta}
+\begin{tikzpicture}[scale=.8]
+   % scales
+   \draw[<->] (0,4)--(0,0)node[above,rotate=90,midway,align=center]{conversions}--
+         (4,0) node[below]{spend};
+
+   % initial cost & expenditure
+   \draw [domain=0:3.5, variable=\x, line width=2, color=gray!50]
+      plot ({\x}, {2*\x^.5}) node[anchor=north west,black]{};
+
+   \node at (2,2.82) {\textbullet};
+
+   \draw[dashed] (-1.97,0) -- 
+                  (2+2,2.82+2*.71) node[right] {}; 
+
+   \draw [decorate,decoration={brace,amplitude=10pt},yshift=-2pt]
+            (0,0) -- (-1.97,0) node [black,midway,yshift=-20pt,align=center] {advertiser\\surplus};
+   \draw [decorate,decoration={brace,amplitude=10pt},yshift=-2pt]
+            (2,0) -- (0,0) node [black,midway,yshift=-20pt,align=center] {platform\\revenue};
+   \draw [decorate,decoration={brace,amplitude=10pt},yshift=-2pt]
+            (2,-1.8) -- (-1.97,-1.8) node [black,midway,yshift=-15pt] {total surplus};
+\end{tikzpicture}
+```
+
+
+**Google estimates surplus to be 2-2.3 times revenue.** @varian2009online originally proposed this method of estimating advertiser surplus (using a more confusing terminology) and estimates an elasticity of 3-3.3, and so concludes *"the total value enjoyed by advertisers is between 2 and 2.3 times their total expenditure."* This seems a reasonable benchmark to use for estimating the surplus delivered by platforms to advertisers. However not all of the advertiser surplus should be thought of as socially productive, e.g. some will come from market-stealing.^[Google's economic impact [reports](https://economicimpact.google.com/methodology/) use the elasticiy from this 2009 paper but their estimate of total surplus is higher due to assuming that firms get 5X as many organic conversions from Google as they get paid conversions.]
+
+**Incrementality of online advertising.** An advantage of online over offline advertising is that you can observe whether people who saw your advertisement later purchased your product, and use this data to estimate the causal effect of the advertisment on sales. However these estimates are typically too high because those who are exposed to an advertisement likely would have purchased the product anyway.
+
+**Value of offsite tracking.** A number of experiments have compared offsite data to target advertisments increases conversion rates by factor of around 2, e.g. @wernerfelt2022estimating.
 
 <!-- need to fix this --> 
 
-_User ad elasticity._ We are interested in the elasticity of total ad-conversions with respect to consumer ad-load. If elasticity is -1 then ad-load would be profit maximizing (we are at the top of the laffer curve: a 1% increase in ad-load causes a 1% decrease in time-spent, and so no change in total ads shown. Honhold et al. (2015) found that Google's ad-load was to the right of the Laffer curve: by decreasing ad-load they could increase revenue. On contrast Huang et al. (2018) . Also important is the speed of adjustment to changes in ad-load: most studies find fairly small initial impacts, Honhold finds a half-life of 2 month, Huang has a half-life of around 6 months. Also relevant is Yan et al. (2019) but I have not read this paper yet.
+**User response to ad-load.** We are interested in the elasticity of total ad-conversions with respect to consumer ad-load. If elasticity is -1 then ad-load would be profit maximizing (we are at the top of the Laffer curve: a 1% increase in ad-load causes a 1% decrease in time-spent, and so no change in total ads shown.
 
-- Half life is perhaps 2 months (?).
-- Primary long-run effect of ad-load is on CTR, not on usage of Google ("for Google search, we did not see changes in the first 3 terms of (2) in Section 2").
-- Doubling mobile ad-load increases revenue in the short-run but the effect goes to zero after approximately 4 months, "in reality, the increased ads load is likely long-term negative at the state of the system during the study."
-- Halving ad-load lowers revenue in the short-term but increases CTR. "We estimated that the positive user response would be so great that the long-term revenue change would be a net positive."
-- This paper also proposes the CCD (cookie-cookie-day) method of measuring long-run effects.
-
-Yan et al. (2019) **["Measuring Long-term Impact of Ads on LinkedIn Feed"](https://arxiv.org/abs/1902.03098)**
-
-- *"Based on the first three months' data, we observe that the long term impact is at a much smaller scale than the short term impact in our application."*
-- The PDF isn't on arxiv but available elsewhere.
-
-Huang, Jason, David Reiley, and Nick Riabov (2018) **[Measuring Consumer Sensitivity to Audio Advertising: A Field Experiment on Pandora Internet Radio](http://davidreiley.com/papers/PandoraListenerDemandCurve.pdf)**
-
-- **Headline: long-run elasticity of ad-load on consumption about 1/10, half-life is 6 months.**
-- "we are able to measure long-run demand effects, with three times as much ad-load  sensitivity  as  we  would  have  obtained  if  we  had  run  a  month-long  experiment.   We  estimate a demand curve that is strikingly linear,  with the number of hours listened decreasing linearly in the number of ads per hour (also known as the price of ad-supported listening)." -- they also find a positive effect of ad-load on people signing up to the ad-free subscription.
-
-- Vary 3, 4, or 6 interruption per hour; and 1, 1.5 or 2 ads per interruption. Control is 4x1.5. But almost everything is mediated through ad-load.
-
-   | control is 5% ad-load | -25% ad load | +25% ad load |
-   | --------------------- | ------------ | ------------ |
-   | total listening hours | +1.7%        | -2.8%        |
-   | days active           | +1.7%        | -2.6%        |
-
-
-- **Effects are primarily on the extensive margin:** *"approximately 18% of the decline in the hours in the final month is due to a decline in the hours per active day, 41% is due to a decline in the days per active listener, and 41% is due to a decline in the number of listeners active at all on Pandora in the final month."*
-
-
-
+   - @hohnhold2015focusing found that Google's mobile ad-load was to the right of the peak of the Laffer curve: by decreasing ad-load they could increase revenue. The effect was mainly through click-through rates, not overall ad-impressions. The half-life of adjustment was around 2 months.
+   - @huang2018measuring found a long-run elasticity of ad-load on consumption to be about 1/10. The effects were primarily on the extensive margin (days/user instead of minutes/day), and had a half-life of around 6 months.
+   - @yan2019measuring I have not properly read, but they seem to find significant dynamic effects: "based on the first three months' data, we observe that the long term impact is at a much smaller scale than the short term impact in our application."
 
 #                             Content [UNFINISHED]
 
@@ -237,18 +276,17 @@ Huang, Jason, David Reiley, and Nick Riabov (2018) **[Measuring Consumer Sensiti
 
 #                             Politics [UNFINISHED]
 
-_Association with polarization/populism._ Correlation with growth in polarization (Gentzkow paper), correlation with growth in populist politics (a few papers).
+**Unclear association with polarization.** Polarization grew continuously in the US between 1978 and 2020 (by 1.1 SD), but other countries had mixed trends, and there is no clear association with internet access.^[@boxell2022PolarizationTrends] In the US over 2005-2016 polarization grew the most among people who did not have internet access.^[@boxell2017greater]
 
-   - Boxell, Gentzkow and Shapiro (2021) ["Cross-Country Trends in Affective Polarization"](https://www.nber.org/system/files/working_papers/w26669/w26669.pdf): between 1980 and 2020 US affective polarization went from 25% to 55%. But in other countries mixture of increase and decrease, and no clear correlation with measure of online news consumption.
+**Unclear association with populism.** Support for populist (anti-elite) movements seems to have been increasing worldwide over the last 15 years or so. Populist movements seem to be significantly over-represented on social media relative to traditional media.^[@dittrich2017social] Another obvious cause for populist sentiment is the economic recesssion and unemployment since 2007.
 
-**TO DO:** Culturally specific ; peer effects ; we could be eating better diet.
-- causal : closer to elite capture va populist capture (narrow corridor) 
+<!-- **TO ADD:** Culturally specific ; peer effects ; we could be eating better diet; causal : closer to elite capture va populist capture (narrow corridor)  -->
 
 ##                            Causal Effect of Exposure
 
  Guess et al. (2021), Levy (2021), and Casas, Menchen-Trevino and Wojcieszak (2022), Brookman and Kalla (2023): "Guess et al. (2021) finds effects on knowledge of the information in these sources, Levy (2021) finds that participants’ attitudes moderate broadly, and Casas, Menchen-Trevino and Wojcieszak (2022) generally find null effects on attitudinal and affective polarization (i.e., do not find backlash)."
 
-##                            Causal Effect ofo Censorship
+##                            Causal Effect of Censorship
 
 David Yang (2023?) "Brave New World" tests censorship in China. 
 
@@ -262,6 +300,10 @@ David Yang (2023?) "Brave New World" tests censorship in China.
 
 - (look at Carl Shapiro notes)
 1. **Q: How deep is the moat from network effects?** How much better does a competitor need to be to steal the customers from incumbent? Appears to be large. Will get coexistence when there is differentiation in graphs.
+
+
+
+
 
 <!-- 2. **Q: what is the causal effect from exposure?**
    - *Overall exposure effects must be large:* grow up surrounded by Catholics you become Catholic, grow up surrounded by Protestants you become Protestant. If you measure effect of single Protestant sermon on a Catholic, will get tiny effect. But you know there is a self-reinforcing equilibrium. -->
@@ -283,6 +325,10 @@ David Yang (2023?) "Brave New World" tests censorship in China.
 - Akerlof and kranton identity economics 
 - non economists : tufecki that it changes ability to coordinate (classic exonoxmic explanation); martin guri that it dissolves trust in institutions and power.  -->
    
+
+
+
+
 
 #                             Plan for Change
 
