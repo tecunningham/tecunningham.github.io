@@ -1,0 +1,297 @@
+---
+title: Runner Percentile Calculation
+author: Tom Cunningham
+date: 2023-08-11
+draft: true
+execute:
+  echo: false
+  cache: true # caches chunk output
+fig-align: center
+reference-location: margin
+format:
+   html:
+      toc: true
+      toc-depth: 2
+      toc-location: left
+      code-fold: true
+      html-math-method:
+         method: mathjax
+         url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js"
+         #     ^ this forces SVG instead of CHTML, otherwise xypic renders weird
+      include-in-header:
+         - text: |
+            <script>window.MathJax = {
+                     loader: { load: ['[custom]/xypic.js'],
+                                 paths: {custom: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/'}},
+                  tex: {packages: {'[+]': ['xypic']},
+                     macros: {
+                        bm: ["\\boldsymbol{#1}", 1],
+                        ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+                        utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3]
+                     }}};
+            </script>
+
+engine: knitr
+editor:
+   render-on-save: true
+---
+<style>
+   h1 {  border-bottom: 4px solid black;}
+   h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; font-size: 14px; color: black; }
+   dl {display: grid;grid-template-columns: max-content auto;}
+   dt {grid-column-start: 1;}
+   dd {grid-column-start: 2; margin-left: 2em;}
+</style>
+
+- **Suppose you pass 100 times as many runners as pass you.**
+- **Then there are only 10 times as many runners who you are faster than, than runners who are faster than you.**
+
+- You're less likely to pass, or be passed by, a runner whose speed is close to yours. So if you're faster than 90% of runners you pass (or are passed by) this doesn't imply you're faster than 90% of all runners.
+- If we assume the distribution is normal.
+
+#          Uniform Distribution of Speeds
+
+With a uniform distribution you can easily see that the number of passings is proportional to the area of the triangle, and so proportional to the *square* of the number of runners below/above your speed.
+
+```{tikz}
+\begin{tikzpicture}
+   \draw[<->] (-2,2)-- node[above,rotate=90]{runners} (-2,0)-- (2,0) node[right]{speed};
+   \fill[gray] (-1.5,0) -- (-1.5,1) -- (1.5,1) -- (1.5,0) -- cycle;
+
+   \draw[dashed] (1,-5) node[below]{$p$} -- (1,2) node[right,rotate=90]{my speed};
+   \node[right] at (1.6,1) {distribution of other runners};
+
+   \draw[<->] (-2,-.5) -- (-2,-2);
+   \draw[->] (-2,-1.25) -- (2,-1.25) node[right]{};
+   \draw[line width=1] (-2,-2) -- (2,-1) node[right,align=center]{frequency of passing each other};
+
+   \draw[<->] (-2,-2.5) -- (-2,-4);
+   \draw[->] (-2,-3.25) -- (2,-3.25) node[right]{};
+   \fill[blue] (-1.5,-3.67) -- (1,-3.25) -- node[midway,above,black] {I pass} (-1.5,-3.25) -- cycle;
+   \fill[pink] (1,-3.25) -- (1.5,-3.13) -- node[above,black,align=center] {pass\\me} (1.5,-3.25) -- cycle;
+
+\end{tikzpicture}
+```
+
+#          Normal Distribution of Speeds
+
+```{tikz}
+#| column: margin
+\pgfmathdeclarefunction{gauss}{3}{\pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}}
+\tikzset{declare function={normcdf(\x,\m,\s)=1/(1 + exp(-0.07056*((\x-\m)/\s)^3 - 1.5976*(\x-\m)/\s));}}
+\begin{tikzpicture}
+   \draw[<->] (-2,2)-- node[above,rotate=90]{num runners} (-2,0)-- node[below] {speed}(2,0);
+   \draw[domain=-2:2] plot({\x},{3*gauss(\x,0,1)});
+   %\draw[domain=-2:2] plot({\x},{2*normcdf(\x,0,1))}) node[right]{$F(c)$};
+   \draw[dashed] (1,0) node[below]{$s$} -- (1,2) node[right,rotate=90]{my speed};
+   \node[align=center] at (0,1.5) {Density of runners\\$\phi(x)$};
+\end{tikzpicture}
+```
+
+```{tikz}
+#| column: margin
+\pgfmathdeclarefunction{gauss}{3}{\pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}}
+\tikzset{declare function={normcdf(\x,\m,\s)=1/(1 + exp(-0.07056*((\x-\m)/\s)^3 - 1.5976*(\x-\m)/\s));}}
+\begin{tikzpicture}
+   \draw[<->] (-2,2)-- (-2,0)-- (2,0);
+   \fill[gray,domain=-2:2] (-2,0) -- plot({\x},{(\x-1)*gauss(\x,0,1)}) -- (2,0);
+   %\draw[domain=-2:2] plot({\x},{2*normcdf(\x,0,1))}) node[right]{$F(c)$};
+   \draw[dashed] (1,0) -- (1,2);
+   \node[align=center] at (0,1) {Probability we pass\\$\phi(x)(x-s)$};
+   \node[align=center] at (-.5,-.8) {I pass them};
+   \node[align=center] at (1.5,-.5) {they\\pass\\me};
+\end{tikzpicture}
+```
+
+
+```{tikz}
+#| column: margin
+\pgfmathdeclarefunction{gauss}{3}{\pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}}
+\tikzset{declare function={normcdf(\x,\m,\s)=1/(1 + exp(-0.07056*((\x-\m)/\s)^3 - 1.5976*(\x-\m)/\s));}}
+\begin{tikzpicture}
+   \draw[<->] (-2,2) -- (-2,0) node[rotate=90,midway,above,align=center]{people I pass\\per minute}-- (2,0) node[midway,below] {my speed};
+   \draw[domain=-2:2] (-2,0) -- plot({\x},{2*gauss(\x,0,1)+\x*normcdf(\x,0,1)}) -- (2,0);
+   \draw[domain=-2:2,red] (-2,0) -- plot({\x},{2*gauss(\x,0,1)}) -- (2,0) node[right]{$2\phi(s)$};
+   \draw[domain=-2:2,blue] (-2,0) -- plot({\x},{\x*normcdf(\x,0,1)}) node[right]{$s\Phi(s)$};
+   \draw[dashed] (0,0)--(0,1);
+   \node at (0,2) {$2\phi(s)+s\Phi(s)$};
+\end{tikzpicture}
+```
+
+```{tikz}
+#| column: margin
+\pgfmathdeclarefunction{gauss}{3}{\pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}}
+\tikzset{declare function={normcdf(\x,\m,\s)=1/(1 + exp(-0.07056*((\x-\m)/\s)^3 - 1.5976*(\x-\m)/\s));}}
+\begin{tikzpicture}
+   \draw[<->] (-2,2) -- (-2,0) node[rotate=90,midway,above,align=center]{people who pass me\\per minute}-- (2,0) node[midway,below] {my speed};
+   \draw[domain=-2:2] (-2,0) -- plot({\x},{gauss(\x,0,1)-\x+\x*normcdf(\x,0,1)}) -- (2,0);
+   \draw[dashed] (0,0)--(0,1);
+   \node at (0,2) {$2\phi(s)-s(1-\Phi(s))$};
+\end{tikzpicture}
+```
+
+<!-- ```{tikz}
+#| column: margin
+\pgfmathdeclarefunction{gauss}{3}{\pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}}
+\tikzset{declare function={normcdf(\x,\m,\s)=1/(1 + exp(-0.07056*((\x-\m)/\s)^3 - 1.5976*(\x-\m)/\s));}}
+\begin{tikzpicture}
+   \draw[<->] (-2,2) -- (-2,0) node[rotate=90,midway,above,align=center]{ratio}-- (2,0) node[midway,below] {my speed};
+   \draw[domain=-2:2] (-2,0) -- plot({\x},{(gauss(\x,0,1)+\x*normcdf(\x,0,1))/(2*gauss(\x,0,1)+\x*normcdf(\x,0,1)-\x)}) -- (2,0);
+   \draw[domain=-2:2,red] (-2,0) -- plot({\x},{(normcdf(\x,0,1))/(1-normcdf(\x,0,1))}) -- (2,0);
+   \draw[dashed] (0,0)--(0,1);
+   \node at (0,2) {ratio};
+\end{tikzpicture}
+``` -->
+
+```{tikz}
+\pgfmathdeclarefunction{gauss}{3}{\pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}}
+\tikzset{declare function={normcdf(\x,\m,\s)=1/(1 + exp(-0.07056*((\x-\m)/\s)^3 - 1.5976*(\x-\m)/\s));}}
+\begin{tikzpicture}
+   \draw[<->] (-2,1) -- (-2,0) node[rotate=90,midway,above]{share I pass}-- (2,0) node[midway,below] {my speed};
+   \draw[domain=-2:2] (-2,0) -- plot({\x},{(\x*normcdf(\x,0,1)+gauss(\x,0,1))/(2*\x*normcdf(\x,0,1)+2*gauss(\x,0,1)-\x)}) -- (2,0);
+   \draw[domain=-2:2,red] (-2,0) -- plot({\x},{normcdf(\x,0,1)}) -- (2,0);
+   \draw[dashed] (0,0)--(0,1);
+   \node at (0,1.5) {$\frac{s \Phi(s) + 2\phi(s)}{2s\Phi(s) + 4\phi(s) - s}$};
+   \node[rotate=90,below,red,align=center] at (2,.5) {percentile\\of runners};
+\end{tikzpicture}
+```
+
+$$\begin{aligned}
+   s &= \text{my speed} \\
+   x &\sim \phi, \text{other runners' speeds} \\
+   \text{runners I pass}
+      &= \int_{-\infty}^s \utt{\phi(x)}{runners w}{speed $x$}\utt{(s-x)}{prob I}{pass them}dx\\
+      &= s\Phi(s) - \int_{-\infty}^s x\phi(x) dx \\
+      &= s \Phi(s) + \phi(s) \\
+      & \text{(last step uses $\phi=N(0,1)$)}\\
+   \text{runners who pass me}
+      &= \int_{s}^\infty \utt{\phi(x)}{runners w}{speed $x$}\utt{(x-s)}{prob they}{pass me}dx\\
+      &= \left[  -\phi(x) -s\Phi(x)  \right]^\infty_s \\
+      &= (0+\phi(s)) - (s-s\Phi(s))\\
+      &= \phi(s) - s + s\Phi(s) \\
+   \text{share I pass}
+      &= \frac{s \Phi(s) + \phi(s)}{s \Phi(s) + \phi(s)+\phi(s) - s + s\Phi(s)} \\
+      &= \frac{s \Phi(s) + \phi(s)}{2s\Phi(s) + 2\phi(s) - s}
+\end{aligned}$$
+
+**Note on derivatives:**
+
+
+$$\begin{aligned}
+   \phi(x) &= \frac{1}{\sqrt{2\pi}}e^{-x^2/2}
+      && \text{(standard normal)}\\
+   \phi'(x) &= -x\phi(x)
+\end{aligned}$$
+
+```{r}
+pass <- function(x) {
+   x * pnorm(x) + dnorm(x)
+}
+passed <- function(x) {
+   x * pnorm(x) + dnorm(x) - x
+}
+share <- function(x) {
+   pass(x) / (pass(x) + passed(x))
+}
+ratio <- function(x) {
+   pass(x) / passed(x)
+}
+ratio(1.3)
+pnorm(1.3) / (1 - pnorm(1.3))
+share(.5)
+pnorm(.5)
+
+ratio_sum <- function(x, density) {
+   pass <- 0
+   for (speed in seq(-10, x, 0.1)) {
+      pass <- pass + density(speed) * (x - speed) * 0.1
+   }
+   passed <- 0
+   for (speed in seq(x, 10, 0.1)) {
+      passed <- passed + density(speed) * (speed - x) * 0.1
+   }
+   return(pass / passed)
+}
+ratio_sum(2, dnorm)
+ratio_sum(2, function(x) {
+   dt(x, df = 1)
+})
+
+curve(dt(x, df = 10), from = -4, to = 4)
+# density= function(x){dt(x,df=1)}
+# plot(density,xlim=c(-10,10))
+```
+| std deviation | ratio speeds | ratio passes (gauss) | ratio passes (uniform) | ratio passes (t,df=1) |
+| ------------- | ------------ | -------------------- | ---------------------- | --------------------- |
+| 0             | 1            | 1                    | 1                      | 1                     |
+| .5            | 2.2          | 3.5                  | 5                      | 1.9                   |
+| .7            | 3.1          | 5.9                  | 9.6                    |                       |
+| .9            | 4.4          | 10                   | 19                     |                       |
+| 1             | 5.3          | 13                   | 28                     | 3.3                   |
+| 1.3           | 9.3          | 30                   | 86                     |                       |
+| 2             | 43           | 238                  | 1849                   | 8.5                   |
+
+
+
+∑#                 Post
+
+Suppose you go for a run and you pass 90% of people you see (the other 10% of people pass you). What's your overall rank in the distribution of speeds?
+
+We can't know for sure but if you assume the distribution of speeds is Normal then you're at approximately 80% (i.e. 80% of runners are slower, 20% are faster). The asymmetry is because you're relatively less likely to pass (or be passed by) people who run at a similar speed as you.
+
+If you .
+
+#           R simulation
+
+```
+pass <- function(x) {
+   x * pnorm(x) + 2 * dnorm(x)
+}
+passed <- function(x) {
+   x * pnorm(x) + 2 * dnorm(x) - x
+}
+share <- function(x) {
+   pass(x) / (pass(x) + passed(x))
+}
+
+
+
+x <- 0
+density <- dnorm
+
+pass_sum(0, function(x) {
+   dt(x, df = 1)
+})
+pass_sum(0, function(x) {
+   dt(x, df = 5)
+})
+
+
+passed_sum <- function(x) {
+   integral <- 0
+   for (speed in seq(x, 10, 0.1)) {
+      integral <- integral + dnorm(speed) * (speed - x) * 0.1
+   }
+   return(integral)
+}
+share_sum <- function(x) {
+   pass_sum(x) / (pass_sum(x) + passed_sum(x))
+}
+
+pass(0)
+pass_sum(0)
+
+passed(.5)
+
+share(.5)
+pnorm(.5)
+share_sum(.5)
+
+```
+ -->
+#           References
+
+Mathoverflow ["You pass X people and Y people pass you: how relatively fast are you?"](https://mathoverflow.net/questions/40913/you-pass-x-people-and-y-people-pass-you-how-relatively-fast-are-you)
+   There are a number of sketches of answers but no explicit solutions. A few answers wrongly conclude that the ratio of overtakes/overtakens is equal to the ratio of faster/slower runners.
+
+Clevenson, Schilling, Watkins and Watkins (2001) "The Average Speed on the Highway" -- they show that if you're passed by an equal number of cars that pass you, then you're driving the average speed (not necessarily the median speed).
