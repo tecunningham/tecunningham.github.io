@@ -5,6 +5,8 @@ execute:
   echo: false
   cache: true # caches chunk output
 date: 2023-04-18
+bibliography: inference.bib
+csl: journal-of-development-economics.csl
 format:
    html:
       toc: true
@@ -27,7 +29,6 @@ format:
             </script>
 engine: knitr
 reference-location: margin
-citation-location: margin
 figure-location: margin
 #fontsize: 10pt
 draft: true
@@ -46,31 +47,40 @@ editor:
 - **Everyone is implicitly Bayesian.** The choice of which treatment to run an experiment on, and which metrics to look at, reflects your priors. We are doing mostly *empirical Bayes* here. Empirical Bayes is half-baked bread, frequentist is just raw dough, completely inedible.
 -->
 
-==still a draft, do not circulate==
+<span style="background:yellow;">==*Still a draft, don't circulate!*==</span>
 
-#              Introduction
+#                                  Introduction
 
 <!-- **Tech firms have thousands of experiments running at a given time.** E.g. experiments changing user interface, changing weights in a ranking algorithm, changing price, changing the number of ads shown, or just canary experiments confirming that a new piece of code hasn't broken anything. -->
 
-**In this note I give recommendation for four experiment-related issues using a common Bayesian framework:**^[The impetus for writing this up was Netflix's 2023 CIDER conference, many thanks to all participants especially Martin Tingley.]
+**I describe a canonical experimentation situation and give recommendations for four common problems using common Bayesian framework:**
 
-1. **The inference problem.** What's our best estimate of the true effect given the observed effect? This comes up especially when we have a set of different observed effects, e.g. across experiments, across subgroups, or across time.
+::: {.column-margin}
+   The impetus for writing this up was Netflix's 2023 CIDER conference, many thanks to all participants especially Martin Tingley.
+:::
 
-   Often people deal with these problems by adjusting confidence intervals (e.g. Bonferroni, always-valid). However I think a better approach is to let users make their own judgments but provide them with the most informative *benchmark* statistics so they can compare the results of any given experiment to the results from a reference group.
 
-2. **The extrapolation problem.** Given an effect on metric A what's our best estimate of the effect on metric B? This describes the problem of observational inference, proximal goals, and extrapolation.
+1. **Setup:** The canonical tech problem is to choose a policy to maximize long-run user retention. Because the policy space is high-dimensional it's not feasible to run experiments on every alternative (there are trillions), instead most of the decision-making is done with human intuition based on observational data, and experiments are run to confirm those intuitions.
 
-   There are three approaches to solving this: (1) priors; (2) correlation across units (surrogacy); (3) correlation across experiments (meta-analysis). I argue that approach (3) is generally the best option, but reasonable care needs to be taken in interpreting the results.
+2. **The inference problem.** The basic problem of experimentation is to estimate the true effect given the observed effect. The problem can become complicated when we have a set of different observed effects, e.g. across experiments, across metrics, across subgroups, or across time.
+      <!-- $$E[\utt{t_1}{true effect}{on metric 1}
+      |\utt{\hat{t}_1,\ldots,\hat{t}_n}{observed effects}{on metrics 1...n}].$$ -->
 
-3. **The explore-exploit problem.** We would like to choose which experiments to run in an efficient and automated way. The technical solution is relatively clear but tech companies have struggled to implement it because good execution requires some discipline. I describe a simple algorithm that is not optimal but is very simple and robust.
+   A common approach to dealing with multiple estimands is to adjust confidence intervals (e.g. Bonferroni, always-valid). However I think a better approach is to let decision-makers make qualitative judgments but provide them with an informative set of *benchmark* statistics so they can compare the results of any given experiment to the results from a reference group.
 
-4. **The culture problem.** Inside tech companies people keep misusing experiments and misinterpreting the results, especially running under-powered experiments, selectively choosing results, and looking at correlations without thinking about identification.
+3. **The extrapolation problem.** Given an effect on metric A what's our best estimate of the effect on metric B? This problem is common to observational inference, proximal goals, and extrapolation.
+
+   There are three approaches to solving this: (1) using raw priors; (2) using correlation across units (surrogacy); (3) using correlation across experiments (meta-analysis). I argue that approach #3 is generally the best option but reasonable care needs to be taken in interpreting the results.
+
+4. **The explore-exploit problem.** We would like to choose which experiments to run in an efficient and automated way. I think the technical solution is relatively clear but tech companies have struggled to implement it because good execution requires some discipline. I describe a simple algorithm that is not optimal but very simple and robust.
+
+5. **The culture problem.** Inside tech companies people keep misusing experiments and misinterpreting the results, especially (1) running under-powered experiments, (2) selectively choosing results, and (3) looking at correlations without thinking about identification. A common response is to restrict access so that only datapoints satisfying some conditions are made available. However this often backfires because (a) it is difficult to formally specify the right conditions; (b) it reinforces a perception that experimental results can be interpreted as best-estimates of true treatment effects; (c) it reinforces a norm of selecting experimental results as arguments for a desired outcome.
 
 #                                  Setup
 
-**Firms choose their policy to maximize user retention.** As a simplified model companies are choosing policies to maximize long-run retention (or revenue). A policy is, for example, a recommendation algorithm, or notification algorithm, or the text and images used in an advertisement or the UX on a signup page.
+**Firms choose their policy to maximize user retention.** As a simplified model companies are choosing policies to maximize long-run retention (or revenue). A policy is, for example, a recommendation algorithm, or notification algorithm, or the text and images used in an advertisement or the UX on a signup page. Notice that policies are very high dimensional: there are millions or billions of alternatives, while we usually run only a few experiments.^[In fact variation in the success of tech platforms is primarily due to variation in the inflow of new users, not due to variation in retention rates. However growth in new users is driven by the attractiveness of the product and retention is a good proxy for this.]
 
-**Experiments are not the *primary* source of causal knowledge.** People already have substantial knowledge about the effects of their decisions without either randomized experiments or algorithmic estimators (IV, RDD, etc.). We built cathedrals, aeroplanes, welfare states, we doubled human life-expectancy, & WhatsApp grew to 1B users, all without experiments or regressions. Formal causal inference *augments* our already substatial causal knowledge. In a company the primary way people learn about causal relationships is raw data (e.g. dashboards) and common-sense reasoning about human behaviour.
+**Experiments are not the *primary* source of causal knowledge.** People already have substantial knowledge about the effects of their decisions without either randomized experiments or natural experiments (IV, RDD, etc.). We built cathedrals, aeroplanes, welfare states, we doubled human life-expectancy, & WhatsApp grew to 1B users, all without randomized experiments. Formal causal inference *augments* our already substantial causal knowledge. Inside companies the primary way people learn about causal relationships is raw data (e.g. dashboards) and common-sense reasoning about human behaviour.
 
 **Experiments only solve the low-dimensional problem.** In most cases the dimensionality of the policy space is far higher than the dimensionality of experiment space, thus the responsibility for choosing policies is primarily human judgment, and then humans give a few variants to experiments to compare their performance.
 
@@ -98,37 +108,37 @@ editor:
 
 #                                  The Inference Problem
 
-**There are a number of experiment inference problems that we often find difficult.** For now we'll discuss these as pure inference problems without worrying about strategic behaviour (e.g. peeking, cherry-picking).
+**There are a number of experiment inference problems that we often find difficult.** We will discuss these as pure inference problems without worrying about strategic behaviour (e.g. peeking, cherry-picking).
    
-   1. Guess at the treatment effect given the observed treatment effect.
-   2. Guess at the long-run treatment effect knowing the short-run observed effect.
-   3. Guess at the treatment effect, knowing the observed effect, and additionally that the observed effect is the largest across some group of experiments.
-   4. Guess at the treatment effect on a subgroup, knowing the observed effect, and knowing that it is the largest across all subgroups.
+   1. Estimate the treatment effect given the observed treatment effect.
+   2. Estimate the long-run treatment effect knowing the short-run observed effect.
+   3. Estimate the treatment effect, knowing the observed effect, and additionally the distribution of observed effects across some set of experiments.
+   4. Estimate the treatment effect on a subgroup, knowing the observed effect, and additionally the distribution of observed effects across all other subgroups.
    
-**The textbook approach uses p-values.** A common "textbook" understanding of testing is that you check the p-value: if it is below 0.05 then use the observed effect as your estimate, if the p-value is above 0.05 then use zero as your estimate. This approach leads to all sorts of well-known problems.
-
+**The textbook approach uses p-values.** A common "textbook" understanding approach is to use the observed effect as your estimate if the p-value is below 0.05, and otherwise to use zero as your estimate. This approach leads to all sorts of well-known problems.
 
 **Alternative recommendation: report benchmark statistics.** The ideal decision process lets humans make a judgment about estimated treatment effects given three ingredients:
    
    1. **Raw estimate.** The point estimate and standard error.^[Equivalently, the point-estimate and p-value, or the upper and lower confidence bounds.]
+
    2. **Benchmark statistic.** We should also report a statistic comparing this observed effect to observed effects of other similar treatments. There are many ways of benchmarking and I think they are all convey the same basic information, e.g. the empirical-bayes shrunk estimate (and there are various shrinkage estimators), the FDR-adjusted p-value, or the fraction of statistically significant experiments. We have to use judgment in defining what a "similar" experiment is, and it's important that we report to the end-user what class of similar experiments we're using and how many we have. For the remainder of the section I will assume we are reporting an empirical-bayes shrunk estimate.
+
    3. **Idiosyncratic details.** Any information about this treatment relative to the benchmark class, that could be relevant to its effect on this metric. E.g. if this experiment only affects iPhone users and the metric is an Android outcome this is informative, and we should probably ignore an effect unless it is highly significant.
 
 **Benchmarking solves all the problems above.** An empirical-Bayes shrunk estimate represents our best guess at the true treatment effect conditional on the experiment being drawn from a given reference class.
 
 
-**There are additionally some strategic problems.**
+**Useful shortcut: using the fraction of significant experiments to do shrinkage.** A convenient rule of thumb for doing empirical Bayes shrinkage is to use the fraction of experiments that are statistically significant in some class. If the fraction is zero then we should shrink all estimates to zero, if the fraction is 20% then we should shrink estimates by about 50%, and if the fraction is 1/2 then we should shrink estimates by about 20%. If everything's Gaussian and every experiment has the same $N$ then the optimal shrinkage factor is $1-(\frac{1}{1.96}\Phi^{-1}(\frac{q}{2}))^2$, where $q$ is the fraction of stat-sig experiments.
+
+##       Strategic Problems [UNFINISHED]
+
+**There are additionally some *strategic* problems in experiment interpretation.**
 
 1. **Strategic stopping.** Engineers will wait until an experiment has a high estimated impact (or low p-value) and then try to launch it.
 2. **Cherry-picking.** An engineer will cherry-pick results that support their preferred decision, e.g. Indian DAU went up.
 3. **Alert thresholds.** We want to stop an experiment early if it has either a very good or very bad outcome, but it's difficult to know how to set the threshold in a principled way.
 
-
 *[UNFINISHED: frequentist vs Bayesian approach to strategic problems]*
-
---------------------------------------------
-
-**Useful shortcut: using the fraction of significant experiments to do shrinkage.** A convenient rule of thumb for doing empirical Bayes shrinkage is to use the fraction of experiments that are statistically significant in some class. If the fraction is zero then we should shrink all estimates to zero, if the fraction is 20% then we should shrink estimates by about 50%, and if the fraction is 1/2 then we should shrink estimates by about 20%. If everything's Gaussian and every experiment has the same $N$ then the optimal shrinkage factor is $1-(\frac{1}{1.96}\Phi^{-1}(\frac{q}{2}))^2$, where $q$ is the fraction of stat-sig experiments.
 
 ##       On Launch Criteria
 
@@ -140,7 +150,7 @@ editor:
 
    3. **Identify *conversion factors* between proximal and final metrics.** These tell us the best-estimate impact on final metrics given the impact on proximal metrics. Conversion factors can be estimated either from (a) long-running tuning experiments; (b) a meta-analysis of prior experiments with similar designs.
 
-   A final linear launch criteria can then be expressed as a set of conversion-factor weights applied to each of the proximal metrics.^[For derivation see Cunningham and Kim (2019).]
+   A final linear launch criteria can then be expressed as a set of conversion-factor weights applied to each of the proximal metrics.^[For derivation see @cunningham2020interpreting.]
 
 
 
@@ -250,11 +260,11 @@ Here are some alternatives:
             - \utt{\frac{cov(e_2,e_1)}{var(\hat{t}_1)}}{observable}{variables}
    \end{aligned}$$
 
-   If everything is joint normal then the expectation is itself linear, and so this will be optimal. In practice the true distribution of effect-sizes is somewhat fat-tailed, which imply that the conditional expectation will be nonlinear in the observables. Nevertheless I think this is a good start. (One other complication is that the SNR is more complicated to calculate when experiments vary in their sample size).^[For derivation see Cunningham and Kim (2019).]
+   If everything is joint normal then the expectation is itself linear, and so this will be optimal. In practice the true distribution of effect-sizes is somewhat fat-tailed, which imply that the conditional expectation will be nonlinear in the observables. Nevertheless I think this is a good start. (One other complication is that the SNR is more complicated to calculate when experiments vary in their sample size).^[For derivation see @cunningham2020interpreting.]
 
 3. **Use experiment splitting.** You can randomly assign users in each experiment to one or other sub-experiments. You now effectively have a set of *pairs* of experiments, each of which has experiments with identical treatment effects ($\Delta \text{DAU}_{LR}$) but independent noise. Thus you can run a regression with LHS from one split, and RHS from other split, and you'll get an unbiased estimate. Additionally you can easily fit a nonlinear model.
 
-4. **Run a regression just using the strongest experiments.** If the distribution of experiments is fat-tailed then the strongest experiments will have higher SNR, and so lower bias. A worry about this is that you're only estimating the relationship from outliers, so if there are nonlinearities you'll never know. At the same time the assumption of fat-tailed treatment-effects gives reason to believe the expectation will be nonlinear. (This is roughly how I interpret Dean Eckles & Alex Peysakhovich's experiments-as-instruments paper. They propose using L0 regularization and experiment-splitting cross-validations, which I think effectively just selects the strongest experiments.)
+4. **Run a regression just using the strongest experiments.** If the distribution of experiments is fat-tailed then the strongest experiments will have higher SNR, and so lower bias. A worry about this is that you're only estimating the relationship from outliers, so if there are nonlinearities you'll never know. At the same time the assumption of fat-tailed treatment-effects gives reason to believe the expectation will be nonlinear. (This is roughly how I interpret the @peysakhovich2018learning experiments-as-instruments paper. They propose using L0 regularization and experiment-splitting cross-validations, which I think effectively just selects the strongest experiments.)
 
 
 **Choosing a Reference Class.** It is important to think about the reference-class of experiments which we use to calibrate our estimates. The long-run DAU prediction can be though of as an empirical-bayes estimate, which is our best estimate conditional on the experiment being a random draw from this class of experiments.
@@ -402,7 +412,6 @@ Some general observations:
 
 **The hard work is the choice of parameters to tune.** Once you have a small set of parameters to tune it's not too hard to find the global optimum. However in typical problems there are thousands or millions or billions of possible parameters, how should you choose which ones to tune?
 
-
 <!-- 
 - (Meta's AX is used for hyperparameter tuning, but not that much for product experiments)
 -->
@@ -419,25 +428,12 @@ Some general observations:
 
    - If you let data scientists use observational-causal-inference tools they'll use them indiscriminately, hardly spending any time to think about whether the exogeneity assumption hold in their cases.
 
-There are three broad approaches: 
+**There are three broad approaches: **
 
 1. Put restrictions on experimenters to prevent them from misinterpreting experiment results.
 2. Change incentives for experimenters to prevent them from misusing experiment results.
-3. Educate experiments so they use experiment resuts better.
-
-[UNFINISHED]
+3. Educate experiments so they use experiment results better.
 
 <!-- **Taking culture as fixed.** People are trying to develop.
 
 **Tech companies are full of quack doctors.** infested with dousing people ; witch hunters ; quack doctors ; medicine men.  -->
-
-
-
-<!-- 
-#                                   Bibliography
-
-
-Tom Cunningham and Dominic Coey (2019, WWW) **[Improving Treatment Effect Estimators Through Experiment Splitting](https://research.fb.com/wp-content/uploads/2019/02/Improving-Treatment-Effect-Estimators-Through-Experiment-Splitting.pdf)**.
-
-Tom Cunningham and Josh Kim (2020, CODE) **[Interpreting Experiments with Multiple Outcomes](https://t.co/cmP24ywRj5)** -->
-
