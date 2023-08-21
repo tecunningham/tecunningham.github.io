@@ -177,9 +177,14 @@ ga('send', {
     <h2 id="toc-title">On this page</h2>
    
   <ul class="collapse">
-  <li><a href="#uniform-distribution-of-speeds" id="toc-uniform-distribution-of-speeds" class="nav-link active" data-scroll-target="#uniform-distribution-of-speeds">Uniform Distribution of Speeds</a></li>
+  <li><a href="#fb-post" id="toc-fb-post" class="nav-link active" data-scroll-target="#fb-post">FB Post</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#uniform-distribution-of-speeds" id="toc-uniform-distribution-of-speeds" class="nav-link" data-scroll-target="#uniform-distribution-of-speeds">Uniform Distribution of Speeds</a></li>
   <li><a href="#normal-distribution-of-speeds" id="toc-normal-distribution-of-speeds" class="nav-link" data-scroll-target="#normal-distribution-of-speeds">Normal Distribution of Speeds</a></li>
+  <li><a href="#simulations" id="toc-simulations" class="nav-link" data-scroll-target="#simulations">Simulations</a></li>
+  <li><a href="#post" id="toc-post" class="nav-link" data-scroll-target="#post">Post</a></li>
   <li><a href="#r-simulation" id="toc-r-simulation" class="nav-link" data-scroll-target="#r-simulation">R simulation</a></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions</a></li>
   </ul>
 </nav>
 </nav>
@@ -206,6 +211,54 @@ ga('send', {
 <li><p>You’re less likely to pass, or be passed by, a runner whose speed is close to yours. So if you’re faster than 90% of runners you pass (or are passed by) this doesn’t imply you’re faster than 90% of all runners.</p></li>
 <li><p>If we assume the distribution is normal.</p></li>
 </ul>
+<section id="fb-post" class="level1">
+<h1>FB Post</h1>
+<p>My claim: keeping track of people you pass when you run will typically <em>exaggerate</em> your ranking in relative speed, e.g.&nbsp;if you pass people by with a ratio of 3:1 then you’re probably not at the 75th percentile of speeds, you’re significantly lower than that. (However this requires a sufficiently thin-tailed distribution of speeds).</p>
+<p>More formally:</p>
+<p>WITHOUT ASSUMPTION ON DISTRIBUTION</p>
+<ol type="1">
+<li><p>I cannot infer anything certain about my rank. Given the ratio of pass/passed-by, I could be either the fastest or the slowest runner. E.g. suppose the majority of runners were just slightly faster than me, but a few runners who were much slower, then I would pass many more runners than I passed by, but nevertheless my rank among runners would be low.</p></li>
+<li><p>I can infer whether I’m faster or slower than average. If the number of people who pass me is equal to the number of people who I’m passed by then I must be going the <em>average</em> speed. If I pass more than I’m passed by then I must be going faster than average. As a corollary: if the distribution is symmetric (mean=median) then if you pass more people than you’re passed by then you must have above-median speed.</p></li>
+</ol>
+<p>WITH ASSUMPTION ON DISTRIBUTION</p>
+<p>Let’s say that “exaggeration” holds if your position in the passing distribution (passes/(passes+passedby)) is farther from 50% than your percentile in the distribution of speeds (faster/(faster+slower)).</p>
+<ol type="1">
+<li><p>If speeds are uniform then there’s a very simple solution, and exaggeration will always hold. The ratio of faster/slower will be equal to the square root of the ratio of passes/passed-by. E.g. if I pass 100X as many people as I pass by, then there will be only 10X as many people who I’m faster than than who I’m slower than. There’s a simple graphical derivation: the volume of people I pass (and are passed by) will be given by the area of triangles on either side of my speed, and the areas of those triangles are proportional to the square of the number of runners.</p></li>
+<li><p>If I assume a Normal distribution then there’s an analytic solution. The solution is a little bit ugly but exaggeration always holds: i.e.&nbsp;the share of people you pass always exceeds your percentile in the speed distribution.</p></li>
+</ol>
+<p>However with a t-distribution exaggeration with low degrees of freedom then exaggeration won’t always hold. I think there must be some condition on how fat-tailed the distribution is for exaggeration to hold.</p>
+</section>
+<section id="summary" class="level1">
+<h1>Summary</h1>
+<p><strong>Key: the frequency of two runners passing will be proportional to the difference in speeds.</strong> If two runners run at exactly the same speed then they’ll never pass, if they run at very different speeds they’ll pass often. So we can express the number of runners who pass/passed in given unit of time as follows: <span class="math display">\[\begin{aligned}
+      s &amp;= \text{my speed} \\
+      x &amp;\sim \phi, \text{other runners' speeds} \\
+      p=\text{runners I pass}
+         &amp;= \int_{-\infty}^s \utt{\phi(x)}{runners}{at speed $x$}\utt{(s-x)}{frequency}{we pass}dx\\
+         &amp;= s\Phi(s)-\int_{-\infty}^sx\phi(x)dx \\
+      q= \text{runners who pass me}
+         &amp;= \int_{s}^\infty \utt{\phi(x)}{runners}{at speed $x$}\utt{(x-s)}{frequency}{we pass}dx\\
+         &amp;= \int_{s}^{\infty}x\phi(x)dx-s(1-\Phi(s)) \\
+      r=\text{ratio pass/passed}
+         &amp;= \frac{s\Phi(s)-\int_{-\infty}^sx\phi(x)dx}
+            {\int_{s}^{\infty}x\phi(x)dx-s(1-\Phi(s))} \\
+         &amp;= \frac{E[s-x|x&lt;s]}{E[x-s|x&gt;s]}\frac{P(x&lt;s)}{P(x&gt;s)}
+   \end{aligned}\]</span></p>
+<p>This last condition is the most important. It implies you can figure out your rank among runners <span class="math inline">\(\frac{P(x&lt;s)}{P(x&gt;s)}\)</span> if you know the relative distance in speeds among those who are faster and those who are slower. If the speed differences are identical then the two ratios are the same. For most distributions (e.g.&nbsp;the normal) the conditional expectations will be such that the slower guys are closer than the faster, implying the exaggeration property.</p>
+<p>Note on conditional expectations: <span class="math display">\[\begin{aligned}
+   E[x|x&lt;s]
+      &amp;= \frac{\int_{-\infty}^s x\phi(x)dx}{\Phi(s)}\\
+      &amp;= s-\frac{p}{\Phi(s)}
+      &amp;&amp; \text{(from above)} \\
+   E[x|x&gt;s]
+      &amp;= \frac{\int_{s}^{\infty} x\phi(x)dx}{1-\Phi(s)}\\
+      &amp;= s+\frac{q}{(1-\Phi(s))}\\
+   \frac{E[x|x&lt;s]-s}{E[x|x&gt;s]-s}
+      &amp;= -\frac{p}{q}\frac{1-\Phi(s)}{\Phi(s)}\\
+   r=\frac{p}{q}
+      &amp;= \frac{E[s-x|x&lt;s]P(x&lt;s)}{E[x-s|x&gt;s]P(x&gt;s)}
+\end{aligned}\]</span></p>
+</section>
 <section id="uniform-distribution-of-speeds" class="level1">
 <h1>Uniform Distribution of Speeds</h1>
 <p>With a uniform distribution you can easily see that the number of passings is proportional to the area of the triangle, and so proportional to the <em>square</em> of the number of runners below/above your speed.</p>
@@ -255,6 +308,8 @@ ga('send', {
       &amp;= \left[  -\phi(x) -s\Phi(x)  \right]^\infty_s \\
       &amp;= (0+\phi(s)) - (s-s\Phi(s))\\
       &amp;= \phi(s) - s + s\Phi(s) \\
+   r=\text{ratio pass/passed by}
+      &amp;= \frac{s\Phi(s)+\phi(s)}{\phi(s)+s\Phi(s)-s}\\
    \text{share I pass}
       &amp;= \frac{s \Phi(s) + \phi(s)}{s \Phi(s) + \phi(s)+\phi(s) - s + s\Phi(s)} \\
       &amp;= \frac{s \Phi(s) + \phi(s)}{2s\Phi(s) + 2\phi(s) - s}
@@ -265,7 +320,10 @@ ga('send', {
       &amp;&amp; \text{(standard normal)}\\
    \phi'(x) &amp;= -x\phi(x)
 \end{aligned}\]</span></p>
-<div class="cell" data-hash="2023-08-13-runner-percentile_cache/html/unnamed-chunk-7_9113874ce374f39405746f249faafa94">
+</section>
+<section id="simulations" class="level1">
+<h1>Simulations</h1>
+<div class="cell" data-hash="2023-08-13-runner-percentile_cache/html/unnamed-chunk-7_9a815a0ababf28b9b926c8c1c68ff57e">
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 29.55388</code></pre>
 </div>
@@ -279,85 +337,76 @@ ga('send', {
 <pre><code>[1] 0.6914625</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 237.8047</code></pre>
+<pre><code>[1] 95716730  4576917</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 8.559642</code></pre>
+<pre><code>[1]  8.652357 14.289082</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 57.60283 52.84557</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="2023-08-13-runner-percentile_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="2023-08-13-runner-percentile_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Each cell shows first the ratio pass/passed, then the ratio faster/slower <span class="math inline">\(\frac{\Phi(s)}{1-\Phi(s)}\)</span>. We can see that exaggeration holds in each cell.</p>
+<p>Note that t with df=1 is weird because it doesn’t have an expectation, i.e.&nbsp;<span class="math inline">\(x\phi(x)\)</span> never goes to zero, so confusing to think about.</p>
 <table class="table">
-<colgroup>
-<col style="width: 14%">
-<col style="width: 13%">
-<col style="width: 22%">
-<col style="width: 25%">
-<col style="width: 23%">
-</colgroup>
 <thead>
 <tr class="header">
-<th>std deviation</th>
-<th>ratio speeds</th>
-<th>ratio passes (gauss)</th>
-<th>ratio passes (uniform)</th>
-<th>ratio passes (t,df=1)</th>
+<th><span class="math inline">\(s\)</span></th>
+<th>gauss</th>
+<th>t(df=1)</th>
+<th>t(df=2)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td>-1</td>
+<td>.08 / .2</td>
+<td>.5/.3</td>
+<td>.26/.28</td>
+</tr>
+<tr class="even">
 <td>0</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-</tr>
-<tr class="even">
-<td>.5</td>
-<td>2.2</td>
-<td>3.5</td>
-<td>5</td>
-<td>1.9</td>
+<td>1/1</td>
+<td>1/1</td>
+<td>1/1</td>
 </tr>
 <tr class="odd">
-<td>.7</td>
-<td>3.1</td>
-<td>5.9</td>
-<td>9.6</td>
-<td></td>
+<td>0.5</td>
+<td>3.5/2.4</td>
+<td>1.4/1.9</td>
+<td>2.0/2.1</td>
 </tr>
 <tr class="even">
-<td>.9</td>
-<td>4.4</td>
-<td>10</td>
-<td>19</td>
-<td></td>
-</tr>
-<tr class="odd">
 <td>1</td>
-<td>5.3</td>
-<td>13</td>
-<td>28</td>
-<td>3.3</td>
-</tr>
-<tr class="even">
-<td>1.3</td>
-<td>9.3</td>
-<td>30</td>
-<td>86</td>
-<td></td>
+<td>13.0/5.8</td>
+<td>1.9/3.0</td>
+<td>3.8/4.0</td>
 </tr>
 <tr class="odd">
 <td>2</td>
-<td>43</td>
-<td>238</td>
-<td>1849</td>
-<td>8.5</td>
+<td>238/49</td>
+<td>3.2/5.8</td>
+<td>10.3/10.3</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>95M/4M</td>
+<td>8.6/14.3</td>
+<td>58/53</td>
 </tr>
 </tbody>
 </table>
-<p>∑# Post</p>
+</section>
+<section id="post" class="level1">
+<h1>Post</h1>
 <p>Suppose you go for a run and you pass 90% of people you see (the other 10% of people pass you). What’s your overall rank in the distribution of speeds?</p>
 <p>We can’t know for sure but if you assume the distribution of speeds is Normal then you’re at approximately 80% (i.e.&nbsp;80% of runners are slower, 20% are faster). The asymmetry is because you’re relatively less likely to pass (or be passed by) people who run at a similar speed as you.</p>
-<p>If you .</p>
 </section>
 <section id="r-simulation" class="level1">
 <h1>R simulation</h1>
@@ -405,8 +454,14 @@ pnorm(.5)
 share_sum(.5)
 </code></pre>
 <p>–&gt; # References</p>
-<p>Mathoverflow <a href="https://mathoverflow.net/questions/40913/you-pass-x-people-and-y-people-pass-you-how-relatively-fast-are-you">“You pass X people and Y people pass you: how relatively fast are you?”</a> There are a number of sketches of answers but no explicit solutions. A few answers wrongly conclude that the ratio of overtakes/overtakens is equal to the ratio of faster/slower runners.</p>
-<p>Clevenson, Schilling, Watkins and Watkins (2001) “The Average Speed on the Highway” – they show that if you’re passed by an equal number of cars that pass you, then you’re driving the average speed (not necessarily the median speed).</p>
+<p><strong>Mathoverflow <a href="https://mathoverflow.net/questions/40913/you-pass-x-people-and-y-people-pass-you-how-relatively-fast-are-you">“You pass X people and Y people pass you: how relatively fast are you?”</a></strong></p>
+<p>There are a number of sketches of answers but no explicit solutions. A few answers wrongly conclude that the ratio of overtakes/overtakens is equal to the ratio of faster/slower runners.</p>
+<p><strong>Clevenson, Schilling, Watkins and Watkins (2001) “The Average Speed on the Highway”</strong></p>
+<p>They show that if the number of cars you pass is equal to the number of cars that pass you then you must be driving the average speed (not necessarily the median speed).</p>
+</section>
+<section id="conclusions" class="level1">
+<h1>Conclusions</h1>
+<p>Suppose your speed is <span class="math inline">\(s\)</span> and the runners’ speeds have distribution <span class="math inline">\(X\sim\phi\)</span>, and <span class="math inline">\(r\)</span> is the ratio of passed</p>
 
 
 </section>
