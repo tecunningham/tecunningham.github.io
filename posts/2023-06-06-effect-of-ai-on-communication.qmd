@@ -29,7 +29,7 @@ editor:
 ::: {.column-margin}
    <!-- ![](images/2023-06-14-13-38-42.png) -->
    ![](images/2023-07-07-10-34-40.png)
-   Thanks to many comments, esp. Ravi Iyer, Sahar Massachi, Tal Yarkoni, and Rafael Burde.
+   Thanks to many comments, esp. Ravi Iyer, Sahar Massachi, Tal Yarkoni, Rafael Burde, and Grady Ward.
 :::
 
 <!-- TO ADD:
@@ -39,8 +39,11 @@ editor:
    - Add this: https://knowledge.insead.edu/operations/navigating-trust-and-safety-world-generative-ai
    - UV light in scanning banknotes
    - C2PA fingerprintin
-
+   - Grady Ward notes: https://docs.google.com/document/d/1c-uUZqJ41116qk1KRQjljsA81E3dVQTG80YohE49Afc/edit
+   - Add this: "artificial intelligence and the public arena" https://academic.oup.com/ct/article/33/2-3/164/7202294
+   - Add: Gezknow: https://web.stanford.edu/~gentzkow/research/ai_and_media.pdf and https://web.stanford.edu/~gentzkow/research/ai_and_media_slides.pdf
 -->
+   
 
 <!-- 
 OLD: http://tecunningham.github.io/2023-06-06-effect-of-ai-on-communication.html
@@ -64,7 +67,7 @@ SEE ALSO:
 
 Ten tentative predictions about the effect of AI on online communication (spam, misinfo, etc.). I'm working on a much longer writeup so would love to hear arguments or references to good literature. -->
 
-**This note discusses a range of evidence and theory, summarized with a set of predictions:**
+**This note surveys what we know about the likely effect of AI on online communication, summarized with a set of predictions:**
 
 1. **The prevalence of policy-violating content on platforms will decline.** E.g. the prevalence of nudity, hate speech, and harassment, will decline. Classifiers are already approaching human-level performance and so prevalence should approach zero (given the ground truth is human labelling). The same argument applies to automated censorship.
 2. **The prevalence of "context-specific" violating content will increase.** This refers to content which appears to be non-violating to the average person but is interpreted in a policy-violating way by its intended audience, or in the specific context where it is posted.
@@ -92,7 +95,7 @@ Over the last 50 years computers have been steadily getting better at recognize 
 
 ![](images/2023-06-16-05-55-29.png)^[Source: [Our World in Data](https://ourworldindata.org/brief-history-of-AI).]
 
-##          The prevalence of policy-violating content on platforms will decline
+##          The Prevalence of Policy-Violating Content Will Decline
 
 Each of the large internet platforms has a list of prohibited categories, e.g. nudity, obscenity, hate speech, incitement, etc.. Early automated detection systems used lists of prohibited words. Then platforms started training classifiers from human labels. Early classifiers had relatively high precision and recall but made predictable mistakes: they would rely on identifying words and phrases typically used in violating posts which led to [false positives](https://www.surgehq.ai/blog/are-popular-toxicity-models-simply-profanity-detectors) and [false negatives](https://www.surgehq.ai/blog/25-examples-of-twitters-content-moderation-failures). Such classifiers can also be easily tricked by adding some noise, e.g. "insert typos, change word boundaries or add innocuous words" ([Gröndahl et al.](https://arxiv.org/abs/1808.09115) (2018)). However more recent production models are built on deeper language models and are much more effective at identifying the meaning of posts ([Whitlock Lees et al.](https://research.google/pubs/pub51952/) (2022)).[^employment]
 
@@ -123,7 +126,7 @@ Whether prevalence will decline all the way to zero depends on the definition of
 
 <!-- Suppose our "ground truth" definition used for prevalence calculations was when 2/3 of experienced raters mark content as violating. In this case even filtering with a theoretically perfect AI model would not drive prevalence to zero (a theoretically perfect AI model would predict the ground truth but still be stochastic because of between-rater and within-rater variation). -->
 
-##          The prevalence of *context-specific* violations will increase
+##          The Prevalence of *Context-Specific* Violations Will Increase
 
 Although prevalence of explicitly policy-violating content seems likely to decline we should expect platform users to substite towards producing content that achieves their intent (communicating a violating message) without being flagged as violating (having a human rater recognize the message as violating). I will call this a "context-specific violation": a post that is interpreted by the intended viewers to have a significance that is violating, but interpreted by professional raters (who are not given any information about context) as having a non-violating significance.[^definition] Some examples:[^selective]
 
@@ -157,7 +160,7 @@ In contrast government censorship is unlikely to be constrained by context-speci
 
 [^selective]: A related phenomena is people using selective truths to give an impression that is false. E.g. it is common for anti-vaccination groups to refrain from posting provably false claims and instead post only those true claims which reflect badly on vaccines. People with a bias against some ethnic group likewise often refrain from posting provably false claims but post only those true claims that reflect badly on the hated group. Because the pool of true claims is enormous it is easy to collect a large set of true claims that collectively give a false impression.
 
-##          The prevalence of database-matched violating content on platforms will approach zero
+##          The Prevalence of Variants of Known-Violating Content Will Decline
 
 Many platforms try to detect content that matches content in a database, e.g. databases of illegal sexual media (PhotoDNA), IP-protected content (Content ID), or terrorist recruitment content (GIFCT). People who upload this content thus will try to obfuscate their content to confuse the matching algorithms, e.g. by adding noise.[^SignalSharing]
 
@@ -165,7 +168,7 @@ Many platforms try to detect content that matches content in a database, e.g. da
 
 Improvements to AI will help both parties but it seems likely that the AI will help platforms relatively more. As I argue in the model below: as AI recognition approaches a human level it will be difficult to upload a recognizable variant of a known piece of violating content without the platform automatically labelling it as such.
 
-##          Platforms will not be able to identify bots from their behavior
+##          Platforms Will Not Be Able to Identify Bots from Their Behavior
 
 Most online platforms struggle with automated users (bots) who are disruptive in a variety of ways. One way of protecting against bots is with behavioral tests, e.g. a CAPTCHA test asking users an image-recognition task[^captcha], or by using on-platform behavior to detect whether a user is human. However improvements in AI mean that computers can now recognize most images as well as humans, and can learn to imitate human-style behavior patterns, so it seems likely these behavioral tests will become ineffective against sophisticated actors. @searles2023empirical finds that most contemporary types of CAPTCHAs can be solved by bots with higher than human accuracy (p10).[^fingerprinting]
 
@@ -175,7 +178,7 @@ This does not imply that the prevalence of bots will increase. All platforms nee
 
 [^fingerprinting]: Similarly behavioural fingerprinting will become ineffective against advanced actors, e.g. using voice recognition to verify identity.
 
-##          Platforms will find it hard to discriminate between real and fake media
+##          Platforms Will Find It Hard to Discriminate between Real and Fake Media
 
 There are a number of properties where the ground truth depends on the relationship between the content and the real world:
 
@@ -189,7 +192,7 @@ There are a number of properties where the ground truth depends on the relations
 
    [^ranking]: See discussion in my note on [how platforms rank](http://tecunningham.github.io/2023-04-28-ranking-by-engagement.html). 
    
-##          Fake media (deepfakes) will not have a substantial influence on politics
+##          Fake Media (Deepfakes) Will Not Have a Substantial Influence on Politics
 
 As it becomes cheaper to manipulate and synthesize media then people are likely to become more skeptical and rely relatively more on the *provenance* of information. Thus although synthetic media will likely circulate I do not think it will have a substantial influence on beliefs in equilibrium.
 
@@ -210,45 +213,9 @@ As it becomes cheaper to manipulate and synthesize media then people are likely 
    <!-- Circulation of fake information: we have already adapted (1) skepticism ("don't believe what u read on the internet"); (2) platforms get burned by it so try to reduce distribution. Not sure whether adding audio/video would add to this. -->
 
 <!-- 
-##          Computer-Generated Content will not be Hyper-Persuasive
-
-Some have worried that computer-generated content will be more persuasive than even the best human-generated content, for example:
-
-   - Advertisements for Coke might become hypnotically effective, giving you an irresistible desire to drink Coke.
-   - Content generated by influence operations to influence elections might become highly .
 
 
-We can make this measurable by predicting the total amount spent on advertising. If computer-generated ads are mroe persuasive than human-generated ads then firms should be willing to spend more on each ad, and so the equilibrium price of advertising will rise.^[Although the price of ads should increase it is unclear whether the quantity of ads shown would increase or decrease. In a simple model of ad-supported media the equilibrium quantity of advs is determined by (1) the curvature of demand from advertisers, (2) the curvature of disutility from consumers. An increase in the persuasive power of advertising will shift demand up but there's no clear reason for curvature to change.].
-
-   In fact ad expenditure has been around 1% of GDP since 1930: https://www.ben-evans.com/presentations
-   ![](images/2023-07-12-05-36-29.png)
-
-
-We can make some very loose generalizations about human persuadability:
-
-1. _Human attitudes are highly sensitive to influences._ A person's adult attitudes, beliefs, and preferences, are highly sensitive to their upbringing and context: if your parents are Catholic then you are highly likely to grow up Catholic. The same is true for eating fish, enjoying country music, being a Democrat, taking your shoes off inside, and your attitude to sex before marriage. The correlations can only be partly explained by direct genetic or economic effects, implying that attitudes are highly sensitive to experience.
-
-2. _Considerable resources are devoted to persuasion._[^McCloskey]
-
-
-3. _The effective means of persuasion are only crudely known._ In the past 100 years there have been a dozen apparent discoveries of hyper-effective means of persuasion. In retrospect they were mostly or all exaggerated. Whether using subconscious associations (Bernays), using conditioning (Skinner), using subliminal messages (Packard), using brainwashing (Sargant), using the power of conformity (Adorno, Asch, Zimbardo), using priming and nudges (Bargh, Thaler), or using statistical profiling (Cambridge Analytica).
-
-4. _Carefully measured evidence of persuasive effects tend to be low._
-
-5. Nevertheless 1/3 of the economy is devoted to persuasion, and attitudes and preferences vary between populations primarily due to social context implying there must be *some* extra-rational means by which people form their attitudes. 
-
-A recent [review of the effectiveness of influence operations](https://carnegieendowment.org/2021/06/28/measuring-effects-of-influence-operations-key-findings-and-gaps-from-empirical-research-pub-84824) finds that influence through traditional broadcast media (e.g. Russia Today) probably have a bigger impact than covert campaigns through social media.
-
-- Expenditure on advertising in the US is around 1% of GDP, and expenditure on political advertising is 0.04% (using $250B on advertising, $10B on political advertising, and $23T GDP).
-  - [Estimate US marketing spend of $1.4T/year](https://martech.org/worldwide-spend-on-marketing-to-hit-4-7-trillion-by-2025/), 8% of revenue.
-  - Estimate US advertising spend of $250B/year
-
-
-[^LLMpersuasion]: This is also my interpretation of Goldstein et al. (2023) ["Can AI Write Persuasive Propaganda"](https://osf.io/preprints/socarxiv/fp87b/): they use GPT-3 to write persuasive text and get humans to rate its persuasiveness. Under some narrow circumstances they find GPT-3's text is as persuasive as human-written text.
-
-[^McCloskey]: McCloskey and Klamer have a 1995 paper titled "One Quarter of GDP is Persuasion". -->
-
-##          Influence Operations will Become Somewhat More Effective
+##          Influence Operations Will Become Somewhat More Effective
 
 Government-sponsored influence operations typically employ many people to write posts and messages, and LLMs would make the creation of messages much cheaper. However as people come to encounter more personalized messages they are likely to adopt a higher level of skepticism which would somewhat blunt the advantage due to LLMs.
 
@@ -280,7 +247,7 @@ There will be collateral damage on sincere personalized messages: it will become
 
 
 
-##          Communication will migrate towards large closed platforms
+##          Communication Will Migrate Towards Large Closed Platforms
 
 It seems likely that smaller platforms who cannot afford sophisticated defences will become overrun with AI-created bots, spam, obfuscated violating content, and fake media. This would imply that consumers will tend to migrate to larger closed platforms with more effective defences, and which have more restriction on participation. This continues a general movement over the last 20 years of communication moving from small open platforms (independent email, small forums, mailing lists, independent websites) to large closed platforms (large email providers, large social media platforms).
 
@@ -300,7 +267,7 @@ It seems likely that smaller platforms who cannot afford sophisticated defences 
 
    I don't expect that adoption of cryptographic signing will markedly increase, in short because (...) -->
 
-##          Things will get weird
+##          Things Will Get Weird
 
 Much of our common-sense understanding of media will be violated when we routinely use AI models to manipulate and synthesize artefacts. Some examples:
 

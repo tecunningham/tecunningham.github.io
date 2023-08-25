@@ -1,5 +1,5 @@
 ---
-title: Runner Percentile Calculation
+title: If You Overtake More Runners than You're Overtaken by
 author: Tom Cunningham
 date: 2023-08-11
 draft: true
@@ -43,11 +43,23 @@ editor:
    dd {grid-column-start: 2; margin-left: 2em;}
 </style>
 
-- **Suppose you pass 100 times as many runners as pass you.**
-- **Then there are only 10 times as many runners who you are faster than, than runners who are faster than you.**
+**Suppose you overtake 10 times as many runners as you're overtaken by, what can you say about your speed relative to the other runners?** For concreteness suppose everyone is running around a circular track in the same direction forever, and each person started at a random point.
 
-- You're less likely to pass, or be passed by, a runner whose speed is close to yours. So if you're faster than 90% of runners you pass (or are passed by) this doesn't imply you're faster than 90% of all runners.
-- If we assume the distribution is normal.
+**Answer:** We can write the general relationship as follows:
+   $$\frac{\text{frequency of passing}}{\text{frequency of being passed}}
+         =\frac{\text{share slower runners}}{\text{share faster runners}}
+            \times
+            %= \frac{E[s-x|x<s]}{E[x-s|x>s]}\frac{P(x<s)}{P(x>s)}
+            \frac{\text{avg excess above slower runners}}{\text{avg lag behind faster runners}}
+   $$
+
+   **The ratio of slower/faster will not generally be equal to the ratio of passing/passed.** The reason is that your propensity to encounter another runner depends on the difference in speeds: you will rarely pass or be passed by those who run similar speeds to you.
+
+   **Some additional implications:**
+
+   1. If the distribution of running-speeds is normal then your ratio of passing/passed exaggerates your position in the distribution of speeds, e.g. if you pass 10X as many people as you're passed by then there are *fewer* than 10X as many people who are slower than you relative to people faster than you.
+   2. If the distribution of running-speeds is sufficiently fat-tailed (e.g. $t$-distribution with df<2), then you get the opposite implication. (I think a sufficient condition for exaggeration is log-concavity of the probability density function, but I'm not certain).
+   3. If the frequency of passing is the same as the frequency of being passed then you must be running exactly the mean speed.
 
 #           FB Post
 
@@ -71,9 +83,8 @@ Let's say that "exaggeration" holds if your position in the passing distribution
 
 However with a t-distribution exaggeration with low degrees of freedom then exaggeration won't always hold. I think there must be some condition on how fat-tailed the distribution is for exaggeration to hold.
 
-#           Summary
+#           Derivation
 
-**Key: the frequency of two runners passing will be proportional to the difference in speeds.** If two runners run at exactly the same speed then they'll never pass, if they run at very different speeds they'll pass often. So we can express the number of runners who pass/passed in given unit of time as follows:
    $$\begin{aligned}
       s &= \text{my speed} \\
       x &\sim \phi, \text{other runners' speeds} \\
@@ -91,7 +102,7 @@ However with a t-distribution exaggeration with low degrees of freedom then exag
 
 This last condition is the most important. It implies you can figure out your rank among runners $\frac{P(x<s)}{P(x>s)}$ if you know the relative distance in speeds among those who are faster and those who are slower. If the speed differences are identical then the two ratios are the same. For most distributions (e.g. the normal) the conditional expectations will be such that the slower guys are closer than the faster, implying the exaggeration property.
 
-Note on conditional expectations:
+Derivation of the final condition:
 $$\begin{aligned}
    E[x|x<s]
       &= \frac{\int_{-\infty}^s x\phi(x)dx}{\Phi(s)}\\
@@ -105,6 +116,26 @@ $$\begin{aligned}
    r=\frac{p}{q}
       &= \frac{E[s-x|x<s]P(x<s)}{E[x-s|x>s]P(x>s)}
 \end{aligned}$$
+
+--------------------------------------------
+
+Would be nice to reorganize to show the relationship between $r$ and the mean speed, and see whether the unknown could be expressed in SDs.
+
+Stating the condition again more explicitly:
+   $$\begin{aligned}
+      \ut{\frac{\int_s^\infty (x-s)\phi(x)dx}{\int_{-\infty}^s (s-x)\phi(x)dx}}{ratio pass/passed}
+            &= \frac{a}{b}
+               \utt{\frac{a}{b}}{asdf}{asfd}
+   \end{aligned}$$
+
+Rewriting
+
+$$\begin{aligned}
+   E[x-s|x>s]P(x>s)r &= E[s-x|x<s]P(x<s) \\
+   E[x-s|x>s]P(x>s)(r-1) &= \mu \\
+\end{aligned}$$
+
+
 
 
 #          Uniform Distribution of Speeds
@@ -373,6 +404,18 @@ share_sum(.5)
    They show that if the number of cars you pass is equal to the number of cars that pass you  then you must be driving the average speed (not necessarily the median speed).
 
 
-#           Conclusions
+#           Notes
 
-Suppose your speed is $s$ and the runners' speeds have distribution $X\sim\phi$, and $r$ is the ratio of passed 
+Matt:
+
+> "I think I can get some bounds ... if r>1: since E|s-x| <= \sqrt E(s-x)^2 we get that s<=mean + (r-1)/(2 \sqrt{r}) sd. Only assumption is that mean and sd exist -- and I've done my sums right!"
+
+Oh very nice Matt. It took me a bit but now I see it (though I can't quite derive it). So if I pass 3X as many people as pass me, then I know that my speed cannot be more than 1.2 SDs above the mean (=2/sqrt(3)). It seems to me intuitive that there ought to also be a lower bound but may be wrong (we know that s>mean if r>1, intuitive that we can say something stronger than that).
+
+Erik:
+
+> "I think you’re less likely to see faster runners. The probability you intersect their path at the same time is lower because the time interval they’re there is shorter ... think (4) is related to length/size bias (https://en.wikipedia.org/wiki/Length_time_bias) I wasn't imagining the circular track scenario either, a straight line where people jump in at random points at random speeds. If you imagine runners are at every point in their run at once, and you draw a line at any point in the track at some instant, since a fast runner is on the track for less time you're less likely to hit their trajectory. I think depending on the setup of the problem this can vary -- i.e. depending on track shape, distribution of times spent running, and of speeds. Also I could be missing something"
+
+Length-time bias:
+
+>  "if the same number of slow-growing and fast-growing tumors appear in a year, the screening test detects more slow-growers than fast-growers. If the slow growing tumors are less likely to be fatal than the fast growers, the people whose cancer is detected by screening do better, on average, than the people whose tumors are detected from symptoms
