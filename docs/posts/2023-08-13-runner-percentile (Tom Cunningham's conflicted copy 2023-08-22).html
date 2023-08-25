@@ -178,7 +178,7 @@ ga('send', {
    
   <ul class="collapse">
   <li><a href="#fb-post" id="toc-fb-post" class="nav-link active" data-scroll-target="#fb-post">FB Post</a></li>
-  <li><a href="#derivation" id="toc-derivation" class="nav-link" data-scroll-target="#derivation">Derivation</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   <li><a href="#uniform-distribution-of-speeds" id="toc-uniform-distribution-of-speeds" class="nav-link" data-scroll-target="#uniform-distribution-of-speeds">Uniform Distribution of Speeds</a></li>
   <li><a href="#normal-distribution-of-speeds" id="toc-normal-distribution-of-speeds" class="nav-link" data-scroll-target="#normal-distribution-of-speeds">Normal Distribution of Speeds</a></li>
   <li><a href="#simulations" id="toc-simulations" class="nav-link" data-scroll-target="#simulations">Simulations</a></li>
@@ -205,7 +205,7 @@ ga('send', {
    dt {grid-column-start: 1;}
    dd {grid-column-start: 2; margin-left: 2em;}
 </style>
-<p><strong>Suppose you overtake 10 times as many runners as you’re overtaken by, what can you say about your speed relative to the other runners?</strong> For concreteness suppose everyone is running around a circular track in the same direction forever, and each person started at a random point.</p>
+<p><strong>Suppose you overtake 10 times as many runners as you’re overtaken by, what can you say about your speed relative to the other runnerson the track?</strong> Suppose everyone is running around a circular track in the same direction forever, and each person started at a random point.</p>
 <p><strong>Answer:</strong> We can write the general relationship as follows: <span class="math display">\[\frac{\text{frequency of passing}}{\text{frequency of being passed}}
          =\frac{\text{share slower runners}}{\text{share faster runners}}
             \times
@@ -215,10 +215,16 @@ ga('send', {
 <p><strong>The ratio of slower/faster will not generally be equal to the ratio of passing/passed.</strong> The reason is that your propensity to encounter another runner depends on the difference in speeds: you will rarely pass or be passed by those who run similar speeds to you.</p>
 <p><strong>Some additional implications:</strong></p>
 <ol type="1">
-<li>If the distribution of running-speeds is normal then your ratio of passing/passed exaggerates your position in the distribution of speeds, e.g.&nbsp;if you pass 10X as many people as you’re passed by then there are <em>fewer</em> than 10X as many people who are slower than you relative to people faster than you.</li>
-<li>If the distribution of running-speeds is sufficiently fat-tailed (e.g.&nbsp;<span class="math inline">\(t\)</span>-distribution with df&lt;2), then you get the opposite implication. (I think a sufficient condition for exaggeration is log-concavity of the probability density function, but I’m not certain).</li>
 <li>If the frequency of passing is the same as the frequency of being passed then you must be running exactly the mean speed.</li>
+<li>If the distribution of running-speeds is normal then your ratio of passing/passed exaggerates your position in the distribution of speeds, e.g.&nbsp;if you pass 10X as many people as you’re passed by then there are <em>fewer</em> than 10X as many people who are slower than you relative to people faster than you.</li>
+<li>If the distribution of running-speeds is sufficiently fat-tailed (e.g.&nbsp;<span class="math inline">\(t\)</span>-distribution with df=2), then you can get the opposite</li>
 </ol>
+<ul>
+<li><p><strong>Suppose you pass 100 times as many runners as pass you.</strong></p></li>
+<li><p><strong>Then there are only 10 times as many runners who you are faster than, than runners who are faster than you.</strong></p></li>
+<li><p>You’re less likely to pass, or be passed by, a runner whose speed is close to yours. So if you’re faster than 90% of runners you pass (or are passed by) this doesn’t imply you’re faster than 90% of all runners.</p></li>
+<li><p>If we assume the distribution is normal.</p></li>
+</ul>
 <section id="fb-post" class="level1">
 <h1>FB Post</h1>
 <p>My claim: keeping track of people you pass when you run will typically <em>exaggerate</em> your ranking in relative speed, e.g.&nbsp;if you pass people by with a ratio of 3:1 then you’re probably not at the 75th percentile of speeds, you’re significantly lower than that. (However this requires a sufficiently thin-tailed distribution of speeds).</p>
@@ -236,9 +242,9 @@ ga('send', {
 </ol>
 <p>However with a t-distribution exaggeration with low degrees of freedom then exaggeration won’t always hold. I think there must be some condition on how fat-tailed the distribution is for exaggeration to hold.</p>
 </section>
-<section id="derivation" class="level1">
-<h1>Derivation</h1>
-<p><span class="math display">\[\begin{aligned}
+<section id="summary" class="level1">
+<h1>Summary</h1>
+<p><strong>Key: the frequency of two runners passing will be proportional to the difference in speeds.</strong> If two runners run at exactly the same speed then they’ll never pass, if they run at very different speeds they’ll pass often. So we can express the number of runners who pass/passed in given unit of time as follows: <span class="math display">\[\begin{aligned}
       s &amp;= \text{my speed} \\
       x &amp;\sim \phi, \text{other runners' speeds} \\
       p=\text{runners I pass}
@@ -253,7 +259,7 @@ ga('send', {
          &amp;= \frac{E[s-x|x&lt;s]}{E[x-s|x&gt;s]}\frac{P(x&lt;s)}{P(x&gt;s)}
    \end{aligned}\]</span></p>
 <p>This last condition is the most important. It implies you can figure out your rank among runners <span class="math inline">\(\frac{P(x&lt;s)}{P(x&gt;s)}\)</span> if you know the relative distance in speeds among those who are faster and those who are slower. If the speed differences are identical then the two ratios are the same. For most distributions (e.g.&nbsp;the normal) the conditional expectations will be such that the slower guys are closer than the faster, implying the exaggeration property.</p>
-<p>Derivation of the final condition: <span class="math display">\[\begin{aligned}
+<p>Note on conditional expectations: <span class="math display">\[\begin{aligned}
    E[x|x&lt;s]
       &amp;= \frac{\int_{-\infty}^s x\phi(x)dx}{\Phi(s)}\\
       &amp;= s-\frac{p}{\Phi(s)}
@@ -265,18 +271,6 @@ ga('send', {
       &amp;= -\frac{p}{q}\frac{1-\Phi(s)}{\Phi(s)}\\
    r=\frac{p}{q}
       &amp;= \frac{E[s-x|x&lt;s]P(x&lt;s)}{E[x-s|x&gt;s]P(x&gt;s)}
-\end{aligned}\]</span></p>
-<hr>
-<p>Would be nice to reorganize to show the relationship between <span class="math inline">\(r\)</span> and the mean speed, and see whether the unknown could be expressed in SDs.</p>
-<p>Stating the condition again more explicitly: <span class="math display">\[\begin{aligned}
-      \ut{\frac{\int_s^\infty (x-s)\phi(x)dx}{\int_{-\infty}^s (s-x)\phi(x)dx}}{ratio pass/passed}
-            &amp;= \frac{a}{b}
-               \utt{\frac{a}{b}}{asdf}{asfd}
-   \end{aligned}\]</span></p>
-<p>Rewriting</p>
-<p><span class="math display">\[\begin{aligned}
-   E[x-s|x&gt;s]P(x&gt;s)r &amp;= E[s-x|x&lt;s]P(x&lt;s) \\
-   E[x-s|x&gt;s]P(x&gt;s)(r-1) &amp;= \mu \\
 \end{aligned}\]</span></p>
 </section>
 <section id="uniform-distribution-of-speeds" class="level1">
@@ -485,7 +479,6 @@ share_sum(.5)
 <blockquote class="blockquote">
 <p>“I think I can get some bounds … if r&gt;1: since E|s-x| &lt;= E(s-x)^2 we get that s&lt;=mean + (r-1)/(2 ) sd. Only assumption is that mean and sd exist – and I’ve done my sums right!”</p>
 </blockquote>
-<p>Oh very nice Matt. It took me a bit but now I see it (though I can’t quite derive it). So if I pass 3X as many people as pass me, then I know that my speed cannot be more than 1.2 SDs above the mean (=2/sqrt(3)). It seems to me intuitive that there ought to also be a lower bound but may be wrong (we know that s&gt;mean if r&gt;1, intuitive that we can say something stronger than that).</p>
 <p>Erik:</p>
 <blockquote class="blockquote">
 <p>“I think you’re less likely to see faster runners. The probability you intersect their path at the same time is lower because the time interval they’re there is shorter … think (4) is related to length/size bias (https://en.wikipedia.org/wiki/Length_time_bias) I wasn’t imagining the circular track scenario either, a straight line where people jump in at random points at random speeds. If you imagine runners are at every point in their run at once, and you draw a line at any point in the track at some instant, since a fast runner is on the track for less time you’re less likely to hit their trajectory. I think depending on the setup of the problem this can vary – i.e.&nbsp;depending on track shape, distribution of times spent running, and of speeds. Also I could be missing something”</p>
