@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.357">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Tom Cunningham">
+<meta name="dcterms.date" content="2023-09-07">
+<meta name="description" content="Tom Cunningham blog">
+
+<title>How LLMs Learn About the World | Tom Cunningham</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-12027453-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+<script>window.MathJax = {
+         loader: { load: ['[custom]/xypic.js'],
+                     paths: {custom: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/'}},
+      tex: {packages: {'[+]': ['xypic']},
+         macros: {
+            bm: ["\\boldsymbol{#1}", 1],
+            bmatrix: ["\\begin{bmatrix}#1\\end{bmatrix}", 1],
+            smallmatrix: ["\\begin{smallmatrix}#1\\end{smallmatrix}", 1],
+            ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+            utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3]
+         }}};
+</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../styles.css">
+<meta name="twitter:title" content="How LLMs Learn About the World | Tom Cunningham">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="tecunningham.github.io/posts/images/2023-09-05-19-11-49.png">
+<meta name="twitter:image-height" content="2110">
+<meta name="twitter:image-width" content="1383">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="floating nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Tom Cunningham</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href=".././about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/testingham" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/tom-cunningham-a9433/" rel="" target=""><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://scholar.google.com/citations?user=MDB_DgkAAAAJ" rel="" target="">
+ <span class="menu-text">scholar</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">How LLMs Learn About the World</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Tom Cunningham, <a href="https://integrityinstitute.org/">Integrity Institute</a> </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">September 7, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#model-setup" id="toc-model-setup" class="nav-link active" data-scroll-target="#model-setup">Model Setup</a></li>
+  <li><a href="#model-implications" id="toc-model-implications" class="nav-link" data-scroll-target="#model-implications">Model Implications</a></li>
+  <li><a href="#neural-nets-and-crop-management-old" id="toc-neural-nets-and-crop-management-old" class="nav-link" data-scroll-target="#neural-nets-and-crop-management-old">Neural Nets and Crop Management [OLD]</a>
+  <ul class="collapse">
+  <li><a href="#crop-management" id="toc-crop-management" class="nav-link" data-scroll-target="#crop-management">Crop Management</a></li>
+  <li><a href="#additional" id="toc-additional" class="nav-link" data-scroll-target="#additional">Additional</a></li>
+  </ul></li>
+  <li><a href="#derivation-unfinished" id="toc-derivation-unfinished" class="nav-link" data-scroll-target="#derivation-unfinished">Derivation [UNFINISHED]</a></li>
+  <li><a href="#notes-offcuts" id="toc-notes-offcuts" class="nav-link" data-scroll-target="#notes-offcuts">Notes / Offcuts</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+<style>
+    h1 {  border-bottom: 4px solid black; }
+    h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; color: black; }
+    dl { margin-bottom: 0px; }
+    dt strong { font-weight: bold; }
+    dd { margin-left: 20px; }
+</style>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p> <img src="images/2023-09-05-19-11-49.png" class="img-fluid"></p>
+</div></div><p><span style="background:yellow;">==<em>Still a draft, don’t circulate!</em>==</span></p>
+<p><strong>I describe a simple model of LLMs, humans, and the world.</strong> Large language models (LLMs) answer questions by predicting how a human would answer that question. This raises a lot of interesting issues about when LLMs would do better or worse than the humans that they’re learning from. In this note I write down a simple model of how LLMs learn things, basically: <span class="math display">\[\xymatrix@R=0cm@C=0.3cm{
+         *+[F:&lt;5pt&gt;]{\text{world}} \ar[rr]
+         &amp;&amp; *+[F:&lt;5pt&gt;]{\text{human}} \ar[rr]
+         &amp;&amp; *+[F:&lt;5pt&gt;]{\text{LLM}}\ar[r]
+         &amp; \\
+         &amp; \txt{human\\learns\\about\\world}
+         &amp;&amp; \txt{LLM\\predicts\\human\\answers\\to questions}
+         &amp;&amp; \txt{LLM\\answers\\novel\\questions}
+      }\]</span> </p>
+<p><strong>The model gives crisp implications about a broad range of issues.</strong> Below I derive each implication formally, here I here give some intuitive arguments:</p>
+<div class="cell page-columns page-full" data-hash="2023-09-05-model-of-ai-imitation_cache/html/unnamed-chunk-1_d6ad6d12741bbfc1bf1e460905c0c9f0">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2023-09-05-model-of-ai-imitation_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">In general the questions answerable by an LLM will not be a subset of the questions answered in the training set, or even those answerable by the people who contributed to the training set.</figcaption>
+</figure>
+</div>
+</div></div></div>
+<ol type="1">
+<li><p><strong>An LLM trained on the output of a single human will generally do worse than that human.</strong> This is because (1) the text they are trained on represents only a subset of the knowledge that human’s knowledge; (2) the model fit will always be imperfect. However if the human’s answers are inconsistent then the LLM can do better simply by being less noisy.</p></li>
+<li><p><strong>An LLM trained on the output of multiple humans can outperform any one of them.</strong> People tend to answer only the questions that they know the answer to, so predicting the answer to a question will tend to predict the answer of an expert in that field. The set of LLM-answerable questions can be thought of as including, at a minimum, the union of the questions answered in the training data.</p></li>
+<li><p><strong>An LLM can answer questions no human can answer.</strong> LLMs are not designed to explicitly make inferences about the world but the act of interpolating between observed answers will, in some circumstances, functionally operate as inference, and as a consequence the set of LLM-answerable questions can exceed the union of human-answerable questions. We already see this in LLM outputs: they can answer questions that no single human knows the answer to.</p></li>
+<li><p><strong>An LLM can be used to extract tacit knowledge.</strong> Much human knowledge is tacit, reflected in our lack of insight into the bases of our judgment. If an LLM can match human performance in answering questions then it will effectively make available the tacit knowledge used in those judgments, and so open up a range of capabilities much wider than any human can achieve. In practice this might mean querying an LLM repeatedly to map out tacit knowledge.</p></li>
+</ol>
+<p><strong>Real-World Implications.</strong></p>
+<ol type="1">
+<li><p><strong>LLMs bring everybody to the knowledge frontier.</strong> An LLM can effectively serve as a consultant: it will tell you how a domain-expert would answer your question. For some problems we’ve already been able to do that for a long time, e.g.&nbsp;a textbook will tell you scientific advice on crop management practices, but LLMs allow for much subtler contingencies and to incorporate tacit knowledge. We should therefore expect the productivity impact of LLMs to be mainly on those who are behind the knowledge frontier, and we might also expect a compression of incomes. </p></li>
+<li><p><strong>AI could be used to create super-human artefacts.</strong> There has been a lot of discussion about whether AI be used to exceed human abilities to create certain artefacts, e.g.&nbsp;hyper-beautiful paintings, hyper-addictive clickbait, hyper-persuasive text. Using the existing architecture of AI this is unlikely: they might be able to predict the objects that a very talented human would produce, but would not surpass their ability. However AI could be used to generate artfeacts indirectly: instead of predicting how a human would create such an arfect, the weights that the AI has learned could be used to find the artefact which maximizes the function of interest, e.g.&nbsp;hyper-persuasive, or hyper-beautiful. In this way the AI could create artefacts beyond the ability of any human.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p></li>
+</ol>
+<div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;This is roughly how image synthesis algorithms work: after training a model to recognize images, new images can be created by maximizing the learned weights.</p></li></div><section id="model-setup" class="level1 page-columns page-full">
+<h1>Model Setup</h1>
+<p><strong>The model has three steps.</strong></p>
+<p><span class="math display">\[\xymatrix@C=.5cm@R=0cm{
+      \text{world}
+      &amp;&amp; \text{human}
+      &amp;&amp; \text{LLM}\\
+      *+[F:&lt;5pt&gt;]{\bm{w}} \ar[rr]^{\bm{a}=Q\bm{w}}
+      &amp;&amp; *+[F:&lt;5pt&gt;]{\hat{\bm{w}}} \ar[rr]^{\hat{\bm{a}}=\hat{Q}\hat{\bm{w}}}
+      &amp;&amp; *+[F:&lt;5pt&gt;]{\bar{\bm{w}}} \ar[rr]^{\tilde{a}=\tilde{q}'\bar{\bm{w}}}
+      &amp;&amp; \  \\
+      \txt{unobserved\\truth\\about\\the\\world}
+      &amp; \txt{answers\\to\\human\\questions}
+      &amp; \txt{beliefs\\formed\\by\\human}
+      &amp; \txt{text\\written\\by\\human}
+      &amp; \txt{LLM\\model\\of\\human\\text}
+      &amp; \txt{LLM's\\answers\\to\\new\\questions}
+   }\]</span></p>
+<p><strong>Questions and answers.</strong> We will model everything as a set of questions and their answers. A question is defined by a set of binary attributes (<span class="math inline">\(q_1,\ldots,q_n\in\{-1,1\}\)</span>), and the answer is a linear function of those attributes given some unobserved weights <span class="math inline">\(w_1,\ldots,w_n\)</span>:</p>
+<p><span class="math display">\[\begin{aligned}
+      \ut{\bmatrix{a^1 \\ \vdots \\ a^m}}{answers}
+         = \ut{\bmatrix{q_1^1 w_1 + \ldots q_n^1w_n \\ \vdots \\ q_1^m w_1 + \ldots q_n^mw_n}}{questions}
+   \end{aligned}\]</span></p>
+<div class="page-columns page-full"><p><strong>Human beliefs.</strong> After observing a set of question and their real-world answers the human will form beliefs about the weights <span class="math inline">\(w_1,\ldots,w_n\)</span>. We can explicitly write the human posteriors if we assume their priors are Gaussian and i.i.d. (<span class="math inline">\(\bm{w}\sim N(0,\sigma^2I)\)</span>):<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <span class="math display">\[\begin{aligned}
+      \bm{a}        &amp;= Q\bm{w}
+         &amp;&amp; \text{(questions \&amp; answers given true weights $\bm{w}$)}\\
+      \hat{\bm{w}} &amp;= Q'(QQ')^{-1}\bm{a}
+         &amp;&amp; \text{(human estimate of true weights $\bm{w}$)}
+   \end{aligned}\]</span></p><div class="no-row-height column-margin column-container"><li id="fn2"><p><sup>2</sup>&nbsp;I am assuming <span class="math inline">\(\bm{w}\)</span> has zero-mean and is i.i.d. just to cut down on notation, the results all hold for the more general multivariate Normal case.</p></li></div></div>
+<p>I will assume that the number of unobserved weights is large relative to the human’s experience (<span class="math inline">\(n\gg m\)</span>), so the human will gradually learn more about reality as she observes the answer to more questions, and will be able to perfectly answer any question she’s seen before, but will never learn the full set of weights.</p>
+<p><strong>Computer beliefs.</strong> Suppose that humans write down some set of question and answer them given their beleifs. We use that text to train a computer to predict the answer given any question, and the computer likewise assumes a linear model with i.i.d. Gaussian weights. Then we can explicitly write the computer-estimated weights:</p>
+<p><span class="math display">\[\begin{aligned}
+      \hat{\bm{a}}        &amp;= \hat{Q}\hat{\bm{w}}
+         &amp;&amp; \text{(human-generated questions \&amp; answers)}\\
+      \bar{\bm{w}} &amp;= \hat{Q}'(\hat{Q}\hat{Q}')^{-1}\hat{\bm{a}}
+         &amp;&amp; \text{(computer estimate of human weights $\hat{\bm{w}}$)}
+   \end{aligned}\]</span></p>
+<p><strong>Computer answers.</strong> Finally we can ask the computer a new question, <span class="math inline">\(\tilde{q}\)</span>, and observe its answer: <span class="math display">\[\begin{aligned}
+      \tilde{a}        &amp;= \tilde{\bm{q}}'\bar{\bm{w}}
+         &amp;&amp; \text{(computer answer to a novel question $\tilde{\bm{q}}$)}\\
+   \end{aligned}\]</span></p>
+</section>
+<section id="model-implications" class="level1 page-columns page-full">
+<h1>Model Implications</h1>
+<dl class="page-columns page-full">
+<dt><strong>If one human records all their observations then the computer will perfectly imitate them.</strong></dt>
+<dd>
+Suppose that there is one human and they write down all of their observations, <span class="math inline">\(\hat{Q}=Q\)</span>. Then the computer’s beliefs will be the same as the human’s beliefs (<span class="math inline">\(\hat{\bm{w}}=\bar{\bm{w}}\)</span>), and so the computer will answer every question exactly as the human does, though neither knows the truth (<span class="math inline">\(\bar{\bm{w}}\neq\bm{w}\)</span>).
+</dd>
+<dt><strong>If humans do not record all their observation then the computer will perform worse.</strong></dt>
+<dd>
+Suppose humans only write down some of their observations, i.e.&nbsp;<span class="math inline">\(\hat{Q}\)</span> is a row-wise subset of <span class="math inline">\(Q\)</span>. Then computers and humans will give the same answers for any question in the training set, but outside of that set computers will generally do worse than humans. And so for every question <span class="math inline">\(\bm{q}\)</span> the computer will do worse in expectation: <span class="math display">\[E[\ut{(\bm{q}\bm{a}-\bm{q}\bar{\bm{a}})^2}{computer error}]\geq
+  E[\ut{\bm{q}(\bm{a}-\hat{\bm{a}})}{human error}].\]</span>
+</dd>
+<dt><strong>If there are multiple humans then the computer will outperform them both.</strong></dt>
+<dd>
+Suppose there are two humans who each observe answers to different question, <span class="math inline">\(Q_A\)</span> and <span class="math inline">\(Q_B\)</span>, and they both write them all down, so <span class="math inline">\(\bar{Q}=(\smallmatrix{Q_A\\Q_B})\)</span> and <span class="math inline">\(\bar{\bm{a}}=(\smallmatrix{Q_A\bm{w}\\Q_B\bm{w}})\)</span>. Now the computer clearly has superior information to either human, and so for both <span class="math inline">\(i\in\{1,2\}\)</span> and every question <span class="math inline">\(\bm{q}\)</span> we can write: <span class="math display">\[E[\ut{(\bm{q}\bm{a}-\bm{q}\bar{\bm{a}})^2}{computer error}]\leq
+  E[\ut{\bm{q}(\bm{a}-\hat{\bm{a}}_i)}{human error}].\]</span>
+</dd>
+<dt><strong>If there are multiple humans then the computer can answer question no human can answer.</strong></dt>
+<dd>
+<p>Suppose two humans observe the answers to the following questions: <span class="math display">\[\begin{aligned}
+  Q_A &amp;= \bmatrix{1 &amp; 1 &amp; 1 \\ 1 &amp; -1 &amp; 1} \\
+  Q_B &amp;= \bmatrix{1 &amp; 1 &amp; 1 \\ 1 &amp; 1 &amp; -1}
+   \end{aligned}\]</span> The first human will learn the exact value of <span class="math inline">\(w_2\)</span>, and the second human will learn the exact value of <span class="math inline">\(w_3\)</span>, but neither will learn both, and so neither could perfectly predict the answer to this question: <span class="math display">\[\begin{aligned}
+     \tilde{q} &amp;= \bmatrix{1 &amp; -1 &amp; -1} \\
+  \end{aligned}\]</span></p>
+<p>However if they both recorded their observations, so the computer observes <span class="math inline">\(\bar{\bm{a}}=(\smallmatrix{Q_1\bm{w}\\Q_2\bm{w}})\)</span>, the computer will be able to infer both <span class="math inline">\(w_2\)</span> and <span class="math inline">\(w_3\)</span>, and thus will be able to perfectly answer <span class="math inline">\(\tilde{q}\)</span>.</p>
+<p>We can see this behaviour in LLMs: they sometimes combine a pair of facts or a pair of abilities which no single human has access to, e.g.&nbsp;when an LLM translates between two languages, for which there exists no human speaker of both.</p>
+</dd>
+<dt><strong>If humans write outside their expertise then the computer will do worse.</strong></dt>
+<dd class="page-columns page-full">
+<div class="page-columns page-full"><p>In the cases above we assumed that the two humans recorded only what they directly observed. This means the computer essentially had a window directly to the world. However the humans could instead have written down their estimated answers to other questions. Suppose they both wrote down answers to every possible question, then the computer would learn the <em>average</em> of the two human’s estimated weights:<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> <span class="math display">\[\bar{\bm{w}}=\frac{1}{2}\hat{\bm{w}}_A+\frac{1}{2}\hat{\bm{w}}_B.\]</span></p><div class="no-row-height column-margin column-container"><li id="fn3"><p><sup>3</sup>&nbsp;We would have to augment the computer’s learning rule to allow for noise in answers - I need to confirm that the weighting will be exactly 1/2.</p></li></div></div>
+<p>Here the computer will do worse than the two humans on the original questions, <span class="math inline">\(Q_A\)</span> and <span class="math inline">\(Q_B\)</span>.</p>
+<p>The implication is that LLMs work so well only because people tend to write about what they know. Put another way, when an LLM answers a question, it will not predict the answer given by the average person, but will predict the answer given by people who are likely to answer that question in the real world, and luckily those people tend to be people who are subject-matter experts.</p>
+</dd>
+</dl>
+<dl>
+<dt><strong>If humans have tacit knowledge, the computer model can outperform humans in creation of new artefacts.</strong></dt>
+<dd>
+<p>Suppose humans have tacit knowledge of the world, we can model this with two separate sets of beliefs: <span class="math display">\[\begin{aligned}
+  \hat{\bm{w}}^T   &amp;= \text{tacit knowledge}\\
+  \hat{\bm{w}}^E &amp;= \text{explicit knowledge}\\
+   \end{aligned}\]</span></p>
+<p>When the human encounters a new question <span class="math inline">\(\tilde{\bm{q}}\)</span> they will use their tacit knowledge to form an estimate of the answer, <span class="math inline">\(\hat{a}=\tilde{\bm{q}}'\hat{\bm{w}}^T\)</span>. For simplicity assume tacit knowledge is perfectly accurate <span class="math inline">\(\hat{\bm{w}}^T=\bm{w}\)</span>, and explicit knowledge is imperfect.</p>
+<p>The distinction becomes important when we want to create a new question. Here it’s useful to interpret <span class="math inline">\(\bm{q}\)</span> not as a question but as an artefact, e.g.&nbsp;text or image, and <span class="math inline">\(\bm{a}=\bm{q}'\bm{w}\)</span> represents some abstract property, e.g.&nbsp;how beautiful or how rhythmic. Suppose we want to chosose <span class="math inline">\(\bm{q}\in\{-1,1\}^n\)</span> to maximize <span class="math inline">\(\bm{w}\bm{q}\)</span>. If we had perfect access to our beliefs <span class="math inline">\(\bm{w}^T\)</span> this would be simple, however if we have access only to imperfect explicit knowledge <span class="math inline">\(\hat{\bm{w}}^E\)</span>, the artefact which maximizes that function will not generally be the one which maximizes <span class="math inline">\(a\)</span>.</p>
+<p>Here the computer model is less constrained. Suppose the computer has observed sufficiently many questions until they have perfectly learned the tacit knowledge, <span class="math inline">\(\bar{\bm{w}}=\hat{\bm{w}}^T\)</span>. Then if computation is free the computer could be used to query every single <span class="math inline">\(\bm{q}\in\{-1,1\}^n\)</span> to find the best possible artefact.</p>
+<p><strong><em>Application:</em></strong> asdf</p>
+</dd>
+</dl>
+</section>
+<section id="neural-nets-and-crop-management-old" class="level1 page-columns page-full">
+<h1>Neural Nets and Crop Management [OLD]</h1>
+<p><strong>In a nutshell:</strong> Machine learning allows everyone to approach the knowledge frontier. Anyone can now ask “how would an expert answer in this question?” For some problems we’ve already been able to do that for a long time, e.g.&nbsp;a textbook will tell us appropriate crop management practices. But LLMs allow us to extend much further and also use tacit expert knowledge.</p>
+<p><strong>Here’s a simple thought experiment for thinking about the economic impact of ML models.</strong></p>
+<p><strong>Implication: ML models will decrease the returns to knowledge, but increase the returns to intelligence.</strong></p>
+<p><strong>Suppose you train an ML model with data on farmers’ decisions about crop inputs.</strong> You train a model to predict farmers’ decisions about how much water, fertilizer, pesticide and weedkiller, they apply to their crops. Then you can ask, in any given situation, what’s the most-likely decision by a typical farmer? This would be a useful model: it would allow an amateur farmer to have judgment comparable to an average farmer, and with some fine-tuning you could perhaps approach the judgment of an expert farmer.</p>
+<p><strong>The model would not be approximating the <em>true</em> yield function.</strong> The model is approximating the farmers’ <em>beliefs</em> about the yield function. When farmers’ beliefs and truth diverge the model will follow beliefs. E.g. if there is some combination of inputs which has very high yield but no farmer has discovered that combination, then the ML model won’t know about it either.</p>
+<p><strong>Implication: ML will decreases the returns to knowledge.</strong> The model will bring all farmers towards the knowledge frontier, and so the increase in yields should be concentrated among amateurs. Thus the premium associated with knowledge or experience decreases and there’s a compression of incomes across farms.</p>
+<p><strong>Implication: ML will increase the returns to intelligence.</strong> It seems likely that knowledge and intelligence are complements in crop management, so the output of the ML model will have a relatively bigger effect on the yields of clever farmers. The ML model would give good advice in common situation but not in uncommon situations, which require some deeper reasoning, understanding, and extrapolation. In practice the returns to intelligence could manifest as smart farmers now being able to manage larger farms: the ML model will tell them the best practices in each situation, and experienced farmers would find their contribution was smaller.</p>
+<p><strong>Formally.</strong> Suppose farmers choose inputs <span class="math inline">\(\bm{x}=(x_1,\ldots,x_n)\)</span> given some environmental variables <span class="math inline">\(\bm{z}=(z_1,\ldots,z_n)\)</span>, trying to maximize yield <span class="math inline">\(y(\bm{x},\bm{z})\)</span>. Each farmer slowly learns about the function <span class="math inline">\(y(\cdot,\cdot)\)</span> from experience, and so progressively makes better decisions. If you train a model just on farmers decisions, <span class="math inline">\(\hat{x}(\bm{z})\)</span>, ignoring actual yields, this will still be very useful because farmers with little knowledge could use the model to catch up to knowledgeable farmers, and farmers who have expertise in one area will effectively become experts in all areas.</p>
+<p><strong>Crop management is just a thought experiment, not a great actual example.</strong> I like crop management as a thought experiment because the inputs and outputs are very clear. However I don’t think an ML model will be revolutionary for agriculture: scientists have been working on models of yield for centuries and you can buy textbooks which tell you optimal management techniques. Thus it’s already easy to get close to the knowledge frontier in crop management, you don’t need ML to get you there, and that in turn is because the true yield function is probably not too complicated: it has relatively low dimensionality, and is relatively convex. This implies that we can use traditional statistical techniques, we don’t need to extract tacit knowledge by training a neural net on the historical decision of farmers.</p>
+<p>In contrast neural nets do far better than simple models in some domains, e.g.&nbsp;for code, text, speech, images. These domains have deep hierarchical structure, so simple techniques like linear regression have limited ability even with huge training sets.</p>
+<p>As in the farmer example training a model to predict peoples’ decisions will indirectly tell you about the shape of their payoff funciton, i.e.&nbsp;an unsupervised model will implicitly learn quality. This is because people typically produce artefacts (code, text, speech, images) to achieve some purpose, in the same way that farmers make crop management decisions to maximize yield, so predicting someone’s decisions implicitly models that person’s beliefs about the shape of their payoff function.</p>
+<p><strong>Applied to computer programming.</strong> A major use of LLMs in programming seem to be in filling in holes of knowledge, e.g.&nbsp;knowledge of language syntax, API calls, &amp; basic algorithms. Thus LLMs will increase the productivity of programmers with low experience. However LLMs are not particularly good at novel conceptual tasks. Thus you might expect a decrease in returns to knowledge, an increase in returns to intelligence.</p>
+<p></p>
+<p><strong>Applied to text manipulation.</strong></p>
+<div class="page-columns page-full"><p><strong>Applied to the professions.</strong> Let’s say that much of the typical work of professionals is not <em>functional</em>, e.g.&nbsp;the work of doctors, architects, scientists, lawyers, accountants. Professions adopt complicated rituals and superstitions, they use jargon and shibboleths, and become focused on narrow technical problems.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> We might think that part of the reason that these distortion survive is signaling: people who have mastered the non-functional parts (e.g.&nbsp;its jargon) are empirically more likely to be competent in its functional parts.</p><div class="no-row-height column-margin column-container"><li id="fn4"><p><sup>4</sup>&nbsp;Abbott (1998) says:</p>
+<blockquote class="blockquote">
+<p>“Professions tend to withdraw into themselves, away from the task for which they claim public jurisdiction. This pattern results from internal status rankings. The professionals who receive the highest status from their peers are those who work in the most purely professional environments … A profession is organized around the knoweldge system it applies, and hence status within profession simply reflects degree of involvement with this organizing knowledge … On this argument, the most pure professional work is academic work, which has nothing to do with clients at all, and indeed, academic professionals generally enjoy high status withhin their professions … Since professionals draw their self-esteem more from their own world than from the public’s, this status mechanism gradually withdraws entire professions into the purity of their own worlds. The front-line service that is both their fundamental task and their basis for legitimacy becomes the province of low-status colleagues and para-professionals.</p>
+</blockquote>
+</li></div></div>
+<p><strong>Applied to culture.</strong> Veblen and Bourdieu argue that much of human preference is driven by a desire to signal wealth or status. People like certain foods, certain music, certain leisure activities, certain clothes, because other people like them, and more specifically because high-status people like them. This system is unstable: the low-status will be forever chasing the high-status, and the high-status will be forever running away, but it can come to rest if the high status find a hill which is too steep for the low-status to follow.</p>
+<p><strong>Applied to science.</strong> As a very simple model of science we can think of .</p>
+<section id="crop-management" class="level2">
+<h2 class="anchored" data-anchor-id="crop-management">Crop Management</h2>
+<p><strong>Crop management has been the core economic problem for most of human history.</strong> Since humans invented agriculture 10,000 years ago we’ve very slowly discovered ways to increase yield of crops: irrigation, weeding, crop rotation, all sorts of types of fertilizer.</p>
+<p><strong>The agriculture problem is low-dimensional and convex.</strong> We’re probably already close to a global maximum.</p>
+<p><strong>We already solved the knowledge problem in agriculture.</strong> In the 1750s Diderot started published his <em>Encyclopedia</em> which gave detailed descriptions of, among other things, agricultural and industrial practices around the world. Since then it’s become relatively much easier for novice farmers to learn what are typical practices by existing farmers. The back of a seed packet will give pretty good advice on how to cultivate a plant.</p>
+<p><strong>Prediction: agricultural wages have become more correlated with intelligence, less with experience.</strong> Over the past 400 years as knowledge-sharing technologies have improved, I would predict that experience becomes less valuable, and intelligence more valuable. Also would expect locus of discretion to be more centralized. Instead of many small farms, where each farmer knows their local conditions, it’s more efficient to have a large farm with a centralized decision-maker (&amp; for most decisions the decision-maker can consult a textbook).</p>
+</section>
+<section id="additional" class="level2">
+<h2 class="anchored" data-anchor-id="additional">Additional</h2>
+<p><strong>AI models could disrupt signaling.</strong> Suppose that peacocks tails’ serve as signals in a game of sexual selection: suppose the tails don’t serve any useful purpose but that having a more lush tail is correlated with better genes. Then a technology which disrupts that correlation could upset the equilibrium. If you allowed any peacock to press a button and go to the tail frontier.</p>
+<p>Note: subtle relationship between signaling and preference spillovers. In a pure (unique equilibrium) signaling game there are no pure spillovers – you don’t like/dislike things because others like/dislike them. But your choices are a function of others’ <em>constraints</em>. No I changed my mind: your preferences <em>are</em> a function of other peoples’ choices, not of their contraints.</p>
+<p><strong>Nice metaphor for signaling: one person chasing another.</strong> Suppose A wants to be near to B but B wants to get away from A. This will cause the system to be in motion, B continually moving and A following, they only will find rest once B finds a location where A cannot follow. So A wanders around the world, up mountains, across rivers, through jungles, until finally there’s some place that A can penetrate but which B finds too steep, too swampy, too rocky, and so B comes to rest at some distance behind A. / New technology is giving B some sandals, or a machete, so they can catch up with A.</p>
+<p>(Like a lion chasing a monkey: they come to rest when the monkey climbs a tree that the lion cannot. In the evolutionary long-run the prey will find some ecological niche where the energy cost is too high for predators.)</p>
+<p><strong>Other metaphors.</strong></p>
+<ul>
+<li><em>Prospecting for gold.</em></li>
+<li><em>Mapping the ocean floor.</em></li>
+</ul>
+</section>
+</section>
+<section id="derivation-unfinished" class="level1">
+<h1>Derivation [UNFINISHED]</h1>
+<p><span class="math display">\[\begin{aligned}
+   Q &amp;= \bmatrix{q_1^1 &amp; \ldots &amp; q^1_n \\ &amp; \ddots \\ q^m_1 &amp; \ldots &amp; q^m_n}
+      &amp;&amp; \text{(set of questions)} \\
+   w'  &amp;= \bmatrix{w_1 \ldots w_n} \\
+   a    &amp;= \bmatrix{a^1 \\ \vdots \\ a^m}
+      = \bmatrix{q_1^1 w_1 + \ldots q_n^1w_n \\ \vdots \\ q_1^m w_1 + \ldots q_n^mw_n} \\
+\end{aligned}\]</span></p>
+<p><span class="math display">\[\begin{aligned}
+      \bm{w} &amp;\sim N(0,\Sigma)
+         &amp;&amp; (n\times 1\text{ vector of parameters of the world)}\\
+      Q      &amp;\in \{-1,1\}^{n\times m}
+         &amp;&amp; \text{($m$ questions, each has $n$ binary parameters)}\\
+      \ut{\bm{a}}{$m\times1$}   &amp;= \ut{Q}{$m\times n$}\ut{\bm{w}}{$n\times1$}
+         &amp;&amp; \text{(answers provided by the world)}\\
+      \hat{\bm{w}} &amp;= E[\bm{w}|Q,\bm{a}]
+            &amp;&amp; \text{(human beliefs about the world)}\\
+         &amp;= \ut{\Sigma Q'}{$Cov(\bm{w},\bm{a})$}
+            (\ut{Q\Sigma Q'}{$Var(\bm{a})$})^{-1}
+            \bm{a}
+   \end{aligned}\]</span></p>
+<p><strong>With one observation and two weights.</strong> Suppose <span class="math inline">\(m=1, n=1\)</span>, then we have: <span class="math display">\[\begin{aligned}
+      Q  &amp;= \bmatrix{q_1 &amp; q_2} \\
+      \bm{a}'  &amp;= \bmatrix{a} \\
+      \bm{w}'  &amp;= \bmatrix{w_1 &amp; w_2 } \\
+      \Sigma &amp;= \bmatrix{\sigma_1^2 &amp; \rho \\ \rho &amp; \sigma_2^2}\\
+      \Sigma Q' &amp;= \bmatrix{ \sigma_1^2q_1 + \rho q_2 \\ \rho q_1 + \sigma_2^2 q_2 } \\
+      Q\Sigma Q' &amp;= \bmatrix{ \sigma_1^2q_1^2 + 2\rho q_1q_2 + \sigma_2^2 q_2^2} \\
+      \hat{\bm{w}}=\Sigma Q'(Q\Sigma Q')^{-1}\bm{a}
+         &amp;= \bmatrix{ \frac{\sigma_1^2q_1 + \rho q_2}{\sigma_1^2q_1^2 + 2\rho q_1q_2 + \sigma_2^2 q_2^2} \\
+                  \frac{\rho q_1 + \sigma_2^2 q_2}{\sigma_1^2q_1^2 + 2\rho q_1q_2 + \sigma_2^2 q_2^2}} a
+   \end{aligned}
+   \]</span></p>
+<p>We can normalize <span class="math inline">\(q_1=q_2=1\)</span>, then we have <span class="math display">\[\hat{w}_1 = \frac{\sigma_1^2+\rho}{\sigma_1^2+2\rho+\sigma_2^2}a,\]</span></p>
+<p>This means we are dividing up responsibility for the answer (<span class="math inline">\(a\)</span>) into the contributions of each component, nice and simple.</p>
+<p><strong>With two observations and one weight.</strong> Here we’re <em>over-identified</em>. <span class="math display">\[\begin{aligned}
+      Q  &amp;= \bmatrix{q^1 \\ q^2} \\
+      \bm{a}  &amp;= \bmatrix{a^1 \\ a^2} \\
+      \bm{w}  &amp;= \bmatrix{w } \\
+      \Sigma &amp;= \bmatrix{\sigma^2 }\\
+      \Sigma Q' &amp;= \bmatrix{ \sigma^2 q^1 &amp; \sigma^2 q^2 } \\
+      Q\Sigma Q' &amp;= \bmatrix{ \sigma^2 q^1q^1 &amp; \sigma^2q^1q^2 \\ \sigma^2q^1q^2 &amp; \sigma^2q^2q^2}
+         &amp;&amp; \text{(this matrix doesn't have an inverse)}
+   \end{aligned}
+   \]</span></p>
+<p><strong>With noise.</strong> Suppose we only observe the answers with random noise, then we get this: <span class="math display">\[\begin{aligned}
+   \ut{\bm{a}}{$m\times1$}   &amp;= \ut{Q}{$m\times n$}\ut{\bm{w}}{$n\times1$}
+      + \ut{\bm{e}}{$n\times 1$} \\
+   \bm{e} &amp;\sim N(\bm{0},s^2I_m) &amp;&amp; \text{(i.i.d. noise w variance $s^2$)}\\
+   Cov(\bm{w},\bm{a})   &amp;= \Sigma Q' \\
+   Var(\bm{a}) &amp;= Q\Sigma Q' + s^2I_m \\
+   E[\bm{w}|Q,\bm{q}]   &amp;= \Sigma Q'(Q\Sigma Q' + s^2I_m)^{-1}\bm{a}
+\end{aligned}\]</span></p>
+<p><strong>Puzzle: is this a different answer from Gaussian regression?</strong> The Gaussian regression answer to this would be:</p>
+<p><span class="math display">\[\begin{aligned}
+      \hat{w}  &amp;= (Q'Q+\Sigma)^{-1}Q'\bm{a},
+         &amp;&amp;  \text{(assume $\bm{w}\sim N(0,\Sigma)$)}
+   \end{aligned}\]</span></p>
+<p>It seems like the two solution should be the same. Why not?</p>
+<p><strong>Compare to Bayesian linear regression.</strong> We can compare this result to Bayesian linear regression (e.g.&nbsp;<a href="https://en.wikipedia.org/wiki/Bayesian_linear_regression">Wikipedia</a>): <span class="math display">\[\begin{aligned}
+      \bar{\beta}  &amp;= \Sigma Q'(Q\Sigma Q' + s^2I_m)^{-1}\bm{a}
+         &amp;&amp; \text{(our result)} \\
+      \tilde{\beta} &amp;= (Q'Q+s^{2}\Sigma^{-1})^{-1}Q'\bm{a}
+         &amp;&amp; \text{(Bayesian linear regression)}\\
+   \end{aligned}\]</span></p>
+<p>I <em>believe</em> that these can be shown to be equivalent by the <a href="https://en.wikipedia.org/wiki/Woodbury_matrix_identity">matrix inversion lemma</a>, though I haven’t confirmed this. There’s a <a href="https://digitalcommons.usu.edu/cgi/viewcontent.cgi?article=1212&amp;context=ece_facpub">note online</a> that appears to show equivalence.</p>
+<p>Getting from first to second: premultiply by <span class="math inline">\(\Sigma\)</span></p>
+<p><strong>Original notation.</strong> From <a href="https://en.wikipedia.org/wiki/Bayesian_linear_regression">Wikipedia</a>: <span class="math display">\[\begin{aligned}
+      y &amp;= X\beta + \varepsilon \\
+      \beta &amp;\sim N(\mu_0,\sigma^2\Lambda_0^{-1})\\
+      \varepsilon &amp;\sim  N(0,\sigma^2I_m) \\
+      \tilde{\beta}= E[\beta|y,X] &amp;= (X'X+\Lambda_0)^{-1}(X'X\hat{\beta}+\Lambda_0\mu_0)\\
+         &amp;= (X'X+\Lambda_0)^{-1}(X'y+\Lambda_0\mu_0)\\
+  \end{aligned}\]</span></p>
+<p>Follows:</p>
+<ul>
+<li>If prior precision low (<span class="math inline">\(\Lambda_0\approx 0\)</span>) then will be roughly equal to OLS result: <span class="math inline">\(\tilde{\beta}\approx\hat{\beta}\)</span>.</li>
+<li>If prior precision is high (<span class="math inline">\(\Lambda_0\gg 0\)</span>) then will be shrunk to prior, <span class="math inline">\(\tilde{\beta}\approx \mu_0\)</span>.</li>
+<li>If one observation and two weights (<span class="math inline">\(m=1,n=2\)</span>), with <span class="math inline">\(x^1_1=x^1_2=1\)</span>, then we’ll have: <span class="math display">\[\begin{aligned}
+  \tilde{\beta}&amp;= (\bmatrix{1 &amp; 1\\1 &amp;1}+\bmatrix{\sigma_1^2 &amp; \rho \\
+     \rho &amp; \sigma_2^2})^{-1}\bmatrix{y\\y} \\
+        &amp;= \bmatrix{1+\sigma_1^2 &amp; 1+\rho \\
+                 1 + \rho &amp; 1 + \sigma_2^2}^{-1} \bmatrix{y\\y} \\
+        &amp;= \frac{1}{(1+\sigma_1^2)(1+\sigma_2^2)-2(1+\rho)^2}\bmatrix{1+\sigma_1^2 &amp; -(1+\rho) \\
+                 -(1 + \rho) &amp; 1 + \sigma_2^2} \bmatrix{y\\y} \\
+        &amp;= \frac{\sigma_1^2-\rho}{(1+\sigma_1^2)(1+\sigma_2^2)-2(1+\rho)^2}
+  \end{aligned}\]</span></li>
+<li>Puzzle: why doesn’t the result depend on variance of noise, <span class="math inline">\(\sigma^2\)</span>?</li>
+</ul>
+</section>
+<section id="notes-offcuts" class="level1">
+<h1>Notes / Offcuts</h1>
+<p><strong>The LLM is accurate only because humans are accurate.</strong> The LLM is predicting human answers to questions, thus the LLM’s answers will be typically correct only because human answers are typically correct. If we trained the LLM on text produced by a human who was profoundly wrong about the world then the LLM would be equally wrong.</p>
+<p><strong>Model fit.</strong> As long as the training data is generated linearly then the LLM will fit all the training data. When <span class="math inline">\(\hat{m}&gt;n\)</span> then the model will always fit the training data perfectly as long as the dataset doesn’t contain multiple different answers to the same question.</p>
+<p><strong>Extension: quadratic forms.</strong> Instead of answers being linear in question-features (<span class="math inline">\(a=q'w\)</span>) we could suppose they’re quadratic, <span class="math inline">\(a=q'Wa\)</span>, with <span class="math inline">\(W\)</span> a matrix having dimension <span class="math inline">\(n^2\)</span>. I’m not sure whether we could still get an analytic solution for posteriors. </p>
+<p><strong>Extension: binary answers.</strong> In some cases it is natural to think of the answer, <span class="math inline">\(a\)</span>, as binary instead of continuous. We might be able to reinterpret the model with <span class="math inline">\(a\)</span> representing the log-odds ratio of a binary outcome. Alternatively there might be a way of having a beta-binomial conjugate prior over the probability of <span class="math inline">\(a\)</span>.</p>
+<p><strong>Extension: endogenous weights.</strong> In many practical cases the weights <span class="math inline">\(w\)</span> will change, e.g.&nbsp;if <span class="math inline">\(w\)</span> represents the marginal . Extension: weights change with change in production, i.e.&nbsp;communication model.</p>
+<p><strong>Can visualize the surface extrapolating from a single case.</strong> Can compare surface from (1) tacit knowledge; (2) explicit knowledge; (3) extrapolation from local knowledge.</p>
+<p><strong>Q: term for imitative learning in AI?</strong> Plagiaristic? Tyna Elondou mentioned it.</p>
+<p><strong>Yann LeCunn and connection.</strong> LeCunn often talks about how LLMs will not lead to general artificial intelligence because they are not <em>grounded</em> in the world, only in human production. However human experience of the world is very indirect: we infer objects by triangulating light rays bounced off them, &amp; combining a lot of different sources. In addition our pre-conscious brain does a ton of processing before we get hold of it.</p>
+<p><span class="math display">\[\xymatrix{
+      *+[F:&lt;5pt&gt;]{\text{world}} \ar[r]\ar[dr]
+      &amp; *+[F:&lt;5pt&gt;]{\text{human}_1} \ar[r]
+      &amp; *+[F:&lt;5pt&gt;]{\text{text}_1} \ar[r]
+      &amp; *+[F:&lt;5pt&gt;]{\text{LLM}}\\
+      &amp; *+[F:&lt;5pt&gt;]{\text{human}_2} \ar[r]
+      &amp; *+[F:&lt;5pt&gt;]{\text{text}_2} \ar[ur]
+   }\]</span></p>
+<p><strong>LLM will look like it’s making inferences about the world, but it’s just making inferences about humans’ inferences about the world.</strong></p>
+<p><strong>How can LLMs learn about the world?</strong> LLMs answer questions by predicting how a human would answer that question, after training on an enormous corpus of human-generated text. Despite only knowing about the world at second hand LLMs do amazingly well, sometimes even answering questions that no human could have answered.</p>
+<p><strong>The basic logic: (1) humans interpolate the world; (2) LLMs interpolate humans.</strong> Humans observe a few.</p>
+<p><strong>Question: separability of conditional expectation?</strong> What must be true about <span class="math inline">\(f(y,x,z)\)</span> for it to be the case that <span class="math inline">\(E[y|x,z]\)</span> is separable in <span class="math inline">\(x\)</span> and <span class="math inline">\(z\)</span>? Perhaps conditional independence?</p>
+<p></p>
+<p><strong>About prompt engineering:</strong> when you change your prompt, it effectively changes the person who’s answering your question.</p>
+<p><strong>Generating new training data:</strong> In some cases feeding on your own AI-generated outputs could improve the model.</p>
+
+
+</section>
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

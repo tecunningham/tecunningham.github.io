@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Tom Cunningham">
-<meta name="dcterms.date" content="2023-08-29">
+<meta name="dcterms.date" content="2023-09-07">
 <meta name="description" content="Tom Cunningham blog">
 
 <title>Will LLMs Write Super-Persuasive Propaganda? | Tom Cunningham</title>
@@ -95,9 +95,19 @@ ga('send', {
   'anonymizeIp': true,
 });
 </script>
+<script>window.MathJax = {
+         loader: { load: ['[custom]/xypic.js'],
+                     paths: {custom: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/'}},
+      tex: {packages: {'[+]': ['xypic']},
+         macros: {
+            bm: ["\\boldsymbol{#1}", 1],
+            ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+            utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3]
+         }}};
+</script>
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../styles.css">
 <meta name="twitter:title" content="Will LLMs Write Super-Persuasive Propaganda? | Tom Cunningham">
@@ -171,7 +181,7 @@ ga('send', {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">August 29, 2023</p>
+        <p class="date">September 7, 2023</p>
       </div>
     </div>
     
@@ -198,6 +208,10 @@ ga('send', {
   <li><a href="#appendix-studies-on-the-persuasiveness-of-computer-generated-text" id="toc-appendix-studies-on-the-persuasiveness-of-computer-generated-text" class="nav-link" data-scroll-target="#appendix-studies-on-the-persuasiveness-of-computer-generated-text">Appendix: Studies on the Persuasiveness of Computer-Generated Text</a></li>
   <li><a href="#appendix-on-advertising-and-persuasion" id="toc-appendix-on-advertising-and-persuasion" class="nav-link" data-scroll-target="#appendix-on-advertising-and-persuasion">Appendix: On Advertising and Persuasion</a></li>
   <li><a href="#appendix-on-synthesis" id="toc-appendix-on-synthesis" class="nav-link" data-scroll-target="#appendix-on-synthesis">Appendix: On Synthesis</a></li>
+  <li><a href="#extra-material" id="toc-extra-material" class="nav-link" data-scroll-target="#extra-material">Extra Material</a>
+  <ul class="collapse">
+  <li><a href="#other-applications" id="toc-other-applications" class="nav-link" data-scroll-target="#other-applications">Other Applications</a></li>
+  </ul></li>
   </ul>
 </nav>
 </nav>
@@ -214,7 +228,9 @@ ga('send', {
 <style>
     h1 {  border-bottom: 4px solid black; }
     h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; color: black; }
-    /* font-size: 14px;  */
+    dl { margin-bottom: 0px; }
+    dt strong { font-weight: bold; }
+    dd { margin-left: 20px; }
 </style>
 <section id="summary" class="level1 page-columns page-full">
 <h1>Summary</h1>
@@ -222,17 +238,33 @@ ga('send', {
 <div class="no-row-height column-margin column-container"><div class="">
 <p><img src="20230825131919.png" class="img-fluid"> This has benefited greatly from comments from members of the Integrity Institute, especially Grady Ward.</p>
 </div></div><p><span style="background:yellow;">==<em>Still a draft, don’t circulate!</em>==</span></p>
-<p><strong>Are LLMs likely to create superhumanly persuasive text?</strong> Will LLMs be able to write messages more persuasive than those written by professional copywriters: messages which compel you to click a link, buy a product, or vote for a candidate?</p>
-<p><strong>The same question applies to many other areas.</strong> Should we expect AI models to overtake humans and create super-evocative prose, super-accurate medical diagnoses, super-creative proofs, super-groovy music, super-beautiful paintings?</p>
-<p><strong>The current architecture of LLMs is unlikely to create super-persuasive text.</strong> Speaking loosely LLMs respond to a prompt by predicting how a human would respond to that prompt. Thus if you ask an LLM to write persuasive text it will write <em>averagely</em> persuasive text: even if it could identify super-persuasive text it would not produce it because that is not what a human would write. There are a few recent papers which all report that the persuasiveness of LLM-generated text is in the same ballpark as that of human-generated text, none show meaningful signs of computer superiority. Simple increases in training data or model size do not seem likely to lead to super-human performance.</p>
-<p><strong>However changes to architecture could conceivably lead to super-persuasive text.</strong> Specifically:</p>
+<p><strong>Are LLMs likely to create superhumanly persuasive text?</strong> Will large language models (LLMs) be able to write messages more persuasive than those written by professional copywriters: messages which compel you to click a link, buy a product, or vote for a candidate?</p>
+<p><strong>There is an argument that LLMs would <em>not</em> be able to outperform humans:</strong> LLMs are trained to predict text, and the text they are trained on is generated by humans. Thus an LLM knows about the world only at third hand: <span class="math display">\[\xymatrix{
+      *+[F:&lt;5pt&gt;]{\text{world}} \ar[r]
+      &amp; *+[F:&lt;5pt&gt;]{\text{human}} \ar[r]
+      &amp; *+[F:&lt;5pt&gt;]{\text{text}} \ar[r]
+      &amp; *+[F:&lt;5pt&gt;]{\text{LLM}}
+   }\]</span></p>
+<p>When you ask an LLM a question it generates an answer by predicting how it would be answered in its training data, which was generated by humans, and so we might expect an LLM to perform at best level with the average human.</p>
+<p><strong>However there are three ways in which LLMs could outperform humans.</strong></p>
+<p><strong>(1) LLMs can combine the output of multiple humans.</strong> LLMs are trained on hundreds of billion of words of text, written by many different people. As a consequence: (1) the answer of an LLM to any given question is better than the answer of the <em>average</em> person in their training data – this is because people tend to write about things they know; (2) when an LLM interpolates between text generated by different people it can effectively combine their knowledge.</p>
+<p><span class="math display">\[\xymatrix{
+      *+[F:&lt;5pt&gt;]{\text{world}} \ar[r]\ar[dr]
+      &amp; *+[F:&lt;5pt&gt;]{\text{human}_1} \ar[r]
+      &amp; *+[F:&lt;5pt&gt;]{\text{text}_1} \ar[r]
+      &amp; *+[F:&lt;5pt&gt;]{\text{LLM}}\\
+      &amp; *+[F:&lt;5pt&gt;]{\text{human}_2} \ar[r]
+      &amp; *+[F:&lt;5pt&gt;]{\text{text}_2} \ar[ur]
+   }\]</span></p>
+<p><strong>(2) LLMs can access tacit knowledge.</strong> Suppose an LLM could accurately predict what a human would do in every conceivable circumstance. By combining that information they might learn more about the world than they would just from asking questions to the human. Humans are far better at recognizing whether an object belongs to a category than at synthesizing a new object that belongs to a category. E.g. you can recognize whether or not a painting looks like your cousin but it’s notoriously difficult to paint a new picture that looks like your cousin.</p>
+<p><strong>(3) LLMs can be augmented with direct access to the world.</strong></p>
+<p><strong>However changes to architecture could conceivably lead to super-persuasive text.</strong> There are three basic approaches:</p>
 <ol type="1">
-<li><strong>Iteration.</strong> Generating multiple variants and iteratively testing them for persuasiveness could help isolate the most persuasive variants. This is already standard practice in managing human-written text, so I am skeptical this would lead to a substantial improvement.</li>
-<li><strong>Hybrid human-computer creation.</strong> Humans may struggle at creating persuasive text while still being able to <em>recognize</em> whether a given text is persuasive. If true then a human-computer hybrid could iterate very quickly over candidates to discover the most persuasive texts. This depends on humans having insight into persuadability not accessible to the computers.</li>
-<li><strong>Self-play.</strong> Using the LLM weights in a variety of indirect ways might help discover which texts are most persuasive. It is hard to judge how effective this will be.</li>
-<li><strong>Supervised learning.</strong> Datasets of real-world persuasiveness of text could be used to train a model directly. It seems plausible that this approach could uncover pockets of persuasiveness not yet discovered by humans.</li>
+<li><p><strong>Testing and selection.</strong> We could generate multiple variants, test each for persuasiveness, and then choose the best-performing. However this is already possible with human-written text so the addition of computer-generated texts to the pool of candidates would make a difference only if they had markedly different statistical properties, and there is no clear reason why this would be true.</p></li>
+<li><p><strong>Using tacit knowledge.</strong> Instead of directly asking an LLM to compose a persuasive text we could use a battery of prompts to search for the texts that are most persuasive. There is reason to expect this would be effective because human knowledge of persuasiveness is partly <em>tacit</em>, meaning that our ability to recognize whether a given text is persuasive outstrips our ability to create new persuasive texts. Because computers can evaluate the persuasiveness of texts at a far higher speed and lower cost this would allow us to systematically canvas the landscape of persuasion in a way that is not possible with humans. </p></li>
+<li><p><strong>Supervised learning.</strong> Instead of simulating human judgment of persuasiveness we can train a model directly on the true persuasiveness of text. The effectiveness of this will depend on the statistical properties of the data, and how reliably we can learn from observational data, but it seems plausible that this approach could uncover pockets of persuasiveness not yet discovered by humans.</p></li>
 </ol>
-<p><strong>Data available today could help us make forecasts.</strong> Below I discuss a number of empirical facts which we could measure today and would help us estimate the future trajectory of LLM-generated text. Facts like (1) the variance in persuasiveness between texts, (2) the diminishing returns of persuasiveness as more texts are created, (3) the correlation between true persuasiveness, human-estimated persuasiveness, and computer-estimated persuasiveness of a given text.</p>
+<p><strong>We can project the future abilities of AI with data available today.</strong> Below I discuss a number of empirical facts which we could measure today and would help us predict the future capabilities of LLM-generated text. Facts like (1) the variance in persuasiveness between texts, (2) the diminishing returns of persuasiveness as more texts are created, (3) the correlation between true persuasiveness, human-estimated persuasiveness, and computer-estimated persuasiveness of a given text.</p>
 <p><strong>It is unclear whether super-persuasive messages exist.</strong> Finally there is a bigger question on how much more persuasive we can get. Over the last 100 years social scientists have continually invented supposed technologies of hyper-persuasion, they all turned out to be duds. We know that some messages are more persuasive than others but it is hard to know how much higher we can go: it’s possible that the most persuasive writers today are already close to the ceiling.</p>
 </section>
 <section id="setup" class="level1 page-columns page-full">
@@ -246,9 +278,10 @@ ga('send', {
 <li>Effectiveness of a tweet in making people buy a crypto coin.</li>
 <li>Effectiveness of a blog post in making people vote for Ron DeSantis.</li>
 </ul>
-<div class="page-columns page-full"><p><strong>The persuasiveness of text is relative to an audience and a provenance.</strong> The same message will have a different effect on your decisions depending on whether you think it comes from your sister or from an old acquaintance. In the following discussion I’ll assume the audience is the average American adult and they receive the message unsolicited from a stranger.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Peoples’ response to new messages is determined by their experience with past messages, in turn determined by the spam filters and ranking algorithms which they have been subject to.</p></li></div></div>
+<p><strong>The persuasiveness of text is relative to an audience and a provenance.</strong> The same message will have a different effect on different people, at different times, and will depend on who it comes from. For concreteness assume in the rest of this post that the audience is the average American adult in 2023 and they receive the message unsolicited from a stranger.</p>
+<p></p>
 <p><strong>Formal definition.</strong> We can think of a function <span class="math inline">\(p(t)\)</span>, where <span class="math inline">\(t\)</span> represents a piece of text drawn from the space of all possible texts, and <span class="math inline">\(p(.)\)</span> is its persuasive power: precisely, the average person’s probability of performing a certain action after seeing that text. The function <span class="math inline">\(p(t)\)</span> will be basically flat for almost all values of <span class="math inline">\(t\)</span> because in the space of all possible sentences the overwhelming majority are meaningless or irrelevant and so likely to have infinitesimal effects on whether you take a specific action.</p>
-<p><strong>I’m setting aside many related questions.</strong> I will not consider (1) AI maintaining a conversation (chatbots, catfishing, pig butchering); (2) AI sending customized messages based on the respondent’s demographics; (3) AI choosing who to send messages to, based on predicted persuadability; (4) AI sending messages repeatedly to increase persuasion. For each of these cases it seems unlikely that AIs could be super-humanly persuasive without also being super-humanly persuasive in the base case of creating a single message. However some additional considerations apply to the case of AI synthesizing recorded media: photos, audio, and video. Computers have now far superpassed human ability to synthesizing or altering recorded media to fit a set of criteria, and so the situation is qualitatively different from text. Discussion of the persuasiveness of synthetic media also involves the role of a recording as <em>prima facie</em> evidence that an event ocurred: as synthesized media becomes more prevalent that evidence-value is likely to decline.</p>
+<p><strong>I’m setting aside many related questions.</strong> I will not consider (1) AI maintaining a conversation (chatbots, catfishing, pig butchering); (2) AI sending customized messages based on the respondent’s demographics; (3) AI choosing who to send messages to, based on predicted persuadability; (4) repeated exposure to the same message. For each of these cases it seems unlikely that AIs could be super-humanly persuasive without also being super-humanly persuasive in the base case of creating a single message. However some additional considerations apply to the case of AI synthesizing recorded media (photos, audio, and video), because it is very difficult for a human to create, for example, a photo from scratch, while computers can do it very reliably. In addition recorded media has historically served as <em>prima facie</em> evidence that some event ocurred: as synthesized media becomes more prevalent that evidence-value is likely to decline.</p>
 <p><strong>We want to compare persuasiveness of text created by different types of authors:</strong></p>
 <ul>
 <li><p>Human subjects in a psychology experiment (e.g.&nbsp;undergraduates, mechanical turk participants)</p></li>
@@ -257,27 +290,39 @@ ga('send', {
 <li><p>LLMs in 2023 (e.g.&nbsp;GPT-4)</p></li>
 <li><p>LLMs in the future: 2024, 2025, and 2050.</p></li>
 </ul>
-<div class="page-columns page-full"><p><strong>There is substantial variation in human ability to write persuasive copy.</strong> Copywriters are hired for their ability to come up with text that makes people perform an action, i.e.&nbsp;they are hired for their knowledge of the function <span class="math inline">\(p(.)\)</span>, and it seems there must be substantial variation in individual ability: some people are better than others at writing persuasive slogans.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn2"><p><sup>2</sup>&nbsp;From the <a href="https://www.awai.com/about/celebrating-clayton-makepeace/">obituary of a famous direct-marketing copywriter</a>: “When you read some of the greatest and most iconic headlines in copywriting history — such as, “7 HORSEMEN of the Coming STOCK MARKET APOCALYPSE” … “Shameless Two-Faced S.O.B.s!” … and, “Health Breakthrough News — Cholesterol’s EVIL TWIN”— smile and think to yourself, ‘Clayton Makepeace wrote that.’”</p></li></div></div>
+<div class="page-columns page-full"><p><strong>There is substantial variation in human ability to write persuasive copy.</strong> Copywriters are hired for their ability to come up with text that makes people perform an action, i.e.&nbsp;they are hired for their knowledge of the function <span class="math inline">\(p(.)\)</span>, and it seems there must be substantial variation in individual ability: some people are better than others at writing persuasive slogans.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;From the <a href="https://www.awai.com/about/celebrating-clayton-makepeace/">obituary of a famous direct-marketing copywriter</a>: “When you read some of the greatest and most iconic headlines in copywriting history — such as, “7 HORSEMEN of the Coming STOCK MARKET APOCALYPSE” … “Shameless Two-Faced S.O.B.s!” … and, “Health Breakthrough News — Cholesterol’s EVIL TWIN”— smile and think to yourself, ‘Clayton Makepeace wrote that.’”</p></li></div></div>
 <p> </p>
-<p><strong>Social scientists have warned about hyper-persuasion many times in the last century.</strong> In the past 100 years there have been a dozen apparent discoveries of hyper-effective means of persuasion. In retrospect I think it’s fair to say they were mostly or all exaggerated: whether based on subconscious associations (Bernays), conditioning (Skinner), subliminal messages (Packard), brainwashing (Sargant), the power of conformity (Adorno, Asch, Zimbardo), priming and nudges (Bargh, Thaler), or statistical profiling (Cambridge Analytica).</p>
+<p><strong>Social scientists have warned about hyper-persuasion many times in the last century.</strong> In the past 100 years there have been a dozen apparent discoveries of hyper-effective means of persuasion, whether based on subconscious associations (Bernays), conditioning (Skinner), subliminal messages (Packard), brainwashing (Sargant), the power of conformity (Adorno, Asch, Zimbardo), priming and nudges (Bargh, Thaler), or statistical profiling (Cambridge Analytica). In retrospect I think it’s fair to say that all these warnings were, at best, exaggerated.</p>
 </section>
 <section id="plain-llms-will-not-exhibit-superhuman-performance" class="level1 page-columns page-full">
 <h1>Plain LLMs Will Not Exhibit Superhuman Performance</h1>
-<div class="page-columns page-full"><p><strong>In short: LLMs don’t perform tasks, they imitate humans performing tasks.</strong> Loosely speaking LLMs are trained to predict the next word based on a corpus of text. If we ask an LLM to create a persuasive message it will predict a human’s answer to that prompt, thus we should expect it to create a super-humanly persuasive message only by accident.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn3"><p><sup>3</sup>&nbsp;Reminiscent of Lichtenberg on writers: <em>“The critics instruct authors to stay close to nature, and they read this advice; but they always think it safer to stay close to authors who have stayed close to nature.”</em></p></li></div></div>
-<p><strong>In what cases do LLMs outperform humans?</strong> There are some cases where LLMs seem to outperform humans, I discuss those in the rest of this section, though the discussion is not yet complete.</p>
-<div class="cell page-columns page-full" data-hash="2023-08-22-ceiling-on-ai-performance-persuasion_cache/html/unnamed-chunk-1_9919dd3799e3bc7591b2104dc465ce48">
+<blockquote class="blockquote">
+<p><em>TO ADD:</em> Treat each person as a probability distribution over strings of text, and we have 1M draws from each person. Then we get the <em>average</em> distribution. But at each step it’ll be a weighted average, so if you start off a string in French it’ll continue like the French speaker.*</p>
+</blockquote>
+<div class="page-columns page-full"><p><strong>In short: LLMs don’t perform tasks, they imitate humans performing tasks.</strong> The basic architecture of contemporary large language models (LLMs) is to predict the next word given a prior string of words, trained on a large corpus of written text. Thus if we ask an LLM to create a persuasive message it will predict a human’s answer to that request, and so we should expect it to respond with a super-humanly persuasive message only by accident.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn2"><p><sup>2</sup>&nbsp;Lichtenberg said something similar about writers: <em>“The critics instruct authors to stay close to nature, and they read this advice; but they always think it safer to stay close to authors who have stayed close to nature.”</em></p></li></div></div>
+<div class="cell page-columns page-full" data-hash="2023-08-22-ceiling-on-ai-performance-persuasion_cache/html/unnamed-chunk-1_d2aca5700b986675c72dd0a7cb94ce99">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
-<p><img src="2023-08-22-ceiling-on-ai-performance-persuasion_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2023-08-22-ceiling-on-ai-performance-persuasion_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">A representation of the questions that can be correctly answered by two humans (Tom and Dick) and a computer (LLM).</figcaption>
+</figure>
+</div>
 </div></div></div>
-<p><strong>Consider the set of all possible questions.</strong> We can draw a Venn diagram (at right) showing the relationship between the questions that the LLM can answer accurately, and the sets that individual humans can answer. I will talk about “questions” but we can equally talk about “tasks”. For simplicity I will just consider two humans, Tom and Dick.</p>
-<p><strong>The LLM-answerable questions will not be a subset of any individual human.</strong> We know that LLMs can answer questions with an encylopedic range and across different languages, i.e.&nbsp;beyond the range of any single person.</p>
-<div class="cell page-columns page-full" data-hash="2023-08-22-ceiling-on-ai-performance-persuasion_cache/html/unnamed-chunk-2_5d0f98d923528ac3865a73e6c85dcaf8">
+<p><strong>There are some cases where LLMs outperform all humans.</strong> I discuss these cases in the rest of this section, and argue that generating persuasive text is not such a case. I will talk about an LLM’s ability to correctly answer questions but the same arguments equally apply to performing tasks. We can draw a Venn diagram (at right) showing the relationship between the questions that the LLM can answer accurately and the sets that individual humans can answer. I will suppose the LLM is trained on a corpus of text generated by two humans, Tom and Dick. </p>
+<p><strong>The LLM can outperform any given human.</strong> Because the LLM is trained on the text produced by more than one human. We know that LLMs can answer questions with an encylopedic range and across different languages, i.e.&nbsp;beyond the range of any single person.</p>
+<div class="cell page-columns page-full" data-hash="2023-08-22-ceiling-on-ai-performance-persuasion_cache/html/unnamed-chunk-2_70a84017c6be04092b0d835e04483cfb">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
-<p><img src="2023-08-22-ceiling-on-ai-performance-persuasion_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2023-08-22-ceiling-on-ai-performance-persuasion_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">abc</figcaption>
+</figure>
+</div>
 </div></div></div>
-<p><strong>For factual questions the LLM will be inside the union of the humans.</strong> Suppose we consider a set of factual questions, where the answer to each question is independent of the others, e.g.&nbsp;the number of chromosones a specific animal has, or the number of moons belonging to a given planet. An LLM can only answer the questions which it has read.</p>
+<p><strong>For independent factual questions the LLM will be inside the union of the humans.</strong> Suppose we consider a set of factual questions where the answer to each question is independent of the others, e.g.&nbsp;the number of chromosones a specific animal has, or the number of moons belonging to a given planet. In this case any question that the LLM can answer will be answerable by at least one human, i.e.&nbsp;the LLM-answerable questions will fall inside the union of the human-answerable questions.</p>
 <p><strong>There are some questions which an LLM can answer that no human can answer.</strong> Some examples:</p>
 <ul>
 <li>An LLM can translate between any pair of languages. Presumably there are many pairs of languages for which there is no human who speaks both, so the LLM can perform a task that no human has ever been able to perform.</li>
@@ -331,7 +376,7 @@ ga('send', {
 <p>then the model will answer “is true” to the prompt “Asterix lives in France.”</p>
 <p></p>
 <p>It is possible that no individual human knows the answer to both of the premises, and so no human can correctly answer whether Asterix lives in France, but the LLM can. Thus here the set of LLM-answerable questions extends beyond the union of human-answerable questions.</p>
-<div class="page-columns page-full"><p>In this example we could say that the LLM has learned true statements and laws of logical implication, however of course this is only to the degree that the training data consists of true statements which satisfy the laws of logical implication. An LLM would equally happily learn false statements and invalid patterns of implication.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn4"><p><sup>4</sup>&nbsp;If a set of statements are true then they necessarily will satisfy the laws of implication, but the converse does not hold.</p></li></div></div>
+<div class="page-columns page-full"><p>In this example we could say that the LLM has learned true statements and laws of logical implication, however of course this is only to the degree that the training data consists of true statements which satisfy the laws of logical implication. An LLM would equally happily learn false statements and invalid patterns of implication.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn3"><p><sup>3</sup>&nbsp;If a set of statements are true then they necessarily will satisfy the laws of implication, but the converse does not hold.</p></li></div></div>
 
 <div class="no-row-height column-margin column-container"><div class="">
 <p><img src="20230825133035.png" class="img-fluid"></p>
@@ -360,7 +405,7 @@ ga('send', {
 </section>
 <section id="superhuman-persuasion-from-search" class="level1 page-columns page-full">
 <h1>Superhuman Persuasion from Search</h1>
-<div class="page-columns page-full"><p><strong>Estimating the persuasiveness of text with an experiment requires enormous experiments.</strong> Most text has fairly low rate of persuasion, e.g.&nbsp;typically advertisements have click-through rates of 0.1 percentage points or less. In such a case it would take 400,000 observations to measure the click-through rate to within 10% of its true value.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> For some actions it also takes a long time to run an experiment, e.g.&nbsp;if persuading people to vote in an election or to keep using a product.</p><div class="no-row-height column-margin column-container"><li id="fn5"><p><sup>5</sup>&nbsp;Derivation: <span class="math display">\[\begin{aligned}
+<div class="page-columns page-full"><p><strong>Estimating the persuasiveness of text with an experiment requires enormous experiments.</strong> Most text has fairly low rate of persuasion, e.g.&nbsp;typically advertisements have click-through rates of 0.1 percentage points or less. In such a case it would take 400,000 observations to measure the click-through rate to within 10% of its true value.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> For some actions it also takes a long time to run an experiment, e.g.&nbsp;if persuading people to vote in an election or to keep using a product.</p><div class="no-row-height column-margin column-container"><li id="fn4"><p><sup>4</sup>&nbsp;Derivation: <span class="math display">\[\begin{aligned}
      p  &amp;= 0.001\\
      SD &amp;= \sqrt{p(1-p)} = 0.03 \\
      CI &amp;= p * 0.1 = 0.0001\\
@@ -374,15 +419,15 @@ ga('send', {
 <ol type="1">
 <li><em>True persuasiveness.</em> I.e. the true causal effect on click-through rate, which can only be estimated with a large and time-consuming experiment.</li>
 <li><em>Human-estimated persuasiveness.</em> The response to a survey question about persuasiveness.</li>
-<li><em>Computer-estimated persuasiveness.</em> This can be defined as the total probability of the sequence of tokens produced by the LLM (<span class="math inline">\(P(w_1,\ldots,w_n)\)</span>).<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></li>
+<li><em>Computer-estimated persuasiveness.</em> This can be defined as the total probability of the sequence of tokens produced by the LLM (<span class="math inline">\(P(w_1,\ldots,w_n)\)</span>).<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></li>
 </ol>
-<div class="no-row-height column-margin column-container"><li id="fn6"><p><sup>6</sup>&nbsp;A technical note on generating high-likelihood text: if you are given a prompt and wish to generate a <em>representative</em> completion (given a distribution <span class="math inline">\(P(w_{t_1}|w_t,w_{t-1},\ldots)\)</span>) then you can successively generate individual words in proportion to their probability at each step because the full distribution is separable. However if you are trying to generate the <em>most likely</em> completion it is not sufficient to generate the most likely word at each step. My impression is that most popular LLMs do in fact generate tokens incrementally because the loss in most cases is not too large (the alternative is to explore multiple steps ahead, a “beam search”).</p></li></div><p><strong>The effectiveness of the hybrid strategy will depend the <em>incremental</em> value of human judgment.</strong> It is unclear how strong the conditional correlation is bewteen true persuasiveness and human-estimated persuasiveness. I.e. if the LLM generates two texts with equal probability, will humans have a high likelihood of telling which is more truly persuasive?</p>
+<div class="no-row-height column-margin column-container"><li id="fn5"><p><sup>5</sup>&nbsp;A technical note on generating high-likelihood text: if you are given a prompt and wish to generate a <em>representative</em> completion (given a distribution <span class="math inline">\(P(w_{t_1}|w_t,w_{t-1},\ldots)\)</span>) then you can successively generate individual words in proportion to their probability at each step because the full distribution is separable. However if you are trying to generate the <em>most likely</em> completion it is not sufficient to generate the most likely word at each step. My impression is that most popular LLMs do in fact generate tokens incrementally because the loss in most cases is not too large (the alternative is to explore multiple steps ahead, a “beam search”).</p></li></div><p><strong>The effectiveness of the hybrid strategy will depend the <em>incremental</em> value of human judgment.</strong> It is unclear how strong the conditional correlation is bewteen true persuasiveness and human-estimated persuasiveness. I.e. if the LLM generates two texts with equal probability, will humans have a high likelihood of telling which is more truly persuasive?</p>
 </section>
 <section id="superhuman-persuasion-from-supervised-learning" class="level1 page-columns page-full">
 <h1>Superhuman Persuasion from Supervised Learning</h1>
 <p><strong>Finally we could train a model using historical data on real-world persuasion.</strong> Instead of predicting what a human would say if they were asked to produce persuasive text we could train a model directly on examples of text where we know the true persuasive effect, from experiments.</p>
 <p><strong>Observational data may not be sufficient.</strong> Gordon et al.&nbsp;(2019) and Gordon et al.&nbsp;(2023) both attempt to predict the experimental effect of Facebook advertisments on conversions, using only observational (non-experimnental) data, and they fail: <em>“despite having access to large-scale experiments and rich user-level data, we are unable to reliably estimate an ad campaign’s causal effect.”</em> The latter paper say they have a dataset of 663 experiments.</p>
-<div class="page-columns page-full"><p><strong>Many platforms have huge datasets on persuasion.</strong> Facebook probably serves around 40 billion ad impressions/day (Assuming 4 billion active users/day, and 20 ad impressions/user/day.)<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn7"><p><sup>7</sup>&nbsp;For comparison <em>“today’s vision datasets typically contain a few hundred million high-resolution color images from the web (e.g.&nbsp;Google has JFT-300M, OpenAI CLIP was trained on a 400M), but grow to as large as a small few billion.”</em> – <a href="http://karpathy.github.io/2022/03/14/lecun1989/">Andrej Karpathy</a> in 2022.</p></li></div></div>
+<div class="page-columns page-full"><p><strong>Many platforms have huge datasets on persuasion.</strong> Facebook probably serves around 40 billion ad impressions/day (Assuming 4 billion active users/day, and 20 ad impressions/user/day.)<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn6"><p><sup>6</sup>&nbsp;For comparison <em>“today’s vision datasets typically contain a few hundred million high-resolution color images from the web (e.g.&nbsp;Google has JFT-300M, OpenAI CLIP was trained on a 400M), but grow to as large as a small few billion.”</em> – <a href="http://karpathy.github.io/2022/03/14/lecun1989/">Andrej Karpathy</a> in 2022.</p></li></div></div>
 <p></p>
 </section>
 <section id="appendix-studies-on-the-persuasiveness-of-computer-generated-text" class="level1">
@@ -400,16 +445,16 @@ ga('send', {
 </section>
 <section id="appendix-on-advertising-and-persuasion" class="level1 page-columns page-full">
 <h1>Appendix: On Advertising and Persuasion</h1>
-<div class="page-columns page-full"><p><strong>Increases in persuasive power should cause increases in expenditure on advertising.</strong> If computer-generated ads are more persuasive than human-generated ads then firms should be willing to spend more on each ad, and so the equilibrium price of advertising impressions will rise.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn8"><p><sup>8</sup>&nbsp;Although the price of ads should increase it is unclear whether the quantity of ads shown would increase or decrease. In a simple model of ad-supported media the equilibrium quantity of ads is determined by (1) the curvature of demand from advertisers, (2) the curvature of disutility from consumers. An increase in the persuasive power of advertising will shift demand up but it’s not clear to me whether the curvature would change in one direction or the other. However we would expect more investment in media to attract user attention.</p></li></div></div>
-<div class="page-columns page-full"><p>Aggregate advertising expenditure has remained at around 1% of GDP since 1930, implying relatively little change in the ability to persuade people.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> <img src="images/2023-07-12-05-36-29.png" class="img-fluid"></p><div class="no-row-height column-margin column-container"><li id="fn9"><p><sup>9</sup>&nbsp;<a href="https://www.ben-evans.com/presentations">Ben Evans</a></p></li></div></div>
+<div class="page-columns page-full"><p><strong>Increases in persuasive power should cause increases in expenditure on advertising.</strong> If computer-generated ads are more persuasive than human-generated ads then firms should be willing to spend more on each ad, and so the equilibrium price of advertising impressions will rise.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn7"><p><sup>7</sup>&nbsp;Although the price of ads should increase it is unclear whether the quantity of ads shown would increase or decrease. In a simple model of ad-supported media the equilibrium quantity of ads is determined by (1) the curvature of demand from advertisers, (2) the curvature of disutility from consumers. An increase in the persuasive power of advertising will shift demand up but it’s not clear to me whether the curvature would change in one direction or the other. However we would expect more investment in media to attract user attention.</p></li></div></div>
+<div class="page-columns page-full"><p>Aggregate advertising expenditure has remained at around 1% of GDP since 1930, implying relatively little change in the ability to persuade people.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> <img src="images/2023-07-12-05-36-29.png" class="img-fluid"></p><div class="no-row-height column-margin column-container"><li id="fn8"><p><sup>8</sup>&nbsp;<a href="https://www.ben-evans.com/presentations">Ben Evans</a></p></li></div></div>
 <p><strong>Some very loose generalizations about human persuadability:</strong></p>
 <ol type="1">
 <li><p><em>Human attitudes are highly sensitive to influences.</em> A person’s adult attitudes, beliefs, and preferences, are highly sensitive to their upbringing and context: if your parents are Catholic then you are highly likely to grow up Catholic. The same is true for eating fish, enjoying country music, being a Democrat, taking your shoes off inside, and your attitude to sex before marriage. The correlations can only be partly explained by direct genetic or economic effects, implying that attitudes are highly sensitive to experience.</p></li>
 <li><p><em>The effective means of persuasion are only crudely known.</em> In the past 100 years there have been a dozen apparent discoveries of hyper-effective means of persuasion, as discussed above.</p></li>
 <li><p><em>Carefully measured estimates of persuasive effects tend to be small.</em></p></li>
-<li><p><em>Nevertheless large resources are devoted to persuasion,</em><a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>.</p></li>
+<li><p><em>Nevertheless large resources are devoted to persuasion,</em><a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>.</p></li>
 </ol>
-<div class="no-row-height column-margin column-container"><li id="fn10"><p><sup>10</sup>&nbsp;McCloskey and Klamer have a 1995 paper titled “One Quarter of GDP is Persuasion”.</p></li></div></section>
+<div class="no-row-height column-margin column-container"><li id="fn9"><p><sup>9</sup>&nbsp;McCloskey and Klamer have a 1995 paper titled “One Quarter of GDP is Persuasion”.</p></li></div></section>
 <section id="appendix-on-synthesis" class="level1">
 <h1>Appendix: On Synthesis</h1>
 <p><strong>In a nutshell:</strong></p>
@@ -446,9 +491,50 @@ ga('send', {
 <p><strong>Related.</strong></p>
 <p><em>Why do people have an asymmetry between recognition and production?</em></p>
 <p><em>Factual vs logical asymmetry.</em> - Hash function.</p>
+</section>
+<section id="extra-material" class="level1">
+<h1>Extra Material</h1>
+<ul>
+<li>Monty Python’s lethally funny joke.</li>
+</ul>
+<p><strong>Q: has there been progress over time?</strong> Have people got better at choosing values of <span class="math inline">\(t\)</span> which maximize <span class="math inline">\(p\)</span>?</p>
+<ul>
+<li><em>Aesthetic things:</em> jokes, music, plays, novels. The surface p(.) changes, but also we accumulate examples which are better.</li>
+<li><em>Persuasion:</em> history of advertising would say we discovered certain things: pretty girls, wording of slogans, etc. But share of GDP which is persuasion has been stuck at 1%.</li>
+<li><em>Inventions:</em> wheels on luggage; lime with corn; chemical compounds – drugs that have certain properties.</li>
+</ul>
+<section id="other-applications" class="level2">
+<h2 class="anchored" data-anchor-id="other-applications">Other Applications</h2>
+<dl>
+<dt>super-accurate medical diagnoses</dt>
+<dd>
+here there’s a ground truth that you can train LLMs directly on, so perfectly reasonable that they’d shoot past.
+</dd>
+<dt>super-good chess</dt>
+<dd>
+there’s a ground truth, though training on human play is a good shortcut to the frontier
+</dd>
+<dt>super-evocative prose</dt>
+<dd>
+abc
+</dd>
+<dt>prove theorems beyond human abilities</dt>
+<dd>
+abc
+</dd>
+<dt>super-groovy music</dt>
+<dd>
+abc
+</dd>
+<dt>super-beautiful paintings</dt>
+<dd>
+abc
+</dd>
+</dl>
 
 
 
+</section>
 </section>
 
 
