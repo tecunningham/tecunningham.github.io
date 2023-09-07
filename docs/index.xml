@@ -10,7 +10,195 @@
 <atom:link href="tecunningham.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>{{&lt; meta description-meta &gt;}}</description>
 <generator>quarto-1.3.357</generator>
-<lastBuildDate>Mon, 07 Aug 2023 07:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 07 Sep 2023 07:00:00 GMT</lastBuildDate>
+<item>
+  <title>How LLMs Learn About the World</title>
+  <dc:creator>Tom Cunningham, [Integrity Institute](https://integrityinstitute.org/)</dc:creator>
+  <link>tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<style>
+    h1 {  border-bottom: 4px solid black; }
+    h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; color: black; }
+    dl { margin-bottom: 0px; }
+    dt strong { font-weight: bold; }
+    dd { margin-left: 20px; }
+</style>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p> <img src="tecunningham.github.io/posts/images/2023-09-05-19-11-49.png" class="img-fluid"></p>
+</div></div><p><span style="background:yellow;">==<em>Still a draft, don’t circulate!</em>==</span></p>
+<p><strong>I describe a simple model of LLMs, humans, and the world.</strong> Large language models (LLMs) answer questions by predicting how a human would answer that question. This raises a lot of interesting issues about when LLMs would do better or worse than the humans that they’re learning from. In this note I write down a simple model of how LLMs learn things, basically: <img src="https://latex.codecogs.com/png.latex?%5Cxymatrix@R=0cm@C=0.3cm%7B%0A%20%20%20%20%20%20%20%20%20*+%5BF:%3C5pt%3E%5D%7B%5Ctext%7Bworld%7D%7D%20%5Car%5Brr%5D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20*+%5BF:%3C5pt%3E%5D%7B%5Ctext%7Bhuman%7D%7D%20%5Car%5Brr%5D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20*+%5BF:%3C5pt%3E%5D%7B%5Ctext%7BLLM%7D%7D%5Car%5Br%5D%0A%20%20%20%20%20%20%20%20%20&amp;%20%5C%5C%0A%20%20%20%20%20%20%20%20%20&amp;%20%5Ctxt%7Bhuman%5C%5Clearns%5C%5Cabout%5C%5Cworld%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctxt%7BLLM%5C%5Cpredicts%5C%5Chuman%5C%5Canswers%5C%5Cto%20questions%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctxt%7BLLM%5C%5Canswers%5C%5Cnovel%5C%5Cquestions%7D%0A%20%20%20%20%20%20%7D"> </p>
+<p><strong>The model gives crisp implications about a broad range of issues.</strong> Below I derive each implication formally, here I here give some intuitive arguments:</p>
+<div class="cell page-columns page-full" data-hash="2023-09-05-model-of-ai-imitation_cache/html/unnamed-chunk-1_d6ad6d12741bbfc1bf1e460905c0c9f0">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">In general the questions answerable by an LLM will not be a subset of the questions answered in the training set, or even those answerable by the people who contributed to the training set.</figcaption>
+</figure>
+</div>
+</div></div></div>
+<ol type="1">
+<li><p><strong>An LLM trained on the output of a single human will generally do worse than that human.</strong> This is because (1) the text they are trained on represents only a subset of the knowledge that human’s knowledge; (2) the model fit will always be imperfect. However if the human’s answers are inconsistent then the LLM can do better simply by being less noisy.</p></li>
+<li><p><strong>An LLM trained on the output of multiple humans can outperform any one of them.</strong> People tend to answer only the questions that they know the answer to, so predicting the answer to a question will tend to predict the answer of an expert in that field. The set of LLM-answerable questions can be thought of as including, at a minimum, the union of the questions answered in the training data.</p></li>
+<li><p><strong>An LLM can answer questions no human can answer.</strong> LLMs are not designed to explicitly make inferences about the world but the act of interpolating between observed answers will, in some circumstances, functionally operate as inference, and as a consequence the set of LLM-answerable questions can exceed the union of human-answerable questions. We already see this in LLM outputs: they can answer questions that no single human knows the answer to.</p></li>
+<li><p><strong>An LLM can be used to extract tacit knowledge.</strong> Much human knowledge is tacit, reflected in our lack of insight into the bases of our judgment. If an LLM can match human performance in answering questions then it will effectively make available the tacit knowledge used in those judgments, and so open up a range of capabilities much wider than any human can achieve. In practice this might mean querying an LLM repeatedly to map out tacit knowledge.</p></li>
+</ol>
+<p><strong>Real-World Implications.</strong></p>
+<ol type="1">
+<li><p><strong>LLMs bring everybody to the knowledge frontier.</strong> An LLM can effectively serve as a consultant: it will tell you how a domain-expert would answer your question. For some problems we’ve already been able to do that for a long time, e.g.&nbsp;a textbook will tell you scientific advice on crop management practices, but LLMs allow for much subtler contingencies and to incorporate tacit knowledge. We should therefore expect the productivity impact of LLMs to be mainly on those who are behind the knowledge frontier, and we might also expect a compression of incomes. </p></li>
+<li><p><strong>AI could be used to create super-human artefacts.</strong> There has been a lot of discussion about whether AI be used to exceed human abilities to create certain artefacts, e.g.&nbsp;hyper-beautiful paintings, hyper-addictive clickbait, hyper-persuasive text. Using the existing architecture of AI this is unlikely: they might be able to predict the objects that a very talented human would produce, but would not surpass their ability. However AI could be used to generate artfeacts indirectly: instead of predicting how a human would create such an arfect, the weights that the AI has learned could be used to find the artefact which maximizes the function of interest, e.g.&nbsp;hyper-persuasive, or hyper-beautiful. In this way the AI could create artefacts beyond the ability of any human.<sup>1</sup></p></li>
+</ol>
+<div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;This is roughly how image synthesis algorithms work: after training a model to recognize images, new images can be created by maximizing the learned weights.</p></li></div><section id="model-setup" class="level1 page-columns page-full">
+<h1>Model Setup</h1>
+<p><strong>The model has three steps.</strong></p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cxymatrix@C=.5cm@R=0cm%7B%0A%20%20%20%20%20%20%5Ctext%7Bworld%7D%0A%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7Bhuman%7D%0A%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7BLLM%7D%5C%5C%0A%20%20%20%20%20%20*+%5BF:%3C5pt%3E%5D%7B%5Cbm%7Bw%7D%7D%20%5Car%5Brr%5D%5E%7B%5Cbm%7Ba%7D=Q%5Cbm%7Bw%7D%7D%0A%20%20%20%20%20%20&amp;&amp;%20*+%5BF:%3C5pt%3E%5D%7B%5Chat%7B%5Cbm%7Bw%7D%7D%7D%20%5Car%5Brr%5D%5E%7B%5Chat%7B%5Cbm%7Ba%7D%7D=%5Chat%7BQ%7D%5Chat%7B%5Cbm%7Bw%7D%7D%7D%0A%20%20%20%20%20%20&amp;&amp;%20*+%5BF:%3C5pt%3E%5D%7B%5Cbar%7B%5Cbm%7Bw%7D%7D%7D%20%5Car%5Brr%5D%5E%7B%5Ctilde%7Ba%7D=%5Ctilde%7Bq%7D'%5Cbar%7B%5Cbm%7Bw%7D%7D%7D%0A%20%20%20%20%20%20&amp;&amp;%20%5C%20%20%5C%5C%0A%20%20%20%20%20%20%5Ctxt%7Bunobserved%5C%5Ctruth%5C%5Cabout%5C%5Cthe%5C%5Cworld%7D%0A%20%20%20%20%20%20&amp;%20%5Ctxt%7Banswers%5C%5Cto%5C%5Chuman%5C%5Cquestions%7D%0A%20%20%20%20%20%20&amp;%20%5Ctxt%7Bbeliefs%5C%5Cformed%5C%5Cby%5C%5Chuman%7D%0A%20%20%20%20%20%20&amp;%20%5Ctxt%7Btext%5C%5Cwritten%5C%5Cby%5C%5Chuman%7D%0A%20%20%20%20%20%20&amp;%20%5Ctxt%7BLLM%5C%5Cmodel%5C%5Cof%5C%5Chuman%5C%5Ctext%7D%0A%20%20%20%20%20%20&amp;%20%5Ctxt%7BLLM's%5C%5Canswers%5C%5Cto%5C%5Cnew%5C%5Cquestions%7D%0A%20%20%20%7D"></p>
+<p><strong>Questions and answers.</strong> We will model everything as a set of questions and their answers. A question is defined by a set of binary attributes (<img src="https://latex.codecogs.com/png.latex?q_1,%5Cldots,q_n%5Cin%5C%7B-1,1%5C%7D">), and the answer is a linear function of those attributes given some unobserved weights <img src="https://latex.codecogs.com/png.latex?w_1,%5Cldots,w_n">:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20%5Cut%7B%5Cbmatrix%7Ba%5E1%20%5C%5C%20%5Cvdots%20%5C%5C%20a%5Em%7D%7D%7Banswers%7D%0A%20%20%20%20%20%20%20%20%20=%20%5Cut%7B%5Cbmatrix%7Bq_1%5E1%20w_1%20+%20%5Cldots%20q_n%5E1w_n%20%5C%5C%20%5Cvdots%20%5C%5C%20q_1%5Em%20w_1%20+%20%5Cldots%20q_n%5Emw_n%7D%7D%7Bquestions%7D%0A%20%20%20%5Cend%7Baligned%7D"></p>
+<div class="page-columns page-full"><p><strong>Human beliefs.</strong> After observing a set of question and their real-world answers the human will form beliefs about the weights <img src="https://latex.codecogs.com/png.latex?w_1,%5Cldots,w_n">. We can explicitly write the human posteriors if we assume their priors are Gaussian and i.i.d. (<img src="https://latex.codecogs.com/png.latex?%5Cbm%7Bw%7D%5Csim%20N(0,%5Csigma%5E2I)">):<sup>2</sup> <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20%5Cbm%7Ba%7D%20%20%20%20%20%20%20%20&amp;=%20Q%5Cbm%7Bw%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(questions%20%5C&amp;%20answers%20given%20true%20weights%20$%5Cbm%7Bw%7D$)%7D%5C%5C%0A%20%20%20%20%20%20%5Chat%7B%5Cbm%7Bw%7D%7D%20&amp;=%20Q'(QQ')%5E%7B-1%7D%5Cbm%7Ba%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(human%20estimate%20of%20true%20weights%20$%5Cbm%7Bw%7D$)%7D%0A%20%20%20%5Cend%7Baligned%7D"></p><div class="no-row-height column-margin column-container"><li id="fn2"><p><sup>2</sup>&nbsp;I am assuming <img src="https://latex.codecogs.com/png.latex?%5Cbm%7Bw%7D"> has zero-mean and is i.i.d. just to cut down on notation, the results all hold for the more general multivariate Normal case.</p></li></div></div>
+<p>I will assume that the number of unobserved weights is large relative to the human’s experience (<img src="https://latex.codecogs.com/png.latex?n%5Cgg%20m">), so the human will gradually learn more about reality as she observes the answer to more questions, and will be able to perfectly answer any question she’s seen before, but will never learn the full set of weights.</p>
+<p><strong>Computer beliefs.</strong> Suppose that humans write down some set of question and answer them given their beleifs. We use that text to train a computer to predict the answer given any question, and the computer likewise assumes a linear model with i.i.d. Gaussian weights. Then we can explicitly write the computer-estimated weights:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20%5Chat%7B%5Cbm%7Ba%7D%7D%20%20%20%20%20%20%20%20&amp;=%20%5Chat%7BQ%7D%5Chat%7B%5Cbm%7Bw%7D%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(human-generated%20questions%20%5C&amp;%20answers)%7D%5C%5C%0A%20%20%20%20%20%20%5Cbar%7B%5Cbm%7Bw%7D%7D%20&amp;=%20%5Chat%7BQ%7D'(%5Chat%7BQ%7D%5Chat%7BQ%7D')%5E%7B-1%7D%5Chat%7B%5Cbm%7Ba%7D%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(computer%20estimate%20of%20human%20weights%20$%5Chat%7B%5Cbm%7Bw%7D%7D$)%7D%0A%20%20%20%5Cend%7Baligned%7D"></p>
+<p><strong>Computer answers.</strong> Finally we can ask the computer a new question, <img src="https://latex.codecogs.com/png.latex?%5Ctilde%7Bq%7D">, and observe its answer: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20%5Ctilde%7Ba%7D%20%20%20%20%20%20%20%20&amp;=%20%5Ctilde%7B%5Cbm%7Bq%7D%7D'%5Cbar%7B%5Cbm%7Bw%7D%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(computer%20answer%20to%20a%20novel%20question%20$%5Ctilde%7B%5Cbm%7Bq%7D%7D$)%7D%5C%5C%0A%20%20%20%5Cend%7Baligned%7D"></p>
+</section>
+<section id="model-implications" class="level1 page-columns page-full">
+<h1>Model Implications</h1>
+<dl class="page-columns page-full">
+<dt><strong>If one human records all their observations then the computer will perfectly imitate them.</strong></dt>
+<dd>
+Suppose that there is one human and they write down all of their observations, <img src="https://latex.codecogs.com/png.latex?%5Chat%7BQ%7D=Q">. Then the computer’s beliefs will be the same as the human’s beliefs (<img src="https://latex.codecogs.com/png.latex?%5Chat%7B%5Cbm%7Bw%7D%7D=%5Cbar%7B%5Cbm%7Bw%7D%7D">), and so the computer will answer every question exactly as the human does, though neither knows the truth (<img src="https://latex.codecogs.com/png.latex?%5Cbar%7B%5Cbm%7Bw%7D%7D%5Cneq%5Cbm%7Bw%7D">).
+</dd>
+<dt><strong>If humans do not record all their observation then the computer will perform worse.</strong></dt>
+<dd>
+Suppose humans only write down some of their observations, i.e.&nbsp;<img src="https://latex.codecogs.com/png.latex?%5Chat%7BQ%7D"> is a row-wise subset of <img src="https://latex.codecogs.com/png.latex?Q">. Then computers and humans will give the same answers for any question in the training set, but outside of that set computers will generally do worse than humans. And so for every question <img src="https://latex.codecogs.com/png.latex?%5Cbm%7Bq%7D"> the computer will do worse in expectation: <img src="https://latex.codecogs.com/png.latex?E%5B%5Cut%7B(%5Cbm%7Bq%7D%5Cbm%7Ba%7D-%5Cbm%7Bq%7D%5Cbar%7B%5Cbm%7Ba%7D%7D)%5E2%7D%7Bcomputer%20error%7D%5D%5Cgeq%0A%20%20E%5B%5Cut%7B%5Cbm%7Bq%7D(%5Cbm%7Ba%7D-%5Chat%7B%5Cbm%7Ba%7D%7D)%7D%7Bhuman%20error%7D%5D.">
+</dd>
+<dt><strong>If there are multiple humans then the computer will outperform them both.</strong></dt>
+<dd>
+Suppose there are two humans who each observe answers to different question, <img src="https://latex.codecogs.com/png.latex?Q_A"> and <img src="https://latex.codecogs.com/png.latex?Q_B">, and they both write them all down, so <img src="https://latex.codecogs.com/png.latex?%5Cbar%7BQ%7D=(%5Csmallmatrix%7BQ_A%5C%5CQ_B%7D)"> and <img src="https://latex.codecogs.com/png.latex?%5Cbar%7B%5Cbm%7Ba%7D%7D=(%5Csmallmatrix%7BQ_A%5Cbm%7Bw%7D%5C%5CQ_B%5Cbm%7Bw%7D%7D)">. Now the computer clearly has superior information to either human, and so for both <img src="https://latex.codecogs.com/png.latex?i%5Cin%5C%7B1,2%5C%7D"> and every question <img src="https://latex.codecogs.com/png.latex?%5Cbm%7Bq%7D"> we can write: <img src="https://latex.codecogs.com/png.latex?E%5B%5Cut%7B(%5Cbm%7Bq%7D%5Cbm%7Ba%7D-%5Cbm%7Bq%7D%5Cbar%7B%5Cbm%7Ba%7D%7D)%5E2%7D%7Bcomputer%20error%7D%5D%5Cleq%0A%20%20E%5B%5Cut%7B%5Cbm%7Bq%7D(%5Cbm%7Ba%7D-%5Chat%7B%5Cbm%7Ba%7D%7D_i)%7D%7Bhuman%20error%7D%5D.">
+</dd>
+<dt><strong>If there are multiple humans then the computer can answer question no human can answer.</strong></dt>
+<dd>
+<p>Suppose two humans observe the answers to the following questions: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20Q_A%20&amp;=%20%5Cbmatrix%7B1%20&amp;%201%20&amp;%201%20%5C%5C%201%20&amp;%20-1%20&amp;%201%7D%20%5C%5C%0A%20%20Q_B%20&amp;=%20%5Cbmatrix%7B1%20&amp;%201%20&amp;%201%20%5C%5C%201%20&amp;%201%20&amp;%20-1%7D%0A%20%20%20%5Cend%7Baligned%7D"> The first human will learn the exact value of <img src="https://latex.codecogs.com/png.latex?w_2">, and the second human will learn the exact value of <img src="https://latex.codecogs.com/png.latex?w_3">, but neither will learn both, and so neither could perfectly predict the answer to this question: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%5Ctilde%7Bq%7D%20&amp;=%20%5Cbmatrix%7B1%20&amp;%20-1%20&amp;%20-1%7D%20%5C%5C%0A%20%20%5Cend%7Baligned%7D"></p>
+<p>However if they both recorded their observations, so the computer observes <img src="https://latex.codecogs.com/png.latex?%5Cbar%7B%5Cbm%7Ba%7D%7D=(%5Csmallmatrix%7BQ_1%5Cbm%7Bw%7D%5C%5CQ_2%5Cbm%7Bw%7D%7D)">, the computer will be able to infer both <img src="https://latex.codecogs.com/png.latex?w_2"> and <img src="https://latex.codecogs.com/png.latex?w_3">, and thus will be able to perfectly answer <img src="https://latex.codecogs.com/png.latex?%5Ctilde%7Bq%7D">.</p>
+<p>We can see this behaviour in LLMs: they sometimes combine a pair of facts or a pair of abilities which no single human has access to, e.g.&nbsp;when an LLM translates between two languages, for which there exists no human speaker of both.</p>
+</dd>
+<dt><strong>If humans write outside their expertise then the computer will do worse.</strong></dt>
+<dd class="page-columns page-full">
+<div class="page-columns page-full"><p>In the cases above we assumed that the two humans recorded only what they directly observed. This means the computer essentially had a window directly to the world. However the humans could instead have written down their estimated answers to other questions. Suppose they both wrote down answers to every possible question, then the computer would learn the <em>average</em> of the two human’s estimated weights:<sup>3</sup> <img src="https://latex.codecogs.com/png.latex?%5Cbar%7B%5Cbm%7Bw%7D%7D=%5Cfrac%7B1%7D%7B2%7D%5Chat%7B%5Cbm%7Bw%7D%7D_A+%5Cfrac%7B1%7D%7B2%7D%5Chat%7B%5Cbm%7Bw%7D%7D_B."></p><div class="no-row-height column-margin column-container"><li id="fn3"><p><sup>3</sup>&nbsp;We would have to augment the computer’s learning rule to allow for noise in answers - I need to confirm that the weighting will be exactly 1/2.</p></li></div></div>
+<p>Here the computer will do worse than the two humans on the original questions, <img src="https://latex.codecogs.com/png.latex?Q_A"> and <img src="https://latex.codecogs.com/png.latex?Q_B">.</p>
+<p>The implication is that LLMs work so well only because people tend to write about what they know. Put another way, when an LLM answers a question, it will not predict the answer given by the average person, but will predict the answer given by people who are likely to answer that question in the real world, and luckily those people tend to be people who are subject-matter experts.</p>
+</dd>
+</dl>
+<dl>
+<dt><strong>If humans have tacit knowledge, the computer model can outperform humans in creation of new artefacts.</strong></dt>
+<dd>
+<p>Suppose humans have tacit knowledge of the world, we can model this with two separate sets of beliefs: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%5Chat%7B%5Cbm%7Bw%7D%7D%5ET%20%20%20&amp;=%20%5Ctext%7Btacit%20knowledge%7D%5C%5C%0A%20%20%5Chat%7B%5Cbm%7Bw%7D%7D%5EE%20&amp;=%20%5Ctext%7Bexplicit%20knowledge%7D%5C%5C%0A%20%20%20%5Cend%7Baligned%7D"></p>
+<p>When the human encounters a new question <img src="https://latex.codecogs.com/png.latex?%5Ctilde%7B%5Cbm%7Bq%7D%7D"> they will use their tacit knowledge to form an estimate of the answer, <img src="https://latex.codecogs.com/png.latex?%5Chat%7Ba%7D=%5Ctilde%7B%5Cbm%7Bq%7D%7D'%5Chat%7B%5Cbm%7Bw%7D%7D%5ET">. For simplicity assume tacit knowledge is perfectly accurate <img src="https://latex.codecogs.com/png.latex?%5Chat%7B%5Cbm%7Bw%7D%7D%5ET=%5Cbm%7Bw%7D">, and explicit knowledge is imperfect.</p>
+<p>The distinction becomes important when we want to create a new question. Here it’s useful to interpret <img src="https://latex.codecogs.com/png.latex?%5Cbm%7Bq%7D"> not as a question but as an artefact, e.g.&nbsp;text or image, and <img src="https://latex.codecogs.com/png.latex?%5Cbm%7Ba%7D=%5Cbm%7Bq%7D'%5Cbm%7Bw%7D"> represents some abstract property, e.g.&nbsp;how beautiful or how rhythmic. Suppose we want to chosose <img src="https://latex.codecogs.com/png.latex?%5Cbm%7Bq%7D%5Cin%5C%7B-1,1%5C%7D%5En"> to maximize <img src="https://latex.codecogs.com/png.latex?%5Cbm%7Bw%7D%5Cbm%7Bq%7D">. If we had perfect access to our beliefs <img src="https://latex.codecogs.com/png.latex?%5Cbm%7Bw%7D%5ET"> this would be simple, however if we have access only to imperfect explicit knowledge <img src="https://latex.codecogs.com/png.latex?%5Chat%7B%5Cbm%7Bw%7D%7D%5EE">, the artefact which maximizes that function will not generally be the one which maximizes <img src="https://latex.codecogs.com/png.latex?a">.</p>
+<p>Here the computer model is less constrained. Suppose the computer has observed sufficiently many questions until they have perfectly learned the tacit knowledge, <img src="https://latex.codecogs.com/png.latex?%5Cbar%7B%5Cbm%7Bw%7D%7D=%5Chat%7B%5Cbm%7Bw%7D%7D%5ET">. Then if computation is free the computer could be used to query every single <img src="https://latex.codecogs.com/png.latex?%5Cbm%7Bq%7D%5Cin%5C%7B-1,1%5C%7D%5En"> to find the best possible artefact.</p>
+<p><strong><em>Application:</em></strong> asdf</p>
+</dd>
+</dl>
+</section>
+<section id="neural-nets-and-crop-management-old" class="level1 page-columns page-full">
+<h1>Neural Nets and Crop Management [OLD]</h1>
+<p><strong>In a nutshell:</strong> Machine learning allows everyone to approach the knowledge frontier. Anyone can now ask “how would an expert answer in this question?” For some problems we’ve already been able to do that for a long time, e.g.&nbsp;a textbook will tell us appropriate crop management practices. But LLMs allow us to extend much further and also use tacit expert knowledge.</p>
+<p><strong>Here’s a simple thought experiment for thinking about the economic impact of ML models.</strong></p>
+<p><strong>Implication: ML models will decrease the returns to knowledge, but increase the returns to intelligence.</strong></p>
+<p><strong>Suppose you train an ML model with data on farmers’ decisions about crop inputs.</strong> You train a model to predict farmers’ decisions about how much water, fertilizer, pesticide and weedkiller, they apply to their crops. Then you can ask, in any given situation, what’s the most-likely decision by a typical farmer? This would be a useful model: it would allow an amateur farmer to have judgment comparable to an average farmer, and with some fine-tuning you could perhaps approach the judgment of an expert farmer.</p>
+<p><strong>The model would not be approximating the <em>true</em> yield function.</strong> The model is approximating the farmers’ <em>beliefs</em> about the yield function. When farmers’ beliefs and truth diverge the model will follow beliefs. E.g. if there is some combination of inputs which has very high yield but no farmer has discovered that combination, then the ML model won’t know about it either.</p>
+<p><strong>Implication: ML will decreases the returns to knowledge.</strong> The model will bring all farmers towards the knowledge frontier, and so the increase in yields should be concentrated among amateurs. Thus the premium associated with knowledge or experience decreases and there’s a compression of incomes across farms.</p>
+<p><strong>Implication: ML will increase the returns to intelligence.</strong> It seems likely that knowledge and intelligence are complements in crop management, so the output of the ML model will have a relatively bigger effect on the yields of clever farmers. The ML model would give good advice in common situation but not in uncommon situations, which require some deeper reasoning, understanding, and extrapolation. In practice the returns to intelligence could manifest as smart farmers now being able to manage larger farms: the ML model will tell them the best practices in each situation, and experienced farmers would find their contribution was smaller.</p>
+<p><strong>Formally.</strong> Suppose farmers choose inputs <img src="https://latex.codecogs.com/png.latex?%5Cbm%7Bx%7D=(x_1,%5Cldots,x_n)"> given some environmental variables <img src="https://latex.codecogs.com/png.latex?%5Cbm%7Bz%7D=(z_1,%5Cldots,z_n)">, trying to maximize yield <img src="https://latex.codecogs.com/png.latex?y(%5Cbm%7Bx%7D,%5Cbm%7Bz%7D)">. Each farmer slowly learns about the function <img src="https://latex.codecogs.com/png.latex?y(%5Ccdot,%5Ccdot)"> from experience, and so progressively makes better decisions. If you train a model just on farmers decisions, <img src="https://latex.codecogs.com/png.latex?%5Chat%7Bx%7D(%5Cbm%7Bz%7D)">, ignoring actual yields, this will still be very useful because farmers with little knowledge could use the model to catch up to knowledgeable farmers, and farmers who have expertise in one area will effectively become experts in all areas.</p>
+<p><strong>Crop management is just a thought experiment, not a great actual example.</strong> I like crop management as a thought experiment because the inputs and outputs are very clear. However I don’t think an ML model will be revolutionary for agriculture: scientists have been working on models of yield for centuries and you can buy textbooks which tell you optimal management techniques. Thus it’s already easy to get close to the knowledge frontier in crop management, you don’t need ML to get you there, and that in turn is because the true yield function is probably not too complicated: it has relatively low dimensionality, and is relatively convex. This implies that we can use traditional statistical techniques, we don’t need to extract tacit knowledge by training a neural net on the historical decision of farmers.</p>
+<p>In contrast neural nets do far better than simple models in some domains, e.g.&nbsp;for code, text, speech, images. These domains have deep hierarchical structure, so simple techniques like linear regression have limited ability even with huge training sets.</p>
+<p>As in the farmer example training a model to predict peoples’ decisions will indirectly tell you about the shape of their payoff funciton, i.e.&nbsp;an unsupervised model will implicitly learn quality. This is because people typically produce artefacts (code, text, speech, images) to achieve some purpose, in the same way that farmers make crop management decisions to maximize yield, so predicting someone’s decisions implicitly models that person’s beliefs about the shape of their payoff function.</p>
+<p><strong>Applied to computer programming.</strong> A major use of LLMs in programming seem to be in filling in holes of knowledge, e.g.&nbsp;knowledge of language syntax, API calls, &amp; basic algorithms. Thus LLMs will increase the productivity of programmers with low experience. However LLMs are not particularly good at novel conceptual tasks. Thus you might expect a decrease in returns to knowledge, an increase in returns to intelligence.</p>
+<p></p>
+<p><strong>Applied to text manipulation.</strong></p>
+<div class="page-columns page-full"><p><strong>Applied to the professions.</strong> Let’s say that much of the typical work of professionals is not <em>functional</em>, e.g.&nbsp;the work of doctors, architects, scientists, lawyers, accountants. Professions adopt complicated rituals and superstitions, they use jargon and shibboleths, and become focused on narrow technical problems.<sup>4</sup> We might think that part of the reason that these distortion survive is signaling: people who have mastered the non-functional parts (e.g.&nbsp;its jargon) are empirically more likely to be competent in its functional parts.</p><div class="no-row-height column-margin column-container"><li id="fn4"><p><sup>4</sup>&nbsp;Abbott (1998) says:</p>
+<blockquote class="blockquote">
+<p>“Professions tend to withdraw into themselves, away from the task for which they claim public jurisdiction. This pattern results from internal status rankings. The professionals who receive the highest status from their peers are those who work in the most purely professional environments … A profession is organized around the knoweldge system it applies, and hence status within profession simply reflects degree of involvement with this organizing knowledge … On this argument, the most pure professional work is academic work, which has nothing to do with clients at all, and indeed, academic professionals generally enjoy high status withhin their professions … Since professionals draw their self-esteem more from their own world than from the public’s, this status mechanism gradually withdraws entire professions into the purity of their own worlds. The front-line service that is both their fundamental task and their basis for legitimacy becomes the province of low-status colleagues and para-professionals.</p>
+</blockquote>
+</li></div></div>
+<p><strong>Applied to culture.</strong> Veblen and Bourdieu argue that much of human preference is driven by a desire to signal wealth or status. People like certain foods, certain music, certain leisure activities, certain clothes, because other people like them, and more specifically because high-status people like them. This system is unstable: the low-status will be forever chasing the high-status, and the high-status will be forever running away, but it can come to rest if the high status find a hill which is too steep for the low-status to follow.</p>
+<p><strong>Applied to science.</strong> As a very simple model of science we can think of .</p>
+<section id="crop-management" class="level2">
+<h2 class="anchored" data-anchor-id="crop-management">Crop Management</h2>
+<p><strong>Crop management has been the core economic problem for most of human history.</strong> Since humans invented agriculture 10,000 years ago we’ve very slowly discovered ways to increase yield of crops: irrigation, weeding, crop rotation, all sorts of types of fertilizer.</p>
+<p><strong>The agriculture problem is low-dimensional and convex.</strong> We’re probably already close to a global maximum.</p>
+<p><strong>We already solved the knowledge problem in agriculture.</strong> In the 1750s Diderot started published his <em>Encyclopedia</em> which gave detailed descriptions of, among other things, agricultural and industrial practices around the world. Since then it’s become relatively much easier for novice farmers to learn what are typical practices by existing farmers. The back of a seed packet will give pretty good advice on how to cultivate a plant.</p>
+<p><strong>Prediction: agricultural wages have become more correlated with intelligence, less with experience.</strong> Over the past 400 years as knowledge-sharing technologies have improved, I would predict that experience becomes less valuable, and intelligence more valuable. Also would expect locus of discretion to be more centralized. Instead of many small farms, where each farmer knows their local conditions, it’s more efficient to have a large farm with a centralized decision-maker (&amp; for most decisions the decision-maker can consult a textbook).</p>
+</section>
+<section id="additional" class="level2">
+<h2 class="anchored" data-anchor-id="additional">Additional</h2>
+<p><strong>AI models could disrupt signaling.</strong> Suppose that peacocks tails’ serve as signals in a game of sexual selection: suppose the tails don’t serve any useful purpose but that having a more lush tail is correlated with better genes. Then a technology which disrupts that correlation could upset the equilibrium. If you allowed any peacock to press a button and go to the tail frontier.</p>
+<p>Note: subtle relationship between signaling and preference spillovers. In a pure (unique equilibrium) signaling game there are no pure spillovers – you don’t like/dislike things because others like/dislike them. But your choices are a function of others’ <em>constraints</em>. No I changed my mind: your preferences <em>are</em> a function of other peoples’ choices, not of their contraints.</p>
+<p><strong>Nice metaphor for signaling: one person chasing another.</strong> Suppose A wants to be near to B but B wants to get away from A. This will cause the system to be in motion, B continually moving and A following, they only will find rest once B finds a location where A cannot follow. So A wanders around the world, up mountains, across rivers, through jungles, until finally there’s some place that A can penetrate but which B finds too steep, too swampy, too rocky, and so B comes to rest at some distance behind A. / New technology is giving B some sandals, or a machete, so they can catch up with A.</p>
+<p>(Like a lion chasing a monkey: they come to rest when the monkey climbs a tree that the lion cannot. In the evolutionary long-run the prey will find some ecological niche where the energy cost is too high for predators.)</p>
+<p><strong>Other metaphors.</strong></p>
+<ul>
+<li><em>Prospecting for gold.</em></li>
+<li><em>Mapping the ocean floor.</em></li>
+</ul>
+</section>
+</section>
+<section id="derivation-unfinished" class="level1">
+<h1>Derivation [UNFINISHED]</h1>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20Q%20&amp;=%20%5Cbmatrix%7Bq_1%5E1%20&amp;%20%5Cldots%20&amp;%20q%5E1_n%20%5C%5C%20&amp;%20%5Cddots%20%5C%5C%20q%5Em_1%20&amp;%20%5Cldots%20&amp;%20q%5Em_n%7D%0A%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(set%20of%20questions)%7D%20%5C%5C%0A%20%20%20w'%20%20&amp;=%20%5Cbmatrix%7Bw_1%20%5Cldots%20w_n%7D%20%5C%5C%0A%20%20%20a%20%20%20%20&amp;=%20%5Cbmatrix%7Ba%5E1%20%5C%5C%20%5Cvdots%20%5C%5C%20a%5Em%7D%0A%20%20%20%20%20%20=%20%5Cbmatrix%7Bq_1%5E1%20w_1%20+%20%5Cldots%20q_n%5E1w_n%20%5C%5C%20%5Cvdots%20%5C%5C%20q_1%5Em%20w_1%20+%20%5Cldots%20q_n%5Emw_n%7D%20%5C%5C%0A%5Cend%7Baligned%7D"></p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20%5Cbm%7Bw%7D%20&amp;%5Csim%20N(0,%5CSigma)%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20(n%5Ctimes%201%5Ctext%7B%20vector%20of%20parameters%20of%20the%20world)%7D%5C%5C%0A%20%20%20%20%20%20Q%20%20%20%20%20%20&amp;%5Cin%20%5C%7B-1,1%5C%7D%5E%7Bn%5Ctimes%20m%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B($m$%20questions,%20each%20has%20$n$%20binary%20parameters)%7D%5C%5C%0A%20%20%20%20%20%20%5Cut%7B%5Cbm%7Ba%7D%7D%7B$m%5Ctimes1$%7D%20%20%20&amp;=%20%5Cut%7BQ%7D%7B$m%5Ctimes%20n$%7D%5Cut%7B%5Cbm%7Bw%7D%7D%7B$n%5Ctimes1$%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(answers%20provided%20by%20the%20world)%7D%5C%5C%0A%20%20%20%20%20%20%5Chat%7B%5Cbm%7Bw%7D%7D%20&amp;=%20E%5B%5Cbm%7Bw%7D%7CQ,%5Cbm%7Ba%7D%5D%0A%20%20%20%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(human%20beliefs%20about%20the%20world)%7D%5C%5C%0A%20%20%20%20%20%20%20%20%20&amp;=%20%5Cut%7B%5CSigma%20Q'%7D%7B$Cov(%5Cbm%7Bw%7D,%5Cbm%7Ba%7D)$%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20(%5Cut%7BQ%5CSigma%20Q'%7D%7B$Var(%5Cbm%7Ba%7D)$%7D)%5E%7B-1%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%5Cbm%7Ba%7D%0A%20%20%20%5Cend%7Baligned%7D"></p>
+<p><strong>With one observation and two weights.</strong> Suppose <img src="https://latex.codecogs.com/png.latex?m=1,%20n=1">, then we have: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20Q%20%20&amp;=%20%5Cbmatrix%7Bq_1%20&amp;%20q_2%7D%20%5C%5C%0A%20%20%20%20%20%20%5Cbm%7Ba%7D'%20%20&amp;=%20%5Cbmatrix%7Ba%7D%20%5C%5C%0A%20%20%20%20%20%20%5Cbm%7Bw%7D'%20%20&amp;=%20%5Cbmatrix%7Bw_1%20&amp;%20w_2%20%7D%20%5C%5C%0A%20%20%20%20%20%20%5CSigma%20&amp;=%20%5Cbmatrix%7B%5Csigma_1%5E2%20&amp;%20%5Crho%20%5C%5C%20%5Crho%20&amp;%20%5Csigma_2%5E2%7D%5C%5C%0A%20%20%20%20%20%20%5CSigma%20Q'%20&amp;=%20%5Cbmatrix%7B%20%5Csigma_1%5E2q_1%20+%20%5Crho%20q_2%20%5C%5C%20%5Crho%20q_1%20+%20%5Csigma_2%5E2%20q_2%20%7D%20%5C%5C%0A%20%20%20%20%20%20Q%5CSigma%20Q'%20&amp;=%20%5Cbmatrix%7B%20%5Csigma_1%5E2q_1%5E2%20+%202%5Crho%20q_1q_2%20+%20%5Csigma_2%5E2%20q_2%5E2%7D%20%5C%5C%0A%20%20%20%20%20%20%5Chat%7B%5Cbm%7Bw%7D%7D=%5CSigma%20Q'(Q%5CSigma%20Q')%5E%7B-1%7D%5Cbm%7Ba%7D%0A%20%20%20%20%20%20%20%20%20&amp;=%20%5Cbmatrix%7B%20%5Cfrac%7B%5Csigma_1%5E2q_1%20+%20%5Crho%20q_2%7D%7B%5Csigma_1%5E2q_1%5E2%20+%202%5Crho%20q_1q_2%20+%20%5Csigma_2%5E2%20q_2%5E2%7D%20%5C%5C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%5Cfrac%7B%5Crho%20q_1%20+%20%5Csigma_2%5E2%20q_2%7D%7B%5Csigma_1%5E2q_1%5E2%20+%202%5Crho%20q_1q_2%20+%20%5Csigma_2%5E2%20q_2%5E2%7D%7D%20a%0A%20%20%20%5Cend%7Baligned%7D%0A%20%20%20"></p>
+<p>We can normalize <img src="https://latex.codecogs.com/png.latex?q_1=q_2=1">, then we have <img src="https://latex.codecogs.com/png.latex?%5Chat%7Bw%7D_1%20=%20%5Cfrac%7B%5Csigma_1%5E2+%5Crho%7D%7B%5Csigma_1%5E2+2%5Crho+%5Csigma_2%5E2%7Da,"></p>
+<p>This means we are dividing up responsibility for the answer (<img src="https://latex.codecogs.com/png.latex?a">) into the contributions of each component, nice and simple.</p>
+<p><strong>With two observations and one weight.</strong> Here we’re <em>over-identified</em>. <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20Q%20%20&amp;=%20%5Cbmatrix%7Bq%5E1%20%5C%5C%20q%5E2%7D%20%5C%5C%0A%20%20%20%20%20%20%5Cbm%7Ba%7D%20%20&amp;=%20%5Cbmatrix%7Ba%5E1%20%5C%5C%20a%5E2%7D%20%5C%5C%0A%20%20%20%20%20%20%5Cbm%7Bw%7D%20%20&amp;=%20%5Cbmatrix%7Bw%20%7D%20%5C%5C%0A%20%20%20%20%20%20%5CSigma%20&amp;=%20%5Cbmatrix%7B%5Csigma%5E2%20%7D%5C%5C%0A%20%20%20%20%20%20%5CSigma%20Q'%20&amp;=%20%5Cbmatrix%7B%20%5Csigma%5E2%20q%5E1%20&amp;%20%5Csigma%5E2%20q%5E2%20%7D%20%5C%5C%0A%20%20%20%20%20%20Q%5CSigma%20Q'%20&amp;=%20%5Cbmatrix%7B%20%5Csigma%5E2%20q%5E1q%5E1%20&amp;%20%5Csigma%5E2q%5E1q%5E2%20%5C%5C%20%5Csigma%5E2q%5E1q%5E2%20&amp;%20%5Csigma%5E2q%5E2q%5E2%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(this%20matrix%20doesn't%20have%20an%20inverse)%7D%0A%20%20%20%5Cend%7Baligned%7D%0A%20%20%20"></p>
+<p><strong>With noise.</strong> Suppose we only observe the answers with random noise, then we get this: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%5Cut%7B%5Cbm%7Ba%7D%7D%7B$m%5Ctimes1$%7D%20%20%20&amp;=%20%5Cut%7BQ%7D%7B$m%5Ctimes%20n$%7D%5Cut%7B%5Cbm%7Bw%7D%7D%7B$n%5Ctimes1$%7D%0A%20%20%20%20%20%20+%20%5Cut%7B%5Cbm%7Be%7D%7D%7B$n%5Ctimes%201$%7D%20%5C%5C%0A%20%20%20%5Cbm%7Be%7D%20&amp;%5Csim%20N(%5Cbm%7B0%7D,s%5E2I_m)%20&amp;&amp;%20%5Ctext%7B(i.i.d.%20noise%20w%20variance%20$s%5E2$)%7D%5C%5C%0A%20%20%20Cov(%5Cbm%7Bw%7D,%5Cbm%7Ba%7D)%20%20%20&amp;=%20%5CSigma%20Q'%20%5C%5C%0A%20%20%20Var(%5Cbm%7Ba%7D)%20&amp;=%20Q%5CSigma%20Q'%20+%20s%5E2I_m%20%5C%5C%0A%20%20%20E%5B%5Cbm%7Bw%7D%7CQ,%5Cbm%7Bq%7D%5D%20%20%20&amp;=%20%5CSigma%20Q'(Q%5CSigma%20Q'%20+%20s%5E2I_m)%5E%7B-1%7D%5Cbm%7Ba%7D%0A%5Cend%7Baligned%7D"></p>
+<p><strong>Puzzle: is this a different answer from Gaussian regression?</strong> The Gaussian regression answer to this would be:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20%5Chat%7Bw%7D%20%20&amp;=%20(Q'Q+%5CSigma)%5E%7B-1%7DQ'%5Cbm%7Ba%7D,%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%20%5Ctext%7B(assume%20$%5Cbm%7Bw%7D%5Csim%20N(0,%5CSigma)$)%7D%0A%20%20%20%5Cend%7Baligned%7D"></p>
+<p>It seems like the two solution should be the same. Why not?</p>
+<p><strong>Compare to Bayesian linear regression.</strong> We can compare this result to Bayesian linear regression (e.g.&nbsp;<a href="https://en.wikipedia.org/wiki/Bayesian_linear_regression">Wikipedia</a>): <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20%5Cbar%7B%5Cbeta%7D%20%20&amp;=%20%5CSigma%20Q'(Q%5CSigma%20Q'%20+%20s%5E2I_m)%5E%7B-1%7D%5Cbm%7Ba%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(our%20result)%7D%20%5C%5C%0A%20%20%20%20%20%20%5Ctilde%7B%5Cbeta%7D%20&amp;=%20(Q'Q+s%5E%7B2%7D%5CSigma%5E%7B-1%7D)%5E%7B-1%7DQ'%5Cbm%7Ba%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(Bayesian%20linear%20regression)%7D%5C%5C%0A%20%20%20%5Cend%7Baligned%7D"></p>
+<p>I <em>believe</em> that these can be shown to be equivalent by the <a href="https://en.wikipedia.org/wiki/Woodbury_matrix_identity">matrix inversion lemma</a>, though I haven’t confirmed this. There’s a <a href="https://digitalcommons.usu.edu/cgi/viewcontent.cgi?article=1212&amp;context=ece_facpub">note online</a> that appears to show equivalence.</p>
+<p>Getting from first to second: premultiply by <img src="https://latex.codecogs.com/png.latex?%5CSigma"></p>
+<p><strong>Original notation.</strong> From <a href="https://en.wikipedia.org/wiki/Bayesian_linear_regression">Wikipedia</a>: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20y%20&amp;=%20X%5Cbeta%20+%20%5Cvarepsilon%20%5C%5C%0A%20%20%20%20%20%20%5Cbeta%20&amp;%5Csim%20N(%5Cmu_0,%5Csigma%5E2%5CLambda_0%5E%7B-1%7D)%5C%5C%0A%20%20%20%20%20%20%5Cvarepsilon%20&amp;%5Csim%20%20N(0,%5Csigma%5E2I_m)%20%5C%5C%0A%20%20%20%20%20%20%5Ctilde%7B%5Cbeta%7D=%20E%5B%5Cbeta%7Cy,X%5D%20&amp;=%20(X'X+%5CLambda_0)%5E%7B-1%7D(X'X%5Chat%7B%5Cbeta%7D+%5CLambda_0%5Cmu_0)%5C%5C%0A%20%20%20%20%20%20%20%20%20&amp;=%20(X'X+%5CLambda_0)%5E%7B-1%7D(X'y+%5CLambda_0%5Cmu_0)%5C%5C%0A%20%20%5Cend%7Baligned%7D"></p>
+<p>Follows:</p>
+<ul>
+<li>If prior precision low (<img src="https://latex.codecogs.com/png.latex?%5CLambda_0%5Capprox%200">) then will be roughly equal to OLS result: <img src="https://latex.codecogs.com/png.latex?%5Ctilde%7B%5Cbeta%7D%5Capprox%5Chat%7B%5Cbeta%7D">.</li>
+<li>If prior precision is high (<img src="https://latex.codecogs.com/png.latex?%5CLambda_0%5Cgg%200">) then will be shrunk to prior, <img src="https://latex.codecogs.com/png.latex?%5Ctilde%7B%5Cbeta%7D%5Capprox%20%5Cmu_0">.</li>
+<li>If one observation and two weights (<img src="https://latex.codecogs.com/png.latex?m=1,n=2">), with <img src="https://latex.codecogs.com/png.latex?x%5E1_1=x%5E1_2=1">, then we’ll have: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%5Ctilde%7B%5Cbeta%7D&amp;=%20(%5Cbmatrix%7B1%20&amp;%201%5C%5C1%20&amp;1%7D+%5Cbmatrix%7B%5Csigma_1%5E2%20&amp;%20%5Crho%20%5C%5C%0A%20%20%20%20%20%5Crho%20&amp;%20%5Csigma_2%5E2%7D)%5E%7B-1%7D%5Cbmatrix%7By%5C%5Cy%7D%20%5C%5C%0A%20%20%20%20%20%20%20%20&amp;=%20%5Cbmatrix%7B1+%5Csigma_1%5E2%20&amp;%201+%5Crho%20%5C%5C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%201%20+%20%5Crho%20&amp;%201%20+%20%5Csigma_2%5E2%7D%5E%7B-1%7D%20%5Cbmatrix%7By%5C%5Cy%7D%20%5C%5C%0A%20%20%20%20%20%20%20%20&amp;=%20%5Cfrac%7B1%7D%7B(1+%5Csigma_1%5E2)(1+%5Csigma_2%5E2)-2(1+%5Crho)%5E2%7D%5Cbmatrix%7B1+%5Csigma_1%5E2%20&amp;%20-(1+%5Crho)%20%5C%5C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20-(1%20+%20%5Crho)%20&amp;%201%20+%20%5Csigma_2%5E2%7D%20%5Cbmatrix%7By%5C%5Cy%7D%20%5C%5C%0A%20%20%20%20%20%20%20%20&amp;=%20%5Cfrac%7B%5Csigma_1%5E2-%5Crho%7D%7B(1+%5Csigma_1%5E2)(1+%5Csigma_2%5E2)-2(1+%5Crho)%5E2%7D%0A%20%20%5Cend%7Baligned%7D"></li>
+<li>Puzzle: why doesn’t the result depend on variance of noise, <img src="https://latex.codecogs.com/png.latex?%5Csigma%5E2">?</li>
+</ul>
+</section>
+<section id="notes-offcuts" class="level1">
+<h1>Notes / Offcuts</h1>
+<p><strong>The LLM is accurate only because humans are accurate.</strong> The LLM is predicting human answers to questions, thus the LLM’s answers will be typically correct only because human answers are typically correct. If we trained the LLM on text produced by a human who was profoundly wrong about the world then the LLM would be equally wrong.</p>
+<p><strong>Model fit.</strong> As long as the training data is generated linearly then the LLM will fit all the training data. When <img src="https://latex.codecogs.com/png.latex?%5Chat%7Bm%7D%3En"> then the model will always fit the training data perfectly as long as the dataset doesn’t contain multiple different answers to the same question.</p>
+<p><strong>Extension: quadratic forms.</strong> Instead of answers being linear in question-features (<img src="https://latex.codecogs.com/png.latex?a=q'w">) we could suppose they’re quadratic, <img src="https://latex.codecogs.com/png.latex?a=q'Wa">, with <img src="https://latex.codecogs.com/png.latex?W"> a matrix having dimension <img src="https://latex.codecogs.com/png.latex?n%5E2">. I’m not sure whether we could still get an analytic solution for posteriors. </p>
+<p><strong>Extension: binary answers.</strong> In some cases it is natural to think of the answer, <img src="https://latex.codecogs.com/png.latex?a">, as binary instead of continuous. We might be able to reinterpret the model with <img src="https://latex.codecogs.com/png.latex?a"> representing the log-odds ratio of a binary outcome. Alternatively there might be a way of having a beta-binomial conjugate prior over the probability of <img src="https://latex.codecogs.com/png.latex?a">.</p>
+<p><strong>Extension: endogenous weights.</strong> In many practical cases the weights <img src="https://latex.codecogs.com/png.latex?w"> will change, e.g.&nbsp;if <img src="https://latex.codecogs.com/png.latex?w"> represents the marginal . Extension: weights change with change in production, i.e.&nbsp;communication model.</p>
+<p><strong>Can visualize the surface extrapolating from a single case.</strong> Can compare surface from (1) tacit knowledge; (2) explicit knowledge; (3) extrapolation from local knowledge.</p>
+<p><strong>Q: term for imitative learning in AI?</strong> Plagiaristic? Tyna Elondou mentioned it.</p>
+<p><strong>Yann LeCunn and connection.</strong> LeCunn often talks about how LLMs will not lead to general artificial intelligence because they are not <em>grounded</em> in the world, only in human production. However human experience of the world is very indirect: we infer objects by triangulating light rays bounced off them, &amp; combining a lot of different sources. In addition our pre-conscious brain does a ton of processing before we get hold of it.</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cxymatrix%7B%0A%20%20%20%20%20%20*+%5BF:%3C5pt%3E%5D%7B%5Ctext%7Bworld%7D%7D%20%5Car%5Br%5D%5Car%5Bdr%5D%0A%20%20%20%20%20%20&amp;%20*+%5BF:%3C5pt%3E%5D%7B%5Ctext%7Bhuman%7D_1%7D%20%5Car%5Br%5D%0A%20%20%20%20%20%20&amp;%20*+%5BF:%3C5pt%3E%5D%7B%5Ctext%7Btext%7D_1%7D%20%5Car%5Br%5D%0A%20%20%20%20%20%20&amp;%20*+%5BF:%3C5pt%3E%5D%7B%5Ctext%7BLLM%7D%7D%5C%5C%0A%20%20%20%20%20%20&amp;%20*+%5BF:%3C5pt%3E%5D%7B%5Ctext%7Bhuman%7D_2%7D%20%5Car%5Br%5D%0A%20%20%20%20%20%20&amp;%20*+%5BF:%3C5pt%3E%5D%7B%5Ctext%7Btext%7D_2%7D%20%5Car%5Bur%5D%0A%20%20%20%7D"></p>
+<p><strong>LLM will look like it’s making inferences about the world, but it’s just making inferences about humans’ inferences about the world.</strong></p>
+<p><strong>How can LLMs learn about the world?</strong> LLMs answer questions by predicting how a human would answer that question, after training on an enormous corpus of human-generated text. Despite only knowing about the world at second hand LLMs do amazingly well, sometimes even answering questions that no human could have answered.</p>
+<p><strong>The basic logic: (1) humans interpolate the world; (2) LLMs interpolate humans.</strong> Humans observe a few.</p>
+<p><strong>Question: separability of conditional expectation?</strong> What must be true about <img src="https://latex.codecogs.com/png.latex?f(y,x,z)"> for it to be the case that <img src="https://latex.codecogs.com/png.latex?E%5By%7Cx,z%5D"> is separable in <img src="https://latex.codecogs.com/png.latex?x"> and <img src="https://latex.codecogs.com/png.latex?z">? Perhaps conditional independence?</p>
+<p></p>
+<p><strong>About prompt engineering:</strong> when you change your prompt, it effectively changes the person who’s answering your question.</p>
+<p><strong>Generating new training data:</strong> In some cases feeding on your own AI-generated outputs could improve the model.</p>
+
+
+</section>
+
+
+ ]]></description>
+  <guid>tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html</guid>
+  <pubDate>Thu, 07 Sep 2023 07:00:00 GMT</pubDate>
+</item>
 <item>
   <title>How Much has Social Media affected Polarization?</title>
   <dc:creator>Tom Cunningham</dc:creator>
@@ -506,7 +694,7 @@ Tosh, Christopher, Philip Greengard, Ben Goodrich, Andrew Gelman, Aki Vehtari, a
 <li><strong>In 2012 YouTube switched from maximizing clicks to maximizing watch-time.</strong> They found it led to a short-term decrease in clicks but a long-term <a href="https://blog.youtube/inside-youtube/on-youtubes-recommendation-system/">increase in retention</a>. I believe Netflix similarly has invested a lot of time in developing “deep” measures of engagement.</li>
 </ul></li>
 <li><p><strong>Quality also helps the producer ecosystem.</strong> There is an additional reason for prioritizing the quality of content independent of the direct effect on user retention: because prioritizing high-quality content helps foster a long-run community of creators.</p>
-<p>A central fact about social media is that it relies on a tremendous amount of uncompensated labor. Most content is created for the joy of creation, with little realistic expectation of financial return. The impulse to post clearly relies on a delicate social perception or norm, and a platform could inadvertantly break this spell. I think speaking loosely Facebook mismanaged their public-content ecosystem in this way: they alienated creators in a variety of ways, especially by allowing copied content to proliferate, and high-quality creators instead posted to Instagram, Twitter, YouTube, and TikTok. Facebook leadership tried to attract creators with various monetary incentives but they often backfired: creators who are financially-motivated are often not the creators you want.</p></li>
+<p>A central fact about social media is that it relies on a tremendous amount of uncompensated labor. Most content is created for the joy of creation, with little realistic expectation of financial return. The impulse to post clearly relies on a delicate social perception or norm, and a platform could inadvertantly break this spell. I think speaking loosely Facebook mismanaged their public-content ecosystem in this way: they alienated creators in a variety of ways, especially by allowing copied content to proliferate, and high-quality creators instead posted to Instagram, Twitter, YouTube, and Tik Tok. Facebook leadership tried to attract creators with various monetary incentives but they often backfired: creators who are financially-motivated are often not the creators you want.</p></li>
 <li><p><strong>Engagement measures <em>immediate</em> quality, and hence is a poor proxy for the quality of factual claims.</strong> Engagement necessarily measures the immediate reaction of a user to a piece of content, and thus ranking by predicted engagement will surface content that <em>appears</em> to be good. This is fine when there is no hidden aspect to quality, e.g.&nbsp;for jokes and pictures which mostly be judged in the moment. However if we rank informational content by predicted engagement it will tend to surface the claims that are the most sensational or intriguing independent of whether they are true.</p>
 <p>If apples were sold only by how they looked, and not by how they tasted, then we would be offered delicious-looking and bland-tasting apples.</p>
 <p>I believe this basic mechanism explains why internet platforms typically have higher rates of exaggerated, misleading, or false content compared to traditional media (newspapers, television, etc.). Traditional media do not publish whichever headlines would maximize short-run sales because that would harm long-run sales. This also explains why platforms have found that they can substantially improve retention by building proxies for quality.</p></li>
@@ -537,11 +725,7 @@ Tosh, Christopher, Philip Greengard, Ben Goodrich, Andrew Gelman, Aki Vehtari, a
 <p></p></li>
 <li><p><strong>Platforms additionally care about engagement because of network effects.</strong> I said above that platforms care about engagement primarily insofar as it’s a proxy for retention, however there is an additional reason to pay attention to engagement. When one user engages (likes, comments, retweets) this increases the value of the platform to all the other users, and so has an indirect positive effect on retention. For this reason platforms are generally willing to sacrifice some retention in return for engagement, as measured in an experiment, if the sacrifice is sufficiently small.</p></li>
 </ol>
-<div class="no-row-height column-margin column-container"><li id="fn2"><p><sup>2</sup>&nbsp;I believe this is true for almost all platforms with personalized recommendations including YouTube, Netflix, and Amazon. An excellent reference for how recommenders work, with illustrations and links, is Thorburn, Bengani, &amp; Stray (2022) <a href="https://medium.com/understanding-recommenders/how-platform-recommenders-work-15e260d9a15a">“How Platform Recommenders Work”</a>.</p></li><li id="fn3"><p><sup>3</sup>&nbsp;For simplicity the rest of the discussion treats the causal effect of content as purely separable.</p></li><li id="fn4"><p><sup>4</sup>&nbsp;Most publicly-traded platforms report in their quarterly earnings just one non-financial metric: the number of active users (DAU/MAU/mDAU, etc.). I do not know of any company that publicly reports a metric of aggregate engagement.</p></li><li id="fn5"><p><sup>5</sup>&nbsp;<span class="citation" data-cites="huszar2022twitter">Huszár et al. (2022)</span> note that since Twitter introduced a ranked timeline in 2016 they maintained an experiment with 1% of users with a chronological feed.</p><div id="ref-huszar2022twitter" class="csl-entry">
-Huszár, Ferenc, Sofia Ira Ktena, Conor O’Brien, Luca Belli, Andrew Schlaikjer, and Moritz Hardt. 2022. <span>“Algorithmic Amplification of Politics on Twitter.”</span> <em>Proceedings of the National Academy of Sciences</em> 119 (1): e2025334119. <a href="https://doi.org/10.1073/pnas.2025334119">https://doi.org/10.1073/pnas.2025334119</a>.
-</div></li><div id="ref-guess2023chronological" class="csl-entry">
-Guess, Andrew M., Neil Malhotra, Jennifer Pan, Pablo Barberá, Hunt Allcott, Taylor Brown, Adriana Crespo-Tenorio, et al. 2023. <span>“How Do Social Media Feed Algorithms Affect Attitudes and Behavior in an Election Campaign?”</span> <em>Science</em> 381 (6656): 398–404. <a href="https://doi.org/10.1126/science.abp9364">https://doi.org/10.1126/science.abp9364</a>.
-</div><li id="fn6"><p><sup>6</sup>&nbsp;These correlations can be difficult to interpret: suppose there is no correlation between engagement and quality in the pool of all available content, there will nevertheless be a negative correlation among the subset of content that is <em>seen</em> if the ranking algorithm penalizes low-quality content, meaning low-engagement low-quality content will never be shown to users.</p></li><li id="fn7"><p><sup>7</sup>&nbsp;Bakshy et al.&nbsp;(2015) found that Facebook’s feed-ranking doesn’t substantially change the share of cross-cutting (across-the-aisle) content seen.</p></li><li id="fn8"><p><sup>8</sup>&nbsp;A more formal version: each consumer sees a single headline with observed signal <img src="https://latex.codecogs.com/png.latex?s"> and chooses whether to click. The payoff from clicking is <img src="https://latex.codecogs.com/png.latex?s"> if it’s from an honest publisher, zero otherwise, and there’s some stochastic outside option so the consumer’s probability of clicking is continuously increasing in the expected payoff from clicking. Honest publishers report their signals drawn from <img src="https://latex.codecogs.com/png.latex?f_H(s)">, dishonest publishers choose any signal. In equilibrium the dishonest publishers’ signal distribution, <img src="https://latex.codecogs.com/png.latex?f_D(s)">, must be such that all signals with non-zero mass have have an equal click-through rate, meaning there is some <img src="https://latex.codecogs.com/png.latex?%5Ckappa"> such that for every <img src="https://latex.codecogs.com/png.latex?s%3E%5Ckappa">, <img src="https://latex.codecogs.com/png.latex?f_D(s)=%5Cfrac%7Bs-%5Ckappa%7D%7B%5Ckappa%7Df_H(s)">. Thus low click-through-rate headlines (<img src="https://latex.codecogs.com/png.latex?s%3C%5Ckappa">) are all true, but high click-through rate headlines (<img src="https://latex.codecogs.com/png.latex?s%3E%5Ckappa">) all have some share which are false. Qualitatively: if a headline is not very interesting, then you believe it; but if it’s interesting then you discount exactly inversely to how interesting it is. In this model we have (1) retentiveness (consumer surplus) is increasing with engagement; (2) quality (truth) is decreasing with engagement; (3) retentiveness (consumer surplus) would be higher if you rank by both engagement and quality (e.g.&nbsp;by removing false stories).</p></li><li id="fn9"><p><sup>9</sup>&nbsp;Platforms often spend around 5% of their total costs on content moderation, despite the prevalence of sensitive content and the effects on retention typically being closer to 0.1% or less.</p></li></div></section>
+<div class="no-row-height column-margin column-container"><li id="fn2"><p><sup>2</sup>&nbsp;I believe this is true for almost all platforms with personalized recommendations including YouTube, Netflix, and Amazon. An excellent reference for how recommenders work, with illustrations and links, is Thorburn, Bengani, &amp; Stray (2022) <a href="https://medium.com/understanding-recommenders/how-platform-recommenders-work-15e260d9a15a">“How Platform Recommenders Work”</a>.</p></li><li id="fn3"><p><sup>3</sup>&nbsp;For simplicity the rest of the discussion treats the causal effect of content as purely separable.</p></li><li id="fn4"><p><sup>4</sup>&nbsp;Most publicly-traded platforms report in their quarterly earnings just one non-financial metric: the number of active users (DAU/MAU/mDAU, etc.). I do not know of any company that publicly reports a metric of aggregate engagement.</p></li><li id="fn5"><p><sup>5</sup>&nbsp;<span class="citation" data-cites="huszar2022twitter">Huszár et al. (2022)</span> note that since Twitter introduced a ranked timeline in 2016 they maintained an experiment with 1% of users with a chronological feed.</p></li><li id="fn6"><p><sup>6</sup>&nbsp;These correlations can be difficult to interpret: suppose there is no correlation between engagement and quality in the pool of all available content, there will nevertheless be a negative correlation among the subset of content that is <em>seen</em> if the ranking algorithm penalizes low-quality content, meaning low-engagement low-quality content will never be shown to users. It is unclear from the document whether the correlation is among content that is available, or content that is seen.</p></li><li id="fn7"><p><sup>7</sup>&nbsp;Bakshy et al.&nbsp;(2015) found that Facebook’s feed-ranking doesn’t substantially change the share of cross-cutting (across-the-aisle) content seen.</p></li><li id="fn8"><p><sup>8</sup>&nbsp;A more formal version: each consumer sees a single headline with observed signal <img src="https://latex.codecogs.com/png.latex?s"> and chooses whether to click. The payoff from clicking is <img src="https://latex.codecogs.com/png.latex?s"> if it’s from an honest publisher, zero otherwise, and there’s some stochastic outside option so the consumer’s probability of clicking is continuously increasing in the expected payoff from clicking. Honest publishers report their signals drawn from <img src="https://latex.codecogs.com/png.latex?f_H(s)">, dishonest publishers choose any signal. In equilibrium the dishonest publishers’ signal distribution, <img src="https://latex.codecogs.com/png.latex?f_D(s)">, must be such that all signals with non-zero mass have have an equal click-through rate, meaning there is some <img src="https://latex.codecogs.com/png.latex?%5Ckappa"> such that for every <img src="https://latex.codecogs.com/png.latex?s%3E%5Ckappa">, <img src="https://latex.codecogs.com/png.latex?f_D(s)=%5Cfrac%7Bs-%5Ckappa%7D%7B%5Ckappa%7Df_H(s)">. Thus low click-through-rate headlines (<img src="https://latex.codecogs.com/png.latex?s%3C%5Ckappa">) are all true, but high click-through rate headlines (<img src="https://latex.codecogs.com/png.latex?s%3E%5Ckappa">) all have some share which are false. Qualitatively: if a headline is not very interesting, then you believe it; but if it’s interesting then you discount exactly inversely to how interesting it is. In this model we have (1) retentiveness (consumer surplus) is increasing with engagement; (2) quality (truth) is decreasing with engagement; (3) retentiveness (consumer surplus) would be higher if you rank by both engagement and quality (e.g.&nbsp;by removing false stories).</p></li><li id="fn9"><p><sup>9</sup>&nbsp;Platforms often spend around 5% of their total costs on content moderation, despite the prevalence of sensitive content and the effects on retention typically being closer to 0.1% or less.</p></li></div></section>
 <section id="technical-appendix-expressed-as-a-covariance-matrix" class="level1">
 <h1>Technical Appendix: Expressed as a Covariance Matrix</h1>
 <p><strong>We can express most of the argument above with a covariance matrix.</strong> Given a user we can give scores to each piece of content with respect to the five attributes defined above. Then we can give a reasonable characterization of the platform ranking problem with the following covariance matrix:</p>
@@ -689,7 +873,7 @@ Guess, Andrew M., Neil Malhotra, Jennifer Pan, Pablo Barberá, Hunt Allcott, Tay
 <p>They say recommendations are good because they have high click-through rate.</p>
 <p>Gomez-Uribe and Hunt (2015) <a href="https://dl.acm.org/doi/abs/10.1145/2843948">“The Netflix Recommender System: Algorithms, Business Value, and Innovation”</a></p>
 <p>Clearly states that they evalaute AB tests using engagement, but it is regarded as an imperfect proxy for retention: <em>“we have observed that improving engagement—the time that our members spend viewing Netflix content—is strongly correlated with improving retention. Accordingly, we design randomized, controlled experiments … to compare the medium-term engagement with Netflix along with member cancellation rates across algorithm variants. Algorithms that improve these A/B test metrics are considered better.”</em></p>
-<p>Akos Lada, Wang, &amp; Yan (2021, FB Blog) <a href="https://tech.facebook.com/engineering/2021/1/news-feed-ranking/">How does news feed predict what you want to see?</a></p>
+<p>Lada, Wang, &amp; Yan (2021, FB Blog) <a href="https://tech.facebook.com/engineering/2021/1/news-feed-ranking/">How does news feed predict what you want to see?</a></p>
 <p>Thorburn, Bengani, &amp; Stray (2022, Understanding Recommenders) <a href="https://medium.com/understanding-recommenders/how-platform-recommenders-work-15e260d9a15a">“How Platform Recommenders Work”</a></p>
 <p>This is an excellent short article with description and illustration of the stages in building a slate of content: moderation, candidate generation, ranking, and reranking. Includes links to many posts from platforms describing their systems.</p>
 <p><img src="tecunningham.github.io/posts/images/2023-07-31-15-45-00.png" class="img-fluid"></p>
@@ -701,7 +885,7 @@ Guess, Andrew M., Neil Malhotra, Jennifer Pan, Pablo Barberá, Hunt Allcott, Tay
 </section>
 <section id="proposals-for-change" class="level2">
 <h2 class="anchored" data-anchor-id="proposals-for-change">Proposals for Change</h2>
-<p>Ovadya, &amp; Thorburn (2023). <a href="https://doi.org/10.48550/arXiv.2301.09976">Bridging Systems: Open Problems for Countering Destructive Divisiveness across Ranking, Recommenders, and Governance</a></p>
+<p>Ovadya &amp; Thorburn (2023). <a href="https://doi.org/10.48550/arXiv.2301.09976">Bridging Systems: Open Problems for Countering Destructive Divisiveness across Ranking, Recommenders, and Governance</a></p>
 <p>Stray, Iyer, Larrauri (2023) <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4429558">“The Algorithmic Management of Polarization and Violence on Social Media”</a>.</p>
 <ol type="1">
 <li>Our overall goal should be to minimize “destructive conflict”.</li>
@@ -793,24 +977,14 @@ Guess, Andrew M., Neil Malhotra, Jennifer Pan, Pablo Barberá, Hunt Allcott, Tay
 <td></td>
 </tr>
 <tr class="even">
-<td>————-</td>
-<td>——————–</td>
-<td>————————————————–</td>
-</tr>
-<tr class="odd">
 <td>item</td>
 <td>paid rater</td>
 <td>policy-violating (“does this violate policy?”)</td>
 </tr>
-<tr class="even">
-<td></td>
-<td></td>
-<td>quality evaluation (“does this fit quality defn?”)</td>
-</tr>
 <tr class="odd">
 <td></td>
 <td></td>
-<td></td>
+<td>quality evaluation (“does this fit quality defn?”)</td>
 </tr>
 <tr class="even">
 <td></td>
@@ -838,34 +1012,24 @@ Guess, Andrew M., Neil Malhotra, Jennifer Pan, Pablo Barberá, Hunt Allcott, Tay
 <td></td>
 </tr>
 <tr class="odd">
-<td>————-</td>
-<td>——————–</td>
-<td>————————————————–</td>
-</tr>
-<tr class="even">
 <td>producer</td>
 <td>objective features</td>
 <td>off-platform popularity</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td>graph statistics</td>
 <td>network centrality</td>
 </tr>
-<tr class="odd">
-<td></td>
-<td></td>
-<td></td>
-</tr>
 <tr class="even">
-<td>————-</td>
-<td>——————–</td>
-<td>————————————————–</td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="odd">
 <td>user-item</td>
@@ -953,34 +1117,39 @@ Guess, Andrew M., Neil Malhotra, Jennifer Pan, Pablo Barberá, Hunt Allcott, Tay
 <td></td>
 </tr>
 <tr class="even">
-<td>————-</td>
-<td>——————–</td>
-<td>————————————————–</td>
-</tr>
-<tr class="odd">
 <td>user-producer</td>
 <td>interest signal</td>
 <td>follow (subscribe, friend)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td>block</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="references" class="level1">
+
 
 
 
 </section>
 
 
- ]]></description>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-guess2023chronological" class="csl-entry">
+Guess, Andrew M., Neil Malhotra, Jennifer Pan, Pablo Barberá, Hunt Allcott, Taylor Brown, Adriana Crespo-Tenorio, et al. 2023. <span>“How Do Social Media Feed Algorithms Affect Attitudes and Behavior in an Election Campaign?”</span> <em>Science</em> 381 (6656): 398–404. <a href="https://doi.org/10.1126/science.abp9364">https://doi.org/10.1126/science.abp9364</a>.
+</div>
+<div id="ref-huszar2022twitter" class="csl-entry">
+Huszár, Ferenc, Sofia Ira Ktena, Conor O’Brien, Luca Belli, Andrew Schlaikjer, and Moritz Hardt. 2022. <span>“Algorithmic Amplification of Politics on Twitter.”</span> <em>Proceedings of the National Academy of Sciences</em> 119 (1): e2025334119. <a href="https://doi.org/10.1073/pnas.2025334119">https://doi.org/10.1073/pnas.2025334119</a>.
+</div>
+</div></section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2023-04-28-ranking-by-engagement.html</guid>
   <pubDate>Mon, 08 May 2023 07:00:00 GMT</pubDate>
 </item>
