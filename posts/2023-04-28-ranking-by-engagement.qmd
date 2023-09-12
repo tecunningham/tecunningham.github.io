@@ -30,11 +30,25 @@ editor:
    render-on-save: true
 ---
 <style>
-   h1 {  border-bottom: 4px solid black;}
-   h2 {  border-bottom: 1px solid #ccc;}
-   dl { display: grid; grid-auto-flow: row;}
+   h1 {  border-bottom: 4px solid black; }
+   h2 {  border-bottom: 1px solid #ccc; }
+   h3 { font-weight: bold; font-size: 1em; /*margin-left: -1em;*/ }
+   h3~p { margin-left: 2em; }
+   h3~ul { margin-left: 2em; }
+   h3~ol { margin-left: 2em; }
+   body {counter-reset: h3counter; }
+   h3::before {
+      content: counter(h3counter) ". ";
+      counter-increment: h3counter;
+   }
+   
+   dt { font-weight: normal; }
+   dt strong { font-weight: bold; }
+   dd { margin-left: 20px; }
+   a { color: black; }
+   /* dl { display: grid; grid-auto-flow: row;}
    dt { grid-column-start: 1; }
-   dd { grid-column-start: 2; }
+   dd { grid-column-start: 2; } */
 </style>
 
 <!-- 
@@ -62,14 +76,17 @@ to add:
 - User controls generally have minor impact
 - Predicting engagement on public content: embeddings are standard practice (notes from Karan)
 - Suboptimal ranking: Spence distortion
+- Note that sensitive content is mainly driven by peer-to-peer sharing, rather than by ranking.
+- Add: Even Oldridge (2022) [Recommender Systems, Not Just Recommender Models](https://medium.com/nvidia-merlin/recommender-systems-not-just-recommender-models-485c161c755e)
 
 
-send to: Evan Rose, Ian Ross,  David Vickrey, 
+send to: Evan Rose, Ian Ross, David Vickrey, 
 sent to: Andrew Hall, Panos, Sam, Franz, Luca, Akos, Jonathan Stray, WhatsApp Twitter Health group, Dean Eckles, Delia
 
 See also:
 - tecunningham.github.io/_drafts/2021-05-28-quality-problem.md
 - integrity/2019-10-18-bad-content-slides.md -- work with Evan and Andrew Hall
+- (inauthentic notes?)
 -->
 
 ::: {.column-margin}
@@ -78,7 +95,7 @@ See also:
 
 **Six observations on ranking by engagement on social media platforms:**
 
-1. **Platforms rank content primarily by the predicted probability of engagement.** Platforms show each user the items they are most likely to click on, or reply to, or to retweet, etc.^[In this note I'm using "engagement" to refer to individual actions not user-level metrics like time-spent or DAU.]
+1. **Platforms rank content primarily by the predicted probability of engagement.** Platforms choose for each user the items they are predicted to click on, or reply to, or to retweet, etc.^[In this note I'm using "engagement" to refer to individual actions not user-level metrics like time-spent or DAU.]
 
 2. **Platforms rank by engagement because it increases user retention.** In experiments which compare engagement-ranked feeds to unranked feeds ("chronological" feeds) the users with engagement-ranked feeds consistently show substantially higher long-run retention (DAU) and time-spent. Platforms care about engagement not in itself but as a means to an end, and when faced with a tradeoff between engagement and retention would choose retention.
 
@@ -86,17 +103,15 @@ See also:
 
    <!-- 1. **Platforms rank by engagement in order to increase retention.** Leadership are generally willing to sacrifice a significant amount of engagement in return for a small increase in retention. -->
 
-3. **Engagement is negatively related to quality.** The content with the highest predicted engagement very often has low scores by various measures of objective quality: clickbait, spam, scams, misleading headlines, copied content, inauthentic content, and misinformation. Intuitively this is because engagement only measures immediate appeal, and the most appealing content can be the most disappointing. Low quality content typically *hurts* retention, and as a consequence platforms often supplement their engagement-based ranking algorithms with a range of proxies for content quality.
+3. **Engagement is negatively related to quality.** The content with the highest predicted engagement very often has low scores by various measures of objective quality: clickbait, spam, scams, misleading headlines, and misinformation. Intuitively this is because engagement only measures immediate appeal, and the most appealing content is often the most disappointing. Low quality content typically *hurts* retention, and as a consequence platforms often supplement their engagement-based ranking algorithms with a range of proxies for content quality.
 
    <!-- 4. **Ranking by engagement has many pathologies.** Despite the positive overall relationship between engagement and retention many platforms have struggled with pockets of content that have high engagement but low quality and which ultimately hurt retention. Facebook struggled with engagement bait (e.g. posts that say "like if you agree"), and continues to struggle with misleading and inauthentic content. YouTube struggled with videos that promised big payoffs but failed to deliver. Platforms have tried to address these problems with a mixture of (1) defining measures of objective quality, e.g. employing professional raters and training classifiers; (2) shifting to deeper measures of engagement, e.g. using the length of watch-time on a video instead of just the act of clicking on a video. -->
 
-4. **Sensitive content is often both engaging and retentive.** Engagement-ranked feeds often increase the prevalence of various types of "sensitive" content: nudity, bad language, abuse, hate speech, hyper-partisan politics, etc.. However unlike low-quality content, reducing the prevalence of sensitive content often hurts retention, implying sensitivity is positively correlated with retention.
+4. **Sensitive content is often both engaging and retentive.** Engagement-ranked feeds often increase the prevalence of various types of "sensitive" content: nudity, bad language, abuse, hate speech, hyper-partisan politics, etc.. However unlike low-quality content, reducing the prevalence of sensitive content often hurts retention, implying that sensitivity is positively correlated with retention.
 
 5. **Sensitive content is often preferred by users.** Platforms have tried out many experiments with asking users directly for their preferences over content. The results have been mixed, and platforms have often been disappointed to find that users express fairly positive attitudes towards content that the platform considers sensitive.
 
-6. **Platforms don't want sensitive content but don't want to be seen to be removing it.** Platform decision-makers often have principled reasons for limiting the distribution of certain types of sensitive content. Additionally there are instrumental reasons: sensitive content attracts negative attention from the media, advertisers, app stores, politicians, regulators, and investors. But platforms are also liable to get negative attention if they make substantive judgments about the sensitivity of content, especially when it has some political dimension. As a consequence platforms often target sensitive content indirectly by using proxies, and they prefer to justify their decision-making by appealing to user preferences or to user retention.
-
-<!-- **This note is aimed at a more technical audience** (researchers, tech employees), but I think this way of seeing things has implications for policy and regulation so I'm hoping to write a more accessible followup note. -->
+6. **Platforms don't want sensitive content but don't want to be seen to be removing it.** Platform decision-makers often have principled reasons for limiting the distribution of certain types of sensitive content. Additionally there are instrumental reasons: sensitive content attracts negative attention from the media, advertisers, app stores, politicians, regulators, and investors. But platforms are also hesitant to directly target this content, especially when it has some political dimension. As a consequence platforms often target sensitive content indirectly by using proxies, and they prefer to justify their decision-making by appealing to user preferences or to user retention.
 
 ```{tikz}
 #| fig-width: 3
@@ -105,12 +120,12 @@ See also:
 \begin{tikzpicture}[scale=3, line width=1]
    \draw[<->] (0,1) -- node[rotate=90,above] {quality} (0,0) --(1,0) node[below,midway]{engagement};
    \draw[rotate around={45:(.5,.5)},line width=2,gray] (.5,.5) ellipse (.25 and .25);
-   \draw[dotted,line width=.5] (.8,.3) -- (.3,.8) node[right,rotate=90]{retentiveness low};
-   \draw[dotted,line width=.5] (.8,.5) -- (.5,.8) node[right,rotate=90]{retentiveness med};
-   \draw[dotted,line width=.5] (.8,.7) -- (.7,.8) node[right,rotate=90]{retentiveness high};
+   \draw[dotted,line width=.5] (.8,.3) -- (.3,.8) node[right,rotate=90]{\ retentiveness low};
+   \draw[dotted,line width=.5] (.8,.5) -- (.5,.8) node[right,rotate=90]{\ retentiveness med};
+   \draw[dotted,line width=.5] (.8,.7) -- (.7,.8) node[right,rotate=90]{\ retentiveness high};
    \fill[blue] (.5,.5) circle (.02) node[below]{unranked};
-   \fill[red!50!black] (.75,.5) circle (.02) node[right]{\ ranked by engagement};
-   \fill[green!50!black] (.68,.68) circle (.02) node[right]{\ ranked by engagement and quality};
+   \fill[red!50!black] (.75,.5) circle (.02) node[anchor=north west,align=center]{\ ranked by\\engagement};
+   \fill[green!50!black] (.68,.68) circle (.02) node[right,anchor=south west,align=center]{\ ranked by engagement\\and quality};
 \end{tikzpicture}
 ```
 **In an appendix I formalize the argument.** I show that all these observations can be expressed as covariances between different properties of content, e.g. between the retentiveness, predicted engagement rates, and other measures of content quality. From those covariances we can derive Pareto frontiers and visualize how platforms are trading-off between different outcomes.
@@ -119,112 +134,144 @@ See also:
 
 #        Argument in Detail
 
-1. **Talking about ranking is complicated.** To help simplify things I bucket attributes of content into five types:
+###   I will bucket attributes of content into five types
 
-   1. **Engagement:** the predicted probability of a user clicking, commenting, retweeting, etc., on a specific piece of content.
-   2. **Retentiveness:** the causal contribution of seeing the content on a specific user's long-term retention (e.g. DAU). Unlike the other attributes this can never be directly observed, only inferred from experiments.
-   3. **Quality:** some objective measure of quality, e.g. whether fact-checked, whether the headline is misleading, whether the linked website has a high ad-load, whether the source is trustworthy, etc..
-   4. **Sensitivity:** whether the content could be offensive, harmful, corrosive -- e.g. nudity, bad language, abuse, hate speech.
-   5. **Preference:** the user's response to a survey question, e.g. "do you want to see more of this type of content?"
+   1. *Engagement:* the predicted probability of a user clicking, commenting, retweeting, etc., on a specific piece of content.
+   2. *Retentiveness:* the causal contribution of seeing the content on a specific user's long-term retention (e.g. DAU). Unlike the other attributes this can never be directly observed, only inferred from experiments.
+   3. *Quality:* some objective measure of quality, e.g. whether fact-checked, whether the headline is misleading, whether the linked website has a high ad-load, whether the source is trustworthy, etc..
+   4. *Sensitivity:* whether the content could be offensive, harmful, corrosive -- e.g. nudity, bad language, abuse, hate speech.
+   5. *Preference:* the user's response to a survey question, e.g. "do you want to see more of this type of content?"
 
-   Note that "quality" and "sensitivity" apply to pieces of content, while the other three attributes apply to relationship between a user and a piece of content.
+   Note that "quality" and "sensitivity" apply to individual pieces of content, while the other three attributes apply to relationship between a user and a piece of content.
 
 
-2. **Social media platforms rank their content primarily by predicted engagement.** The core ranking model for most social platforms is a weighted average of predicted engagement rates.^[I believe this is true for almost all platforms with personalized recommendations including YouTube, Netflix, and Amazon. An excellent reference for how recommenders work, with illustrations and links, is Thorburn, Bengani, & Stray (2022) ["How Platform Recommenders Work"](https://medium.com/understanding-recommenders/how-platform-recommenders-work-15e260d9a15a).]
+###   Social media platforms rank their content primarily by predicted engagement
+
+   The core ranking model for most social platforms is a weighted average of predicted engagement rates.^[I believe this is true for almost all platforms with personalized recommendations including YouTube, Netflix, and Amazon. An excellent reference for how recommenders work, with illustrations and links, is Thorburn, Bengani, & Stray (2022) ["How Platform Recommenders Work"](https://medium.com/understanding-recommenders/how-platform-recommenders-work-15e260d9a15a)]
 
    However ranking functions also include hundreds of other tweaks incorporating non-engagement features, upranking or downranking content depending on, for example, the media type (photo/text/video), the relationship between the user and the author (whether you follow this person), various predictions of  of objective quality (classifiers predicting whether the content is spam, offensive, adult, misinformation, etc.), or other features (network centrality, off-platform popularity, etc.). They also often have some diversity rules to prevent the content that is shown from being too similar.^[For simplicity the rest of the discussion treats the causal effect of content as purely separable.]
 
    Ranking by popularity is common for other media: we look at lists of bestsellers, most popular, highest grossing, most watched, or top charting. Attention is limited and it would be inefficient to offer people a random selection of everything that's available.
 
-3. **Predicted engagement rates are mostly historical engagement rates.** In many cases the most important predictors of whether a user will engage with a piece of content are (1) this user's historical rate of engagement on similar pieces of content (e.g. content from the same author, or of the same media-type); (2) other users' rate of engagement on this piece of content. Platforms do use more complicated models (embeddings and neural nets), those models typically are most valuable for qualitatively new types of content, when you have relatively sparse historical data either on the user or on the item.
+###   Predicted engagement rates are mostly historical engagement rates
 
-4. **Platforms care primarily about long-run retention, engagement is a means to that end.** The outcome that leadership care about the most is long-run retention, measured with metrics like Daily Active Users (DAU).^[Most publicly-traded platforms report in their quarterly earnings just one non-financial metric: the number of active users (DAU/MAU/mDAU,  etc.). I do not know of any company that publicly reports a metric of aggregate engagement.] They would generally sacrifice substantial amounts of engagement in return for DAU. They also would sacrifice substantial short-term DAU if it could be shown with confidence that it would lead to higher long-term DAU.
+   In many cases the most important predictors of whether a user will engage with a piece of content are (1) this user's historical rate of engagement on similar pieces of content (e.g. content from the same author, or of the same media-type); (2) other users' rate of engagement on this piece of content. Platforms do use more complicated models (embeddings and neural nets), those models typically are most valuable for qualitatively new types of content, when you have relatively sparse historical data either on the user or on the item.[^twoTowers]
+
+   [^twoTowers]: See discussion below of Covington et al. (2016) which describes an architecture commonly used in recommenders.
+
+###   Platforms care primarily about long-run retention, engagement is a means to that end
+
+   The outcome that leadership care about the most is long-run retention, measured with metrics like Daily Active Users (DAU).^[Most publicly-traded platforms report in their quarterly earnings just one non-financial metric: the number of active users (DAU/MAU/mDAU,  etc.). I do not know of any company that publicly reports a metric of aggregate engagement.] They would generally sacrifice substantial amounts of engagement in return for DAU. They also would sacrifice substantial short-term DAU if it could be shown with confidence that it would lead to higher long-term DAU.
 
    This point is often unclear because many changes to ranking (as measured in experiments) move engagement and retention in the same direction, and move short-run and long-run metrics in the same direction, meaning that we cannot easily tell which metric is decisive. Individual teams are often given targets to increase short-term engagement but that is mainly because that metric is easier to measure. 
    
    <!-- Arguably there are misalignments of incentives such that lower-level employees tend to ship features that increase short-run engagement at the expense of long-run retention. -->
 
-5. **Engagement-ranked feeds have substantially higher long-term retention and time-spent than chronologically-ranked feeds.** Users who are given engagement-ranked feeds in experiments typically have higher long-term DAU by single-digit percentages (1%-9%), and higher long-term time-spent by double-digit percentages (10%-99%). Accounting for network effects makes the aggregate difference even larger.^[@huszar2022twitter note that since Twitter introduced a ranked timeline in 2016 they maintained an experiment with 1% of users with a chronological feed.]
+###   Engagement-ranked feeds have substantially higher long-term retention and time-spent than chronologically-ranked feeds
 
-   - **Meta 2020 experiments with chronological ranking showed a 20% time-spent decline on Facebook and a 10% decline on Instagram.** The experiments ran for 3 months and they reported the average effect over the whole period, it is likely that the time-spent effects continued declining. The effects on DAU were not reported. See @guess2023chronological.
-   - **A Facebook 2018 experiment showed a 3% decline in time-spent after 10 days.** The effects on time-spent seemed to be linearly trending down at the time the analysis was posted. Engagement (MSI) declined by about 20%, and politics impression reduced by 15% (the share of politics impressions is more complicated to calculate but seems unambiguously down).  The effects on DAU were not reported ([source](https://www.bigtechnology.com/p/facebook-removed-the-news-feed-algorithm?s=09).). The experiment was not on a purely chronological feed: they retained "diversity rules, client-side ranking, read-state logging, comment-bumping" as well as integrity ranking rules.
+Users who are given engagement-ranked feeds in experiments typically have higher long-term DAU by single-digit percentages (1%-9%), and higher long-term time-spent by double-digit percentages (10%-99%). Accounting for network effects makes the aggregate difference even larger.^[@huszar2022twitter note that since Twitter introduced a ranked timeline in 2016 they maintained an experiment with 1% of users with a chronological feed.].
+
+- *Meta 2020 experiments with chronological ranking showed a 20% time-spent decline on Facebook and a 10% decline on Instagram.* The experiments ran for 3 months and they reported the average effect over the whole period, it is likely that the time-spent effects continued declining. The effects on DAU were not reported. See @guess2023chronological.
+- *A Facebook 2018 experiment showed a 3% decline in time-spent after 10 days.* The effects on time-spent seemed to be linearly trending down at the time the analysis was posted. Engagement (MSI) declined by about 20%, and politics impression reduced by 15% (the share of politics impressions is more complicated to calculate but seems unambiguously down).  The effects on DAU were not reported ([source](https://www.bigtechnology.com/p/facebook-removed-the-news-feed-algorithm?s=09).). The experiment was not on a purely chronological feed: they retained "diversity rules, client-side ranking, read-state logging, comment-bumping" as well as integrity ranking rules.
 
    <!-- A lot of work inside platforms is experimenting with varying the weights on different engagement types to try to increase user retention. -->
 
-6. **Engaging content is often low quality.** Despite the positive relationship between engagement and retention, many studies have found that highly-engaging content is has lower-than-average quality:
+###      Engaging content is often low quality
+Despite the positive relationship between engagement and retention, many studies have found that highly-engaging content is has lower-than-average quality:
 
-   - **Meta chronological-ranking experiments.** @guess2023chronological found that replacing feed-ranking algorithms with simple chronological ranking (i.e., the most-recent posts are shown first) for 3 months (1) the share of impressions that were classified as political increased by 15% on Facebook and by 5% on Instagram, the share that were classified as "political news" increased by 40% on Facebook.
-   - **In summer 2016 half of Facebook's most-seen posts related to the US election were misinformation.** As [reported](https://www.buzzfeednews.com/article/craigsilverman/viral-fake-election-news-outperformed-real-news-on-facebook) by Craig Silverman at Buzzfeed. This exceeds the *average* rate of misinformation, i.e. the most-engaging posts have a much lower-than-average quality.
-   - **Facebook's top group and pages were run by troll farms in 2019.** A series of internal analyses by by Jeff Allen  ([subsequently leaked](https://s3.documentcloud.org/documents/21063547/oct-2019-facebook-troll-farms-report.pdf)) found that a substantial share of Facebook's top pages, groups, and posts, were run by "troll farms," whose main tactic was reposting copied content that had high engagement rates.  <!-- Troll farms' pages, when combined, were  included Facebook's top overall page, top Christian American page, top African American page, 2nd largest Native American page, and 5th largest Womens' page. -->
-   - **On Facebook high-quality content received lower engagement.** In the late 2010s Facebook maintained an internal "quality" score for content (FUSS="Feed Unified Scoring System"). A data scientist's analysis from 2019 ([subsequently leaked, see p.10](https://s3.documentcloud.org/documents/21063547/oct-2019-facebook-troll-farms-report.pdf)) found that low-quality content had significantly higher predicted engagement rates.^[These correlations can be difficult to interpret: suppose there is no correlation between engagement and quality in the pool of all available content, there will nevertheless be a negative correlation among the subset of content that is *seen* if the ranking algorithm penalizes low-quality content, meaning low-engagement low-quality content will never be shown to users. It is unclear from the document whether the correlation is among content that is available, or content that is seen.] 
-   - **Facebook's most-viewed posts remain very low quality.** Since early 2021 FB has been releasing a dataset of their 20 most-viewed links and posts. An [Integrity Institute analysis](https://lookerstudio.google.com/u/0/reporting/28bc32fd-a067-4b4a-9be0-637e8c9bd917/page/0Z3mC?s=g7_EWEyFjrc) by Jeff Allen has found that each quarter 60-80% of the posts fail some basic checks, either "the account behind it is anonymous, is posting unoriginal content, using spammy page or group networks, or if the post or link violated Facebook's community standards."
-   - **Twitter's ranking has mixed effects on political content.** Huszar et al. (2021) compare political content of users who are randomized to ranked vs chronological feeds. They report (1) for political parties, ranked feed tends to amplify the right-wing parties somewhat more than left-wing parties (but the same does not hold for individual politicians); (2) for US media sources, ranked feed amplifies "sources that are more partisan compared to ones rated as center".^[Bakshy et al. (2015) found that Facebook's feed-ranking doesn't substantially change the share of cross-cutting (across-the-aisle) content seen.]
+-  *In summer 2016 half of Facebook's most-seen posts related to the US election were misinformation.* As [reported](https://www.buzzfeednews.com/article/craigsilverman/viral-fake-election-news-outperformed-real-news-on-facebook) by Craig Silverman at Buzzfeed. This exceeds the *average* rate of misinformation, i.e. the most-engaging posts have a much lower-than-average quality.
+-  *In 2019 Facebook's top group and pages were run by troll farms.* A series of internal analyses by by Jeff Allen  ([subsequently leaked](https://s3.documentcloud.org/documents/21063547/oct-2019-facebook-troll-farms-report.pdf)) found that a substantial share of Facebook's top pages, groups, and posts, were run by "troll farms," whose main tactic was reposting copied content that had high engagement rates.  <!-- Troll farms' pages, when combined, were  included Facebook's top overall page, top Christian American page, top African American page, 2nd largest Native American page, and 5th largest Womens' page. -->
+-  *In 2019 Facebook's high-quality content received lower engagement.* In the late 2010s Facebook maintained an internal "quality" score for content (FUSS="Feed Unified Scoring System"). A data scientist's analysis from 2019 ([subsequently leaked, see p.10](https://s3.documentcloud.org/documents/21063547/oct-2019-facebook-troll-farms-report.pdf)) found that low-quality content had significantly higher predicted engagement rates.^[These correlations can be difficult to interpret: suppose there is no correlation between engagement and quality in the pool of all available content, there will nevertheless be a negative correlation among the subset of content that is *seen* if the ranking algorithm penalizes low-quality content, meaning low-engagement low-quality content will never be shown to users. It is unclear from the document whether the correlation is among content that is available, or content that is seen.] 
+-  *In 2021 Facebook's most-viewed posts were very low quality.* Since early 2021 FB has been releasing a dataset of their 20 most-viewed links and posts. An [Integrity Institute analysis](https://lookerstudio.google.com/u/0/reporting/28bc32fd-a067-4b4a-9be0-637e8c9bd917/page/0Z3mC?s=g7_EWEyFjrc) by Jeff Allen has found that each quarter 60-80% of the posts fail some basic checks, either "the account behind it is anonymous, is posting unoriginal content, using spammy page or group networks, or if the post or link violated Facebook's community standards."
+- *In 2020 Twitter's ranking has mixed effects on political content.* Huszar et al. (2021) compare political content of users who are randomized to ranked vs chronological feeds. They report (1) for political parties, ranked feed tends to amplify the right-wing parties somewhat more than left-wing parties (but the same does not hold for individual politicians); (2) for US media sources, ranked feed amplifies "sources that are more partisan compared to ones rated as center".^[Bakshy et al. (2015) found that Facebook's feed-ranking doesn't substantially change the share of cross-cutting (across-the-aisle) content seen.]
+- *In 2020 FB and IG chronological-ranking experiments showed a 5-15% increase in political content.* @guess2023chronological found that replacing feed-ranking algorithms with simple chronological ranking (i.e., the most-recent posts are shown first) for 3 months (1) the share of impressions that were classified as political increased by 15% on Facebook and by 5% on Instagram, the share that were classified as "political news" increased by 40% on Facebook.
 
-7. **Many platforms have found that increasing quality helps retention.** Platforms have tried to address quality problems by defining measures of objective quality:
 
-   - **Facebook uses many heuristics and classifiers to identify various types of low-quality content:** Facebook identifies and downranks, among other things, engagement bait, links that go to ad-farms, scraped content, titles that withhold information, and titles that exaggerate information. In each case these types of content would generate high engagement but give users a bad experience, and in most cases experiments confirmed that dowranking these types of content increases long-run user retention.
-   - **Facebook uses some metadata features to identify low-quality content.** E.g. Facebook calculates the ["click gap"](https://www.cnbc.com/2019/04/10/facebook-click-gap-google-like-approach-to-stop-fake-news-going-viral.html) (the amount of organic traffic a website gets) and ["broad trust"](https://www.wired.com/story/how-facebook-wants-to-improve-the-quality-of-your-news-feed/) (diversity of engagement across users).
+
+###   Many platforms have found that increasing quality helps retention
+
+Platforms have tried to address quality problems by defining measures of objective quality:
+
+   - *Facebook uses many heuristics and classifiers to identify various types of low-quality content:* Facebook identifies and downranks, among other things, engagement bait, links that go to ad-farms, scraped content, titles that withhold information, and titles that exaggerate information. In each case these types of content would generate high engagement but give users a bad experience, and in most cases experiments confirmed that dowranking these types of content increases long-run user retention.
+   - *Facebook uses some metadata features to identify low-quality content.* E.g. Facebook calculates the ["click gap"](https://www.cnbc.com/2019/04/10/facebook-click-gap-google-like-approach-to-stop-fake-news-going-viral.html) (the amount of organic traffic a website gets) and ["broad trust"](https://www.wired.com/story/how-facebook-wants-to-improve-the-quality-of-your-news-feed/) (diversity of engagement across users).
 
       <!-- I couldn't find any public mention of network centrality -->
-   - **YouTube has introduced a series of quality adjustments to ranking:** e.g. downranking ["sensationalistic tabloid content"](https://blog.youtube/inside-youtube/on-youtubes-recommendation-system/) and upranking ["authoritative content"](https://blog.youtube/inside-youtube/on-youtubes-recommendation-system/).
+   - *YouTube has introduced a series of quality adjustments to ranking:* E.g. downranking ["sensationalistic tabloid content"](https://blog.youtube/inside-youtube/on-youtubes-recommendation-system/) and upranking ["authoritative content"](https://blog.youtube/inside-youtube/on-youtubes-recommendation-system/).
 
    Some companies have also shifted engagement weights to put relatively more weight on "deeper" measures of engagement:
 
-   - **In 2012 YouTube switched from maximizing clicks to maximizing watch-time.** They found it led to a short-term decrease in clicks but a long-term [increase in retention](https://blog.youtube/inside-youtube/on-youtubes-recommendation-system/). I believe Netflix similarly has invested a lot of time in developing "deep" measures of engagement.
+   - *In 2012 YouTube switched from maximizing clicks to maximizing watch-time.* They found it led to a short-term decrease in clicks but a long-term [increase in retention](https://blog.youtube/inside-youtube/on-youtubes-recommendation-system/). I believe Netflix similarly has invested a lot of time in developing "deep" measures of engagement.
 
    <!-- 1. **Engagement is a less-good signal for retention for some types of content.** In general people tend to engage with content that interests or entertains them, and for that reason engagement will tend to correlate with retentiveness. However there are a number of classes of content where the connection between engagement and value comes loose: (1) some content explicitly asks users to engage, called engagement bait ("like if you agree", "comment to vote"), and so will generate engagement in excess of its retentive value; (2) some users will engage with content that they dislike, e.g. leaving a negative reaction or comment. Platforms are generally aware that they ought to be penalizing content that generates non-retentive engagement, but sometimes move slowly as these projects can be difficult to validate. -->
 
-8. **Quality also helps the producer ecosystem.** There is an additional reason for prioritizing the quality of content independent of the direct effect on user retention: because prioritizing high-quality content helps foster a long-run community of creators.
+###      Quality also helps the producer ecosystem.
+
+   There is an additional reason for prioritizing the quality of content independent of the direct effect on user retention: because prioritizing high-quality content helps foster a long-run community of creators.
 
    A central fact about social media is that it relies on a tremendous amount of uncompensated labor. Most content is created for the joy of creation, with little realistic expectation of financial return. The impulse to post clearly relies on a delicate social perception or norm, and a platform could inadvertantly break this spell. I think speaking loosely Facebook mismanaged their public-content ecosystem in this way: they alienated creators in a variety of ways, especially by allowing copied content to proliferate, and high-quality creators instead posted to Instagram, Twitter, YouTube, and Tik Tok. Facebook leadership tried to attract creators with various monetary incentives but they often backfired: creators who are financially-motivated are often not the creators you want.
 
-9.  **Engagement measures *immediate* quality, and hence is a poor proxy for the quality of factual claims.** Engagement necessarily measures the immediate reaction of a user to a piece of content, and thus ranking by predicted engagement will surface content that *appears* to be good. This is fine when there is no hidden aspect to quality, e.g. for jokes and pictures which mostly be judged in the moment. However if we rank informational content by predicted engagement it will tend to surface the claims that are the most sensational or intriguing independent of whether they are true.
+###   Engagement measures *immediate* quality, and hence is a poor proxy for the quality of factual claims
 
-      If apples were sold only by how they looked, and not by how they tasted, then we would be offered delicious-looking and bland-tasting apples.
+   Engagement necessarily measures the immediate reaction of a user to a piece of content, and thus ranking by predicted engagement will surface content that *appears* to be good. This is fine when there is no hidden aspect to quality, e.g. for jokes and pictures which mostly be judged in the moment. However if we rank informational content by predicted engagement it will tend to surface the claims that are the most sensational or intriguing independent of whether they are true.
 
-      I believe this basic mechanism explains why internet platforms typically have higher rates of exaggerated, misleading, or false content compared to traditional media (newspapers, television, etc.). Traditional media do not publish whichever headlines would maximize short-run sales because that would harm long-run sales. This also explains why platforms have found that they can substantially improve retention by building proxies for quality. 
+   If apples were sold only by how they looked, and not by how they tasted, then we would be offered delicious-looking and bland-tasting apples.
 
-10. **A negative relationship between engagement and quality can be caused by unscrupulous publishers.** Suppose each publisher can produce a fixed number of headlines, which will vary in (1) the headline's propensity to be clicked, and (2) whether the headline is true. There are two types of publishers:
+   I believe this basic mechanism explains why internet platforms typically have higher rates of exaggerated, misleading, or false content compared to traditional media (newspapers, television, etc.). Traditional media do not publish whichever headlines would maximize short-run sales because that would harm long-run sales. This also explains why platforms have found that they can substantially improve retention by building proxies for quality. 
 
-      1. Honest publishers: they choose the most-engaging headlines from within the subset that are true.
+###   A negative relationship between engagement and quality can be caused by unscrupulous publishers
 
-      2. Dishonest publishers: they choose the most-engaging headlines from the universe of all possible headlines (irrespective of truth).
+   Suppose each publisher can produce a fixed number of headlines, which will vary in (1) the headline's propensity to be clicked, and (2) whether the headline is true. There are two types of publishers:
 
-      In this world the most-engaging headlines will be disproportionately false compared to the average headline. In the long run consumers will learn some skepticism, and to discount headlines in proportion to how clickable they seem, but they are unlikely to learn to discriminate perfectly. There's always a chance that an intriguing headline will be true, and so the negative correlation would persist in equilibrium.[^model]
+   1. Honest publishers: they choose the most-engaging headlines from within the subset that are true.
+   2. Dishonest publishers: they choose the most-engaging headlines from the universe of all possible headlines (irrespective of truth).
+
+   In this world the most-engaging headlines will be disproportionately false compared to the average headline. In the long run consumers will learn some skepticism, and to discount headlines in proportion to how clickable they seem, but they are unlikely to learn to discriminate perfectly. There's always a chance that an intriguing headline will be true, and so the negative correlation would persist in equilibrium.[^model]
       
-      [^model]: A more formal version: each consumer sees a single headline with observed signal $s$ and chooses whether to click. The payoff from clicking is $s$ if it's from an honest publisher, zero otherwise, and there's some stochastic outside option so the consumer's probability of clicking is continuously increasing in the expected payoff from clicking. Honest publishers report their signals drawn from $f_H(s)$, dishonest publishers choose any signal. In equilibrium the dishonest publishers' signal distribution, $f_D(s)$, must be such that all signals with non-zero mass have have an equal click-through rate, meaning there is some $\kappa$ such that for every $s>\kappa$, $f_D(s)=\frac{s-\kappa}{\kappa}f_H(s)$. Thus low click-through-rate headlines ($s<\kappa$) are all true, but high click-through rate headlines ($s>\kappa$) all have some share which are false. Qualitatively: if a headline is not very interesting, then you believe it; but if it's interesting then you discount exactly inversely to how interesting it is. In this model we have (1) retentiveness (consumer surplus) is increasing with engagement; (2) quality (truth) is decreasing with engagement; (3) retentiveness (consumer surplus) would be higher if you rank by both engagement and quality (e.g. by removing false stories).
+   [^model]: A more formal version: each consumer sees a single headline with observed signal $s$ and chooses whether to click. The payoff from clicking is $s$ if it's from an honest publisher, zero otherwise, and there's some stochastic outside option so the consumer's probability of clicking is continuously increasing in the expected payoff from clicking. Honest publishers report their signals drawn from $f_H(s)$, dishonest publishers choose any signal. In equilibrium the dishonest publishers' signal distribution, $f_D(s)$, must be such that all signals with non-zero mass have have an equal click-through rate, meaning there is some $\kappa$ such that for every $s>\kappa$, $f_D(s)=\frac{s-\kappa}{\kappa}f_H(s)$. Thus low click-through-rate headlines ($s<\kappa$) are all true, but high click-through rate headlines ($s>\kappa$) all have some share which are false. Qualitatively: if a headline is not very interesting, then you believe it; but if it's interesting then you discount exactly inversely to how interesting it is. In this model we have (1) retentiveness (consumer surplus) is increasing with engagement; (2) quality (truth) is decreasing with engagement; (3) retentiveness (consumer surplus) would be higher if you rank by both engagement and quality (e.g. by removing false stories).
 
-11. **Platforms have been slow in improving the quality of ranked content.** I discuss above some examples of Facebook's slowness in addressing problems with the quality of content. I think this slowness is for two mains reasons. First, predicting engagement is a well-defined technical problem with a track record of success while evaluating content-quality is much more open-ended and difficult to validate. Hard-headed engineers often argue that a user's preferences are revealed in their engagement and that evaluating quality is paternalistic. Secondly, platforms are nervous of being opinionated about objective quality because they don't wish to take sides on politically delicate issues. In 2016 Facebook was criticized for using human judgment in determining what topics are "trending", and in the wake of that criticism many projects which involved human judgment were shut down and replaced with automatic systems. Then in 2020 engineers on News Feed were told to avoid using words such as "trust" or "quality" or "authority", and to instead use language that referred only to user preferences.
+###      Platforms have been slow in improving the quality of ranked content
 
-      <!-- 9.  **Ranking by engagement *changes* the relationship between engagement and retention.** Once you start ranking by engagement this creates an incentive for content producers to create highly-engaging content. The net effect is that engagement will become less informative about retention.  -->
+   I discuss above some examples of Facebook's slowness in addressing problems with the quality of content. I think this slowness is for two mains reasons. First, predicting engagement is a well-defined technical problem with a track record of success while evaluating content-quality is much more open-ended and difficult to validate. Hard-headed engineers often argue that a user's preferences are revealed in their engagement and that evaluating quality is paternalistic. Secondly, platforms are nervous of being opinionated about objective quality because they don't wish to take sides on politically delicate issues. In 2016 Facebook was criticized for using human judgment in determining what topics are "trending", and in the wake of that criticism many projects which involved human judgment were shut down and replaced with automatic systems. Then in 2020 engineers on News Feed were told to avoid using words such as "trust" or "quality" or "authority", and to instead use language that referred only to user preferences.
 
-      <!-- We see this change in correlations prominently in spam: when we find a behaviour that is highly predictive of spam, and add it to our spam classifier, then the predictiveness of that feature rapidly becomes worse because spammers learn to avoid using it. -->
+   <!-- 9.  **Ranking by engagement *changes* the relationship between engagement and retention.** Once you start ranking by engagement this creates an incentive for content producers to create highly-engaging content. The net effect is that engagement will become less informative about retention.  -->
 
-12. **Sensitive content is often both engaging and retentive.** I have defined "sensitive" content to include nudity, bad language, abuse, hate speech, hyper-partisan politics, etc.. Sensitive content often has higher-than-average engagement rates, and when content is demoted this often hurts retention, implying that sensitivity is positively correlated with retentiveness.
+   <!-- We see this change in correlations prominently in spam: when we find a behaviour that is highly predictive of spam, and add it to our spam classifier, then the predictiveness of that feature rapidly becomes worse because spammers learn to avoid using it. -->
 
-      - A 2023 academic study by [Beknazar-Yuzbashev et al.](https://drive.google.com/file/d/1HYiBOGLNM91RBiqBlxKFvjDhJAuCxe60/view) found that filtering the 7% most-toxic content on Facebook reduced overall Facebook content consumed by 20%.
+###   Sensitive content is often both engaging and retentive
 
-13. **Platforms don't want to show sensitive content.** Platforms are clearly prepared to pay a cost to reduce the prevalence of sensitive content, both in terms of retentiveness (DAU), and in the monetary cost of engineers, labelers, and computation.^[Platforms often spend around 5% of their total costs on content moderation, despite the prevalence of sensitive content and the effects on retention typically being closer to 0.1% or less.]
+   I have defined "sensitive" content to include nudity, bad language, abuse, hate speech, hyper-partisan politics, etc.. Sensitive content often has higher-than-average engagement rates, and when content is demoted this often hurts retention, implying that sensitivity is positively correlated with retentiveness.
 
-      The platforms have many reasons for avoiding sensitive content, independent of its effect on retention, but internally there is often an ambiguity about the contribution of different reasons. In part decisions are driven by a feeling of moral duty to not amplify content that is harmful. However there are also many instrumental reasons, because sensitive content often causes friction with advertisers, app stores, regulators, media, employees and investors.
+   - A 2023 academic study by [Beknazar-Yuzbashev et al.](https://drive.google.com/file/d/1HYiBOGLNM91RBiqBlxKFvjDhJAuCxe60/view) found that filtering the 7% most-toxic content on Facebook reduced overall Facebook content consumed by 20%.
 
-      Misinformation is a somewhat special case. From what has been discussed before, misinformation can be expected to reduce retention because it's not true. However misinformation is very often related to sensitive issues, e.g. partisan politics, race relations, vaccines, and often reports falsehoods that support the viewer's political prejudices.
+###    Platforms don't want to show sensitive content
+ 
+   Platforms are clearly prepared to pay a cost to reduce the prevalence of sensitive content, both in terms of retentiveness (DAU), and in the monetary cost of engineers, labelers, and computation.^[Platforms often spend around 5% of their total costs on content moderation, despite the prevalence of sensitive content and the effects on retention typically being closer to 0.1% or less.]
 
-14. **Platforms avoid directly penalizing sensitive content.** Platforms are caught in a double bind: there are strong pressures to reduce the amount of sensitive content on their platform, but there is also a pressure not to be seen to be making judgments about the objective value or harm of content. They want a garden with no weeds but they also wish to have clean hands. This often causes a bifurcation between the nominal reason for a policy and the real reason. Some examples:
+   The platforms have many reasons for avoiding sensitive content, independent of its effect on retention, but internally there is often an ambiguity about the contribution of different reasons. In part decisions are driven by a feeling of moral duty to not amplify content that is harmful. However there are also many instrumental reasons, because sensitive content often causes friction with advertisers, app stores, regulators, media, employees and investors.
+
+   Misinformation is a somewhat special case. From what has been discussed before, misinformation can be expected to reduce retention because it's not true. However misinformation is very often related to sensitive issues, e.g. partisan politics, race relations, vaccines, and often reports falsehoods that support the viewer's political prejudices.
+
+###      Platforms avoid directly penalizing sensitive content
+
+   Platforms are caught in a double bind: there are strong pressures to reduce the amount of sensitive content on their platform, but there is also a pressure not to be seen to be making judgments about the objective value or harm of content. They want a garden with no weeds but they also wish to have clean hands. This often causes a bifurcation between the nominal reason for a policy and the real reason. Some examples:
    
-      - **Platforms often downrank engagement patterns because they correlate with sensitive content.** It is common to downrank posts which features a specific engagement pattern (e.g. certain types of sharing, certain types of downstream attributes), and the downranking is justified internally based on the correlation with measures of quality or sensitivity, e.g. misinformation, or hate speech, or hyperpartisan content. This is odd because it would seem to be more efficient to target the sensitive content directly, i.e. instead of downranking the proxy, use the proxy as a feature in a classifier, and downrank based on the classifier output. However platforms avoid this approach in part because they are nervous about the perception of being perceiving as judges of the quality of content.
+  - *Platforms often downrank engagement patterns because they correlate with sensitive content.* It is common to downrank posts which features a specific engagement pattern (e.g. certain types of sharing, certain types of downstream attributes), and the downranking is justified internally based on the correlation with measures of quality or sensitivity, e.g. misinformation, or hate speech, or hyperpartisan content. This is odd because it would seem to be more efficient to target the sensitive content directly, i.e. instead of downranking the proxy, use the proxy as a feature in a classifier, and downrank based on the classifier output. However platforms avoid this approach in part because they are nervous about the perception of being perceiving as judges of the quality of content.
    
-      - **Platforms speak about sensitivity rules as if they were adopted to serve the interests of their users.** Google's Jigsaw group has an influential set of definitions of content quality, their [definition](https://support.perspectiveapi.com/s/about-the-api-attributes-and-languages?language=en_US)  of a "toxic" comment is *"a rude, disrespectful, or unreasonable comment that is likely to make people leave a discussion."* This definition is worded to presuppose that rude comments cause lower retention. The definition thus allows a platform to talk about their toxicity classifiers as if they were solely serving the interests of the users exposed to toxic language.
+  - *Platforms speak about sensitivity rules as if they were adopted to serve the interests of their users.* Google's Jigsaw group has an influential set of definitions of content quality, their [definition](https://support.perspectiveapi.com/s/about-the-api-attributes-and-languages?language=en_US)  of a "toxic" comment is *"a rude, disrespectful, or unreasonable comment that is likely to make people leave a discussion."* This definition is worded to presuppose that rude comments cause lower retention. The definition thus allows a platform to talk about their toxicity classifiers as if they were solely serving the interests of the users exposed to toxic language.
 
-      - **Survey questions are chosen based on their correlation with measures of sensitive content.** Platforms will often try out multiple different wordings of a survey question and decide which one to use by comparing the results with their internal measures of content quality and sensitivity, leading to survey questions that are somewhat awkwardly worded (e.g. asking people "is this good for the world?").
+  - *Survey questions are chosen based on their correlation with measures of sensitive content.* Platforms will often try out multiple different wordings of a survey question and decide which one to use by comparing the results with their internal measures of content quality and sensitivity, leading to survey questions that are somewhat awkwardly worded (e.g. asking people "is this good for the world?").
 
-15. **Subjective user ratings of quality have a mixed relationship with objective measures of quality.** Platforms have often tried to collect explicit user feedback about quality, e.g. asking "was this worth your time?", "do you want to see more of this?", "was this informative?". In my experience, for most such questions, responses are highly correlated with engagement, but often show a negative correlation with objective measures of quality. E.g. people often rate misinformation as "informative" and "worth my time."
+###   Subjective user ratings of quality have a mixed relationship with objective measures of quality
 
-      Nevertheless some of these initiatives have had success in raising both objective quality and retention, e.g. Facebook recently launched a prompt asking "would you like to see more posts like this?" The signal from this prompt apparently increases both retention and many objective measures of quality.
+   Platforms have often tried to collect explicit user feedback about quality, e.g. asking "was this worth your time?", "do you want to see more of this?", "was this informative?". In my experience, for most such questions, responses are highly correlated with engagement, but often show a negative correlation with objective measures of quality. E.g. people often rate misinformation as "informative" and "worth my time."
 
-      <!-- This finding is often disappointing to the platform: platforms don't like to have low-quality content on their platforms (misinfo, misleading, hateful, partisan), but they also wish to avoid making substantive judgments about objective quality as it seems paternalistic and politically sensitive. Because of this tension platforms have continued to experiment with different wordings of questions, leading them to eventually find questions which correlate with objective quality but are somewhat awkwardly worded (e.g. asking people "is this good for the world?" and using the answer as a signal of subjective quality). -->
+   Nevertheless some of these initiatives have had success in raising both objective quality and retention, e.g. Facebook recently launched a prompt asking "would you like to see more posts like this?" The signal from this prompt apparently increases both retention and many objective measures of quality.
 
-16. **Platforms additionally care about engagement because of network effects.** I said above that platforms care about engagement primarily insofar as it's a proxy for retention, however there is an additional reason to pay attention to engagement. When one user engages (likes, comments, retweets) this increases the value of the platform to all the other users, and so has an indirect positive effect on retention. For this reason platforms are generally willing to sacrifice some retention in return for engagement, as measured in an experiment, if the sacrifice is sufficiently small.
+   <!-- This finding is often disappointing to the platform: platforms don't like to have low-quality content on their platforms (misinfo, misleading, hateful, partisan), but they also wish to avoid making substantive judgments about objective quality as it seems paternalistic and politically sensitive. Because of this tension platforms have continued to experiment with different wordings of questions, leading them to eventually find questions which correlate with objective quality but are somewhat awkwardly worded (e.g. asking people "is this good for the world?" and using the answer as a signal of subjective quality). -->
+
+###   Platforms additionally care about engagement because of network effects
+
+   I said above that platforms care about engagement primarily insofar as it's a proxy for retention, however there is an additional reason to pay attention to engagement. When one user engages (likes, comments, retweets) this increases the value of the platform to all the other users, and so has an indirect positive effect on retention. For this reason platforms are generally willing to sacrifice some retention in return for engagement, as measured in an experiment, if the sacrifice is sufficiently small.
 
 #           Technical Appendix: Expressed as a Covariance Matrix
 
@@ -492,58 +539,72 @@ They have a model of quality and ranking-by-popularity but I found it hard to fo
  
  -->
 
-#             Appendix: Literature
+#             Appendix: Literature on Ranking and Recommendation
 
 
-##            Overview of Recommender Systems
+##            Overviews of Recommender Systems (chronological)
 
 
-Adomavicius and Tuzhilin (2005) "Toward the Next Generation of Recommender Systems: A Survey of the State-of-the-Art and Possible Extensions"
+**Adomavicius and Tuzhilin (2005) "Toward the Next Generation of Recommender Systems: A Survey of the State-of-the-Art and Possible Extensions"**
+~  An influential overview of recommender systems (14,000 citations!). The canonical example is recommending movies to get the highest predicted rating. They use "rating" as similar to "engagement". A more recent survey is [Roy and Dutta (2022)](https://journalofbigdata.springeropen.com/articles/10.1186/s40537-022-00592-5).
 
-   - An influential overview of recommender systems (14,000 citations!). The canonical example is recommending movies to get the highest predicted rating. They use "rating" as similar to "engagement". A more recent survey is [Roy and Dutta (2022)](https://journalofbigdata.springeropen.com/articles/10.1186/s40537-022-00592-5).
+**Davidson et al. (2010) ["The YouTube Video Recommendation System"](https://www.inf.unibz.it/~ricci/ISR/papers/p293-davidson.pdf)**
+   
+~   > "[videos] are scored and ranked using ... signals [which] can be broadly categorized into three groups corresponding to three different stages of ranking: 1) video quality, 2) user specificity and 3) diversification.""
 
-Davidson et al. (2010) ["The YouTube Video Recommendation System"](https://www.inf.unibz.it/~ricci/ISR/papers/p293-davidson.pdf)
-   > "[videos] are scored and ranked using ... signals [which] can be broadly categorized into three groups corresponding to three different stages of ranking: 1) video quality, 2) user specificity and 3) diversification.""
+~   > "The primary metrics we consider include click through rate (CTR), long CTR (only counting clicks that led to watches of a substantial fraction of the video), session length, time until first long watch, and recommendation coverage (the fraction of logged in users with recommendations)."
 
-   > "The primary metrics we consider include click through rate (CTR), long CTR (only counting clicks that led to watches of a substantial fraction of the video), session length, time until first long watch, and recommendation coverage (the fraction of logged in users with recommendations)."
+~   They say recommendations are good because they have high click-through rate.
+   - [A blog post from 2012](https://blog.youtube/news-and-events/youtube-now-why-we-focus-on-watch-time/) discusses a switch from views to watch time: *"Our video discovery features were previously designed to drive views. This rewarded videos that were successful at attracting clicks, rather than the videos that actually kept viewers engaged. (Cleavage thumbnails, anyone?)"*
 
-   They say recommendations are good because they have high click-through rate.
+**Gomez-Uribe and Hunt (2015) ["The Netflix Recommender System: Algorithms, Business Value, and Innovation"](https://dl.acm.org/doi/abs/10.1145/2843948)**
+~  Clearly states that they evaluate AB tests using engagement, but it is regarded as an imperfect proxy for retention:
+~ > *"we have observed that improving engagement—the time that our members spend viewing Netflix content—is strongly correlated with improving retention. Accordingly, we design randomized, controlled experiments ... to compare the medium-term engagement with Netflix along with member cancellation rates across algorithm variants. Algorithms that improve these A/B test metrics are considered better."*
 
-Gomez-Uribe and Hunt (2015) ["The Netflix Recommender System: Algorithms, Business Value, and Innovation"](https://dl.acm.org/doi/abs/10.1145/2843948)
+**Covington et al. (2016) ["Deep Neural Networks for YouTube Recommendations"](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/45530.pdf)**
 
-   Clearly states that they evalaute AB tests using engagement, but it is regarded as an imperfect proxy for retention: *"we have observed that improving engagement—the time that our members spend viewing Netflix content—is strongly correlated with improving retention. Accordingly, we design randomized, controlled experiments ... to compare the medium-term engagement with Netflix along with member cancellation rates across algorithm variants. Algorithms that improve these A/B test metrics are considered better."*
+   This paper proposed a very influential architecture for content recommendation (the paper has 3000 citations). They say:
+   
+   > "Our final ranking objective is constantly being tuned based on live A/B testing results but is generally a simple function of expected watch time per impression. Ranking by click-through rate often promotes deceptive videos that the user does not complete (“clickbait”) whereas watch time better captures engagement" 
 
-Lada, Wang, & Yan (2021, FB Blog) [How does news feed predict what you want to see?](https://tech.facebook.com/engineering/2021/1/news-feed-ranking/)
+**Lada, Wang, & Yan (2021, FB Blog) [How does news feed predict what you want to see?](https://tech.facebook.com/engineering/2021/1/news-feed-ranking/)**
 
-Thorburn, Bengani, & Stray (2022, Understanding Recommenders) ["How Platform Recommenders Work"](https://medium.com/understanding-recommenders/how-platform-recommenders-work-15e260d9a15a)
+**Thorburn, Bengani, & Stray (2022, Understanding Recommenders) ["How Platform Recommenders Work"](https://medium.com/understanding-recommenders/how-platform-recommenders-work-15e260d9a15a)**
 
-   This is an excellent short article with description and illustration of the stages in building a slate of content: moderation, candidate generation, ranking, and reranking. Includes links to many posts from platforms describing their systems.
+~   This is an excellent short article with description and illustration of the stages in building a slate of content: moderation, candidate generation, ranking, and reranking. Includes links to many posts from platforms describing their systems.
 
-   ![](images/2023-07-31-15-45-00.png)
+~   ![](images/2023-07-31-15-45-00.png)
 
-   ![](images/2023-07-31-16-09-47.png)
+~   ![](images/2023-07-31-16-09-47.png)
 
-Arvin Narayanan (2023) ["Understanding Social Media Recommendation Algorithms"](https://knightcolumbia.org/content/understanding-social-media-recommendation-algorithms)
+**Arvin Narayanan (2023) ["Understanding Social Media Recommendation Algorithms"](https://knightcolumbia.org/content/understanding-social-media-recommendation-algorithms)**
 
-   A good overview of recommendation algorithms, with in-depth discussion of Facebook's MSI. 
+~   A good overview of recommendation algorithms, with an in-depth discussion of Facebook's MSI. 
 
-   Criticisms of social media recommendation: (1) harm users because "implicit-feedback-based feeds cater to our basest impulses," (2) harm creators because "engagement optimization ... is a fickle overlord," (3) harms society because "social media platforms are weakening institutions by undermining their quality standards and making them less trustworthy. While this has been widely observed in the case of news ... my claim is that every other institution is being affected, even if not to the same degree."
+~   Criticisms of social media recommendation: (1) harm users because "implicit-feedback-based feeds cater to our basest impulses," (2) harm creators because "engagement optimization ... is a fickle overlord," (3) harms society because "social media platforms are weakening institutions by undermining their quality standards and making them less trustworthy. While this has been widely observed in the case of news ... my claim is that every other institution is being affected, even if not to the same degree."
 
-   I think the technical part of the essay is excellent but I found some of the arguments about harm and social effects hard to follow. 
+~   The technical part of the essay is excellent but I found some of the arguments about harm and social effects hard to follow. 
 
 
-##             Proposals for Change
+##             Proposals for Change (chronological)
 
-Ovadya & Thorburn (2023). [Bridging Systems: Open Problems for Countering Destructive Divisiveness across Ranking, Recommenders, and Governance](https://doi.org/10.48550/arXiv.2301.09976)
+**Andrew Mauboussin (2022, SurgeAI) ["Moving Beyond Engagement: Optimizing Facebook's Algorithms for Human Values"](https://www.surgehq.ai/blog/what-if-social-media-optimized-for-human-values)**
+~  Says that the problem is *"the most engaging content is often the most toxic."* They propose using human raters, e.g. ask people "did this post make you feel closer to your friends and family on a 1-5 scale?" They label a small set of FB posts as a proof of concept.
 
-Stray, Iyer, Larrauri (2023) ["The Algorithmic Management of Polarization and Violence on Social Media"](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4429558). 
+**Bengani, Stray, & Thorburn (2022,Medium) ["What’s Right and What’s Wrong with Optimizing for Engagement"](https://medium.com/understanding-recommenders/whats-right-and-what-s-wrong-with-optimizing-for-engagement-5abaac021851)**   
+~  They define engagement as "a set of user behaviors, generated in the normal course of interaction with the platform, which are thought to correlate with value to the user, the platform, or other stakeholders." Reviews evidence for good and bad effects of ranking by engagement. <!-- Jonathan says "this was quite influential when published" -->
 
-   1. Our overall goal should be to minimize "destructive conflict".
-   2. The major lever used has been content moderation: changing the visibility of content based on semantic criteria (e.g. downranking toxic, disallowing hate speech).
-   3. However we should put relatively more work on system design, e.g. adding friction or changing the mechanics of sharing or engagement-based ranking. In part because there's a robust correlation between content that causes destructive conflict and content that is engaging.
+**Ovadya & Thorburn (2023). [Bridging Systems: Open Problems for Countering Destructive Divisiveness across Ranking, Recommenders, and Governance](https://doi.org/10.48550/arXiv.2301.09976)**
 
-Milli, Pierson and Garg (2023) [Choosing the Right Weights: Balancing Value, Strategy, and Noise in Recommender Systems](https://arxiv.org/abs/2305.17428)
+**Stray, Iyer, Larrauri (2023) ["The Algorithmic Management of Polarization and Violence on Social Media"](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4429558)**
 
+~   1. Our overall goal should be to minimize "destructive conflict".
+~   2. The major lever used has been content moderation: changing the visibility of content based on semantic criteria (e.g. downranking toxic, disallowing hate speech).
+~   3. However we should put relatively more work on system design, e.g. adding friction or changing the mechanics of sharing or engagement-based ranking. In part because there's a robust correlation between content that causes destructive conflict and content that is engaging.
+
+**Milli, Pierson and Garg (2023) [Choosing the Right Weights: Balancing Value, Strategy, and Noise in Recommender Systems](https://arxiv.org/abs/2305.17428)**
+
+~   I find the model a little hard to follow.
    <!-- I wrote to Smitha about this: I think the model is a bit incoherent. -->
 
    <!-- > "model in which two producers compete for the attention of one user. The recommender system ranks producers based on a linear combination of predictions of k behaviors. However, producers can strategically adapt their items to increase the probability of different user behaviors. User utility depends on being shown a high value producer, and a producer’s utility is the probability they are ranked highly minus their costs of strategic manipulation."
@@ -552,27 +613,16 @@ Milli, Pierson and Garg (2023) [Choosing the Right Weights: Balancing Value, Str
 
    - Two items, i\in\{-1,1\}, and k behaviours (e.g. like, comment). We have prediction of each, y\in\mathbb{R}^k. Final score is \bm{w}^T\bm{y}. Predictions are . -->
 
-Andrew Mauboussin (2022, SurgeAI) ["Moving Beyond Engagement: Optimizing Facebook's Algorithms for Human Values"](https://www.surgehq.ai/blog/what-if-social-media-optimized-for-human-values)
+**Lubin & Gilbert (2023) ["Accountability Infrastructure: How to implement limits on platform optimization to protect population health"](https://arxiv.org/abs/2306.07443)**
 
-   - Says that the problem is *"the most engaging content is often the most toxic."* They propose using human raters, e.g. ask people "did this post make you feel closer to your friends and family on a 1-5 scale?" They label a small set of FB posts as a proof of concept.
+~  A very wide-ranging and loose discussion of issues related to ranking content. Makes an analogy with 19th century measures to control public health. I think the main proposal is that firms come up with metrics to measure their effect on social problems such as mental health, and regularly report on how they're doing. They suggest requirements for platforms of different sizes:
 
-Lubin & Gilbert (2023) ["Accountability Infrastructure: How to implement limits on platform optimization to protect population health"](https://arxiv.org/abs/2306.07443)
-
-- Very wide-ranging and loose discussion of issues related to ranking content. Makes an analogy with 19th century measures to control public health. I think the main proposal is that firms come up with metrics to measure their effect on social problems such as mental health, and regularly report on how they're doing.
-- Suggested requirements for platforms of different sizes:
-
-   |       |                                                                                                                                                                                                                   |
+~  |       |                                                                                                                                                                                                                   |
    | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
    | 1M+   | Submitted plan for metrics and methods for evaluation of potential structural harms                                                                                                                               |
    | 10M+  | Consistent data collection on potential structural harms                                                                                                                                                          |
    | 50M+  | Quarterly, enforceable assessments on product aggregate effects on structural harms, with breakouts for key subgroups                                                                                             |
    | 100M+ | Monthly, enforceable assessments on product aggregate effects as well as targeted assessments of specific product rollouts for any subproduct used by at least 50 million users, with breakouts for key subgroups |
-
-Bengani, Stray, & Thorburn (2022,Medium) ["What’s Right and What’s Wrong with Optimizing for Engagement"](https://medium.com/understanding-recommenders/whats-right-and-what-s-wrong-with-optimizing-for-engagement-5abaac021851)
-   
-- They define engagement as "a set of user behaviors, generated in the normal course of interaction with the platform, which are thought to correlate with value to the user, the platform, or other stakeholders." Reviews evidence for good and bad effects of ranking by engagement.
-   <!-- Jonathan says "this was quite influential when published" -->
-
 
 #           Appendix: Taxonomy of Metrics
 
