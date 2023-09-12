@@ -2,6 +2,8 @@
 title: The Bayesian Interpretation of Experiments
 author: Tom Cunningham
 date: today
+fig-width: 2
+fig-align: center
 execute:
   echo: false
   warning: false
@@ -14,6 +16,10 @@ editor:
 draft: true
 ---
 
+<!-- 
+   https://tecunningham.github.io/posts/2020-08-06-bayesian-interpretation-of-experiments.html
+-->
+
 <!-- https://fb.workplace.com/groups/109535843016173/permalink/345590889410666/ -->
 
 <!-- see also 2022-02-06-inference-with-experimental-data -->
@@ -24,25 +30,21 @@ draft: true
 
 **Once you commit the original sin of testing for statistical significance you enter upside-down world where good is bad, bad is good.** 
 
-There are lots of weird implications of significance testing:
+**There are lots of weird implications of significance testing:**
 
-* The significance of a test depends on how many other tests you ran that day. 
-* It's considered bad practice to make decisions about how long to run an experiment based on early results of that experiment.
-* It's considered bad practice to look at statistical relationships between variables that you only thought of after the data was collected.
-* It's considered bad practice to talk about an effect which has $p=.051$ in the same way as an effect with $p=.049$. Some people even say you shouldn't use the phrase "almost significant" to describe things which are almost significant.<!-- (some people roll their eyes and say *"oh ... MaRgInAlLy SiGnIfIcAnT."* Don't mock them, even though they're trying to mock you, they're just confused.) -->
+   * The significance of a test depends on how many other tests you ran that day. 
+   * It's considered bad practice to make decisions about how long to run an experiment based on early results of that experiment.
+   * It's considered bad practice to look at statistical relationships between variables that you only thought of after the data was collected.
+   * It's considered bad practice to talk about an effect which has $p=.051$ in the same way as an effect with $p=.049$. Some people even say you shouldn't use the phrase "almost significant" to describe things which are almost significant.<!-- (some people roll their eyes and say *"oh ... MaRgInAlLy SiGnIfIcAnT."* Don't mock them, even though they're trying to mock you, they're just confused.) -->
 
-These paradoxes confused me for a long time until I started to think of classical inference as Bayesian inference operating under a constraint. 
+   These paradoxes confused me for a long time until I started to think of classical inference as Bayesian inference operating under a constraint. 
 
 
-Classical inference can be thought of as Bayesian inference with a hard-coded prior. In some cases the hard-coded prior will be close to your true prior, and so it's fine, but in other cases it won't and it'll cause bad inferences. To deal with those pathological cases classical inference has built up a structure of additional rules to protect against bad inferences. The rules either specify contexts where you shouldn't do any inference at all, or they suggest transforming the problem into one where the hard-coded prior is closer to your true prior. Thus we have rules about multiple testing, about data-dependent stopping, and about testing posterior hypotheses.
+**Classical inference can be thought of as Bayesian inference with a hard-coded prior.** In some cases the hard-coded prior will be close to your true prior, and so it's fine, but in other cases it won't and it'll cause bad inferences. To deal with those pathological cases classical inference has built up a structure of additional rules to protect against bad inferences. The rules either specify contexts where you shouldn't do any inference at all, or they suggest transforming the problem into one where the hard-coded prior is closer to your true prior. Thus we have rules about multiple testing, about data-dependent stopping, and about testing posterior hypotheses.
 
 <!-- Once you put on Bayesian spectacles then everything comes into focus.  -->
 
----
-
-**TLDR:** (1) all these issues are much easier to think about through Bayesian lens; nevertheless (2) there is an argument for sometimes following the hypothesis-testing rules for psychological or institutional reasons.
-
----
+<!-- **TLDR:** (1) all these issues are much easier to think about through Bayesian lens; nevertheless (2) there is an argument for sometimes following the hypothesis-testing rules for psychological or institutional reasons. -->
 
 #                    Bayesian vs Classical Inference
 
@@ -54,6 +56,9 @@ I'll compare two ways of interpreting experimental estimates. Suppose `posterior
 Graphically we can show the three distributions:
 
 ```{tikz}
+#| fig-align: center
+#| fig-width: 4
+#| fig-height: 2
 \pgfmathdeclarefunction{gauss}{3}{\pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}}
 \begin{tikzpicture}[scale=6]
    \draw[domain=0:1, variable=\x, fill=blue] 
@@ -75,6 +80,7 @@ Suppose our prior was a spike at zero and otherwise uniform. This prior will cau
 
 
 ```{tikz}
+#| fig-align: center
 \begin{tikzpicture}[scale=2]
    \node[red,align=center] at (0,1.2) {Uniform Prior\\(unshrunk)};
    \draw (-1,1) -- node[above,align=center,rotate=90]{$E[t|y]$}
@@ -85,6 +91,10 @@ Suppose our prior was a spike at zero and otherwise uniform. This prior will cau
    \draw[dotted] (-1,-1)--(1,1);
    \draw[domain=-1:1,red, line width=1, smooth] plot({\x},{\x});
 \end{tikzpicture}
+```
+
+```{tikz}
+#| fig-align: center
 \begin{tikzpicture}[scale=2]
    \node[red,align=center] at (0,1.2) {Normal prior\\(James-Stein)};
    \draw (-1,1) -- node[above,align=center,rotate=90]{$E[t|y]$}
@@ -95,6 +105,10 @@ Suppose our prior was a spike at zero and otherwise uniform. This prior will cau
    \draw[dotted] (-1,-1)--(1,1);
    \draw[domain=-1:1,red, line width=1, smooth] plot({\x},{.5*\x});
 \end{tikzpicture}
+```
+
+```{tikz}
+#| fig-align: center
 \begin{tikzpicture}[scale=2]
    \node[red] at (0,1.2) {Fat-tailed prior};
    \draw (-1,1) -- node[above,align=center,rotate=90]{$E[t|y]$}
@@ -105,6 +119,10 @@ Suppose our prior was a spike at zero and otherwise uniform. This prior will cau
    \draw[dotted] (-1,-1)--(1,1);
    \draw[domain=-1:1,red, line width=1, smooth] plot({\x},{\x-\x*2^(-4*(\x)^2)});
 \end{tikzpicture}
+```
+
+```{tikz}
+#| fig-align: center
 \begin{tikzpicture}[scale=2]
    \draw (-1,1) -- node[above,align=center,rotate=90]{$E[t|y]$}
          (-1,-1) -- node[below]{$y$} (1,-1) -- (1,1) -- (-1,1);
