@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Tom Cunningham">
-<meta name="dcterms.date" content="2023-09-07">
+<meta name="dcterms.date" content="2023-09-12">
 <meta name="description" content="Tom Cunningham blog">
 
 <title>How LLMs Learn About the World | Tom Cunningham</title>
@@ -164,7 +164,7 @@ ga('send', {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">September 7, 2023</p>
+        <p class="date">September 12, 2023</p>
       </div>
     </div>
     
@@ -179,10 +179,11 @@ ga('send', {
     <h2 id="toc-title">On this page</h2>
    
   <ul class="collapse">
-  <li><a href="#model-setup" id="toc-model-setup" class="nav-link active" data-scroll-target="#model-setup">Model Setup</a></li>
+  <li><a href="#graphical-argument" id="toc-graphical-argument" class="nav-link active" data-scroll-target="#graphical-argument">Graphical Argument</a></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
+  <li><a href="#model-setup" id="toc-model-setup" class="nav-link" data-scroll-target="#model-setup">Model Setup</a></li>
   <li><a href="#model-implications" id="toc-model-implications" class="nav-link" data-scroll-target="#model-implications">Model Implications</a></li>
   <li><a href="#derivation" id="toc-derivation" class="nav-link" data-scroll-target="#derivation">Derivation</a></li>
-  <li><a href="#notes-offcuts" id="toc-notes-offcuts" class="nav-link" data-scroll-target="#notes-offcuts">Notes / Offcuts</a></li>
   </ul>
 </nav>
 </nav>
@@ -202,44 +203,105 @@ ga('send', {
     dl { margin-bottom: 0px; }
     dt strong { font-weight: bold; }
     dd { margin-left: 20px; }
+    .cell-output-display p {padding: 0 0 0 0; margin: 0 0 0 0;}
 </style>
 
 <div class="no-row-height column-margin column-container"><div class="">
 <p> <img src="images/2023-09-05-19-11-49.png" class="img-fluid"></p>
 </div></div><p><span style="background:yellow;">==<em>Still a draft, don’t circulate!</em>==</span></p>
-<p><strong>I describe a simple model of LLMs, humans, and the world.</strong> Large language models (LLMs) answer questions by predicting how a human would answer that question. This raises a lot of interesting issues about when LLMs would do better or worse than the humans that they’re learning from. In this note I write down a simple model of how LLMs learn things, basically: <span class="math display">\[\xymatrix@R=0cm@C=0.3cm{
-         *+[F:&lt;5pt&gt;]{\text{world}} \ar[rr]
-         &amp;&amp; *+[F:&lt;5pt&gt;]{\text{human}} \ar[rr]
-         &amp;&amp; *+[F:&lt;5pt&gt;]{\text{LLM}}\ar[r]
-         &amp; \\
-         &amp; \txt{human\\learns\\about\\world}
-         &amp;&amp; \txt{LLM\\predicts\\human\\answers\\to questions}
-         &amp;&amp; \txt{LLM\\answers\\novel\\questions}
-      }\]</span> </p>
-<p><strong>The model gives crisp implications about a broad range of issues.</strong> Below I derive each implication formally, here I here give some intuitive arguments:</p>
-<div class="cell page-columns page-full" data-hash="2023-09-05-model-of-ai-imitation_cache/html/unnamed-chunk-1_d6ad6d12741bbfc1bf1e460905c0c9f0">
-
-<div class="no-row-height column-margin column-container"><div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="2023-09-05-model-of-ai-imitation_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">In general the questions answerable by an LLM will not be a subset of the questions answered in the training set, or even those answerable by the people who contributed to the training set.</figcaption>
-</figure>
-</div>
-</div></div></div>
+<p><strong>Summary.</strong></p>
 <ol type="1">
-<li><p><strong>An LLM trained on the output of a single human will generally do worse than that human.</strong> This is because (1) the text they are trained on represents only a subset of the knowledge that human’s knowledge; (2) the model fit will always be imperfect. However if the human’s answers are inconsistent then the LLM can do better simply by being less noisy.</p></li>
-<li><p><strong>An LLM trained on the output of multiple humans can outperform any one of them.</strong> People tend to answer only the questions that they know the answer to, so predicting the answer to a question will tend to predict the answer of an expert in that field. The set of LLM-answerable questions can be thought of as including, at a minimum, the union of the questions answered in the training data.</p></li>
+<li><p><strong>I describe a simple model of the relationship between LLMs, humans, and the world.</strong> Large language models (LLMs) answer questions by predicting how a human would answer that question (in their training set), and humans answer questions based on their beliefs about the world.</p></li>
+<li><p><strong>Implication: an LLM </strong></p>
+<ol type="1">
+<li><p><strong>An LLM trained on the output of a single human will generally do worse than that human.</strong> This is because (1) the text they are trained on represents only a subset of that human’s knowledge; (2) the model fit will always be imperfect. However if the human’s answers are inconsistent then the LLM can do better simply by being less noisy.</p></li>
+<li><p><strong>An LLM trained on the output of multiple humans can outperform any one of them.</strong> People tend to answer only the questions that they know the answer to, so predicting the answer to a question will tend to predict the answer of an expert in that field. Thus the set of LLM-answerable questions can be thought of as including, at a minimum, the union of the questions answered by people in the training set.</p></li>
 <li><p><strong>An LLM can answer questions no human can answer.</strong> LLMs are not designed to explicitly make inferences about the world but the act of interpolating between observed answers will, in some circumstances, functionally operate as inference, and as a consequence the set of LLM-answerable questions can exceed the union of human-answerable questions. We already see this in LLM outputs: they can answer questions that no single human knows the answer to.</p></li>
-<li><p><strong>An LLM can be used to extract tacit knowledge.</strong> Much human knowledge is tacit, reflected in our lack of insight into the bases of our judgment. If an LLM can match human performance in answering questions then it will effectively make available the tacit knowledge used in those judgments, and so open up a range of capabilities much wider than any human can achieve. In practice this might mean querying an LLM repeatedly to map out tacit knowledge.</p></li>
+<li><p><strong>An LLM can be used to extract tacit knowledge.</strong> Much human knowledge is tacit, reflected in our lack of insight into the bases of our judgment. If an LLM can match human performance in answering questions then it will effectively make available the tacit knowledge used in those judgments, and so open up a range of capabilities much wider than any human can achieve.</p></li>
+</ol></li>
 </ol>
 <p><strong>Real-World Implications.</strong></p>
 <ol type="1">
 <li><p><strong>LLMs bring everybody to the knowledge frontier.</strong> An LLM can effectively serve as a consultant: it will tell you how a domain-expert would answer your question. For some problems we’ve already been able to do that for a long time, e.g.&nbsp;a textbook will tell you scientific advice on crop management practices, but LLMs allow for much subtler contingencies and to incorporate tacit knowledge. We should therefore expect the productivity impact of LLMs to be mainly on those who are behind the knowledge frontier, and we might also expect a compression of incomes. </p></li>
-<li><p><strong>AI could be used to create super-human artefacts.</strong> There has been a lot of discussion about whether AI be used to exceed human abilities to create certain artefacts, e.g.&nbsp;hyper-beautiful paintings, hyper-addictive clickbait, hyper-persuasive text. Using the existing architecture of AI this is unlikely: they might be able to predict the objects that a very talented human would produce, but would not surpass their ability. However AI could be used to generate artfeacts indirectly: instead of predicting how a human would create such an arfect, the weights that the AI has learned could be used to find the artefact which maximizes the function of interest, e.g.&nbsp;hyper-persuasive, or hyper-beautiful. In this way the AI could create artefacts beyond the ability of any human.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p></li>
+<li><p><strong>AI could be used to create super-human artefacts.</strong> There has been a lot of discussion about whether AI be used to exceed human abilities to create certain artefacts, e.g.&nbsp;hyper-beautiful paintings, hyper-addictive clickbait, hyper-persuasive text. Using the existing architecture of LLMs, which predict human outputs, this is unlikely: they might be able to predict the objects that a very talented human would produce, but would not surpass their ability. However AI could be used to generate artfeacts indirectly: instead of predicting how a human would create such an arfect, the weights that the AI has learned could be used to find the artefact which maximizes the function of interest, e.g.&nbsp;hyper-persuasive, or hyper-beautiful. In this way the AI could create artefacts beyond the ability of any human.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p></li>
 </ol>
-<div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;This is roughly how image synthesis algorithms work: after training a model to recognize images, new images can be created by maximizing the learned weights.</p></li></div><section id="model-setup" class="level1 page-columns page-full">
+<section id="graphical-argument" class="level1">
+<h1>Graphical Argument</h1>
+<p><strong>Puzzle:</strong> How can LLMs outperform humans if they’re trained to predict human responses?</p>
+<p><strong>(1) Let this curve represent the world.</strong> Each question about the world is a point on the x-axis, and the curve represents the true answer (y-axis).</p>
+<div class="cell" data-hash="2023-09-05-model-of-ai-imitation_cache/html/unnamed-chunk-2_b36eb930a2bdc1bcbd1b69e62af7ad13">
+<div class="cell-output-display">
+<p><img src="2023-09-05-model-of-ai-imitation_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>(2) A human forms beliefs about the world (red curve).</strong> The human asks two questions and gets two answers (red dots) and from these they form a belief about the nature of the world (red line).</p>
+<div class="cell" data-hash="2023-09-05-model-of-ai-imitation_cache/html/unnamed-chunk-3_31a99f00dfb7aea3650bd0b87a0e9245">
+<div class="cell-output-display">
+<p><img src="2023-09-05-model-of-ai-imitation_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>(3) Train a computer to predict the human’s answers (green curve).</strong> The human records some questions and their answers (green dots), and the computer learns to predict the human’s answers (green curve). Here the fit is perfectly because (1) the human reported all and only their direct experiences; (2) the computer’s priors about humans’ answers are the same as the human’s priors about the world. In this setup we would never expect the computer to be <em>better</em> than the human at answering questions about the world.</p>
+<div class="cell" data-hash="2023-09-05-model-of-ai-imitation_cache/html/unnamed-chunk-4_a62fd2155a2954d2d9bee17cd64a7079">
+<div class="cell-output-display">
+<p><img src="2023-09-05-model-of-ai-imitation_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>(4) Add another human (blue curve).</strong> Now we have two humans, each which asks different question of the world (red and blue dots), and each forms beliefs about the world which are accurate in the neighborhood of their experience.</p>
+<div class="cell" data-hash="2023-09-05-model-of-ai-imitation_cache/html/unnamed-chunk-5_38a4528f7ce7f031359262ecfb86a073">
+<div class="cell-output-display">
+<p><img src="2023-09-05-model-of-ai-imitation_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>(5) Let the computer predict answers from both humans (green curve).</strong> Now both humans record their experiences and the computer tries to predict human answers (green curve). Here we can see that (1) the computer’s predictions can match the humans’ responses in each of their domains of expertise; (2) the computer is better than <em>both</em> humans in the intermediate region, i.e.&nbsp;they effectively <em>combine</em> information from both humans.</p>
+<div class="cell" data-hash="2023-09-05-model-of-ai-imitation_cache/html/unnamed-chunk-6_81a769e1e60c2fcfb8ff260563175bea">
+<div class="cell-output-display">
+<p><img src="2023-09-05-model-of-ai-imitation_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="discussion" class="level1">
+<h1>Discussion</h1>
+<p><strong>When do LLMs outperform humans?</strong> I only have some</p>
+<ul>
+<li>Translating between</li>
+</ul>
+<ol type="1">
+<li><strong>This depends on people talking about what they know.</strong> The performance of a computer.</li>
+</ol>
+</section>
+<section id="model-setup" class="level1">
 <h1>Model Setup</h1>
+<p><strong>Consider questions and answers like the following.</strong></p>
+<table class="table">
+<colgroup>
+<col style="width: 93%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>question</th>
+<th>answer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>What’s the capital of Switzerland?</td>
+<td>Geneva</td>
+</tr>
+<tr class="even">
+<td>What’s the best response if white plays c4?</td>
+<td>c5</td>
+</tr>
+<tr class="odd">
+<td>Does this picture contain a cow? 🐄</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td>How much more likely are you to buy a coke after hearing the slogan “coke refreshes”?</td>
+<td>0.1%</td>
+</tr>
+</tbody>
+</table>
 <p><strong>The model has three steps.</strong></p>
 <p><span class="math display">\[\xymatrix@C=.5cm@R=0cm{
       \text{world}
@@ -261,12 +323,12 @@ ga('send', {
       \ut{\bmatrix{a^1 \\ \vdots \\ a^m}}{answers}
          = \ut{\bmatrix{q_1^1 w_1 + \ldots q_n^1w_n \\ \vdots \\ q_1^m w_1 + \ldots q_n^mw_n}}{questions}
    \end{aligned}\]</span></p>
-<div class="page-columns page-full"><p><strong>Human beliefs.</strong> After observing a set of question and their real-world answers the human will form beliefs about the weights <span class="math inline">\(w_1,\ldots,w_n\)</span>. We can explicitly write the human posteriors if we assume their priors are Gaussian and i.i.d. (<span class="math inline">\(\bm{w}\sim N(0,\sigma^2I)\)</span>):<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <span class="math display">\[\begin{aligned}
+<p><strong>Human beliefs.</strong> After observing a set of question and their real-world answers the human will form beliefs about the weights <span class="math inline">\(w_1,\ldots,w_n\)</span>. We can explicitly write the human posteriors if we assume their priors are Gaussian and i.i.d. (<span class="math inline">\(\bm{w}\sim N(0,\sigma^2I)\)</span>):<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <span class="math display">\[\begin{aligned}
       \bm{a}        &amp;= Q\bm{w}
          &amp;&amp; \text{(questions \&amp; answers given true weights $\bm{w}$)}\\
       \hat{\bm{w}} &amp;= Q'(QQ')^{-1}\bm{a}
          &amp;&amp; \text{(human estimate of true weights $\bm{w}$)}
-   \end{aligned}\]</span></p><div class="no-row-height column-margin column-container"><li id="fn2"><p><sup>2</sup>&nbsp;I am assuming <span class="math inline">\(\bm{w}\)</span> has zero-mean and is i.i.d. just to cut down on notation, the results all hold for the more general multivariate Normal case.</p></li></div></div>
+   \end{aligned}\]</span></p>
 <p>I will assume that the number of unobserved weights is large relative to the human’s experience (<span class="math inline">\(n\gg m\)</span>), so the human will gradually learn more about reality as she observes the answer to more questions, and will be able to perfectly answer any question she’s seen before, but will never learn the full set of weights.</p>
 <p><strong>Computer beliefs.</strong> Suppose that humans write down some set of question and answer them given their beleifs. We use that text to train a computer to predict the answer given any question, and the computer likewise assumes a linear model with i.i.d. Gaussian weights. Then we can explicitly write the computer-estimated weights:</p>
 <p><span class="math display">\[\begin{aligned}
@@ -280,9 +342,9 @@ ga('send', {
          &amp;&amp; \text{(computer answer to a novel question $\tilde{\bm{q}}$)}\\
    \end{aligned}\]</span></p>
 </section>
-<section id="model-implications" class="level1 page-columns page-full">
+<section id="model-implications" class="level1">
 <h1>Model Implications</h1>
-<dl class="page-columns page-full">
+<dl>
 <dt><strong>If one human records all their observations then the computer will perfectly imitate them.</strong></dt>
 <dd>
 Suppose that there is one human and they write down all of their observations, <span class="math inline">\(\hat{Q}=Q\)</span>. Then the computer’s beliefs will be the same as the human’s beliefs (<span class="math inline">\(\hat{\bm{w}}=\bar{\bm{w}}\)</span>), and so the computer will answer every question exactly as the human does, though neither knows the truth (<span class="math inline">\(\bar{\bm{w}}\neq\bm{w}\)</span>).
@@ -292,6 +354,8 @@ Suppose that there is one human and they write down all of their observations, <
 Suppose humans only write down some of their observations, i.e.&nbsp;<span class="math inline">\(\hat{Q}\)</span> is a row-wise subset of <span class="math inline">\(Q\)</span>. Then computers and humans will give the same answers for any question in the training set, but outside of that set computers will generally do worse than humans. And so for every question <span class="math inline">\(\bm{q}\)</span> the computer will do worse in expectation: <span class="math display">\[E[\ut{(\bm{q}\bm{a}-\bm{q}\bar{\bm{a}})^2}{computer error}]\geq
   E[\ut{\bm{q}(\bm{a}-\hat{\bm{a}})}{human error}].\]</span>
 </dd>
+</dl>
+<dl>
 <dt><strong>If there are multiple humans then the computer will outperform them both.</strong></dt>
 <dd>
 Suppose there are two humans who each observe answers to different question, <span class="math inline">\(Q_A\)</span> and <span class="math inline">\(Q_B\)</span>, and they both write them all down, so <span class="math inline">\(\bar{Q}=(\smallmatrix{Q_A\\Q_B})\)</span> and <span class="math inline">\(\bar{\bm{a}}=(\smallmatrix{Q_A\bm{w}\\Q_B\bm{w}})\)</span>. Now the computer clearly has superior information to either human, and so for both <span class="math inline">\(i\in\{1,2\}\)</span> and every question <span class="math inline">\(\bm{q}\)</span> we can write: <span class="math display">\[E[\ut{(\bm{q}\bm{a}-\bm{q}\bar{\bm{a}})^2}{computer error}]\leq
@@ -309,8 +373,8 @@ Suppose there are two humans who each observe answers to different question, <sp
 <p>We can see this behaviour in LLMs: they sometimes combine a pair of facts or a pair of abilities which no single human has access to, e.g.&nbsp;when an LLM translates between two languages, for which there exists no human speaker of both.</p>
 </dd>
 <dt><strong>If humans write outside their expertise then the computer will do worse.</strong></dt>
-<dd class="page-columns page-full">
-<div class="page-columns page-full"><p>In the cases above we assumed that the two humans recorded only what they directly observed. This means the computer essentially had a window directly to the world. However the humans could instead have written down their estimated answers to other questions. Suppose they both wrote down answers to every possible question, then the computer would learn the <em>average</em> of the two human’s estimated weights:<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> <span class="math display">\[\bar{\bm{w}}=\frac{1}{2}\hat{\bm{w}}_A+\frac{1}{2}\hat{\bm{w}}_B.\]</span></p><div class="no-row-height column-margin column-container"><li id="fn3"><p><sup>3</sup>&nbsp;We would have to augment the computer’s learning rule to allow for noise in answers - I need to confirm that the weighting will be exactly 1/2.</p></li></div></div>
+<dd>
+<p>In the cases above we assumed that the two humans recorded only what they directly observed. This means the computer essentially had a window directly to the world. However the humans could instead have written down their estimated answers to other questions. Suppose they both wrote down answers to every possible question, then the computer would learn the <em>average</em> of the two human’s estimated weights:<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> <span class="math display">\[\bar{\bm{w}}=\frac{1}{2}\hat{\bm{w}}_A+\frac{1}{2}\hat{\bm{w}}_B.\]</span></p>
 <p>Here the computer will do worse than the two humans on the original questions, <span class="math inline">\(Q_A\)</span> and <span class="math inline">\(Q_B\)</span>.</p>
 <p>The implication is that LLMs work so well only because people tend to write about what they know. Put another way, when an LLM answers a question, it will not predict the answer given by the average person, but will predict the answer given by people who are likely to answer that question in the real world, and luckily those people tend to be people who are subject-matter experts.</p>
 </dd>
@@ -382,12 +446,6 @@ Suppose there are two humans who each observe answers to different question, <sp
    Var(\bm{a}) &amp;= Q\Sigma Q' + s^2I_m \\
    E[\bm{w}|Q,\bm{q}]   &amp;= \Sigma Q'(Q\Sigma Q' + s^2I_m)^{-1}\bm{a}
 \end{aligned}\]</span></p>
-<p><strong>Puzzle: is this a different answer from Gaussian regression?</strong> The Gaussian regression answer to this would be:</p>
-<p><span class="math display">\[\begin{aligned}
-      \hat{w}  &amp;= (Q'Q+\Sigma)^{-1}Q'\bm{a},
-         &amp;&amp;  \text{(assume $\bm{w}\sim N(0,\Sigma)$)}
-   \end{aligned}\]</span></p>
-<p>It seems like the two solution should be the same. Why not?</p>
 <p><strong>Compare to Bayesian linear regression.</strong> We can compare this result to Bayesian linear regression (e.g.&nbsp;<a href="https://en.wikipedia.org/wiki/Bayesian_linear_regression">Wikipedia</a>): <span class="math display">\[\begin{aligned}
       \bar{\beta}  &amp;= \Sigma Q'(Q\Sigma Q' + s^2I_m)^{-1}\bm{a}
          &amp;&amp; \text{(our result)} \\
@@ -395,61 +453,19 @@ Suppose there are two humans who each observe answers to different question, <sp
          &amp;&amp; \text{(Bayesian linear regression)}\\
    \end{aligned}\]</span></p>
 <p>I <em>believe</em> that these can be shown to be equivalent by the <a href="https://en.wikipedia.org/wiki/Woodbury_matrix_identity">matrix inversion lemma</a>, though I haven’t confirmed this. There’s a <a href="https://digitalcommons.usu.edu/cgi/viewcontent.cgi?article=1212&amp;context=ece_facpub">note online</a> that appears to show equivalence.</p>
-<p>Getting from first to second: premultiply by <span class="math inline">\(\Sigma\)</span></p>
-<p><strong>Original notation.</strong> From <a href="https://en.wikipedia.org/wiki/Bayesian_linear_regression">Wikipedia</a>: <span class="math display">\[\begin{aligned}
-      y &amp;= X\beta + \varepsilon \\
-      \beta &amp;\sim N(\mu_0,\sigma^2\Lambda_0^{-1})\\
-      \varepsilon &amp;\sim  N(0,\sigma^2I_m) \\
-      \tilde{\beta}= E[\beta|y,X] &amp;= (X'X+\Lambda_0)^{-1}(X'X\hat{\beta}+\Lambda_0\mu_0)\\
-         &amp;= (X'X+\Lambda_0)^{-1}(X'y+\Lambda_0\mu_0)\\
-  \end{aligned}\]</span></p>
-<p>Follows:</p>
-<ul>
-<li>If prior precision low (<span class="math inline">\(\Lambda_0\approx 0\)</span>) then will be roughly equal to OLS result: <span class="math inline">\(\tilde{\beta}\approx\hat{\beta}\)</span>.</li>
-<li>If prior precision is high (<span class="math inline">\(\Lambda_0\gg 0\)</span>) then will be shrunk to prior, <span class="math inline">\(\tilde{\beta}\approx \mu_0\)</span>.</li>
-<li>If one observation and two weights (<span class="math inline">\(m=1,n=2\)</span>), with <span class="math inline">\(x^1_1=x^1_2=1\)</span>, then we’ll have: <span class="math display">\[\begin{aligned}
-  \tilde{\beta}&amp;= (\bmatrix{1 &amp; 1\\1 &amp;1}+\bmatrix{\sigma_1^2 &amp; \rho \\
-     \rho &amp; \sigma_2^2})^{-1}\bmatrix{y\\y} \\
-        &amp;= \bmatrix{1+\sigma_1^2 &amp; 1+\rho \\
-                 1 + \rho &amp; 1 + \sigma_2^2}^{-1} \bmatrix{y\\y} \\
-        &amp;= \frac{1}{(1+\sigma_1^2)(1+\sigma_2^2)-2(1+\rho)^2}\bmatrix{1+\sigma_1^2 &amp; -(1+\rho) \\
-                 -(1 + \rho) &amp; 1 + \sigma_2^2} \bmatrix{y\\y} \\
-        &amp;= \frac{\sigma_1^2-\rho}{(1+\sigma_1^2)(1+\sigma_2^2)-2(1+\rho)^2}
-  \end{aligned}\]</span></li>
-<li>Puzzle: why doesn’t the result depend on variance of noise, <span class="math inline">\(\sigma^2\)</span>?</li>
-</ul>
-</section>
-<section id="notes-offcuts" class="level1">
-<h1>Notes / Offcuts</h1>
-<p><strong>The LLM is accurate only because humans are accurate.</strong> The LLM is predicting human answers to questions, thus the LLM’s answers will be typically correct only because human answers are typically correct. If we trained the LLM on text produced by a human who was profoundly wrong about the world then the LLM would be equally wrong.</p>
-<p><strong>Model fit.</strong> As long as the training data is generated linearly then the LLM will fit all the training data. When <span class="math inline">\(\hat{m}&gt;n\)</span> then the model will always fit the training data perfectly as long as the dataset doesn’t contain multiple different answers to the same question.</p>
-<p><strong>Extension: quadratic forms.</strong> Instead of answers being linear in question-features (<span class="math inline">\(a=q'w\)</span>) we could suppose they’re quadratic, <span class="math inline">\(a=q'Wa\)</span>, with <span class="math inline">\(W\)</span> a matrix having dimension <span class="math inline">\(n^2\)</span>. I’m not sure whether we could still get an analytic solution for posteriors. </p>
-<p><strong>Extension: binary answers.</strong> In some cases it is natural to think of the answer, <span class="math inline">\(a\)</span>, as binary instead of continuous. We might be able to reinterpret the model with <span class="math inline">\(a\)</span> representing the log-odds ratio of a binary outcome. Alternatively there might be a way of having a beta-binomial conjugate prior over the probability of <span class="math inline">\(a\)</span>.</p>
-<p><strong>Extension: endogenous weights.</strong> In many practical cases the weights <span class="math inline">\(w\)</span> will change, e.g.&nbsp;if <span class="math inline">\(w\)</span> represents the marginal . Extension: weights change with change in production, i.e.&nbsp;communication model.</p>
-<p><strong>Can visualize the surface extrapolating from a single case.</strong> Can compare surface from (1) tacit knowledge; (2) explicit knowledge; (3) extrapolation from local knowledge.</p>
-<p><strong>Q: term for imitative learning in AI?</strong> Plagiaristic? Tyna Elondou mentioned it.</p>
-<p><strong>Yann LeCunn and connection.</strong> LeCunn often talks about how LLMs will not lead to general artificial intelligence because they are not <em>grounded</em> in the world, only in human production. However human experience of the world is very indirect: we infer objects by triangulating light rays bounced off them, &amp; combining a lot of different sources. In addition our pre-conscious brain does a ton of processing before we get hold of it.</p>
-<p><span class="math display">\[\xymatrix{
-      *+[F:&lt;5pt&gt;]{\text{world}} \ar[r]\ar[dr]
-      &amp; *+[F:&lt;5pt&gt;]{\text{human}_1} \ar[r]
-      &amp; *+[F:&lt;5pt&gt;]{\text{text}_1} \ar[r]
-      &amp; *+[F:&lt;5pt&gt;]{\text{LLM}}\\
-      &amp; *+[F:&lt;5pt&gt;]{\text{human}_2} \ar[r]
-      &amp; *+[F:&lt;5pt&gt;]{\text{text}_2} \ar[ur]
-   }\]</span></p>
-<p><strong>LLM will look like it’s making inferences about the world, but it’s just making inferences about humans’ inferences about the world.</strong></p>
-<p><strong>How can LLMs learn about the world?</strong> LLMs answer questions by predicting how a human would answer that question, after training on an enormous corpus of human-generated text. Despite only knowing about the world at second hand LLMs do amazingly well, sometimes even answering questions that no human could have answered.</p>
-<p><strong>The basic logic: (1) humans interpolate the world; (2) LLMs interpolate humans.</strong> Humans observe a few.</p>
-<p><strong>Question: separability of conditional expectation?</strong> What must be true about <span class="math inline">\(f(y,x,z)\)</span> for it to be the case that <span class="math inline">\(E[y|x,z]\)</span> is separable in <span class="math inline">\(x\)</span> and <span class="math inline">\(z\)</span>? Perhaps conditional independence?</p>
-<p></p>
-<p><strong>About prompt engineering:</strong> when you change your prompt, it effectively changes the person who’s answering your question.</p>
-<p><strong>Generating new training data:</strong> In some cases feeding on your own AI-generated outputs could improve the model.</p>
 
 
 </section>
 
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>This is roughly how image synthesis algorithms work: after training a model to recognize images, new images can be created by maximizing the learned weights.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>I am assuming <span class="math inline">\(\bm{w}\)</span> has zero-mean and is i.i.d. just to cut down on notation, the results all hold for the more general multivariate Normal case.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>We would have to augment the computer’s learning rule to allow for noise in answers - I need to confirm that the weighting will be exactly 1/2.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
