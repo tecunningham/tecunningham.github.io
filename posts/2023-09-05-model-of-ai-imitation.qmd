@@ -1,14 +1,17 @@
 ---
-title: How LLMs Learn About the World
+title: How Imitative AI Can Outperform Humans
 author: Tom Cunningham, [Integrity Institute](https://integrityinstitute.org/)
 date: today
 fig-align: center
 fig-height: 1
+bibliography: ai.bib
+reference-location: margin
+engine: knitr
 execute:
   echo: false
   warning: false
   error: false
-  cache: true # caches chunk output
+  cache: true
 format:
    html:
       toc: true
@@ -32,71 +35,49 @@ format:
                         utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3]
                      }}};
             </script>
-# include-in-header: 
-#   - text: |
-#       <style>figure { padding: 0 0 0 0; }</style
-bibliography: ai.bib
-engine: knitr
-# editor:
-#    render-on-save: true
+            <style>
+               h1 {  border-bottom: 4px solid black; }
+               h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; color: black; }
+               dl { margin-bottom: 0px; }
+               dt strong { font-weight: bold; }
+               dd { margin-left: 20px; }
+               .cell-output-display p {padding: 0 0 1cm 0; margin: 0 0 0 0;}
+            </style>
 ---
-<style>
-    h1 {  border-bottom: 4px solid black; }
-    h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; color: black; }
-    dl { margin-bottom: 0px; }
-    dt strong { font-weight: bold; }
-    dd { margin-left: 20px; }
-    .cell-output-display p {padding: 0 0 0 0; margin: 0 0 0 0;}
-</style>
 <!-- 
    URL: https://tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html
    SEE ALSO: prussia/2023-09-05-OFFCUTS-model-of-ai-imitation.md
    TODO: use n and p instead of m and n
-   TODO: series of cases and illustrations from GPT4
--->
-::: {.column-margin}
-   <!-- ![](images/2023-09-05-07-46-02.png) -->
-   ![](images/2023-09-05-19-11-49.png)
-:::
-<span style="background:yellow;">==*Still a draft, don't circulate!*==</span>
+   TODO: series of cases and illustrations from GPT4-->
+<style>p { text-indent: -2em; margin-left: 2em; }</style>
 
-**Summary.**
+**If we train an AI to imitate humans, will it ever beat humans?** Large language models (LLMs) are trained to predict what humans would say in a given situation (with some qualifications). It would seem to follow that they would never be *better* at answering questions than a human.
 
-**Q: If LLMs only predict what humans say, could they ever perform better than a human?** Large language models (LLMs) are trained primarily to predict what humans would say in a given situation, so it would seem to follow that their performance would never exceed that of a human.
+**In a formal model, imitative AI can beat humans for three reasons:**
 
-**A1: Purely imitative LLMs can beat humans for three reasons:**
-   1. **Averaging out error.** LLMs can predict the average response across a set of humans, and the error of the average will necessarily be smaller than the average error.
-   2. **Specialization.** On average people tend to talk more about what they know. Thus in the LLM's training text.
-   3. **Interpolation.** 
+   1. **Averaging out error.** Different humans give different answers to a question, and so if an LLM can consistently give the average answer it will do better than the average human (the error of the average being always smaller than the average error).
+   2. **Specialization.** People tend to write about what they know, and so an LLM which learns from written language will sound like a specialist in all areas: it will answer questions about water like a hydrologist, and questions about bugs like an entomologist (although they also answer questions about astrology like astrologists).
+   3. **Interpolation.** An LLM will interpolate responses from different humans, and this interpolation can be functionally equivalent to inference, meaning an LLM will sometimes be able to reliably answer questions that *no* human can answer.
 
-**A2: LLMs can learn tacit knowledge.** 
+**Additionally AI can learn and use tacit human knowledge.** The majority of human knowledge is tacit, meaning it is used in forming judgments but we do not have conscious access to that knowledge. If AI models can accurately predict human judgments then the weights in those models effectively contain that tacit knowledge, and so the model can be re-engineered to use that knowledge in ways that humans cannot.
 
-1. **Implication: LLMs can outperform humans by training on multiple language from multiple people.** In ideal circumstances an LLM will not only be able to beat any individual human, they will beat the combination of every human's answer.
+**This blog post contains:** (1) a simple visual illustration of the argument; (2) a formal model and derivation of the claims above; (3) a variety of applications; (4) discussion of related literature and complications. This is work in progress and I'm planning to keep adding material to this post.
 
-2. **Implication: LLMs can outperform humans by using tacit human knowledge.**
+#           Setup: Questions and Answers
 
---------------------------------------------
+**For concreteness I will describe humans and computers answering questions about the world.** However I think the basic framework applies generally to performing tasks. Some examples of questions and answers:
 
-   1. **An LLM trained on the output of a single human will generally do worse than that human.** This is because (1) the text they are trained on represents only a subset of that human's knowledge; (2) the model fit will always be imperfect. However if the human's answers are inconsistent then the LLM can do better simply by being less noisy.
-   
-   2. **An LLM trained on the output of multiple humans can outperform any one of them.** People tend to answer only the questions that they know the answer to, so predicting the answer to a question will tend to predict the answer of an expert in that field. Thus the set of LLM-answerable questions can be thought of as including, at a minimum, the union of the questions answered by people in the training set.
-   
-   3. **An LLM can answer questions no human can answer.** LLMs are not designed to explicitly make inferences about the world but the act of interpolating between observed answers will, in some circumstances, functionally operate as inference, and as a consequence the set of LLM-answerable questions can exceed the union of human-answerable questions. We already see this in LLM outputs: they can answer questions that no single human knows the answer to.
-
-   4. **An LLM can be used to extract tacit knowledge.** Much human knowledge is tacit, reflected in our lack of insight into the bases of our judgment. If an LLM can match human performance in answering questions then it will effectively make available the tacit knowledge used in those judgments, and so open up a range of capabilities much wider than any human can achieve.
-
-**Real-World Implications.**
-
-   1. **LLMs bring everybody to the knowledge frontier.** An LLM can effectively serve as a consultant: it will tell you how a domain-expert would answer your question. For some problems we've already been able to do that for a long time, e.g. a textbook will tell you scientific advice on crop management practices, but LLMs allow for much subtler contingencies and to incorporate tacit knowledge. We should therefore expect the productivity impact of LLMs to be mainly on those who are behind the knowledge frontier, and we might also expect a compression of incomes.
-   <!-- 3. By pooling all the information in the training set LLMs allow everybody to have expert-level judgment on a given subject, and so give relatively bigger advantage to those with less knowledge. -->
-
-   2. **AI could be used to create super-human artefacts.** There has been a lot of discussion about whether AI be used to exceed human abilities to create certain artefacts, e.g. hyper-beautiful paintings, hyper-addictive clickbait, hyper-persuasive text. Using the existing architecture of LLMs, which predict human outputs, this is unlikely: they might be able to predict the objects that a very talented human would produce, but would not surpass their ability. However AI could be used to generate artfeacts indirectly: instead of predicting how a human would create such an arfect, the weights that the AI has learned could be used to find the artefact which maximizes the function of interest, e.g. hyper-persuasive, or hyper-beautiful. In this way the AI could create artefacts beyond the ability of any human.^[This is roughly how image synthesis algorithms work: after training a model to recognize images, new images can be created by maximizing the learned weights.]
-
+   | question                                                                              | answer |
+   | ------------------------------------------------------------------------------------- | ------ |
+   | What's the capital of Switzerland?                                                    | Geneva |
+   | What's the best response if white plays c4?                                           | c5     |
+   | Does this picture contain a cow? 🐄                                                  | Yes    |
+   | How much more likely are you to buy a Coke after hearing the slogan "Coke refreshes"? | 0.1%   |
 
 #           Graphical Argument
 
 ```{r}
-# All this copied from this book: https://bookdown.org/rbg/surrogates/chap5.html
+# Started from code in this book: https://bookdown.org/rbg/surrogates/chap5.html
 library(tidyverse)
 library(laGP)
 data <- tribble(
@@ -116,6 +97,8 @@ xa <- c(3, 4) # 5
 ya <- subset(data, x %in% xa)$y
 xb <- c(6, 8)
 yb <- subset(data, x %in% xb)$y
+xc <- c(4, 8)
+yc <- subset(data, x %in% xc)$y
 
 xx <- seq(0, 10, length = 1000)
 p <- predGP(newGP(matrix(data$x, ncol = 1), data$y, d = 10, g = 1e-8),
@@ -127,6 +110,10 @@ pa <- predGP(newGP(matrix(xa, ncol = 1), ya, d = 10, g = 1e-8),
    lite = TRUE
 )
 pb <- predGP(newGP(matrix(xb, ncol = 1), yb, d = 10, g = 1e-8),
+   matrix(xx, ncol = 1),
+   lite = TRUE
+)
+pc <- predGP(newGP(matrix(xc, ncol = 1), yc, d = 10, g = 1e-8),
    matrix(xx, ncol = 1),
    lite = TRUE
 )
@@ -146,7 +133,8 @@ curves <- tibble(
    pmax = p$mean + 2 * sqrt(p$s2),
    pmin = p$mean - 2 * sqrt(p$s2),
    p = p$mean,
-   pab = pab$mean
+   pab = pab$mean,
+   pc = pc$mean
 )
 theme_set(theme_bw() +
    theme(
@@ -163,10 +151,7 @@ theme_set(theme_bw() +
    ))
 update_geom_defaults("line", list(size = 1))
 ```
-
-**Puzzle:** How can LLMs outperform humans if they're trained to predict human responses?
-
-**(1) Let this curve represent the world.** Each question about the world is a point on the x-axis, and the curve represents the true answer (y-axis).
+**(1) Let this curve represent the world.** Each question about the world is a point on the x-axis, and the answer to each question is represented by the curve.
 
 ```{r}
 #| fig-height: 1
@@ -175,7 +160,7 @@ ggplot(curves, aes(x, y)) +
    ylim(0, 12)
 ```
 
-**(2) A human forms beliefs about the world (red curve).** The human asks two questions and gets two answers (red dots) and from these they form a belief about the nature of the world (red line).
+**(2) A human forms beliefs about the world (red curve).** The human asks two questions and gets two answers (red dots) and from these they form estimates of the answer to every other question (red line).
 
 ```{r}
 #| fig-height: 1
@@ -186,7 +171,7 @@ ggplot(curves, aes(x, y)) +
    ylim(0, 12)
 ```
 
-**(3) Train a computer to predict the human's answers (green curve).** The human records some questions and their answers (green dots), and the computer learns to predict the human's answers (green curve). Here the fit is perfectly because (1) the human reported all and only their direct experiences; (2) the computer's priors about humans' answers are the same as the human's priors about the world. In this setup we would never expect the computer to be *better* than the human at answering questions about the world.
+**(3) A computer learns to predict the human's answers (green curve).** The human records some questions and their answers (green dots), and the computer learns to predict the human's answers (green curve). Here I have drawn the best case, where the fit is perfect, but we would never expect the computer to do *better* than the human.
 
 ```{r}
 ggplot(curves, aes(x, y)) +
@@ -198,7 +183,7 @@ ggplot(curves, aes(x, y)) +
    ylim(0, 12)
 ```
 
-**(4) Add another human (blue curve).** Now we have two humans, each which asks different question of the world (red and blue dots), and each forms beliefs about the world which are accurate in the neighborhood of their experience.
+**(4) Add another human (blue curve).** Suppose we have an additional human who asks some different questions (blue dots) and so forms different beliefs. Each human's beliefs are are accurate in the neighborhood of their experience.
 
 ```{r}
 ggplot(curves, aes(x, y)) +
@@ -210,7 +195,10 @@ ggplot(curves, aes(x, y)) +
    ylim(0, 12)
 ```
 
-**(5) Let the computer predict answers from both humans (green curve).** Now both humans record their experiences and the computer tries to predict human answers (green curve). Here we can see that (1) the computer's predictions can match the humans' responses in each of their domains of expertise; (2) the computer is better than *both* humans in the intermediate region, i.e. they effectively *combine* information from both humans.
+**(5) Let the computer predict answers from both humans (green curve).** Now both humans record their experiences and the computer tries to predict human answers (green curve). Here we can see:
+   
+   1. **Specialization.** The computer's predictions can match the humans' responses in each of their domains of expertise
+   2. **Interpolation.** The computer is better than *both* humans in the intermediate region, i.e. the computer effectively combines information from both humans.
 
 ```{r}
 ggplot(curves, aes(x, y)) +
@@ -220,32 +208,76 @@ ggplot(curves, aes(x, y)) +
    geom_line(aes(y = pab), color = "#009900", linewidth = 1, alpha = 0.6) +
    geom_point(data = tibble(x = xa, y = ya), color = "blue", size = 3) +
    geom_point(data = tibble(x = xb, y = yb), color = "red", size = 3) +
-   geom_point(data = tibble(x = c(xa, xb), y = c(ya, yb) + 0.2), color = "#999999", size = 3) +
+   geom_point(data = tibble(x = c(xa, xb), y = c(ya, yb) + 0.2), color = "#009900", size = 3) +
    ylim(0, 12)
 ```
 
+**(6) Let the human have tacit knowledge.** Suppose the human always knows correct the answer when they see the question (red), but their conscious understanding of the relationship (pink) is imperfect. When asked which question would get the highest answer, i.e. what is the maximum of this function, then they will choose the maximum of the pink curve. However the computer could learn the red curve and algorithmically find the maximum.
+
+```{r}
+ggplot(curves, aes(x, y)) +
+   geom_line(aes(y = p), linewidth = 1, color = "red") +
+   geom_line(aes(y = pc), color = "pink") +
+   # geom_line(aes(y = pb + 0.3), color = "#009900", linewidth = 1) +
+   # geom_point(data = tibble(x = xb, y = yb), color = "red", size = 3) +
+   # geom_point(data = tibble(x = xb, y = yb + 0.3), color = "#009900", size = 3) +
+   ylim(0, 12)
+```
+
+
 #           Discussion
 
-**When do LLMs outperform humans?** I only have some 
+**Are current LLMs imitative?** Most recent large language models start by training on a pure next-token prediction task from a large corpus of text, but they additionally go through fine-tuning stages. E.g. OpenAI's 2022 [InstructGPT](https://openai.com/research/instruction-following) describes (1) training against custom-written answers to prompts; (2) reinforcement learning against human evaluation of the LLM's outputs[^RLHF]. These fine-tuning steps dramatically improve the LLM's performance on instruction-following benchmarks. The first type of fine-tuning could be described as imitative but using a different set of human responses that it's imitating. The second type is somewhat different because we're now using human *evaluation* instead of human *production*, and so the surface being fitted is distinct. However I do not think the RLHF fundamentally changes the argument in this note, and in fact the InstructGPT paper shows that a purely imitative model's performance continues to trend upwards as model size increases, implying that capabilities of current-level RLHF models could be achieved with pure imitation with sufficiently large model and training-set size.
 
-   - Translating between 
+   [^RLHF]: Technically, reinforcement learning against a model trained to predict human evaluation of outputs.
+
+**Do current LLMs outperform humans?** Consider GPT-4:
+
+   1. **For any given human, GPT-4 clearly can beat them on some domains.** GPT-4 has an encylopedic ability to answer questions, so for any individual human they can clearly outperform them on a large set of questions.
+   2. **Modern LLMs can translate between two languages with no common speaker.** Modern language models can translate between arbitrary pairs of language. I haven't seen explicit confirmation of this, but I assume this includes pairs for which there exists no common speaker and I assume that a purely imitative LLM (without training on human evaluation) would still be able to do at least rudimentary translation.
+   3. **Modern LLMs can combine information.** GPT-4 is good at combining two different capabilities, e.g. writing a sonnet about quantum theory, or a ballad in Spanish about New Zealand. It seems likely there are many such combination tasks which no single human could perform unaided.
+
+**Averaging out Error ("wisdom of crowds").** There is an additional reason why an imitative AI will outperform humans, not illustrated above: suppose there is some variance in how humans report their answers (noise either in perception, belief formation, or in recording answers). We could illustrate this with multiple red lines at step 2. It's clear that if the computer tries to predict the average human response then it will end up closer to the ground truth than the average human.
+
+**Specalization depends on people writing what they know.** The "specialization" result above depends on a correlation between evidence and error: for any given question the answer observed in the training data is more likely to come from a human who has direct experience (and so lower error). This seems a reasonable assumption, that people typically write about what they know. However there are a clear cases where the opposite occurs: where the people who write the most about a topic are the people who have the least accurate beliefs about it, e.g. conspiracy theories, politically partisan issues, or astrology. In these cases we would expect AI to answer question copying these people.^[Analogically, in music or visual art, there might be some genres where the people who create artworks are uniquely bad at it, and so in these genres imitative AI would learn to make artworks worse than the average human would make.]
+
+**Defining superhuman abilities.** We can formalize "superhuman" abilities in a variety of ways, e.g.:
+
+   $$\begin{aligned}
+      \text{weak:}&& \ut{E[a(q)-\bar{a}(q)]^2}{error of computer}
+         &\leq  \ut{\frac{1}{n}\sum_{i=1}^nE[a(q)-\hat{a}_i(q)]^2}{avg error of human}\\
+      \text{medium:}&& \ut{E[a(q)-\bar{a}(q)]^2}{error of computer}
+         &\leq  \ut{E\left[a(q)-\frac{1}{n}\sum_{i=1}^n\hat{a}_i(q)\right]^2}{error of avg human}\\
+      \text{strong:}&& \ut{E[a(q)-\bar{a}(q)]^2}{error of computer}
+         &\leq  \ut{\min_{i=1,\ldots,n}E[a(q)-\hat{a}_i(q)]^2}{error of best human}\\
+      \text{super-strong:}&& \ut{E[a(q)-\bar{a}(q)]^2}{error of computer}
+         &\leq  \ut{E[\min_{i=1,\ldots,n}\{a(q)-\hat{a}_i(q)\}]^2}{error of best human by question}\\
+   \end{aligned}$$
+
+   Note that we cannot rank benchmark #2 and #3: the error of the best human could be either higher or lower than the error of the average human. 
 
 
+**The importance of tacit knowledge.** The relative success of machine learning over symbolic AI has often been connected to the importance of tacit human knowledge, e.g. by Geoff Hinton. I have written a lot about the importance of tacit knowledge in human decision-making ([post](https://tecunningham.github.io/posts/2017-12-10-unconscious-influences.html), [paper](https://scholar.google.com/citations?view_op=view_citation&hl=en&user=MDB_DgkAAAAJ&citation_for_view=MDB_DgkAAAAJ:WF5omc3nYNoC), [paper](http://jondequidt.com/pdfs/paper_implicit.pdf)).
 
-1. **This depends on people talking about what they know.** The performance of a computer.
+**AI could be used to create super-human artefacts.** There has been a lot of discussion about whether AI be used to exceed human abilities to create certain artefacts, e.g. hyper-beautiful paintings, hyper-addictive clickbait, hyper-persuasive text. Using the existing architecture of LLMs, which predict human outputs, this is unlikely: they might be able to predict the objects that a very talented human would produce, but would not surpass their ability. However AI could be used to generate artfeacts indirectly: instead of predicting how a human would create such an arfect, the weights that the AI has learned could be used to find the artefact which maximizes the function of interest, e.g. hyper-persuasive, or hyper-beautiful. In this way the AI could create artefacts beyond the ability of any human. This is roughly how image synthesis algorithms work: after training a model to recognize images, new images can be created by maximizing the learned weights.
 
-#           Model Setup
+**Economic implication: imitative AI brings everybody to the knowledge frontier.** An imitative LLM can effectively serve as a consultant: it will tell you how a domain-expert would answer your question. For some problems we've already been able to do that for a long time, e.g. a textbook will tell you scientific advice on crop management practices, but LLMs allow for much subtler contingencies and to incorporate tacit knowledge. We should therefore expect the productivity impact of LLMs to be mainly on those who are behind the knowledge frontier, and we might also expect a compression of incomes.
+   <!-- 3. By pooling all the information in the training set LLMs allow everybody to have expert-level judgment on a given subject, and so give relatively bigger advantage to those with less knowledge. -->
 
-**Consider questions and answers like the following.**
+```{tikz}
+#| column: margin
+\begin{tikzpicture}[scale=2,line width=1]
+   \draw (-1,-1)--(1,-1)--(1,1)--(-1,1)--(-1,-1);
+   \draw[] (-.2,0) circle (.5) node[yshift=1.2cm,left]{Tom};
+   \draw[] (.2,0) circle (.5) node[yshift=1.2cm,right]{Dick};
+   \draw[blue] (0,-.2) circle (.5) node[yshift=-1.2cm]{LLM};
+\end{tikzpicture}
+```
+**Venn diagram representation.** This diagram shows an alternative way of representing some of the core claims: in general the questions answerable by an LLM will not be a subset of the questions answered in the training set, or even those answerable by the people who contributed to the training set. The Venn diagram's disadvantage, relative to the visualizations above, is that it does not represent the mechanics of *why* the LLM can outperform humans, while the diagram above can be use to separately show four distinct reasons (averaging error, specialization, interpolation, and using tacit knowledge).
 
-| question                                                                              | answer |
-| ------------------------------------------------------------------------------------- | ------ |
-| What's the capital of Switzerland?                                                    | Geneva |
-| What's the best response if white plays c4?                                           | c5     |
-| Does this picture contain a cow? 🐄                                                  | Yes    |
-| How much more likely are you to buy a coke after hearing the slogan "coke refreshes"? | 0.1%   |
+#           Linear Model
 
-**The model has three steps.**
+**Here I give a more formal model and derive some results.** I wrote this model before coming up with the graphical argument above. There is a substantial overlap in implications, but I think there is some value in this linear model in the precision with which we define each quantity. The model has three steps:
 
    $$\xymatrix@C=.5cm@R=0cm{
       \text{world}
@@ -263,7 +295,7 @@ ggplot(curves, aes(x, y)) +
       & \txt{LLM's\\answers\\to\\new\\questions}
    }$$
 
-**Questions and answers.** We will model everything as a set of questions and their answers. A question is defined by a set of binary attributes ($q_1,\ldots,q_n\in\{-1,1\}$), and the answer is a linear function of those attributes given some unobserved weights $w_1,\ldots,w_n$:
+**Questions and answers.** A question is defined by a set of binary attributes ($q_1,\ldots,q_n\in\{-1,1\}$), and the answer is a linear function of those attributes given some unobserved weights $w_1,\ldots,w_n$ (see below for derivation):
 
    $$\begin{aligned}
       \ut{\bmatrix{a^1 \\ \vdots \\ a^m}}{answers}
@@ -299,7 +331,7 @@ ggplot(curves, aes(x, y)) +
    \end{aligned}$$
 
 
-#           Model Implications
+##           Model Implications
 
 **If one human records all their observations then the computer will perfectly imitate them.** 
 :  Suppose that there is one human and they write down all of their observations, $\hat{Q}=Q$. Then the computer's beliefs will be the same as the human's beliefs ($\hat{\bm{w}}=\bar{\bm{w}}$), and so the computer will answer every question exactly as the human does, though neither knows the truth ($\bar{\bm{w}}\neq\bm{w}$).
@@ -359,7 +391,7 @@ ggplot(curves, aes(x, y)) +
 
       Here the computer model is less constrained. Suppose the computer has observed sufficiently many questions until they have perfectly learned the tacit knowledge, $\bar{\bm{w}}=\hat{\bm{w}}^T$. Then if computation is free the computer could be used to query every single $\bm{q}\in\{-1,1\}^n$ to find the best possible artefact.
 
-#           Derivation
+##           Derivation
 
 $$\begin{aligned}
    Q &= \bmatrix{q_1^1 & \ldots & q^1_n \\ & \ddots \\ q^m_1 & \ldots & q^m_n}
