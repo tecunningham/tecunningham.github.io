@@ -48,10 +48,97 @@ format:
    URL: https://tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html
    SEE ALSO: prussia/2023-09-05-OFFCUTS-model-of-ai-imitation.md
    TODO: use n and p instead of m and n
-   TODO: series of cases and illustrations from GPT4-->
+   TODO: series of cases and illustrations from GPT4 -->
+
 <style>p { text-indent: -2em; margin-left: 2em; }</style>
 
-**If we train an AI to imitate humans, will it ever beat humans?** Large language models (LLMs) are trained to predict what humans would say in a given situation (with some qualifications). It would seem to follow that they would never be *better* at answering questions than a human.
+```{r}
+library(tidyverse)
+library(laGP)
+data <- tribble(
+   ~x, ~y,
+   #   1, 0,
+   2, 2,
+   3, 6,
+   4, 5.6,
+   5, 8.5,
+   6, 11, #
+   7, 8,
+   8, 4,
+   9, 2
+)
+
+xa <- c(3, 4) # 5
+ya <- subset(data, x %in% xa)$y
+xb <- c(6, 8)
+yb <- subset(data, x %in% xb)$y
+xc <- c(4, 8)
+yc <- subset(data, x %in% xc)$y
+
+xx <- seq(0, 10, length = 1000)
+p <- predGP(newGP(matrix(data$x, ncol = 1), data$y, d = 10, g = 1e-8),
+   matrix(xx, ncol = 1),
+   lite = TRUE
+)
+pa <- predGP(newGP(matrix(xa, ncol = 1), ya, d = 10, g = 1e-8),
+   matrix(xx, ncol = 1),
+   lite = TRUE
+)
+pb <- predGP(newGP(matrix(xb, ncol = 1), yb, d = 10, g = 1e-8),
+   matrix(xx, ncol = 1),
+   lite = TRUE
+)
+pc <- predGP(newGP(matrix(xc, ncol = 1), yc, d = 10, g = 1e-8),
+   matrix(xx, ncol = 1),
+   lite = TRUE
+)
+pab <- predGP(newGP(matrix(c(xa, xb), ncol = 1), c(ya, yb), d = 10, g = 1e-8),
+   matrix(xx, ncol = 1),
+   lite = TRUE
+)
+
+curves <- tibble(
+   x = xx,
+   pamax = pa$mean + 2 * sqrt(pa$s2),
+   pamin = pa$mean - 2 * sqrt(pa$s2),
+   pa = pa$mean,
+   pbmax = pb$mean + 2 * sqrt(pb$s2),
+   pbmin = pb$mean - 2 * sqrt(pb$s2),
+   pb = pb$mean,
+   pmax = p$mean + 2 * sqrt(p$s2),
+   pmin = p$mean - 2 * sqrt(p$s2),
+   p = p$mean,
+   pab = pab$mean,
+   pc = pc$mean
+)
+theme_set(theme_bw() +
+   theme(
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.text.x = element_blank(),
+      axis.ticks.x = element_blank(),
+      axis.text.y = element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.title.x = element_blank(),
+      axis.title.y = element_blank(),
+      axis.line.x = element_line("black"),
+      panel.border = element_blank()
+   ))
+update_geom_defaults("line", list(size = 1))
+```
+
+```{r}
+#| column: margin
+#| fig-height: 3
+#| fig-cap: The ground truth (black line), human observations (red dots), and human performance (red line).
+ggplot(curves, aes(x, y)) +
+   geom_line(aes(y = p), linewidth = 1) +
+   geom_line(aes(y = pb), color = "red") +
+   geom_point(data = tibble(x = xb, y = yb), color = "red", size = 3) +
+   ylim(0, 12)
+```
+
+**If we train an AI to *imitate* humans, will it ever *beat* humans?** Large language models (LLMs) are trained to predict what humans would say in a given situation (with some qualifications). It would seem to follow that they would never be *better* at answering questions than a human.
 
 **In a formal model, imitative AI can beat humans for three reasons:**
 
@@ -61,11 +148,11 @@ format:
 
 **Additionally AI can learn and use tacit human knowledge.** The majority of human knowledge is tacit, meaning it is used in forming judgments but we do not have conscious access to that knowledge. If AI models can accurately predict human judgments then the weights in those models effectively contain that tacit knowledge, and so the model can be re-engineered to use that knowledge in ways that humans cannot.
 
-**This blog post contains:** (1) a simple visual illustration of the argument; (2) a formal model and derivation of the claims above; (3) a variety of applications; (4) discussion of related literature and complications. This is work in progress and I'm planning to keep adding material to this post.
+**This blog post contains:** (1) a simple visual illustration of the argument; (2) a formal model and derivation of the claims above; (3) discussion of evidence that LLMs are able to perform super-human tasks; (4) discussion of applications, related literature, and complications. This is work in progress and I'm planning to keep adding material to this post.
 
 #           Setup: Questions and Answers
 
-**For concreteness I will describe humans and computers answering questions about the world.** However I think the basic framework applies generally to performing tasks. Some examples of questions and answers:
+**For concreteness I will describe humans and computers answering questions about the world.** However I think the basic framework applies generally to performing tasks or following instructions. Some examples of questions and answers:
 
    | question                                                                              | answer |
    | ------------------------------------------------------------------------------------- | ------ |
@@ -205,14 +292,16 @@ ggplot(curves, aes(x, y)) +
    geom_line(aes(y = p), linewidth = 1) +
    geom_line(aes(y = pa), color = "blue") +
    geom_line(aes(y = pb), color = "red") +
-   geom_line(aes(y = pab), color = "#009900", linewidth = 1, alpha = 0.6) +
+   geom_line(aes(y = pab), color = "#009900", linewidth = 1) +
    geom_point(data = tibble(x = xa, y = ya), color = "blue", size = 3) +
    geom_point(data = tibble(x = xb, y = yb), color = "red", size = 3) +
    geom_point(data = tibble(x = c(xa, xb), y = c(ya, yb) + 0.2), color = "#009900", size = 3) +
    ylim(0, 12)
 ```
 
-**(6) Let the human have tacit knowledge.** Suppose the human always knows correct the answer when they see the question (red), but their conscious understanding of the relationship (pink) is imperfect. When asked which question would get the highest answer, i.e. what is the maximum of this function, then they will choose the maximum of the pink curve. However the computer could learn the red curve and algorithmically find the maximum.
+**(6) Let the human have tacit knowledge.** Suppose the human always knows correct the answer when they see the question (red), but their conscious understanding of the relationship (pink) is imperfect. When asked which question would get the highest answer, i.e. what is the maximum of this function, then they will choose the maximum of the pink curve. However the computer could learn the red curve and algorithmically find the maximum, substantially outperforming the human.
+
+   In fact I think this is an accurate description of image synthesis by neural nets: models are first trained to recognize images given captions, and then a new image can be synthesized to match a given caption, e.g. through a diffusion algorithm. Here there's a striking asymmetry: these algorithms can approximately match average human performance in recognition, but they far outperform human performance in construction of new artefacts.
 
 ```{r}
 ggplot(curves, aes(x, y)) +
@@ -227,17 +316,33 @@ ggplot(curves, aes(x, y)) +
 
 #           Discussion
 
-**Are current LLMs imitative?** Most recent large language models start by training on a pure next-token prediction task from a large corpus of text, but they additionally go through fine-tuning stages. E.g. OpenAI's 2022 [InstructGPT](https://openai.com/research/instruction-following) describes (1) training against custom-written answers to prompts; (2) reinforcement learning against human evaluation of the LLM's outputs[^RLHF]. These fine-tuning steps dramatically improve the LLM's performance on instruction-following benchmarks. The first type of fine-tuning could be described as imitative but using a different set of human responses that it's imitating. The second type is somewhat different because we're now using human *evaluation* instead of human *production*, and so the surface being fitted is distinct. However I do not think the RLHF fundamentally changes the argument in this note, and in fact the InstructGPT paper shows that a purely imitative model's performance continues to trend upwards as model size increases, implying that capabilities of current-level RLHF models could be achieved with pure imitation with sufficiently large model and training-set size.
+**Outperformance due to training on human evaluations.** Recent LLMs are not purely imitative: after first being trained to predict the next word on a corpus of text (and fine tuned on some custom-written examples), they are then trained based on human *evaluation*, called reinforcement learning with human feedback (RLHF).[^RLHF] This step has been found to dramatically improves the LLM's performance on instruction-following benchmarks. This is a fundamental departure from imitative learning insofar as humans have an asymmetry between their production and evaluation: between how they follow an instruction and how they evaluate other people following that instruction.
 
-   [^RLHF]: Technically, reinforcement learning against a model trained to predict human evaluation of outputs.
+   <!-- The second type is somewhat different because we're now using human *evaluation* instead of human *production*, and so the surface being fitted is distinct. However I do not think the RLHF fundamentally changes the argument in this note, and in fact the InstructGPT paper shows that a purely imitative model's performance continues to trend upwards as model size increases, implying that capabilities of current-level RLHF models could be achieved with pure imitation with sufficiently large model and training-set size. -->
 
-**Do current LLMs outperform humans?** Consider GPT-4:
+   [^RLHF]: E.g. see OpenAI's 2022 InstructGPT (@ouyang2022training). Technically the reinforcement learning is against a model trained to predict the human evaluation of outputs.
+
+**Do current LLMs outperform humans?** I will consider GPT-4 as a specific LLM.
 
    1. **For any given human, GPT-4 clearly can beat them on some domains.** GPT-4 has an encylopedic ability to answer questions, so for any individual human they can clearly outperform them on a large set of questions.
-   2. **Modern LLMs can translate between two languages with no common speaker.** Modern language models can translate between arbitrary pairs of language. I haven't seen explicit confirmation of this, but I assume this includes pairs for which there exists no common speaker and I assume that a purely imitative LLM (without training on human evaluation) would still be able to do at least rudimentary translation.
-   3. **Modern LLMs can combine information.** GPT-4 is good at combining two different capabilities, e.g. writing a sonnet about quantum theory, or a ballad in Spanish about New Zealand. It seems likely there are many such combination tasks which no single human could perform unaided.
+   2. **Modern LLMs can translate between two languages with no common speaker.** Modern language models can translate between arbitrary pairs of language. I haven't seen explicit confirmation of this, but I assume this includes pairs for which there exists no common speaker and I assume that a purely imitative LLM would be able to do at least rudimentary translation.
+   3. **Modern LLMs can combine capabilities.** GPT-4 is good at combining two different capabilities, e.g. writing a sonnet about quantum theory, or a ballad in Spanish about New Zealand. It seems likely there are many such combination tasks which no single human could perform unaided.
 
-**Averaging out Error ("wisdom of crowds").** There is an additional reason why an imitative AI will outperform humans, not illustrated above: suppose there is some variance in how humans report their answers (noise either in perception, belief formation, or in recording answers). We could illustrate this with multiple red lines at step 2. It's clear that if the computer tries to predict the average human response then it will end up closer to the ground truth than the average human.
+**Other discussion of super-human performance by LLMs.** I have found surprisingly little online or academic discussion about whether LLMs will hit a ceiling defined by human performance. A good paper by @bowman2023eight has a section titled "human performance on a task isn’t an upper bound on LLM performance." He says LLMs can outperform humans for two reasons: (1) "they are trained on far more data than any human sees," and (2) "they are often given additional training using reinforcement learning ... which trains them to produce responses that humans find helpful without requiring humans to demonstrate such helpful behavior." I think this discussion misses the more fine-grained reasons why a purely imitative LLM can outperform humans (averaging, specialization, interpolation, and using tacit knowledge).
+
+**Computers can never outperform the best human on language understanding tasks.** The ground truth about language interpretation is defined by how humans interpret that language, and so a computer can never outperform this.[^buffalo] E.g. in benchmarks for natural language understanding the labels are typically written by the human authors of the benchmark (@tedeschi2023s). In content moderation the definition of ground truth is typically either majority-vote among paid human raters, or the reflective judgment of a senior human employee. It follows that a computer could outperform the average human only by reducing noise, or by better-approximating the output of a specific human.[^wins]
+
+   The same point applies to computer performance on exam problems: in almost all cases the person who wrote the exam can get a perfect score and so a computer could never outperform that person.
+
+   [^wins]: Many recent language models do outperform the average human baseline on language understanding tasks, but @tedeschi2023s argue that for a variety of reasons the strength of these results is significantly exaggerated.
+
+   [^buffalo]: There are arguably exceptions but I don't think they are quantitatively important. Consider the sentence "Buffalo buffalo Buffalo buffalo buffalo buffalo Buffalo buffalo": it does have at least one well-defined meaning according to the typical rules of English but arguably no human would correctly identify that meaning unless specifically prompted. A computer trained only on human comprehension could plausibly identify its meaning.
+
+**Computers can outperform humans on recognition tasks.** Most benchmarks for media recognition use human labels, e.g. for object detection in photos or speech recognition in audio. However humans can be mistaken: they might incorrectly think a photo has a dog in it when it does not or vice versa. Humans are very good at recognition, so human-labelled data has been sufficient, but computers are liable to exceed human performance on these tasks.[^groundTruth]
+
+   [^groundTruth]: In fact defining ground truth is somewhat complicated because an image is consistent with an infinite variety of objects causing that arrangement of pixels, we can only talk about an image representing an object because of priors about typical scenes. So the ground truth of interest must be something like "in ordinary circumstances, what is the probability that these pixels would be caused by a scene with a dog in them."
+
+**Computers can outperform humans by averaging out error ("wisdom of crowds").** An additional reason for superhuman performance, not illustrated in the graphical argument above, is that they can average out variance in how humans report their answers, whether that variance is due to noise in perception, belief formation, or in recording human answers. We could illustrate this with multiple red lines at step 2: it's clear that if the computer tries to predict the average human response then it will end up closer to the ground truth than the average human. More generally: the average error will necessarily be larger than the error of the average, by Jensen's inequality.
 
 **Specalization depends on people writing what they know.** The "specialization" result above depends on a correlation between evidence and error: for any given question the answer observed in the training data is more likely to come from a human who has direct experience (and so lower error). This seems a reasonable assumption, that people typically write about what they know. However there are a clear cases where the opposite occurs: where the people who write the most about a topic are the people who have the least accurate beliefs about it, e.g. conspiracy theories, politically partisan issues, or astrology. In these cases we would expect AI to answer question copying these people.^[Analogically, in music or visual art, there might be some genres where the people who create artworks are uniquely bad at it, and so in these genres imitative AI would learn to make artworks worse than the average human would make.]
 
@@ -465,3 +570,6 @@ $$\begin{aligned}
    \end{aligned}$$
 
    I *believe* that these can be shown to be equivalent by the [matrix inversion lemma](https://en.wikipedia.org/wiki/Woodbury_matrix_identity), though I haven't confirmed this. There's a [note online](https://digitalcommons.usu.edu/cgi/viewcontent.cgi?article=1212&context=ece_facpub) that appears to show equivalence.
+
+
+#           References
