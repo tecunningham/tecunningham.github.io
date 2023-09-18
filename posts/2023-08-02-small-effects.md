@@ -1,6 +1,6 @@
 ---
 title: The Paradox of Small Effects
-author: Tom Cunningham
+author: Tom Cunningham, [Integrity Institute](https://integrityinstitute.org/)
 date: 2023-08-02
 execute:
   echo: false
