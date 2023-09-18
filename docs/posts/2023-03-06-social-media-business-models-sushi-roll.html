@@ -22,7 +22,26 @@ ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
 }
-</style>
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+}
+.hanging-indent div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}</style>
 
 
 <script>const headroomChanged = new CustomEvent("quarto-hrChanged", {
@@ -4696,6 +4715,7 @@ h2 { border-bottom: 1px solid #ccc;}
 <li><strong>Production elasticity.</strong> The effect on production by producers. Some producers will produce more content when they receive more impressions, and so this is an additional benefit of increasing their share of impressions.</li>
 </ol>
 <p>An efficient mix of content will choose the shares such that each type of content has the same marginal value, i.e. for each the type four components of value all sum to the same number.</p>
+<p><strong>Related literature.</strong> There are some nice models of ad-media tradeoff in <span class="citation" data-cites="anderson2015handbook">Anderson and Jullien (<a href="#ref-anderson2015handbook" role="doc-biblioref">2015</a>)</span>, but I believe they don’t consider the effects on production by producers, nor the tradeoff between different types of content (though it’s a long time since I read it).</p>
 <p><strong>Expressed formally:</strong> Suppose the platform chooses <span class="math inline">\(x_1,\ldots,x_n\)</span> which represent the impression-shares of each type of content such that <span class="math inline">\(\sum_{i=1}^nx_i=1\)</span>. User demand depends on the average quality of each type of content (<span class="math inline">\(q_i\)</span>), and they have diminishing returns in each type of content. The platform receives <span class="math inline">\(p_i\)</span> for showing an impression of type <span class="math inline">\(i\)</span>, but that price depends on the number of impressions-seen. We can write the maximization problem as:</p>
 <p><span class="math display">\[\begin{aligned}
       \max_{x_1,\ldots,x_n} \utt{\left(\sum_{i=1}^n q_i(x_i)x_i^\gamma\right)}{total}{impressions}
@@ -4744,9 +4764,9 @@ h2 { border-bottom: 1px solid #ccc;}
 <p>Because prices are taken as given, this model doesn’t help us calculate the optimal revenue share. It will tell us the optimal ad-load, but not taking into account the elasticity of supply from the advertiser.</p>
 <p>Note that most platforms do not explicitly discriminate between advertisers based on their incrementality however they can implicitly discriminate by having a “quality score” or “organic bid”. This score is quite clearly designed to measure the incrementality of the advertisements, and so I think can be used to implement an efficient pricing scheme.</p></li>
 <li><p><strong>Platform choses shares of ads and organic content, prices endogenous.</strong> We can easily extend the model above to allow the price of each type of content to depend on the quantity shown (<span class="math inline">\(p_i(x_iM)\)</span>). For example the price of ads will depend on the number of ad impression shown (due to advertisers’ diminishing marginal returns from ads shown). This gives platforms a reason to restrict the quantity of ad-impressions.</p></li>
-<li><p><strong>Platform chooses both shares and prices.</strong> Up to this point the platform chose only the share of each type of content.</p></li>
+<li><p><strong>Platform chooses both shares and prices.</strong> Up to this point the platform chose only the share of each type of content.</p>
+<p>Now suppose the platform can set a price to pay producers (e.g. “revenue share”), and it’s a homogenous price. The price should roughly depend on (1) the producer’s elasticity of quality to price (i.e. their cost function), and (2) the incrementality of quality on the consumer side. We could set this up with a single price for all producers, or set a producer-specific price.</p></li>
 </ol>
-<p>Now suppose the platform can set a price to pay producers (e.g. “revenue share”), and it’s a homogenous price. The price should roughly depend on (1) the producer’s elasticity of quality to price (i.e. their cost function), and (2) the incrementality of quality on the consumer side. We could set this up with a single price for all producers, or set a producer-specific price.</p>
 </section>
 <section id="model-1-platform-chooses-ad-load" class="level2">
 <h2 class="anchored" data-anchor-id="model-1-platform-chooses-ad-load">Model 1: Platform Chooses Ad-Load</h2>
@@ -4863,10 +4883,15 @@ h2 { border-bottom: 1px solid #ccc;}
 <p><span class="math display">\[x_i=\frac{q_i^\frac{1}{1-\gamma}}{\gamma\sum_{j=1}^nq_j^\frac{1}{1-\gamma}}.\]</span></p>
 
 
+
 </section>
 
 
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-anderson2015handbook" class="csl-entry" role="listitem">
+Anderson, Simon P., and Bruno Jullien. 2015. <span>“Chapter 2 - the Advertising-Financed Business Model in Two-Sided Media Markets.”</span> In <em>Handbook of Media Economics</em>, edited by Simon P. Anderson, Joel Waldfogel, and David Strömberg, 1:41–90. Handbook of Media Economics. North-Holland. https://doi.org/<a href="https://doi.org/10.1016/B978-0-444-62721-6.00002-0">https://doi.org/10.1016/B978-0-444-62721-6.00002-0</a>.
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1"><p>In the profit-maximizing solution <em>either</em> the consumer-side or advertiser-side first-order-condition will be binding. It depends on the relative elasticity of the two sides of the platform.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
