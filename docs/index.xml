@@ -10,9 +10,9 @@
 <atom:link href="tecunningham.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>{{&lt; meta description-meta &gt;}}</description>
 <generator>quarto-1.3.357</generator>
-<lastBuildDate>Mon, 18 Sep 2023 07:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 19 Sep 2023 07:00:00 GMT</lastBuildDate>
 <item>
-  <title>An AI Which Imitates Humans can Beat Humans</title>
+  <title>An AI Which Imitates Humans Can Beat Humans</title>
   <dc:creator>Tom Cunningham, [Integrity Institute](https://integrityinstitute.org/)</dc:creator>
   <link>tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html</link>
   <description><![CDATA[ 
@@ -34,11 +34,11 @@
 </figure>
 </div>
 </div></div></div>
-<div class="page-columns page-full"><p><strong>If we train an AI to <em>imitate</em> humans, will it ever <em>beat</em> humans?</strong> Large language models (LLMs) are trained to predict what humans would say in a given situation (with some qualifications, see below). It would seem to follow that they would never be <em>better</em> at answering questions than a human.<sup>1</sup></p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Many other ML models use human-generated labels as the ground truth: image recognition, language understanding, text classification, medical diagnosis.</p></li></div></div>
+<div class="page-columns page-full"><p><strong>If we train an AI to <em>imitate</em> humans, will it ever <em>beat</em> humans?</strong> Large language models (LLMs) are trained to predict what humans would say in a given situation (with some qualifications, see below). It would seem to follow that such a model would never be <em>better</em> at answering questions than a human.<sup>1</sup></p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;In addition many other ML models are trained on human-generated labels, instead of any deeper ground truth: image recognition, language understanding, text classification, medical diagnosis.</p></li></div></div>
 <p><strong>In a formal model, imitative AI can beat humans for three reasons:</strong></p>
 <ol type="1">
-<li><strong>Averaging out error.</strong> Different humans give different answers to a question, and so if an LLM can consistently give the average answer it will do better than the average human (the error of the average being always smaller than the average error).</li>
-<li><strong>Specialization.</strong> People tend to write about what they know, and so an LLM which learns to predict the typical answer to a given question will sound like a specialist in all areas: it will answer questions about water like a hydrologist and questions about bugs like an entomologist (although it will also answer questions about astrology like astrologists).</li>
+<li><strong>Averaging out error.</strong> Different humans give different answers to a question, and so if an LLM can consistently give the average answer it will do better than the average human (the error of the average being always smaller than the average of the error).</li>
+<li><strong>Specialization.</strong> People tend to write about what they know, and so an LLM which learns to predict the typical answer to a given question will sound like a specialist in all areas: it will answer questions about water like a hydrologist and questions about bugs like an entomologist (although it will also answer questions about astrology like an astrologist).</li>
 <li><strong>Interpolation.</strong> An LLM will interpolate responses from different humans, and this interpolation can be functionally equivalent to inference, meaning an LLM will sometimes be able to reliably answer questions that <em>no</em> human can answer.</li>
 </ol>
 <p><strong>Additionally AI can learn and use tacit human knowledge.</strong> The majority of human knowledge is tacit, meaning it is used in forming judgments but we do not have conscious access to that knowledge. If AI models can accurately predict human judgments then the weights in those models effectively contain that tacit knowledge, and so the model can be re-engineered to use that knowledge in ways that humans cannot. I will discuss tacit knowledge more in a followup post.</p>
@@ -79,28 +79,33 @@
 </section>
 <section id="graphical-argument" class="level1">
 <h1>Graphical Argument</h1>
-<p><strong>(1) Let this curve represent the world.</strong> Each question about the world is a point on the x-axis, and the answer to each question is represented by the curve.</p>
 <div class="cell" data-hash="2023-09-05-model-of-ai-imitation_cache/html/unnamed-chunk-4_0349531174ead0c98b69bfc1def595dd">
 <div class="cell-output-display">
 <p><img src="tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p><strong>(2) A human forms beliefs about the world (red curve).</strong> The human asks two questions and gets two answers (red dots) and from these they form estimates of the answer to every other question (red line).</p>
+<p><strong>(1) Let the curve above represent the truth about the world.</strong> Each question about the world is a point on the x-axis, and the answer to each question is represented by the curve.</p>
 <div class="cell" data-hash="2023-09-05-model-of-ai-imitation_cache/html/unnamed-chunk-5_fc59d383f77526c17bc68e2bec0f1dc0">
 <div class="cell-output-display">
 <p><img src="tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p><strong>(3) A computer learns to predict the human’s answers (green curve).</strong> The human records some questions and their answers (green dots), and the computer learns to predict the human’s answers (green curve). Here I have drawn the best case, where the fit is perfect, but we would never expect the computer to do <em>better</em> than the human.</p>
+<p><strong>(2) A human forms beliefs about the world (red curve).</strong> The human asks two questions and gets two answers (red dots) and from these they form estimates of the answer to every other question (red line).</p>
 <div class="cell" data-hash="2023-09-05-model-of-ai-imitation_cache/html/unnamed-chunk-6_3aaabec06efb97437e975bc9d1361abc">
 <div class="cell-output-display">
 <p><img src="tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p><strong>(4) Add another human (blue curve).</strong> Suppose we have an additional human who asks some different questions (blue dots) and so forms different beliefs. Each human’s beliefs are are accurate in the neighborhood of their experience.</p>
+<p><strong>(3) A computer learns to predict the human’s answers (green curve).</strong> The human records some questions and their answers (green dots), and the computer learns to predict the human’s answers (green curve). Here I have drawn the best case, where the fit is perfect, but we would never expect the computer to do <em>better</em> than the human.</p>
 <div class="cell" data-hash="2023-09-05-model-of-ai-imitation_cache/html/unnamed-chunk-7_42dcaf0b196b8edad700cf6e15c70ff8">
 <div class="cell-output-display">
 <p><img src="tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>(4) Add another human (blue curve).</strong> Suppose we have an additional human who asks some different questions (blue dots) and so forms different beliefs. Each human’s beliefs are are accurate in the neighborhood of their experience.</p>
+<div class="cell" data-hash="2023-09-05-model-of-ai-imitation_cache/html/unnamed-chunk-8_39ad5e6fdd16a8e57b7311f418f4e63d">
+<div class="cell-output-display">
+<p><img src="tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><strong>(5) Let the computer predict answers from both humans (green curve).</strong> Now both humans record their experiences and the computer tries to predict human answers (green curve). Here we can see:</p>
@@ -108,49 +113,109 @@
 <li><strong>Specialization.</strong> The computer’s predictions can match the humans’ responses in each of their domains of expertise</li>
 <li><strong>Interpolation.</strong> The computer is better than <em>both</em> humans in the intermediate region, i.e.&nbsp;the computer effectively combines information from both humans.</li>
 </ol>
-<div class="cell" data-hash="2023-09-05-model-of-ai-imitation_cache/html/unnamed-chunk-8_39ad5e6fdd16a8e57b7311f418f4e63d">
-<div class="cell-output-display">
-<p><img src="tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p><strong>(6) Let the human have tacit knowledge.</strong> Suppose the human always knows correct the answer when they see the question (red), but their conscious understanding of the relationship (pink) is imperfect. When asked which question would get the highest answer, i.e.&nbsp;what is the maximum of this function, then they will choose the maximum of the pink curve. However the computer could learn the red curve and algorithmically find the maximum, substantially outperforming the human.</p>
-<p>In fact I think this is an accurate description of image synthesis by neural nets: models are first trained to recognize images given captions, and then a new image can be synthesized to match a given caption, e.g.&nbsp;through a diffusion algorithm. Here there’s a striking asymmetry: these algorithms can approximately match average human performance in recognition, but they far outperform human performance in construction of new artefacts.</p>
 <div class="cell" data-hash="2023-09-05-model-of-ai-imitation_cache/html/unnamed-chunk-9_b4cc24ee0e5acacef3af5eac7a342101">
 <div class="cell-output-display">
 <p><img src="tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p><strong>(6) Let the human have tacit knowledge.</strong> Suppose the human always knows correct the answer when they see the question (red), but their conscious understanding of the relationship (pink) is imperfect. When asked which question would get the highest answer, i.e.&nbsp;what is the maximum of this function, then they will choose the maximum of the pink curve. However the computer could learn the red curve and algorithmically find the maximum, substantially outperforming the human.</p>
+<p>In fact I think this is an accurate description of image synthesis by neural nets: models are first trained to recognize images given captions, and then a new image can be synthesized to match a given caption, e.g.&nbsp;through a diffusion algorithm. Here there’s a striking asymmetry: these algorithms can approximately match average human performance in recognition, but they far outperform human performance in construction of new artefacts.</p>
 </section>
-<section id="evidence-on-superhuman-performance" class="level1">
+<section id="evidence-on-superhuman-performance" class="level1 page-columns page-full">
 <h1>Evidence on Superhuman Performance</h1>
-<p><strong>Performance over time.</strong></p>
-<p><a href="https://ourworldindata.org/brief-history-of-ai">Language and image recognition abilities.</a></p>
-<p>However the paper that collected this data (<a href="https://arxiv.org/pdf/2104.14337.pdf">Kiela et al.</a>) argues that performance on benchmarks significantly exaggerates true performance: <em>“Models that achieve super-human performance on benchmark tasks (according to the narrow criteria used to define human performance) nonetheless fail on simple challenge examples and falter in real-world scenarios.”</em></p>
-<p><img src="tecunningham.github.io/posts/images/2023-09-18-08-13-45.png" class="img-fluid"></p>
-<p><a href="https://ourworldindata.org/grapher/ai-performance-coding-math-knowledge-tests">Performance on coding, math &amp; knowledge tests.</a></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="tecunningham.github.io/posts/images/2023-09-18-08-06-51.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">coding, math &amp; knowledge</figcaption>
-</figure>
-</div>
-<p><a href="https://ourworldindata.org/grapher/computer-chess-ability">Chess ability</a></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="tecunningham.github.io/posts/images/2023-09-18-08-10-14.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">chess ability</figcaption>
-</figure>
-</div>
-<p><strong>Miscellaneous.</strong></p>
-<ul>
-<li><p><strong>Papers on persuasion.</strong> A number of papers compare the persuasive power of LLM-generated text to human-generated text (<span class="citation" data-cites="bai2023persuade">Bai et al. (2023)</span>, <span class="citation" data-cites="goldstein2023persuasive">Goldstein et al. (2023)</span>, <span class="citation" data-cites="hackenburg2023persuasive">Hackenburg and Margetts (2023)</span>, <span class="citation" data-cites="matz2023personalized">Matz et al. (2023)</span>, <span class="citation" data-cites="palmer2023large">Palmer and Spirling (2023)</span>, <span class="citation" data-cites="qin2023large">Qin et al. (2023)</span>). They all find that LLM does relatively well, but none show clear signs of computer superiority.</p></li>
-<li><p><span class="citation" data-cites="koivisto2023creativity">Koivisto and Grassini (2023)</span>: they compared GPT4 to online recruited humans (£2 for 13 minute task) in giving “creative” uses for everyday items. The prompt was to “come up with original and creative uses for an object”, objects were “rope”, “box”, “pencil” and “candle.” The responses were rated by humans for their “creativity/originality.” GPT-4 responses were perhaps 1SD above the average human score, but the difference was smaller for the best response for each user.</p></li>
-</ul>
+<p><strong>Summary.</strong> This table shows the year in which a computer (or mechanical device) could match performance with the best human:</p>
+<table class="table">
+<tbody>
+<tr class="odd">
+<td>arithmetic</td>
+<td>1642</td>
+</tr>
+<tr class="even">
+<td>chess</td>
+<td>1997</td>
+</tr>
+<tr class="odd">
+<td>Jeopardy</td>
+<td>2005</td>
+</tr>
+<tr class="even">
+<td>image recognition (ImageNet)</td>
+<td>2015</td>
+</tr>
+<tr class="odd">
+<td>handwriting recognition (MNIST)</td>
+<td>2015</td>
+</tr>
+<tr class="even">
+<td>question answering (SQuAD1.1)</td>
+<td>2019</td>
+</tr>
+<tr class="odd">
+<td>difficult math questions (MATH)</td>
+<td>2023</td>
+</tr>
+<tr class="even">
+<td>coding problems (MBPP)</td>
+<td>(not yet)</td>
+</tr>
+</tbody>
+</table>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><img src="tecunningham.github.io/posts/images/2023-09-19-09-55-57.png" class="img-fluid"></p>
+</div></div><div class="page-columns page-full"><p><strong>Computers have hit the ceiling on most benchmarks.</strong> <span class="citation" data-cites="kiela2023plottingprogress">Kiela et al. (2023)</span> documents that most computer benchmarks have become “saturated,” i.e.&nbsp;computers get close-to-perfect performance, and that recently the speed of saturation has become quicker (see graph on right). They say identify only a single benchmark where performance is not close to the human baseline, and most of the models they discuss are imitation learning. As a consequence some work has moved to evaluating models against examples specifically on “adversarial” tasks chosen to fool computers (e.g.&nbsp;Dynabench, <span class="citation" data-cites="kiela2021dynabench">Kiela et al. (2021)</span>).<sup>2</sup></p><div class="no-row-height column-margin column-container"><li id="fn2"><p><sup>2</sup>&nbsp;<span class="citation" data-cites="kiela2021dynabench">Kiela et al. (2021)</span> also say that “models that achieve super-human performance on benchmark tasks (according to the narrow criteria used to define human performance) nonetheless fail on simple challenge examples and falter in real-world scenarios.”</p></li></div></div>
+<p><strong>On some benchmarks no computer could ever beat human performance.</strong> On some tasks human performance effectively <em>is</em> the ground truth, and so by definition computers could never beat humans. This is roughly true for text comprehension: a sentence has a given meaning if and only if the average person believes it has that meaning. When we observe computer outperformance it is because either (1) there is human variation and the computer output is more consistent; or (2) computers outperform amateur humans but the ground truth is expert humans.</p>
+<section id="performance-by-task" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="performance-by-task">Performance by Task</h2>
+<p><strong><em>Arithmetic</em>: computers passed humans 300 years ago.</strong> Machines have been used to do calculations since the 17th century, e.g.&nbsp;<a href="https://en.wikipedia.org/wiki/Pascal's_calculator">Pascal’s calculator</a> from 1642.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<table class="table">
+<tbody>
+<tr class="odd">
+<td>Backgammon</td>
+<td>1979</td>
+</tr>
+<tr class="even">
+<td>Chess</td>
+<td>1997</td>
+</tr>
+<tr class="odd">
+<td>Jeopardy</td>
+<td>2005</td>
+</tr>
+<tr class="even">
+<td>Atari games</td>
+<td>2013</td>
+</tr>
+<tr class="odd">
+<td>Go</td>
+<td>2016</td>
+</tr>
+<tr class="even">
+<td>Starcraft</td>
+<td>2019</td>
+</tr>
+</tbody>
+</table>
+<p>(<a href="https://historyofyesterday.com/the-brutal-history-of-ai-defeating-every-human/">source</a>)</p>
+</div></div><p><strong><em>Playing games</em>: computers passed humans over the last 45 years.</strong> See the table in the margin for games. I am not aware of any well-known games in which computers cannot reliably beat the best humans.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><img src="tecunningham.github.io/posts/images/2023-09-18-08-13-45.png" class="img-fluid"> (<a href="https://ourworldindata.org/brief-history-of-ai">source</a>)</p>
+</div></div><p><strong><em>Image recognition</em>: computers surpassed humans in the 2010s.</strong> With the qualifications above about the limitations of benchmark tasks.</p>
+<p><strong><em>Question answering</em>: computers surpassed humans in the 2010s.</strong> With the qualifications above about the limitations of benchmark tasks.</p>
+<p><strong><em>Coding</em>: computers still below expert.</strong> See the benchmarks on <a href="https://paperswithcode.com/task/code-generation">PapersWithCode</a>, also a graph on <a href="https://ourworldindata.org/grapher/ai-performance-coding-math-knowledge-tests">OurWorldInData</a>, specifically <a href="https://paperswithcode.com/dataset/apps">APPS</a> and <a href="https://paperswithcode.com/sota/code-generation-on-mbpp">MBPP</a>. The best-performing computers are still imperfect at solving these coding challengers (which presumably can be solved by an expert programmer), but progress is rapid.</p>
+<p><strong><em>Writing persuasive text</em>: computer comparable to average human.</strong> A number of recent papers compare the persuasive power of LLM-generated text to human-generated text (<span class="citation" data-cites="bai2023persuade">Bai et al. (2023)</span>, <span class="citation" data-cites="goldstein2023persuasive">Goldstein et al. (2023)</span>, <span class="citation" data-cites="hackenburg2023persuasive">Hackenburg and Margetts (2023)</span>, <span class="citation" data-cites="matz2023personalized">Matz et al. (2023)</span>, <span class="citation" data-cites="palmer2023large">Palmer and Spirling (2023)</span>, <span class="citation" data-cites="qin2023large">Qin et al. (2023)</span>). They all find that LLMs do relatively well, but none show clear signs of computer superiority.</p>
+<p><strong><em>Writing creative blurbs</em>: computer comparable to average human.</strong> <span class="citation" data-cites="koivisto2023creativity">Koivisto and Grassini (2023)</span> compared GPT4 to online recruited humans (£2 for a 13 minute task) in giving “creative” uses for everyday items. The prompt was to “come up with original and creative uses for an object”, objects were “rope”, “box”, “pencil” and “candle.” The responses were rated by humans for their “creativity” or “originality.” GPT-4 responses were perhaps 1SD above the average human score, but the difference was smaller when choosing just the best response for each user.</p>
+<div class="page-columns page-full"><p><strong><em>Summarizing text</em>: computer beats average human.</strong> <span class="citation" data-cites="lee2023rlaif">Lee et al. (2023)</span> reports that LLM-generated summaries of articles were preferred by humans to human-generated summaries 80% of the time. However the paper doesn’t give much detail about the conditions of the humans writing the summaries.<sup>3</sup></p><div class="no-row-height column-margin column-container"><li id="fn3"><p><sup>3</sup>&nbsp;<em>“RLAIF summaries are preferred over the reference [human-written] summaries 79% of the time, and RLHF are preferred over the reference summaries 80% of the time.”</em></p></li></div></div>
+<div class="page-columns page-full"><p><strong><em>Doing math problems</em>: computer comparable to expert.</strong> The latest score on the <a href="https://paperswithcode.com/sota/math-word-problem-solving-on-math">MATH benchmark</a> is 84%, compared to 90% by a three-time IMO gold medalist. The scores have been rising very rapidly so it seems likely that computers will soon surpass humans.<sup>4</sup></p><div class="no-row-height column-margin column-container"><li id="fn4"><p><sup>4</sup>&nbsp;<span class="citation" data-cites="hendrycks2021measuring">Hendrycks et al. (2021)</span> says “We found that a computer science PhD student who does not especially like mathematics attained approximately 40% on MATH, while a three-time IMO gold medalist attained 90%”</p></li></div></div>
+</section>
 </section>
 <section id="discussion" class="level1 page-columns page-full">
 <h1>Discussion</h1>
 <p><strong>Training on custom-written text.</strong> Recent LLMs don’t train just on predicting existing text (books, internet, twitter) they also use datasets of instructions and responses generated by paid raters (<span class="citation" data-cites="ouyang2022training">Ouyang et al. (2022)</span>). We can still call this imitation but it’s putting relatively more weight on imitating the responses of specific set of people, the paid raters. This significantly improves performance on most benchmarks, but I think it also has costs: the model is now predicting output of a specific set of people (i.e.&nbsp;non-expert paid raters), and so conceivably will do less well at incorporating niche information available to an expert.</p>
-<div class="page-columns page-full"><p><strong>Training on evaluation instead of production.</strong> Recent LLMs are not purely imitative, e.g.&nbsp;OpenAI’s GPT models are trained with human <em>evaluation</em> of their responses (called reinforcement learning with human feedback (RLHF).<sup>2</sup> The key difference is that the goal reflects how humans rate responses, rather than how humans generate responses. In some domains the two functions might be identical, but in others there’s a clear difference. This can have both costs and benefits: .</p><div class="no-row-height column-margin column-container"><li id="fn2"><p><sup>2</sup>&nbsp;E.g. see OpenAI’s 2022 InstructGPT (<span class="citation" data-cites="ouyang2022training">Ouyang et al. (2022)</span>). Technically the reinforcement learning is against a model trained to predict the human evaluation of outputs.</p></li></div></div>
+<div class="page-columns page-full"><p><strong>Training on evaluation instead of production.</strong> Recent LLMs are not purely imitative, e.g.&nbsp;OpenAI’s GPT models are trained with human <em>evaluation</em> of their responses (called reinforcement learning with human feedback (RLHF).<sup>5</sup> The key difference is that the goal reflects how humans rate responses, rather than how humans generate responses. In some domains the two functions might be identical, but in others there’s a clear difference. This can have both costs and benefits: .</p><div class="no-row-height column-margin column-container"><li id="fn5"><p><sup>5</sup>&nbsp;E.g. see OpenAI’s 2022 InstructGPT (<span class="citation" data-cites="ouyang2022training">Ouyang et al. (2022)</span>). Technically the reinforcement learning is against a model trained to predict the human evaluation of outputs.</p></li></div></div>
 <p>This dramatically improves performance on instruction-following benchmarks. This is different from imitative learning insofar as humans have an asymmetry between their production and evaluation of responses: between how they follow an instruction and how they evaluate other people following that instruction.</p>
 <p></p>
 <p><strong>The importance of tacit knowledge.</strong> The relative success of machine learning over symbolic AI has often been connected to the importance of tacit human knowledge, e.g.&nbsp;by Geoff Hinton. I have written a lot about the importance of tacit knowledge in human decision-making (<a href="https://tecunningham.github.io/posts/2017-12-10-unconscious-influences.html">post</a>, <a href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=MDB_DgkAAAAJ&amp;citation_for_view=MDB_DgkAAAAJ:WF5omc3nYNoC">paper</a>, <a href="http://jondequidt.com/pdfs/paper_implicit.pdf">paper</a>).</p>
@@ -161,12 +226,12 @@
 <li><strong>Modern LLMs can combine capabilities.</strong> GPT-4 is good at combining two different capabilities, e.g.&nbsp;writing a sonnet about quantum theory, or a ballad in Spanish about New Zealand. It seems likely there are many such combination tasks which no single human could perform unaided.</li>
 </ol>
 <p><strong>Other discussion of super-human performance by LLMs.</strong> I have found surprisingly little online or academic discussion about whether LLMs will hit a ceiling defined by human performance. A good paper by <span class="citation" data-cites="bowman2023eight">Bowman (2023)</span> has a section titled “human performance on a task isn’t an upper bound on LLM performance.” He says LLMs can outperform humans for two reasons: (1) “they are trained on far more data than any human sees,” and (2) “they are often given additional training using reinforcement learning … which trains them to produce responses that humans find helpful without requiring humans to demonstrate such helpful behavior.” I think this discussion misses the more fine-grained reasons why a purely imitative LLM can outperform humans (averaging, specialization, interpolation, and using tacit knowledge).</p>
-<div class="page-columns page-full"><p><strong>Computers can never outperform the best human on language understanding tasks.</strong> The ground truth about language interpretation is defined by how humans interpret that language, and so a computer can never outperform this.<sup>3</sup> E.g. in benchmarks for natural language understanding the labels are typically written by the human authors of the benchmark (<span class="citation" data-cites="tedeschi2023s">Tedeschi et al. (2023)</span>). In content moderation the definition of ground truth is typically either majority-vote among paid human raters, or the reflective judgment of a senior human employee. It follows that a computer could outperform the average human only by reducing noise, or by better-approximating the output of a specific human.<sup>4</sup></p><div class="no-row-height column-margin column-container"><li id="fn3"><p><sup>3</sup>&nbsp;There are arguably exceptions but I don’t think they are quantitatively important. Consider the sentence “Buffalo buffalo Buffalo buffalo buffalo buffalo Buffalo buffalo”: it does have at least one well-defined meaning according to the typical rules of English but arguably no human would correctly identify that meaning unless specifically prompted. A computer trained only on human comprehension could plausibly identify its meaning.</p></li><li id="fn4"><p><sup>4</sup>&nbsp;Many recent language models do outperform the average human baseline on language understanding tasks, but <span class="citation" data-cites="tedeschi2023s">Tedeschi et al. (2023)</span> argue that for a variety of reasons the strength of these results is significantly exaggerated.</p></li></div></div>
+<div class="page-columns page-full"><p><strong>Computers can never outperform the best human on language understanding tasks.</strong> The ground truth about language interpretation is defined by how humans interpret that language, and so a computer can never outperform this.<sup>6</sup> E.g. in benchmarks for natural language understanding the labels are typically written by the human authors of the benchmark (<span class="citation" data-cites="tedeschi2023s">Tedeschi et al. (2023)</span>). In content moderation the definition of ground truth is typically either majority-vote among paid human raters, or the reflective judgment of a senior human employee. It follows that a computer could outperform the average human only by reducing noise, or by better-approximating the output of a specific human.<sup>7</sup></p><div class="no-row-height column-margin column-container"><li id="fn6"><p><sup>6</sup>&nbsp;There are arguably exceptions but I don’t think they are quantitatively important. Consider the sentence “Buffalo buffalo Buffalo buffalo buffalo buffalo Buffalo buffalo”: it does have at least one well-defined meaning according to the typical rules of English but arguably no human would correctly identify that meaning unless specifically prompted. A computer trained only on human comprehension could plausibly identify its meaning.</p></li><li id="fn7"><p><sup>7</sup>&nbsp;Many recent language models do outperform the average human baseline on language understanding tasks, but <span class="citation" data-cites="tedeschi2023s">Tedeschi et al. (2023)</span> argue that for a variety of reasons the strength of these results is significantly exaggerated.</p></li></div></div>
 <p>The same point applies to computer performance on exam problems: in almost all cases the person who wrote the exam can get a perfect score and so a computer could never outperform that person.</p>
-<div class="page-columns page-full"><p><strong>Computers can outperform humans on recognition tasks.</strong> Most benchmarks for media recognition use human labels, e.g.&nbsp;for object detection in photos or speech recognition in audio. However humans can be mistaken: they might incorrectly think a photo has a dog in it when it does not or vice versa. Humans are very good at recognition, so human-labelled data has been sufficient, but computers are liable to exceed human performance on these tasks.<sup>5</sup></p><div class="no-row-height column-margin column-container"><li id="fn5"><p><sup>5</sup>&nbsp;In fact defining ground truth is somewhat complicated because an image is consistent with an infinite variety of objects causing that arrangement of pixels, we can only talk about an image representing an object because of priors about typical scenes. So the ground truth of interest must be something like “in ordinary circumstances, what is the probability that these pixels would be caused by a scene with a dog in them.”</p></li></div></div>
+<div class="page-columns page-full"><p><strong>Computers can outperform humans on recognition tasks.</strong> Most benchmarks for media recognition use human labels, e.g.&nbsp;for object detection in photos or speech recognition in audio. However humans can be mistaken: they might incorrectly think a photo has a dog in it when it does not or vice versa. Humans are very good at recognition, so human-labelled data has been sufficient, but computers are liable to exceed human performance on these tasks.<sup>8</sup></p><div class="no-row-height column-margin column-container"><li id="fn8"><p><sup>8</sup>&nbsp;In fact defining ground truth is somewhat complicated because an image is consistent with an infinite variety of objects causing that arrangement of pixels, we can only talk about an image representing an object because of priors about typical scenes. So the ground truth of interest must be something like “in ordinary circumstances, what is the probability that these pixels would be caused by a scene with a dog in them.”</p></li></div></div>
 <p><strong>The graphical model underplays the importance of architecture.</strong> The graphical model shown above represents both questions and answers as unidimensional, and it makes it seem that a small sample is sufficient to get a reasonably good approximation of the true function. In reality the questions are very high dimensional and most architectures fail to get a good fit. Neural nets with transformer structure have had remarkable success in fitting the data.</p>
 <p><strong>Computers can outperform humans by averaging out error (“wisdom of crowds”).</strong> An additional reason for superhuman performance, not illustrated in the graphical argument above, is that they can average out variance in how humans report their answers, whether that variance is due to noise in perception, belief formation, or in recording human answers. We could illustrate this with multiple red lines at step 2: it’s clear that if the computer tries to predict the average human response then it will end up closer to the ground truth than the average human. More generally: the average error will necessarily be larger than the error of the average, by Jensen’s inequality.</p>
-<div class="page-columns page-full"><p><strong>Specalization depends on people writing what they know.</strong> The “specialization” result above depends on a correlation between evidence and error: for any given question the answer observed in the training data is more likely to come from a human who has direct experience (and so lower error). This seems a reasonable assumption, that people typically write about what they know. However there are a clear cases where the opposite occurs: where the people who write the most about a topic are the people who have the least accurate beliefs about it, e.g.&nbsp;conspiracy theories, politically partisan issues, or astrology. In these cases we would expect AI to answer question copying these people.<sup>6</sup></p><div class="no-row-height column-margin column-container"><li id="fn6"><p><sup>6</sup>&nbsp;Analogically, in music or visual art, there might be some genres where the people who create artworks are uniquely bad at it, and so in these genres imitative AI would learn to make artworks worse than the average human would make.</p></li></div></div>
+<div class="page-columns page-full"><p><strong>Specalization depends on people writing what they know.</strong> The “specialization” result above depends on a correlation between evidence and error: for any given question the answer observed in the training data is more likely to come from a human who has direct experience (and so lower error). This seems a reasonable assumption, that people typically write about what they know. However there are a clear cases where the opposite occurs: where the people who write the most about a topic are the people who have the least accurate beliefs about it, e.g.&nbsp;conspiracy theories, politically partisan issues, or astrology. In these cases we would expect AI to answer question copying these people.<sup>9</sup></p><div class="no-row-height column-margin column-container"><li id="fn9"><p><sup>9</sup>&nbsp;Analogically, in music or visual art, there might be some genres where the people who create artworks are uniquely bad at it, and so in these genres imitative AI would learn to make artworks worse than the average human would make.</p></li></div></div>
 <p><strong>Alternative definitions of superhuman abilities.</strong> We can formalize “superhuman” abilities in a variety of ways, e.g.:</p>
 <p><img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20%5Ctext%7Bweak:%7D&amp;&amp;%20%5Cut%7BE%5Ba(q)-%5Cbar%7Ba%7D(q)%5D%5E2%7D%7Berror%20of%20computer%7D%0A%20%20%20%20%20%20%20%20%20&amp;%5Cleq%20%20%5Cut%7B%5Cfrac%7B1%7D%7Bn%7D%5Csum_%7Bi=1%7D%5EnE%5Ba(q)-%5Chat%7Ba%7D_i(q)%5D%5E2%7D%7Bavg%20error%20of%20human%7D%5C%5C%0A%20%20%20%20%20%20%5Ctext%7Bmedium:%7D&amp;&amp;%20%5Cut%7BE%5Ba(q)-%5Cbar%7Ba%7D(q)%5D%5E2%7D%7Berror%20of%20computer%7D%0A%20%20%20%20%20%20%20%20%20&amp;%5Cleq%20%20%5Cut%7BE%5Cleft%5Ba(q)-%5Cfrac%7B1%7D%7Bn%7D%5Csum_%7Bi=1%7D%5En%5Chat%7Ba%7D_i(q)%5Cright%5D%5E2%7D%7Berror%20of%20avg%20human%7D%5C%5C%0A%20%20%20%20%20%20%5Ctext%7Bstrong:%7D&amp;&amp;%20%5Cut%7BE%5Ba(q)-%5Cbar%7Ba%7D(q)%5D%5E2%7D%7Berror%20of%20computer%7D%0A%20%20%20%20%20%20%20%20%20&amp;%5Cleq%20%20%5Cut%7B%5Cmin_%7Bi=1,%5Cldots,n%7DE%5Ba(q)-%5Chat%7Ba%7D_i(q)%5D%5E2%7D%7Berror%20of%20best%20human%7D%5C%5C%0A%20%20%20%20%20%20%5Ctext%7Bsuper-strong:%7D&amp;&amp;%20%5Cut%7BE%5Ba(q)-%5Cbar%7Ba%7D(q)%5D%5E2%7D%7Berror%20of%20computer%7D%0A%20%20%20%20%20%20%20%20%20&amp;%5Cleq%20%20%5Cut%7BE%5B%5Cmin_%7Bi=1,%5Cldots,n%7D%5C%7Ba(q)-%5Chat%7Ba%7D_i(q)%5C%7D%5D%5E2%7D%7Berror%20of%20best%20human%20by%20question%7D%5C%5C%0A%20%20%20%5Cend%7Baligned%7D"></p>
 <p>Note that we cannot rank benchmark #2 and #3: the error of the best human could be either higher or lower than the error of the average human.</p>
@@ -178,7 +243,7 @@
 <p><img src="tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div></div></div>
 <p><strong>Venn diagram representation.</strong> This diagram shows an alternative way of representing some of the core claims: in general the questions answerable by an LLM will not be a subset of the questions answered in the training set, or even those answerable by the people who contributed to the training set. The Venn diagram’s disadvantage, relative to the visualizations above, is that it does not represent the mechanics of <em>why</em> the LLM can outperform humans, while the diagram above can be use to separately show four distinct reasons (averaging error, specialization, interpolation, and using tacit knowledge).</p>
-<div class="page-columns page-full"><p><strong>Imitation learning in dynamic problems.</strong> The discussion in this note has been about a purely static problem of supplying answers to questions, but text generation can also be considered as a dynamic problem of sequentially generating tokens. A common observation regarding dynamic policy is that pure prediction of expert behaviour (“behavioural cloning”) is not very robust, and this has been used to explain weaknesses in the behaviour of autoregressive generative text models.<sup>7</sup></p><div class="no-row-height column-margin column-container"><li id="fn7"><p><sup>7</sup>&nbsp;<span class="citation" data-cites="cundy2023sequencematch">Cundy and Ermon (2023)</span> say “[the] simple behaviour cloning approach results in a compounding error problem, where the further the trained model gets from the typical expert states, the worse the model performs, incurring increasing error.” I also found <a href="https://web.stanford.edu/class/cs237b/pdfs/lecture/cs237b_lecture_12.pdf">these notes</a> from Stanford’s CS273B useful.</p></li></div></div>
+<div class="page-columns page-full"><p><strong>Imitation learning in dynamic problems.</strong> The discussion in this note has been about a purely static problem of supplying answers to questions, but text generation can also be considered as a dynamic problem of sequentially generating tokens. A common observation regarding dynamic policy is that pure prediction of expert behaviour (“behavioural cloning”) is not very robust, and this has been used to explain weaknesses in the behaviour of autoregressive generative text models.<sup>10</sup></p><div class="no-row-height column-margin column-container"><li id="fn10"><p><sup>10</sup>&nbsp;<span class="citation" data-cites="cundy2023sequencematch">Cundy and Ermon (2023)</span> say “[the] simple behaviour cloning approach results in a compounding error problem, where the further the trained model gets from the typical expert states, the worse the model performs, incurring increasing error.” I also found <a href="https://web.stanford.edu/class/cs237b/pdfs/lecture/cs237b_lecture_12.pdf">these notes</a> from Stanford’s CS273B useful.</p></li></div></div>
 </section>
 <section id="linear-model" class="level1 page-columns page-full">
 <h1>Linear Model</h1>
@@ -186,7 +251,7 @@
 <p><img src="https://latex.codecogs.com/png.latex?%5Cxymatrix@C=.5cm@R=0cm%7B%0A%20%20%20%20%20%20%5Ctext%7Bworld%7D%0A%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7Bhuman%7D%0A%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7BLLM%7D%5C%5C%0A%20%20%20%20%20%20*+%5BF:%3C5pt%3E%5D%7B%5Cbm%7Bw%7D%7D%20%5Car%5Brr%5D%5E%7B%5Cbm%7Ba%7D=Q%5Cbm%7Bw%7D%7D%0A%20%20%20%20%20%20&amp;&amp;%20*+%5BF:%3C5pt%3E%5D%7B%5Chat%7B%5Cbm%7Bw%7D%7D%7D%20%5Car%5Brr%5D%5E%7B%5Chat%7B%5Cbm%7Ba%7D%7D=%5Chat%7BQ%7D%5Chat%7B%5Cbm%7Bw%7D%7D%7D%0A%20%20%20%20%20%20&amp;&amp;%20*+%5BF:%3C5pt%3E%5D%7B%5Cbar%7B%5Cbm%7Bw%7D%7D%7D%20%5Car%5Brr%5D%5E%7B%5Ctilde%7Ba%7D=%5Ctilde%7Bq%7D'%5Cbar%7B%5Cbm%7Bw%7D%7D%7D%0A%20%20%20%20%20%20&amp;&amp;%20%5C%20%20%5C%5C%0A%20%20%20%20%20%20%5Ctxt%7Bunobserved%5C%5Ctruth%5C%5Cabout%5C%5Cthe%5C%5Cworld%7D%0A%20%20%20%20%20%20&amp;%20%5Ctxt%7Banswers%5C%5Cto%5C%5Chuman%5C%5Cquestions%7D%0A%20%20%20%20%20%20&amp;%20%5Ctxt%7Bbeliefs%5C%5Cformed%5C%5Cby%5C%5Chuman%7D%0A%20%20%20%20%20%20&amp;%20%5Ctxt%7Btext%5C%5Cwritten%5C%5Cby%5C%5Chuman%7D%0A%20%20%20%20%20%20&amp;%20%5Ctxt%7BLLM%5C%5Cmodel%5C%5Cof%5C%5Chuman%5C%5Ctext%7D%0A%20%20%20%20%20%20&amp;%20%5Ctxt%7BLLM's%5C%5Canswers%5C%5Cto%5C%5Cnew%5C%5Cquestions%7D%0A%20%20%20%7D"></p>
 <p><strong>Questions and answers.</strong> A question is defined by a set of binary attributes (<img src="https://latex.codecogs.com/png.latex?q_1,%5Cldots,q_n%5Cin%5C%7B-1,1%5C%7D">), and the answer is a linear function of those attributes given some unobserved weights <img src="https://latex.codecogs.com/png.latex?w_1,%5Cldots,w_n"> (see below for derivation):</p>
 <p><img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20%5Cut%7B%5Cbmatrix%7Ba%5E1%20%5C%5C%20%5Cvdots%20%5C%5C%20a%5Em%7D%7D%7Banswers%7D%0A%20%20%20%20%20%20%20%20%20=%20%5Cut%7B%5Cbmatrix%7Bq_1%5E1%20w_1%20+%20%5Cldots%20q_n%5E1w_n%20%5C%5C%20%5Cvdots%20%5C%5C%20q_1%5Em%20w_1%20+%20%5Cldots%20q_n%5Emw_n%7D%7D%7Bquestions%7D%0A%20%20%20%5Cend%7Baligned%7D"></p>
-<div class="page-columns page-full"><p><strong>Human beliefs.</strong> After observing a set of question and their real-world answers the human will form beliefs about the weights <img src="https://latex.codecogs.com/png.latex?w_1,%5Cldots,w_n">. We can explicitly write the human posteriors if we assume their priors are Gaussian and i.i.d. (<img src="https://latex.codecogs.com/png.latex?%5Cbm%7Bw%7D%5Csim%20N(0,%5Csigma%5E2I)">):<sup>8</sup> <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20%5Cbm%7Ba%7D%20%20%20%20%20%20%20%20&amp;=%20Q%5Cbm%7Bw%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(questions%20%5C&amp;%20answers%20given%20true%20weights%20$%5Cbm%7Bw%7D$)%7D%5C%5C%0A%20%20%20%20%20%20%5Chat%7B%5Cbm%7Bw%7D%7D%20&amp;=%20Q'(QQ')%5E%7B-1%7D%5Cbm%7Ba%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(human%20estimate%20of%20true%20weights%20$%5Cbm%7Bw%7D$)%7D%0A%20%20%20%5Cend%7Baligned%7D"></p><div class="no-row-height column-margin column-container"><li id="fn8"><p><sup>8</sup>&nbsp;I am assuming <img src="https://latex.codecogs.com/png.latex?%5Cbm%7Bw%7D"> has zero-mean and is i.i.d. just to cut down on notation, the results all hold for the more general multivariate Normal case.</p></li></div></div>
+<div class="page-columns page-full"><p><strong>Human beliefs.</strong> After observing a set of question and their real-world answers the human will form beliefs about the weights <img src="https://latex.codecogs.com/png.latex?w_1,%5Cldots,w_n">. We can explicitly write the human posteriors if we assume their priors are Gaussian and i.i.d. (<img src="https://latex.codecogs.com/png.latex?%5Cbm%7Bw%7D%5Csim%20N(0,%5Csigma%5E2I)">):<sup>11</sup> <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20%5Cbm%7Ba%7D%20%20%20%20%20%20%20%20&amp;=%20Q%5Cbm%7Bw%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(questions%20%5C&amp;%20answers%20given%20true%20weights%20$%5Cbm%7Bw%7D$)%7D%5C%5C%0A%20%20%20%20%20%20%5Chat%7B%5Cbm%7Bw%7D%7D%20&amp;=%20Q'(QQ')%5E%7B-1%7D%5Cbm%7Ba%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(human%20estimate%20of%20true%20weights%20$%5Cbm%7Bw%7D$)%7D%0A%20%20%20%5Cend%7Baligned%7D"></p><div class="no-row-height column-margin column-container"><li id="fn11"><p><sup>11</sup>&nbsp;I am assuming <img src="https://latex.codecogs.com/png.latex?%5Cbm%7Bw%7D"> has zero-mean and is i.i.d. just to cut down on notation, the results all hold for the more general multivariate Normal case.</p></li></div></div>
 <p>I will assume that the number of unobserved weights is large relative to the human’s experience (<img src="https://latex.codecogs.com/png.latex?n%5Cgg%20m">), so the human will gradually learn more about reality as she observes the answer to more questions, and will be able to perfectly answer any question she’s seen before, but will never learn the full set of weights.</p>
 <p><strong>Computer beliefs.</strong> Suppose that humans write down some set of question and answer them given their beleifs. We use that text to train a computer to predict the answer given any question, and the computer likewise assumes a linear model with i.i.d. Gaussian weights. Then we can explicitly write the computer-estimated weights:</p>
 <p><img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20%5Chat%7B%5Cbm%7Ba%7D%7D%20%20%20%20%20%20%20%20&amp;=%20%5Chat%7BQ%7D%5Chat%7B%5Cbm%7Bw%7D%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(human-generated%20questions%20%5C&amp;%20answers)%7D%5C%5C%0A%20%20%20%20%20%20%5Cbar%7B%5Cbm%7Bw%7D%7D%20&amp;=%20%5Chat%7BQ%7D'(%5Chat%7BQ%7D%5Chat%7BQ%7D')%5E%7B-1%7D%5Chat%7B%5Cbm%7Ba%7D%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(computer%20estimate%20of%20human%20weights%20$%5Chat%7B%5Cbm%7Bw%7D%7D$)%7D%0A%20%20%20%5Cend%7Baligned%7D"></p>
@@ -216,7 +281,7 @@ Suppose there are two humans who each observe answers to different question, <im
 </dd>
 <dt><strong>If humans write outside their expertise then the computer will do worse.</strong></dt>
 <dd class="page-columns page-full">
-<div class="page-columns page-full"><p>In the cases above we assumed that the two humans recorded only what they directly observed. This means the computer essentially had a window directly to the world. However the humans could instead have written down their estimated answers to other questions. Suppose they both wrote down answers to every possible question, then the computer would learn the <em>average</em> of the two human’s estimated weights:<sup>9</sup> <img src="https://latex.codecogs.com/png.latex?%5Cbar%7B%5Cbm%7Bw%7D%7D=%5Cfrac%7B1%7D%7B2%7D%5Chat%7B%5Cbm%7Bw%7D%7D_A+%5Cfrac%7B1%7D%7B2%7D%5Chat%7B%5Cbm%7Bw%7D%7D_B."></p><div class="no-row-height column-margin column-container"><li id="fn9"><p><sup>9</sup>&nbsp;We would have to augment the computer’s learning rule to allow for noise in answers - I need to confirm that the weighting will be exactly 1/2.</p></li></div></div>
+<div class="page-columns page-full"><p>In the cases above we assumed that the two humans recorded only what they directly observed. This means the computer essentially had a window directly to the world. However the humans could instead have written down their estimated answers to other questions. Suppose they both wrote down answers to every possible question, then the computer would learn the <em>average</em> of the two human’s estimated weights:<sup>12</sup> <img src="https://latex.codecogs.com/png.latex?%5Cbar%7B%5Cbm%7Bw%7D%7D=%5Cfrac%7B1%7D%7B2%7D%5Chat%7B%5Cbm%7Bw%7D%7D_A+%5Cfrac%7B1%7D%7B2%7D%5Chat%7B%5Cbm%7Bw%7D%7D_B."></p><div class="no-row-height column-margin column-container"><li id="fn12"><p><sup>12</sup>&nbsp;We would have to augment the computer’s learning rule to allow for noise in answers - I need to confirm that the weighting will be exactly 1/2.</p></li></div></div>
 <p>Here the computer will do worse than the two humans on the original questions, <img src="https://latex.codecogs.com/png.latex?Q_A"> and <img src="https://latex.codecogs.com/png.latex?Q_B">.</p>
 <p>The implication is that LLMs work so well only because people tend to write about what they know. Put another way, when an LLM answers a question, it will not predict the answer given by the average person, but will predict the answer given by people who are likely to answer that question in the real world, and luckily those people tend to be people who are subject-matter experts.</p>
 </dd>
@@ -268,8 +333,20 @@ Goldstein, Josh A, Jason Chao, Shelby Grossman, Alex Stamos, and Michael Tomz. 2
 <div id="ref-hackenburg2023persuasive" class="csl-entry">
 Hackenburg, Kobi, and Helen Margetts. 2023. <span>“Evaluating the Persuasive Influence of Political Microtargeting with Large Language Models.”</span> OSF Preprints. <a href="https://doi.org/10.31219/osf.io/wnt8b">https://doi.org/10.31219/osf.io/wnt8b</a>.
 </div>
+<div id="ref-hendrycks2021measuring" class="csl-entry">
+Hendrycks, Dan, Collin Burns, Saurav Kadavath, Akul Arora, Steven Basart, Eric Tang, Dawn Song, and Jacob Steinhardt. 2021. <span>“Measuring Mathematical Problem Solving with the Math Dataset.”</span> <em>arXiv Preprint arXiv:2103.03874</em>.
+</div>
+<div id="ref-kiela2021dynabench" class="csl-entry">
+Kiela, Douwe, Max Bartolo, Yixin Nie, Divyansh Kaushik, Atticus Geiger, Zhengxuan Wu, Bertie Vidgen, et al. 2021. <span>“Dynabench: Rethinking Benchmarking in NLP.”</span> <em>arXiv Preprint arXiv:2104.14337</em>.
+</div>
+<div id="ref-kiela2023plottingprogress" class="csl-entry">
+Kiela, Douwe, Tristan Thrush, Kawin Ethayarajh, and Amanpreet Singh. 2023. <span>“Plotting Progress in AI.”</span> <em>Contextual AI Blog</em>.
+</div>
 <div id="ref-koivisto2023creativity" class="csl-entry">
 Koivisto, Mika, and Simone Grassini. 2023. <span>“Best Humans Still Outperform Artificial Intelligence in a Creative Divergent Thinking Task.”</span> <em>Scientific Reports</em> 13 (1): 13601. <a href="https://doi.org/10.1038/s41598-023-40858-3">https://doi.org/10.1038/s41598-023-40858-3</a>.
+</div>
+<div id="ref-lee2023rlaif" class="csl-entry">
+Lee, Harrison, Samrat Phatale, Hassan Mansoor, Kellie Lu, Thomas Mesnard, Colton Bishop, Victor Carbune, and Abhinav Rastogi. 2023. <span>“RLAIF: Scaling Reinforcement Learning from Human Feedback with AI Feedback.”</span> <em>arXiv Preprint arXiv:2309.00267</em>.
 </div>
 <div id="ref-matz2023personalized" class="csl-entry">
 Matz, Sandra, Jake Teeny, Sumer S Vaid, Gabriella M Harari, and Moran Cerf. 2023. <span>“The Potential of Generative AI for Personalized Persuasion at Scale.”</span> PsyArXiv. <a href="https://doi.org/10.31234/osf.io/rn97c">https://doi.org/10.31234/osf.io/rn97c</a>.
@@ -288,7 +365,7 @@ Tedeschi, Simone, Johan Bos, Thierry Declerck, Jan Hajic, Daniel Hershcovich, Ed
 </div>
 </div></section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html</guid>
-  <pubDate>Mon, 18 Sep 2023 07:00:00 GMT</pubDate>
+  <pubDate>Tue, 19 Sep 2023 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Sushi-Roll Model of Online Media</title>
@@ -2487,6 +2564,7 @@ Huszár, Ferenc, Sofia Ira Ktena, Conor O’Brien, Luca Belli, Andrew Schlaikjer
 </ul>
 <p><strong>Policies tracked over time.</strong></p>
 <ul>
+<li><p>Mchangama, Fanlo and Alkiviadou (2023) <strong><a href="https://futurefreespeech.com/wp-content/uploads/2023/07/Community-Guidelines-Report_Latest-Version_Formated-002.pdf">Scope Creep: An Assessment of 8 Social Media Platforms’ Hate Speech Policies</a></strong>. They document the hate speech policies over time for 8 platforms using a consistent rubric. They document that hate speech policies have become more broad-reaching over time. The data is available in Excel sheets <a href="https://futurefreespeech.com/scope-creep/">here</a>.</p></li>
 <li><p>Katie Harbath and Collier Fernenkes (August 2022) <strong><a href="https://bipartisanpolicy.org/blog/tech-platforms-election-database/">Election Policy Announcements, 2003-2022</a></strong>. Google spreadsheet with links to around 600 policy announcements, organized by platform, author, date, product-type, and country. Focussed on election-related policies, and they don’t include summaries of the policy announcement. They also wrote up analyses: (1) <a href="https://bipartisanpolicy.org/report/history-tech-elections/">“A Brief History of Tech and Elections”</a>; (2) <a href="https://bipartisanpolicy.org/blog/tech-midterm-election-announcements/">2022 election announcements</a>.</p></li>
 <li><p>Ranking Digital Rights Index, <strong><a href="https://rankingdigitalrights.org/bts22/explore-indicators">Comparison of Privacy and Transparency Policies, 2017-2022</a></strong>. They collect perhaps 100 different indicators across around 15 tech companies, mostly related to privacy and transparency, earliest data from 2017. All the data is available.</p></li>
 <li><p>GLAAD <strong><a href="https://sites.google.com/glaad.org/smsi/platform-scores?authuser=0">Comparison of LGBTQ user safety, 2021-2022</a></strong></p></li>
