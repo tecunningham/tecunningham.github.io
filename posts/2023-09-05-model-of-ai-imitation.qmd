@@ -41,7 +41,7 @@ format:
                dl { margin-bottom: 0px; }
                dt strong { font-weight: bold; }
                dd { margin-left: 20px; }
-               .cell-output-display p {padding: 0 0 1cm 0; margin: 0 0 0 0;}
+               .cell-output-display p {padding: 0 0 0cm 0; margin: 0 0 0 0;}
             </style>
 ---
 <!-- 
@@ -143,14 +143,14 @@ ggplot(curves, aes(x, y)) +
    ylim(0, 12)
 ```
 
-**If we train an AI to *imitate* humans, will it ever *beat* humans?** Large language models (LLMs) are trained to predict what humans would say in a given situation (with some qualifications, see below). It would seem to follow that they would never be *better* at answering questions than a human.[^objective]
+**If we train an AI to *imitate* humans, will it ever *beat* humans?** Large language models (LLMs) are trained to predict what humans would say in a given situation (with some qualifications, see below). It would seem to follow that such a model would never be *better* at answering questions than a human.[^objective]
    
-   [^objective]: Many other ML models use human-generated labels as the ground truth: image recognition, language understanding, text classification, medical diagnosis.
+   [^objective]: In addition many other ML models are trained on human-generated labels, instead of any deeper ground truth: image recognition, language understanding, text classification, medical diagnosis.
 
 **In a formal model, imitative AI can beat humans for three reasons:**
 
-   1. **Averaging out error.** Different humans give different answers to a question, and so if an LLM can consistently give the average answer it will do better than the average human (the error of the average being always smaller than the average error).
-   2. **Specialization.** People tend to write about what they know, and so an LLM which learns to predict the typical answer to a given question will sound like a specialist in all areas: it will answer questions about water like a hydrologist and questions about bugs like an entomologist (although it will also answer questions about astrology like astrologists).
+   1. **Averaging out error.** Different humans give different answers to a question, and so if an LLM can consistently give the average answer it will do better than the average human (the error of the average being always smaller than the average of the error).
+   2. **Specialization.** People tend to write about what they know, and so an LLM which learns to predict the typical answer to a given question will sound like a specialist in all areas: it will answer questions about water like a hydrologist and questions about bugs like an entomologist (although it will also answer questions about astrology like an astrologist).
    3. **Interpolation.** An LLM will interpolate responses from different humans, and this interpolation can be functionally equivalent to inference, meaning an LLM will sometimes be able to reliably answer questions that *no* human can answer.
 
 **Additionally AI can learn and use tacit human knowledge.** The majority of human knowledge is tacit, meaning it is used in forming judgments but we do not have conscious access to that knowledge. If AI models can accurately predict human judgments then the weights in those models effectively contain that tacit knowledge, and so the model can be re-engineered to use that knowledge in ways that humans cannot. I will discuss tacit knowledge more in a followup post.
@@ -245,7 +245,6 @@ theme_set(theme_bw() +
    ))
 update_geom_defaults("line", list(size = 1))
 ```
-**(1) Let this curve represent the world.** Each question about the world is a point on the x-axis, and the answer to each question is represented by the curve.
 
 ```{r}
 #| fig-height: 1
@@ -254,7 +253,8 @@ ggplot(curves, aes(x, y)) +
    ylim(0, 12)
 ```
 
-**(2) A human forms beliefs about the world (red curve).** The human asks two questions and gets two answers (red dots) and from these they form estimates of the answer to every other question (red line).
+**(1) Let the curve above represent the truth about the world.** Each question about the world is a point on the x-axis, and the answer to each question is represented by the curve.
+
 
 ```{r}
 #| fig-height: 1
@@ -265,7 +265,7 @@ ggplot(curves, aes(x, y)) +
    ylim(0, 12)
 ```
 
-**(3) A computer learns to predict the human's answers (green curve).** The human records some questions and their answers (green dots), and the computer learns to predict the human's answers (green curve). Here I have drawn the best case, where the fit is perfect, but we would never expect the computer to do *better* than the human.
+**(2) A human forms beliefs about the world (red curve).** The human asks two questions and gets two answers (red dots) and from these they form estimates of the answer to every other question (red line).
 
 ```{r}
 ggplot(curves, aes(x, y)) +
@@ -276,8 +276,8 @@ ggplot(curves, aes(x, y)) +
    geom_point(data = tibble(x = xb, y = yb + 0.3), color = "#009900", size = 3) +
    ylim(0, 12)
 ```
+**(3) A computer learns to predict the human's answers (green curve).** The human records some questions and their answers (green dots), and the computer learns to predict the human's answers (green curve). Here I have drawn the best case, where the fit is perfect, but we would never expect the computer to do *better* than the human.
 
-**(4) Add another human (blue curve).** Suppose we have an additional human who asks some different questions (blue dots) and so forms different beliefs. Each human's beliefs are are accurate in the neighborhood of their experience.
 
 ```{r}
 ggplot(curves, aes(x, y)) +
@@ -288,11 +288,8 @@ ggplot(curves, aes(x, y)) +
    geom_point(data = tibble(x = xb, y = yb), color = "red", size = 3) +
    ylim(0, 12)
 ```
+**(4) Add another human (blue curve).** Suppose we have an additional human who asks some different questions (blue dots) and so forms different beliefs. Each human's beliefs are are accurate in the neighborhood of their experience.
 
-**(5) Let the computer predict answers from both humans (green curve).** Now both humans record their experiences and the computer tries to predict human answers (green curve). Here we can see:
-   
-   1. **Specialization.** The computer's predictions can match the humans' responses in each of their domains of expertise
-   2. **Interpolation.** The computer is better than *both* humans in the intermediate region, i.e. the computer effectively combines information from both humans.
 
 ```{r}
 ggplot(curves, aes(x, y)) +
@@ -305,10 +302,11 @@ ggplot(curves, aes(x, y)) +
    geom_point(data = tibble(x = c(xa, xb), y = c(ya, yb) + 0.2), color = "#009900", size = 3) +
    ylim(0, 12)
 ```
+**(5) Let the computer predict answers from both humans (green curve).** Now both humans record their experiences and the computer tries to predict human answers (green curve). Here we can see:
+   
+   1. **Specialization.** The computer's predictions can match the humans' responses in each of their domains of expertise
+   2. **Interpolation.** The computer is better than *both* humans in the intermediate region, i.e. the computer effectively combines information from both humans.
 
-**(6) Let the human have tacit knowledge.** Suppose the human always knows correct the answer when they see the question (red), but their conscious understanding of the relationship (pink) is imperfect. When asked which question would get the highest answer, i.e. what is the maximum of this function, then they will choose the maximum of the pink curve. However the computer could learn the red curve and algorithmically find the maximum, substantially outperforming the human.
-
-   In fact I think this is an accurate description of image synthesis by neural nets: models are first trained to recognize images given captions, and then a new image can be synthesized to match a given caption, e.g. through a diffusion algorithm. Here there's a striking asymmetry: these algorithms can approximately match average human performance in recognition, but they far outperform human performance in construction of new artefacts.
 
 ```{r}
 ggplot(curves, aes(x, y)) +
@@ -319,32 +317,76 @@ ggplot(curves, aes(x, y)) +
    # geom_point(data = tibble(x = xb, y = yb + 0.3), color = "#009900", size = 3) +
    ylim(0, 12)
 ```
+**(6) Let the human have tacit knowledge.** Suppose the human always knows correct the answer when they see the question (red), but their conscious understanding of the relationship (pink) is imperfect. When asked which question would get the highest answer, i.e. what is the maximum of this function, then they will choose the maximum of the pink curve. However the computer could learn the red curve and algorithmically find the maximum, substantially outperforming the human.
+
+   In fact I think this is an accurate description of image synthesis by neural nets: models are first trained to recognize images given captions, and then a new image can be synthesized to match a given caption, e.g. through a diffusion algorithm. Here there's a striking asymmetry: these algorithms can approximately match average human performance in recognition, but they far outperform human performance in construction of new artefacts.
 
 
 #           Evidence on Superhuman Performance
 
+**Summary.** This table shows the year in which a computer (or mechanical device) could match performance with the best human:
 
-**Performance over time.** 
+   |                                 |           |
+   | ------------------------------- | --------- |
+   | arithmetic                      | 1642      |
+   | chess                           | 1997      |
+   | Jeopardy                        | 2005      |
+   | image recognition (ImageNet)    | 2015      |
+   | handwriting recognition (MNIST) | 2015      |
+   | question answering (SQuAD1.1)   | 2019      |
+   | difficult math questions (MATH) | 2023      |
+   | coding problems (MBPP)          | (not yet) |
 
-   [Language and image recognition abilities.](https://ourworldindata.org/brief-history-of-ai)
 
-   However the paper that collected this data ([Kiela et al.](https://arxiv.org/pdf/2104.14337.pdf)) argues that performance on benchmarks significantly exaggerates true performance: *"Models that achieve super-human performance on benchmark tasks (according to the narrow criteria used to define human performance) nonetheless fail on simple challenge examples and falter in real-world scenarios."*
 
-![](images/2023-09-18-08-13-45.png)
+::: {.column-margin}
+   ![](images/2023-09-19-09-55-57.png)
+:::
 
-[Performance on coding, math & knowledge tests.](https://ourworldindata.org/grapher/ai-performance-coding-math-knowledge-tests)
+**Computers have hit the ceiling on most benchmarks.**  @kiela2023plottingprogress documents that most computer benchmarks have become "saturated," i.e. computers get close-to-perfect performance, and that recently the speed of saturation has become quicker (see graph on right). They say identify only a single benchmark where performance is not close to the human baseline, and most of the models they discuss are imitation learning. As a consequence some work has moved to evaluating models against examples specifically on "adversarial" tasks chosen to fool computers (e.g. Dynabench, @kiela2021dynabench).^[@kiela2021dynabench also say that "models that achieve super-human performance on benchmark tasks (according to the narrow criteria used to define human performance) nonetheless fail on simple challenge examples and falter in real-world scenarios."]
+   
+**On some benchmarks no computer could ever beat human performance.** On some tasks human performance effectively *is* the ground truth, and so by definition computers could never beat humans. This is roughly true for text comprehension: a sentence has a given meaning if and only if the average person believes it has that meaning. When we observe computer outperformance it is because either (1) there is human variation and the computer output is more consistent; or (2) computers outperform amateur humans but the ground truth is expert humans.
 
-   ![coding, math & knowledge](images/2023-09-18-08-06-51.png)
 
-[Chess ability](https://ourworldindata.org/grapher/computer-chess-ability)
+##          Performance by Task
 
-   ![chess ability](images/2023-09-18-08-10-14.png)
+***Arithmetic*: computers passed humans 300 years ago.** Machines have been used to do calculations since the 17th century, e.g. [Pascal's calculator](https://en.wikipedia.org/wiki/Pascal's_calculator) from 1642.
 
-**Miscellaneous.**
+::: {.column-margin}
+   |             |  |
+   | ----------- | --------------------------------- |
+   | Backgammon  | 1979                              |
+   | Chess       | 1997                              |
+   | Jeopardy    | 2005                              |
+   | Atari games | 2013                              |
+   | Go          | 2016                              |
+   | Starcraft   | 2019                              |
+   ([source](https://historyofyesterday.com/the-brutal-history-of-ai-defeating-every-human/))
+:::
 
-- **Papers on persuasion.** A number of papers compare the persuasive power of LLM-generated text to human-generated text (@bai2023persuade, @goldstein2023persuasive, @hackenburg2023persuasive, @matz2023personalized, @palmer2023large, @qin2023large). They all find that LLM does relatively well, but none show clear signs of computer superiority.
+***Playing games*: computers passed humans over the last 45 years.** See the table in the margin for games. I am not aware of any well-known games in which computers cannot reliably beat the best humans.
 
-- @koivisto2023creativity: they compared GPT4 to online recruited humans (£2 for 13 minute task) in giving "creative" uses for everyday items. The prompt was to "come up with original and creative uses for an object", objects were "rope", "box", "pencil" and "candle." The responses were rated by humans for their "creativity/originality." GPT-4 responses were perhaps 1SD above the average human score, but the difference was smaller for the best response for each user.
+
+::: {.column-margin}
+   ![](images/2023-09-18-08-13-45.png)
+   ([source](https://ourworldindata.org/brief-history-of-ai))
+:::
+***Image recognition*: computers surpassed humans in the 2010s.** With the qualifications above about the limitations of benchmark tasks.
+
+***Question answering*: computers surpassed humans in the 2010s.** With the qualifications above about the limitations of benchmark tasks.
+
+
+***Coding*: computers still below expert.** See the benchmarks on [PapersWithCode](https://paperswithcode.com/task/code-generation), also a graph on [OurWorldInData](https://ourworldindata.org/grapher/ai-performance-coding-math-knowledge-tests), specifically [APPS](https://paperswithcode.com/dataset/apps) and [MBPP](https://paperswithcode.com/sota/code-generation-on-mbpp). The best-performing computers are still imperfect at solving these coding challengers (which presumably can be solved by an expert programmer), but progress is rapid.
+   
+***Writing persuasive text*: computer comparable to average human.** A number of recent papers compare the persuasive power of LLM-generated text to human-generated text (@bai2023persuade, @goldstein2023persuasive, @hackenburg2023persuasive, @matz2023personalized, @palmer2023large, @qin2023large). They all find that LLMs do relatively well, but none show clear signs of computer superiority.
+
+***Writing creative blurbs*: computer comparable to average human.** @koivisto2023creativity compared GPT4 to online recruited humans (£2 for a 13 minute task) in giving "creative" uses for everyday items. The prompt was to "come up with original and creative uses for an object", objects were "rope", "box", "pencil" and "candle." The responses were rated by humans for their "creativity" or "originality." GPT-4 responses were perhaps 1SD above the average human score, but the difference was smaller when choosing just the best response for each user.
+
+***Summarizing text*: computer beats average human.** @lee2023rlaif reports that LLM-generated summaries of articles were preferred by humans to human-generated summaries 80% of the time. However the paper doesn't give much detail about the conditions of the humans writing the summaries.[^summarization]
+
+   [^summarization]: *"RLAIF summaries are preferred over the reference [human-written] summaries 79% of the time, and RLHF are preferred over the reference summaries 80% of the time."*
+
+***Doing math problems*: computer comparable to expert.** The latest score on the [MATH benchmark](https://paperswithcode.com/sota/math-word-problem-solving-on-math) is 84%, compared to 90% by a three-time IMO gold medalist. The scores have been rising very rapidly so it seems likely that computers will soon surpass humans.^[@hendrycks2021measuring says "We found that a computer science PhD student who does not especially like mathematics attained approximately 40% on MATH, while a three-time IMO gold medalist attained 90%"]
 
 <!-- Köbis, N. & Mossink, L. D. "Artificial intelligence versus Maya Angelou: Experimental evidence that people cannot differentiate AI-generated from human-written poetry." Comput. Human Behav. 114, 106553 (2021). -->
 
