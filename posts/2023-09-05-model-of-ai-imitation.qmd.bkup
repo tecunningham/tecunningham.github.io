@@ -60,19 +60,20 @@ format:
 ```{r}
 library(tidyverse)
 library(laGP)
-data <- tribble( # basic datapoints
+data <- tribble(
    ~x, ~y,
+   #   1, 0,
    2, 2,
    3, 6,
    4, 5.6,
    5, 8.5,
-   6, 11,
+   6, 11, #
    7, 8,
    8, 4,
    9, 2
 )
 
-xa <- c(3, 4) # some subsets
+xa <- c(3, 4) # 5
 ya <- subset(data, x %in% xa)$y
 xb <- c(6, 8)
 yb <- subset(data, x %in% xb)$y
@@ -101,6 +102,9 @@ pab <- predGP(newGP(matrix(c(xa, xb), ncol = 1), c(ya, yb), d = 10, g = 1e-8),
    lite = TRUE
 )
 
+## make an orbit
+orbit <- 5 + 3 * sin(x) + cos(x * 20)
+
 curves <- tibble(
    x = xx,
    pamax = pa$mean + 2 * sqrt(pa$s2),
@@ -116,6 +120,12 @@ curves <- tibble(
    pc = pc$mean
 )
 
+
+ggplot(curves, aes(x, y)) +
+   geom_line(aes(y = orbit)) +
+   geom_point(data = tibble(x = xb, y = yb), color = "red", size = 3) +
+   ylim(0, 12)
+
 theme_set(theme_bw() +
    theme(
       panel.grid.major = element_blank(),
@@ -130,6 +140,8 @@ theme_set(theme_bw() +
       panel.border = element_blank()
    ))
 update_geom_defaults("line", list(size = 1))
+
+
 ```
 
 ```{r}
@@ -171,7 +183,7 @@ ggplot(curves, aes(x, y)) +
 #           Graphical Argument
 
 ```{r}
-# From code in this book: https://bookdown.org/rbg/surrogates/chap5.html
+# Started from code in this book: https://bookdown.org/rbg/surrogates/chap5.html
 library(tidyverse)
 library(laGP)
 data <- tribble(
@@ -307,26 +319,6 @@ ggplot(curves, aes(x, y)) +
    1. **Specialization.** The computer's predictions can match the humans' responses in each of their domains of expertise
    2. **Interpolation.** The computer is better than *both* humans in the intermediate region, i.e. the computer effectively combines information from both humans.
 
-```{r}
-## make an oscillation
-orbit <- 5 + 3 * sin(xx) + cos(xx * 20)
-xorbit <- c(2, 3.06, 3.2, 3.5, 4, 4.18, 6, 7)
-porbit <- predGP(newGP(matrix(xorbit, ncol = 1), orbit[xorbit * 100], d = 10, g = 1e-8),
-   matrix(xx, ncol = 1),
-   lite = TRUE
-)
-theme_set(theme_bw())
-ggplot(tibble(x = xx, y = orbit, p = porbit$mean), aes(x, y)) +
-   geom_line(aes(y = y)) +
-   geom_line(aes(y = p), color="blue") +
-   geom_point(
-      data = tibble(x = xorbit, y = orbit[xorbit * 100]),
-      color = "blue", size = 3
-   ) +
-   ylim(0, 12)
-```
-**(6) Let the computer have superior priors.** If the computer and human have different priors then they will make different extrapolations from the same dataset. Suppose the world has a strong cyclical structure, as shown in the black oscillating line. The human does not appreciate the regularity and fits their datapoints with a simple nearest-neighbor algorithm, but the computer might discover that regular structure and fit the data perfectly. A simple example of this: a language model trained to predict astronomical observations could be expected to discover the regular sinusoidal structure of those observations, even if the human was not aware of that structure, and so the computer could make superior out-of-sample predictions.
-
 
 ```{r}
 ggplot(curves, aes(x, y)) +
@@ -337,7 +329,7 @@ ggplot(curves, aes(x, y)) +
    # geom_point(data = tibble(x = xb, y = yb + 0.3), color = "#009900", size = 3) +
    ylim(0, 12)
 ```
-**(7) Let the human have tacit knowledge.** Finally, suppose the human always knows correct the answer when they see the question (red), but their conscious understanding of the relationship (pink) is imperfect. When asked which question would get the highest answer, i.e. what is the maximum of this function, then they will choose the maximum of the pink curve. However the computer could learn the red curve and algorithmically find the maximum, substantially outperforming the human.
+**(6) Let the human have tacit knowledge.** Suppose the human always knows correct the answer when they see the question (red), but their conscious understanding of the relationship (pink) is imperfect. When asked which question would get the highest answer, i.e. what is the maximum of this function, then they will choose the maximum of the pink curve. However the computer could learn the red curve and algorithmically find the maximum, substantially outperforming the human.
 
    In fact I think this is an accurate description of image synthesis by neural nets: models are first trained to recognize images given captions, and then a new image can be synthesized to match a given caption, e.g. through a diffusion algorithm. Here there's a striking asymmetry: these algorithms can approximately match average human performance in recognition, but they far outperform human performance in construction of new artefacts.
 
