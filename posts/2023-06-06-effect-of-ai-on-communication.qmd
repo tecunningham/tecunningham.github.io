@@ -24,7 +24,7 @@ editor:
     h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; font-size: 14px; color: black; }
 </style>
 
-<span style="background:yellow;">==*Still a draft, don't circulate!*==</span>
+<span style="background:yellow;">==*Still a draft, not ready for general circulation.==</span>
 
 ::: {.column-margin}
    <!-- ![](images/2023-06-14-13-38-42.png) -->
@@ -93,27 +93,36 @@ This note additionally has short appendices on the history of forged documents a
 
 Over the last 50 years computers have been steadily getting better at recognize text and images, with particularly rapid progress since around 2012, so that today computers can out-perform the average humans on many classification tasks. Since around 2018 computers have also become good at *synthesizing* media to match a description, e.g. creating text, images, or video.
 
-![](images/2023-06-16-05-55-29.png)^[Source: [Our World in Data](https://ourworldindata.org/brief-history-of-AI).]
+::: {.column-margin}
+   ![](images/2023-09-19-09-55-57.png)
+
+   The graph above from @kiela2023plottingprogress shows the more recent hsistory of computer performances: new benchmarks have been introduced, and computers are very quickly meeting human performance.
+:::
+
+![](images/2023-06-16-05-55-29.png)
+
+
 
 ##          The Prevalence of Policy-Violating Content Will Decline
 
-Each of the large internet platforms has a list of prohibited categories, e.g. nudity, obscenity, hate speech, incitement, etc.. Early automated detection systems used lists of prohibited words. Then platforms started training classifiers from human labels. Early classifiers had relatively high precision and recall but made predictable mistakes: they would rely on identifying words and phrases typically used in violating posts which led to [false positives](https://www.surgehq.ai/blog/are-popular-toxicity-models-simply-profanity-detectors) and [false negatives](https://www.surgehq.ai/blog/25-examples-of-twitters-content-moderation-failures). Such classifiers can also be easily tricked by adding some noise, e.g. "insert typos, change word boundaries or add innocuous words" ([Gröndahl et al.](https://arxiv.org/abs/1808.09115) (2018)). However more recent production models are built on deeper language models and are much more effective at identifying the meaning of posts ([Whitlock Lees et al.](https://research.google/pubs/pub51952/) (2022)).[^employment]
+**All the large internet platforms have lists of prohibited categories.** E.g. nudity, obscenity, hate speech, incitement, etc.. Early automated detection systems used lists of prohibited words. Then platforms started training classifiers from human labels. Early classifiers had relatively high precision and recall but made predictable mistakes: they would rely on identifying words and phrases typically used in violating posts which led to [false positives](https://www.surgehq.ai/blog/are-popular-toxicity-models-simply-profanity-detectors) and [false negatives](https://www.surgehq.ai/blog/25-examples-of-twitters-content-moderation-failures). Such classifiers can also be easily tricked by adding some noise, e.g. "insert typos, change word boundaries or add innocuous words" ([Gröndahl et al.](https://arxiv.org/abs/1808.09115) (2018)). 
 
-Prevalence of policy-violating content seems to have consistently trended down on most platforms. Meta reports that the prevalence of nudity, bullying, hate speech, and graphic content each declined by a factor of between 2 and 5 between 2017 and 2022, and that the share of identified-violating content that was first identified by an ML model ("proactive rate") is approaching 100% for most categories.[^metaDecline]
+**Recent generations of classifiers have performance that meets or exceeds human levels.** OpenAI [say](https://openai.com/blog/using-gpt-4-for-content-moderation) "Labeling quality by GPT-4 is similar to human moderators with light training (Pool B). However, both are still overperformed by experienced, well-trained human moderators." Google's latest generation of text moderation models correctly classify many difficult cases ([Whitlock Lees et al.](https://research.google/pubs/pub51952/) (2022)).[^employment]
+
+**Prevalence of policy-violating content has consistently declined on most platforms.** Meta reports that the prevalence of nudity, bullying, hate speech, and graphic content each declined by a factor of between 2 and 5 between 2017 and 2022, and that the share of identified-violating content that was first identified by an ML model ("proactive rate") is approaching 100% for most categories.[^metaDecline]
 
 <!-- precision and recall will change over time endogenously -->
 
 ![](./2023-01-31-social-media-suspensions-data_files/figure-html/unnamed-chunk-28-1.png)
 
-On the other side content producers can use AI models to avoid platforms rules, however they seem to run into diminishing returns. If they had access to the platform's classifier then they could keep testing different variants of a violating post until they found a variant that was not identified as violating. However as the model becomes more accurate then more variants will need to be tested, thus the exercise becomes progressively harder, and the balance of power seems to shift in favor of the platform. Below I give a more formal argument for this ("Venn diagram model").
+**Content producers can use AI models to avoid platforms rules however they will run into diminishing returns.** If they had access to the platform's classifier then they could keep testing different variants of a violating post until they found a variant that was not identified as violating. However as the model becomes more accurate then more variants will need to be tested, thus the exercise becomes progressively harder, and the balance of power seems to shift in favor of the platform. Below I give a more formal argument for this ("Venn diagram model").
 
-The same prediction also applies to government censorship. Governments which use simple word-matching to detect anti-government language can be circumvented by using indirect language. Better AI will allow governments to classify every post with reliability as high as if they had a human read each one, and so indirect language or obfuscation will no longer be an effective workaround for censorship (however see below for context-specific violations).
+**The same prediction also applies to government censorship.** Governments which use simple word-matching to detect anti-government language can be circumvented by using indirect language. Better AI will allow governments to classify every post with reliability as high as if they had a human read each one, and so indirect language or obfuscation will no longer be an effective workaround for censorship (however see below for context-specific violations).
 
-This prediction would fail if there were substantial limits on the performance of AI, e.g. if there were ways of obfuscating content so that a human would recognize it but no AI could. It seems plausible that AI systems will remain less flexible than humans in understanding for a long time but, because they are trained on enormous quantities of data, if they miss a subclass of violating content in the short-run they would be able to quickly learn to identify it from fresh human-labeled data.
+**This prediction would fail if there were substantial limits on the performance of AI.** E.g. if there were ways of obfuscating content so that a human would recognize it but no AI could. It seems plausible that AI systems will remain less flexible than humans in understanding for a long time but, because they are trained on enormous quantities of data, if they miss a subclass of violating content in the short-run they would be able to quickly learn to identify it from fresh human-labeled data.
 
-Whether prevalence will decline all the way to zero depends on the definition of prevalence used. An AI model can never perfectly predict human-rater evaluation because humans are themselves noisy: there is typically substantial between-rater and within-rater variation in labelling for any given piece of content.
+**Whether prevalence will decline all the way to zero depends on the definition of prevalence used.** An AI model can never perfectly predict human-rater evaluation because humans are themselves noisy: there is typically substantial between-rater and within-rater variation in labelling for any given piece of content.
 
- Test cite to @qin2023large.
 
 [^metaDecline]: It is important to remember that the "proactive rate" is the share of *detected* content that is detected by AI, the share of *violating* content that is detected by AI will certainly be significantly lower but is not generally reported. See Meta's [Community Standards report](https://transparency.fb.com/data/community-standards-enforcement/) and [my visualization of this data](http://tecunningham.github.io/2023-01-31-social-media-suspensions-data.html#meta-facebook-instagram). It's also worth noting that Mark Zuckerberg made a series of predictions that human raters could be substituted with AI, which I think has turned out to be largely correct despite widespread skepticism (including by me), e.g. in late 2018 he [said](https://www.facebook.com/notes/751449002072082/) "through the end of 2019, we expect to have trained our systems to proactively detect the vast majority of problematic content."
 
@@ -474,7 +483,7 @@ Suppose that we remove all detected violating posts (i.e. $\hat{V}$). In the cas
 
 **Q: what happens when it gets easier to manufacture forgeries?** We want to know the equilibrium effect on the rate at which people accept both real and fake goods. Of particular interest is the relative effect of deepfake technology on (1) false positives - forgeries believed to be genuine, and (2) false negatives - genuine images believed to be forgeries.
 
-   I make an argument below that if the current share of fakes is small then the primary effect of deepfakes will be on false positives rather than on false negatives. I.e. people will accept a lot more fake images as true, but they won't reject many more real images as fakes. I'm not sure how convincing the argument is in reality, but there's a nice crisp intuition of how it works in the model.
+   **Core prediction: if the current share of fakes is small then the primary effect of deepfakes will be more false positives rather than more false negatives.** I.e. people will accept a lot more fake images as true, but they won't reject many more real images as fakes. I'm not sure how convincing the argument is in reality, but there's a nice crisp intuition of how it works in the model.
 
 ```{tikz}
 #| column: margin
