@@ -471,20 +471,62 @@ Suppose that we remove all detected violating posts (i.e. $\hat{V}$). In the cas
 
 #           Appendix: Discrimination Model
 
+
+**Q: what happens when it gets easier to manufacture forgeries?** We want to know the equilibrium effect on the rate at which people accept both real and fake goods. Of particular interest is the relative effect of deepfake technology on (1) false positives - forgeries believed to be genuine, and (2) false negatives - genuine images believed to be forgeries.
+
+   I make an argument below that if the current share of fakes is small then the primary effect of deepfakes will be on false positives rather than on false negatives. I.e. people will accept a lot more fake images as true, but they won't reject many more real images as fakes. I'm not sure how convincing the argument is in reality, but there's a nice crisp intuition of how it works in the model.
+
 ```{tikz}
-\begin{tikzpicture}[scale=2]
+#| column: margin
+\begin{tikzpicture}[scale=1.6]
    %\draw (-1,-1)--(1,-1)--(1,1)--(-1,1)--(-1,-1);
+   \draw[<->,line width=1] (-2,0)-- node[midway,below] {quality signal} (2,0);
    
-   \draw[black] (-2,0) -- plot[domain=-2:2] (\x,{exp(-(\x)^2)}) -- (2,0) -- cycle;
+   \draw[black] plot[domain=-2:2] (\x,{exp(-(\x)^2)+0.1});
    \node at (0,1.2) {real};
 
-   \draw[red] (-2,0) -- plot[domain=-2:2] (\x,{exp(-(\x+1.5)^2)}) -- (2,0) -- cycle;
-   \node at (-1.5,1.2) {fake};
+   \draw[red] plot[domain=-2:2] (\x,{exp(-(\x+1.5)^2)+0.1});
+   \node[red] at (-1.5,1.2) {fake};
 
-   \draw[dashed] (-.75,0) -- (-.75,1) node[above] {blah};
-
+   \draw (-.75,0) -- (-.75,1) node[right,rotate=90] {cutoff};
 \end{tikzpicture}
 ```
+**Setup: you get a noisy signal of "genuineness".** After observing the signal you accept the good if $P(\text{real}|\text{signal})$ is above some probability threshold. We can draw two distributions of signals, and the intersection of the two curves will be the equilibrium threshold assuming that (1) fakes and real are equally likely; (2) the cost of a false positive is equal to the cost of a false negative.
+
+```{tikz}
+#| column: margin
+\begin{tikzpicture}[scale=1.6]
+   %\draw (-1,-1)--(1,-1)--(1,1)--(-1,1)--(-1,-1);
+   \draw[<->,line width=1] (-2,0)-- node[midway,below] {} (2,0);
+   
+   \draw[black] plot[domain=-2:2] (\x,{exp(-(\x)^2)+0.1});
+   %\node at (0,1.2) {real};
+
+   \draw[red,dashed] plot[domain=-2:2] (\x,{exp(-(\x+1.5)^2)+0.1});
+   \draw[red] plot[domain=-2:2] (\x,{exp(-(\x+1)^2)+0.1});
+   \draw[->,red] (-1.5,1.2) -- (-1,1.2) node[above]{};
+   %\node[red] at (-1,1.2) {fake};
+
+   \draw[dashed] (-.75,0) -- (-.75,1);
+   \draw (-.5,0) -- (-.5,1);
+\end{tikzpicture}
+```
+
+**Now let the technology for producing fakes gets better.** We model this as a shift to the right in the "quality" curve for fakes:
+
+**Implications.** Reading off this diagram we can see a number of effects. I think these will all be true as long as the monotone likelihood ratio property holds.
+
+   1. **The threshold gets higher.**
+   1. **More fakes get accepted (more false positives).** A larger share of all fakes will be above the threshold.
+   2. **More reals get rejected (more false negatives).** A smaller share of genuine items will be above the threshold.
+   3. **Consumer welfare is lower.** The consumer is accepting more fakes and fewer genuine articles.
+
+**Extensions/observations.**
+
+   1. **The size of each effect depends on the relative slope of the two distributions.** If the distribution of fakes was uniform then, as that distribution moved up, the threshold wouldn't change at all, and so the equilibrium effect would be entirely an increase in fakes accepted (false positives). If instead the distribution of reals was uniform then the threshold would move up, and so the effect would be entirely a decrease in genuine goods rejected (false negatives).
+   2. **If the prevalence of fakes is small then impact will mostly be on false positives.** If the prevalence of fakes is small then the threshold will cut the distribution of fakes near the center, but will cut the distribution of reals near the tail. Thus a rightward shift in the distribution of fakes will have a small impact on the threshold.
+   3. **If there's free entry then things will be worse.** Suppose that the overall quantity of fakes is increasing in the probability of being accepted, then as the technology to produce fakes gets better then the volume will also get higher. The increase in volume will further increase the threshold. As before the relative effect on FP vs FN will depend on the relative curvature of the two distributions.
+   4. **Distribution of fakes will likely be skew.** Suppose the forgers can create a bunch of *candidate* goods, and then measure the quality of each one, and only try to sell goods which exceed the cutoff threshold.  Then the distribution of fake goods will be truncated. But this is no longer an equilibrium because all the low-quality goods are now genuine. Need to think this through more.
 
 #           Appendix: Forecasts from Metaculus
 
