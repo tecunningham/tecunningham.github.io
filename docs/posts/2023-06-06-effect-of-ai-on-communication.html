@@ -698,7 +698,7 @@ Searles, Andrew, Yoshimichi Nakatsuka, Ercan Ozturk, Andrew Paverd, Gene Tsudik,
 <section id="appendix-model-of-ai-and-internal-properties-venn-model" class="level1 page-columns page-full">
 <h1>Appendix: Model of AI and Internal Properties (Venn Model)</h1>
 <p><strong>In short: <em>improvements in AI are likely to reduce overall prevalence of violating content on platforms</em>.</strong></p>
-<div class="page-columns page-full"><p><strong>Better models will help both sides in this war:</strong> they will help platforms detect violating content, but they also also help producers camouflage their violating content. I argue below that the net effect will likely be to help platforms, the basic argument is that if both sides had access to a <em>perfect</em> classifier then there would be zero violating content on the platform.<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn18"><p><sup>18</sup>&nbsp;Yann Lecunn made a similar argument in a <a href="https://twitter.com/ylecun/status/1664651158562979841">tweet</a> from June 2023: “AI is part of the solution here, not part of the problem! It is because of progress in natural language understanding in multiple languages (due to self-supervised transformers) that, for example, hate speech can be detected and taken down in hundreds of languages.”. Although I think the wording is misleading by implying that AI being part of the solution precludes it from also being part of the problem. Also worth noting that LeCun misstates FB’s own statistics: he says “82% of hate speech is taken down automatically by AI before anyone sees it.” In fact it’s 82% of <em>detected</em> hate speech (the share of true hate speech detected by AI is necessarily smaller but FB does not report that figure), and the 82% refers to the share that is actioned before it is <em>reported</em>, not actioned before it is <em>seen</em>.</p></li></div></div>
+<div class="page-columns page-full"><p><strong>Better models will help both sides in this war:</strong> they will help platforms detect violating content, but they also also help producers camouflage their violating content. I argue below that the net effect will likely be to help platforms, the basic argument is that if both sides had access to a <em>perfect</em> classifier then there would be zero violating content on the platform.<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn18"><p><sup>18</sup>&nbsp;Yann Lecunn made a similar argument in a <a href="https://twitter.com/ylecun/status/1664651158562979841">tweet</a> from June 2023: “AI is part of the solution here, not part of the problem! It is because of progress in natural language understanding in multiple languages (due to self-supervised transformers) that, for example, hate speech can be detected and taken down in hundreds of languages.”. Although I think the wording is misleading by implying that AI being part of the solution precludes it from also being part of the problem. Also worth noting that LeCunn misstates FB’s own statistics: he says “82% of hate speech is taken down automatically by AI before anyone sees it.” In fact it’s 82% of <em>detected</em> hate speech, and the 82% refers to the share that is actioned before it is <em>reported</em>, not actioned before it is <em>seen</em>. The share of true hate speech detected by AI is necessarily smaller but FB does not report that figure.</p></li></div></div>
 <p><strong>Prevalence of violating content has fallen.</strong> Overall prevalence of violating content has shrunk dramatically over the past 5-10 years on the major social media platforms, and this can largely be attributed to improvements in classifiers.</p>
 <p><strong>Model: a Venn-diagram model of content moderation with classifiers.</strong> I describe a game between a platform and a producer, each of whom has access to a classifier. We want to know the effect on total violating content that survives filtering by the platform. Conclusions:</p>
 <ol type="1">
@@ -740,13 +740,36 @@ Searles, Andrew, Yoshimichi Nakatsuka, Ercan Ozturk, Andrew Paverd, Gene Tsudik,
 </ol>
 </section>
 </section>
-<section id="appendix-discrimination-model" class="level1">
+<section id="appendix-discrimination-model" class="level1 page-columns page-full">
 <h1>Appendix: Discrimination Model</h1>
-<div class="cell" data-hash="2023-06-06-effect-of-ai-on-communication_cache/html/unnamed-chunk-2_fd163181fb4087fc4bff22292f7fde9a">
-<div class="cell-output-display">
+<p><strong>Q: what happens when it gets easier to manufacture forgeries?</strong> We want to know the equilibrium effect on the rate at which people accept both real and fake goods. Of particular interest is the relative effect of deepfake technology on (1) false positives - forgeries believed to be genuine, and (2) false negatives - genuine images believed to be forgeries.</p>
+<p>I make an argument below that if the current share of fakes is small then the primary effect of deepfakes will be on false positives rather than on false negatives. I.e. people will accept a lot more fake images as true, but they won’t reject many more real images as fakes. I’m not sure how convincing the argument is in reality, but there’s a nice crisp intuition of how it works in the model.</p>
+<div class="cell page-columns page-full" data-hash="2023-06-06-effect-of-ai-on-communication_cache/html/unnamed-chunk-2_51b02641fcd5d99634b3c69e372e92a5">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
 <p><img src="2023-06-06-effect-of-ai-on-communication_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+</div></div></div>
+<p><strong>Setup: you get a noisy signal of “genuineness”.</strong> After observing the signal you accept the good if <span class="math inline">\(P(\text{real}|\text{signal})\)</span> is above some probability threshold. We can draw two distributions of signals, and the intersection of the two curves will be the equilibrium threshold assuming that (1) fakes and real are equally likely; (2) the cost of a false positive is equal to the cost of a false negative.</p>
+<div class="cell page-columns page-full" data-hash="2023-06-06-effect-of-ai-on-communication_cache/html/unnamed-chunk-3_34ccc761f953bbe8fe7831b629251bec">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<p><img src="2023-06-06-effect-of-ai-on-communication_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div></div></div>
+<p><strong>Now let the technology for producing fakes gets better.</strong> We model this as a shift to the right in the “quality” curve for fakes:</p>
+<p><strong>Implications.</strong> Reading off this diagram we can see a number of effects. I think these will all be true as long as the monotone likelihood ratio property holds.</p>
+<ol type="1">
+<li><strong>The threshold gets higher.</strong></li>
+<li><strong>More fakes get accepted (more false positives).</strong> A larger share of all fakes will be above the threshold.</li>
+<li><strong>More reals get rejected (more false negatives).</strong> A smaller share of genuine items will be above the threshold.</li>
+<li><strong>Consumer welfare is lower.</strong> The consumer is accepting more fakes and fewer genuine articles.</li>
+</ol>
+<p><strong>Extensions/observations.</strong></p>
+<ol type="1">
+<li><strong>The size of each effect depends on the relative slope of the two distributions.</strong> If the distribution of fakes was uniform then, as that distribution moved up, the threshold wouldn’t change at all, and so the equilibrium effect would be entirely an increase in fakes accepted (false positives). If instead the distribution of reals was uniform then the threshold would move up, and so the effect would be entirely a decrease in genuine goods rejected (false negatives).</li>
+<li><strong>If the prevalence of fakes is small then impact will mostly be on false positives.</strong> If the prevalence of fakes is small then the threshold will cut the distribution of fakes near the center, but will cut the distribution of reals near the tail. Thus a rightward shift in the distribution of fakes will have a small impact on the threshold.</li>
+<li><strong>If there’s free entry then things will be worse.</strong> Suppose that the overall quantity of fakes is increasing in the probability of being accepted, then as the technology to produce fakes gets better then the volume will also get higher. The increase in volume will further increase the threshold. As before the relative effect on FP vs FN will depend on the relative curvature of the two distributions.</li>
+<li><strong>Distribution of fakes will likely be skew.</strong> Suppose the forgers can create a bunch of <em>candidate</em> goods, and then measure the quality of each one, and only try to sell goods which exceed the cutoff threshold. Then the distribution of fake goods will be truncated. But this is no longer an equilibrium because all the low-quality goods are now genuine. Need to think this through more.</li>
+</ol>
 </section>
 <section id="appendix-forecasts-from-metaculus" class="level1">
 <h1>Appendix: Forecasts from Metaculus</h1>
