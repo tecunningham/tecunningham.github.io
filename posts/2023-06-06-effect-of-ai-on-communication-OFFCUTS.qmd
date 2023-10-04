@@ -1,0 +1,476 @@
+---
+engine: knitr
+draft: true
+format:
+   html:
+      include-in-header:
+         - text: |
+            <script>window.MathJax = {
+               loader: { load: ["https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/xypic.js"]},
+               tex: {packages: {'[+]': ['xypic','bm']},
+                     macros: {  bm: ["\\boldsymbol{#1}", 1],
+                                ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+                                utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3] }
+               }
+            };
+            </script>
+execute:
+  echo: false
+  cache: true # caches chunk output
+---
+
+**PRIORITY**
+
+   - Entertainment will be replaced but information will not.
+
+**LOWER PRIORITY:**
+
+   - The dichotomy between human-creation and machine-ranking of items.
+   - Arms race for quality in google search (article below), and in FB public content.
+   - UV light in scanning banknotes
+   - C2PA fingerprintin
+   - Grady Ward notes: https://docs.google.com/document/d/1c-uUZqJ41116qk1KRQjljsA81E3dVQTG80YohE49Afc/edit
+   - ADD: Dave Willner's point: LLMs will allow us to have much finer-grained moderation, and so policies can be more complex
+      - E.g. discriminate between black-on-white vs white-on-black speech (he said when he wrote FB's policy it was simple because of rater confusion, not because of fairness or PR concerns). 
+      - E.g. the oversight board gets escalated obvious false positives - the advantage of LLMs is you can lay out a very precise detailed policy and trust it will get correctly interpreted.
+      - E.g. policy on important exemptions (napalm girl)
+      - E.g. policy on holocaust denial: too much work to decide which events count as atrocities.
+   - ADD: something about 
+   - ADD: Michael Bernstein's proposals about using LLM to get at semantics of posts and rank in that way.
+   - ADD: watermarking systems will allow you to prove real, even if you can't prove fake. Analogy with email if it had adopted PGP early.
+
+**Other peoples' writing:**
+
+   - READ THIS: https://knightcolumbia.org/content/how-to-prepare-for-the-deluge-of-generative-ai-on-social-media , [tweet thread](https://twitter.com/random_walker/status/1671544042407198720?s=20)
+   - https://knowledge.insead.edu/operations/navigating-trust-and-safety-world-generative-ai
+   - ["artificial intelligence and the public arena"](https://academic.oup.com/ct/article/33/2-3/164/7202294)
+   - Gentzkow on AI and media:
+     - https://web.stanford.edu/~gentzkow/research/ai_and_media.pdf
+     - https://web.stanford.edu/~gentzkow/research/ai_and_media_slides.pdf
+
+**IN A WORD:**
+
+   - **GenAI: good for internal, bad for external properties.**
+   - **GenAI: breaks down the correlation between extrinsic and intrinsic.** E.g..
+
+**MODELS:**
+
+   - **Venn.**                   - 
+   - **Signal extraction.**      - cheaper to fake signal: burden on false positives and negatives
+   - **Quigley.**                - 
+   - **Acemoglu misinfo.**       - 
+   - **Producer incentives.**    - should put features in your classifier that are *complements* of quality not substitutes
+   - **Strategic Classification.**   - 
+
+**SEE ALSO:**
+
+   - 2023-04-16 shallow and deep quality
+   - 2022-03-26-moderation-models: Producer Incentives: (1) hard coded rules counterproductive; (2) commit to repeat-offender rules; (3) 
+   - 2022-01-03-models-of-communication-and-spam.md
+   - 2021-08-16 technology and adversarial situations -- does technology help the center or periphery?
+   - 2020-12-17-social-media-master.md -- has a table of diff types of decentralized media and exploitations
+
+**OLD URL:** http://tecunningham.github.io/2023-06-06-effect-of-ai-on-communication.html
+
+#           MODELS
+
+##             Dan Quigley "Falsification in Disclosure Games"
+
+**Model.**
+
+- State is binary, receiver takes binary action, wants to match state.
+- Sender gets private signal and sends a message.
+- Two types of sender:
+  - High type: send the truth.
+  - Low type: can spend money and then send a false signal.
+- e_s = probability the sender falsifies evidence
+- e_m = probability the moderator detects falsified messages
+
+**Description:**
+
+1. The sender observes whether the state is low or high, and wants to persuade the receiver that the state is high. They can send a verifiable message about the state. There will be unravelling.
+
+2. Now suppose the sender can pay money to probabilistically *fake* a high signal. Then in some circumstances there will be a separating equilibrium, and the receiver will take the sender's desired action.
+
+3. Now suppose the platform can pay money to probabilistically detect fakes (equivalently: they prevent the sender from sending). Then the sender and moderator will both pay positive amounts.
+
+**Application:**
+
+- Starting point: suppose I'm sharing photos to try to persuade you that Democrats are evil.
+- Suppose I can invest money to *fake* a photo of a Democrat doing something evil. Then there will be some equilibrium persuasion (this depends on the action being nonlinear in beliefs).
+- Suppose the platform can invest money to *prevent* fakes (or equivalently, detect and label them). There will be some equilibrium.
+
+##             Ines "Misinformation as Selective Information"
+
+- There is a true state of the world, $\theta\in\{L,H\}$
+- The expert can send a signal drawn from $x~F(theta)$
+- They can repeatedly draw and just send the maximum
+
+
+##             Shin (1994) "News management and the value of firms"
+
+- Suppose you get to choose how much information to release
+- Unravelling argument: Grossman (1981) and Milgrom (1981)
+- Avoid unravelling: if the receiver doesn't know whether the sender knows.
+
+
+##             Hardy et al. (2015) "Strategic Classification"
+
+   _In short:_ They model how to design a classifier when the applicants can manipulate features at some cost. Main result is that if the cost is separable then you can design an almost-optimal classifier, but if more complicated then you cannot.
+
+   Example: books owned is a good predictor of performance, so you use that as a signal in admitting students. But when students learn this they buy more books. In equilibrium will set weights on features in proportion to cost of faking.
+
+   Spam example: they give a list of features that predict spam and then assign notional costs, e.g. follower count, phone number, length of description. They show you can get good classification accuracy  (for emails could be: having a URL, mentioning Viagra).
+
+_Model_
+
+   - Sender has type $x\in X$
+   - Exogenous mapping $h(x)$ of type to binary quality: $h:X\rightarrow\{-1,1\}$
+   - Receiver announces a classifier $f:X\rightarrow\{-1,1\}$
+   - Sender has a cost function for distorting their type, $c:X\times X\rightarrow \mathbb{R}$
+   - Result: if cost is separable then can get almost-optimal classification. In addition the receiver can *learn* the cost function even if they don't observe it at first.
+
+_Observations_
+
+   - _The sender's actions have no effect on the true quality._ it's all extrinsic. This makes it less useful for many online tasks, where the observed features X are themselves bearers of value.
+   - _There's no free entry._ If you admit a non-zero fraction of spam then this cannot be a free entry equilibrium: with a non-zero change of success then spammers would keep entering. Thus in practice spam must also be limited by some cost of creating a message. Could be (1) signup friction; (2) require a waiting period before you can post; (3) kill account after it's produced ground-truth spam.
+
+#          Prediction: Influence Operations Will Become Somewhat More Effective
+
+Government-sponsored influence operations typically employ many people to write posts and messages, and LLMs would make the creation of messages much cheaper. However as people come to encounter more personalized messages they are likely to adopt a higher level of skepticism which would somewhat blunt the advantage due to LLMs.
+
+Influence operations often repeat the same message from many accounts but there is value in customizing the message so that (1) it is harder for platforms to detect that messages are coming from a  common source; (2) the messages can be context-specific, e.g. replying to another user's tweet or conducting a conversation over direct messages.[^SIO]
+
+The ability of LLMs to generate customized messages at almost zero cost are likely to help influence operations, who already employ many humans to create customized messages.[^IRA]
+
+Concretely we would expect users to encounter replies on public posts, replies to their own posts, and direct messages, all of which are practically indistinguishable from human-generated replies, but are in fact synthesized by LLMs either for the purpose of persuading, or to establish a connection which can later be used to persuade.
+
+In the pre-LLM environment it is reasonable to assume that a small-scale message is from a human and is expressing a good-faith opinion because it would not be worthwhile for an influence operation to spend money on individualized messages. In the post-LLM environment the assumption no longer holds thus we might expect an uptick in the effectiveness of persuasion. The overall quantity of influence-operations messages might stay roughly the same because the operations will still be fighting to hide from the platforms (hide from the platforms' bot-detectors and influence detectors).
+
+However rather there are reasons to think that users will learn to be more skeptical. We know that skepticism adjusts to the circumstance in many other areas: most people who live in a big city in the 21st century have learned to be skeptical in the folllowing circumstances,
+
+- Receiving a letter which is hand-addressed or a letter stamped "congratulations."
+- Receiving an unsolicited phone call from the bank or from tech support.
+- Receiving a visit from someone who claims to be from the gas company.
+- Being approached on the street by someone who says they lost their wallet.
+
+It seems likely that people will generally update to learn that personalized messages are not to be trusted. The majority of personalized messages are likely to come from commercially-motivated operations, e.g. selling crypto coins or trying to extract credentials, and exposure to these experiences is likely to discredit all personalized messages.
+
+There will be collateral damage on sincere personalized messages: it will become harder to strike up a friendship on social media or send someone an unsolicited message because people will have an elevated sense of distrust.
+
+<!-- there's a limit on money pump; fool all people all the time -->
+
+[^SIO]: A 2022 [report](https://arxiv.org/pdf/2301.04246.pdf) from the Stanford Internet Observatory lists a number of ways in which LLMs could be used by influence operations, mainly by writing copy either for social media posts or for 1:1 message threads.
+
+[^IRA]: The Russian "Internet Research Agency" has been [estimated to employ](https://en.wikipedia.org/wiki/Internet_Research_Agency) around 1,000 paid posters in 2017. King et al. (2017, APSR) estimate that 0.5% of all social media posts in China are government sponsored, a large share of which seem to be from humans (i.e. not from bots).
+
+
+
+#           Comments/Send to People
+
+- Lisa Cohen
+- Colin Fraser had good comments about workarounds, e.g. "ypipo" on black twitter
+
+#           Internal/External properties
+
+**Internal:** nudity, funny, offensive, engaging, political. Ground truth is human judgment.
+
+   1. _Perfect AI will allow perfect discrimination_
+   2. _Classifier types:_ banned words, regular expressions, hand-crafted features, nearest-neighbor with similarity metric, semantic nearest-neighbor (LLM).
+   3. _Adversary: contrained optimization_ They want to *trick the algorithm*, but they don't trick the person. Someone who just wants to violate is a troll. 
+   4. _Equilibrium: toe the line._ If discontinuous threshold then producers will cluster just below that threshold.
+   5. _Equilibrium: whack-a-mole._
+   6. _Collateral damage._ If classifier uses *extrinsic* properties then can have collateral damage in medium-run.
+   7. _Returns to scale._ When acting against adversaries then there are strong gains to experience, esp. against other adversaries.
+   8. _Non-content features._ Engagement, author, graph features. Used for positive properties more than negative.
+            
+
+**External:** misinfo, phishing, copypasta, trustworthy (ebay). Ground truth is not just content.
+
+   1. _Perfect AI will allow perfect fakes._
+   2. _Non-content features._ Engagement, provenance, reputation. If these refer to ground truth then can be helpful.
+
+
+**Extrinsic vs Intrinsic.**
+
+   _Diagnostic: if it has predictive power_
+      $E[v|x_i=1]\neq E[v|x_i=0]$
+
+   _Intrinsic: if it has predictive power ceteris paribus._ 
+      $E[v|x_i=1,x_{-i}]\neq E[v|x_i=1,x_{-i}]$
+
+   _Examples of diagnostic but extrinsic:_
+   
+   - capital letters in text
+   - clouds in photographs (when determining if a tank) 
+
+   _Hard for classifier to know what's intrinsic:_ If you only train on a subset of the sample space, then can't tell whether a feature is intrinsic or diagnostic.
+
+   _Note: hard to talk about effect of features._ Need a clear counterfactual and often counterfactual is ambiguous. Think of simplex triangle. Uppercase is OK. Clouds is OK. Talking about effect of gross features is hard. 
+
+#           Model of Latent Space
+
+**Summary:**
+
+1. Humans observe a high-dimensional message $\bm{x}$, and we infer from that a low-dimensional semantics $\bm{v}$. We can also do the reverse: given some semantics $\bm{v}$ we generate a message $\bm{x}$.
+2. We can train a classifier, feeding it examples of $\bm{x}$ and $\bm{v}$, but it'll do badly, the feature space is far higher than the number of samples.
+
+
+**Formal setup:**
+
+   $$\begin{aligned}
+      \utt{x}{message}{$m\times 1$}
+         &= \ut{A}{$m\times n$}
+            \utt{v}{value}{$n\times 1$}
+            + \utt{e}{error}{$m\times 1$} \\
+      v  &\sim N(0,\Omega)\\
+      e  &\sim N(0,\Sigma)\\
+      E[v|x]   &\simeq A\Sigma(A\Sigma A'+\Sigma)^{-1}x
+         && \text{(double-check this)}
+   \end{aligned}$$
+   
+
+```{tikz}
+#| fig-width: 3
+#| fig.align: center
+#| column: margin
+\begin{tikzpicture}[scale=3, line width=1]
+   \draw[<->] (0,1) -- node[rotate=90,above] {feature 2} (0,0) --(1,0) node[below,midway]{feature 1};
+   \draw[rotate around={45:(.5,.5)},line width=2,gray] (.5,.5) ellipse (.4 and .2);
+   \draw[dotted,line width=.5] (.8,.3) -- (.3,.8);% node[right,rotate=90]{\ value low};
+   \draw[dotted,line width=.5] (.8,.5) -- (.5,.8);% node[right,rotate=90]{\ value med};
+   \draw[dotted,line width=.5] (.8,.7) -- (.7,.8);% node[right,rotate=90]{\ value high};
+   \draw[->] (1,.5)--(1.1,.6) node[right]{$E[v|x_1,x_2]$};
+   \draw[dashed] (.7,0)--(.7,1) node[above,align=center]{classifier\\threshold\\$E[v|x_1]=p$};
+   %\fill[blue] (.5,.5) circle (.02) node[below]{unranked};
+   %\fill[red!50!black] (.75,.5) circle (.02) node[anchor=north west,align=center]{\ ranked by\\engagement};
+   %\fill[green!50!black] (.68,.68) circle (.02) node[right,anchor=south west,align=center]{\ ranked by engagement\\and quality};
+\end{tikzpicture}
+```
+
+**Two dimensional example.** 
+
+   - _Two features predict the underlying value:_ we visualize $x_1$ and $x_2$, which have positive correlation. The ellipse is an isovalue of the joint density, and the dotted lines are isovalues of $E[v|x_1,x_2]$.
+   - _Simple classifier does OK:_ A classifier which just uses $x_1$ will be relatively high accuracy.
+   - _Simple classifier is easy to evade:_ An adversary can just lower their $x_1$ and raise their $x_2$ such that they get the same value of $v$ but fall outside the classified region.
+
+
+#           Model of AI and External Properties
+
+**General:**
+
+$$\begin{aligned}
+   P(spam) &= \mu \\
+   P(spam|\bm{x}) &= \frac{P(\bm{x}|spam)P(spam)}{P(\bm{x})} \\
+      &= \frac{P(\bm{x}|spam)\mu}{P(\bm{x}|spam)\mu + P(\bm{x}|-spam)(1-\mu)}
+\end{aligned}$$
+
+**Now with conditionally independent binary features:**
+$$\begin{aligned}
+   P(x_i=1|spam) &= p \\ 
+   P(x_i=1|nonspam) &= .5 \\
+   P(spam|x_i=1) &= \frac{p\mu}{p\mu+.5(1-\mu)}\\
+   P(spam|x_i=0) &= \frac{(1-p)\mu}{(1-p)\mu+.5(1-\mu)}\\\\
+   P(m\text{ of }n|spam) &= \frac{p^m(1-p)^{n-m}\mu}{p^m(1-p)^{n-m}\mu+.5^m(1-\mu)}
+\end{aligned}$$
+
+**Claims:**
+
+1. If receiver can add extra feature to their filter then discrimination gets better (obviously).
+2. If sender can randomize some feature then discrimination gets much worse (in short run) and a little worse (in medium run).
+
+**Want:**
+
+1. **Internal property:** adding more features to both sides will make discrimination perfect, but in this baseline model it won't affect anything.
+2. **External property:** adding more features on both sides will make discrimination worse. Yes, can do this, just distinguish between $n_s$, $n_r$, and $n_h$. As the sender and receiver models get better then they impinge on $n_h$. -->
+
+#           References
+
+##       Bender et al., Stochastic Parrots
+
+Bender, Gebru, McMillan-Major, Mitchell (2021, FAccT) ["On the Dangers of Stochastic Parrots: Can Language Models Be Too Big?"](https://dl.acm.org/doi/pdf/10.1145/3442188.3445922)
+
+   > "LMs are not performing natural language understanding (NLU), and only have success in tasks that can be approached by manipulating linguistic form [14]. "
+
+   > "the tendency of human interlocutors to impute meaning where there is none can mislead both NLP researchers and the general public into taking synthetic text as meaningful."
+
+   > "Combined with the ability of LMs to pick up on both subtle biases and overtly abusive language patterns in training data, this leads to risks of harms, including encountering derogatory language and experiencing discrimination at the hands of others who reproduce racist, sexist, ableist, extremist or other harmful ideologies reinforced through interactions with synthetic language."
+
+   **Coherence in the Eye of the Beholder.** It produces "apparently" coherent text but not really coherent.
+
+   **Risks and Harms.** Generally: absorbing hegemonic worldview. E.g.:
+      1. Assuming doctor will be male, nurse female;
+      2. Outputting abusive language; 
+      3. Generate meaningless text & used, e.g., to recruit terrorists.
+      
+      Especially this point: *apparent* fluency will mislead people into thinking that there's some genuine content.
+      
+      > *"the human tendency to attribute meaning to text, in combination with large LMs’ ability to learn patterns of forms that humans associate with various biases and other harmful attitudes, leads to risks of real-world harm."*
+
+   **Also discuss environmental cost.**
+
+   **Proposal.** Value-sensitive design.
+
+2023-02: Goldstein et al. ["Generative Language Models and Automated Influence Operations: Emerging Threats and Potential Mitigations"](https://cdn.openai.com/papers/forecasting-misuse.pdf) 
+   - ![](images/2023-02-07-17-15-00.png)
+
+- [Arms race in google search SEO](https://www.theverge.com/23753963/google-seo-shopify-small-business-ai)
+
+Low trust in the 19th century:
+
+  - David Henkin book: in 19th century NY 40pct of banknotes circulating were fake.
+  - Adulterated foods
+  - Partisan news
+
+Benson (2023, Wired) ["Humans Aren’t Mentally Ready for an AI-Saturated ‘Post-Truth World’"](https://www.wired.com/story/generative-ai-deepfakes-disinformation-psychology/) --- quotes from psychologists saying things like "Anxiety is just going to ratchet up as we’re faced with this unknown thing in our world."
+
+Alex Rosenblatt (2023) ["Human Review is no Longer the Gold Standard"](https://www.linkedin.com/posts/alexrosenblatt_human-review-is-no-longer-the-gold-standard-activity-7083957264402808832-QjYV)
+
+Prediction that LLMs will be used for Spear Phishing: https://twitter.com/emollick/status/1681374663505575936
+
+Glukhov et al. (2023) [LLM CENSORSHIP: A MACHINE LEARNING CHALLENGE OR A COMPUTER SECURITY PROBLEM?](https://www.cl.cam.ac.uk/~is410/Papers/llm_censorship.pdf)
+
+
+#           Internal vs External Properties [UNFINISHED]
+
+**A common thread unifies many of the predictions above: internal vs external properties.** I say an "internal" property of a piece of content is one where the ground truth is human judgment of that content without reference to any external facts. An "external" property depend on some external fact, e.g. about provenance of the content (who created it, how it was made), or about the accuracy of what the content claims or depicts.
+
+
+| property                                        | internal/external | detection method            | obfuscation methods     |
+|-------------------------------------------------|-------------------|-----------------------------|-------------------------|
+| whether text contains a curse/slur              | internal          | string matching             | misspell, neologisms    |
+| whether text contains criticism of government   | internal          | string matching             | indirect language       |
+| whether text is match against database          | internal          | plagiarism detector (Chegg) | misspell, reword        |
+| whether photo contains nudity                   | internal          |                             | add noise, transform    |
+| whether media is match against database         | internal          | PhotoDNA                    | add noise, transform    |
+| whether image contains a specific watermark     |                   |                             |                         |
+| whether a message is signed by a public key     | internal          |                             |                         |
+|                                                 |                   |                             |                         |
+| whether a picture looks good                    | internal          |                             |                         |
+| whether a joke is funny                         | internal          |                             |                         |
+| whether user will engage (like, comment, share) | internal          |                             |                         |
+|                                                 |                   |                             |                         |
+| whether email is mass and unsolicited (spam)    | external          | naive Bayes                 |                         |
+| whether message is from a real human (vs bot)   | external          | naive Bayes                 |                         |
+| whether artwork is by a specific person         | external          |                             |                         |
+| whether writing is by a specific person         | external          | stylometry                  |                         |
+| whether media has been altered                  | external          |                             |                         |
+| whether media is synthetic (deepfake)           | external          |                             |                         |
+| whether text is generated by an LLM             | external          |                             |                         |
+| whether user behavior is by a bot               | external          | CAPTCHA                     |                         |
+| whether an article is misinformation            | external          |                             |                         |
+| whether a photo is misleading                   | external          |                             |                         |
+| whether content is retentive                    | external          |                             |                         |
+| whether a web page answers a query              | external          | PageRank, embedding         | content farm, synthetic |
+| whether audio matches someone's voice           | external          |                             |                         |
+| whether a user is over 18                       | external          |                             |                         |
+| whether nude photo subject is under 18          | external          |                             |                         |
+
+
+**On-demand filtering is not the primary tool.** Even if we have highly imperfect ways of detecting a property, whether internal or external, still we can drive down prevalence through using metadata and repeated interactions, and arguably that's been the primary reason for the decline.
+
+##          Observations on Internal Properties
+
+- **Historically it was feasible to do filtering with human judgment.** The technology of mass media means that a small amount of content was shown to a large audience (books, magazines, radio, television, movies), which made it feasible to have a human censor who manually reviewed the majority of content. 
+- **Filtering with crude classifier.** Motivated senders will be able to cheaply obfuscate their content to get around the classifier.
+- **Filtering with good classifier.** Receiver will be able to filter perfectly, content will be eliminated. 
+- **Selecting with crude classifier.** Suppose you want to select posts that are pretty, funny, clickable, etc.. In these cases the incentives are more likely to be aligned: I can't think of many cases where a sender wishes to be classified as having some good property, but also prefers to not actually have that property.
+- **Selecting with good classifier.** This should eliminate the Goodhart problem.
+
+##          Observations on External Properties
+
+- **Controlling on external properties typically uses metadata.** The primary method for controlling spam is not using content-based classifiers but instead maintaining blacklists of servers: Reiley and Rao (2012) say "[t]he single most effective weapon in the spam-blocking arsenal turns out to be blacklisting an email server." Similarly for misinformation: the most effective measures have not been proactive classifiers (typically low precision, e.g. 10%) or third-party-fact checking (typically high latency). Instead it has been discouragements to posting misinformation, and changes in the overall ranking system.
+- **Cryptographically signing messages.** It still means you must trust *someone*. Digital signing always had limited uptake for email and for SSL on websites: the attention tradeoff implies that it's better if an intermediary does the validation. 
+
+##          A model of both
+- There's a set of features 1,...,n, a model can be defined as the number of features that you condition on. We can then characterize three parties with an integer representing the number of features: (1) human, (2) sender, (3) receiver.
+- ground truth is all features - as classifier gets better u get squeezed ; 
+- sender has to hide a "1" from the classifier , gradually get squeezed ; 
+- other adversarial : putting police around town to prevent crime (don't post it publicly), auditing tax returns , applying antibiotics ; (there's some dynamics : try to wipe out population). 
+- key is whether sender has a constraint in state space ; but conditional independence won't hold 
+- human affairs : jigsaw puzzle it's all there ; vs human things it's all empirical vs theory ;
+
+#           Comments from Raf Burde
+
+
+[ ] #1: Reduced prevalence may not be enough given scale and contagion effects across platforms. 0.001% error can still lead to significant individual or societal harm depending on the distribution esp. if fundamental sense-making and credibility norms erode
+[ ] Not following the reduced censorship claim of prediction 1
+[ ] Say more about the implications of #5/6 (consolidation opportunity?). Importance of info literacy and contextual info to counter in distinguishable synthetic media. Will industry standards emerge to combat this at the actor- or domain-level?
+[ ] #7: optimistic assumptions around media literacy and not pessimistic enough about the risk of epistemically collapse. Outside democracies with mature and independent press, fake media risks are real and will be exploited to shape information ecosystems, gain power and distortf civic processes. We grossly overestimate the share of the population that engages in media literacy, provenance and fact checking. Podcast comment about being hopeful. Hope is grounded on the mediating role of institutions ie publishers. Leaning on journalistic standards but what if those start waning as the orgs wither and citizen journalism rises. Fact check program have been shown to be rather ineffective.
+[ ] Say more on #8, isn’t plausibility the superpower of LLMs? Counter evidence from SIO already: https://youtu.be/Wbl9XU82Rc8 
+[ ] Specialization is inevitable. There will be fine-tuned models trained to persuade either in general or persuade a subset of the population once sufficient training data is available. Also content persuasiveness is only one small factor in the overall success of an IO. Impersonation and concealing identity are larger factors that this new world enables. 
+[ ] Implications of #9: anonymity/ pseudonymity will be increasingly rare and incumbent lock-in (not good for competition or dynamism)
+
+
+#           Forecasts on Artificial Media
+
+- https://www.metaculus.com/questions/10955/ai-generated-film-ranked-1-in-streaming/
+- https://www.metaculus.com/questions/17447/ai-generated-movie-accomplishments/
+- https://www.metaculus.com/questions/8403/25-top-100-songs-made-by-ai-by-2050/ -->
+
+
+
+**Each questions asks the probability of significant intentional damage caused with the use of AI.** 
+
+**I think a reasonable starting point would be 50% of the historical base-rate of each type of damage.** Assume (1) AI will help attackers and defenders about equally, so total successful attacks will be constant; (2) AI will be used in 50% of successful attacks. Then we'd expect the future rate of AI-assisted successful attacks to be 50% of the historical rate of total successful attacks.
+
+**There have been many substantial prior technological shifts:** postal service, photographs, newspapers, telegraph, telephone, television, internet. Each helped both defenders and attackers.
+
+## Will a deepfake cause damage & make the front page of a major news source in 2023?    10%
+
+The technology to create "deepfakes" started to emerge around 2018. (Nancy Pelosi video)
+
+The Metaculus prediction shot up from 40% to 80% in May after a fake image of a Pentagon bombing began to circulate on Twitter.
+
+
+[In 2023 will a successful deepfake attempt causing real damage make the front page of a major news source?](https://www.metaculus.com/questions/14277/deepfake-attempt-in-major-news-in-2023/)
+
+## Will a deepfake be blamed by G20 politician for an election loss?         2025
+
+[Will a politician claim they lost a major election due to a "deepfake" image, video, or audio recording in a G20 country before 2025?](https://www.metaculus.com/questions/17180/deepfake-costs-election-before-2025/)
+
+
+## Will AI be used in an attack on infrastructure costing >$1B?           2025
+
+[Will a infrastructure disaster costing >$1B in a G20 country be widely attributed to an AI cyberattack before 2025?](https://www.metaculus.com/questions/17179/infrastructure-disaster-from-ai-before-2025/)
+
+## Will AI be used in a theft of intellectual property cost >$10M?        2025
+
+[Will a theft of >$10M of intellectual property be widely attributed to an AI cyberattack before 2025?](https://www.metaculus.com/questions/17178/ip-theft-from-ai-before-2025/)
+
+## Will AI cause a stock exchange to halt trading for >24 hours?          2025
+
+[Will a stock exchange halt trading for >24 hours with a cause widely attributed to AI before 2025?](https://www.metaculus.com/questions/17176/ai-takes-down-stock-exchange-before-2025/)
+
+
+## Will AI be used in a major attack on voting systems in G20?            2025
+
+[Will a major attack on voting systems in a G20 country be widely attributed to an AI before 2025?](https://www.metaculus.com/questions/17177/election-hack-before-2025/)
+
+## Resolved Predictions
+
+[Will a "Deepfake" video about a national U.S. political candidate running for office in 2018 get 2M+ views?](https://www.metaculus.com/questions/1335/will-a-deepfake-video-about-a-national-us-political-candidate-running-for-office-in-2018-get-2m-views/)
+
+Resolved No, was at 20% for a couple of months around August.
+
+[By late 2017, will there be a wide-scale hoax be created using video-alteration technology to put words in a famous figure's mouth?](https://www.metaculus.com/questions/204/a-is-in-the-i-of-the-beholder-1-wait-is-this-video-for-real/)
+
+Resvolved No, was 50% for a long time.
+
+
+#              Miscellaneous
+
+**Laure X Cast:** Trust in unsourced content will decline, and so network of communication will get *smaller*. You won't trust people who you don't have a direct connection with. / Laure X Cast made this argument that networks will get smaller.
+
+**Jimmy Charité:** People who don't already have public name or public following will find it harder to get traction and influence.
+
+**Cryptographic signing won't get widely adopted.** AI will make it easier to trick people by spoofing, e.g. spoof videos by celebrities advertising a cryptocurrency, spoof phone calls from your cousin asking for money. One response could be greater adoption of cryptographic signing to verify identity: you would have a public key for the celebrity, and for your cousin, and you would verify incoming messages against that key.
+
+
+**TO ADD: documentary evidence in mundane situations.** -- E.g. using photos and videos as proof in ordinary disputes or criminal trials. 
+
+**TO ADD: flooding journals and publishers with submission.** E.g. letters to the editor, journal submissions: can no longer use superficial coherence as a proxy for underlying quality.
+
+**TO ADD: deeper limits on generative AI.** limits on the classifiers, types of content which they cannot recognize or cannot synthesize to human level. E.g. chess with new rules. 
+
+**TO ADD: ambiguous / bistable content.**
