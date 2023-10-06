@@ -47,8 +47,7 @@ format:
 <!-- 
    URL: https://tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html
    SEE ALSO: prussia/2023-09-05-OFFCUTS-model-of-ai-imitation.md
-   TODO: use n and p instead of m and n
-   TODO: add Rob's comments and examples
+   TODO: something on self-play
    TODO: series of cases and illustrations from GPT4 -->
 
 ::: {.column-margin}
@@ -133,22 +132,11 @@ theme_set(theme_bw() +
 update_geom_defaults("line", list(size = 1))
 ```
 
-<!-- ```{r}
-#| column: margin
-#| fig-height: 3
-#| fig-cap: The ground truth (black line), human observations (red dots), and human performance (red line).
-ggplot(curves, aes(x, y)) +
-   geom_line(aes(y = p), linewidth = 1) +
-   geom_line(aes(y = pb), color = "red") +
-   geom_point(data = tibble(x = xb, y = yb), color = "red", size = 3) +
-   ylim(0, 12)
-``` -->
+**If we train AIs to *imitate* humans, will they ever *beat* humans?** AI has caught up to human performance on many benchmarks, largely by learning to predict what humans would do. It seems important to know whether this is a ceiling or we should expect them to shoot out ahead of us. Will LLMs be able to write superhumanly-persuasive prose? Will image models be able to see things in photos that we cannot? There is a lot of technical literature on imitation learning in AI but I haven't found much discussion of this point.
 
-**If we train AIs to *imitate* humans, will they ever *beat* humans?** Large language models (LLMs) are trained to predict what humans would say in a given situation (with some qualifications, see below). It would seem to follow that such a model would never be *better* at answering questions than a human.[^objective]
+   <!-- Large language models (LLMs) are trained to predict what humans would say in a given situation (with some qualifications, see below). It would seem to follow that such a model would never be *better* at answering questions than a human.[^objective] -->
    
-   [^objective]: In addition many other ML models are trained on human-generated labels, instead of any deeper ground truth: image recognition, language understanding, text classification, medical diagnosis. Thus we might expect computers to hit a ceiling once they achieve human ability.
-
-**The question seems important.** AI has caught up to human performance on many benchmarks, largely by imitating humans, it seems important to know whether this is a ceiling or we should expect them to shoot out ahead of us. Will LLMs be able to write superhumanly-persuasive prose? Will image models be able to see things in photos that we cannot? There is a lot of technical literature on imitation learning in AI but I haven't found much discussion of this point.
+   <!-- [^objective]: In addition many other ML models are trained on human-generated labels, instead of any deeper ground truth: image recognition, language understanding, text classification, medical diagnosis. Thus we might expect computers to hit a ceiling once they achieve human ability. -->
 
 **In a formal model I derive five mechanisms by which imitative AI can beat humans.**
 
@@ -164,7 +152,7 @@ ggplot(curves, aes(x, y)) +
    2. A deeper discussion of each of the five mechanisms.
    3. A brief overview of the AI-human gap in various tasks.
    4. Discussion of applications, related literature, and complications.
-   5. A simple form model with a derivation of each of the five mechanisms.
+   5. A simple formal model with a derivation of each of the five mechanisms.
 
 #           Setup: Modelling Questions and Answers
 
@@ -172,9 +160,9 @@ ggplot(curves, aes(x, y)) +
 
    | question                                                                                 | answer |
    | ---------------------------------------------------------------------------------------- | ------ |
-   | What's the capital of Switzerland?                                                       | Geneva |
-   | What's the best response if white plays c4?                                              | c5     |
-   | Does this picture (🐄) depict a cow?                                                   | Yes    |
+   | What's the capital of Switzerland?                                                       | Bern   |
+   | What's the best response if white plays c4?                                              | Nf6    |
+   | Does this picture (🐄) depict a cow?                                                    | Yes    |
    | How much more likely is someone to buy a Coke after hearing the slogan "Coke refreshes"? | 0.1%   |
 
 #           Graphical Argument
@@ -360,6 +348,8 @@ ggplot(curves, aes(x, y)) +
 
    This works very well as long as the people who talk most about a topic tend to be the people who are most knowledgeable about that topic. If the reverse was true then AI would perform worse than the average person. In some cases it does seem to be true that the people who are most talkative are the least accurate, e.g. for conspiracy theories, politically partisan issues, or pseudosciences.[^images] Thus we can predict that asking an LLM about these issues will tend to give low-quality answers, and indeed if you ask GPT-4 "what are some characteristics of Virgoes?" it will give a quite factual answer listing the traits of Virgoes.^[As of Oct 2023.]
 
+   The same point applies for general supervised learning: suppose we train an image model to recognize tumors, and the training set includes examples from different radiologists, each who is an expert in their area (e.g. a pediatric radiologist labels the scans from children, a vetenarian radiologist labels the scans from animals), then the trained model could outperform any single radiologist.
+
    [^images]: Analogically, in music or visual art, there might be some genres where the people who create artworks are uniquely bad at it, and so in these genres imitative AI would learn to make artworks worse than the average human would make.
 
 **(3) Interpolation.** I have not yet come up with a crisp question which an LLM can accurately answer but no human can, however there are *tasks* which LLMs can perform which it likely no human can perform without help:
@@ -371,22 +361,26 @@ ggplot(curves, aes(x, y)) +
 
    [^giorgio]: Thanks to Giorgio Martini for this point.
 
-**(4) Priors.**[^rob] When making extrapolation from the same set of data humans and computers will given different answers because they have different priors, and in some cases computer priors might give a better fit.
+**(4) Priors.** When making extrapolation from the same set of data humans and computers will given different answers because they have different priors, and in some cases computer priors might give a better fit.[^rob]
 
    In fact there is a literature from the 1950s showing that computers with linear regression models do better than humans in learning to predict from novel datasets, and indeed better than experts in making clinical judgments using a small number of cues (@camerer1991processperformance). This is surprising because it took an additional 70 years for computers to catch up with human ability in making many other judgments. I think the key difference is that the 1950s results apply to low-dimensional cases ($p<n$), while only recently have we taught computers to deal with high-dimensional data ($p\gg n$).
 
    Unfortunately I don't know of any clear-cut examples which show an LLM outperforming a human because of superior priors. Here is a hypothetical: suppose the training data of an LLM included a large set of scientific observations, and those observations contain some underlying pattern which was not recognized by any contemporary scientist. If you ask the LLM about the existence of patterns then it should answer like a scientist and say there is no known pattern. However if you ask the LLM to predict new observations then those predictions may obey the pattern, as a consequence the LLM could be used to systematically map out prediction, which may make it easier to identify the pattern. Thus you could imagine an LLM would correctly predict the position of the stars.
 
-   There is an interesting sublety in how the AI ought to be prompted, consider these two questions:
+   There is an interesting sublety in how the AI ought to be prompted to elicit superhuman knowledge. Consider these two prompts:
    
-   1. asdf
-   2. sdf
+   1. "Q: where will Venus be on June the 16th? ___ "
+   2. "On June the 16th Venus was observed to be ___"
+
+   If the AI learned superior priors to the human then we should expect it to answer these prompts differently: it would answer prompt #1 using the human model, and answer prompt #2 using the true model.
+
+   <!-- priors in general supervised learning, e.g. image classification -->
 
    [^rob]: thanks to Rob Donnelly for first suggesting this point to me.
 
 **(5) Tacit Knowledge.** 
 
-   The relative success of machine learning over symbolic AI has often been connected to the importance of tacit human knowledge, e.g. by Geoff Hinton. I have written a lot about the importance of tacit knowledge in human decision-making, especially @cunningham2015hierarchical and this [post](https://tecunningham.github.io/posts/2017-12-10-unconscious-influences.html), see also @cunningham2022implicit. In memory a related phenomenon is the "recognition recall" gap (@macdougall1904recognition): people are significantly better at recognizing whether they saw a word before than in recalling that word.
+   The relative success of machine learning over symbolic AI has often been connected to the importance of tacit human knowledge. I have written a lot about the importance of tacit knowledge in human decision-making, especially @cunningham2015hierarchical and this [post](https://tecunningham.github.io/posts/2017-12-10-unconscious-influences.html), see also @cunningham2022implicit. In memory a related phenomenon is the "recognition recall" gap: people are significantly better at recognizing whether they saw a word before than in recalling that word (@macdougall1904recognition).
 
    In fact I think this is a reasonable description of image synthesis by neural nets: models are first trained to recognize images given captions, and then a new image can be synthesized to match a given caption, e.g. through a diffusion algorithm. Here there's a striking asymmetry: algorithms can approximately match average human performance in recognition, but they far outperform human performance in construction of new artefacts.
 
@@ -477,8 +471,7 @@ ggplot(curves, aes(x, y)) +
 
 #           Discussion
 
-**We can formalize "superhuman" ability in a variety of ways.** The notation is introduced more fully below, but briefly $\bm{q}$ represents a question, $a(\bm{q})$ represents the correct answer, $\bar{a}(\bm{q})$ represents the computer's answer, and $\hat{a}_i(\bm{q})$ represents the answer of human $i$. The expectations can be interpreted as over the universe of all questions, or some subset of questions:
-
+**I will use "superhuman" to mean the AI can answer some question better than any human can.** We can formalize "superhuman" ability in a variety of ways. The notation is introduced more fully below, but briefly $\bm{q}$ represents a question, $a(\bm{q})$ represents the correct answer, $\bar{a}(\bm{q})$ represents the computer's answer, and $\hat{a}_i(\bm{q})$ represents the answer of human $i$. The expectations can be interpreted as over the universe of all questions, or some subset of questions:
    $$\begin{aligned}
       \text{weak:}&&    \ut{E[(a(q)-\bar{a}(q))^2]}{error of computer}
          &\leq  \ut{\frac{1}{n}\sum_{i=1}^mE[(a(q)-\hat{a}_i(q))^2]}{avg error of human}\\
@@ -489,17 +482,15 @@ ggplot(curves, aes(x, y)) +
       \text{super-strong:}&& \ut{E[(a(q)-\bar{a}(q))^2]}{error of computer}
          &\leq  \ut{E[(\min_{i=1,\ldots,m}\{a(q)-\hat{a}_i(q)\})^2]}{error of best human by question}\\
    \end{aligned}$$
-   Note that we cannot rank benchmark #2 and #3: the error of the best human could be either higher or lower than the error of the average human. 
+   Note that we cannot rank benchmark #2 and #3: the error of the best human could be either higher or lower than the error of the average human.  The most interesting question is whether AI can exhibit "super strong" superhuman performance. It seems clear that imitative learning can easily lead to superhuman performance by all the other 3 definitions through (1) reducing noise, and (2) combining expertise. However super-strong superhuman performance would require either (1) interpolation, (2) superior priors, or (3) using tacit human knowledge.
 
-**I will use "superhuman" to mean the AI can answer some question better than any human can.** The most interesting question is whether AI can exhibit "super strong" superhuman performance. It seems clear that imitative learning can easily lead to superhuman performance by all the other 3 definitions through (1) reducing noise, and (2) combining expertise. However super-strong superhuman performance would require either (1) interpolation, (2) superior priors, or (3) using tacit human knowledge.
+**Training models with custom-written answers is still imitative learning.** Recent LLMs don't train just on predicting existing text (books, internet, twitter) they also use datasets of instructions and responses generated by paid raters (@ouyang2022training). We can still call this imitation but it's putting relatively more weight on imitating the responses of specific set of people, the paid raters. This fine-tuning significantly improves performance on most benchmarks but I think it also has costs: the model is now predicting output of a specific set of people (i.e. non-expert paid raters), and so conceivably will do less well at incorporating niche information available to an expert.
 
-**Training on custom-written answers (fine tuning).** Recent LLMs don't train just on predicting existing text (books, internet, twitter) they also use datasets of instructions and responses generated by paid raters (@ouyang2022training). We can still call this imitation but it's putting relatively more weight on imitating the responses of specific set of people, the paid raters. This fine-tuning significantly improves performance on most benchmarks but I think it also has costs: the model is now predicting output of a specific set of people (i.e. non-expert paid raters), and so conceivably will do less well at incorporating niche information available to an expert.
-
-**Training on evaluation instead of production.** Recent LLMs are not purely imitative, e.g. OpenAI's GPT models are trained with human *evaluation* of their responses (called reinforcement learning with human feedback (RLHF)), and they find that it dramatically increases performance on instruction-following benchmarks.[^RLHF] The key difference is that the goal now reflects how humans *rate* responses rather than how humans *generate* responses. In some domains the two functions might be identical but in others there's a clear difference, I would argue that tacit knowledge is the core difference.
+**Training on human evaluations is using human tacit knowledge.** Recent LLMs are not purely imitative, e.g. OpenAI's GPT models are trained with human *evaluation* of their responses (called reinforcement learning with human feedback (RLHF)), and they find that it dramatically increases performance on instruction-following benchmarks.[^RLHF] The key difference is that the goal now reflects how humans *rate* responses rather than how humans *generate* responses. In some domains the two functions might be identical but in others there's a clear difference, I would argue that tacit knowledge is the core difference.
 
    [^RLHF]: E.g. see OpenAI's 2022 InstructGPT (@ouyang2022training). In fact they run reinforcement learning against a model trained to predict the human evaluation of outputs, and other papers run reinforcement learning against LLM-produced evaluations, RLAIF (@lee2023rlaif).
 
-**Other discussion of super-human performance by LLMs.** I have found surprisingly little online or academic discussion about whether LLMs will hit a ceiling defined by human performance. A good paper by @bowman2023eight has a section titled "human performance on a task isn’t an upper bound on LLM performance." He says LLMs can outperform humans for two reasons: (1) "they are trained on far more data than any human sees," and (2) "they are often given additional training using reinforcement learning ... which trains them to produce responses that humans find helpful without requiring humans to demonstrate such helpful behavior." I think these correspond to two of the five reasons I identified (specialization and tacit knowledge).
+**@bowman2023eight on super-human performance by LLMs.** I have found surprisingly little online or academic discussion about whether LLMs will hit a ceiling defined by human performance. A good paper by @bowman2023eight has a section titled "human performance on a task isn’t an upper bound on LLM performance." He says LLMs can outperform humans for two reasons: (1) "they are trained on far more data than any human sees," and (2) "they are often given additional training using reinforcement learning ... which trains them to produce responses that humans find helpful without requiring humans to demonstrate such helpful behavior." I think these correspond to two of the five reasons I identified (specialization and tacit knowledge).
 
 **For some tasks human-level performance is the ceiling by definition.** The ground truth about language interpretation is humans interpretation, and so it is hard to see how a computer could exhibit superhuman performance (in the super-strong sense).[^buffalo] In benchmarks for natural language understanding the labels are typically written by the human authors of the benchmark, so it would be impossible to observe superhuman performance (@tedeschi2023s). A similar point applies to content moderation the definition of ground truth is typically either majority-vote among paid human raters, or the reflective judgment of a senior human employee, thus a computer could only outperform in the weak senses above.[^wins]
 
@@ -509,16 +500,12 @@ ggplot(curves, aes(x, y)) +
 
    [^buffalo]: There are exceptions but I don't think they are quantitatively important. Consider the a sentence like "Buffalo buffalo Buffalo buffalo buffalo buffalo Buffalo buffalo." This sentence has at least one well-defined meaning according to the typical rules of English but arguably no human would correctly identify that meaning unless specifically prompted. A computer trained only on human comprehension, i.e. data which did not contain such outlier sentences, could plausibly identify its meaning.
 
-**Computers can outperform humans on recognition tasks.** Most benchmarks for media recognition use human labels, e.g. for object detection in photos or speech recognition in audio. However humans can be mistaken: they might incorrectly think a photo has a dog in it when it does not or vice versa. Humans are very good at recognition, so human-labelled data has been sufficient, but computers are liable to exceed human performance on these tasks.[^groundTruth]
+**Computers could outperform humans on recognition tasks, but we haven't tested them yet.** Most benchmarks for media recognition, e.g. testing for object detection in photos or speech recognition in audio, use human labels as the ground truth. However humans can be mistaken: they might think a photo has a dog in it when it does not or vice versa. Thus human judgment is not the ground truth. We could create a test set to measure superhuman performance either by (1) creating new media (e.g. taking new photos of dogs instead of using existing photos which humans identify as having a dog); (2) obfuscating existing media (e.g. blurring existing photos of dogs). By the argument in this note a classifiers trained only on human-provided labels could exhibit superhuman performance in such a test set, most plausibly through better priors: learning characteristic signs of dogs that humans do not.[^groundTruth] 
 
-   [^groundTruth]: Defining the ground truth in a recognition task is somewhat complicated because a given set of pixels is consistent with an infinite variety of objects causing that arrangement, we are able to talk about an image representing an object in the context of strong priors about the world. So the ground truth of interest must be something like "in ordinary circumstances, what is the probability that these pixels would be caused by a scene with a dog in them."
+   [^groundTruth]: Defining the ground truth in a recognition task is somewhat complicated because a given arrangement of pixels is consistent with an infinite variety of objects having caused that arrangement. We talk about an image representing an object in the world only because we have strong priors about the world which allow us to make that inference. So the ground truth in a recognition task must be something like "in ordinary circumstances, what is the probability that these pixels would be caused by a scene with a dog in them."
 
-**The graphical model underplays the importance of model architecture.** The graphical model shown above represents both questions and answers as unidimensional, and it makes it seem that a small sample is sufficient to get a reasonably good approximation of the true function. In reality the questions are very high dimensional and most architectures fail to get a good fit. Neural nets, especially those with a transformer structure, have had remarkable success in fitting the data, leading to leaps in performance.
+**The graphical model underplays the importance of model architecture.** The graphical model shown above represents both questions and answers as unidimensional, and it makes it seem that a small sample is sufficient to get a reasonably good approximation of the true function. In reality the questions of interest are very high dimensional and most model architectures fail to generalize well at all. Neural nets, especially those with a transformer structure, have had remarkable success in fitting the data, leading to leaps in performance.
 
-**AI could be used to create super-human artefacts.** There has been a lot of discussion about whether AI be used to exceed human abilities to create certain artefacts, e.g. hyper-beautiful paintings, hyper-addictive clickbait, hyper-persuasive text. Using the existing architecture of LLMs, which predict human outputs, this is unlikely: they might be able to predict the objects that a very talented human would produce, but would not surpass their ability. However AI could be used to generate artfeacts indirectly: instead of predicting how a human would create such an arfect, the weights that the AI has learned could be used to find the artefact which maximizes the function of interest, e.g. hyper-persuasive, or hyper-beautiful. In this way the AI could create artefacts beyond the ability of any human. This is roughly how image synthesis algorithms work: after training a model to recognize images, new images can be created by maximizing the learned weights.
-
-**Economic implication: imitative AI brings everybody to the knowledge frontier.** An imitative LLM can effectively serve as a consultant: it will tell you how a domain-expert would answer your question. For some problems we've already been able to do that for a long time, e.g. a textbook will tell you scientific advice on crop management practices, but LLMs allow for much subtler contingencies and to incorporate tacit knowledge. We should therefore expect the productivity impact of LLMs to be mainly on those who are behind the knowledge frontier, and we might also expect a compression of incomes.
-   <!-- 3. By pooling all the information in the training set LLMs allow everybody to have expert-level judgment on a given subject, and so give relatively bigger advantage to those with less knowledge. -->
 
 ```{tikz}
 #| column: margin
@@ -532,7 +519,7 @@ ggplot(curves, aes(x, y)) +
 
 **Venn diagram representation.** This diagram shows an alternative way of representing some of the core claims: in general the questions answerable by an LLM will not be a subset of the questions answered in the training set, or even those answerable by the people who contributed to the training set. The Venn diagram's disadvantage, relative to the visualizations above, is that it does not represent the mechanics of *why* the LLM can outperform humans, while the diagram above can be use to separately show five distinct reasons (averaging error, specialization, interpolation, different priors, and using tacit knowledge).
 
-**Imitation learning in dynamic problems.** The discussion in this note has been about a purely static problem of supplying answers to questions, but text generation can also be considered as a dynamic problem of sequentially generating tokens. A common observation regarding dynamic policy is that pure prediction of expert behaviour ("behavioural cloning") is not very robust, and this has been used to explain weaknesses in the behaviour of autoregressive generative text models.[^OOD]
+**Imitation learning has problems in dynamic situations.** The discussion in this note has been about a purely static problem of supplying answers to questions, but text generation can also be considered as a dynamic problem of sequentially generating tokens. A common observation regarding dynamic imitation learning is that pure prediction of expert behaviour ("behavioural cloning") is not very robust, because the algorithm does not know what to do in situations not observed before (out of distribution), and this has been used to explain weaknesses in the behaviour of autoregressive generative text models.[^OOD]
 
 [^OOD]: @cundy2023sequencematch say "[the] simple behaviour cloning approach results in a compounding error problem, where the further the trained model gets from the typical expert states, the worse the model performs, incurring increasing error." I also found [these notes](https://web.stanford.edu/class/cs237b/pdfs/lecture/cs237b_lecture_12.pdf) from Stanford's CS273B useful.
 
@@ -730,6 +717,9 @@ $$\begin{aligned}
 
    I *believe* that these can be shown to be equivalent by the [matrix inversion lemma](https://en.wikipedia.org/wiki/Woodbury_matrix_identity), though I haven't confirmed this. There's a [note online](https://digitalcommons.usu.edu/cgi/viewcontent.cgi?article=1212&context=ece_facpub) that appears to show equivalence.
 
+**Extension: quadratic forms.** Instead of answers being linear in question-features ($a=q'w$) we could suppose they're quadratic, $a=q'Wa$, with $W$ a matrix having dimension $n^2$. I'm not sure whether we could still get an analytic solution for posteriors. Can visualize the matrix W: each bit in $q$ will add an "L" overlaid on the matrix (alternatively: a row and column), and $a$ will be the sum of the cells where both the row and the column are activated.
+
+**Extension: binary answers.** In some cases it is natural to think of the answer, $a$, as binary instead of continuous. We might be able to reinterpret the model with $a$ representing the log-odds ratio of a binary outcome. Alternatively there might be a way of having a beta-binomial conjugate prior over the probability of $a$.
 
 
 #           References
