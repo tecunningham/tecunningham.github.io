@@ -28,12 +28,8 @@ format:
             };
             </script>
 engine: knitr
-#reference-location: margin
+reference-location: margin
 figure-location: margin
-#fontsize: 10pt
-#draft: true
-#editor:
-#   render-on-save: true
 ---
 <style>
     h1 {  border-bottom: 4px solid black;}
@@ -104,6 +100,8 @@ figure-location: margin
    \end{aligned}
    $$
 
+   Once we have a clear expression in terms of conditional expectations we can add on additional considerations: nonlinearities, fat-tailed distributions, strategic problems, etc..
+
 
    <!-- - Key point - conditional expectations ; observational inference condition can be empirically checked ; classical conditions are a waste of time ;  -->
 
@@ -153,16 +151,18 @@ I will argue that the commonly proposed remedies are highly imperfect fixes. The
 
    **The optimal stopping rule is data-dependent.** The discussion above took a stopping rule as given, we can also ask what's the efficient stopping rule. It's clear that a fixed length is inefficient: we should stop an experiment sooner if it does unexpectedly well or unexpectedly badly, in both of those cases the value of collecting more information has decreased because it's less likely to change our mind about a launch decision. Thus enforcing a static or pre-specific experiment length will lead to inefficient decision-making.
 
-   **Considering engineers' incentives.** Now consider the launch process as a game, with the engineers trying to persuade the director to launch their feature. Suppose the director's *ex post* optimal strategy is to launch if $E[t|\hat{t}]>0$, and suppose the engineers get a bonus whenever their feature is launched. In equilibrium the engineers will keep their experiments running until $E[t|\hat{t}]>0$, which will cause a skew distribution: the distribution of posteriors will show a cluster just above the threshold. The director's strategy is *ex post* optimal but it's not an efficient use of experimentation resources. In this game the director would likely wish to pre-commit to a different threshold which induces more efficient effort by engineers. However a more direct solution would be to align engineers' incentives with those of the director by rewarding them for their true impact, i.e. setting their bonuses proportional to $\max\{E[t|\hat{t}]\}$, instead of discontinuously rewarding them for whether or not they launched.
+   **Considering engineers' incentives.** Now consider the launch process as a game, with the engineers trying to persuade the director to launch their feature. Suppose the director's *ex post* optimal strategy is to launch if $E[t|\hat{t}]>0$, and suppose the engineers get a bonus whenever their feature is launched. In equilibrium the engineers will keep their experiments running until $E[t|\hat{t}]>0$, which will cause a skew distribution: the distribution of posteriors will show a cluster just above the threshold. The director's strategy is *ex post* optimal but it's not an efficient use of experimentation resources. In this game the director would likely wish to pre-commit to a different threshold which induces more efficient effort by engineers. However a more direct solution would be to align engineers' incentives with those of the director by rewarding them for their true impact, i.e. setting their bonuses proportional to $\max\{E[t|\hat{t}],0\}$, instead of discontinuously rewarding them for whether or not they launched.
 
 ##       Strategic Selection
+
+[unfinished]
 
 <!-- 3. **Alert thresholds.** We want to stop an experiment early if it has either a very good or very bad outcome, but it's difficult to know how to set the threshold in a principled way. -->
 
 
 ##       On Launch Criteria
 
-**Choosing weights on metrics for a launch decisions involves many considerations:** network effects, noise, cross-metric proxy effects, and dynamic effects. To make clear decisions it's important to peel apart these layers, I recommend these steps:
+**Choosing weights on metrics for a launch decisions involves many considerations:** network effects, noise, cross-metric proxy effects, and dynamic effects. In addition launch rules serve a bureaucratic role, and engineers will often want the launch rule to be public and without discretion.  To make clear decisions it's important to peel apart these layers, I recommend these steps:
 
    1. **Choose a set of final metrics.** These are the metrics we would care about *if we had perfect knowledge of the experimental effect.* We can define tradeoffs between them, it's convenient to express those tradeoffs in terms of percentage changes, e.g. we might be indifferent between 1% DAU, 2% time/DAU, and 5% prevalence of bad content.^[Arguably revenue or profit is a more truly final metric, and these are just proxies, but these are probably close enough to final for most purposes.]
 
@@ -172,8 +172,89 @@ I will argue that the commonly proposed remedies are highly imperfect fixes. The
 
       A final linear launch criteria can then be expressed as a set of conversion-factor weights applied to each of the proximal metrics.^[For derivation see @cunningham2019interpreting.]
 
-##       Launch Criteria Shouldn't Use Statistical Significance
+##                Comparing Launch Rules
 
+```{tikz}
+#| column: margin
+%#| fig-cap: Ship if either stat-sig positive and neither stat-sig negative.
+\begin{tikzpicture}[scale=2]
+   %\node[align=center,above] at (0,1) {Ship if Either Stat-Sig Positive,\\or Neither Stat-Sig Negative};
+   \fill[red!10!white] (-1,-1)--(-1,1)--(1,1)--(1,-1)--cycle;
+   \fill[black!50!white] (.4,.2)--(.4,1)--(1,1)--(1,.2)--cycle;
+   \fill[black!50!white] (.4,-.2)--(.4,1)--(1,1)--(1,-.2)--cycle;
+   \fill[black!50!white] (-.4,.2)--(-.4,1)--(1,1)--(1,.2)--cycle;
+
+   \draw (-1,1) node[anchor=north east]{$\hat{t}_2$} -- node[left,align=center]{0}
+         (-1,-1) -- node[below]{0} (1,-1) node[anchor=north east]{$\hat{t}_1$} -- (1,1) -- (-1,1);   
+   \draw[dashed] (-.4,1)--(-.4,-1) node[left,rotate=90]{-1.96$\cdot$SE$_1$};
+   \draw[dashed] (.4,1)--(.4,-1) node[left,rotate=90]{+1.96$\cdot$SE$_1$};
+   \draw[dashed] (1,.2)--(-1,.2) node[left]{+1.96$\cdot$SE$_2$};
+   \draw[dashed] (1,-.2)--(-1,-.2) node[left]{-1.96$\cdot$SE$_2$};
+
+   \draw (0,-1)--(0,1);
+   \draw (-1,0)--(1,0);
+   \draw[dotted] (-1,1)--(1,-1);
+\end{tikzpicture}
+```
+```{tikz}
+#| column: margin
+#| fig-cap: Ship if sum is positive
+\begin{tikzpicture}[scale=2]
+   \fill[red!10!white] (-1,-1)--(-1,1)--(1,1)--(1,-1)--cycle;
+   \fill[black!50!white] (-1,1)--(1,-1)--(1,1)--(-1,1)--cycle;
+
+   \draw (-1,1) node[anchor=north east]{$\hat{t}_2$} -- node[left,align=center]{0}
+         (-1,-1) -- node[below]{0} (1,-1) node[anchor=north east]{$\hat{t}_1$} -- (1,1) -- (-1,1);   
+   \draw[dashed] (-.4,1)--(-.4,-1) node[left,rotate=90]{-1.96$\cdot$SE$_1$};
+   \draw[dashed] (.4,1)--(.4,-1) node[left,rotate=90]{+1.96$\cdot$SE$_1$};
+   \draw[dashed] (1,.2)--(-1,.2) node[left]{+1.96$\cdot$SE$_2$};
+   \draw[dashed] (1,-.2)--(-1,-.2) node[left]{-1.96$\cdot$SE$_2$};
+
+   \draw (0,-1)--(0,1);
+   \draw (-1,0)--(1,0);
+   \draw[dotted] (-1,1)--(1,-1);
+\end{tikzpicture}
+```
+
+```{tikz}
+#| column: margin
+\begin{tikzpicture}[scale=2]
+   \fill[red!10!white] (-1,-1)--(-1,1)--(1,1)--(1,-1)--cycle;
+   \fill[black!50!white] (-.55,1)--(1,-.55)--(1,1)--cycle;
+
+
+   \draw (-1,1) node[anchor=north east]{$\hat{t}_2$} -- node[left,align=center]{0}
+         (-1,-1) -- node[below]{0} (1,-1) node[anchor=north east]{$\hat{t}_1$} -- (1,1) -- (-1,1);   
+   \draw[dashed] (-.4,1)--(-.4,-1) node[left,rotate=90]{-1.96$\cdot$SE$_1$};
+   \draw[dashed] (.4,1)--(.4,-1) node[left,rotate=90]{+1.96$\cdot$SE$_1$};
+   \draw[dashed] (1,.2)--(-1,.2) node[left]{+1.96$\cdot$SE$_2$};
+   \draw[dashed] (1,-.2)--(-1,-.2) node[left]{-1.96$\cdot$SE$_2$};
+
+   \draw (0,-1)--(0,1);
+   \draw (-1,0)--(1,0);
+   \draw[dotted] (-1,1)--(1,-1);
+\end{tikzpicture}
+```
+
+**I find it useful to visualize different launch rules.** For simplicity suppose our utility function is linear: we have two metrics, 1 and 2, and we care about them equally:
+   $$U(t_1,t_2)=t_1+t_2.$$
+   But we only observe noisy estimates $\hat{t}_1,\hat{t}_2$. 
+
+**@kohavi2020trustworthy recommend a stat-sig shipping rule.** They say (p105):
+
+   1. If no metrics are positive-significant then do not ship
+   2. If some are positive-significant and none are negative-significant then ship
+   3. If some are positive-significant and some are negative-significant then "decide based on the tradeoffs.
+
+   I represent this in the first diagram (but I treat condition 3 as a non-ship). The dotted line represents $\hat{t}_1+\hat{t}_2=0$.
+   
+**The stat-sig shipping rule has strange consequences.** You can see that this rule will recommend shipping things even with *negative* face-value utility ($U(\hat{t}_1,\hat{t}_2)<0$), when there's a negative outcome on the relatively noisier metric. This will still hold if we evaluate utility with shrunk estimates, when there's equal proportional shrinkage on the two metrics, but if there's greater shrinkage on the noisier metric it will not hold.
+   
+
+**Linear shipping rules are better.** In the margin I illustrate (1) a rule to ship wherever the sum is positive; (2) a rule to ship wherever the sum is stat-sig positive. I have drawn the second assuming that $cov(\hat{t}_1,\hat{t}_2)=0$. With a positive covariance the threshold would be higher.
+
+
+**The Leontief sandwich.** I assumed above that our true utility function is linear. The linearity problem comes up a lot when making decisions and I .
 
 
 #                                  The Extrapolation Problem
@@ -282,7 +363,7 @@ Here are some alternatives:
             - \utt{\frac{cov(e_2,e_1)}{var(\hat{t}_1)}}{observable}{variables}
    \end{aligned}$$
 
-   If everything is joint normal then the expectation is itself linear, and so this will be optimal. In practice the true distribution of effect-sizes is somewhat fat-tailed, which imply that the conditional expectation will be nonlinear in the observables. Nevertheless I think this is a good start. (One other complication is that the SNR is more complicated to calculate when experiments vary in their sample size).^[See @cunningham2019interpreting, and see @tripuraneni2023choosing for a derivation with weaker assumptions.]
+   If everything is joint normal then the expectation is itself linear, and so this will be optimal. In practice the true distribution of effect-sizes is somewhat fat-tailed, which imply that the conditional expectation will be nonlinear in the observables. Nevertheless I think this is a good start. (One other complication is that the SNR is more complicated to calculate when experiments vary in their sample size).^[See @cunningham2019interpreting, and see @tripuraneni2023choosing for a slightly different setup with weaker assumptions.]
 
 3. **Use experiment splitting.** You can randomly assign users in each experiment to one or other sub-experiments. You now effectively have a set of *pairs* of experiments, each of which has experiments with identical treatment effects ($\Delta \text{DAU}_{LR}$) but independent noise. Thus you can run a regression with LHS from one split, and RHS from other split, and you'll get an unbiased estimate. Additionally you can easily fit a nonlinear model (@coey2019improving has details of how to do an experiment-splitting).
 
@@ -456,7 +537,7 @@ Some general observations:
 <!-- **Taking culture as fixed.** People are trying to develop.
 **Tech companies are full of quack doctors.** infested with dousing people ; witch hunters ; quack doctors ; medicine men.  -->
 
-
+<!-- 
 #                                Appendix
 
 **Frequentist solutions to selection problems.** Frequentists (e.g. @andrews2019inference) talk about the problem of "multiple comparisons" or "winner's curse" but those aren't the problems they're solving. If you look at the actual applications they're all where each experiment has a prior which is tight relative to the confidence intervals (AKA underpowered experiments). In these cases it's well-known that frequensti estimates are badly behaved: they tend to over-estimate the true effect and have high rates of false positives. This would still be true even if you have only *one* underpowered experiment.
@@ -466,7 +547,7 @@ The problem is that frequentists don't realize that they're running underpowered
 They say that this is specific to the case of running many experiments but it's not: the same problems hold if you run a single under-powered experiment. Conversely, if you're running many high-powered experiments then these adjustments are unnecessary.
 
 Put another way: @andrews2019inference paper tries to find estimators that are unbiased conditional on being a winner ($E[y1|t1,y1>y2]$ and $E[max{y1,y2}|t1,t2]$). But this is throwing away information, it's just using discrete information (whether you're a winner) when you have a rich continuous dataset, from which you can estimate the full distribution of treatments, and so estimate $E[t1|y1,y2]$.
-
+ -->
 
 
 #                                References
