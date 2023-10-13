@@ -60,7 +60,7 @@ execute:
    - **Quigley.**                - 
    - **Acemoglu misinfo.**       - 
    - **Producer incentives.**    - should put features in your classifier that are *complements* of quality not substitutes
-   - **Strategic Classification.**   - 
+   - **Strategic Classification/Hardy.**   - 
 
 **SEE ALSO:**
 
@@ -114,7 +114,7 @@ execute:
 - Avoid unravelling: if the receiver doesn't know whether the sender knows.
 
 
-##             Hardy et al. (2015) "Strategic Classification"
+##             Hardt et al. (2015) "Strategic Classification"
 
    _In short:_ They model how to design a classifier when the applicants can manipulate features at some cost. Main result is that if the cost is separable then you can design an almost-optimal classifier, but if more complicated then you cannot.
 
@@ -208,13 +208,60 @@ There will be collateral damage on sincere personalized messages: it will become
 
    _Note: hard to talk about effect of features._ Need a clear counterfactual and often counterfactual is ambiguous. Think of simplex triangle. Uppercase is OK. Clouds is OK. Talking about effect of gross features is hard. 
 
-#           Model of Latent Space
+#           Model of Latent Space / Embedding
+
+**Summary (new):**
+
+1. **The world has a low-dimensional representation.** I.e. 
+   $$\utt{\bm{x}}{$m\times 1$}{observed} 
+      = f( \utt{\bm{v}}{$n\times 1$}{latent} )$$
+
+   | high dimensional observed | low dimensional unobserved |
+   | :-----------------------: | :------------------------: |
+   |           image           |      scene, lighting       |
+   |           text            |   meaning, tone, dialect   |
+   |           audio           |      speech, speaker       |
+
+   - *Simplest version.* Linear function, $\bm{x}=A\bm{v}$, where $A$ is $m\times n$. 
+   - *Implies feature space is sparse.*
+   - *Implies many-to-one mapping*.
+   - *Nonlinear.* -- convolutions, rotation, softmax.
+   - *Hierarchical.* -- 
+
+   
+
+2. **Human understanding of mappings.**
+   - Some things we can go in both directions:
+      $$\text{text}\rightleftarrows\text{meaning}$$
+   - Some things we can only go in one direction:
+      $$\text{image}\rightarrow\text{scene}$$
+   - Some things we can *partly* go in the other direction:
+      $$\text{audio}\leftarrow\text{speech,(speaker)}$$
+
+3. **Consequences for computer understanding.**
+
+   1. *Can do arbitrarily well with sufficient data.* With simple nearest-neighbor model then error will get arbitrarily low as $n\rightarrow\infty$, but in many cases the feature space is so high and the mapping sufficiently complicated that convergence is very slow.
+   2. *Some problems are easy.* When $m$ is small, or if humans encode the core features, then it's easy, and computers outperform humans.
+   3. *Generalization.* Expect computers to have lower ability to generalize compared to humans (they have big drop-off in accuracy between in-sample and out-of-sample).
+   4. *Adversarial.* Computers do very badly with adversarial attacks when they have a shallow understanding.
+
 
 **Summary:**
 
-1. Humans observe a high-dimensional message $\bm{x}$, and we infer from that a low-dimensional semantics $\bm{v}$. We can also do the reverse: given some semantics $\bm{v}$ we generate a message $\bm{x}$.
-2. We can train a classifier, feeding it examples of $\bm{x}$ and $\bm{v}$, but it'll do badly, the feature space is far higher than the number of samples.
-
+1. Humans observe a high-dimensional message $\bm{x}$, and we infer from that a low-dimensional semantics $\bm{v}$. We can also do the reverse: given some semantics $\bm{v}$ we generate a message $\bm{x}$ that expresses that (it's a one-to-many mapping).
+2. Some examples:
+   - **hate speech** ($x$ is sentence, $v$ it how hateful)
+     - humans can do both ($x\rightarrow v$ and $v\rightarrow x$)
+     - simple classifier can do $x\rightarrow v$ badly, e.g. looking for bad words, but easily evaded
+     - AI can do both $x\rightarrow v$ and $v\rightarrow x$
+   - **nudity** ($x$ is photo, $v$ it how nude)
+     - humans can tell if nude ($x\rightarrow v$), but can't create photo
+     - simple classifier can do $x\rightarrow v$ badly, e.g. looking for flesh tones
+     - AI can do both $x\rightarrow v$ and $v\rightarrow x$
+   - **fake photo** ($x$ is photo, $v_1$ is person and $v_2$ is activity)
+     - humans can interpret photos ($x\rightarrow v$), but can only create them if they *see* the $v$ happening in real life.
+     - simple classifier can't do much
+     - AI can both interpret and synthesize photos ($x\rightleftarrows v$)
 
 **Formal setup:**
 
@@ -225,7 +272,7 @@ There will be collateral damage on sincere personalized messages: it will become
             + \utt{e}{error}{$m\times 1$} \\
       v  &\sim N(0,\Omega)\\
       e  &\sim N(0,\Sigma)\\
-      E[v|x]   &\simeq A\Sigma(A\Sigma A'+\Sigma)^{-1}x
+      E[v|x]   &\simeq A\Sigma(A\Omega A'+\Sigma)^{-1}x
          && \text{(double-check this)}
    \end{aligned}$$
    
@@ -252,7 +299,8 @@ There will be collateral damage on sincere personalized messages: it will become
 
    - _Two features predict the underlying value:_ we visualize $x_1$ and $x_2$, which have positive correlation. The ellipse is an isovalue of the joint density, and the dotted lines are isovalues of $E[v|x_1,x_2]$.
    - _Simple classifier does OK:_ A classifier which just uses $x_1$ will be relatively high accuracy.
-   - _Simple classifier is easy to evade:_ An adversary can just lower their $x_1$ and raise their $x_2$ such that they get the same value of $v$ but fall outside the classified region.
+   - _Simple classifier is easy to evade:_ An adversary can just lower their $x_1$ and raise their $x_2$ such that they get the same value of $v$ but fall outside the classified region. If there are arbitrarily many features $x_1,\ldots$, then they can always find a way of evading the classifier.
+   - _Perfect classifier cannot be evaded:_ If the classifier conditions on all the observables ($x_1,x_2$) then there's no evasion.
 
 
 #           Model of AI and External Properties
@@ -474,3 +522,8 @@ Resvolved No, was 50% for a long time.
 **TO ADD: deeper limits on generative AI.** limits on the classifiers, types of content which they cannot recognize or cannot synthesize to human level. E.g. chess with new rules. 
 
 **TO ADD: ambiguous / bistable content.**
+
+**Things will get weird: chimeras:**
+   - [Beast of the sea](https://en.wikipedia.org/wiki/The_Beast_(Revelation))
+   - Constant conjunction ; 
+   - There will be an earthquake and we will see what’s holding buildings together 
