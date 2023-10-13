@@ -48,12 +48,15 @@ format:
 <!-- 
    URL: https://tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html
    SEE ALSO: prussia/2023-09-05-OFFCUTS-model-of-ai-imitation.md
-   TODO: something on self-play
-   TODO: series of cases and illustrations from GPT4 -->
+   - something on self-play
+   - priors in the linear mode
+   - Inverse RL ; learn preferences ; 
+   - 
+   -->
 
 ::: {.column-margin}
    ![](20230825131919.png)
-   Thanks to comments from many, especially [Giorgio Martini](http://www.giorgiomartini.com), Grady Ward, [Rob Donnelly](https://robdonnelly.me), and [Inés Moreno de Barreda](https://sites.google.com/site/inesmorenodebarreda/).
+   Thanks to comments from many, especially [Giorgio Martini](http://www.giorgiomartini.com), Grady Ward, [Rob Donnelly](https://robdonnelly.me), [Inés Moreno de Barreda](https://sites.google.com/site/inesmorenodebarreda/), and Colin Fraser.
 :::
 
 <style>p { text-indent: -2em; margin-left: 2em; }</style>
@@ -146,6 +149,8 @@ update_geom_defaults("line", list(size = 1))
    3. **Interpolation.** An LLM will interpolate responses from different humans, and this interpolation can be functionally equivalent to inference, meaning an LLM will sometimes be able to reliably answer questions that *no* human can answer.
    4. **Priors.** If an LLM has different priors than a human then they could uncover hidden structure that humans do not, e.g. an LLM trained on human observations of astronomical events could conceivably recover cycles in those events, and so give superior predictions to the human.
    5. **Tacit knowledge.** The majority of human knowledge is tacit, meaning it is used in forming judgments but we do not have conscious access to that knowledge. If AI models can accurately predict human judgments then the weights in those models effectively contain that tacit knowledge, and so the model can be re-engineered to use that knowledge in ways that humans cannot.
+
+**The evidence is unclear.** There are many reasons why this could theoretically occur but I couldn't find much evidence for superhuman performance: many benchmarks which we use to evaluate ML models have human labels as the ground truth, meaning we wouldn't know when computers do pass us by.
 
 **This blog post contains:** 
 
@@ -455,6 +460,8 @@ ggplot(curves, aes(x, y)) +
 ***Question answering*: computers surpassed humans in the 2010s.** With the qualifications above about the limitations of benchmark tasks.
 
 
+***Facial recognition*: computers seem to be equivalent to experts.** @towler2023facial say *"naturally skilled super-recognizers, trained forensic examiners and deep neural networks, ... achiev[e] equivalent accuracy."*
+
 ***Coding*: computers still below expert.** See the benchmarks on [PapersWithCode](https://paperswithcode.com/task/code-generation), also a graph on [OurWorldInData](https://ourworldindata.org/grapher/ai-performance-coding-math-knowledge-tests), specifically [APPS](https://paperswithcode.com/dataset/apps) and [MBPP](https://paperswithcode.com/sota/code-generation-on-mbpp). The best-performing computers are still imperfect at solving these coding challengers (which presumably can be solved by an expert programmer), but progress is rapid.
    
 ***Writing persuasive text*: computer comparable to average human.** A number of recent papers compare the persuasive power of LLM-generated text to human-generated text (@bai2023persuade, @goldstein2023persuasive, @hackenburg2023persuasive, @matz2023personalized, @palmer2023large, @qin2023large). They all find that LLMs do relatively well, but none show clear signs of computer superiority.
@@ -495,25 +502,26 @@ ggplot(curves, aes(x, y)) +
 
 **For some tasks human-level performance is the ceiling by definition.** The ground truth about language interpretation is humans interpretation, and so it is hard to see how a computer could exhibit superhuman performance (in the super-strong sense).[^buffalo] In benchmarks for natural language understanding the labels are typically written by the human authors of the benchmark, so it would be impossible to observe superhuman performance (@tedeschi2023s). A similar point applies to content moderation the definition of ground truth is typically either majority-vote among paid human raters, or the reflective judgment of a senior human employee, thus a computer could only outperform in the weak senses above.[^wins]
 
-   <!-- Almost all human tests and examinations consist of questions that *some* human knows the answer to, otherwise they could not grade the answers. So existing tests and examinations could never be used to establish superhuman performance. -->
-
    [^wins]: Many recent language models do outperform the average human baseline on language understanding tasks, but @tedeschi2023s argue that for a variety of reasons the strength of these results is significantly exaggerated.
 
    [^buffalo]: There are exceptions but I don't think they are quantitatively important. Consider the a sentence like "Buffalo buffalo Buffalo buffalo buffalo buffalo Buffalo buffalo." This sentence has at least one well-defined meaning according to the typical rules of English but arguably no human would correctly identify that meaning unless specifically prompted. A computer trained only on human comprehension, i.e. data which did not contain such outlier sentences, could plausibly identify its meaning.
+
+   <!-- Almost all human tests and examinations consist of questions that *some* human knows the answer to, otherwise they could not grade the answers. So existing tests and examinations could never be used to establish superhuman performance. -->
 
 **Computers could outperform humans on recognition tasks, but we haven't tested them yet.** Most benchmarks for media recognition, e.g. testing for object detection in photos or speech recognition in audio, use human labels as the ground truth. However humans can be mistaken: they might think a photo has a dog in it when it does not or vice versa. Thus human judgment is not the ground truth. We could create a test set to measure superhuman performance either by (1) creating new media (e.g. taking new photos of dogs instead of using existing photos which humans identify as having a dog); (2) obfuscating existing media (e.g. blurring existing photos of dogs). By the argument in this note a classifiers trained only on human-provided labels could exhibit superhuman performance in such a test set, most plausibly through better priors: learning characteristic signs of dogs that humans do not.[^groundTruth] 
 
    [^groundTruth]: Defining the ground truth in a recognition task is somewhat complicated because a given arrangement of pixels is consistent with an infinite variety of objects having caused that arrangement. We talk about an image representing an object in the world only because we have strong priors about the world which allow us to make that inference. So the ground truth in a recognition task must be something like "in ordinary circumstances, what is the probability that these pixels would be caused by a scene with a dog in them."
 
-**The graphical model underplays the importance of model architecture.** The graphical model shown above represents both questions and answers as unidimensional, and it makes it seem that a small sample is sufficient to get a reasonably good approximation of the true function. In reality the questions of interest are very high dimensional and most model architectures fail to generalize well at all. Neural nets, especially those with a transformer structure, have had remarkable success in fitting the data, leading to leaps in performance.
+**Self-play has helped performance in playing games.** A common trick to teach computers to play games well is to have them play themselves (self-play), this has been used to get superhuman performance in Backgammon, Chess, Go, & Minecraft. However this is not imitation learning: here the computer is trained against a non-human ground truth, the computer directly observes whether they have won the game. However there are analogues of self-play in imitative models: (1) training models to generate images, and to discriminate between computer-generated and real images (generative adversarial nets, GAN); (2) training an LLM to produce text based on LLM-generated feedback (RLAIF).
 
+**The graphical model underplays the importance of model architecture.** The graphical model shown above represents both questions and answers as unidimensional, and it makes it seem that a small sample is sufficient to get a reasonably good approximation of the true function. In reality the questions of interest are very high dimensional and most model architectures fail to generalize well at all. Neural nets, especially those with a transformer structure, have had remarkable success in fitting the data, leading to leaps in performance.
 
 ```{tikz}
 #| column: margin
 \begin{tikzpicture}[scale=2,line width=1]
    \draw (-1,-1)--(1,-1)--(1,1)--(-1,1)--(-1,-1);
-   \draw[] (-.2,0) circle (.5) node[yshift=1.2cm,left]{Tom};
-   \draw[] (.2,0) circle (.5) node[yshift=1.2cm,right]{Dick};
+   \draw (-.2,0) circle (.5) node[yshift=1.2cm,left]{Tom};
+   \draw (.2,0) circle (.5) node[yshift=1.2cm,right]{Dick};
    \draw[blue] (0,-.2) circle (.5) node[yshift=-1.2cm]{LLM};
 \end{tikzpicture}
 ```

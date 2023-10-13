@@ -28,12 +28,12 @@ format:
             };
             </script>
 engine: knitr
-reference-location: margin
+#reference-location: margin
 figure-location: margin
 #fontsize: 10pt
-draft: true
-editor:
-   render-on-save: true
+#draft: true
+#editor:
+#   render-on-save: true
 ---
 <style>
     h1 {  border-bottom: 4px solid black;}
@@ -47,7 +47,7 @@ editor:
 - **Everyone is implicitly Bayesian.** The choice of which treatment to run an experiment on, and which metrics to look at, reflects your priors. We are doing mostly *empirical Bayes* here. Empirical Bayes is half-baked bread, frequentist is just raw dough, completely inedible.
 -->
 
-<span style="background:yellow;">==*Still a draft, don't circulate!*==</span>
+
 
 #                                  Introduction
 
@@ -74,17 +74,19 @@ editor:
 
 4. **The explore-exploit problem.** We would like to choose which experiments to run in an efficient and automated way. I think the technical solution is relatively clear but tech companies have struggled to implement it because good execution requires some discipline. I describe a simple algorithm that is not optimal but very simple and robust.
 
-5. **The culture problem.** Inside tech companies people keep misusing experiments and misinterpreting the results, especially (1) running under-powered experiments, (2) selectively choosing results, and (3) looking at correlations without thinking about identification. A common response is to restrict access so that only datapoints satisfying some conditions are made available. However this often backfires because (a) it is difficult to formally specify the right conditions; (b) it reinforces a perception that experimental results can be interpreted as best-estimates of true treatment effects; (c) it reinforces a norm of selecting experimental results as arguments for a desired outcome.
+5. **The culture problem.** Inside tech companies people keep misusing experiments and misinterpreting the results, especially (1) running under-powered experiments, (2) selectively choosing results, and (3) looking at correlations without thinking about identification. 
+
+   A common response is to restrict access to only a subset of experiment resuts. However this often backfires because (1) it is difficult to formally specify the right subset; (2) it reinforces a perception that experimental results can be interpreted as best-estimates of true treatment effects; (3) it reinforces a norm of selecting experimental results as arguments for a desired outcome. I think a better alternative is to explicitly frame the problem as one of predicting the true effect given imperfect evidence, and benchmark peoples' prior performance in predicting the true effect of an intervention.
 
 #                                  Setup
 
 **Firms choose their policy to maximize user retention.** As a simplified model companies are choosing policies to maximize long-run retention (or revenue). A policy is, for example, a recommendation algorithm, or notification algorithm, or the text and images used in an advertisement or the UX on a signup page. Notice that policies are very high dimensional: there are millions or billions of alternatives, while we usually run only a few experiments.^[In fact variation in the success of tech platforms is primarily due to variation in the inflow of new users, not due to variation in retention rates. However growth in new users is driven by the attractiveness of the product and retention is a good proxy for this.]
 
-**Experiments are not the *primary* source of causal knowledge.** People already have substantial knowledge about the effects of their decisions without either randomized experiments or natural experiments (IV, RDD, etc.). We built cathedrals, aeroplanes, welfare states, we doubled human life-expectancy, & WhatsApp grew to 1B users, all without randomized experiments. Formal causal inference *augments* our already substantial causal knowledge. Inside companies the primary way people learn about causal relationships is raw data (e.g. dashboards) and common-sense reasoning about human behaviour.
+**Experiments are not the primary source of causal knowledge.** People already have substantial knowledge about the effects of their decisions without either randomized experiments or natural experiments (IV, RDD, etc.). We built cathedrals, aeroplanes, welfare states, we doubled human life-expectancy, & WhatsApp grew to 1B users, all without randomized experiments. Formal causal inference *augments* our already substantial causal knowledge. Inside companies the primary way people learn about causal relationships is raw data (e.g. dashboards) and common-sense reasoning about human behaviour.
 
 **Experiments only solve the low-dimensional problem.** In most cases the dimensionality of the policy space is far higher than the dimensionality of experiment space, thus the responsibility for choosing policies is primarily human judgment, and then humans give a few variants to experiments to compare their performance.
 
-**Most questions related to experiments can be expressed as conditional expectations.** A good workhorse model of experimentation is the following, suppose we have two metrics #1 and #2. Taking some set of experiments we can think of three joint distributions: the observed effects, the true effects, and the noise:^[For simplicitly assume the experiment doesn't have any effect on variances or covariances of outcomes, the effects are typically small enough that it doesn't matter.]
+**Most questions related to experiments can be expressed as conditional expectations.** A good workhorse model of experimentation is the following. Suppose we have two metrics #1 and #2. Taking some set of experiments we can think of three joint distributions: the observed effects, the true effects, and the noise:^[For simplicitly assume the experiment doesn't have any effect on variances or covariances of outcomes, the effects are typically small enough that it doesn't matter.]
 
    $$\utt{\binom{\hat{t}_1}{\hat{t}_2}}{observed}{effects}
       =\utt{\binom{t_1}{t_2}}{true}{effects (ATE)}
@@ -115,30 +117,48 @@ editor:
    3. Estimate the treatment effect, knowing the observed effect, and additionally the distribution of observed effects across some set of experiments.
    4. Estimate the treatment effect on a subgroup, knowing the observed effect, and additionally the distribution of observed effects across all other subgroups.
    
-**The textbook approach uses p-values.** A common "textbook" understanding approach is to use the observed effect as your estimate if the p-value is below 0.05, and otherwise to use zero as your estimate. This approach leads to all sorts of well-known problems.
+**The textbook approach uses *p*-values.** A common approach (NHST) is to treat the true effect as equal to the observed effect if the p-value is below 0.05, and otherwise treat the true effect as zero. This leads to all sorts of well-known difficulties. 
 
-**Alternative recommendation: report benchmark statistics.** The ideal decision process lets humans make a judgment about estimated treatment effects given three ingredients:
+**Empirical Bayes estimates are often imperfect.** We could instead calculate empirical-Bayes conditional expectations, $E[\bm{t}|\hat{\bm{t}}]$, based on covariances from prior experiments, and treat those as the true effects. However the distribution of prior experiments is only a subset of the full information set available to the decision-maker, i.e. empirical Bayes is not Bayes, and very often there are idiosyncratic details about this particular experiment that are consequential.
+
+**My recommendation: report benchmark statistics.** The ideal decision process lets humans make a judgment about estimated treatment effects given three ingredients:
    
    1. **Raw estimate.** The point estimate and standard error.^[Equivalently, the point-estimate and p-value, or the upper and lower confidence bounds.]
 
    2. **Benchmark statistic.** We should also report a statistic comparing this observed effect to observed effects of other similar treatments. There are many ways of benchmarking and I think they are all convey the same basic information, e.g. the empirical-bayes shrunk estimate (and there are various shrinkage estimators), the FDR-adjusted p-value, or the fraction of statistically significant experiments. We have to use judgment in defining what a "similar" experiment is, and it's important that we report to the end-user what class of similar experiments we're using and how many we have. For the remainder of the section I will assume we are reporting an empirical-bayes shrunk estimate.
 
-   3. **Idiosyncratic details.** Any information about this treatment relative to the benchmark class, that could be relevant to its effect on this metric. E.g. if this experiment only affects iPhone users and the metric is an Android outcome this is informative, and we should probably ignore an effect unless it is highly significant.
+   3. **Idiosyncratic details.** We should additional report any information about this treatment relative to the benchmark class, that could be relevant to its effect on this metric. E.g. (1) suppose this experiment only affects iPhone users then it is rational to heavily discount any outcomes on Android use unless they are highly significant; (2) suppose this experiment is a direct replication of a prior experiment, then we will likely wish to shrink our estimates towards that prior experiment rather than towards the mean of all experiments.
 
 **Benchmarking solves all the problems above.** An empirical-Bayes shrunk estimate represents our best guess at the true treatment effect conditional on the experiment being drawn from a given reference class.
 
-
 **Useful shortcut: using the fraction of significant experiments to do shrinkage.** A convenient rule of thumb for doing empirical Bayes shrinkage is to use the fraction of experiments that are statistically significant in some class. If the fraction is zero then we should shrink all estimates to zero, if the fraction is 20% then we should shrink estimates by about 50%, and if the fraction is 1/2 then we should shrink estimates by about 20%. If everything's Gaussian and every experiment has the same $N$ then the optimal shrinkage factor is $1-(\frac{1}{1.96}\Phi^{-1}(\frac{q}{2}))^2$, where $q$ is the fraction of stat-sig experiments.
 
-##       Strategic Problems [UNFINISHED]
+##       Strategic Problems
 
 **There are additionally some *strategic* problems in experiment interpretation.**
 
-1. **Strategic stopping.** Engineers will wait until an experiment has a high estimated impact (or low p-value) and then try to launch it.
-2. **Cherry-picking.** An engineer will cherry-pick results that support their preferred decision, e.g. Indian DAU went up.
-3. **Alert thresholds.** We want to stop an experiment early if it has either a very good or very bad outcome, but it's difficult to know how to set the threshold in a principled way.
+   1. **Strategic stopping ("peeking").** An engineer will wait until an experiment has a high estimated impact, or low p-value, before presenting it for launch review. A common proposed remedy is that all experiments should be evaluated after the same length of time, or that engineers should pre-specify the length of experiments.
+   
+   2. **Strategic selection ("cherry picking").** An engineer will choose to show the experiment results on the metrics that are favorable, not those that are unfavorable. A common proposed remedy is that the set of metrics should be standardized for all launches, or that the set of evaluation metrics should be pre-specified by the engineer (AKA a pre-analysis plan).
 
-*[UNFINISHED: frequentist vs Bayesian approach to strategic problems]*
+I will argue that the commonly proposed remedies are highly imperfect fixes. These are complicated things to think about because the mix together issues of statistical inference and of strategic behaviour. In the discussion that follows I try to separate those out as clearly as possible.
+
+##       Strategic Stopping
+
+   **I will ignore dynamic effects.** For simplicity assume that all effects are constant, so the length of an experiment effectively determines just the sample size of that experiment. I.e. I will ignore time-dependent and exposure-dependent effects.
+
+   **Stopping rules are irrelevant to expected effect sizes.** Suppose an experiment has a given estimate. Does it matter to your estimate of the true causa effect if you learn that the experimenter chose the sample size $N$ by a data-dependent rule, e.g. continuing to collect data until the estimate was statistically significant? If you are estimating the true causal effect, $E[t|\hat{t}]$ then it doesn't matter, your posterior will be identical either way.
+
+   **Stopping rules would be relevant if we made decisions based on statistical-significance.** A stopping rule would be relevant if we conditioned only on statistical-signficance instead of the full estimate. In other words the expected true effect, conditioning only on whether the estimated effect is significant, will depend on the distribution of experiments run. For example if people kept running experiments until they were significant then significant experiments would tend to have small effect sizes. However it is clearly bad practice to condition only on this binary piece of information when you have the full estimate, and if you have the full estimate then the stopping rule becomes irrelevant.
+
+   **The optimal stopping rule is data-dependent.** The discussion above took a stopping rule as given, we can also ask what's the efficient stopping rule. It's clear that a fixed length is inefficient: we should stop an experiment sooner if it does unexpectedly well or unexpectedly badly, in both of those cases the value of collecting more information has decreased because it's less likely to change our mind about a launch decision. Thus enforcing a static or pre-specific experiment length will lead to inefficient decision-making.
+
+   **Considering engineers' incentives.** Now consider the launch process as a game, with the engineers trying to persuade the director to launch their feature. Suppose the director's *ex post* optimal strategy is to launch if $E[t|\hat{t}]>0$, and suppose the engineers get a bonus whenever their feature is launched. In equilibrium the engineers will keep their experiments running until $E[t|\hat{t}]>0$, which will cause a skew distribution: the distribution of posteriors will show a cluster just above the threshold. The director's strategy is *ex post* optimal but it's not an efficient use of experimentation resources. In this game the director would likely wish to pre-commit to a different threshold which induces more efficient effort by engineers. However a more direct solution would be to align engineers' incentives with those of the director by rewarding them for their true impact, i.e. setting their bonuses proportional to $\max\{E[t|\hat{t}]\}$, instead of discontinuously rewarding them for whether or not they launched.
+
+##       Strategic Selection
+
+<!-- 3. **Alert thresholds.** We want to stop an experiment early if it has either a very good or very bad outcome, but it's difficult to know how to set the threshold in a principled way. -->
+
 
 ##       On Launch Criteria
 
@@ -150,7 +170,9 @@ editor:
 
    3. **Identify *conversion factors* between proximal and final metrics.** These tell us the best-estimate impact on final metrics given the impact on proximal metrics. Conversion factors can be estimated either from (a) long-running tuning experiments; (b) a meta-analysis of prior experiments with similar designs.
 
-   A final linear launch criteria can then be expressed as a set of conversion-factor weights applied to each of the proximal metrics.^[For derivation see @cunningham2020interpreting.]
+      A final linear launch criteria can then be expressed as a set of conversion-factor weights applied to each of the proximal metrics.^[For derivation see @cunningham2019interpreting.]
+
+##       Launch Criteria Shouldn't Use Statistical Significance
 
 
 
@@ -170,24 +192,24 @@ editor:
 | wait-time for delivery | retention                                        |
 | price                  | quantity purchased                               |
 
-<!-- 
-**When does observational inference work well?** It will work well when the $e_1$ and $e_2$ vary in the same way.
-   - Will work when the upstream variable is quasirandom.
-   - Will work when 
+   <!-- 
+   **When does observational inference work well?** It will work well when the $e_1$ and $e_2$ vary in the same way.
+      - Will work when the upstream variable is quasirandom.
+      - Will work when 
 
-   $$\xymatrix{
-         *++[F:<15pt>]{unobserved}\ar[d]\ar@{.>}[dr]
-         & *++[F:<15pt>]{unobserved}\ar[d]
-         \\ *++[F]\txt{upstream}
-         & *++[F]\txt{downstream}
-      }
-   $$    -->
+      $$\xymatrix{
+            *++[F:<15pt>]{unobserved}\ar[d]\ar@{.>}[dr]
+            & *++[F:<15pt>]{unobserved}\ar[d]
+            \\ *++[F]\txt{upstream}
+            & *++[F]\txt{downstream}
+         }
+      $$    -->
 
-<!-- **Observational inference has been disappointing.** Many projects in tech have tried to measure causal effects with observational inference but have been disappointing. [UNFINISHED]. -->
+   <!-- **Observational inference has been disappointing.** Many projects in tech have tried to measure causal effects with observational inference but have been disappointing. [UNFINISHED]. -->
 
-<!-- 
-- Someone built a system at LinkedIn for observational inference (OCELOT), included various algorithms (matching, ), had a review committee. But eventually petered out and defunded.
--->
+   <!-- 
+   - Someone built a system at LinkedIn for observational inference (OCELOT), included various algorithms (matching, ), had a review committee. But eventually petered out and defunded.
+   -->
 
 For concreteness we will treat the problem of predicting the long-run (LR) effect of an experiment on DAU from its short-run (SR) estimated effects on all metrics:
 
@@ -260,9 +282,9 @@ Here are some alternatives:
             - \utt{\frac{cov(e_2,e_1)}{var(\hat{t}_1)}}{observable}{variables}
    \end{aligned}$$
 
-   If everything is joint normal then the expectation is itself linear, and so this will be optimal. In practice the true distribution of effect-sizes is somewhat fat-tailed, which imply that the conditional expectation will be nonlinear in the observables. Nevertheless I think this is a good start. (One other complication is that the SNR is more complicated to calculate when experiments vary in their sample size).^[For derivation see @cunningham2020interpreting.]
+   If everything is joint normal then the expectation is itself linear, and so this will be optimal. In practice the true distribution of effect-sizes is somewhat fat-tailed, which imply that the conditional expectation will be nonlinear in the observables. Nevertheless I think this is a good start. (One other complication is that the SNR is more complicated to calculate when experiments vary in their sample size).^[See @cunningham2019interpreting, and see @tripuraneni2023choosing for a derivation with weaker assumptions.]
 
-3. **Use experiment splitting.** You can randomly assign users in each experiment to one or other sub-experiments. You now effectively have a set of *pairs* of experiments, each of which has experiments with identical treatment effects ($\Delta \text{DAU}_{LR}$) but independent noise. Thus you can run a regression with LHS from one split, and RHS from other split, and you'll get an unbiased estimate. Additionally you can easily fit a nonlinear model.
+3. **Use experiment splitting.** You can randomly assign users in each experiment to one or other sub-experiments. You now effectively have a set of *pairs* of experiments, each of which has experiments with identical treatment effects ($\Delta \text{DAU}_{LR}$) but independent noise. Thus you can run a regression with LHS from one split, and RHS from other split, and you'll get an unbiased estimate. Additionally you can easily fit a nonlinear model (@coey2019improving has details of how to do an experiment-splitting).
 
 4. **Run a regression just using the strongest experiments.** If the distribution of experiments is fat-tailed then the strongest experiments will have higher SNR, and so lower bias. A worry about this is that you're only estimating the relationship from outliers, so if there are nonlinearities you'll never know. At the same time the assumption of fat-tailed treatment-effects gives reason to believe the expectation will be nonlinear. (This is roughly how I interpret the @peysakhovich2018learning experiments-as-instruments paper. They propose using L0 regularization and experiment-splitting cross-validations, which I think effectively just selects the strongest experiments.)
 
@@ -339,14 +361,13 @@ $$\begin{array}{rcccccccc}
 
 Some general observations:
 
-1. **We would get a more credible estimate if we could directly measure content quality.** E.g. if we could use the quality of the content available to the user on the RHS, instead of just their engagement on that content. This wouldn't get perfect identification but it would help.
-2. **The relative shares of variation in the RHS is important.** If most of the variation in engagement is due to variation in content (i.e. high $R^2$ from content), then we don't need to worry much about confounding from other effects. We can think of introducing control variables as a way of increasing the share of varation in engagement due to content.
-3. **We should control for distractions.** If we have measures of app-related events that don't affect content-seen but do affect engagement, e.g. notifications, messages, then we should use those as controls. This will increase the relative share of variation in engagement due to content.
-4. **Controlling for pre-treatment outcomes changes variation used.** If we control for `engagement`$_{t-1}$ this will change the relative contribution of each factor in the variation of engagement. Specifically it will reduce the share of the terms with higher autocorrelation. Thus by definition `temperament` will reduce its contribution. However it's unclear whether `mood` or `content` has higher autocorrelation, and so controlling for pre-treatment could either increase or decrease the relative contribution of `content`. It's probably worth doing some simple decomposition of variation in engagement into (1) user, (2) content, and (3) mood (the residual), both statically and over time.
-5. **Univariate linear prediction is usually pretty good.** In my experience you can get a fairly good prediction of most user-level metrics with a linear function of the lagged values. If you use a multivariate or nonlinear function you'll get a better fit but only by a small amount (one exception: when predicting discrete variables like DAU it's useful to use a continuous lagged variable like time-spent). So I'm skeptical that adding more regressors or adding nonlinearity will significantly change the estimates or the credibility of the estimates.
-6. **Estimand is not $\beta$ but $\frac{1}{1-\beta}$.** Suppose we see that 1 unit of engagement causes a certain increase in DAU over the following weeks. We then want to apply that estimate to an experiment which *permanently* increases engagement by 1 unit. We thus should take the integral over all the subsequent DAU effects. In the simple exponential case the effect of a shock at period $t$ on DAU at period $t+s$ will be $\beta^s$, and so the cumulative effect on all subsequent periods will be $1+\beta+\beta^2+\ldots=\frac{1}{1-\beta}$.
-7. **Autocorrelation in content makes things messier.** If there is significant autocorrelation in content then the interpretation of `DAU~engagement` is more difficult. E.g. if we see that engagement on $t$ is correlated with DAU on $t+1$ this could be because either (1) content on $t$ content caused the DAU on $t+1$, or (2) good content on $t$ is correlated with good content on $t+1$, which in turn causes DAU on $t+1$. I don't think controlling for pre-treatment levels or trends solves this.
-
+   1. **We would get a more credible estimate if we could directly measure content quality.** E.g. if we could use the quality of the content available to the user on the RHS, instead of just their engagement on that content. This wouldn't get perfect identification but it would help.
+   2. **The relative shares of variation in the RHS is important.** If most of the variation in engagement is due to variation in content (i.e. high $R^2$ from content), then we don't need to worry much about confounding from other effects. We can think of introducing control variables as a way of increasing the share of varation in engagement due to content.
+   3. **We should control for distractions.** If we have measures of app-related events that don't affect content-seen but do affect engagement, e.g. notifications, messages, then we should use those as controls. This will increase the relative share of variation in engagement due to content.
+   4. **Controlling for pre-treatment outcomes changes variation used.** If we control for `engagement`$_{t-1}$ this will change the relative contribution of each factor in the variation of engagement. Specifically it will reduce the share of the terms with higher autocorrelation. Thus by definition `temperament` will reduce its contribution. However it's unclear whether `mood` or `content` has higher autocorrelation, and so controlling for pre-treatment could either increase or decrease the relative contribution of `content`. It's probably worth doing some simple decomposition of variation in engagement into (1) user, (2) content, and (3) mood (the residual), both statically and over time.
+   5. **Univariate linear prediction is usually pretty good.** In my experience you can get a fairly good prediction of most user-level metrics with a linear function of the lagged values. If you use a multivariate or nonlinear function you'll get a better fit but only by a small amount (one exception: when predicting discrete variables like DAU it's useful to use a continuous lagged variable like time-spent). So I'm skeptical that adding more regressors or adding nonlinearity will significantly change the estimates or the credibility of the estimates.
+   6. **Estimand is not $\beta$ but $\frac{1}{1-\beta}$.** Suppose we see that 1 unit of engagement causes a certain increase in DAU over the following weeks. We then want to apply that estimate to an experiment which *permanently* increases engagement by 1 unit. We thus should take the integral over all the subsequent DAU effects. In the simple exponential case the effect of a shock at period $t$ on DAU at period $t+s$ will be $\beta^s$, and so the cumulative effect on all subsequent periods will be $1+\beta+\beta^2+\ldots=\frac{1}{1-\beta}$.
+   7. **Autocorrelation in content makes things messier.** If there is significant autocorrelation in content then the interpretation of `DAU~engagement` is more difficult. E.g. if we see that engagement on $t$ is correlated with DAU on $t+1$ this could be because either (1) content on $t$ content caused the DAU on $t+1$, or (2) good content on $t$ is correlated with good content on $t+1$, which in turn causes DAU on $t+1$. I don't think controlling for pre-treatment levels or trends solves this.
 
 #                                  The Explore-Exploit Problem
 
@@ -416,9 +437,7 @@ Some general observations:
 - (Meta's AX is used for hyperparameter tuning, but not that much for product experiments)
 -->
 
-
-
-#                                  The Culture Problem [UNFINISHED]
+<!-- #                                  The Culture Problem [UNFINISHED]
 
 **Tool-makers don't trust tool-users.** Some common themes:
 
@@ -428,12 +447,26 @@ Some general observations:
 
    - If you let data scientists use observational-causal-inference tools they'll use them indiscriminately, hardly spending any time to think about whether the exogeneity assumption hold in their cases.
 
-**There are three broad approaches: **
+**There are three broad approaches:**
 
 1. Put restrictions on experimenters to prevent them from misinterpreting experiment results.
 2. Change incentives for experimenters to prevent them from misusing experiment results.
-3. Educate experiments so they use experiment results better.
+3. Educate experiments so they use experiment results better. -->
 
 <!-- **Taking culture as fixed.** People are trying to develop.
-
 **Tech companies are full of quack doctors.** infested with dousing people ; witch hunters ; quack doctors ; medicine men.  -->
+
+
+#                                Appendix
+
+**Frequentist solutions to selection problems.** Frequentists (e.g. @andrews2019inference) talk about the problem of "multiple comparisons" or "winner's curse" but those aren't the problems they're solving. If you look at the actual applications they're all where each experiment has a prior which is tight relative to the confidence intervals (AKA underpowered experiments). In these cases it's well-known that frequensti estimates are badly behaved: they tend to over-estimate the true effect and have high rates of false positives. This would still be true even if you have only *one* underpowered experiment.
+
+The problem is that frequentists don't realize that they're running underpowered experiments (becuase they don't like to think about priors), instead they prefer situation where priors are locally uniform. But in situations where you have many experiments or many outcomes then you are likely to have low-powered experiments, and so they come up with correction that approximate empirical Bayes inference.
+
+They say that this is specific to the case of running many experiments but it's not: the same problems hold if you run a single under-powered experiment. Conversely, if you're running many high-powered experiments then these adjustments are unnecessary.
+
+Put another way: @andrews2019inference paper tries to find estimators that are unbiased conditional on being a winner ($E[y1|t1,y1>y2]$ and $E[max{y1,y2}|t1,t2]$). But this is throwing away information, it's just using discrete information (whether you're a winner) when you have a rich continuous dataset, from which you can estimate the full distribution of treatments, and so estimate $E[t1|y1,y2]$.
+
+
+
+#                                References
