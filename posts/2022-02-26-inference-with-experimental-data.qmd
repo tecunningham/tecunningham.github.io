@@ -1040,20 +1040,18 @@ If $\Phi_{t1,y1}=0$ then $t_1$ and $\hat{t}_1$ are conditionally independent, an
 
 ::: {.example}
    **Example: Selection of experiments.**
-      Your team goal is to maximize `podcast_time`, and you want to know what other teams are hurting that metric. You query the experiment DB and find the 10 experiments with the biggest negative effect. How should you interpret them?
+      Your team goal is to maximize `podcast_time`, and you want to know what other teams are hurting that metric. You find the 10 experiments with the biggest negative effect. Should you take their estimated effects at face value?
 :::
 
 1. **Classical advice is to adjust p-values for the number of experiments you selected from (Bonferroni correction).** But from a Bayesian point of view it's irrelevant whether these 10 experiments are taken from a pool of 10 or 1000 experiments.
-
-   Bonferroni not about testing multiple outcomes, it's about testing the *most extreme* outcome.
-2. **The set of experiments *is* informative about appropriate shrinkage.** As discussed look at (i) the average effect, and (ii) the fraction that are significant.
-3. **Shrinkage should depend on plausibility of the effect.** Can look at how much the experiment moves its *primary* outcome. Suppose a music-ranking experiment decreases podcast time-spent by 0.4s, and increases music time-spent by 0.2s: the side-effect seems unlikely so shrink the outcome heavily.
-4. **Appropriate shrinkage should depend on how significant the effect is.** E.g. if the effect-size is 4 standard-errors it doesn't need much shrinkage.
+2. **The set of experiments *is* informative about appropriate shrinkage.** You can use the pool of experiments to estimate the appropriate shrinkage, $E[t|\hat{t}]$. E.g. if we assume a Normal distribution we can quickly calculate a shrinkage estimate from the average effect and from the fraction of experiments that are statistically significant.
+3. **Shrinkage should depend on plausibility of the effect.** You can look at how much each of these experiments moves their primary outcomes. Suppose a music-ranking experiment decreases podcast time-spent by 0.4s, and increases music time-spent by 0.2s: the more-than-proportional side-effect seems unlikely, so there is reason to discount (shrink) the likely effect significantly.
+4. **Shrink less if the effect is very significant.** If the effect-size is 4 standard-errors then, because the distribution of treatment, this is much more likely to be due to treatment than to noise, and so the effect does not require much shrinkage.
 
 
 ::: {.example}
    **Example: Selection of Experiments #2.**
-   An engineer has an experiment with effect +1\% ($\pm$0.5\%) on your goal metric. They mention that they ran 20 other experiments, and this is the experiment with the biggest effect.
+   An engineer has an experiment with effect +1% (±0.5%) on your goal metric. They mention that they ran 20 other experiments, and this is the experiment with the biggest effect.
 :::
 
 **Recommendation: shrink heavily towards the average effect.**
@@ -1065,7 +1063,7 @@ If $\Phi_{t1,y1}=0$ then $t_1$ and $\hat{t}_1$ are conditionally independent, an
 
 ::: {.example}
    **Example: Subgroup Outcomes.**
-      You see that the overall time-spent of a feature holdout is -3.5% ($\pm$0.5%), but in Korea it's -9%($\pm$2%). How seriously should you take the Korean effect?
+      You see that the overall time-spent of a feature holdout is -3.5% (±0.5%), but in Korea it's -9%(±2%). How seriously should you take the Korean effect?
 :::
 
    **Recommendation: take it seriously, because (a) very significant, and (b) there is high between-country variance.**
