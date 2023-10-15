@@ -232,8 +232,9 @@ ga('send', {
 
 
 <style>
-    h1 {  border-bottom: 4px solid black; color: black; }
+    h1 {  border-bottom: 4px solid black;  }
     h2 {  border-bottom: 1px solid #ccc;}
+    .header-section-number {color:black; }
 </style>
 <section id="introduction" class="level1 page-columns page-full" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
@@ -469,7 +470,7 @@ ga('send', {
    \end{aligned}\]</span></p>
 <p><strong>Running a Regression will be Biased.</strong> The obvious thing to do is run a regression across experiments: <span class="math display">\[\Delta\widehat{\text{DAU}}_{LR} \sim
       \Delta \widehat{\text{DAU}}_{SR} + \ldots + \Delta\widehat{\text{engagement}}_{SR}\]</span></p>
-<p>However this will be biased. The simplest way to demonstrate the bias is to show that even with AA tests (where there is zero treatment effect on either metric) we will still get a strong predictive relationship between the observed treatment effects on each of the two metrics:</p>
+<p>However this will be biased. The simplest way to demonstrate the bias is to show that even with AA tests (where there is zero treatment effect on either metric) we will still get a strong predictive relationship between the observed treatment effects on each of the two metrics (see figure).</p>
 
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
@@ -483,12 +484,12 @@ ga('send', {
       = \utt{\frac{cov(t_2,\hat{t}_1)}{var(\hat{t_1})}}{what we}{want to know}
          + \ut{\frac{cov(e_2,e_1)}{var(\hat{t}_1)}}{bias}
    \end{aligned}\]</span></p>
-<p>The bias will be small if the short-run metrics have high signal-noise ratios (SNR), <span class="math inline">\(\frac{var(t_1)}{var(e_1)}\gg 0\)</span>. A simple test for SNR ratio is the distribution of p-values: if most experiments are significant then the SNR is high. However in the typical case (1) <span class="math inline">\(\Delta \widehat{\text{DAU}}_{SR}\)</span> is the best predictor of <span class="math inline">\(\Delta \widehat{\text{DAU}}_{LR}\)</span>; and (2) <span class="math inline">\(\Delta \widehat{\text{DAU}}_{SR}\)</span> has a low signal-noise ratio (i.e.&nbsp;few outcomes are stat-sig). This means the results are hard to interpret, the bias is large.</p>
+<p>The bias will be small if the short-run metrics have high signal-noise ratios (SNR), <span class="math inline">\(\frac{var(t_1)}{var(e_1)}\gg 0\)</span>. A simple test for SNR ratio is the distribution of p-values: if most experiments are significant then the SNR is high. However in the typical case (1) <span class="math inline">\(\Delta \widehat{\text{DAU}}_{SR}\)</span> is the best predictor of <span class="math inline">\(\Delta \widehat{\text{DAU}}_{LR}\)</span>; and (2) <span class="math inline">\(\Delta \widehat{\text{DAU}}_{SR}\)</span> has a low signal-noise ratio (i.e.&nbsp;few outcomes are stat-sig). This means the bias is large, and so results are hard to interpret.</p>
 <section id="adjusting-for-the-bias" class="level3 page-columns page-full" data-number="4.1.1">
 <h3 data-number="4.1.1" class="anchored" data-anchor-id="adjusting-for-the-bias"><span class="header-section-number">4.1.1</span> Adjusting for the Bias</h3>
 <p>Here are some alternatives:</p>
 <ol type="1">
-<li><p><strong>Run a regression just using the high-SNR metrics.</strong> We could just drop <span class="math inline">\(\Delta\widehat{\text{DAU}}_{SR}\)</span> as a regressor because of the bias. But in practice we lose a predictive power (<span class="math inline">\(R^2\)</span>), so it’s hard to know when this will be a good idea without an explicit model.</p></li>
+<li><p><strong>Run a regression just using the high-SNR metrics.</strong> We could just drop <span class="math inline">\(\Delta\widehat{\text{DAU}}_{SR}\)</span> as a regressor because of the bias, but we lose predictive power (<span class="math inline">\(R^2\)</span>) so it’s hard to know when this will be a good idea without an explicit model.</p></li>
 <li><p><strong>Adjust for bias in linear estimator.</strong> If we want a linear estimator then we can estimate and adjust for the bias. <span class="math display">\[\begin{aligned}
    \utt{\frac{cov(t_2,\hat{t}_1)}{var(\hat{t_1})}}{BLUE for}{$t_2$ given $\hat{t}_1$}
       &amp;= \frac{cov(t_2,t_1)}{var(\hat{t}_1)}
@@ -497,7 +498,7 @@ ga('send', {
 \end{aligned}\]</span></p>
 <p>If everything is joint normal then the expectation is itself linear, and so this will be optimal. In practice the true distribution of effect-sizes is somewhat fat-tailed, which imply that the conditional expectation will be nonlinear in the observables. Nevertheless I think this is a good start. (One other complication is that the SNR is more complicated to calculate when experiments vary in their sample size).<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p></li>
 <li><p><strong>Use experiment splitting.</strong> You can randomly assign users in each experiment to one or other sub-experiments. You now effectively have a set of <em>pairs</em> of experiments, each of which has experiments with identical treatment effects (<span class="math inline">\(\Delta \text{DAU}_{LR}\)</span>) but independent noise. Thus you can run a regression with LHS from one split, and RHS from other split, and you’ll get an unbiased estimate. Additionally you can easily fit a nonlinear model (<span class="citation" data-cites="coey2019improving">Coey and Cunningham (<a href="#ref-coey2019improving" role="doc-biblioref">2019</a>)</span> has details of how to do an experiment-splitting).</p></li>
-<li><p><strong>Run a regression just using the strongest experiments.</strong> If the distribution of experiments is fat-tailed then the strongest experiments will have higher SNR, and so lower bias. A worry about this is that you’re only estimating the relationship from outliers, so if there are nonlinearities you’ll never know. At the same time the assumption of fat-tailed treatment-effects gives reason to believe the expectation will be nonlinear. (This is roughly how I interpret the <span class="citation" data-cites="peysakhovich2018learning">Peysakhovich and Eckles (<a href="#ref-peysakhovich2018learning" role="doc-biblioref">2018</a>)</span> experiments-as-instruments paper. They propose using L0 regularization and experiment-splitting cross-validations, which I think effectively just selects the strongest experiments.)</p></li>
+<li><p><strong>Run a regression just using the strongest experiments.</strong> If the distribution of experiments is fat-tailed then the strongest experiments will have higher SNR, and so lower bias. A worry about this is that you’re only estimating the relationship from outliers, so nonlinearities are more of a worry. At the same time the assumption of fat-tailed treatment-effects gives reason to believe the expectation will be nonlinear. (This is roughly how I interpret the <span class="citation" data-cites="peysakhovich2018learning">Peysakhovich and Eckles (<a href="#ref-peysakhovich2018learning" role="doc-biblioref">2018</a>)</span> experiments-as-instruments paper. They propose using L0 regularization and experiment-splitting cross-validations, which I think effectively selects the strongest experiments.)</p></li>
 </ol>
 <div class="no-row-height column-margin column-container"><li id="fn8"><p><sup>8</sup>&nbsp;See <span class="citation" data-cites="cunningham2019interpreting">Cunningham and Kim (<a href="#ref-cunningham2019interpreting" role="doc-biblioref">2019</a>)</span>, and see <span class="citation" data-cites="tripuraneni2023choosing">Tripuraneni et al. (<a href="#ref-tripuraneni2023choosing" role="doc-biblioref">2023</a>)</span> for a slightly different setup with weaker assumptions.</p></li></div><p><strong>Choosing a Reference Class.</strong> It is important to think about the reference-class of experiments which we use to calibrate our estimates. The long-run DAU prediction can be though of as an empirical-bayes estimate, which is our best estimate conditional on the experiment being a random draw from this class of experiments.</p>
 <p>In many cases a company’s experiments will naturally fall into different classes: e.g.&nbsp;some have a very steep relationship between engagement and DAU, others have a very flat. It’s important to both (1) visualize all the experiments, so that a reference-class can be chosen sensibly; (2) calculate the <span class="math inline">\(R^2\)</span> across experiments, so we can have some sense of confidence in our extrapolation.</p>
@@ -556,7 +557,7 @@ ga('send', {
 </ul>
 In each case showing some content that is <em>less</em> interesting to the user, but in return for learning more information.</li>
 </ul>
-<p><strong>Tuning projects have a high failure rate.</strong> I should say that I am not an expert on explore-exploit algorithms and many others have deeper professional experience than I do. However I have seen multiple tuning projects either abandoned because of complexity, or fail to find a retuning which yields a non-trivial impact on metrics. Speaking broadly I think the problems were overly-complicated designs, under-powered experiments, lags in effects, and improper use of short-term proxies for long-term outcomes.</p>
+<p><strong>Tuning projects have a high failure rate.</strong> I should say that I am not an expert on explore-exploit algorithms and many others have deeper professional experience than I do. However I have seen multiple tuning projects either abandoned because of complexity, or fail to find a set of parameters which yields a non-trivial improvement on metrics. Speaking broadly I think the problems were overly-complicated designs, under-powered experiments, lags in effects, ill-defined outcome variables, or improper use of short-term proxies for long-term outcomes.</p>
 <p></p>
 <div class="cell page-columns page-full" data-hash="2023-04-18-netflix-cider-experimentation-note_cache/html/unnamed-chunk-5_d787600e0664e1877e6737eba6b82cfc">
 
@@ -620,6 +621,9 @@ In each case showing some content that is <em>less</em> interesting to the user,
 <p><strong>We can use the data generated to explore other aspects:</strong> (1) whether there are significant interaction effects between the different experiments (e.g.&nbsp;if the users who have both increasing <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> have a different effect), and (2) whether there are significant heterogeneities in outcomes across subgroups.</p>
 <p><strong>This is the simplest general framework I know of for continuous optimization of a set of parameters.</strong> I think that simplicity is by far the most important criterion: I have seen a long history of optimization projects get tangled in complexity and fail. Because of the past history of failures I think it’s crucial to do the simplest and most transparent thing at each point until you have a steady rhythm and track record of making progress.</p>
 <p><strong>The hard work is the choice of parameters to tune.</strong> Once you have a small set of parameters to tune it’s not too hard to find the global optimum. However in typical problems there are thousands or millions or billions of possible parameters, how should you choose which ones to tune?</p>
+<p></p>
+<p></p>
+<p></p>
 </section>
 <section id="references" class="level1" data-number="6">
 
