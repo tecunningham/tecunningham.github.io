@@ -21,15 +21,15 @@
 
 
 <style>
-    h1 {  border-bottom: 4px solid black;}
+    h1 {  border-bottom: 4px solid black; color: black; }
     h2 {  border-bottom: 1px solid #ccc;}
 </style>
-<section id="introduction" class="level1 page-columns page-full">
-<h1>Introduction</h1>
+<section id="introduction" class="level1 page-columns page-full" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
 <p><strong>I describe a canonical experimentation situation and give recommendations for four common problems using common Bayesian framework:</strong></p>
 
 <div class="no-row-height column-margin column-container"><div class="">
-<p>The impetus for writing this up was Netflix’s 2023 CIDER conference, many thanks to all participants especially Martin Tingley. <img src="tecunningham.github.io/posts/images/2023-10-13-11-56-04.png" class="img-fluid"></p>
+<p>The impetus for writing this up was Netflix’s 2023 CIDER conference, many thanks to all participants especially Martin Tingley. Thanks to <a href="https://jmarkhou.com/about/">J. Mark Hou</a> for comments. <img src="tecunningham.github.io/posts/images/2023-10-13-11-56-04.png" class="img-fluid"></p>
 </div></div><ol type="1">
 <li><p><strong>Setup:</strong> The canonical tech problem is to choose a policy to maximize long-run user retention. Because the policy space is high-dimensional it’s not feasible to run experiments on every alternative (there are trillions), instead most of the decision-making is done with human intuition based on observational data, and experiments are run to confirm those intuitions.</p></li>
 <li><p><strong>The inference problem.</strong> The basic problem of experimentation is to estimate the true effect given the observed effect. The problem can become complicated when we have a set of different observed effects, e.g.&nbsp;across experiments, across metrics, across subgroups, or across time. </p>
@@ -42,8 +42,8 @@
 <p>(This section is unfinished, I hope to add more).</p></li>
 </ol>
 </section>
-<section id="setup" class="level1 page-columns page-full">
-<h1>Setup</h1>
+<section id="setup" class="level1 page-columns page-full" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Setup</h1>
 <div class="page-columns page-full"><p><strong>Firms choose their policy to maximize user retention.</strong> As a simplified model companies are choosing policies to maximize long-run retention (or revenue). A policy is, for example, a recommendation algorithm, or notification algorithm, or the text and images used in an advertisement or the UX on a signup page. Notice that policies are very high dimensional: there are millions or billions of alternatives, while we usually run only a few experiments.<sup>1</sup></p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;In fact variation in the success of tech platforms is primarily due to variation in the inflow of new users, not due to variation in retention rates. However growth in new users is driven by the attractiveness of the product and retention is a good proxy for this.</p></li></div></div>
 <p><strong>Experiments are not the primary source of causal knowledge.</strong> People already have substantial knowledge about the effects of their decisions without either randomized experiments or natural experiments (IV, RDD, etc.). We built cathedrals, aeroplanes, welfare states, we doubled human life-expectancy, &amp; WhatsApp grew to 1B users, all without randomized experiments. Formal causal inference <em>augments</em> our already substantial causal knowledge. Inside companies the primary way people learn about causal relationships is raw data (e.g.&nbsp;dashboards) and common-sense reasoning about human behaviour.</p>
 <p><strong>Experiments only solve the low-dimensional problem.</strong> In most cases the dimensionality of the policy space is far higher than the dimensionality of experiment space, thus the responsibility for choosing policies is primarily human judgment, and then humans give a few variants to experiments to compare their performance.</p>
@@ -54,8 +54,8 @@
 <p>Once we have a clear expression in terms of conditional expectations we can add on additional considerations: nonlinearities, fat-tailed distributions, strategic problems, etc..</p>
 <p></p>
 </section>
-<section id="the-inference-problem" class="level1 page-columns page-full">
-<h1>The Inference Problem</h1>
+<section id="the-inference-problem" class="level1 page-columns page-full" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> The Inference Problem</h1>
 <p><strong>There are a number of experiment inference problems that we often find difficult.</strong> We will discuss these as pure inference problems without worrying about strategic behaviour (e.g.&nbsp;peeking, cherry-picking).</p>
 <ol type="1">
 <li>Estimate the treatment effect given the observed treatment effect.</li>
@@ -73,39 +73,50 @@
 </ol>
 <div class="no-row-height column-margin column-container"><li id="fn3"><p><sup>3</sup>&nbsp;Equivalently, the point-estimate and p-value, or the upper and lower confidence bounds.</p></li></div><p><strong>Benchmarking solves all the problems above.</strong> An empirical-Bayes shrunk estimate represents our best guess at the true treatment effect conditional on the experiment being drawn from a given reference class.</p>
 <p><strong>Useful shortcut: using the fraction of significant experiments to do shrinkage.</strong> A convenient rule of thumb for doing empirical Bayes shrinkage is to use the fraction of experiments that are statistically significant in some class. If the fraction is zero then we should shrink all estimates to zero, if the fraction is 20% then we should shrink estimates by about 50%, and if the fraction is 1/2 then we should shrink estimates by about 20%. If everything’s Gaussian and every experiment has the same <img src="https://latex.codecogs.com/png.latex?N"> then the optimal shrinkage factor is <img src="https://latex.codecogs.com/png.latex?1-(%5Cfrac%7B1%7D%7B1.96%7D%5CPhi%5E%7B-1%7D(%5Cfrac%7Bq%7D%7B2%7D))%5E2">, where <img src="https://latex.codecogs.com/png.latex?q"> is the fraction of stat-sig experiments.</p>
-<section id="strategic-problems" class="level2">
-<h2 class="anchored" data-anchor-id="strategic-problems">Strategic Problems</h2>
+<section id="strategic-problems" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="strategic-problems"><span class="header-section-number">3.1</span> Strategic Problems</h2>
 <p><strong>There are additionally some <em>strategic</em> problems in experiment interpretation.</strong></p>
 <ol type="1">
 <li><p><strong>Strategic stopping (“peeking”).</strong> An engineer will wait until an experiment has a high estimated impact, or low p-value, before presenting it for launch review. A common proposed remedy is that all experiments should be evaluated after the same length of time, or that engineers should pre-specify the length of experiments.</p></li>
-<li><p><strong>Strategic selection (“cherry picking”).</strong> An engineer will choose to show the experiment results on the metrics that are favorable, not those that are unfavorable. A common proposed remedy is that the set of metrics should be standardized for all launches, or that the set of evaluation metrics should be pre-specified by the engineer (AKA a pre-analysis plan).</p></li>
+<li><p><strong>Selection of treatments (“winners curse”).</strong> An engineer will run a dozen variants and only present for launch review the best-performing one. A common proposed remedy is that every variant should be officially presented in launch reviews, even the poorly-performing ones.</p></li>
+<li><p><strong>Selection of metrics (“cherry picking”).</strong> An engineer will choose to show the experiment results on the metrics that are favorable, not those that are unfavorable. A common proposed remedy is that the set of metrics should be standardized for all launches, or that the set of evaluation metrics should be pre-specified by the engineer (AKA a pre-analysis plan).</p></li>
 </ol>
 <p>I will argue that the commonly proposed remedies are highly imperfect fixes. These are complicated things to think about because the mix together issues of statistical inference and of strategic behaviour. In the discussion that follows I try to separate those out as clearly as possible.</p>
 </section>
-<section id="strategic-stopping" class="level2">
-<h2 class="anchored" data-anchor-id="strategic-stopping">Strategic Stopping</h2>
+<section id="strategic-stopping" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="strategic-stopping"><span class="header-section-number">3.2</span> Strategic Stopping</h2>
 <p><strong>I will ignore dynamic effects.</strong> For simplicity assume that all effects are constant, so the length of an experiment effectively determines just the sample size of that experiment. I.e. I will ignore time-dependent and exposure-dependent effects.</p>
 <p><strong>Stopping rules are irrelevant to expected effect sizes.</strong> Suppose an experiment has a given estimate. Does it matter to your estimate of the true causa effect if you learn that the experimenter chose the sample size <img src="https://latex.codecogs.com/png.latex?N"> by a data-dependent rule, e.g.&nbsp;continuing to collect data until the estimate was statistically significant? If you are estimating the true causal effect, <img src="https://latex.codecogs.com/png.latex?E%5Bt%7C%5Chat%7Bt%7D%5D"> then it doesn’t matter, your posterior will be identical either way.</p>
 <p><strong>Stopping rules would be relevant if we made decisions based on statistical-significance.</strong> A stopping rule would be relevant if we conditioned only on statistical-signficance instead of the full estimate. In other words the expected true effect, conditioning only on whether the estimated effect is significant, will depend on the distribution of experiments run. For example if people kept running experiments until they were significant then significant experiments would tend to have small effect sizes. However it is clearly bad practice to condition only on this binary piece of information when you have the full estimate, and if you have the full estimate then the stopping rule becomes irrelevant.</p>
 <p><strong>The optimal stopping rule is data-dependent.</strong> The discussion above took a stopping rule as given, we can also ask what’s the efficient stopping rule. It’s clear that a fixed length is inefficient: we should stop an experiment sooner if it does unexpectedly well or unexpectedly badly, in both of those cases the value of collecting more information has decreased because it’s less likely to change our mind about a launch decision. Thus enforcing a static or pre-specific experiment length will lead to inefficient decision-making.</p>
 <p><strong>Considering engineers’ incentives.</strong> Now consider the launch process as a game, with the engineers trying to persuade the director to launch their feature. Suppose the director’s <em>ex post</em> optimal strategy is to launch if <img src="https://latex.codecogs.com/png.latex?E%5Bt%7C%5Chat%7Bt%7D%5D%3E0">, and suppose the engineers get a bonus whenever their feature is launched. In equilibrium the engineers will keep their experiments running until <img src="https://latex.codecogs.com/png.latex?E%5Bt%7C%5Chat%7Bt%7D%5D%3E0">, which will cause a skew distribution: the distribution of posteriors will show a cluster just above the threshold. The director’s strategy is <em>ex post</em> optimal but it’s not an efficient use of experimentation resources. In this game the director would likely wish to pre-commit to a different threshold which induces more efficient effort by engineers. However a more direct solution would be to align engineers’ incentives with those of the director by rewarding them for their true impact, i.e.&nbsp;setting their bonuses proportional to <img src="https://latex.codecogs.com/png.latex?%5Cmax%5C%7BE%5Bt%7C%5Chat%7Bt%7D%5D,0%5C%7D">, instead of discontinuously rewarding them for whether or not they launched.</p>
 </section>
-<section id="strategic-selection" class="level2">
-<h2 class="anchored" data-anchor-id="strategic-selection">Strategic Selection</h2>
-<p>[unfinished]</p>
+<section id="selection-of-treatments" class="level2 page-columns page-full" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="selection-of-treatments"><span class="header-section-number">3.3</span> Selection of Treatments</h2>
+<p><strong>If you learn an experiment is the top-performing variant it should change your asssessment.</strong> Suppose we have a result <img src="https://latex.codecogs.com/png.latex?%5Chat%7Bt%7D_1">, and we are estimating the true treatment effect, <img src="https://latex.codecogs.com/png.latex?t_1">. If we learn that another variant has a lower treatment effect, <img src="https://latex.codecogs.com/png.latex?%5Chat%7Bt_1%7D%3E%5Chat%7Bt%7D_2">, then it is rational to update our assessment of <img src="https://latex.codecogs.com/png.latex?t_1">:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cutt%7BE%5Bt_1%7C%5Chat%7Bt%7D_1,%5Chat%7Bt%7D_1%3E%5Chat%7Bt%7D_2%5D%7D%7Bassessment%20knowing%7D%7Bit's%20winner%7D%3C%0A%20%20%20%20%20%20%5Cutt%7BE%5Bt_1%7C%5Chat%7Bt%7D_1%5D%7D%7Bassessment%7D%7Bgiven%20outcome%7D%0A%20%20%20%20%20%20"></p>
+<div class="page-columns page-full"><p>This will hold whenever <img src="https://latex.codecogs.com/png.latex?Cov(t_1,t_2)%3E0">, i.e.&nbsp;when we have some shared source of uncertainty about the two treatment effects.<sup>4</sup> We can write a model for this, however conditioning on this binary information (whether a variant is the winner) is not an efficient way of using the information at your disposal.</p><div class="no-row-height column-margin column-container"><li id="fn4"><p><sup>4</sup>&nbsp;Because <img src="https://latex.codecogs.com/png.latex?t_1"> and <img src="https://latex.codecogs.com/png.latex?t_2"> represent independent experiments we’ll have <img src="https://latex.codecogs.com/png.latex?cov(e_1,e_2)=0">.</p></li></div></div>
+<div class="page-columns page-full"><p><strong>It’s better to condition on the whole distribution.</strong> In almost all cases we know much more than whether <img src="https://latex.codecogs.com/png.latex?%5Chat%7Bt%7D_1"> is the winner, we also know the value of <img src="https://latex.codecogs.com/png.latex?%5Chat%7Bt%7D_2">, and then this reduces simply to the empirical Bayes problem, i.e.&nbsp;we simply wish to estimate: <img src="https://latex.codecogs.com/png.latex?E%5Bt_1%7C%5Chat%7Bt%7D_1,%5Cldots,%5Chat%7Bt%7D_n%5D,"> and we can do that in the usual way.<sup>5</sup> E.g. if we have a Normal prior over treatment effects then we can estimate <img src="https://latex.codecogs.com/png.latex?%5Csigma_t%5E2"> from <img src="https://latex.codecogs.com/png.latex?Var(%5Chat%7Bt%7D)"> and <img src="https://latex.codecogs.com/png.latex?%5Csigma_e%5E2">. Once we have conditioned on <img src="https://latex.codecogs.com/png.latex?%5Csigma_t%5E2"> then it becomes irrelevant whether variant 1 is the winner or not, i.e.: <img src="https://latex.codecogs.com/png.latex?E%5Bt_1%7C%5Chat%7Bt%7D_1,%5Csigma_t%5E2%5D=E%5Bt_1%7C%5Chat%7Bt%7D_1,%5Csigma_t%5E2,%5Chat%7Bt%7D_1%3E%5Chat%7Bt%7D_2%5D."></p><div class="no-row-height column-margin column-container"><li id="fn5"><p><sup>5</sup>&nbsp;<span class="citation" data-cites="andrews2019inference">Andrews et al. (2019)</span> describes some unbiased estimates for treatment effects conditional on them being winners. In general I would say this is an inefficient use of information, because we know much more about the distribution of treatment effects than just whether a specific variant is the winner. However that paper does argue that empirical Bayes estimates struggle when the sample-size is small or when we are estimating the tails of when variants are non-exchangeable, and in those cases the unbiased estimators may be useful.</p></li></div></div>
+<p>Put another way: the selection rule is irrelevant (just as the stopping rule is irrelevant) once we condition on the distribution of observed outcomes.</p>
+<p><strong>Implication: show the distribution.</strong> If we are worried that engineers are selecting variants based on their outcomes then the simplest and cleanest fix is to calculate the distribution of variants and use that to discount any experiment results, either explicitly with an empirical Bayes estimator, or implicitly by showing the decision-maker the distribution.</p>
 </section>
-<section id="on-launch-criteria" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="on-launch-criteria">On Launch Criteria</h2>
+<section id="selection-of-metrics" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="selection-of-metrics"><span class="header-section-number">3.4</span> Selection of Metrics</h2>
+<p><strong>Suppose engineers are selectively presenting the most favorable metrics.</strong> Suppose there are two outcome metrics from a single experiment, and the engineer will present whichever is the most favorable. Knowing this fact should rationally affect your judgment of the treatment effect on the presented metric: <img src="https://latex.codecogs.com/png.latex?%5Cutt%7BE%5Bt_1%7C%5Chat%7Bt%7D_1%5D%7D%7Bassessment%20knowing%7D%7Bonly%20metric%201%7D%20%3E%0A%20%20%20%20%20%20%5Cutt%7BE%5Bt_1%7C%5Chat%7Bt%7D_1,%5Chat%7Bt%7D_1%3E%5Chat%7Bt%7D_2%5D%7D%7Bassessment%20knowing%7D%7Bmetric%201%20beats%20metric%202%7D"></p>
+<p><strong>Implication: engineers should present all outcome metrics.</strong></p>
+</section>
+<section id="on-launch-criteria" class="level2 page-columns page-full" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="on-launch-criteria"><span class="header-section-number">3.5</span> On Launch Criteria</h2>
 <p><strong>Choosing weights on metrics for a launch decisions involves many considerations:</strong> network effects, noise, cross-metric proxy effects, and dynamic effects. In addition launch rules serve a bureaucratic role, and engineers will often want the launch rule to be public and without discretion. To make clear decisions it’s important to peel apart these layers, I recommend these steps:</p>
 <ol type="1">
-<li><p><strong>Choose a set of final metrics.</strong> These are the metrics we would care about <em>if we had perfect knowledge of the experimental effect.</em> We can define tradeoffs between them, it’s convenient to express those tradeoffs in terms of percentage changes, e.g.&nbsp;we might be indifferent between 1% DAU, 2% time/DAU, and 5% prevalence of bad content.<sup>4</sup></p></li>
+<li><p><strong>Choose a set of final metrics.</strong> These are the metrics we would care about <em>if we had perfect knowledge of the experimental effect.</em> We can define tradeoffs between them, it’s convenient to express those tradeoffs in terms of percentage changes, e.g.&nbsp;we might be indifferent between 1% DAU, 2% time/DAU, and 5% prevalence of bad content.<sup>6</sup></p></li>
 <li><p><strong>Choose a set of proximal metrics.</strong> These are the metrics on which we are confident we can detect our experiment’s effect, meaning the measured impact will be close to the true impact on these metrics (i.e.&nbsp;has a high signal-noise ratio). To determine whether a metric is moved we can use the fraction of a given class of experiments that have a statistically-significant effect on that metric: if the share is greater than 50% then we can be confident that the estimated effect is close to the true effect.</p></li>
 <li><p><strong>Identify <em>conversion factors</em> between proximal and final metrics.</strong> These tell us the best-estimate impact on final metrics given the impact on proximal metrics. Conversion factors can be estimated either from (a) long-running tuning experiments; (b) a meta-analysis of prior experiments with similar designs.</p>
-<p>A final linear launch criteria can then be expressed as a set of conversion-factor weights applied to each of the proximal metrics.<sup>5</sup></p></li>
+<p>A final linear launch criteria can then be expressed as a set of conversion-factor weights applied to each of the proximal metrics.<sup>7</sup></p></li>
 </ol>
-<div class="no-row-height column-margin column-container"><li id="fn4"><p><sup>4</sup>&nbsp;Arguably revenue or profit is a more truly final metric, and these are just proxies, but these are probably close enough to final for most purposes.</p></li><li id="fn5"><p><sup>5</sup>&nbsp;For derivation see <span class="citation" data-cites="cunningham2019interpreting">Cunningham and Kim (2019)</span>.</p></li></div></section>
-<section id="comparing-launch-rules" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="comparing-launch-rules">Comparing Launch Rules</h2>
+<div class="no-row-height column-margin column-container"><li id="fn6"><p><sup>6</sup>&nbsp;Arguably revenue or profit is a more truly final metric, and these are just proxies, but these are probably close enough to final for most purposes.</p></li><li id="fn7"><p><sup>7</sup>&nbsp;For derivation see <span class="citation" data-cites="cunningham2019interpreting">Cunningham and Kim (2019)</span>.</p></li></div></section>
+<section id="comparing-launch-rules" class="level2 page-columns page-full" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="comparing-launch-rules"><span class="header-section-number">3.6</span> Comparing Launch Rules</h2>
 <div class="cell page-columns page-full" data-hash="2023-04-18-netflix-cider-experimentation-note_cache/html/unnamed-chunk-1_04c8f358285592a6a2361d89d2e845f8">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
@@ -136,11 +147,19 @@
 <p>I represent this in the first diagram (but I treat condition 3 as a non-ship). The dotted line represents <img src="https://latex.codecogs.com/png.latex?%5Chat%7Bt%7D_1+%5Chat%7Bt%7D_2=0">.</p>
 <p><strong>The stat-sig shipping rule has strange consequences.</strong> You can see that this rule will recommend shipping things even with <em>negative</em> face-value utility (<img src="https://latex.codecogs.com/png.latex?U(%5Chat%7Bt%7D_1,%5Chat%7Bt%7D_2)%3C0">), when there’s a negative outcome on the relatively noisier metric. This will still hold if we evaluate utility with shrunk estimates, when there’s equal proportional shrinkage on the two metrics, but if there’s greater shrinkage on the noisier metric it will not hold.</p>
 <p><strong>Linear shipping rules are better.</strong> In the margin I illustrate (1) a rule to ship wherever the sum is positive; (2) a rule to ship wherever the sum is stat-sig positive. I have drawn the second assuming that <img src="https://latex.codecogs.com/png.latex?cov(%5Chat%7Bt%7D_1,%5Chat%7Bt%7D_2)=0">. With a positive covariance the threshold would be higher.</p>
-<p><strong>The Leontief sandwich.</strong> I assumed above that our true utility function is linear. The linearity problem comes up a lot when making decisions and I .</p>
+<div class="cell page-columns page-full" data-hash="2023-04-18-netflix-cider-experimentation-note_cache/html/unnamed-chunk-4_4582715b4b55aeb6823615c2ddfa3c9e">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<p><img src="tecunningham.github.io/posts/2023-04-18-netflix-cider-experimentation-note_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div></div></div>
+<p><strong>The Leontief sandwich.</strong> I assumed above that our true utility function is linear. In fact tech companies often explicitly give nonlinear objective functions to teams, e.g.: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20%5Cmax_k%20&amp;%5C%20A(k)%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(goal)%7D%20%5C%5C%0A%20%20%20%20%20%20%5Ctext%7Bs.t.%7D%20&amp;%5C%20B(k)%5Cleq%20%5Cbar%7BB%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(guardrail)%7D%0A%20%20%20%5Cend%7Baligned%7D"></p>
+<p>This is illustrated at right, the indifference curves are L-shaped so I’ll call it a Leontief utility. Having Leontief preferences can cause some unintuitive decision-making, in particular the tradeoff between <img src="https://latex.codecogs.com/png.latex?A"> and <img src="https://latex.codecogs.com/png.latex?B"> will varies drastically depending on your location. One important observation is that if your goal is assessed at the end of some time-point (e.g.&nbsp;at the end of the half) then optimal launch decisions will depend on your future <em>expectations</em>, e.g.&nbsp;you’d be willing to launch a feature that boosts A at the cost of B only if you expect a future launch to make up that deficit in B.</p>
+<p>In practice I think it’s useful to think of this nonlinear objective function as sitting in the middle of the hierarchy of an organization, with approximately linear objective functions above and below it, i.e.&nbsp;a “Leontief sandwich.”</p>
+<p>At the highest layer the CEO (or shareholders) care about all the metrics in way that is locally linear, i.e.&nbsp;they do not have sharp discontinuities in how they assess the company’s health. At the lowest layer engineers and data scientists are trying to make individual changes that achieve the Org’s overall goals, but because they only account for a small share of the overall org’s impact they can treat their objectives as locally linear (&amp; likewise in a value function we make linear tradeoffs between objectives because we’re in such a small region). Finally even for orgs which have nonlinear objective functions it’s often reasonable to think of the nonlinearities as “soft”, e.g.&nbsp;if an org comes in slightly below a guardrail the punishment is slight, and if they come in above the guardrail then they will be rewarded. This softening makes the effective objective function much closer to linear, and so I think for many practical purposes it’s reasonable to start with a linear objective function.</p>
 </section>
 </section>
-<section id="the-extrapolation-problem" class="level1 page-columns page-full">
-<h1>The Extrapolation Problem</h1>
+<section id="the-extrapolation-problem" class="level1 page-columns page-full" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> The Extrapolation Problem</h1>
 <p><strong>Many problems are predicting the effect one one metric (downstream) given the effect on another metric (upstream).</strong> There are a variety of situations in which we cannot measure the effect on the downstream metric, either because it has high noise, or it is in the future:</p>
 <table class="table">
 <colgroup>
@@ -204,8 +223,8 @@
 <li><p><strong>Observational Inference.</strong> We can run a regression across users: <img src="https://latex.codecogs.com/png.latex?%5Ctext%7BDAU%7D_%7BLR%7D%20%5Csim%0A%20%20%20%20%5Ctext%7BDAU%7D_%7BSR%7D%20+%20%5Cldots%20+%20%5Ctext%7Bengagement%7D_%7BSR%7D"></p>
 <p>We can look at what is most predictive of long-run DAU across users. The problem here is obviously endogeneity, and so it’s worth spending time drawing a DAG and running robustness tests to carefully think through the sources of variation we’re using.</p></li>
 </ol>
-<section id="with-meta-analysis" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="with-meta-analysis">With Meta-Analysis</h2>
+<section id="with-meta-analysis" class="level2 page-columns page-full" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="with-meta-analysis"><span class="header-section-number">4.1</span> With Meta-Analysis</h2>
 <p>With <img src="https://latex.codecogs.com/png.latex?n"> metrics we can write the underlying model as: <img src="https://latex.codecogs.com/png.latex?%5Cutt%7B%5Cpmatrix%7B%5Chat%7Bt%7D_1%5C%5C%5Cvdots%5C%5C%5Chat%7Bt%7D_n%7D%7D%7Bobserved%7D%7Beffects%7D%0A%20%20%20%20%20%20=%20%5Cutt%7B%5Cpmatrix%7Bt_1%5C%5C%5Cvdots%5C%5Ct_n%7D%7D%7Btrue%7D%7Beffects%7D%0A%20%20%20%20%20%20%20%20%20+%5Cutt%7B%5Cpmatrix%7Be_1%5C%5C%5Cvdots%5C%5Ce_n%7D%7D%7Bnoise%7D%7B(=user%20variation)%7D"></p>
 <p>Here we are treating <img src="https://latex.codecogs.com/png.latex?%5CDelta%20%5Ctext%7BDAU%7D_%7BSR%7D"> and <img src="https://latex.codecogs.com/png.latex?%5CDelta%20%5Ctext%7BDAU%7D_%7BLR%7D"> as two different metrics, but for some experiments we only observe the first. We thus want to estimate the effect on long-run retention (DAU<img src="https://latex.codecogs.com/png.latex?_%7BLR%7D">) given short-run metrics. <img src="https://latex.codecogs.com/png.latex?E%5B%5CDelta%5Ctext%7BDAU%7D_%7BLR%7D%20%7C%0A%20%20%20%20%20%20%20%5CDelta%20%5Cwidehat%7B%5Ctext%7BDAU%7D%7D_%7BSR%7D,%20%5Cldots,%20%5CDelta%5Cwidehat%7B%5Ctext%7Bengagement%7D%7D_%7BSR%7D%5D"></p>
 <p>where <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20%5CDelta%5Ctext%7BDAU%7D_%7BLR%7D%20%20%20&amp;=%20%5Ctextit%7Btrue%7D%5Ctext%7B%20effect%20on%20long-run%20daily%20active%20users%20(AKA%20retention)%7D%5C%5C%0A%20%20%20%20%20%20%5CDelta%5Cwidehat%7B%5Ctext%7BDAU%7D%7D_%7BSR%7D%20&amp;=%20%5Ctextit%7Bestimated%7D%5Ctext%7B%20effect%20on%20short-run%20daily%20active%20users%7D%20%5C%5C%0A%20%20%20%20%20%20%5CDelta%5Cwidehat%7B%5Ctext%7Bengagement%7D%7D_%7BSR%7D%20&amp;=%20%5Ctextit%7Bestimated%7D%5Ctext%7B%20effect%20on%20short-run%20engagement%7D%0A%20%20%20%5Cend%7Baligned%7D"></p>
@@ -221,22 +240,22 @@
 </div>
 </div></div><p>The bias is because in the regression our LHS variable is <em>estimated</em> retention (<img src="https://latex.codecogs.com/png.latex?%5CDelta%5Cwidehat%7B%5Ctext%7BDAU%7D%7D_%7BLR%7D"> instead of <img src="https://latex.codecogs.com/png.latex?%5CDelta%5Ctext%7BDAU%7D_%7BLR%7D">), and the noise in that estimate will be correlated with the noise in the estimates of short-run metrics. In the linear bivariate case (where we have just one RHS variable) then we can write: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20%5Cut%7B%5Cfrac%7Bcov(%5Chat%7Bt%7D_2,%5Chat%7Bt%7D_1)%7D%7Bvar(%5Chat%7Bt%7D_1)%7D%7D%7Bregression%7D%0A%20%20%20%20%20%20=%20%5Cutt%7B%5Cfrac%7Bcov(t_2,%5Chat%7Bt%7D_1)%7D%7Bvar(%5Chat%7Bt_1%7D)%7D%7D%7Bwhat%20we%7D%7Bwant%20to%20know%7D%0A%20%20%20%20%20%20%20%20%20+%20%5Cut%7B%5Cfrac%7Bcov(e_2,e_1)%7D%7Bvar(%5Chat%7Bt%7D_1)%7D%7D%7Bbias%7D%0A%20%20%20%5Cend%7Baligned%7D"></p>
 <p>The bias will be small if the short-run metrics have high signal-noise ratios (SNR), <img src="https://latex.codecogs.com/png.latex?%5Cfrac%7Bvar(t_1)%7D%7Bvar(e_1)%7D%5Cgg%200">. A simple test for SNR ratio is the distribution of p-values: if most experiments are significant then the SNR is high. However in the typical case (1) <img src="https://latex.codecogs.com/png.latex?%5CDelta%20%5Cwidehat%7B%5Ctext%7BDAU%7D%7D_%7BSR%7D"> is the best predictor of <img src="https://latex.codecogs.com/png.latex?%5CDelta%20%5Cwidehat%7B%5Ctext%7BDAU%7D%7D_%7BLR%7D">; and (2) <img src="https://latex.codecogs.com/png.latex?%5CDelta%20%5Cwidehat%7B%5Ctext%7BDAU%7D%7D_%7BSR%7D"> has a low signal-noise ratio (i.e.&nbsp;few outcomes are stat-sig). This means the results are hard to interpret, the bias is large.</p>
-<section id="adjusting-for-the-bias" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="adjusting-for-the-bias">Adjusting for the Bias</h3>
+<section id="adjusting-for-the-bias" class="level3 page-columns page-full" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="adjusting-for-the-bias"><span class="header-section-number">4.1.1</span> Adjusting for the Bias</h3>
 <p>Here are some alternatives:</p>
 <ol type="1">
 <li><p><strong>Run a regression just using the high-SNR metrics.</strong> We could just drop <img src="https://latex.codecogs.com/png.latex?%5CDelta%5Cwidehat%7B%5Ctext%7BDAU%7D%7D_%7BSR%7D"> as a regressor because of the bias. But in practice we lose a predictive power (<img src="https://latex.codecogs.com/png.latex?R%5E2">), so it’s hard to know when this will be a good idea without an explicit model.</p></li>
 <li><p><strong>Adjust for bias in linear estimator.</strong> If we want a linear estimator then we can estimate and adjust for the bias. <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%5Cutt%7B%5Cfrac%7Bcov(t_2,%5Chat%7Bt%7D_1)%7D%7Bvar(%5Chat%7Bt_1%7D)%7D%7D%7BBLUE%20for%7D%7B$t_2$%20given%20$%5Chat%7Bt%7D_1$%7D%0A%20%20%20%20%20%20&amp;=%20%5Cfrac%7Bcov(t_2,t_1)%7D%7Bvar(%5Chat%7Bt%7D_1)%7D%0A%20%20%20%20%20%20=%20%5Cut%7B%5Cfrac%7Bcov(%5Chat%7Bt%7D_2,%5Chat%7Bt%7D_1)%7D%7Bvar(%5Chat%7Bt%7D_1)%7D%7D%7Bregression%20result%7D%0A%20%20%20%20%20%20%20%20%20-%20%5Cutt%7B%5Cfrac%7Bcov(e_2,e_1)%7D%7Bvar(%5Chat%7Bt%7D_1)%7D%7D%7Bobservable%7D%7Bvariables%7D%0A%5Cend%7Baligned%7D"></p>
-<p>If everything is joint normal then the expectation is itself linear, and so this will be optimal. In practice the true distribution of effect-sizes is somewhat fat-tailed, which imply that the conditional expectation will be nonlinear in the observables. Nevertheless I think this is a good start. (One other complication is that the SNR is more complicated to calculate when experiments vary in their sample size).<sup>6</sup></p></li>
+<p>If everything is joint normal then the expectation is itself linear, and so this will be optimal. In practice the true distribution of effect-sizes is somewhat fat-tailed, which imply that the conditional expectation will be nonlinear in the observables. Nevertheless I think this is a good start. (One other complication is that the SNR is more complicated to calculate when experiments vary in their sample size).<sup>8</sup></p></li>
 <li><p><strong>Use experiment splitting.</strong> You can randomly assign users in each experiment to one or other sub-experiments. You now effectively have a set of <em>pairs</em> of experiments, each of which has experiments with identical treatment effects (<img src="https://latex.codecogs.com/png.latex?%5CDelta%20%5Ctext%7BDAU%7D_%7BLR%7D">) but independent noise. Thus you can run a regression with LHS from one split, and RHS from other split, and you’ll get an unbiased estimate. Additionally you can easily fit a nonlinear model (<span class="citation" data-cites="coey2019improving">Coey and Cunningham (2019)</span> has details of how to do an experiment-splitting).</p></li>
 <li><p><strong>Run a regression just using the strongest experiments.</strong> If the distribution of experiments is fat-tailed then the strongest experiments will have higher SNR, and so lower bias. A worry about this is that you’re only estimating the relationship from outliers, so if there are nonlinearities you’ll never know. At the same time the assumption of fat-tailed treatment-effects gives reason to believe the expectation will be nonlinear. (This is roughly how I interpret the <span class="citation" data-cites="peysakhovich2018learning">Peysakhovich and Eckles (2018)</span> experiments-as-instruments paper. They propose using L0 regularization and experiment-splitting cross-validations, which I think effectively just selects the strongest experiments.)</p></li>
 </ol>
-<div class="no-row-height column-margin column-container"><li id="fn6"><p><sup>6</sup>&nbsp;See <span class="citation" data-cites="cunningham2019interpreting">Cunningham and Kim (2019)</span>, and see <span class="citation" data-cites="tripuraneni2023choosing">Tripuraneni et al. (2023)</span> for a slightly different setup with weaker assumptions.</p></li></div><p><strong>Choosing a Reference Class.</strong> It is important to think about the reference-class of experiments which we use to calibrate our estimates. The long-run DAU prediction can be though of as an empirical-bayes estimate, which is our best estimate conditional on the experiment being a random draw from this class of experiments.</p>
+<div class="no-row-height column-margin column-container"><li id="fn8"><p><sup>8</sup>&nbsp;See <span class="citation" data-cites="cunningham2019interpreting">Cunningham and Kim (2019)</span>, and see <span class="citation" data-cites="tripuraneni2023choosing">Tripuraneni et al. (2023)</span> for a slightly different setup with weaker assumptions.</p></li></div><p><strong>Choosing a Reference Class.</strong> It is important to think about the reference-class of experiments which we use to calibrate our estimates. The long-run DAU prediction can be though of as an empirical-bayes estimate, which is our best estimate conditional on the experiment being a random draw from this class of experiments.</p>
 <p>In many cases a company’s experiments will naturally fall into different classes: e.g.&nbsp;some have a very steep relationship between engagement and DAU, others have a very flat. It’s important to both (1) visualize all the experiments, so that a reference-class can be chosen sensibly; (2) calculate the <img src="https://latex.codecogs.com/png.latex?R%5E2"> across experiments, so we can have some sense of confidence in our extrapolation.</p>
 </section>
 </section>
-<section id="observational-inference" class="level2">
-<h2 class="anchored" data-anchor-id="observational-inference">Observational Inference</h2>
+<section id="observational-inference" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="observational-inference"><span class="header-section-number">4.2</span> Observational Inference</h2>
 <p><strong>What we want to know:</strong> Given the short-run effect of a content experiment on engagement we want to predict the long-run effect on DAU. We can start with a simple regression along these lines: <img src="https://latex.codecogs.com/png.latex?%5Cutt%7B%5Ctext%7BDAU%7D_%7Bu,t+1%7D%7D%7Blong-run%7D%7Bretention%7D%20%5Csim%20%5Cutt%7B%5Ctext%7Bengagement%7D_%7Bu,t%7D%7D%7Bshort-run%7D%7Bengagement%7D"></p>
 <p><strong>We could set up a DAG and discuss the surrogacy conditions.</strong> The condition are that (1) all effects of an experiment on DAU are via short-run engagement; and (2) there is no unobserved factor which affects both SR engagement and LR DAU:</p>
 <p><img src="https://latex.codecogs.com/png.latex?%5Cxymatrix%7B%0A%20%20%20%20%20%20&amp;%20%20*+%5BF-:%3C6pt%3E%5D%5Ctxt%7Bunobserved%7D%5Car@%7B.%3E%7D%5Bd%5D%20%5Car@%7B.%3E%7D%5Bdr%5D%20%5C%5C%0A%20%20%20%20%20%20%20%20%20*+%5BF%5D%7B%5Ctext%7Bexperiment%7D%7D%20%5Car%5Br%5D%20%5Car@%7B.%3E%7D@/_1pc/%5Brr%5D%0A%20%20%20%20%20%20%20%20%20&amp;%20*+%5BF%5D%7B%5Ctext%7BSR%20engagement%7D%7D%5Car%5Br%5D%0A%20%20%20%20%20%20%20%20%20&amp;%20*+%5BF%5D%7B%5Ctext%7BLR%20DAU%7D%7D%0A%20%20%20%20%20%20%7D"></p>
@@ -256,10 +275,10 @@
 </ol>
 </section>
 </section>
-<section id="the-explore-exploit-problem" class="level1 page-columns page-full">
-<h1>The Explore-Exploit Problem</h1>
-<p><strong>Companies know what they need to do but they keep messing it up.</strong> For 10 years the big companies have known that they should be having some kind of bandit or adaptive way to tune parameters and to recommend content. Every year they fund a new project to work on it, every year the results are disappointing.</p>
-<p><strong>Where explore-exploit is needed:</strong></p>
+<section id="the-explore-exploit-problem" class="level1 page-columns page-full" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> The Explore-Exploit Problem</h1>
+<p><strong>What experiments should you run?</strong> The prior sections have been just about interpretation of existing experiments, we can now turn to the choice of which experiment to run. The space of all possible experiments is immensely high dimensional and thus most of this process uses human judgment. However in some cases we can reduce the space to a small number of dimensions and use an algorithm to explore that space. We can call this process a “bandit” or “explore exploit” or “adaptive experimentation” or “gradient descent” problem (though gradient descent is typically pure exploration with no exploitation).</p>
+<p><strong>Typical cases for explore-exploit:</strong></p>
 <ul>
 <li>Tuning parameters on a recommendation algorithm to maximize retention.</li>
 <li>Tuning parameters on video or audio streaming to maximize satisfaction and retention.</li>
@@ -272,25 +291,26 @@
 </ul>
 In each case showing some content that is <em>less</em> interesting to the user, but in return for learning more information.</li>
 </ul>
-<p><strong>Why do these projects keep failing?</strong> AB tests are easy to implement, explore-exploit projects are much harder to run. The typical scenario is that PhDs are brought in to consult on the design, the designs become too complex, everyone gets confused, and the project falls apart.</p>
-<div class="cell page-columns page-full" data-hash="2023-04-18-netflix-cider-experimentation-note_cache/html/unnamed-chunk-4_4f60aaa0ff0bca031810de53d9db1acc">
+<p><strong>Tuning projects have a high failure rate.</strong> I should say that I am not an expert on explore-exploit algorithms and many others have deeper professional experience than I do. However I have seen multiple tuning projects either abandoned because of complexity, or fail to find a retuning which yields a non-trivial impact on metrics. Speaking broadly I think the problems were overly-complicated designs, under-powered experiments, lags in effects, and improper use of short-term proxies for long-term outcomes.</p>
+<p></p>
+<div class="cell page-columns page-full" data-hash="2023-04-18-netflix-cider-experimentation-note_cache/html/unnamed-chunk-5_d787600e0664e1877e6737eba6b82cfc">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="tecunningham.github.io/posts/2023-04-18-netflix-cider-experimentation-note_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="tecunningham.github.io/posts/2023-04-18-netflix-cider-experimentation-note_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption class="figure-caption">If <img src="https://latex.codecogs.com/png.latex?%5Cbeta_i%5E*"> is already close to the global optimum then there will be not much loss from perturbing some users because the loss function should be flat in that neighborhood.</figcaption>
 </figure>
 </div>
 </div></div></div>
 <p><strong>Recommendation: a simple tuning algorithm using weather stations.</strong> Here is a crude but easy-to-execute method for dynamically optimizing parameters. It’s less efficient than other algorithms but it’s easy to describe, easy to implement (it uses the existing AB-test system), and easy to visualize and see that it’s working as intended. In short: for each parameter we set up two permanent “weather stations” treatments: 1/3 of users get a slightly higher value, and 1/3 of users get a slightly lower value.</p>
 <p>Suppose we have <img src="https://latex.codecogs.com/png.latex?n"> parameters to tune <img src="https://latex.codecogs.com/png.latex?(%5Cbeta_1,%5Cldots,%5Cbeta_n)">: we run <img src="https://latex.codecogs.com/png.latex?n"> orthogonal experiments, each of which partitions the all users into 3 equal-sized buckets, with either (1) <img src="https://latex.codecogs.com/png.latex?%5Cbeta_n=%5Cbeta_n%5E*"> , (2) <img src="https://latex.codecogs.com/png.latex?%5Cbeta_n=%5Cbeta_n%5E*-%5Cvarepsilon_n">, (3) <img src="https://latex.codecogs.com/png.latex?%5Cbeta_n=%5Cbeta_n%5E*+%5Cvarepsilon_n">, where <img src="https://latex.codecogs.com/png.latex?%5Cbeta_n%5E*"> is the current production level of <img src="https://latex.codecogs.com/png.latex?%5Cbeta">. If <img src="https://latex.codecogs.com/png.latex?n=2"> then users would be assigned as such:</p>
-<div class="cell page-columns page-full" data-hash="2023-04-18-netflix-cider-experimentation-note_cache/html/unnamed-chunk-5_e7c96377620785414795b82fc97f2506">
+<div class="cell page-columns page-full" data-hash="2023-04-18-netflix-cider-experimentation-note_cache/html/unnamed-chunk-6_36089c3bcedfbd7dfad4471881ce77d9">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="tecunningham.github.io/posts/2023-04-18-netflix-cider-experimentation-note_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="tecunningham.github.io/posts/2023-04-18-netflix-cider-experimentation-note_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption class="figure-caption">If we start at a point above the global optimum then the “low” group benefits and the “high” group suffers, but we can see that any short-term cost will be outweighed by long-term benefit.</figcaption>
 </figure>
 </div>
@@ -336,7 +356,7 @@ In each case showing some content that is <em>less</em> interesting to the user,
 <p><strong>This is the simplest general framework I know of for continuous optimization of a set of parameters.</strong> I think that simplicity is by far the most important criterion: I have seen a long history of optimization projects get tangled in complexity and fail. Because of the past history of failures I think it’s crucial to do the simplest and most transparent thing at each point until you have a steady rhythm and track record of making progress.</p>
 <p><strong>The hard work is the choice of parameters to tune.</strong> Once you have a small set of parameters to tune it’s not too hard to find the global optimum. However in typical problems there are thousands or millions or billions of possible parameters, how should you choose which ones to tune?</p>
 </section>
-<section id="references" class="level1">
+<section id="references" class="level1" data-number="6">
 
 
 
@@ -344,7 +364,10 @@ In each case showing some content that is <em>less</em> interesting to the user,
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">6 References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-andrews2019inference" class="csl-entry">
+Andrews, I., Kitagawa, T., McCloskey, A., 2019. Inference on winners. National Bureau of Economic Research.
+</div>
 <div id="ref-coey2019improving" class="csl-entry">
 Coey, D., Cunningham, T., 2019. Improving treatment effect estimators through experiment splitting, in: The World Wide Web Conference. ACM, pp. 285–295.
 </div>

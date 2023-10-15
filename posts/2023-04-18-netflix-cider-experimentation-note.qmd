@@ -5,6 +5,7 @@ execute:
   echo: false
   cache: true # caches chunk output
 date: 2023-10-13
+number-sections: true
 bibliography: inference.bib
 csl: journal-of-development-economics.csl
 format:
@@ -32,7 +33,7 @@ reference-location: margin
 figure-location: margin
 ---
 <style>
-    h1 {  border-bottom: 4px solid black;}
+    h1 {  border-bottom: 4px solid black; color: black; }
     h2 {  border-bottom: 1px solid #ccc;}
 </style>
 
@@ -51,7 +52,7 @@ figure-location: margin
 **I describe a canonical experimentation situation and give recommendations for four common problems using common Bayesian framework:**
 
 ::: {.column-margin}
-   The impetus for writing this up was Netflix's 2023 CIDER conference, many thanks to all participants especially Martin Tingley.
+   The impetus for writing this up was Netflix's 2023 CIDER conference, many thanks to all participants especially Martin Tingley. Thanks to [J. Mark Hou](https://jmarkhou.com/about/) for comments.
    ![](images/2023-10-13-11-56-04.png)
 :::
 
@@ -139,7 +140,9 @@ figure-location: margin
 
    1. **Strategic stopping ("peeking").** An engineer will wait until an experiment has a high estimated impact, or low p-value, before presenting it for launch review. A common proposed remedy is that all experiments should be evaluated after the same length of time, or that engineers should pre-specify the length of experiments.
    
-   2. **Strategic selection ("cherry picking").** An engineer will choose to show the experiment results on the metrics that are favorable, not those that are unfavorable. A common proposed remedy is that the set of metrics should be standardized for all launches, or that the set of evaluation metrics should be pre-specified by the engineer (AKA a pre-analysis plan).
+   2. **Selection of treatments ("winners curse").** An engineer will run a dozen variants and only present for launch review the best-performing one. A common proposed remedy is that every variant should be officially presented in launch reviews, even the poorly-performing ones.
+
+   3. **Selection of metrics ("cherry picking").** An engineer will choose to show the experiment results on the metrics that are favorable, not those that are unfavorable. A common proposed remedy is that the set of metrics should be standardized for all launches, or that the set of evaluation metrics should be pre-specified by the engineer (AKA a pre-analysis plan).
 
 I will argue that the commonly proposed remedies are highly imperfect fixes. These are complicated things to think about because the mix together issues of statistical inference and of strategic behaviour. In the discussion that follows I try to separate those out as clearly as possible.
 
@@ -155,9 +158,36 @@ I will argue that the commonly proposed remedies are highly imperfect fixes. The
 
    **Considering engineers' incentives.** Now consider the launch process as a game, with the engineers trying to persuade the director to launch their feature. Suppose the director's *ex post* optimal strategy is to launch if $E[t|\hat{t}]>0$, and suppose the engineers get a bonus whenever their feature is launched. In equilibrium the engineers will keep their experiments running until $E[t|\hat{t}]>0$, which will cause a skew distribution: the distribution of posteriors will show a cluster just above the threshold. The director's strategy is *ex post* optimal but it's not an efficient use of experimentation resources. In this game the director would likely wish to pre-commit to a different threshold which induces more efficient effort by engineers. However a more direct solution would be to align engineers' incentives with those of the director by rewarding them for their true impact, i.e. setting their bonuses proportional to $\max\{E[t|\hat{t}],0\}$, instead of discontinuously rewarding them for whether or not they launched.
 
-##       Strategic Selection
+##       Selection of Treatments
 
-[unfinished]
+**If you learn an experiment is the top-performing variant it should change your asssessment.** Suppose we have a result $\hat{t}_1$, and we are estimating the true treatment effect, $t_1$. If we learn that another variant has a lower treatment effect, $\hat{t_1}>\hat{t}_2$, then it is rational to update our assessment of $t_1$:
+
+   $$\utt{E[t_1|\hat{t}_1,\hat{t}_1>\hat{t}_2]}{assessment knowing}{it's winner}< 
+      \utt{E[t_1|\hat{t}_1]}{assessment}{given outcome}
+      $$
+
+   This will hold whenever $Cov(t_1,t_2)>0$, i.e. when we have some shared source of uncertainty about the two treatment effects.[^error] We can write a model for this, however conditioning on this binary information (whether a variant is the winner) is not an efficient way of using the information at your disposal.
+
+   [^error]: Because $t_1$ and $t_2$ represent independent experiments we'll have $cov(e_1,e_2)=0$.
+
+**It's better to condition on the whole distribution.** In almost all cases we know much more than whether $\hat{t}_1$ is the winner, we also know the value of $\hat{t}_2$, and then this reduces simply to the empirical Bayes problem, i.e. we simply wish to estimate:
+      $$E[t_1|\hat{t}_1,\ldots,\hat{t}_n],$$
+   and we can do that in the usual way.[^adjustment] E.g. if we have a Normal prior over treatment effects then we can estimate $\sigma_t^2$ from $Var(\hat{t})$ and $\sigma_e^2$. Once we have conditioned on $\sigma_t^2$ then it becomes irrelevant whether variant 1 is the winner or not, i.e.:
+      $$E[t_1|\hat{t}_1,\sigma_t^2]=E[t_1|\hat{t}_1,\sigma_t^2,\hat{t}_1>\hat{t}_2].$$
+
+   Put another way: the selection rule is irrelevant (just as the stopping rule is irrelevant) once we condition on the distribution of observed outcomes.
+
+**Implication: show the distribution.** If we are worried that engineers are selecting variants based on their outcomes then the simplest and cleanest fix is to calculate the distribution of variants and use that to discount any experiment results, either explicitly with an empirical Bayes estimator, or implicitly by showing the decision-maker the distribution.
+
+   [^adjustment]: @andrews2019inference describes some unbiased estimates for treatment effects conditional on them being winners. In general I would say this is an inefficient use of information, because we know much more about the distribution of treatment effects than just whether a specific variant is the winner. However that paper does argue that empirical Bayes estimates struggle when the sample-size is small or when we are estimating the tails of when variants are non-exchangeable, and in those cases the unbiased estimators may be useful.
+
+##       Selection of Metrics
+
+**Suppose engineers are selectively presenting the most favorable metrics.** Suppose there are two outcome metrics from a single experiment, and the engineer will present whichever is the most favorable. Knowing this fact should rationally affect your judgment of the treatment effect on the presented metric:
+   $$\utt{E[t_1|\hat{t}_1]}{assessment knowing}{only metric 1} > 
+      \utt{E[t_1|\hat{t}_1,\hat{t}_1>\hat{t}_2]}{assessment knowing}{metric 1 beats metric 2}$$
+
+**Implication: engineers should present all outcome metrics.**  
 
 <!-- 3. **Alert thresholds.** We want to stop an experiment early if it has either a very good or very bad outcome, but it's difficult to know how to set the threshold in a principled way. -->
 
@@ -256,7 +286,33 @@ I will argue that the commonly proposed remedies are highly imperfect fixes. The
 **Linear shipping rules are better.** In the margin I illustrate (1) a rule to ship wherever the sum is positive; (2) a rule to ship wherever the sum is stat-sig positive. I have drawn the second assuming that $cov(\hat{t}_1,\hat{t}_2)=0$. With a positive covariance the threshold would be higher.
 
 
-**The Leontief sandwich.** I assumed above that our true utility function is linear. The linearity problem comes up a lot when making decisions and I .
+```{tikz}
+#| column: margin
+\begin{tikzpicture}[scale=4]
+      \draw[->] (0,1) node[above] {A} --
+                (0,0) -- (1,0) node[right] {B};
+      \draw[dotted] (.5,1) -- (.5,-.05) node[below] {$\bar{B}$};
+      \draw[dashed] (1,.2) -- (.5,.2);
+      \draw[dashed] (1,.4) -- (.5,.4);
+      \draw[dashed] (1,.6) -- (.5,.6);
+      \draw[dashed] (1,.8) -- (.5,.8);
+   \end{tikzpicture}
+```
+
+**The Leontief sandwich.** I assumed above that our true utility function is linear. In fact tech companies often explicitly give nonlinear objective functions to teams, e.g.:
+   $$\begin{aligned}
+      \max_k &\ A(k)
+         && \text{(goal)} \\
+      \text{s.t.} &\ B(k)\leq \bar{B}
+         && \text{(guardrail)}
+   \end{aligned}$$
+
+This is illustrated at right, the indifference curves are L-shaped so I'll call it a Leontief utility. Having Leontief preferences can cause some unintuitive decision-making, in particular the tradeoff between $A$ and $B$ will varies drastically depending on your location. One important observation is that if your goal is assessed at the end of some time-point (e.g. at the end of the half) then optimal launch decisions will depend on your future *expectations*, e.g. you'd be willing to launch a feature that boosts A at the cost of B only if you expect a future launch to make up that deficit in B.
+
+In practice I think it's useful to think of this nonlinear objective function as sitting in the middle of the hierarchy of an organization, with approximately linear objective functions above and below it, i.e. a "Leontief sandwich."
+
+At the highest layer the CEO (or shareholders) care about all the metrics in way that is locally linear, i.e. they do not have sharp discontinuities in how they assess the company's health. At the lowest layer engineers and data scientists are trying to make individual changes that achieve the Org's overall goals, but because they only account for a small share of the overall org's impact they can treat their objectives as locally linear (& likewise in a value function we make linear tradeoffs between objectives because we're in such a small region). Finally even for orgs which have nonlinear objective functions it's often reasonable to think of the nonlinearities as "soft", e.g. if an org comes in slightly below a guardrail the punishment is slight, and if they come in above the guardrail then they will be rewarded. This softening makes the effective objective function much closer to linear, and so I think for many practical purposes it's reasonable to start with a linear objective function.
+
 
 
 #                                  The Extrapolation Problem
@@ -335,7 +391,7 @@ where
    $$\Delta\widehat{\text{DAU}}_{LR} \sim
       \Delta \widehat{\text{DAU}}_{SR} + \ldots + \Delta\widehat{\text{engagement}}_{SR}$$
 
-However this will be biased. The simplest way to demonstrate the bias is to show that even with AA tests (where there is zero treatment effect on either metric) we will still get a strong predictive relationship between the observed treatment effects on each of the two metrics:
+However this will be biased. The simplest way to demonstrate the bias is to show that even with AA tests (where there is zero treatment effect on either metric) we will still get a strong predictive relationship between the observed treatment effects on each of the two metrics (see figure).
 
 ::: {.column-margin}
 ![A simulated scatter-plot showing 20 experiments, with N=1,000,000, $\sigma_{e1}^2=\sigma_{e2}^2=1$, with correlation 0.8. The experiments are all AA-tests, i.e. there are no true treatment effects, yet a regression of $\hat{t}_2$ on $\hat{t}_1$ will consistently yield statistically-significant coefficients of around 0.8.](images/2022-04-08-09-34-41.png)
@@ -348,14 +404,14 @@ The bias is because in the regression our LHS variable is *estimated* retention 
          + \ut{\frac{cov(e_2,e_1)}{var(\hat{t}_1)}}{bias}
    \end{aligned}$$
 
-The bias will be small if the short-run metrics have high signal-noise ratios (SNR), $\frac{var(t_1)}{var(e_1)}\gg 0$. A simple test for SNR ratio is the distribution of p-values: if most experiments are significant then the SNR is high. However in the typical case (1) $\Delta \widehat{\text{DAU}}_{SR}$ is the best predictor of $\Delta \widehat{\text{DAU}}_{LR}$; and (2) $\Delta \widehat{\text{DAU}}_{SR}$ has a low signal-noise ratio (i.e. few outcomes are stat-sig). This means the results are hard to interpret, the bias is large.
+The bias will be small if the short-run metrics have high signal-noise ratios (SNR), $\frac{var(t_1)}{var(e_1)}\gg 0$. A simple test for SNR ratio is the distribution of p-values: if most experiments are significant then the SNR is high. However in the typical case (1) $\Delta \widehat{\text{DAU}}_{SR}$ is the best predictor of $\Delta \widehat{\text{DAU}}_{LR}$; and (2) $\Delta \widehat{\text{DAU}}_{SR}$ has a low signal-noise ratio (i.e. few outcomes are stat-sig). This means the bias is large, and so results are hard to interpret.
 
 
 ###          Adjusting for the Bias
 
 Here are some alternatives:
 
-1. **Run a regression just using the high-SNR metrics.** We could just drop $\Delta\widehat{\text{DAU}}_{SR}$ as a regressor because of the bias. But in practice we lose a predictive power ($R^2$), so it's hard to know when this will be a good idea without an explicit model.
+1. **Run a regression just using the high-SNR metrics.** We could just drop $\Delta\widehat{\text{DAU}}_{SR}$ as a regressor because of the bias, but we lose predictive power ($R^2$) so it's hard to know when this will be a good idea without an explicit model.
 
 2. **Adjust for bias in linear estimator.** If we want a linear estimator then we can estimate and adjust for the bias.
    $$\begin{aligned}
@@ -369,12 +425,11 @@ Here are some alternatives:
 
 3. **Use experiment splitting.** You can randomly assign users in each experiment to one or other sub-experiments. You now effectively have a set of *pairs* of experiments, each of which has experiments with identical treatment effects ($\Delta \text{DAU}_{LR}$) but independent noise. Thus you can run a regression with LHS from one split, and RHS from other split, and you'll get an unbiased estimate. Additionally you can easily fit a nonlinear model (@coey2019improving has details of how to do an experiment-splitting).
 
-4. **Run a regression just using the strongest experiments.** If the distribution of experiments is fat-tailed then the strongest experiments will have higher SNR, and so lower bias. A worry about this is that you're only estimating the relationship from outliers, so if there are nonlinearities you'll never know. At the same time the assumption of fat-tailed treatment-effects gives reason to believe the expectation will be nonlinear. (This is roughly how I interpret the @peysakhovich2018learning experiments-as-instruments paper. They propose using L0 regularization and experiment-splitting cross-validations, which I think effectively just selects the strongest experiments.)
-
+4. **Run a regression just using the strongest experiments.** If the distribution of experiments is fat-tailed then the strongest experiments will have higher SNR, and so lower bias. A worry about this is that you're only estimating the relationship from outliers, so nonlinearities are more of a worry. At the same time the assumption of fat-tailed treatment-effects gives reason to believe the expectation will be nonlinear. (This is roughly how I interpret the @peysakhovich2018learning experiments-as-instruments paper. They propose using L0 regularization and experiment-splitting cross-validations, which I think effectively selects the strongest experiments.)
 
 **Choosing a Reference Class.** It is important to think about the reference-class of experiments which we use to calibrate our estimates. The long-run DAU prediction can be though of as an empirical-bayes estimate, which is our best estimate conditional on the experiment being a random draw from this class of experiments.
 
-In many cases a company's experiments will naturally fall into different classes: e.g. some have a very steep relationship between engagement and DAU, others have a very flat. It's important to both (1) visualize all the experiments, so that a reference-class can be chosen sensibly; (2) calculate the $R^2$ across experiments, so we can have some sense of confidence in our extrapolation.
+   In many cases a company's experiments will naturally fall into different classes: e.g. some have a very steep relationship between engagement and DAU, others have a very flat. It's important to both (1) visualize all the experiments, so that a reference-class can be chosen sensibly; (2) calculate the $R^2$ across experiments, so we can have some sense of confidence in our extrapolation.
 
 
 ##            Observational Inference
@@ -454,21 +509,23 @@ Some general observations:
 
 #                                  The Explore-Exploit Problem
 
-**Companies know what they need to do but they keep messing it up.** For 10 years the big companies have known that they should be having some kind of bandit or adaptive way to tune parameters and to recommend content. Every year they fund a new project to work on it, every year the results are disappointing.
+**What experiments should you run?** The prior sections have been just about interpretation of existing experiments, we can now turn to the choice of which experiment to run. The space of all possible experiments is immensely high dimensional and thus most of this process uses human judgment. However in some cases we can reduce the space to a small number of dimensions and use an algorithm to explore that space. We can call this process a "bandit" or "explore exploit" or "adaptive experimentation" or "gradient descent" problem (though gradient descent is typically pure exploration with no exploitation).
 
-**Where explore-exploit is needed:**
+**Typical cases for explore-exploit:**
 
-- Tuning parameters on a recommendation algorithm to maximize retention.
-- Tuning parameters on video or audio streaming to maximize satisfaction and retention.
-- Tuning parameters on ad bidding to maximize net profit.
-- Exploring different components of quality in recommendations:
-   - Content quality
-   - Producer quality
-   - User-topic interest
-   
-   In each case showing some content that is *less* interesting to the user, but in return for learning more information.
+   - Tuning parameters on a recommendation algorithm to maximize retention.
+   - Tuning parameters on video or audio streaming to maximize satisfaction and retention.
+   - Tuning parameters on ad bidding to maximize net profit.
+   - Exploring different components of quality in recommendations:
+      - Content quality
+      - Producer quality
+      - User-topic interest
+      
+      In each case showing some content that is *less* interesting to the user, but in return for learning more information.
 
-**Why do these projects keep failing?** AB tests are easy to implement, explore-exploit projects are much harder to run. The typical scenario is that PhDs are brought in to consult on the design, the designs become too complex, everyone gets confused, and the project falls apart.
+**Tuning projects have a high failure rate.** I should say that I am not an expert on explore-exploit algorithms and many others have deeper professional experience than I do. However I have seen multiple tuning projects either abandoned because of complexity, or fail to find a set of parameters which yields a non-trivial improvement on metrics. Speaking broadly I think the problems were overly-complicated designs, under-powered experiments, lags in effects, ill-defined outcome variables, or improper use of short-term proxies for long-term outcomes. 
+
+   <!-- 1. Projects to systematically explore quality in recommendations are difficult. These type of projects are difficult to evaluate because their impact is often lagged (you trade-off short-run engagement for long-run engagement) or non-local (you trade-off the target user's engagement for the community's engagement). This means estimating the impact is . -->
 
 ```{tikz}
 #| column: margin

@@ -787,17 +787,16 @@ ga('send', {
 <section id="selection-of-experiments" class="level2">
 <h2 class="anchored" data-anchor-id="selection-of-experiments">Selection of Experiments</h2>
 <div class="example">
-<p><strong>Example: Selection of experiments.</strong> Your team goal is to maximize <code>podcast_time</code>, and you want to know what other teams are hurting that metric. You query the experiment DB and find the 10 experiments with the biggest negative effect. How should you interpret them?</p>
+<p><strong>Example: Selection of experiments.</strong> Your team goal is to maximize <code>podcast_time</code>, and you want to know what other teams are hurting that metric. You find the 10 experiments with the biggest negative effect. Should you take their estimated effects at face value?</p>
 </div>
 <ol type="1">
-<li><p><strong>Classical advice is to adjust p-values for the number of experiments you selected from (Bonferroni correction).</strong> But from a Bayesian point of view it’s irrelevant whether these 10 experiments are taken from a pool of 10 or 1000 experiments.</p>
-<p>Bonferroni not about testing multiple outcomes, it’s about testing the <em>most extreme</em> outcome.</p></li>
-<li><p><strong>The set of experiments <em>is</em> informative about appropriate shrinkage.</strong> As discussed look at (i) the average effect, and (ii) the fraction that are significant.</p></li>
-<li><p><strong>Shrinkage should depend on plausibility of the effect.</strong> Can look at how much the experiment moves its <em>primary</em> outcome. Suppose a music-ranking experiment decreases podcast time-spent by 0.4s, and increases music time-spent by 0.2s: the side-effect seems unlikely so shrink the outcome heavily.</p></li>
-<li><p><strong>Appropriate shrinkage should depend on how significant the effect is.</strong> E.g. if the effect-size is 4 standard-errors it doesn’t need much shrinkage.</p></li>
+<li><strong>Classical advice is to adjust p-values for the number of experiments you selected from (Bonferroni correction).</strong> But from a Bayesian point of view it’s irrelevant whether these 10 experiments are taken from a pool of 10 or 1000 experiments.</li>
+<li><strong>The set of experiments <em>is</em> informative about appropriate shrinkage.</strong> You can use the pool of experiments to estimate the appropriate shrinkage, <span class="math inline">\(E[t|\hat{t}]\)</span>. E.g. if we assume a Normal distribution we can quickly calculate a shrinkage estimate from the average effect and from the fraction of experiments that are statistically significant.</li>
+<li><strong>Shrinkage should depend on plausibility of the effect.</strong> You can look at how much each of these experiments moves their primary outcomes. Suppose a music-ranking experiment decreases podcast time-spent by 0.4s, and increases music time-spent by 0.2s: the more-than-proportional side-effect seems unlikely, so there is reason to discount (shrink) the likely effect significantly.</li>
+<li><strong>Shrink less if the effect is very significant.</strong> If the effect-size is 4 standard-errors then, because the distribution of treatment, this is much more likely to be due to treatment than to noise, and so the effect does not require much shrinkage.</li>
 </ol>
 <div class="example">
-<p><strong>Example: Selection of Experiments #2.</strong> An engineer has an experiment with effect +1% ($$0.5%) on your goal metric. They mention that they ran 20 other experiments, and this is the experiment with the biggest effect.</p>
+<p><strong>Example: Selection of Experiments #2.</strong> An engineer has an experiment with effect +1% (±0.5%) on your goal metric. They mention that they ran 20 other experiments, and this is the experiment with the biggest effect.</p>
 </div>
 <p><strong>Recommendation: shrink heavily towards the average effect.</strong></p>
 <ol type="1">
@@ -805,7 +804,7 @@ ga('send', {
 <li><p><strong>It matters how selection was done.</strong> Suppose the engineer chose the highest-effect one by chance, not intention. You should still shrink by the same amount: the distribution is evidence, not the selection rule. However if they had some independent reason for expecting this experiment would be the most effective, that is relevant evidence.</p></li>
 </ol>
 <div class="example">
-<p><strong>Example: Subgroup Outcomes.</strong> You see that the overall time-spent of a feature holdout is -3.5% ($<span class="math inline">\(0.5%), but in Korea it's -9%(\)</span>$2%). How seriously should you take the Korean effect?</p>
+<p><strong>Example: Subgroup Outcomes.</strong> You see that the overall time-spent of a feature holdout is -3.5% (±0.5%), but in Korea it’s -9%(±2%). How seriously should you take the Korean effect?</p>
 </div>
 <p><strong>Recommendation: take it seriously, because (a) very significant, and (b) there is high between-country variance.</strong></p>
 <ol type="1">
