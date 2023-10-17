@@ -1034,66 +1034,6 @@ If $\Phi_{t1,y1}=0$ then $t_1$ and $\hat{t}_1$ are conditionally independent, an
    * If you incentivize by *pretest*, the rational response is to run a lot of experiments, including crappy ones, and just ship those that look positive.
    * If you incentivize by *backtest*, then engineers will be much more careful to ship changes which genuinely improve metrics.
 
-#              Difficult Cases
-
-##             Selection of Experiments
-
-::: {.example}
-   **Example: Selection of experiments.**
-      Your team goal is to maximize `podcast_time`, and you want to know what other teams are hurting that metric. You find the 10 experiments with the biggest negative effect. Should you take their estimated effects at face value?
-:::
-
-1. **Classical advice is to adjust p-values for the number of experiments you selected from (Bonferroni correction).** But from a Bayesian point of view it's irrelevant whether these 10 experiments are taken from a pool of 10 or 1000 experiments.
-2. **The set of experiments *is* informative about appropriate shrinkage.** You can use the pool of experiments to estimate the appropriate shrinkage, $E[t|\hat{t}]$. E.g. if we assume a Normal distribution we can quickly calculate a shrinkage estimate from the average effect and from the fraction of experiments that are statistically significant.
-3. **Shrinkage should depend on plausibility of the effect.** You can look at how much each of these experiments moves their primary outcomes. Suppose a music-ranking experiment decreases podcast time-spent by 0.4s, and increases music time-spent by 0.2s: the more-than-proportional side-effect seems unlikely, so there is reason to discount (shrink) the likely effect significantly.
-4. **Shrink less if the effect is very significant.** If the effect-size is 4 standard-errors then, because the distribution of treatment, this is much more likely to be due to treatment than to noise, and so the effect does not require much shrinkage.
-
-
-::: {.example}
-   **Example: Selection of Experiments #2.**
-   An engineer has an experiment with effect +1% (±0.5%) on your goal metric. They mention that they ran 20 other experiments, and this is the experiment with the biggest effect.
-:::
-
-**Recommendation: shrink heavily towards the average effect.**
-
-1. **Finding out about other experiments with smaller effects means you should shrink more.** Finding out about the 20 other experiments is evidence about the size of the typical effect, and you should shrink towards that average. If the engineers are only showing you their best ones, that is reason to shrink your estimates.
-
-
-2. **It matters how selection was done.** Suppose the engineer chose the highest-effect one by chance, not intention. You should still shrink by the same amount: the distribution is evidence, not the selection rule. However if they had some independent reason for expecting this experiment would be the most effective, that is relevant evidence.
-
-::: {.example}
-   **Example: Subgroup Outcomes.**
-      You see that the overall time-spent of a feature holdout is -3.5% (±0.5%), but in Korea it's -9%(±2%). How seriously should you take the Korean effect?
-:::
-
-   **Recommendation: take it seriously, because (a) very significant, and (b) there is high between-country variance.**
-
-   1. **Is this effect plausible?** I.e., do we have reason to expect the effect of this feature to vary a lot by country, and in particular in Korea? We *do* generally think user behaviour varies a lot by country.
-
-   2. **How significance is this effect?** The effect is 9 standard-errors -- i.e., extremely significant -- which makes it much less likely to be noise ($p$=.00001).
-   3. **How much variance in effect is between-country vs within-country?** Suppose we see that 1/2 of the countries have effects that are significantly different from the global average effect, this implies that there is a fair amount of variance in effect-sizes, and so reasonable that Korea should be such an outlier.
-
-::: {.example}
-   **Example.**Your experiment increases `music_time`, which you expected, and increases `podcast_time`, which you did not expect.
-:::
-
-   **Implication:** The positive effect on `podcast_time` is *bad* news about `music_time`. If outcomes are positively correlated across units but not across treatments then:
-      $$\frac{dE[t_1| \hat{t}_1,\hat{t}_2]}{d\hat{t}_2} < 0.$$
-   In this case good news about one outcome is bad news about the other.
-
-::: {.example}
-   **Example: Multiple Outcomes.** You run an experiment on movie ranking intended to increase watches, and it works. You additionally see an increase in comments-given. Should the increase in comments give you more confidence or less confidence in the increase in likes?
-:::
-
-
-**Recommendation: Good news is bad news, if the side-effect is unexpected.**
-
-* **If the experiment was expected to increase both metrics** - e.g. by increasing overall time spent on feed - then this is good news: it is additional evidence for the effect on likes.
-* **If the experment was expected to have a null or negative effect on comments** -- e.g. by boosting like-able posts at the expense of comment-able posts -- then this is bad news: the positive effect on comments is likely due to noise, and it should make us expect greater noise in the measure of likes.
-
-Given two treatment effects $t_1$ and $t_2$, and two outcomes, $\hat{t}_1,\hat{t}_2$, and two noise variables, $e_1,e_2$ then we have the following (in the Gaussian case):
-
-$$\frac{dE[t_1|\hat{t}_1,\hat{t}_2]}{d\hat{t}_2} \propto \text{covariance}_{t_1,t_2}-\text{covariance}_{e_1,e_2}.$$
 
 
 #              To Add
