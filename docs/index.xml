@@ -10,7 +10,7 @@
 <atom:link href="tecunningham.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>{{&lt; meta description-meta &gt;}}</description>
 <generator>quarto-1.3.357</generator>
-<lastBuildDate>Tue, 17 Oct 2023 07:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 17 Oct 2023 05:00:00 GMT</lastBuildDate>
 <item>
   <title>Experiment Interpretation and Extrapolation</title>
   <dc:creator>Tom Cunningham, [Integrity Institute](https://integrityinstitute.org/)</dc:creator>
@@ -91,7 +91,9 @@
 <h2 data-number="1.2" class="anchored" data-anchor-id="strategic-stopping"><span class="header-section-number">1.2</span> Strategic Stopping</h2>
 <p><strong>I will ignore dynamic effects.</strong> For simplicity assume that all effects are constant, so the length of an experiment effectively determines just the sample size of that experiment. I.e. I will ignore time-dependent and exposure-dependent effects.</p>
 <div class="page-columns page-full"><p><strong>Stopping rules are irrelevant to expected effect sizes.</strong> Suppose an experiment has a given estimate. Does it matter to your estimate of the true causal effect if you learn that the experimenter chose the sample size <img src="https://latex.codecogs.com/png.latex?N"> by a data-dependent rule, e.g.&nbsp;continuing to collect data until the estimate was statistically significant? If you are estimating the true causal effect, <img src="https://latex.codecogs.com/png.latex?E%5Bt%7C%5Chat%7Bt%7D%5D"> then it doesn’t matter, your posterior will be identical either way.<sup>6</sup> A simple proof: suppose we observe two noisy signals, <img src="https://latex.codecogs.com/png.latex?x_1"> and <img src="https://latex.codecogs.com/png.latex?x_2">: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20%20%20%20x_1%20&amp;=%20v%20+%20e_1%20%5C%5C%0A%20%20%20%20%20%20%20%20%20x_2%20&amp;=%20v%20+%20e_2%20%5C%5C%0A%20%20%20%20%20%20%20%20%20v,e_1,e_2%20&amp;%5Csim%20%20N(0,1)%0A%20%20%20%20%20%20%5Cend%7Baligned%7D"> Suppose a peeker will report <img src="https://latex.codecogs.com/png.latex?x_1"> only if <img src="https://latex.codecogs.com/png.latex?x_1%3E0">, otherwise they will report <img src="https://latex.codecogs.com/png.latex?x_1+x_2">. We can compare the expectation of <img src="https://latex.codecogs.com/png.latex?v"> given the sum, depending on whther the engineer peeked: <img src="https://latex.codecogs.com/png.latex?%5Cutt%7BE%5Bv%7Cx_1+x_2%5D%7D%7Bestimate%7D%7Bwithout%20peeking%7D%20=%0A%20%20%20%20%20%20%20%20%20%5Cutt%7BE%5Bv%7Cx_1+x_2%7Cx_1%3C0%5D%7D%7Bestimate%7D%7Bwith%20peeking%7D"></p><div class="no-row-height column-margin column-container"><li id="fn6"><p><sup>6</sup>&nbsp;This argument holds if the engineer always has to report the most-recent estimate. If they can choose to ignore later datapoints, and report an earlier result, this is essentially a “selection of metrics” case as below, and so the selection rule <em>is</em> relevant for interpretation.</p></li></div></div>
-<p>This holds because <img src="https://latex.codecogs.com/png.latex?x_1+x_2"> is a sufficient statistic for the distribution, i.e.&nbsp;<img src="https://latex.codecogs.com/png.latex?x_1%3C0"> does not tell us any additional information. Note that peeking is not irrelevant to interpretation of a result if (1) the engineer can choose to report either <img src="https://latex.codecogs.com/png.latex?x_1"> or <img src="https://latex.codecogs.com/png.latex?x_2">, (2) the engineer can choose to report <img src="https://latex.codecogs.com/png.latex?x_1"> alone <em>after</em> observing <img src="https://latex.codecogs.com/png.latex?x_2">.</p>
+<pre><code>  This holds because $x_1+x_2$ is a sufficient statistic for the distribution, i.e. $x_1&lt;0$ does not tell us any additional information. Note that peeking is not irrelevant to interpretation of a result if (1) the engineer can choose to report either $x_1$ or $x_2$, (2) the engineer can choose to report $x_1$ alone *after* observing $x_2$.[^deng]
+
+  [^deng]: See @deng2016continuous for a fuller argument that stopping rules are irrelevant, and a review of the prior literature.</code></pre>
 <p><strong>Stopping rules <em>would</em> be relevant if we made decisions based on statistical-significance.</strong> A stopping rule would be relevant if we conditioned only on statistical-signficance instead of the full estimate. In other words the expected true effect, conditioning only on whether or not the estimated effect is statistically significant, will depend on the stopping rule. For example if people kept running experiments until they were significant then significant experiments would tend to have small effect sizes. However it is clearly bad practice to condition only on this binary piece of information when you have the full estimate, and if you have the full estimate then the stopping rule becomes irrelevant.</p>
 <p><strong>The optimal stopping rule is data-dependent.</strong> The discussion above took a stopping rule as given, we can also ask what’s the efficient stopping rule. It’s clear that a fixed length is inefficient: we should stop an experiment sooner if it does unexpectedly well or unexpectedly badly, in both of those cases the value of collecting more information has decreased because it’s less likely to change our mind about a launch decision. Thus enforcing a static or pre-specific experiment length will lead to inefficient decision-making.</p>
 <p><strong>Considering engineers’ incentives.</strong> Now consider the launch process as a game, with the engineers trying to persuade the director to launch their feature. Suppose the director’s <em>ex post</em> optimal strategy is to launch if <img src="https://latex.codecogs.com/png.latex?E%5Bt%7C%5Chat%7Bt%7D%5D%3E0">, and suppose the engineers get a bonus whenever their feature is launched. In equilibrium the engineers will keep their experiments running until <img src="https://latex.codecogs.com/png.latex?E%5Bt%7C%5Chat%7Bt%7D%5D%3E0">, which will cause a skew distribution: the distribution of posteriors will show a cluster just above the threshold. The director’s strategy is <em>ex post</em> optimal but it’s not an efficient use of experimentation resources. In this game the director would likely wish to pre-commit to a different threshold which induces more efficient effort by engineers. However a more direct solution would be to align engineers’ incentives with those of the director by rewarding them for their true impact, i.e.&nbsp;setting their bonuses proportional to <img src="https://latex.codecogs.com/png.latex?%5Cmax%5C%7BE%5Bt%7C%5Chat%7Bt%7D%5D,0%5C%7D">, instead of discontinuously rewarding them for whether or not they launched.</p>
@@ -437,7 +439,7 @@ Tripuraneni, N., Richardson, L., D’Amour, A., Soriano, J., Yadlowsky, S., 2023
 </div>
 </div></section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2023-04-18-experiment-interpretation-extrapolation.html</guid>
-  <pubDate>Tue, 17 Oct 2023 07:00:00 GMT</pubDate>
+  <pubDate>Tue, 17 Oct 2023 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>An AI Which Imitates Humans Can Beat Humans</title>
@@ -826,7 +828,7 @@ Tedeschi, Simone, Johan Bos, Thierry Declerck, Jan Hajic, Daniel Hershcovich, Ed
 </div>
 </div></section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html</guid>
-  <pubDate>Fri, 06 Oct 2023 07:00:00 GMT</pubDate>
+  <pubDate>Fri, 06 Oct 2023 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Sushi-Roll Model of Online Media</title>
@@ -972,7 +974,7 @@ Anderson, Simon P., and Bruno Jullien. 2015. <span>“Chapter 2 - the Advertisin
 </ol>
 </section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2023-03-06-social-media-business-models-sushi-roll.html</guid>
-  <pubDate>Fri, 08 Sep 2023 07:00:00 GMT</pubDate>
+  <pubDate>Fri, 08 Sep 2023 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>How Much has Social Media affected Polarization?</title>
@@ -1296,7 +1298,7 @@ Nyhan, B., Settle, J., Thorson, E., Wojcieszak, M., Barberá, P., Chen, A.Y., Al
 </div>
 </div></section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2023-07-27-meta-2020-elections-experiments.html</guid>
-  <pubDate>Mon, 07 Aug 2023 07:00:00 GMT</pubDate>
+  <pubDate>Mon, 07 Aug 2023 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>The Paradox of Small Effects</title>
@@ -1381,7 +1383,7 @@ Tosh, Christopher, Philip Greengard, Ben Goodrich, Andrew Gelman, Aki Vehtari, a
 </div>
 </div></section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2023-08-02-small-effects.html</guid>
-  <pubDate>Wed, 02 Aug 2023 07:00:00 GMT</pubDate>
+  <pubDate>Wed, 02 Aug 2023 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Ranking by Engagement</title>
@@ -2054,7 +2056,7 @@ Milli, Smitha, Luca Belli, and Moritz Hardt. 2021. <span>“From Optimizing Enga
 </div>
 </div></section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2023-04-28-ranking-by-engagement.html</guid>
-  <pubDate>Mon, 08 May 2023 07:00:00 GMT</pubDate>
+  <pubDate>Mon, 08 May 2023 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Social Media Suspensions of Prominent Accounts</title>
@@ -3582,7 +3584,7 @@ Milli, Smitha, Luca Belli, and Moritz Hardt. 2021. <span>“From Optimizing Enga
 
  ]]></description>
   <guid>tecunningham.github.io/posts/2023-01-31-social-media-suspensions-data.html</guid>
-  <pubDate>Tue, 31 Jan 2023 08:00:00 GMT</pubDate>
+  <pubDate>Tue, 31 Jan 2023 06:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Optimal Coronavirus Policy Should be Front-Loaded</title>
@@ -3628,7 +3630,7 @@ Milli, Smitha, Luca Belli, and Moritz Hardt. 2021. <span>“From Optimizing Enga
 
  ]]></description>
   <guid>tecunningham.github.io/posts/2020-04-05-front-loading-restrictions.html</guid>
-  <pubDate>Sun, 05 Apr 2020 07:00:00 GMT</pubDate>
+  <pubDate>Sun, 05 Apr 2020 06:00:00 GMT</pubDate>
 </item>
 <item>
   <title>On Unconscious Influences (Part 1)</title>
@@ -3824,7 +3826,7 @@ Milli, Smitha, Luca Belli, and Moritz Hardt. 2021. <span>“From Optimizing Enga
 </ol>
 </section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2017-12-10-unconscious-influences.html</guid>
-  <pubDate>Fri, 08 Dec 2017 08:00:00 GMT</pubDate>
+  <pubDate>Fri, 08 Dec 2017 06:00:00 GMT</pubDate>
 </item>
 <item>
   <title>The Work of Art in the Age of Mechanical Production</title>
@@ -3853,7 +3855,7 @@ Milli, Smitha, Luca Belli, and Moritz Hardt. 2021. <span>“From Optimizing Enga
 
  ]]></description>
   <guid>tecunningham.github.io/posts/2017-09-27-work-of-art-age-mechnical-production.html</guid>
-  <pubDate>Wed, 27 Sep 2017 07:00:00 GMT</pubDate>
+  <pubDate>Wed, 27 Sep 2017 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Repulsion from the Prior</title>
@@ -3934,7 +3936,7 @@ Milli, Smitha, Luca Belli, and Moritz Hardt. 2021. <span>“From Optimizing Enga
 
  ]]></description>
   <guid>tecunningham.github.io/posts/2017-05-26-repulsion-from-the-prior.html</guid>
-  <pubDate>Fri, 26 May 2017 07:00:00 GMT</pubDate>
+  <pubDate>Fri, 26 May 2017 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>The Repeated Failure of Laws of Behaviour</title>
@@ -4093,7 +4095,7 @@ Milli, Smitha, Luca Belli, and Moritz Hardt. 2021. <span>“From Optimizing Enga
 </ol>
 </section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2017-04-15-the-mechanical-and-the-rational.html</guid>
-  <pubDate>Sat, 15 Apr 2017 07:00:00 GMT</pubDate>
+  <pubDate>Sat, 15 Apr 2017 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Samuelson &amp; Expected Utility</title>
@@ -4123,7 +4125,7 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
 
  ]]></description>
   <guid>tecunningham.github.io/posts/2017-02-25-samuelson-expected-utility.html</guid>
-  <pubDate>Sat, 25 Feb 2017 08:00:00 GMT</pubDate>
+  <pubDate>Sat, 25 Feb 2017 06:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Economist Explorers</title>
@@ -4151,7 +4153,7 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
 
  ]]></description>
   <guid>tecunningham.github.io/posts/2017-02-25-economist-explorers.html</guid>
-  <pubDate>Sat, 25 Feb 2017 08:00:00 GMT</pubDate>
+  <pubDate>Sat, 25 Feb 2017 06:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Weber’s Law Doesn’t Imply Concave Representations or Concave Judgments</title>
@@ -4239,7 +4241,7 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
 
  ]]></description>
   <guid>tecunningham.github.io/posts/2017-02-25-weber-fechner-law.html</guid>
-  <pubDate>Sat, 25 Feb 2017 08:00:00 GMT</pubDate>
+  <pubDate>Sat, 25 Feb 2017 06:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Relative Thinking</title>
@@ -4401,7 +4403,7 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
 
  ]]></description>
   <guid>tecunningham.github.io/posts/2016-04-30-relative-thinking.html</guid>
-  <pubDate>Sat, 30 Apr 2016 07:00:00 GMT</pubDate>
+  <pubDate>Sat, 30 Apr 2016 05:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
