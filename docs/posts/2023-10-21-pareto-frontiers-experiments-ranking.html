@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.357">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Tom Cunningham">
+<meta name="description" content="Tom Cunningham blog">
+
+<title>Elliptical Pareto Frontiers for Experiments and Products | Tom Cunningham</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-12027453-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+<meta name="twitter:title" content="Elliptical Pareto Frontiers for Experiments and Products | Tom Cunningham">
+<meta name="twitter:description" content="Many business problems can be thought of as choosing a tradeoff between two metrics, X and Y. We show that the Pareto frontier between X and Y can be shown to be an ellipse in two cases: (1) if it is constructed by selecting from a pool of possible features, where the effect of each feature on X and Y is additive and is drawn from a joint normal distribution; (2) if it is constructed from a recommender algorithm which shows the user a fixed set of items based on predictions, p(X) and p(Y). This framework has implications for recommender systems, experimentation practice, and for setting priorities inside an organization.">
+<meta name="twitter:card" content="summary">
+</head><body class="nav-fixed fullcontent">\usepackage{amsthm}
+\usepackage{mdframed}
+`\newmdtheoremenv{example}{Example}`{=latex}
+\tikzset{ partial ellipse/.style args={#1:#2:#3}{insert path={+ (#1:#3) arc (#1:#2:#3)} } }
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../styles.css">
+
+
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Tom Cunningham</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href=".././about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/testingham" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/tom-cunningham-a9433/" rel="" target=""><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://tecunningham.github.io/index.xml" rel="" target=""><i class="bi bi-rss-fill" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://scholar.google.com/citations?user=MDB_DgkAAAAJ" rel="" target="">
+ <span class="menu-text">scholar</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Elliptical Pareto Frontiers for Experiments and Products</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Tom Cunningham<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">Invalid Date</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  <div>
+    <div class="abstract">
+      <div class="abstract-title">Abstract</div>
+      Many business problems can be thought of as choosing a tradeoff between two metrics, X and Y. We show that the Pareto frontier between X and Y can be shown to be an ellipse in two cases: (1) if it is constructed by selecting from a pool of possible features, where the effect of each feature on X and Y is additive and is drawn from a joint normal distribution; (2) if it is constructed from a recommender algorithm which shows the user a fixed set of items based on predictions, <code>p(X)</code> and <code>p(Y)</code>. This framework has implications for recommender systems, experimentation practice, and for setting priorities inside an organization.
+    </div>
+  </div>
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<pre class="{tikz}"><code>#| column: margin
+\begin{tikzpicture}[scale=1.5]
+   \draw[&lt;-&gt;] (-1,0) -- (1,0) node[below]{$\Delta$X};
+   \draw[&lt;-&gt;] (0,-1) -- (0,1) node[left]{$\Delta$Y};
+   \node at (0,-1.1) {experiments};
+   \clip (0,0) circle[x radius=.4, y radius=.2, rotate=45];
+   \pgfmathsetseed{24122015}
+   \foreach \p in {1,...,200}
+      { \fill (rand,rand) circle (0.02); }
+\end{tikzpicture}
+\begin{tikzpicture}[scale=1.5]
+   \draw[&lt;-&gt;] (-1,0) -- (1,0) node[below]{$\Delta$X};
+   \draw[&lt;-&gt;] (0,-1) -- (0,1) node[left]{$\Delta$Y};
+   \draw[color=red, line width=2] (0,0) circle[x radius=.9, y radius=.5, rotate=45];
+   \node at (0,-1.1) {Pareto frontier};
+\end{tikzpicture}</code></pre>
+<p><strong>Given a set of experiments we can draw a Pareto frontier.</strong> Suppose we have a set of experiments, each of which can be characterized by its impact on two metrics, <span class="math inline">\(\Delta X\)</span> and <span class="math inline">\(\Delta Y\)</span>. We visualize such a set of experiments at right.</p>
+<p>If the set of features is <em>separable</em>, meaning that the impact of each feature is independent of what other features are launched, then a natural question will be the shape of the Pareto frontier formed by all possible combination of experiments.</p>
+<p>We show below that, if the distribution of experiments is mean zero and joint normal, then the expected Pareto frontier will be an <em>ellipse</em>, and it will have exactly the shape of an isovalue of the density of experiments. Thus knowing the variance and covariance of experiment results allows us to characterize the nature of the Pareto frontier we face.</p>
+<p><strong>Given a set of classifier predictions we can draw a Pareto frontier.</strong> Suppose we are choosing a fixed set of items to show to a user based on predictions of two outcomes, <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> (e.g.&nbsp;likes and comments, streams and dislikes, etc.). A natural question will be the shape of the Pareto frontier formed by alternative selections of items.</p>
+<p>We show below that, if the predictions are well calibrated, the outcomes are independent, and the distribution of prediction obeys a joint Normal distribution, then the Pareto frontier will be an <em>ellipse</em>, and it will have exactly the shape of an isovalue of the density of predictions. Thus knowing the variance and covariance of predictions allows us to exactly characterize the nature of the aggregate tradeoffs we face.</p>
+</section>
+<section id="pareto-frontiers" class="level1">
+<h1>Pareto Frontiers</h1>
+<p><strong>Characterizing Pareto frontiers.</strong> Suppose we are considering how much weight to put on metric <span class="math inline">\(X\)</span> vs metric <span class="math inline">\(Y\)</span> when making a product choice. We can characterize the effect of variation in the weight by drawing a Pareto frontier: the outcome will be the point on the Pareto frontier which has a slope equal to the ratio of weights on Y and X (i.e.&nbsp;where it is tangent with an indifference curve). We can distinguish between “tight” and “loose” Pareto frontiers. The first figure shows a tight tradeoff: in this case it doesn’t matter whether we maximize X or Y or a weighted average, we’ll end up in roughly the same place anyway. The second figure shows a loose tradeoff: in this case the outcome does depend substantially on the relative weight we put on <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. Thus if, among experiments, we observe a high positive correlation between <span class="math inline">\(\Delta X\)</span> and <span class="math inline">\(\Delta Y\)</span> then the choice of shipping criteria is relatively unimportant: we should ship the same experiments anyway. Similarly if, among items in a recommender, we observe a high positive correlation between prediction of the two outcomes, then the choice of weights is relatively unimportant: we would show the same items anyway.</p>
+<p><strong>Tradeoffs are looser higher in the decision hierarchy.</strong> We can distinguish between different levels of decision in the hierarchy of the firm: <span class="math display">\[\substack{\text{company objective}\\\text{(choose headcount)}}
+      &gt; \substack{\text{team objective}\\\text{(choose projects)}}
+      &gt; \substack{\text{shipping objective}\\\text{(choose experiments)}}
+      &gt; \substack{\text{algorithm objective}\\\text{(choose items)}}\]</span> We can think of each successive level as holding more variables fixed, and so we expect the Pareto frontiers to become successively tighter (Le Chatelier principle). We thus expect the tradeoff to be loosest at the level of overall company objectives, where we reallocate headcount. For this reason we should expect that, if the company as a whole pivots form metric X to metric Y, the principal effect will be a reallocation of effort <em>between</em> products rather than reallocation <em>within</em> products.</p>
+<p><strong>Different product areas have different Pareto frontiers.</strong> Typically two different product areas will have substantially different ability to affect different metrics, and we may observe a situation like that shown on the right: team A primarily moves metric <span class="math inline">\(X\)</span>, team B primarily moves metric <span class="math inline">\(Y\)</span>. We can also draw a <em>combined</em> Pareto frontier, just adding up the effects on each. In this case neither invidual Pareto frontier shows a substantial effect from changing weights (if we restrict weights to be positive), and so accordingly the combined Pareto frontier shows little response to a change in weights.</p>
+<p><strong>Greater investment will shift Pareto frontiers out.</strong> Here we visualize reallocating employees from team B (the frontier shifts in) to team A (the frontier shifts out).</p>
+<p><strong>A combined company Pareto frontier will be loose.</strong> If we allow the company to reallocate resources between teams in response to a change in goals then the set of possible tradeoffs will become very broad.</p>
+</section>
+<section id="model" class="level1">
+<h1>Model</h1>
+<p>Suppose we have a set of items with, <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>, distributed Normally: <span class="math display">\[\binom{x_1}{x_2}\sim N\left(\binom{0}{0},
+      \begin{pmatrix}\sigma_1^2 &amp; \rho\sigma_1\sigma_2 \\ \rho\sigma_1\sigma_2 &amp; \sigma_2^2\end{pmatrix}\right).\]</span></p>
+<p>We additionally let each item have a <em>score</em>, <span class="math inline">\(v\)</span>, which is simply a weighted sum of the two characteristics (normalizing the weight on the first characteristic to be 1): <span class="math display">\[v=x_1 + wx_2.\]</span></p>
+<p>We can write the covariance between the characteristics and the score as follows:</p>
+<p><span class="math display">\[Cov\begin{bmatrix}x_1\\x_2\\v\end{bmatrix}=
+\begin{bmatrix}
+    \sigma^2_1           &amp; \sigma_1\sigma_2\rho &amp; \sigma_1^2+ w\rho\sigma_1\sigma_2 \\
+    \sigma_1\sigma_2\rho &amp;  \sigma_2^2          &amp; \rho\sigma_1\sigma_2+w\sigma_2^2 \\
+    \sigma_1^2+w\rho\sigma_1\sigma_2          &amp;
+          \rho\sigma_1\sigma_2+w\sigma_2^2    &amp;
+          \sigma_1^2+w^2\sigma_2^2 + 2\rho w\sigma_1\sigma_2 \\
+\end{bmatrix}\]</span></p>
+<p>We wish to know the total number of actions of each type, <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span>, for a given score threshold <span class="math inline">\(\bar{v}\)</span>:</p>
+<p><span class="math display">\[\begin{aligned}
+   X_1   &amp;=P(v\geq \bar{v})E[x_1|v\geq \bar{v}] \\
+   X_2   &amp;=P(v\geq \bar{v})E[x_2|v\geq \bar{v}].
+\end{aligned}\]</span></p>
+<p>We first calculate the conditional expectations:</p>
+<p><span class="math display">\[\begin{aligned}
+E[x_1|v\geq \bar{v}]
+   =&amp; \sigma_1 \frac{Cov(x_1,v)}{\sqrt{Var(x_1)Var(v)}}
+      \frac{\phi(\frac{\bar{v}}{\sqrt{Var(v)}})}{\Phi(\frac{\bar{v}}{\sqrt{Var(v)}})} \\
+   =&amp; \sigma_1
+      \frac{\sigma_1^2+w\rho\sigma_1\sigma_2}
+         {\sqrt{\sigma_1^2(\sigma_1^2+w^2\sigma_2^2 + 2\rho w\sigma_1\sigma_2)}}
+      \frac{\phi(\frac{\bar{v}}{\sqrt{Var(v)}})}{\Phi(\frac{\bar{v}}{\sqrt{Var(v)}})}\\
+  =&amp;  \frac{\sigma_1^2+w\rho\sigma_1\sigma_2}
+           {\sqrt{\sigma_1^2+w^2\sigma_2^2 + 2\rho w\sigma_1\sigma_2}}
+   \frac{\phi(\frac{\bar{v}}{\sqrt{Var(v)}})}{\Phi(\frac{\bar{v}}{\sqrt{Var(v)}})}
+\end{aligned}\]</span></p>
+<p>Next we will assume that the expected quantity of items is fixed. This implies that both both <span class="math inline">\(P(v\geq \bar{v})\)</span> and <span class="math inline">\(\frac{\bar{v}}{\sqrt{Var(v)}}\)</span> will be constant, and we will define: <span class="math display">\[\begin{aligned}
+      \gamma\equiv
+         &amp;\frac{\phi\left(\frac{\bar{v}}{\sqrt{Var(v)}}\right)}
+            {\Phi\left(\frac{\bar{v}}{\sqrt{Var(v)}}\right)}P(w\geq w^*) \\
+      X_1 =&amp; \frac{\sigma_1^2+w\rho\sigma_1\sigma_2}
+                  {\sqrt{\sigma_1^2+w^2\sigma_2^2 + 2\rho w\sigma_1\sigma_2}}\gamma \\
+      X_2 =&amp; \frac{w\sigma_2^2+\rho\sigma_1\sigma_2}
+                  {\sqrt{\sigma_1^2+w^2\sigma_2^2 + 2\rho w\sigma_1\sigma_2}}\gamma
+   \end{aligned}\]</span></p>
+<p>We thus have expressions for <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> as a function of the relative weight <span class="math inline">\(w\)</span>. We wish to rearrange these to express <span class="math inline">\(X_1\)</span> directly in terms of <span class="math inline">\(X_2\)</span>. To help we turn to Mathematica, with the following input:<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<pre><code>F1[w_,p_,s1_,s2_,g_]:=g(s1^2+w p s1 s2 )/Sqrt[s1^2+w^2 s2^2+2w p s1 s2]
+F2[w_,p_,s1_,s2_,g_]:=g(w s2^2 +p s1 s2)/Sqrt[s1^2+w^2 s2^2+2w p s1 s2]
+Solve[{X1==F1[w,p,s1,s2,g],X2==F2[w,p,s1,s2,g]}, {X1,w}]
+Simplify[First[%1]]</code></pre>
+<p>This returns a large expression:</p>
+<p><span class="math display">\[\begin{aligned}
+   X_1(X_2) &amp;=
+      \frac{
+         g^2 \rho s_1 s_2^3 X_2
+         - p s_1 s_2 X_2^3
+         + g^3 s_2^4
+            \sqrt{\frac{-g^2 (-1 + p^2) s_1^2 s_2^2}{g^2 s_2^2 - X_2^2}}
+         - g s_2^2 X_2^2
+            \sqrt{-\frac{g^2 (-1 + p^2) s_1^2 s_2^2}{ g^2 s_2^2 - X_2^2}}
+         + X_2 \sqrt{(-1 + p^2) s_1^2 s_2^2 X_2^2 (-g^2 s_2^2 + X_2^2)}
+      }{g^2 s_2^4 - s_2^2 X_2^2}\end{aligned}\]</span></p>
+<p>We can however substantially simplify this: <span class="math display">\[\begin{aligned}
+   X_1 &amp;= \frac{
+         s_1s_2X_2 (g^2 \rho s_2^2  - p X_2^2)
+         + g^2s_2^2(g^2 s_2^2-  X_2^2)
+            \sqrt{-\frac{(-1 + p^2) s_1^2 s_2^2}{g^2 s_2^2 - X_2^2}}
+         - X_2^2s_1s_2 \sqrt{(p^2-1) (g^2 s_2^2-X_2^2)}
+      }{g^2 s_2^4 - s_2^2 X_2^2} \\
+   &amp;= \frac{
+         s_1s_2X_2 p(g^2 s_2^2  - X_2^2)
+         + gs_2^3s_1 g
+            \sqrt{(p^2-1)(g^2 s_2^2 - X_2^2)}
+         - X_2^2s_1s_2 \sqrt{(p^2-1) (g^2 s_2^2-X_2^2)}
+      }{s_2^2(g^2 s_2^2 - X_2^2)} \\
+   &amp;= \frac{s_1}{s_2}X_2p + \frac{
+         s_1s_2(g^2s_2^2 - X_2^2 )
+            \sqrt{(p^2-1) (X_2^2-g^2 s_2^2)}
+      }{s_2^2(g^2 s_2^2 - X_2^2)} \\
+   &amp;= X_2 \rho \frac{s_1}{s_2}
+      +\frac{s_1}{s_2}\sqrt{(p^2-1) (X_2^2-g^2 s_2^2)}.
+\end{aligned}\]</span></p>
+<p>We now wish to show that this curve is equal to an isovalue of the joint distribution of <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> (illustrated at right). We can write the isovalue of the joint Normal distribution of <span class="math inline">\((x_1,x_2)\)</span> as follows:<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> [k = +-2.]</p>
+Solving this quadratic we can write: [
+<span class="math display">\[\begin{aligned}
+      x_1 &amp;= x_2 \rho \frac{\sigma_1}{\sigma_2}
+               \pm \frac{\sigma_1}{\sigma_2}\sqrt{-x_2^2+x_2^2\rho^2+k\sigma_2^2} \\
+         &amp;= x_2 \rho \frac{\sigma_1}{\sigma_2}
+               \pm \frac{\sigma_1}{\sigma_2}\sqrt{k\sigma_2^2-(1-\rho^2)x_2^2}.
+   \end{aligned}\]</span>
+<p>]</p>
+<p>We can see that the two curves will be equal where <span class="math inline">\(k=\frac{\sigma_2^2}{\sigma_1^2}(\rho^2-1)g^2\)</span>.</p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Twitter, tcunningham@twitter.com.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Twitter, tcunningham@twitter.com.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Twitter, tcunningham@twitter.com.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>https://www.wolframcloud.com/env/tomcunningham/Ellipses.nb<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>From Section 4.7 of the 1st edition (2002) of the book Introduction to Probability, by D. P. Bertsekas and J. N. Tsitsiklis, <a href="http://athenasc.com/Bivariate-Normal.pdf" class="uri">http://athenasc.com/Bivariate-Normal.pdf</a><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
