@@ -6,7 +6,7 @@ execute:
    cache: true # caches chunk output
    warning: false
    error: false
-date: 2023-10-23
+date: 2023-10-25
 engine: knitr
 reference-location: margin
 figure-location: margin
@@ -214,7 +214,7 @@ We show below that, if the predictions are well calibrated, the outcomes are ind
    \end{tikzpicture}
 ```
 
-**We can also draw a *combined* Pareto frontier.** Here we add up the effects on each. In this case neither invidual Pareto frontier shows a substantial effect from changing weights (if we restrict weights to be positive), and so accordingly the combined Pareto frontier shows little response to a change in weights.
+**We can also draw a *combined* Pareto frontier.** Here we add up the effects on each. In this case neither invidual Pareto frontier shows a substantial effect from changing weights (if we restrict weights to be positive), and so accordingly the combined Pareto frontier shows little response to a change in weights. Note that I have not derived an expression for the combined Pareto frontier and here I am using a purely geometric argument. It would be lovely for formalize this part of the argument but I have not yet been able to.
 
 <!-- \marginnote{\begin{tikzpicture}[scale=3]
    \draw (0,1) -- node[rotate=90,above] {$\Delta$Y} (0,0)
@@ -272,7 +272,11 @@ We show below that, if the predictions are well calibrated, the outcomes are ind
 
 #                       Appendix: Simulations
 
-In this section I generate a bunch of pairs $(X,Y)$ from different joint distribution, and then draw the Pareto frontiers. I don't have anything conclusive to say except that broadly speaking the Pareto frontiers seem to me typically egg-shaped, i.e. not-too-far from ellipses.
+In this section I compare Pareto frontiers generated from different distribution of $(X,Y)$ from different joint distribution, and then draw the Pareto frontiers.
+
+The left-hand plot shows the raw distribution, the right-hand plot shows the Pareto frontier.
+
+I don't have anything conclusive to say except that broadly speaking the Pareto frontiers seem to me typically egg-shaped, i.e. not-too-far from ellipses.
 
 ```{r}
 #
@@ -280,7 +284,7 @@ library(MASS)
 library(tidyverse)
 library(ggforce)
 library(ExtDist) # extra distributions
-
+library(cowplot) # for combining two plots
 
 # pareto frontier from selecting top N
 slope_steps <- 100
@@ -329,14 +333,18 @@ pareto_positive <- function(points) {
          )
       pareto[nrow(pareto) + 1, ] <- list(x = stats$avg_x, y = stats$avg_y)
    }
-   ggplot(pareto, aes(x, y)) +
+   p <- ggplot(points, aes(x, y)) +
+      geom_point() +
+      coord_fixed()
+   q <- ggplot(pareto, aes(x, y)) +
       geom_hline(yintercept = 0) +
       geom_vline(xintercept = 0) +
-      geom_point(data = points, alpha = .1) +
-      geom_density_2d(data = points) +
+      # geom_point(data = points, alpha = .1) +
+      # geom_density_2d(data = points) +
       geom_point(data = pareto, color = "red", alpha = 1) +
       geom_polygon(data = pareto, alpha = 0.1) + # fill
       coord_fixed()
+   plot_grid(p, q)
 }
 ```
 
@@ -356,9 +364,9 @@ pareto_positive(points)
 
 Common Laplace factor with independent Gaussian noise:
 ```{r}
-z <- rLaplace(20, mu = 0, b = 3)
+z <- rLaplace(200, mu = 0, b = 3)
 Sigma <- matrix(c(1, 0, 0, 1), 2, 2) # 2x2 covariance matrix
-points <- data.frame(mvrnorm(n = 20, rep(0, 2), Sigma)) %>%
+points <- data.frame(mvrnorm(n = 200, rep(0, 2), Sigma)) %>%
    rename("x" = 1, "y" = 2) %>%
    cbind(z) %>%
    mutate(x = z + 2 * x, y = z + 2 * y)
@@ -379,7 +387,6 @@ points <- tibble(x = runif(5000) - .5, y = runif(5000) - .5, z = runif(5000) - .
       y = y + .5 * z
    )
 pareto_positive(points)
-#
 ```
 
 <!-- 
