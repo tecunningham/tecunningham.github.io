@@ -10,7 +10,167 @@
 <atom:link href="tecunningham.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>{{&lt; meta description-meta &gt;}}</description>
 <generator>quarto-1.3.357</generator>
-<lastBuildDate>Tue, 17 Oct 2023 05:00:00 GMT</lastBuildDate>
+<lastBuildDate>Mon, 23 Oct 2023 07:00:00 GMT</lastBuildDate>
+<item>
+  <title>Elliptical Pareto Frontiers for Experiments and Products</title>
+  <dc:creator>Tom Cunningham, [Integrity Institute](https://integrityinstitute.org/)</dc:creator>
+  <link>tecunningham.github.io/posts/2023-10-23-pareto-frontiers-experiments-ranking.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<style>
+    h1 {  border-bottom: 4px solid black;  }
+    h2 {  border-bottom: 1px solid #ccc;}
+</style>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>This material was first presented at MIT CODE 2021. Thanks to <a href="https://www.linkedin.com/in/seanjtaylor/">Sean Taylor</a> among others for comments.</p>
+</div></div><p><strong>Thinking about tradeoffs? draw an ellipse.</strong> When making a tradeoff between two outcomes, <img src="https://latex.codecogs.com/png.latex?X"> and <img src="https://latex.codecogs.com/png.latex?Y">, it’s useful to sketch out what the tradeoff looks like, and an ellipse is a good first-order approximation. The ellipse helps visualize the most interesting parameter in the tradeoff: the <em>tightness</em>, i.e.&nbsp;how much the tradeoff varies as you vary the weights.</p>
+<p><strong>Choosing launch criteria? draw an ellipse.</strong> You can think of the set of features (or experiments) as each having some metric impact, <img src="https://latex.codecogs.com/png.latex?%5CDelta%20X"> and <img src="https://latex.codecogs.com/png.latex?%5CDelta%20Y">. It is useful to sketch the combined impact of <img src="https://latex.codecogs.com/png.latex?%5CDelta%20X"> and <img src="https://latex.codecogs.com/png.latex?%5CDelta%20Y"> that are achievable (the Pareto frontier), it will often look like an ellipse. Additionally you can prove that the Pareto frontier will be <em>exactly</em> an ellipse if the set of experiment-effects have a joint Normal distribution.</p>
+<p><strong>Choosing ranking weights? draw an ellipse.</strong> When ranking items in a recommender there’s always some tradeoff between different outcomes. We can prove that the aggregate tradeoff is exactly an ellipse if the outcome is additive and the individual item-level features are Normally distributed.</p>
+<p><strong>Allocating headcount? draw an ellipse.</strong> When you shuffle headcount around a company it’s hard to precisely measure the impact on different goals, but it’s still useful to sketch ellipses to characterize the tradeoffs you face. Most usefully this helps characterize the effect of changing goals on within-team and between-team reallocation of effort.</p>
+<section id="tight-and-loose-tradeoffs" class="level1 page-columns page-full">
+<h1>Tight and Loose Tradeoffs</h1>
+<div class="cell page-columns page-full" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-1_4f0cbb33035f0a10d06045c8ca4bff6d">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<p><img src="tecunningham.github.io/posts/2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div></div></div>
+<div class="cell page-columns page-full" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-2_135674a84bfe68e5001ddbab7e2ecc12">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<p><img src="tecunningham.github.io/posts/2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div></div></div>
+<p>Suppose we are considering how much weight to put on metric <img src="https://latex.codecogs.com/png.latex?X"> vs metric <img src="https://latex.codecogs.com/png.latex?Y"> when making a product choice. We can characterize the effect of variation in the weight by drawing a Pareto frontier: the efficient outcome will be the point on the Pareto frontier which has a slope equal to the ratio of weights on Y and X (i.e.&nbsp;where it is tangent with an indifference curve). We can distinguish between “tight” and “loose” Pareto frontiers. The first figure shows a tight tradeoff: in this case it doesn’t matter whether we maximize X or Y or a weighted average, we’ll end up in roughly the same place anyway. The second figure shows a loose tradeoff: in this case the outcome does depend substantially on the relative weight we put on <img src="https://latex.codecogs.com/png.latex?X"> and <img src="https://latex.codecogs.com/png.latex?Y">. Thus if, among experiments, we observe a high positive correlation between <img src="https://latex.codecogs.com/png.latex?%5CDelta%20X"> and <img src="https://latex.codecogs.com/png.latex?%5CDelta%20Y"> then the choice of shipping criteria is relatively unimportant: we should ship the same experiments anyway. Similarly if, among items in a recommender, we observe a high positive correlation between prediction of the two outcomes, then the choice of weights is relatively unimportant: we would show the same items anyway.</p>
+<p><br><br><br></p>
+</section>
+<section id="ellipses-for-experiments" class="level1 page-columns page-full">
+<h1>Ellipses for Experiments</h1>
+<div class="cell page-columns page-full" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-3_58fce7016551619d2ab1f7892a1f0e4c">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<p><img src="tecunningham.github.io/posts/2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div></div></div>
+<p>Suppose we have a set of experiments, each of which can be characterized by its impact on two metrics, <img src="https://latex.codecogs.com/png.latex?%5CDelta%20X"> and <img src="https://latex.codecogs.com/png.latex?%5CDelta%20Y">. We visualize such a set of experiments at right.</p>
+<p>If the set of features is <em>separable</em>, meaning that the impact of each feature is independent of what other features are launched, then a natural question will be the shape of the Pareto frontier formed by all possible combination of experiments.</p>
+<p>We show below that, if the distribution of experiments is mean zero and joint normal, then the expected Pareto frontier will be an <em>ellipse</em>, and it will have exactly the shape of an isovalue of the density of experiments. Thus knowing the variance and covariance of experiment results allows us to characterize the nature of the Pareto frontier we face.</p>
+</section>
+<section id="ellipses-for-ranking" class="level1 page-columns page-full">
+<h1>Ellipses for Ranking</h1>
+<div class="cell page-columns page-full" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-4_892222e0d622229a23671a8240941df9">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<p><img src="tecunningham.github.io/posts/2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div></div></div>
+<p>Suppose we are choosing a fixed set of items to show to a user based on predictions of two outcomes, <img src="https://latex.codecogs.com/png.latex?x_1"> and <img src="https://latex.codecogs.com/png.latex?x_2"> (e.g.&nbsp;likes and comments, streams and dislikes, etc.). A natural question will be the shape of the Pareto frontier formed by alternative selections of items.</p>
+<p>We show below that, if the predictions are well calibrated, the outcomes are independent, and the distribution of prediction obeys a joint Normal distribution, then the Pareto frontier will be an <em>ellipse</em>, and it will have exactly the shape of an isovalue of the density of predictions. Thus knowing the variance and covariance of predictions allows us to exactly characterize the nature of the aggregate tradeoffs we face.</p>
+</section>
+<section id="ellipses-for-company-strategy" class="level1 page-columns page-full">
+<h1>Ellipses for Company Strategy</h1>
+<p><strong>Tradeoffs are looser higher in the decision hierarchy.</strong> We can distinguish between different levels of decision in the hierarchy of the firm: <img src="https://latex.codecogs.com/png.latex?%5Csubstack%7B%5Ctext%7Bcompany%20objective%7D%5C%5C%5Ctext%7B(choose%20headcount)%7D%7D%0A%20%20%20%20%20%20%3E%20%5Csubstack%7B%5Ctext%7Bteam%20objective%7D%5C%5C%5Ctext%7B(choose%20projects)%7D%7D%0A%20%20%20%20%20%20%3E%20%5Csubstack%7B%5Ctext%7Bshipping%20objective%7D%5C%5C%5Ctext%7B(choose%20experiments)%7D%7D%0A%20%20%20%20%20%20%3E%20%5Csubstack%7B%5Ctext%7Balgorithm%20objective%7D%5C%5C%5Ctext%7B(choose%20items)%7D%7D%0A%20%20%20%20%20%20"> We can think of each successive level as holding more variables fixed, and so we expect the Pareto frontiers to become successively tighter (Le Chatelier principle). We thus expect the tradeoff to be loosest at the level of overall company objectives, where we reallocate headcount. For this reason we should expect that, if the company as a whole pivots form metric X to metric Y, the principal effect will be a reallocation of effort <em>between</em> products rather than reallocation <em>within</em> products.</p>
+<div class="cell page-columns page-full" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-5_ec9dca91dbdb3ccd2cfe6b7b0eacc5c3">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<p><img src="tecunningham.github.io/posts/2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div></div></div>
+<p><strong>Different product areas have different Pareto frontiers.</strong> Typically two different product areas will have substantially different ability to affect different metrics, and we may observe a situation like that shown on the right: team A primarily moves metric <img src="https://latex.codecogs.com/png.latex?X">, team B primarily moves metric <img src="https://latex.codecogs.com/png.latex?Y">.</p>
+<p><br><br><br></p>
+<div class="cell page-columns page-full" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-6_c69fc894d021d7be344faefb5dd6ec69">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<p><img src="tecunningham.github.io/posts/2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div></div></div>
+<p><strong>We can also draw a <em>combined</em> Pareto frontier.</strong> Here we add up the effects on each. In this case neither invidual Pareto frontier shows a substantial effect from changing weights (if we restrict weights to be positive), and so accordingly the combined Pareto frontier shows little response to a change in weights.</p>
+<p><br><br><br><br><br><br><br><br></p>
+<div class="cell page-columns page-full" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-7_30b5674099c2bf69b40d130a2b08610d">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<p><img src="tecunningham.github.io/posts/2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div></div></div>
+<p><strong>Greater investment will shift Pareto frontiers out.</strong> Here we visualize reallocating employees from team B (the frontier shifts in) to team A (the frontier shifts out).</p>
+<p><br><br><br><br><br><br><br><br></p>
+<div class="cell page-columns page-full" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-8_40f4057f137d26b76f91209ddcc60344">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<p><img src="tecunningham.github.io/posts/2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div></div></div>
+<p><strong>A combined company Pareto frontier will be loose.</strong> Here the green curve represents all the possibile outcomes as you shift resources between team A and B: we have now turned a tight tradeoff into a loose tradeoff. In this case this represents that a change in company objectives will be reflected mainly in reallocation of effort <em>between</em> teams rather than <em>within</em> teams.</p>
+<p><br><br><br><br></p>
+</section>
+<section id="appendix-simulations" class="level1">
+<h1>Appendix: Simulations</h1>
+<p>In this section I generate a bunch of pairs <img src="https://latex.codecogs.com/png.latex?(X,Y)"> from different joint distribution, and then draw the Pareto frontiers. I don’t have anything conclusive to say except that broadly speaking the Pareto frontiers seem to me typically egg-shaped, i.e.&nbsp;not-too-far from ellipses.</p>
+<p>Joint normal with positive correlation:</p>
+<div class="cell" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-10_6e1e2bf53c21e48aa1d49b71fc826285">
+<div class="cell-output-display">
+<p><img src="tecunningham.github.io/posts/2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Independent laplace:</p>
+<div class="cell" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-11_5db033692fe7ffc5cbd8ae55fc9ee533">
+<div class="cell-output-display">
+<p><img src="tecunningham.github.io/posts/2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Common Laplace factor with independent Gaussian noise:</p>
+<div class="cell" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-12_cb3e162a49ef2f5703595ac15e6433e1">
+<div class="cell-output-display">
+<p><img src="tecunningham.github.io/posts/2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Independent uniform:</p>
+<div class="cell" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-13_96ccd845dd815d57d4d72badcfb3655f">
+<div class="cell-output-display">
+<p><img src="tecunningham.github.io/posts/2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Common uniform factor plus independent uniform noise:</p>
+<div class="cell" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-14_bd501e05bb42d1e399084eae805b547f">
+<div class="cell-output-display">
+<p><img src="tecunningham.github.io/posts/2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="model" class="level1 page-columns page-full">
+<h1>Model</h1>
+<p>Suppose we have a set of items with, <img src="https://latex.codecogs.com/png.latex?x_1"> and <img src="https://latex.codecogs.com/png.latex?x_2">, distributed Normally: <img src="https://latex.codecogs.com/png.latex?%5Cbinom%7Bx_1%7D%7Bx_2%7D%5Csim%20N%5Cleft(%5Cbinom%7B0%7D%7B0%7D,%0A%20%20%20%20%20%20%5Cbegin%7Bpmatrix%7D%5Csigma_1%5E2%20&amp;%20%5Crho%5Csigma_1%5Csigma_2%20%5C%5C%20%5Crho%5Csigma_1%5Csigma_2%20&amp;%20%5Csigma_2%5E2%5Cend%7Bpmatrix%7D%5Cright)."></p>
+<p>We additionally let each item have a <em>score</em>, <img src="https://latex.codecogs.com/png.latex?v">, which is simply a weighted sum of the two characteristics (normalizing the weight on the first characteristic to be 1): <img src="https://latex.codecogs.com/png.latex?v=x_1%20+%20wx_2."></p>
+<p>We can write the covariance between the characteristics and the score as follows:</p>
+<p><img src="https://latex.codecogs.com/png.latex?Cov%5Cbegin%7Bbmatrix%7Dx_1%5C%5Cx_2%5C%5Cv%5Cend%7Bbmatrix%7D=%0A%5Cbegin%7Bbmatrix%7D%0A%20%20%20%20%5Csigma%5E2_1%20%20%20%20%20%20%20%20%20%20%20&amp;%20%5Csigma_1%5Csigma_2%5Crho%20&amp;%20%5Csigma_1%5E2+%20w%5Crho%5Csigma_1%5Csigma_2%20%5C%5C%0A%20%20%20%20%5Csigma_1%5Csigma_2%5Crho%20&amp;%20%20%5Csigma_2%5E2%20%20%20%20%20%20%20%20%20%20&amp;%20%5Crho%5Csigma_1%5Csigma_2+w%5Csigma_2%5E2%20%5C%5C%0A%20%20%20%20%5Csigma_1%5E2+w%5Crho%5Csigma_1%5Csigma_2%20%20%20%20%20%20%20%20%20%20&amp;%0A%20%20%20%20%20%20%20%20%20%20%5Crho%5Csigma_1%5Csigma_2+w%5Csigma_2%5E2%20%20%20%20&amp;%0A%20%20%20%20%20%20%20%20%20%20%5Csigma_1%5E2+w%5E2%5Csigma_2%5E2%20+%202%5Crho%20w%5Csigma_1%5Csigma_2%20%5C%5C%0A%5Cend%7Bbmatrix%7D"></p>
+<p>We wish to know the total number of actions of each type, <img src="https://latex.codecogs.com/png.latex?X_1"> and <img src="https://latex.codecogs.com/png.latex?X_2">, for a given score threshold <img src="https://latex.codecogs.com/png.latex?%5Cbar%7Bv%7D">:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20X_1%20%20%20&amp;=P(v%5Cgeq%20%5Cbar%7Bv%7D)E%5Bx_1%7Cv%5Cgeq%20%5Cbar%7Bv%7D%5D%20%5C%5C%0A%20%20%20X_2%20%20%20&amp;=P(v%5Cgeq%20%5Cbar%7Bv%7D)E%5Bx_2%7Cv%5Cgeq%20%5Cbar%7Bv%7D%5D.%0A%5Cend%7Baligned%7D"></p>
+<p>We first calculate the conditional expectations:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0AE%5Bx_1%7Cv%5Cgeq%20%5Cbar%7Bv%7D%5D%0A%20%20%20=&amp;%20%5Csigma_1%20%5Cfrac%7BCov(x_1,v)%7D%7B%5Csqrt%7BVar(x_1)Var(v)%7D%7D%0A%20%20%20%20%20%20%5Cfrac%7B%5Cphi(%5Cfrac%7B%5Cbar%7Bv%7D%7D%7B%5Csqrt%7BVar(v)%7D%7D)%7D%7B%5CPhi(%5Cfrac%7B%5Cbar%7Bv%7D%7D%7B%5Csqrt%7BVar(v)%7D%7D)%7D%20%5C%5C%0A%20%20%20=&amp;%20%5Csigma_1%0A%20%20%20%20%20%20%5Cfrac%7B%5Csigma_1%5E2+w%5Crho%5Csigma_1%5Csigma_2%7D%0A%20%20%20%20%20%20%20%20%20%7B%5Csqrt%7B%5Csigma_1%5E2(%5Csigma_1%5E2+w%5E2%5Csigma_2%5E2%20+%202%5Crho%20w%5Csigma_1%5Csigma_2)%7D%7D%0A%20%20%20%20%20%20%5Cfrac%7B%5Cphi(%5Cfrac%7B%5Cbar%7Bv%7D%7D%7B%5Csqrt%7BVar(v)%7D%7D)%7D%7B%5CPhi(%5Cfrac%7B%5Cbar%7Bv%7D%7D%7B%5Csqrt%7BVar(v)%7D%7D)%7D%5C%5C%0A%20%20=&amp;%20%20%5Cfrac%7B%5Csigma_1%5E2+w%5Crho%5Csigma_1%5Csigma_2%7D%0A%20%20%20%20%20%20%20%20%20%20%20%7B%5Csqrt%7B%5Csigma_1%5E2+w%5E2%5Csigma_2%5E2%20+%202%5Crho%20w%5Csigma_1%5Csigma_2%7D%7D%0A%20%20%20%5Cfrac%7B%5Cphi(%5Cfrac%7B%5Cbar%7Bv%7D%7D%7B%5Csqrt%7BVar(v)%7D%7D)%7D%7B%5CPhi(%5Cfrac%7B%5Cbar%7Bv%7D%7D%7B%5Csqrt%7BVar(v)%7D%7D)%7D%0A%5Cend%7Baligned%7D"></p>
+<p>Next we will assume that the expected quantity of items is fixed. This implies that both both <img src="https://latex.codecogs.com/png.latex?P(v%5Cgeq%20%5Cbar%7Bv%7D)"> and <img src="https://latex.codecogs.com/png.latex?%5Cfrac%7B%5Cbar%7Bv%7D%7D%7B%5Csqrt%7BVar(v)%7D%7D"> will be constant, and we will define: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20%5Cgamma%5Cequiv%0A%20%20%20%20%20%20%20%20%20&amp;%5Cfrac%7B%5Cphi%5Cleft(%5Cfrac%7B%5Cbar%7Bv%7D%7D%7B%5Csqrt%7BVar(v)%7D%7D%5Cright)%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%5CPhi%5Cleft(%5Cfrac%7B%5Cbar%7Bv%7D%7D%7B%5Csqrt%7BVar(v)%7D%7D%5Cright)%7DP(w%5Cgeq%20w%5E*)%20%5C%5C%0A%20%20%20%20%20%20X_1%20=&amp;%20%5Cfrac%7B%5Csigma_1%5E2+w%5Crho%5Csigma_1%5Csigma_2%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%5Csqrt%7B%5Csigma_1%5E2+w%5E2%5Csigma_2%5E2%20+%202%5Crho%20w%5Csigma_1%5Csigma_2%7D%7D%5Cgamma%20%5C%5C%0A%20%20%20%20%20%20X_2%20=&amp;%20%5Cfrac%7Bw%5Csigma_2%5E2+%5Crho%5Csigma_1%5Csigma_2%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%5Csqrt%7B%5Csigma_1%5E2+w%5E2%5Csigma_2%5E2%20+%202%5Crho%20w%5Csigma_1%5Csigma_2%7D%7D%5Cgamma%0A%20%20%20%5Cend%7Baligned%7D"></p>
+<div class="page-columns page-full"><p>We thus have expressions for <img src="https://latex.codecogs.com/png.latex?X_1"> and <img src="https://latex.codecogs.com/png.latex?X_2"> as a function of the relative weight <img src="https://latex.codecogs.com/png.latex?w">. We wish to rearrange these to express <img src="https://latex.codecogs.com/png.latex?X_1"> directly in terms of <img src="https://latex.codecogs.com/png.latex?X_2">. To help we turn to Mathematica, with the following input:<sup>1</sup></p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;<a href="https://www.wolframcloud.com/env/tomcunningham/Ellipses.nb">see notebook</a></p></li></div></div>
+<pre><code>F1[w_,p_,s1_,s2_,g_]:=g(s1^2+w p s1 s2 )/Sqrt[s1^2+w^2 s2^2+2w p s1 s2]
+F2[w_,p_,s1_,s2_,g_]:=g(w s2^2 +p s1 s2)/Sqrt[s1^2+w^2 s2^2+2w p s1 s2]
+Solve[{X1==F1[w,p,s1,s2,g],X2==F2[w,p,s1,s2,g]}, {X1,w}]
+Simplify[First[%1]]</code></pre>
+<p>This returns a large expression:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20X_1(X_2)%20&amp;=%0A%20%20%20%20%20%20%5Cfrac%7B%0A%20%20%20%20%20%20%20%20%20g%5E2%20%5Crho%20s_1%20s_2%5E3%20X_2%0A%20%20%20%20%20%20%20%20%20-%20p%20s_1%20s_2%20X_2%5E3%0A%20%20%20%20%20%20%20%20%20+%20g%5E3%20s_2%5E4%0A%20%20%20%20%20%20%20%20%20%20%20%20%5Csqrt%7B%5Cfrac%7B-g%5E2%20(-1%20+%20p%5E2)%20s_1%5E2%20s_2%5E2%7D%7Bg%5E2%20s_2%5E2%20-%20X_2%5E2%7D%7D%0A%20%20%20%20%20%20%20%20%20-%20g%20s_2%5E2%20X_2%5E2%0A%20%20%20%20%20%20%20%20%20%20%20%20%5Csqrt%7B-%5Cfrac%7Bg%5E2%20(-1%20+%20p%5E2)%20s_1%5E2%20s_2%5E2%7D%7B%20g%5E2%20s_2%5E2%20-%20X_2%5E2%7D%7D%0A%20%20%20%20%20%20%20%20%20+%20X_2%20%5Csqrt%7B(-1%20+%20p%5E2)%20s_1%5E2%20s_2%5E2%20X_2%5E2%20(-g%5E2%20s_2%5E2%20+%20X_2%5E2)%7D%0A%20%20%20%20%20%20%7D%7Bg%5E2%20s_2%5E4%20-%20s_2%5E2%20X_2%5E2%7D%5Cend%7Baligned%7D"></p>
+<p>We can however substantially simplify this: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20X_1%20&amp;=%20%5Cfrac%7B%0A%20%20%20%20%20%20%20%20%20s_1s_2X_2%20(g%5E2%20%5Crho%20s_2%5E2%20%20-%20p%20X_2%5E2)%0A%20%20%20%20%20%20%20%20%20+%20g%5E2s_2%5E2(g%5E2%20s_2%5E2-%20%20X_2%5E2)%0A%20%20%20%20%20%20%20%20%20%20%20%20%5Csqrt%7B-%5Cfrac%7B(-1%20+%20p%5E2)%20s_1%5E2%20s_2%5E2%7D%7Bg%5E2%20s_2%5E2%20-%20X_2%5E2%7D%7D%0A%20%20%20%20%20%20%20%20%20-%20X_2%5E2s_1s_2%20%5Csqrt%7B(p%5E2-1)%20(g%5E2%20s_2%5E2-X_2%5E2)%7D%0A%20%20%20%20%20%20%7D%7Bg%5E2%20s_2%5E4%20-%20s_2%5E2%20X_2%5E2%7D%20%5C%5C%0A%20%20%20&amp;=%20%5Cfrac%7B%0A%20%20%20%20%20%20%20%20%20s_1s_2X_2%20p(g%5E2%20s_2%5E2%20%20-%20X_2%5E2)%0A%20%20%20%20%20%20%20%20%20+%20gs_2%5E3s_1%20g%0A%20%20%20%20%20%20%20%20%20%20%20%20%5Csqrt%7B(p%5E2-1)(g%5E2%20s_2%5E2%20-%20X_2%5E2)%7D%0A%20%20%20%20%20%20%20%20%20-%20X_2%5E2s_1s_2%20%5Csqrt%7B(p%5E2-1)%20(g%5E2%20s_2%5E2-X_2%5E2)%7D%0A%20%20%20%20%20%20%7D%7Bs_2%5E2(g%5E2%20s_2%5E2%20-%20X_2%5E2)%7D%20%5C%5C%0A%20%20%20&amp;=%20%5Cfrac%7Bs_1%7D%7Bs_2%7DX_2p%20+%20%5Cfrac%7B%0A%20%20%20%20%20%20%20%20%20s_1s_2(g%5E2s_2%5E2%20-%20X_2%5E2%20)%0A%20%20%20%20%20%20%20%20%20%20%20%20%5Csqrt%7B(p%5E2-1)%20(X_2%5E2-g%5E2%20s_2%5E2)%7D%0A%20%20%20%20%20%20%7D%7Bs_2%5E2(g%5E2%20s_2%5E2%20-%20X_2%5E2)%7D%20%5C%5C%0A%20%20%20&amp;=%20X_2%20%5Crho%20%5Cfrac%7Bs_1%7D%7Bs_2%7D%0A%20%20%20%20%20%20+%5Cfrac%7Bs_1%7D%7Bs_2%7D%5Csqrt%7B(p%5E2-1)%20(X_2%5E2-g%5E2%20s_2%5E2)%7D.%0A%5Cend%7Baligned%7D"></p>
+<div class="cell page-columns page-full" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-15_63c8c81b7807a34987ca0d6f43614f63">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<p><img src="tecunningham.github.io/posts/2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div></div></div>
+<div class="page-columns page-full"><p>We now wish to show that this curve is equal to an isovalue of the joint distribution of <img src="https://latex.codecogs.com/png.latex?x_1"> and <img src="https://latex.codecogs.com/png.latex?x_2"> (illustrated at right). We can write the isovalue of the joint Normal distribution of <img src="https://latex.codecogs.com/png.latex?(x_1,x_2)"> as follows:<sup>2</sup></p><div class="no-row-height column-margin column-container"><li id="fn2"><p><sup>2</sup>&nbsp;From Section 4.7 of the 1st edition (2002) of the book <em>Introduction to Probability</em>, by D. P. Bertsekas and J. N. Tsitsiklis, <a href="http://athenasc.com/Bivariate-Normal.pdf" class="uri">http://athenasc.com/Bivariate-Normal.pdf</a></p></li></div></div>
+<p><img src="https://latex.codecogs.com/png.latex?k%20=%20%5Cfrac%7Bx_1%5E2%7D%7B%5Csigma_1%5E2%7D+%5Cfrac%7Bx_2%5E2%7D%7B%5Csigma_2%5E2%7D-2%5Crho%5Cfrac%7Bx_1x_2%7D%7B%5Csigma_1%5Csigma_2%7D."></p>
+<p>Solving this quadratic we can write: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20x_1%20&amp;=%20x_2%20%5Crho%20%5Cfrac%7B%5Csigma_1%7D%7B%5Csigma_2%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%5Cpm%20%5Cfrac%7B%5Csigma_1%7D%7B%5Csigma_2%7D%5Csqrt%7B-x_2%5E2+x_2%5E2%5Crho%5E2+k%5Csigma_2%5E2%7D%20%5C%5C%0A%20%20%20%20%20%20%20%20%20&amp;=%20x_2%20%5Crho%20%5Cfrac%7B%5Csigma_1%7D%7B%5Csigma_2%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%5Cpm%20%5Cfrac%7B%5Csigma_1%7D%7B%5Csigma_2%7D%5Csqrt%7Bk%5Csigma_2%5E2-(1-%5Crho%5E2)x_2%5E2%7D.%0A%20%20%20%5Cend%7Baligned%7D"></p>
+<p>We can see that the two curves will be equal where <img src="https://latex.codecogs.com/png.latex?k=%5Cfrac%7B%5Csigma_2%5E2%7D%7B%5Csigma_1%5E2%7D(%5Crho%5E2-1)g%5E2">.</p>
+
+
+
+</section>
+
+
+ ]]></description>
+  <guid>tecunningham.github.io/posts/2023-10-23-pareto-frontiers-experiments-ranking.html</guid>
+  <pubDate>Mon, 23 Oct 2023 07:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Experiment Interpretation and Extrapolation</title>
   <dc:creator>Tom Cunningham, [Integrity Institute](https://integrityinstitute.org/)</dc:creator>
@@ -439,7 +599,7 @@ Tripuraneni, N., Richardson, L., D’Amour, A., Soriano, J., Yadlowsky, S., 2023
 </div>
 </div></section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2023-04-18-experiment-interpretation-extrapolation.html</guid>
-  <pubDate>Tue, 17 Oct 2023 05:00:00 GMT</pubDate>
+  <pubDate>Tue, 17 Oct 2023 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>An AI Which Imitates Humans Can Beat Humans</title>
@@ -828,7 +988,7 @@ Tedeschi, Simone, Johan Bos, Thierry Declerck, Jan Hajic, Daniel Hershcovich, Ed
 </div>
 </div></section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html</guid>
-  <pubDate>Fri, 06 Oct 2023 05:00:00 GMT</pubDate>
+  <pubDate>Fri, 06 Oct 2023 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Sushi-Roll Model of Online Media</title>
@@ -974,7 +1134,7 @@ Anderson, Simon P., and Bruno Jullien. 2015. <span>“Chapter 2 - the Advertisin
 </ol>
 </section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2023-03-06-social-media-business-models-sushi-roll.html</guid>
-  <pubDate>Fri, 08 Sep 2023 05:00:00 GMT</pubDate>
+  <pubDate>Fri, 08 Sep 2023 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>How Much has Social Media affected Polarization?</title>
@@ -1298,7 +1458,7 @@ Nyhan, B., Settle, J., Thorson, E., Wojcieszak, M., Barberá, P., Chen, A.Y., Al
 </div>
 </div></section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2023-07-27-meta-2020-elections-experiments.html</guid>
-  <pubDate>Mon, 07 Aug 2023 05:00:00 GMT</pubDate>
+  <pubDate>Mon, 07 Aug 2023 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>The Paradox of Small Effects</title>
@@ -1383,7 +1543,7 @@ Tosh, Christopher, Philip Greengard, Ben Goodrich, Andrew Gelman, Aki Vehtari, a
 </div>
 </div></section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2023-08-02-small-effects.html</guid>
-  <pubDate>Wed, 02 Aug 2023 05:00:00 GMT</pubDate>
+  <pubDate>Wed, 02 Aug 2023 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Ranking by Engagement</title>
@@ -2056,7 +2216,7 @@ Milli, Smitha, Luca Belli, and Moritz Hardt. 2021. <span>“From Optimizing Enga
 </div>
 </div></section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2023-04-28-ranking-by-engagement.html</guid>
-  <pubDate>Mon, 08 May 2023 05:00:00 GMT</pubDate>
+  <pubDate>Mon, 08 May 2023 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Social Media Suspensions of Prominent Accounts</title>
@@ -3584,7 +3744,7 @@ Milli, Smitha, Luca Belli, and Moritz Hardt. 2021. <span>“From Optimizing Enga
 
  ]]></description>
   <guid>tecunningham.github.io/posts/2023-01-31-social-media-suspensions-data.html</guid>
-  <pubDate>Tue, 31 Jan 2023 06:00:00 GMT</pubDate>
+  <pubDate>Tue, 31 Jan 2023 08:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Optimal Coronavirus Policy Should be Front-Loaded</title>
@@ -3630,7 +3790,7 @@ Milli, Smitha, Luca Belli, and Moritz Hardt. 2021. <span>“From Optimizing Enga
 
  ]]></description>
   <guid>tecunningham.github.io/posts/2020-04-05-front-loading-restrictions.html</guid>
-  <pubDate>Sun, 05 Apr 2020 06:00:00 GMT</pubDate>
+  <pubDate>Sun, 05 Apr 2020 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>On Unconscious Influences (Part 1)</title>
@@ -3826,7 +3986,7 @@ Milli, Smitha, Luca Belli, and Moritz Hardt. 2021. <span>“From Optimizing Enga
 </ol>
 </section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2017-12-10-unconscious-influences.html</guid>
-  <pubDate>Fri, 08 Dec 2017 06:00:00 GMT</pubDate>
+  <pubDate>Fri, 08 Dec 2017 08:00:00 GMT</pubDate>
 </item>
 <item>
   <title>The Work of Art in the Age of Mechanical Production</title>
@@ -3855,7 +4015,7 @@ Milli, Smitha, Luca Belli, and Moritz Hardt. 2021. <span>“From Optimizing Enga
 
  ]]></description>
   <guid>tecunningham.github.io/posts/2017-09-27-work-of-art-age-mechnical-production.html</guid>
-  <pubDate>Wed, 27 Sep 2017 05:00:00 GMT</pubDate>
+  <pubDate>Wed, 27 Sep 2017 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Repulsion from the Prior</title>
@@ -3936,7 +4096,7 @@ Milli, Smitha, Luca Belli, and Moritz Hardt. 2021. <span>“From Optimizing Enga
 
  ]]></description>
   <guid>tecunningham.github.io/posts/2017-05-26-repulsion-from-the-prior.html</guid>
-  <pubDate>Fri, 26 May 2017 05:00:00 GMT</pubDate>
+  <pubDate>Fri, 26 May 2017 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>The Repeated Failure of Laws of Behaviour</title>
@@ -4095,7 +4255,7 @@ Milli, Smitha, Luca Belli, and Moritz Hardt. 2021. <span>“From Optimizing Enga
 </ol>
 </section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2017-04-15-the-mechanical-and-the-rational.html</guid>
-  <pubDate>Sat, 15 Apr 2017 05:00:00 GMT</pubDate>
+  <pubDate>Sat, 15 Apr 2017 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Samuelson &amp; Expected Utility</title>
@@ -4125,7 +4285,7 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
 
  ]]></description>
   <guid>tecunningham.github.io/posts/2017-02-25-samuelson-expected-utility.html</guid>
-  <pubDate>Sat, 25 Feb 2017 06:00:00 GMT</pubDate>
+  <pubDate>Sat, 25 Feb 2017 08:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Economist Explorers</title>
@@ -4153,7 +4313,7 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
 
  ]]></description>
   <guid>tecunningham.github.io/posts/2017-02-25-economist-explorers.html</guid>
-  <pubDate>Sat, 25 Feb 2017 06:00:00 GMT</pubDate>
+  <pubDate>Sat, 25 Feb 2017 08:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Weber’s Law Doesn’t Imply Concave Representations or Concave Judgments</title>
@@ -4241,7 +4401,7 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
 
  ]]></description>
   <guid>tecunningham.github.io/posts/2017-02-25-weber-fechner-law.html</guid>
-  <pubDate>Sat, 25 Feb 2017 06:00:00 GMT</pubDate>
+  <pubDate>Sat, 25 Feb 2017 08:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Relative Thinking</title>
@@ -4403,7 +4563,7 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
 
  ]]></description>
   <guid>tecunningham.github.io/posts/2016-04-30-relative-thinking.html</guid>
-  <pubDate>Sat, 30 Apr 2016 05:00:00 GMT</pubDate>
+  <pubDate>Sat, 30 Apr 2016 07:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
