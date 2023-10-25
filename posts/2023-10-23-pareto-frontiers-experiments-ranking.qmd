@@ -2,10 +2,11 @@
 title: Elliptical Pareto Frontiers for Experiments and Products
 author: Tom Cunningham, [Integrity Institute](https://integrityinstitute.org/)
 execute:
-  echo: false
-  cache: true # caches chunk output
+   echo: false
+   cache: true # caches chunk output
+   warning: false
+   error: false
 date: 2023-10-23
-draft: true
 engine: knitr
 reference-location: margin
 figure-location: margin
@@ -14,6 +15,8 @@ format:
       toc: true
       toc-depth: 2
       toc-location: left
+      code-tools:
+         source: true
 ---
 <style>
     h1 {  border-bottom: 4px solid black;  }
@@ -26,21 +29,78 @@ format:
    https://tecunningham.github.io/posts/2023-10-23-pareto-frontiers-experiments-ranking.html
 --> 
 
-**Summary.**
+::: {.column-margin}
+   This material was first presented at MIT CODE 2021. Thanks to [Sean Taylor](https://www.linkedin.com/in/seanjtaylor/) among others for comments.
+:::
 
-   Many business problems can be thought of as choosing a tradeoff between two metrics, X and Y. We show that the Pareto frontier between X and Y can be shown to be an ellipse in two cases: 
+<!-- Tweets
 
-   1. If it is constructed by selecting from a pool of possible features, where the effect of each feature on X and Y is additive and is drawn from a joint Normal distribution; 
-   2. If it is constructed from a recommender algorithm which shows the user a fixed set of items based on predictions, `p(X)` and `p(Y)`, and the predictions are drawn from a joint Normal distribution.
-   
-   This framework has implications for recommender systems, experimentation practice, and for setting priorities inside an organization.
+NEW POST: Thinking about tradeoffs? draw an ellipse. With applications to (1) experiment launch rules; (2) ranking weights in a recommender; and (3) allocating headcount in a company.
 
-#                Introduction
+
+
+-->
+
+**Thinking about tradeoffs? draw an ellipse.** When making a tradeoff between two outcomes, $X$ and $Y$, it's useful to sketch out what the tradeoff looks like, and an ellipse is a good first-order approximation. The ellipse helps visualize the most interesting parameter in the tradeoff: the *tightness*, i.e. how much the tradeoff varies as you vary the weights.
+
+**Choosing launch criteria? draw an ellipse.** You can think of the set of features (or experiments) as each having some metric impact, $\Delta X$ and $\Delta Y$. It is useful to sketch the combined impact of $\Delta X$ and $\Delta Y$ that are achievable (the Pareto frontier), it will often look like an ellipse. Additionally you can prove that the Pareto frontier will be *exactly* an ellipse if the set of experiment-effects have a joint Normal distribution.
+
+**Choosing ranking weights? draw an ellipse.** When ranking items in a recommender there's always some tradeoff between different outcomes. We can prove that the aggregate tradeoff is exactly an ellipse if the outcome is additive and the individual item-level features are Normally distributed.
+
+**Allocating headcount? draw an ellipse.** When you shuffle headcount around a company it's hard to precisely measure the impact on different goals, but it's still useful to sketch ellipses to characterize the tradeoffs you face. Most usefully this helps characterize the effect of changing goals on within-team and between-team reallocation of effort.
+
+#                    Tight and Loose Tradeoffs
+
+```{tikz}
+#| column: margin
+   \begin{tikzpicture}[scale=4]
+      \draw[<->] (0,1.1) -- node[rotate=90,above] {$\Delta$Y} (0,0)
+         -- node[below] {$\Delta$X}(1.1,0);
+      \begin{scope}
+      \clip(0,0) rectangle (1,1);
+      \draw[color=red, line width=2] (0,0) circle[x radius=.7, y radius=.2, rotate=45];
+      \end{scope}
+      \draw[dashed] (0,.51) -- (1,.51);% node[right]{max Y};
+      \draw[dashed] (.51,0) -- (.51,.8);% node[above,align=center]{max X};
+      \draw[dashed] (0,1) -- (1,0);% node[anchor=south west,align=center]{max X+Y};
+      \node at (.5,1) {Tight Tradeoff};
+   \end{tikzpicture}
+```
+```{tikz}
+#| column: margin
+   \begin{tikzpicture}[scale=4]
+      \draw[<->] (0,1.1) -- node[rotate=90,above] {$\Delta$Y} (0,0)
+         -- node[below] {$\Delta$X}(1.1,0);
+      \begin{scope}
+      \clip(0,0) rectangle (1,1);
+      \draw[color=red, line width=2] (0,0) circle[x radius=.7, y radius=.6, rotate=45];
+      \end{scope}
+      \draw[dashed] (0,.65) -- (1,.65);% node[right]{max Y};
+      \draw[dashed] (.65,0) -- (.65,.8);% node[above,align=center]{max X};
+      \draw[dashed] (0,1) -- (1,0); %node[anchor=south west,align=center]{max X+Y};
+      \node at (.5,1) {Loose Tradeoff};
+   \end{tikzpicture}
+```
+
+Suppose we are considering how much weight to put on metric $X$ vs metric $Y$ when making a product choice. We can characterize the effect of variation in the weight by drawing a Pareto frontier: the efficient outcome will be the point on the Pareto frontier which has a slope equal to the ratio of weights on Y and X (i.e. where it is tangent with an indifference curve). We can distinguish between "tight" and "loose" Pareto frontiers. The first figure shows a tight tradeoff: in this case it doesn't matter whether we maximize X or Y or a weighted average, we'll end up in roughly the same place anyway. The second figure shows a loose tradeoff: in this case the outcome does depend substantially on the relative weight we put on $X$ and $Y$. Thus if, among experiments, we observe a high positive correlation between $\Delta X$ and $\Delta Y$ then the choice of shipping criteria is relatively unimportant: we should ship the same experiments anyway. Similarly if, among items in a recommender, we observe a high positive correlation between prediction of the two outcomes, then the choice of weights is relatively unimportant: we would show the same items anyway.
+
+
+<br /><br /><br />
+
+
+#                Ellipses for Experiments
 
 
 ```{tikz}
 #| column: margin
-\begin{tikzpicture}[scale=1.5]
+\begin{tikzpicture}[scale=1]
+   % ------------ second panel (draw this first because of "clip" below)
+   \draw[<->] (2,0) -- (4,0) node[below]{$\Delta$X};
+   \draw[<->] (3,-1) -- (3,1) node[left]{$\Delta$Y};
+   \draw[color=red, line width=2] (3,0) circle[x radius=.9, y radius=.5, rotate=45];
+   \node at (3,-1.1) {Pareto frontier};
+
+   % ------------ first panel
    \draw[<->] (-1,0) -- (1,0) node[below]{$\Delta$X};
    \draw[<->] (0,-1) -- (0,1) node[left]{$\Delta$Y};
    \node at (0,-1.1) {experiments};
@@ -48,20 +108,19 @@ format:
    \pgfmathsetseed{24122015}
    \foreach \p in {1,...,200}
       { \fill (rand,rand) circle (0.02); }
-\end{tikzpicture}
-\begin{tikzpicture}[scale=1.5]
-   \draw[<->] (-1,0) -- (1,0) node[below]{$\Delta$X};
-   \draw[<->] (0,-1) -- (0,1) node[left]{$\Delta$Y};
-   \draw[color=red, line width=2] (0,0) circle[x radius=.9, y radius=.5, rotate=45];
-   \node at (0,-1.1) {Pareto frontier};
+
 \end{tikzpicture}
 ```
 
-**Given a set of experiments we can draw a Pareto frontier.** Suppose we have a set of experiments, each of which can be characterized by its impact on two metrics, $\Delta X$ and $\Delta Y$. We visualize such a set of experiments at right.
+Suppose we have a set of experiments, each of which can be characterized by its impact on two metrics, $\Delta X$ and $\Delta Y$. We visualize such a set of experiments at right.
 
 If the set of features is *separable*, meaning that the impact of each feature is independent of what other features are launched, then a natural question will be the shape of the Pareto frontier formed by all possible combination of experiments.
 
 We show below that, if the distribution of experiments is mean zero and joint normal, then the expected Pareto frontier will be an *ellipse*, and it will have exactly the shape of an isovalue of the density of experiments. Thus knowing the variance and covariance of experiment results allows us to characterize the nature of the Pareto frontier we face.
+
+
+
+#                Ellipses for Ranking
 
 ```{tikz}
 #| column: margin
@@ -97,57 +156,26 @@ We show below that, if the distribution of experiments is mean zero and joint no
 \end{tikzpicture}
 ```
 
-**Given a set of classifier predictions we can draw a Pareto frontier.** Suppose we are choosing a fixed set of items to show to a user based on predictions of two outcomes, $x_1$ and $x_2$ (e.g. likes and comments, streams and dislikes, etc.).  A natural question will be the shape of the Pareto frontier formed by alternative selections of items. 
+
+Suppose we are choosing a fixed set of items to show to a user based on predictions of two outcomes, $x_1$ and $x_2$ (e.g. likes and comments, streams and dislikes, etc.).  A natural question will be the shape of the Pareto frontier formed by alternative selections of items. 
 
 We show below that, if the predictions are well calibrated, the outcomes are independent, and the distribution of prediction obeys a joint Normal distribution, then the Pareto frontier will be an *ellipse*, and it will have exactly the shape of an isovalue of the density of predictions.  Thus knowing the variance and covariance of predictions allows us to exactly characterize the nature of the aggregate tradeoffs we face.
 
-\newpage
-#              Pareto Frontiers and Decision-Making
+#              Ellipses for Company Strategy
 
-```{tikz}
-#| column: margin
-   \begin{tikzpicture}[scale=2]
-      \draw[<->] (0,1.1) -- node[rotate=90,above] {$\Delta$Y} (0,0)
-         -- node[below] {$\Delta$X}(1.1,0);
-      \begin{scope}
-      \clip(0,0) rectangle (1,1);
-      \draw[color=red, line width=2] (0,0) circle[x radius=.7, y radius=.2, rotate=45];
-      \end{scope}
-      \draw[dashed] (0,.51) -- (1,.51);% node[right]{max Y};
-      \draw[dashed] (.51,0) -- (.51,1);% node[above,align=center]{max X};
-      \draw[dashed] (0,1) -- (1,0);% node[anchor=south west,align=center]{max X+Y};
-      \node at (.5,1.2) {Tight Tradeoff};
-   \end{tikzpicture}
-```
-```{tikz}
-#| column: margin
-   \begin{tikzpicture}[scale=2]
-      \draw[<->] (0,1.1) -- node[rotate=90,above] {$\Delta$Y} (0,0)
-         -- node[below] {$\Delta$X}(1.1,0);
-      \begin{scope}
-      \clip(0,0) rectangle (1,1);
-      \draw[color=red, line width=2] (0,0) circle[x radius=.7, y radius=.6, rotate=45];
-      \end{scope}
-      \draw[dashed] (0,.65) -- (1,.65);% node[right]{max Y};
-      \draw[dashed] (.65,0) -- (.65,1);% node[above,align=center]{max X};
-      \draw[dashed] (0,1) -- (1,0); %node[anchor=south west,align=center]{max X+Y};
-      \node at (.5,1.2) {Loose Tradeoff};
-   \end{tikzpicture}
-```
-
-**Characterizing Pareto frontiers.** Suppose we are considering how much weight to put on metric $X$ vs metric $Y$ when making a product choice. We can characterize the effect of variation in the weight by drawing a Pareto frontier: the outcome will be the point on the Pareto frontier which has a slope equal to the ratio of weights on Y and X (i.e. where it is tangent with an indifference curve). We can distinguish between "tight" and "loose" Pareto frontiers. The first figure shows a tight tradeoff: in this case it doesn't matter whether we maximize X or Y or a weighted average, we'll end up in roughly the same place anyway. The second figure shows a loose tradeoff: in this case the outcome does depend substantially on the relative weight we put on $X$ and $Y$. Thus if, among experiments, we observe a high positive correlation between $\Delta X$ and $\Delta Y$ then the choice of shipping criteria is relatively unimportant: we should ship the same experiments anyway. Similarly if, among items in a recommender, we observe a high positive correlation between prediction of the two outcomes, then the choice of weights is relatively unimportant: we would show the same items anyway.
 
 **Tradeoffs are looser higher in the decision hierarchy.** We can distinguish between different levels of decision in the hierarchy of the firm:
    $$\substack{\text{company objective}\\\text{(choose headcount)}}
       > \substack{\text{team objective}\\\text{(choose projects)}}
       > \substack{\text{shipping objective}\\\text{(choose experiments)}}
-      > \substack{\text{algorithm objective}\\\text{(choose items)}}$$
+      > \substack{\text{algorithm objective}\\\text{(choose items)}}
+      $$
    We can think of each successive level as holding more variables fixed, and so we expect the Pareto frontiers to become successively tighter (Le Chatelier principle). We thus expect the tradeoff to be loosest at the level of overall company objectives, where we reallocate headcount. For this reason we should expect that, if the company as a whole pivots form metric X to metric Y, the principal effect will be a reallocation of effort *between* products rather than reallocation *within* products.
 
 
 ```{tikz}
 #| column: margin
-   \begin{tikzpicture}[scale=2.5]
+   \begin{tikzpicture}[scale=4]
       \draw (0,1) -- node[rotate=90,above] {$\Delta$Y} (0,0)
          -- node[below] {$\Delta$X}(1,0) -- (1,1) 
          -- (0,1);
@@ -160,10 +188,14 @@ We show below that, if the predictions are well calibrated, the outcomes are ind
       \node at (.3,.8) {team B};
    \end{tikzpicture}
 ```
+**Different product areas have different Pareto frontiers.** Typically two different product areas will have substantially different ability to affect different metrics, and we may observe a situation like that shown on the right: team A primarily moves metric $X$, team B primarily moves metric $Y$.
+
+<br /><br /><br />
+
 ```{tikz}
 #| column: margin
    \tikzset{ partial ellipse/.style args={#1:#2:#3}{insert path={+ (#1:#3) arc (#1:#2:#3)} } }
-   \begin{tikzpicture}[scale=2.5]
+   \begin{tikzpicture}[scale=4]
       \draw (0,1) -- node[rotate=90,above] {$\Delta$Y} (0,0)
          -- node[below] {$\Delta$X}(1,0) -- (1,1) 
          -- (0,1);
@@ -177,8 +209,7 @@ We show below that, if the predictions are well calibrated, the outcomes are ind
    \end{tikzpicture}
 ```
 
-**Different product areas have different Pareto frontiers.** Typically two different product areas will have substantially different ability to affect different metrics, and we may observe a situation like that shown on the right: team A primarily moves metric $X$, team B primarily moves metric $Y$. We can also draw a *combined* Pareto frontier, just adding up the effects on each. In this case neither invidual Pareto frontier shows a substantial effect from changing weights (if we restrict weights to be positive), and so accordingly the combined Pareto frontier shows little response to a change in weights.
-
+**We can also draw a *combined* Pareto frontier.** Here we add up the effects on each. In this case neither invidual Pareto frontier shows a substantial effect from changing weights (if we restrict weights to be positive), and so accordingly the combined Pareto frontier shows little response to a change in weights.
 
 <!-- \marginnote{\begin{tikzpicture}[scale=3]
    \draw (0,1) -- node[rotate=90,above] {$\Delta$Y} (0,0)
@@ -195,9 +226,11 @@ We show below that, if the predictions are well calibrated, the outcomes are ind
 \end{tikzpicture}}
 **Pareto frontiers will expand if we allow for investment in different features.** Suppose we do not take the set of existing features as given (i.e. those chosen under the current weights) but instead allow a team to work on alternative features. Then we should expect a somewhat broader set of tradeoffs, i.e. the Pareto frontiers should expand. This reflects investing in new ideas: e.g. team A could come up with features that would have a larger-than-usual impact on Y, and team B might come up with features that would have a larger-than-usual impact on X. -->
 
+<br /><br /><br /><br /><br /><br /><br /><br />
+
 ```{tikz}
 #| column: margin
-\begin{tikzpicture}[scale=3]
+\begin{tikzpicture}[scale=4]
    \draw (0,1) -- node[rotate=90,above] {$\Delta$Y} (0,0)
       -- node[below] {$\Delta$X}(1,0) -- (1,1)  -- (0,1);
    \begin{scope}
@@ -213,11 +246,11 @@ We show below that, if the predictions are well calibrated, the outcomes are ind
 **Greater investment will shift Pareto frontiers out.** Here we visualize reallocating employees from team B (the frontier shifts in) to team A (the frontier shifts out).
 
 
-\vspace{3cm}
+<br /><br /><br /><br /><br /><br /><br /><br />
 
 ```{tikz}
 #| column: margin
-\begin{tikzpicture}[scale=3]
+\begin{tikzpicture}[scale=4]
    \draw (0,1) -- node[rotate=90,above] {$\Delta$Y} (0,0)
       -- node[below] {$\Delta$X}(1,0) -- (1,1)  -- (0,1);
    \begin{scope}
@@ -227,9 +260,152 @@ We show below that, if the predictions are well calibrated, the outcomes are ind
 \end{tikzpicture}
 ```
 
-**A combined company Pareto frontier will be loose.** If we allow the company to reallocate resources between teams in response to a change in goals then the set of possible tradeoffs will become very broad.
+**A combined company Pareto frontier will be loose.** Here the green curve represents all the possibile outcomes as you shift resources between team A and B:  we have now turned a tight tradeoff into a loose tradeoff. In this case this represents that a change in company objectives will be reflected mainly in reallocation of effort *between* teams rather than *within* teams.
 
-\newpage
+<br /><br /><br /><br />
+
+
+#                       Appendix: Simulations
+
+In this section I generate a bunch of pairs $(X,Y)$ from different joint distribution, and then draw the Pareto frontiers. I don't have anything conclusive to say except that broadly speaking the Pareto frontiers seem to me typically egg-shaped, i.e. not-too-far from ellipses.
+
+```{r}
+#
+library(MASS)
+library(tidyverse)
+library(ggforce)
+library(ExtDist) # extra distributions
+
+
+# pareto frontier from selecting top N
+slope_steps <- 100
+pareto_topn <- function(points, num_sample) {
+   pareto <- data.frame(x = as.numeric(), y = as.numeric())
+   for (slope in 1:slope_steps) {
+      points <- points %>%
+         mutate(
+            # score = x + y * -log(slope / slope_steps),
+            score = x + y * tan(2 * 3.1415 * slope / slope_steps),
+            rank = rank(desc(score))
+         )
+      stats <- points %>%
+         summarize(
+            avg_x = sum(x[rank < num_sample]) / num_sample,
+            avg_y = sum(y[rank < num_sample]) / num_sample
+         )
+      pareto[nrow(pareto) + 1, ] <- list(x = stats$avg_x, y = stats$avg_y)
+   }
+   ggplot(pareto, aes(x, y)) +
+      geom_point(data = points, alpha = .1) +
+      geom_density_2d(data = points) +
+      geom_point(data = pareto, color = "red", alpha = 1) +
+      coord_fixed() +
+      xlim(-5, 5) +
+      ylim(-5, 5)
+}
+# pareto_topn(points, 1000)
+
+# pass this function a set of points and it'll draw a pareto frontier along each axis
+pareto_positive <- function(points) {
+   slope_steps <- 100
+   pareto <- data.frame(x = as.numeric(), y = as.numeric())
+   for (slope in 1:slope_steps) { # loop through slopes
+      slope_ratio <- slope / slope_steps
+      points <- points %>%
+         mutate(
+            # given an angle between 0 and 2pi, unit vector will be (cos(theta),sin(theta)).
+            # can get score by dot product with the unit vector
+            score = x * cos(slope_ratio * 3.1415 * 2) + y * sin(slope_ratio * 3.1415 * 2)
+         )
+      stats <- points %>%
+         summarize(
+            avg_x = sum(x[score > 0]),
+            avg_y = sum(y[score > 0])
+         )
+      pareto[nrow(pareto) + 1, ] <- list(x = stats$avg_x, y = stats$avg_y)
+   }
+   ggplot(pareto, aes(x, y)) +
+      geom_hline(yintercept = 0) +
+      geom_vline(xintercept = 0) +
+      geom_point(data = points, alpha = .1) +
+      geom_density_2d(data = points) +
+      geom_point(data = pareto, color = "red", alpha = 1) +
+      geom_polygon(data = pareto, alpha = 0.1) + # fill
+      coord_fixed()
+}
+```
+
+Joint normal with positive correlation:
+```{r}
+Sigma <- matrix(c(1, 1, 1, 4), 2, 2) # 2x2 covariance matrix
+points <- data.frame(mvrnorm(n = 500, rep(0, 2), Sigma)) %>%
+   rename("x" = 1, "y" = 2)
+pareto_positive(points)
+```
+
+Independent laplace:
+```{r}
+points <- tibble(x = rLaplace(5000), y = rLaplace(5000))
+pareto_positive(points)
+```
+
+Common Laplace factor with independent Gaussian noise:
+```{r}
+z <- rLaplace(20, mu = 0, b = 3)
+Sigma <- matrix(c(1, 0, 0, 1), 2, 2) # 2x2 covariance matrix
+points <- data.frame(mvrnorm(n = 20, rep(0, 2), Sigma)) %>%
+   rename("x" = 1, "y" = 2) %>%
+   cbind(z) %>%
+   mutate(x = z + 2 * x, y = z + 2 * y)
+pareto_positive(points)
+```
+
+Independent uniform:
+```{r}
+points <- tibble(x = runif(5000) - .5, y = runif(5000) - .5)
+pareto_positive(points)
+```
+
+Common uniform factor plus independent uniform noise:
+```{r}
+points <- tibble(x = runif(5000) - .5, y = runif(5000) - .5, z = runif(5000) - .5) %>%
+   mutate(
+      x = x + .5 * z,
+      y = y + .5 * z
+   )
+pareto_positive(points)
+#
+```
+
+<!-- 
+#### OLD
+
+
+
+# ### Eigenvalues from covariance matrix
+# # seems that ellipse should use *sqrt* of eigenvalues, as here:
+# # https://stats.stackexchange.com/questions/9898/how-to-plot-an-ellipse-from-eigenvalues-and-eigenvectors-in-r
+# eigen1 <- eigen(Sigma)$values[1]
+# eigen2 <- eigen(Sigma)$values[2]
+
+
+# ggplot(pareto, aes(x, y)) +
+#     geom_point(data = points, alpha = .1) +
+#     geom_density_2d(data = points) +
+#     geom_point(data = pareto, color = "red", alpha = 1) +
+#     geom_ellipse(aes(
+#         x0 = 0, y0 = 0,
+#         a = 2 * sqrt(eigen1),
+#         b = 2 * sqrt(eigen2),
+#         # angle = angle
+#         angle = 0
+#     ),
+#     color = "green"
+#     ) +
+#     coord_fixed() +
+#     xlim(-5, 5) +
+#     ylim(-5, 5)
+-->
 
 #                 Model
 
@@ -348,7 +524,7 @@ $$\begin{aligned}
 \end{tikzpicture}
 ```
 
-We now wish to show that this curve is equal to an isovalue of the joint distribution of $x_1$ and $x_2$ (illustrated at right). We can write the isovalue of the joint Normal distribution of $(x_1,x_2)$ as follows:^[From Section 4.7 of the 1st edition (2002) of the book Introduction to Probability, by D. P. Bertsekas and J. N. Tsitsiklis, <http://athenasc.com/Bivariate-Normal.pdf>]
+We now wish to show that this curve is equal to an isovalue of the joint distribution of $x_1$ and $x_2$ (illustrated at right). We can write the isovalue of the joint Normal distribution of $(x_1,x_2)$ as follows:^[From Section 4.7 of the 1st edition (2002) of the book *Introduction to Probability*, by D. P. Bertsekas and J. N. Tsitsiklis, <http://athenasc.com/Bivariate-Normal.pdf>]
 
    $$k = \frac{x_1^2}{\sigma_1^2}+\frac{x_2^2}{\sigma_2^2}-2\rho\frac{x_1x_2}{\sigma_1\sigma_2}.$$
 
@@ -400,5 +576,6 @@ We can see that the two curves will be equal where $k=\frac{\sigma_2^2}{\sigma_1
 \end{tikzpicture}
 ```
 -->
+
 
 
