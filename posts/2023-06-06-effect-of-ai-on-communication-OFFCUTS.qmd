@@ -3,6 +3,10 @@ engine: knitr
 draft: true
 format:
    html:
+      html-math-method:
+         method: mathjax
+         url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js"
+         #     ^ this forces SVG instead of CHTML, otherwise xypic renders weird
       include-in-header:
          - text: |
             <script>window.MathJax = {
@@ -10,7 +14,9 @@ format:
                tex: {packages: {'[+]': ['xypic','bm']},
                      macros: {  bm: ["\\boldsymbol{#1}", 1],
                                 ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
-                                utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3] }
+                                utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3],
+                                rsucc: ["\\rotatebox[origin=c]{#1}{$\succ$}",1]
+                                }
                }
             };
             </script>
@@ -18,6 +24,14 @@ execute:
   echo: false
   cache: true # caches chunk output
 ---
+<style>
+    h1 {  border-bottom: 4px solid black;}
+    h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; font-size: 1.3em; color: black; }
+</style>
+
+**SEE ALSO:**  2023-10-26-ai-communication-model.qmd
+
+$$\xymatrix{a&b}$$
 
 **PRIORITY**
 
@@ -135,7 +149,7 @@ _Observations_
    - _The sender's actions have no effect on the true quality._ it's all extrinsic. This makes it less useful for many online tasks, where the observed features X are themselves bearers of value.
    - _There's no free entry._ If you admit a non-zero fraction of spam then this cannot be a free entry equilibrium: with a non-zero change of success then spammers would keep entering. Thus in practice spam must also be limited by some cost of creating a message. Could be (1) signup friction; (2) require a waiting period before you can post; (3) kill account after it's produced ground-truth spam.
 
-#          Prediction: Influence Operations Will Become Somewhat More Effective
+#           Prediction: Influence Operations Will Become Somewhat More Effective
 
 Government-sponsored influence operations typically employ many people to write posts and messages, and LLMs would make the creation of messages much cheaper. However as people come to encounter more personalized messages they are likely to adopt a higher level of skepticism which would somewhat blunt the advantage due to LLMs.
 
@@ -163,7 +177,6 @@ There will be collateral damage on sincere personalized messages: it will become
 [^SIO]: A 2022 [report](https://arxiv.org/pdf/2301.04246.pdf) from the Stanford Internet Observatory lists a number of ways in which LLMs could be used by influence operations, mainly by writing copy either for social media posts or for 1:1 message threads.
 
 [^IRA]: The Russian "Internet Research Agency" has been [estimated to employ](https://en.wikipedia.org/wiki/Internet_Research_Agency) around 1,000 paid posters in 2017. King et al. (2017, APSR) estimate that 0.5% of all social media posts in China are government sponsored, a large share of which seem to be from humans (i.e. not from bots).
-
 
 
 #           Comments/Send to People
@@ -208,129 +221,9 @@ There will be collateral damage on sincere personalized messages: it will become
 
    _Note: hard to talk about effect of features._ Need a clear counterfactual and often counterfactual is ambiguous. Think of simplex triangle. Uppercase is OK. Clouds is OK. Talking about effect of gross features is hard. 
 
-#           Model of Latent Space / Embedding
-
-**Summary (new):**
-
-1. **The world has a low-dimensional representation.** I.e. 
-   $$\utt{\bm{x}}{$m\times 1$}{observed} 
-      = f( \utt{\bm{v}}{$n\times 1$}{latent} )$$
-
-   | high dimensional observed | low dimensional unobserved |
-   | :-----------------------: | :------------------------: |
-   |           image           |      scene, lighting       |
-   |           text            |   meaning, tone, dialect   |
-   |           audio           |      speech, speaker       |
-
-   - *Simplest version.* Linear function, $\bm{x}=A\bm{v}$, where $A$ is $m\times n$. 
-   - *Implies feature space is sparse.*
-   - *Implies many-to-one mapping*.
-   - *Nonlinear.* -- convolutions, rotation, softmax.
-   - *Hierarchical.* -- 
-
-   
-
-2. **Human understanding of mappings.**
-   - Some things we can go in both directions:
-      $$\text{text}\rightleftarrows\text{meaning}$$
-   - Some things we can only go in one direction:
-      $$\text{image}\rightarrow\text{scene}$$
-   - Some things we can *partly* go in the other direction:
-      $$\text{audio}\leftarrow\text{speech,(speaker)}$$
-
-3. **Consequences for computer understanding.**
-
-   1. *Can do arbitrarily well with sufficient data.* With simple nearest-neighbor model then error will get arbitrarily low as $n\rightarrow\infty$, but in many cases the feature space is so high and the mapping sufficiently complicated that convergence is very slow.
-   2. *Some problems are easy.* When $m$ is small, or if humans encode the core features, then it's easy, and computers outperform humans.
-   3. *Generalization.* Expect computers to have lower ability to generalize compared to humans (they have big drop-off in accuracy between in-sample and out-of-sample).
-   4. *Adversarial.* Computers do very badly with adversarial attacks when they have a shallow understanding.
+.
 
 
-**Summary:**
-
-1. Humans observe a high-dimensional message $\bm{x}$, and we infer from that a low-dimensional semantics $\bm{v}$. We can also do the reverse: given some semantics $\bm{v}$ we generate a message $\bm{x}$ that expresses that (it's a one-to-many mapping).
-2. Some examples:
-   - **hate speech** ($x$ is sentence, $v$ it how hateful)
-     - humans can do both ($x\rightarrow v$ and $v\rightarrow x$)
-     - simple classifier can do $x\rightarrow v$ badly, e.g. looking for bad words, but easily evaded
-     - AI can do both $x\rightarrow v$ and $v\rightarrow x$
-   - **nudity** ($x$ is photo, $v$ it how nude)
-     - humans can tell if nude ($x\rightarrow v$), but can't create photo
-     - simple classifier can do $x\rightarrow v$ badly, e.g. looking for flesh tones
-     - AI can do both $x\rightarrow v$ and $v\rightarrow x$
-   - **fake photo** ($x$ is photo, $v_1$ is person and $v_2$ is activity)
-     - humans can interpret photos ($x\rightarrow v$), but can only create them if they *see* the $v$ happening in real life.
-     - simple classifier can't do much
-     - AI can both interpret and synthesize photos ($x\rightleftarrows v$)
-
-**Formal setup:**
-
-   $$\begin{aligned}
-      \utt{x}{message}{$m\times 1$}
-         &= \ut{A}{$m\times n$}
-            \utt{v}{value}{$n\times 1$}
-            + \utt{e}{error}{$m\times 1$} \\
-      v  &\sim N(0,\Omega)\\
-      e  &\sim N(0,\Sigma)\\
-      E[v|x]   &\simeq A\Sigma(A\Omega A'+\Sigma)^{-1}x
-         && \text{(double-check this)}
-   \end{aligned}$$
-   
-
-```{tikz}
-#| fig-width: 3
-#| fig.align: center
-#| column: margin
-\begin{tikzpicture}[scale=3, line width=1]
-   \draw[<->] (0,1) -- node[rotate=90,above] {feature 2} (0,0) --(1,0) node[below,midway]{feature 1};
-   \draw[rotate around={45:(.5,.5)},line width=2,gray] (.5,.5) ellipse (.4 and .2);
-   \draw[dotted,line width=.5] (.8,.3) -- (.3,.8);% node[right,rotate=90]{\ value low};
-   \draw[dotted,line width=.5] (.8,.5) -- (.5,.8);% node[right,rotate=90]{\ value med};
-   \draw[dotted,line width=.5] (.8,.7) -- (.7,.8);% node[right,rotate=90]{\ value high};
-   \draw[->] (1,.5)--(1.1,.6) node[right]{$E[v|x_1,x_2]$};
-   \draw[dashed] (.7,0)--(.7,1) node[above,align=center]{classifier\\threshold\\$E[v|x_1]=p$};
-   %\fill[blue] (.5,.5) circle (.02) node[below]{unranked};
-   %\fill[red!50!black] (.75,.5) circle (.02) node[anchor=north west,align=center]{\ ranked by\\engagement};
-   %\fill[green!50!black] (.68,.68) circle (.02) node[right,anchor=south west,align=center]{\ ranked by engagement\\and quality};
-\end{tikzpicture}
-```
-
-**Two dimensional example.** 
-
-   - _Two features predict the underlying value:_ we visualize $x_1$ and $x_2$, which have positive correlation. The ellipse is an isovalue of the joint density, and the dotted lines are isovalues of $E[v|x_1,x_2]$.
-   - _Simple classifier does OK:_ A classifier which just uses $x_1$ will be relatively high accuracy.
-   - _Simple classifier is easy to evade:_ An adversary can just lower their $x_1$ and raise their $x_2$ such that they get the same value of $v$ but fall outside the classified region. If there are arbitrarily many features $x_1,\ldots$, then they can always find a way of evading the classifier.
-   - _Perfect classifier cannot be evaded:_ If the classifier conditions on all the observables ($x_1,x_2$) then there's no evasion.
-
-
-#           Model of AI and External Properties
-
-**General:**
-
-$$\begin{aligned}
-   P(spam) &= \mu \\
-   P(spam|\bm{x}) &= \frac{P(\bm{x}|spam)P(spam)}{P(\bm{x})} \\
-      &= \frac{P(\bm{x}|spam)\mu}{P(\bm{x}|spam)\mu + P(\bm{x}|-spam)(1-\mu)}
-\end{aligned}$$
-
-**Now with conditionally independent binary features:**
-$$\begin{aligned}
-   P(x_i=1|spam) &= p \\ 
-   P(x_i=1|nonspam) &= .5 \\
-   P(spam|x_i=1) &= \frac{p\mu}{p\mu+.5(1-\mu)}\\
-   P(spam|x_i=0) &= \frac{(1-p)\mu}{(1-p)\mu+.5(1-\mu)}\\\\
-   P(m\text{ of }n|spam) &= \frac{p^m(1-p)^{n-m}\mu}{p^m(1-p)^{n-m}\mu+.5^m(1-\mu)}
-\end{aligned}$$
-
-**Claims:**
-
-1. If receiver can add extra feature to their filter then discrimination gets better (obviously).
-2. If sender can randomize some feature then discrimination gets much worse (in short run) and a little worse (in medium run).
-
-**Want:**
-
-1. **Internal property:** adding more features to both sides will make discrimination perfect, but in this baseline model it won't affect anything.
-2. **External property:** adding more features on both sides will make discrimination worse. Yes, can do this, just distinguish between $n_s$, $n_r$, and $n_h$. As the sender and receiver models get better then they impinge on $n_h$. -->
 
 #           References
 
@@ -506,7 +399,7 @@ Resolved No, was at 20% for a couple of months around August.
 Resvolved No, was 50% for a long time.
 
 
-#              Miscellaneous
+#           Miscellaneous
 
 **Laure X Cast:** Trust in unsourced content will decline, and so network of communication will get *smaller*. You won't trust people who you don't have a direct connection with. / Laure X Cast made this argument that networks will get smaller.
 

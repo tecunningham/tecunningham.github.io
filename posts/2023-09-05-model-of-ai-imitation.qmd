@@ -136,7 +136,7 @@ theme_set(theme_bw() +
 update_geom_defaults("line", list(size = 1))
 ```
 
-**If we train AIs to *imitate* humans, will they ever *beat* humans?** AI has caught up to human performance on many benchmarks, largely by learning to predict what humans would do. It seems important to know whether this is a ceiling or we should expect them to shoot out ahead of us. Will LLMs be able to write superhumanly-persuasive prose? Will image models be able to see things in photos that we cannot? There is a lot of technical literature on imitation learning in AI but I haven't found much discussion of this point.
+**If we train AIs to *imitate* humans, will they ever *beat* humans?** AI has caught up to human performance on many benchmarks, largely by learning to predict what humans would do. It seems important to know whether this is a ceiling or we should expect them to shoot out ahead of us. Will LLMs be able to write superhumanly-persuasive prose? Will image models be able to see things in photos that we cannot? There is a lot of technical literature on imitation learning in AI but I haven't found much discussion of this point (@bowman2023eight is a notable exception).
 
    <!-- Large language models (LLMs) are trained to predict what humans would say in a given situation (with some qualifications, see below). It would seem to follow that such a model would never be *better* at answering questions than a human.[^objective] -->
    
@@ -388,7 +388,9 @@ ggplot(curves, aes(x, y)) +
 
    The relative success of machine learning over symbolic AI has often been connected to the importance of tacit human knowledge. I have written a lot about the importance of tacit knowledge in human decision-making, especially @cunningham2015hierarchical and this [post](https://tecunningham.github.io/posts/2017-12-10-unconscious-influences.html), see also @cunningham2022implicit. In memory a related phenomenon is the "recognition recall" gap: people are significantly better at recognizing whether they saw a word before than in recalling that word (@macdougall1904recognition).
 
-   In fact I think this is a reasonable description of image synthesis by neural nets: models are first trained to recognize images given captions, and then a new image can be synthesized to match a given caption, e.g. through a diffusion algorithm. Here there's a striking asymmetry: algorithms can approximately match average human performance in recognition, but they far outperform human performance in construction of new artefacts.
+   @stiennon2022learning train models to summarize text, based not on human summaries but on human evaluations of summaries. The model produces summaries that are preferred to human-produced summaries 70% of the time, i.e. superhuman production by training on human feedback. However this isn't quite an apples-to-apples comparison because it's unclear what the goals were of the humans who produced the baseline summaries: the human raters had explicit rubrics, but the human summarizers weren't explicitly incentivized on those rubrics (as far as I can tell).
+
+   In addition I think that "inversion of tacit knowledge" is a reasonable description of image synthesis by neural nets: models are first trained to recognize images given captions, and then a new image can be synthesized to match a given caption, e.g. through a diffusion algorithm. Here there's a striking asymmetry: algorithms can approximately match average human performance in recognition, but they far outperform human performance in construction of new artefacts.
 
 
 #           Evidence on Superhuman Performance
@@ -408,7 +410,11 @@ ggplot(curves, aes(x, y)) +
 
 ##             Timeline
 
-**Summary.** This table shows the year in which a computer (or mechanical device) could match performance with the best human:
+
+::: {.column-margin}
+   ![](images/2023-09-19-09-55-57.png)
+
+   The following table shows the year in which a computer (or mechanical device) could match performance with the best human:
 
    |                                 |           |
    | ------------------------------- | --------- |
@@ -421,15 +427,11 @@ ggplot(curves, aes(x, y)) +
    | difficult math questions (MATH) | 2023      |
    | coding problems (MBPP)          | (not yet) |
 
-
-
-::: {.column-margin}
-   ![](images/2023-09-19-09-55-57.png)
 :::
 
-**Computers have hit the ceiling on most benchmarks.**  @kiela2023plottingprogress documents that most computer benchmarks have become "saturated," i.e. computers get close-to-perfect performance, and that recently the speed of saturation has become quicker (see graph on right). They say identify only a single benchmark where performance is not close to the human baseline, and most of the models they discuss are imitation learning. As a consequence some work has moved to evaluating models against examples specifically on "adversarial" tasks chosen to fool computers (e.g. Dynabench, @kiela2021dynabench).^[@kiela2021dynabench also say that "models that achieve super-human performance on benchmark tasks (according to the narrow criteria used to define human performance) nonetheless fail on simple challenge examples and falter in real-world scenarios."]
+**Computers have hit the ceiling on most benchmarks.**  @kiela2023plottingprogress documents that most computer benchmarks have become "saturated," i.e. computers get close-to-perfect performance, and that recently the speed of saturation has become quicker (see graph on right). They say identify only a single benchmark where performance is not close to the human baseline, and most of the models they discuss are imitation learning. As a consequence some work has moved to evaluating models against "adversarial" benchmarks where the problems are chosen specifically to fool computers (e.g. Dynabench, @kiela2021dynabench).^[@kiela2021dynabench also say that "models that achieve super-human performance on benchmark tasks (according to the narrow criteria used to define human performance) nonetheless fail on simple challenge examples and falter in real-world scenarios."]
    
-**On some benchmarks no computer could ever beat human performance.** On some tasks human performance effectively *is* the ground truth, and so by definition computers could never beat humans. This is roughly true for text comprehension: a sentence has a given meaning if and only if the average person believes it has that meaning. When we observe computer outperformance it is because either (1) there is human variation and the computer output is more consistent; or (2) computers outperform amateur humans but the ground truth is expert humans.
+**On some tasks human performance *defines* success.** On some tasks human performance effectively is the ground truth, and so by definition computers could never beat humans. This is roughly true for text comprehension: a sentence has a given meaning if and only if the average person believes it has that meaning. When we observe computer outperformance on this type of benchmark it is because either (1) there is human variation and the computer output is more consistent; or (2) computers outperform amateur humans but the ground truth is expert humans.
 
 
 ##          Performance by Task
@@ -468,9 +470,9 @@ ggplot(curves, aes(x, y)) +
 
 ***Writing creative blurbs*: computer comparable to average human.** @koivisto2023creativity compared GPT4 to online recruited humans (£2 for a 13 minute task) in giving "creative" uses for everyday items. The prompt was to "come up with original and creative uses for an object", objects were "rope", "box", "pencil" and "candle." The responses were rated by humans for their "creativity" or "originality." GPT-4 responses were perhaps 1SD above the average human score, but the difference was smaller when choosing just the best response for each user.
 
-***Summarizing text*: computer beats average human.** @lee2023rlaif reports that LLM-generated summaries of articles were preferred by humans to human-generated summaries 80% of the time. However the paper doesn't give much detail about the conditions of the humans writing the summaries.[^summarization]
+***Summarizing text*: computer beats average human.** Two recent papers found that LLM-generated summaries, trained with feedback, were preferred by humans to human-generated summaries (@stiennon2022learning using RLHF and @lee2023rlaif using RLHF). However in both cases it wasn't clear to me exactly how the human summarizers were incentivized, and whether they were trying to perform the same task as the LLMs.[^summarization]
 
-   [^summarization]: *"RLAIF summaries are preferred over the reference [human-written] summaries 79% of the time, and RLHF are preferred over the reference summaries 80% of the time."*
+   [^summarization]: @lee2023rlaif say *"RLAIF summaries are preferred over the reference [human-written] summaries 79% of the time, and RLHF are preferred over the reference summaries 80% of the time."*
 
 ***Doing math problems*: computer comparable to expert.** The latest score on the [MATH benchmark](https://paperswithcode.com/sota/math-word-problem-solving-on-math) is 84%, compared to 90% by a three-time IMO gold medalist. The scores have been rising very rapidly so it seems likely that computers will soon surpass humans.^[@hendrycks2021measuring says "We found that a computer science PhD student who does not especially like mathematics attained approximately 40% on MATH, while a three-time IMO gold medalist attained 90%"]
 
@@ -489,7 +491,9 @@ ggplot(curves, aes(x, y)) +
          &\leq  \ut{\min_{i=1,\ldots,m}E[(a(q)-\hat{a}_i(q))^2]}{error of best human}\\
       \text{super-strong:}&& \ut{E[(a(q)-\bar{a}(q))^2]}{error of computer}
          &\leq  \ut{E[(\min_{i=1,\ldots,m}\{a(q)-\hat{a}_i(q)\})^2]}{error of best human by question}\\
-   \end{aligned}$$
+   \end{aligned}
+   $$
+   
    Note that we cannot rank benchmark #2 and #3: the error of the best human could be either higher or lower than the error of the average human.  The most interesting question is whether AI can exhibit "super strong" superhuman performance. It seems clear that imitative learning can easily lead to superhuman performance by all the other 3 definitions through (1) reducing noise, and (2) combining expertise. However super-strong superhuman performance would require either (1) interpolation, (2) superior priors, or (3) using tacit human knowledge.
 
 **Training models with custom-written answers is still imitative learning.** Recent LLMs don't train just on predicting existing text (books, internet, twitter) they also use datasets of instructions and responses generated by paid raters (@ouyang2022training). We can still call this imitation but it's putting relatively more weight on imitating the responses of specific set of people, the paid raters. This fine-tuning significantly improves performance on most benchmarks but I think it also has costs: the model is now predicting output of a specific set of people (i.e. non-expert paid raters), and so conceivably will do less well at incorporating niche information available to an expert.
@@ -550,24 +554,28 @@ ggplot(curves, aes(x, y)) +
       & \txt{text\\written\\by\\human}
       & \txt{LLM\\model\\of\\human\\text}
       & \txt{LLM's\\answers\\to\\new\\questions}
-   }$$
+   }
+   $$
 
 **Questions and answers.** A question is defined by a set of binary attributes ($q_1,\ldots,q_p\in\{-1,1\}$), and the answer is a linear function of those attributes given some unobserved weights $w_1,\ldots,w_p$:
 
    $$\begin{aligned}
       \ut{\bmatrix{a^1 \\ \vdots \\ a^n}}{answers}
          = \ut{\bmatrix{q_1^1 w_1 + \ldots q_p^1w_p \\ \vdots \\ q_1^n w_1 + \ldots q_p^nw_p}}{questions}
-   \end{aligned}$$
+   \end{aligned}
+   $$
 
 
 **Human beliefs.** After observing a set of question and their real-world answers the human will form beliefs about the weights $w_1,\ldots,w_p$. We can explicitly write the human posteriors if we assume their priors are Gaussian and i.i.d. ($\bm{w}\sim N(0,\sigma^2I)$):[^covariance]
-   $$\begin{aligned}
+   
+   \begin{aligned}
       \bm{a}        &= Q\bm{w}
          && \text{(questions \& answers given true weights $\bm{w}$)}\\
       \hat{\bm{w}} &= Q'(QQ')^{-1}\bm{a}
          && \text{(human estimate of weights $\bm{w}$ given $Q$ and $\bm{a}$)}
-   \end{aligned}$$
-      I give a derivation of the human posteriors below.
+   \end{aligned}
+
+   I give a derivation of the human posteriors below.
 
    I will assume that the number of unobserved weights is large relative to the human's experience ($p\gg n$), so the human will gradually learn more about reality as she observes the answer to more questions. She will be able to perfectly answer any question she's seen before, but will never learn the full set of weights.
 
@@ -575,18 +583,19 @@ ggplot(curves, aes(x, y)) +
 
 **Computer beliefs.** Suppose that humans write down some set of questions, $\hat{Q}$, and then record their best guesses at the answers. These could be questions that the humans already know the answer to ($\hat{Q}\subseteq Q$), or they could be new questions that they are guessing the answer to. We then use those questions and answers to train a computer, and the computer likewise assumes a linear model with i.i.d. Gaussian weights. Note that the computer is being trained to predict human responses, not to predict properties of the world. We can write the computer-estimated weights as follows:
 
-   $$\begin{aligned}
+   \begin{aligned}
       \hat{\bm{a}}        &= \hat{Q}\hat{\bm{w}}
          && \text{(human-generated questions \& answers)}\\
       \bar{\bm{w}} &= \hat{Q}'(\hat{Q}\hat{Q}')^{-1}\hat{\bm{a}}
          && \text{(computer estimate of human weights $\hat{\bm{w}}$)}
-   \end{aligned}$$
+   \end{aligned}
 
 **Computer answers.** Finally we can ask the computer a new question, $\tilde{q}$, and observe its answer:
-   $$\begin{aligned}
+   
+   \begin{aligned}
       \tilde{a}        &= \tilde{\bm{q}}'\bar{\bm{w}}
          && \text{(computer answer to a novel question $\tilde{\bm{q}}$)}\\
-   \end{aligned}$$
+   \end{aligned}
 
 
 ##           Model Implications
@@ -603,19 +612,24 @@ ggplot(curves, aes(x, y)) +
    Note that we are fixing the question $\bm{q}$ and taking the expectation over all possible worlds, $\bm{w}$. I think you could probably rewrite this such that, in the world we are in, we should observe worse average performance across a set of questions, but I think you'd need to add some conditions to make sure that the questions are sufficiently independent (e.g. if there was a single weight $w_q$ which dominated all the other weights then the computer might beat the human by accident).
 
 **If there are two humans then the computer will outperform them both.**
-: Suppose there are two humans who each observe answers to different question, $Q_A$ and $Q_B$, and they both write them all down, so $\bar{Q}=(\smallmatrix{Q_A\\Q_B})$ and $\bar{\bm{a}}=(\smallmatrix{Q_A\bm{w}\\Q_B\bm{w}})$. Now the computer clearly has superior information to either human, and so if we let $\hat{\bm{w}}(i)$ represent the weights of human $i\in\{A,B\}$, then for any question $\bm{q}$ we can write:
-      $$E[\ut{(\bm{q}(\bm{w}-\bar{\bm{w}}))^2}{computer error}]\leq
-      E[\ut{(\bm{q}(\bm{a}-\hat{\bm{w}}(i)))^2}{human error}].$$
+: Suppose there are two humans who each observe answers to different question, $Q_A$ and $Q_B$, and they both write them all down, so $\bar{Q}=(\smallmatrix{Q_A\\Q_B})$ and $\bar{\bm{a}}=(\smallmatrix{Q_A\bm{w}\\Q_B\bm{w}})$. Now the computer clearly has superior information to either human, and so if we let $\hat{\bm{w}}(i)$ represent the weights of human $i\in\{A,B\}$, then for any question $\bm{q}$ we can write:   
+   $$ E[\ut{(\bm{q}(\bm{w}-\bar{\bm{w}}))^2}{computer error}]\leq
+      E[\ut{(\bm{q}(\bm{a}-\hat{\bm{w}}(i)))^2}{human error}].
+   $$
 
 **If there are multiple humans then the computer can answer question no human can answer.** Suppose two humans observe the answers to the following questions:
-   $$\begin{aligned}
+   
+   \begin{aligned}
       Q_A &= \bmatrix{1 & 1 & 1 \\ 1 & -1 & 1} \\
       Q_B &= \bmatrix{1 & 1 & 1 \\ 1 & 1 & -1}
-   \end{aligned}$$
+   \end{aligned}
+
    The first human will learn the exact value of $w_2$ ($\hat{w}_2=w_2$), and the second human will learn the exact value of $w_3$, but neither will learn both values, and so neither could predict the answer to this question with perfect confidence:
-   $$\begin{aligned}
+   
+   \begin{aligned}
       \tilde{q} &= \bmatrix{1 & -1 & -1} \\
-   \end{aligned}$$
+   \end{aligned}
+   
    However if they both recorded their observations, so the computer observes $\bar{\bm{a}}=(\smallmatrix{Q_1\bm{w}\\Q_2\bm{w}})$, the computer will be able to infer both $w_2$ and $w_3$, and thus will be able to perfectly answer $\tilde{q}$. We can see this behaviour in LLMs: they sometimes combine a pair of facts or a pair of abilities which no single human has access to, e.g. when an LLM translates between two languages, for which there exists no human speaker of both.
 
 **If humans write outside their expertise then the computer will do worse.** In the cases above we assumed that the two humans recorded only what they directly observed, $\hat{Q}\subseteq Q$. This means the computer essentially had a window directly to the world. However the humans could instead have written down their estimated answers to other questions. Suppose both humans wrote down answers to every possible question, $\bm{q}\in\{-1,1\}^p$, then we could conjecture that the computer would learn the average of the two humans' weights:[^noise]
@@ -625,10 +639,12 @@ ggplot(curves, aes(x, y)) +
    [^noise]: We would have to augment the computer's learning rule to allow for noise in answers - I need to confirm that the weighting will be exactly 1/2.
 
 **If humans have tacit knowledge, then computers can outperform in choosing a question to maximize the answer.** We can model tacit knowledge with two separate sets of human weights:
-   $$\begin{aligned}
+   
+   \begin{aligned}
       \hat{\bm{w}}^T   &= \text{tacit knowledge}\\
       \hat{\bm{w}}^E &= \text{explicit knowledge}\\
-   \end{aligned}$$
+   \end{aligned}
+   
    When the human encounters a new question $\tilde{\bm{q}}$ they will use their tacit knowledge to form an estimate of the answer, $\hat{a}=\tilde{\bm{q}}'\hat{\bm{w}}^T$. But they have limited ability to introspect about that capacity, and so when asked how they make their judgments they can report only $\hat{\bm{w}}^E$. For simplicity assume tacit knowledge is perfect ($\hat{\bm{w}}^T=\bm{w}$), and explicit knowledge is imperfect ($\hat{\bm{w}}^E=\bm{w}$).
 
    The distinction becomes important when we want to create a new question. Here it's useful to interpret $\bm{q}$ not as a question but as an artefact, e.g. a text or image, and interpret $a=\bm{q}'\bm{w}$ as a property of that artefact, e.g. how persuasive is the text, or how attractive is the image. Suppose we want to choose $\bm{q}\in\{-1,1\}^n$ to maximize $a$. If we had perfect access to our beliefs $\bm{w}^T$ this would be simple, however if we have access only to imperfect explicit knowledge $\hat{\bm{w}}^E$, the artefact which maximizes that function will not generally be the one which maximizes $a$. This represents an asymmetry in human cognition: we can recognize certain patterns (whether text is persuasive, whether a picture is pretty), without being able to produce those patterns.
@@ -639,7 +655,7 @@ ggplot(curves, aes(x, y)) +
 
 **Setup.**
 
-   $$\begin{aligned}
+   \begin{aligned}
       Q &= \bmatrix{q_1^1 & \ldots & q^1_p \\ & \ddots \\ q^n_1 & \ldots & q^n_p}
          && \text{(matrix of $n$ questions, each with $p$ parameters)} \\
       \bm{w}'  &= \bmatrix{w_1 \ldots w_p}
@@ -647,28 +663,28 @@ ggplot(curves, aes(x, y)) +
       \bm{a}    &= \bmatrix{a^1 \\ \vdots \\ a^n} 
          = \bmatrix{q_1^1 w_1 + \ldots q_p^1w_p \\ \vdots \\ q_1^n w_1 + \ldots q_p^n w_p}
          && \text{(vector of $n$ observed answers)}\\
-   \end{aligned}$$
+   \end{aligned}
 
 Written more compactly:
-   $$\begin{aligned}
+   \begin{aligned}
       Q      &\in \{-1,1\}^{p\times n}
          && \text{($n$ questions, each has $p$ binary parameters)}\\
       \bm{w} &\sim N(0,\Sigma) 
          && (p\times 1\text{ vector of true parameters of the world)}\\
       \ut{\bm{a}}{$n\times1$}   &= \ut{Q}{$n\times p$}\ut{\bm{w}}{$p\times1$}
          && \text{(answers provided by the world)}\\
-   \end{aligned}$$
+   \end{aligned}
 
 **Human posteriors.** Given you observe a subset of a set of multivariate normal variables there is a simple expression for your posteriors over the remaining unobserved variables (e.g. see  [here](https://cs.nyu.edu/~roweis/notes/gaussid.pdf)).
 
-   $$\begin{aligned}
+   \begin{aligned}
       \hat{\bm{w}} &= E[\bm{w}|Q,\bm{a}]
             && \text{(human beliefs about the world)}\\
          &= \ut{\Sigma Q'}{$Cov(\bm{w},\bm{a})$}
             (\ut{Q\Sigma Q'}{$Var(\bm{a})$})^{-1}
             \bm{a}
          && \text{(from the Schur complement)}
-   \end{aligned}$$
+   \end{aligned}
 
    We can use the same formula to calculate computer beliefs.
 
@@ -677,7 +693,7 @@ Written more compactly:
 These are a few miscellaneous results additional results that helped me with intuition for the working of this model.
 
 **With one observation and two weights.** Suppose $n=1, p=2$, then we have:
-   $$\begin{aligned}
+   \begin{aligned}
       Q  &= \bmatrix{q_1 & q_2} \\
       \bm{a}'  &= \bmatrix{a} \\
       \bm{w}'  &= \bmatrix{w_1 & w_2 } \\
@@ -688,14 +704,13 @@ These are a few miscellaneous results additional results that helped me with int
          &= \bmatrix{ \frac{\sigma_1^2q_1 + \rho q_2}{\sigma_1^2q_1^2 + 2\rho q_1q_2 + \sigma_2^2 q_2^2} \\ 
                   \frac{\rho q_1 + \sigma_2^2 q_2}{\sigma_1^2q_1^2 + 2\rho q_1q_2 + \sigma_2^2 q_2^2}} a
    \end{aligned}
-   $$
 
 We can normalize $q_1=q_2=1$, then we have:
    $$\hat{w}_1 = \frac{\sigma_1^2+\rho}{\sigma_1^2+2\rho+\sigma_2^2}a,$$
    Here we are dividing up responsibility for the answer ($a$) into the contributions of each component, nice and simple.
 
 **With two observations and one weight.** Here we're *over-identified*. 
-   $$\begin{aligned}
+   \begin{aligned}
       Q  &= \bmatrix{q^1 \\ q^2} \\
       \bm{a}  &= \bmatrix{a^1 \\ a^2} \\
       \bm{w}  &= \bmatrix{w } \\
@@ -704,25 +719,24 @@ We can normalize $q_1=q_2=1$, then we have:
       Q\Sigma Q' &= \bmatrix{ \sigma^2 q^1q^1 & \sigma^2q^1q^2 \\ \sigma^2q^1q^2 & \sigma^2q^2q^2}
          && \text{(this matrix doesn't have an inverse)}
    \end{aligned}
-   $$
 
 **With noise.** Suppose we only observe the answers with random noise, then we get this:
-$$\begin{aligned}
-   \ut{\bm{a}}{$m\times1$}   &= \ut{Q}{$m\times n$}\ut{\bm{w}}{$n\times1$}
-      + \ut{\bm{e}}{$n\times 1$} \\
-   \bm{e} &\sim N(\bm{0},s^2I_m) && \text{(i.i.d. noise w variance $s^2$)}\\
-   Cov(\bm{w},\bm{a})   &= \Sigma Q' \\
-   Var(\bm{a}) &= Q\Sigma Q' + s^2I_m \\
-   E[\bm{w}|Q,\bm{q}]   &= \Sigma Q'(Q\Sigma Q' + s^2I_m)^{-1}\bm{a}
-\end{aligned}$$
+   \begin{aligned}
+      \ut{\bm{a}}{$m\times1$}   &= \ut{Q}{$m\times n$}\ut{\bm{w}}{$n\times1$}
+         + \ut{\bm{e}}{$n\times 1$} \\
+      \bm{e} &\sim N(\bm{0},s^2I_m) && \text{(i.i.d. noise w variance $s^2$)}\\
+      Cov(\bm{w},\bm{a})   &= \Sigma Q' \\
+      Var(\bm{a}) &= Q\Sigma Q' + s^2I_m \\
+      E[\bm{w}|Q,\bm{q}]   &= \Sigma Q'(Q\Sigma Q' + s^2I_m)^{-1}\bm{a}
+   \end{aligned}
 
 **Compare to Bayesian linear regression.**  We can compare this result to Bayesian linear regression (e.g. [Wikipedia](https://en.wikipedia.org/wiki/Bayesian_linear_regression)):
-   $$\begin{aligned}
+   \begin{aligned}
       \bar{\beta}  &= \Sigma Q'(Q\Sigma Q' + s^2I_m)^{-1}\bm{a}
          && \text{(our result)} \\
       \tilde{\beta} &= (Q'Q+s^{2}\Sigma^{-1})^{-1}Q'\bm{a}
          && \text{(Bayesian linear regression)}\\
-   \end{aligned}$$
+   \end{aligned}
 
    I *believe* that these can be shown to be equivalent by the [matrix inversion lemma](https://en.wikipedia.org/wiki/Woodbury_matrix_identity), though I haven't confirmed this. There's a [note online](https://digitalcommons.usu.edu/cgi/viewcontent.cgi?article=1212&context=ece_facpub) that appears to show equivalence.
 
