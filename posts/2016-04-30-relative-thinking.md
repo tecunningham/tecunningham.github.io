@@ -21,7 +21,7 @@ format:
             </script>
 ---
 
-![peaches](https://www.dropbox.com/s/35e22lkdea8mcwh/peaches-wall-painting-ercolano.jpg?raw=1)
+   ![&nbsp;](https://www.dropbox.com/s/35e22lkdea8mcwh/peaches-wall-painting-ercolano.jpg?raw=1)
 
 There are a lot of cute thought experiments where the apparent value of something depends on what it's compared to:
 
@@ -69,7 +69,7 @@ I'm going to try to make the following points:
 2. The quality of the evidence we have on almost all of these choice-set effects is very low.
 3. Weber's law is not relevant to diminishing sensitivity in choice. ([Now written up!](./2016/02/25/weber-fechner-law/))
 
-![party](https://www.dropbox.com/s/iuzozpx81eakwyl/mosaique_5th.jpg?raw=1)
+   ![&nbsp;](https://www.dropbox.com/s/iuzozpx81eakwyl/mosaique_5th.jpg?raw=1)
 
 
 ## DIGRESSION: PERCEPTION
@@ -78,8 +78,7 @@ Comparison effects have been studied in perception for a long time, and the same
 
 Here's a classic contrast effect:
 
-   ![](https://www.dropbox.com/s/xq7j30n5j822lji/illusion_contrast.gif?raw=1)
-
+   ![&nbsp;](https://www.dropbox.com/s/xq7j30n5j822lji/illusion_contrast.gif?raw=1)
 
 the same shade of grey looks darker when surrounded by white, than when surrounded by black.
 
@@ -87,7 +86,7 @@ For a long time psychology textbooks gave this as an example of a *hardwired* co
 
 But take a look at this (White's illusion):
 
-   ![](https://www.dropbox.com/s/pgc6oj9hxgrz1uv/illusion_white.png?raw=1)
+   ![&nbsp;](https://www.dropbox.com/s/pgc6oj9hxgrz1uv/illusion_white.png?raw=1)
 
 here the same shade of grey looks *lighter* on the left than on the right, despite the surroundings being relatively *lighter* on the left than on the right. This is exactly the opposite of what's predicted by a hardwired contrast effect in perception.
 
@@ -102,7 +101,7 @@ But that's not the last word. The set of contexts where it goes one way or the o
 
 I would write out lists of comparison-effect examples over and over while working on my PhD. My train of thought would get detached and I'd end up asking myself questions like: What are you doing sitting in this office, a continent away from your friends and an ocean and a continent away from your family? Why do you spend your weekends in this sad building, where people stare at the carpet when they pass each other? What rock did you hit in adolescence that knocked you out of orbit, and sent you here? Are you trying to make your mother proud? Avenge your father? Do these professors you work with look like the kind of man you want to be? Did you stumble into one of those academic fields that people snigger about? Why, when you talk about your work, do the people you admire glaze over, and the people who bore you perk up? Do you think that giving your life to intellectual things makes you better than other people? Do you look down on people who don't think so clearly? What are you doing on a Friday night at the NBER eating a tuna subway sandwich and reading reddit? If it takes you 5 years to get straight one point about relative thinking -- one corner of one shelf in one cupboard -- then how long is it going to take to tidy up the whole house? When an undergraduate corners you, asking earnest & tedious questions, doesn't it remind you of yourself?
 
-![desk](https://www.dropbox.com/s/ne3zsq37srpobul/nber_desk.jpg?raw=1)
+   ![&nbsp;](https://www.dropbox.com/s/ne3zsq37srpobul/nber_desk.jpg?raw=1)
 
 ## ALTERNATIVE HEURISTICS
 
@@ -207,7 +206,7 @@ with some assumption on how $\frac{\partial u}{\partial x_i}$ depends on the dis
   \end{cases}
   $$
 
-![skeleton](https://www.dropbox.com/s/0xvbvy3m836zex8/scheletro_con_askoi.jpg?raw=1)
+   ![&nbsp;](https://www.dropbox.com/s/0xvbvy3m836zex8/scheletro_con_askoi.jpg?raw=1)
 
 ## REFERENCES
 
@@ -215,7 +214,7 @@ KS: Koszegi and Szeidl (2011) (KS)
 
 BRS: Bushong Schwarzstein & Rabin (2014)
 
-MC: Mellers & Cooke ()
+MC: Mellers & Cooke (1994)
 
 C: Cunningham (2013)
 
@@ -232,7 +231,7 @@ David Stove (1991) ["What is Wrong With our Thoughts?"](http://web.maths.unsw.ed
 
 Adelson's "steps" illusion:
 
-![](https://www.dropbox.com/s/yhpp2qyd1x4yzke/AdelsonSteps.png?raw=1)
+   ![&nbsp;](https://www.dropbox.com/s/yhpp2qyd1x4yzke/AdelsonSteps.png?raw=1)
 
 In the first picture the two squares with arrows on them look similar, but in the second picture they seem to have different shades. They are (as you guessed) all the same shade, and in fact the shades are all identical between the first and second image, just arranged a little differently.
 
