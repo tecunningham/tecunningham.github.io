@@ -188,7 +188,7 @@ ga('send', {
   <li><a href="#normal-distribution-of-speeds" id="toc-normal-distribution-of-speeds" class="nav-link" data-scroll-target="#normal-distribution-of-speeds">Normal Distribution of Speeds</a></li>
   <li><a href="#simulations" id="toc-simulations" class="nav-link" data-scroll-target="#simulations">Simulations</a></li>
   <li><a href="#post" id="toc-post" class="nav-link" data-scroll-target="#post">Post</a></li>
-  <li><a href="#r-simulation" id="toc-r-simulation" class="nav-link" data-scroll-target="#r-simulation">R simulation</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
   </ul>
 </nav>
@@ -220,9 +220,9 @@ ga('send', {
 <p><strong>The ratio of slower/faster will not generally be equal to the ratio of passing/passed.</strong> The reason is that your propensity to encounter another runner depends on the difference in speeds: you will rarely pass or be passed by those who run similar speeds to you.</p>
 <p><strong>Some additional implications:</strong></p>
 <ol type="1">
-<li>If the distribution of running-speeds is normal then your ratio of passing/passed exaggerates your position in the distribution of speeds, e.g.&nbsp;if you pass 10X as many people as you’re passed by then there are <em>fewer</em> than 10X as many people who are slower than you relative to people faster than you.</li>
-<li>If the distribution of running-speeds is sufficiently fat-tailed (e.g.&nbsp;<span class="math inline">\(t\)</span>-distribution with df&lt;2), then you get the opposite implication. (I think a sufficient condition for exaggeration is log-concavity of the probability density function, but I’m not certain).</li>
-<li>If the frequency of passing is the same as the frequency of being passed then you must be running exactly the mean speed.</li>
+<li>If the distribution of running-speeds is Gaussian then your ratio of passing/passed exaggerates your position in the distribution of speeds, e.g.&nbsp;if you pass 10X as many people as you’re passed by then there are <em>fewer</em> than 10X as many people who are slower than you relative to people faster than you.</li>
+<li>If the distribution of running-speeds is sufficiently fat-tailed (e.g.&nbsp;<span class="math inline">\(t\)</span>-distribution with df&lt;2), then you get the opposite implication (I think a sufficient condition for exaggeration seems to be log-concavity of the probability density function).</li>
+<li>If your frequency of passing others is the same as the frequency of being passed then you must be running exactly the mean speed.</li>
 </ol>
 <section id="fb-post" class="level1">
 <h1>FB Post</h1>
@@ -255,34 +255,39 @@ ga('send', {
       r=\text{ratio pass/passed}
          &amp;= \frac{s\Phi(s)-\int_{-\infty}^sx\phi(x)dx}
             {\int_{s}^{\infty}x\phi(x)dx-s(1-\Phi(s))} \\
-         &amp;= \frac{E[s-x|x&lt;s]}{E[x-s|x&gt;s]}\frac{P(x&lt;s)}{P(x&gt;s)}
-   \end{aligned}\]</span></p>
-<p>This last condition is the most important. It implies you can figure out your rank among runners <span class="math inline">\(\frac{P(x&lt;s)}{P(x&gt;s)}\)</span> if you know the relative distance in speeds among those who are faster and those who are slower. If the speed differences are identical then the two ratios are the same. For most distributions (e.g.&nbsp;the normal) the conditional expectations will be such that the slower guys are closer than the faster, implying the exaggeration property.</p>
+         &amp;= \utt{\frac{E[s-x|x&lt;s]}{E[x-s|x&gt;s]}}{ratio of speed of faster}{to speed of slower}
+            \utt{\frac{P(x&lt;s)}{P(x&gt;s)}}{ratio of slower}{to faster}
+   \end{aligned}
+   \]</span></p>
+<p>This last condition is the most important. It implies you can figure out your rank among runners <span class="math inline">\(\frac{P(x&lt;s)}{P(x&gt;s)}\)</span> if you know the relative distance in speeds among those who are faster and those who are slower. If the speed differences are identical then the two ratios are the same. For most distributions (e.g.&nbsp;the Normal) the conditional expectations will be such that the slower guys are closer than the faster, implying the exaggeration property.</p>
 <p>Derivation of the final condition: <span class="math display">\[\begin{aligned}
-   E[x|x&lt;s]
-      &amp;= \frac{\int_{-\infty}^s x\phi(x)dx}{\Phi(s)}\\
-      &amp;= s-\frac{p}{\Phi(s)}
-      &amp;&amp; \text{(from above)} \\
-   E[x|x&gt;s]
-      &amp;= \frac{\int_{s}^{\infty} x\phi(x)dx}{1-\Phi(s)}\\
-      &amp;= s+\frac{q}{(1-\Phi(s))}\\
-   \frac{E[x|x&lt;s]-s}{E[x|x&gt;s]-s}
-      &amp;= -\frac{p}{q}\frac{1-\Phi(s)}{\Phi(s)}\\
-   r=\frac{p}{q}
-      &amp;= \frac{E[s-x|x&lt;s]P(x&lt;s)}{E[x-s|x&gt;s]P(x&gt;s)}
-\end{aligned}\]</span></p>
+      E[x|x&lt;s]
+         &amp;= \frac{\int_{-\infty}^s x\phi(x)dx}{\Phi(s)}\\
+         &amp;= s-\frac{p}{\Phi(s)}
+         &amp;&amp; \text{(from above)} \\
+      E[x|x&gt;s]
+         &amp;= \frac{\int_{s}^{\infty} x\phi(x)dx}{1-\Phi(s)}\\
+         &amp;= s+\frac{q}{(1-\Phi(s))}\\
+      \frac{E[x|x&lt;s]-s}{E[x|x&gt;s]-s}
+         &amp;= -\frac{p}{q}\frac{1-\Phi(s)}{\Phi(s)}\\
+      r=\frac{p}{q}
+         &amp;= \frac{E[s-x|x&lt;s]P(x&lt;s)}{E[x-s|x&gt;s]P(x&gt;s)}
+   \end{aligned}
+   \]</span></p>
 <hr>
 <p>Would be nice to reorganize to show the relationship between <span class="math inline">\(r\)</span> and the mean speed, and see whether the unknown could be expressed in SDs.</p>
 <p>Stating the condition again more explicitly: <span class="math display">\[\begin{aligned}
       \ut{\frac{\int_s^\infty (x-s)\phi(x)dx}{\int_{-\infty}^s (s-x)\phi(x)dx}}{ratio pass/passed}
             &amp;= \frac{a}{b}
                \utt{\frac{a}{b}}{asdf}{asfd}
-   \end{aligned}\]</span></p>
+   \end{aligned}
+   \]</span></p>
 <p>Rewriting</p>
 <p><span class="math display">\[\begin{aligned}
    E[x-s|x&gt;s]P(x&gt;s)r &amp;= E[s-x|x&lt;s]P(x&lt;s) \\
    E[x-s|x&gt;s]P(x&gt;s)(r-1) &amp;= \mu \\
-\end{aligned}\]</span></p>
+\end{aligned}
+\]</span></p>
 </section>
 <section id="uniform-distribution-of-speeds" class="level1">
 <h1>Uniform Distribution of Speeds</h1>
@@ -338,13 +343,15 @@ ga('send', {
    \text{share I pass}
       &amp;= \frac{s \Phi(s) + \phi(s)}{s \Phi(s) + \phi(s)+\phi(s) - s + s\Phi(s)} \\
       &amp;= \frac{s \Phi(s) + \phi(s)}{2s\Phi(s) + 2\phi(s) - s}
-\end{aligned}\]</span></p>
+\end{aligned}
+\]</span></p>
 <p><strong>Note on derivatives:</strong></p>
 <p><span class="math display">\[\begin{aligned}
    \phi(x) &amp;= \frac{1}{\sqrt{2\pi}}e^{-x^2/2}
       &amp;&amp; \text{(standard normal)}\\
    \phi'(x) &amp;= -x\phi(x)
-\end{aligned}\]</span></p>
+\end{aligned}
+\]</span></p>
 </section>
 <section id="simulations" class="level1">
 <h1>Simulations</h1>
@@ -378,7 +385,7 @@ ga('send', {
 </div>
 </div>
 <p>Each cell shows first the ratio pass/passed, then the ratio faster/slower <span class="math inline">\(\frac{\Phi(s)}{1-\Phi(s)}\)</span>. We can see that exaggeration holds in each cell.</p>
-<p>Note that t with df=1 is weird because it doesn’t have an expectation, i.e.&nbsp;<span class="math inline">\(x\phi(x)\)</span> never goes to zero, so confusing to think about.</p>
+<p>Note that t with df=1 is weird because it doesn’t have an expectation, i.e.&nbsp;<span class="math inline">\(x\phi(x)\)</span> never goes to zero, so it’s confusing to think about.</p>
 <table class="table">
 <thead>
 <tr class="header">
@@ -433,52 +440,8 @@ ga('send', {
 <p>Suppose you go for a run and you pass 90% of people you see (the other 10% of people pass you). What’s your overall rank in the distribution of speeds?</p>
 <p>We can’t know for sure but if you assume the distribution of speeds is Normal then you’re at approximately 80% (i.e.&nbsp;80% of runners are slower, 20% are faster). The asymmetry is because you’re relatively less likely to pass (or be passed by) people who run at a similar speed as you.</p>
 </section>
-<section id="r-simulation" class="level1">
-<h1>R simulation</h1>
-<pre><code>pass &lt;- function(x) {
-   x * pnorm(x) + 2 * dnorm(x)
-}
-passed &lt;- function(x) {
-   x * pnorm(x) + 2 * dnorm(x) - x
-}
-share &lt;- function(x) {
-   pass(x) / (pass(x) + passed(x))
-}
-
-
-
-x &lt;- 0
-density &lt;- dnorm
-
-pass_sum(0, function(x) {
-   dt(x, df = 1)
-})
-pass_sum(0, function(x) {
-   dt(x, df = 5)
-})
-
-
-passed_sum &lt;- function(x) {
-   integral &lt;- 0
-   for (speed in seq(x, 10, 0.1)) {
-      integral &lt;- integral + dnorm(speed) * (speed - x) * 0.1
-   }
-   return(integral)
-}
-share_sum &lt;- function(x) {
-   pass_sum(x) / (pass_sum(x) + passed_sum(x))
-}
-
-pass(0)
-pass_sum(0)
-
-passed(.5)
-
-share(.5)
-pnorm(.5)
-share_sum(.5)
-</code></pre>
-<p>–&gt; # References</p>
+<section id="references" class="level1">
+<h1>References</h1>
 <p><strong>Mathoverflow <a href="https://mathoverflow.net/questions/40913/you-pass-x-people-and-y-people-pass-you-how-relatively-fast-are-you">“You pass X people and Y people pass you: how relatively fast are you?”</a></strong></p>
 <p>There are a number of sketches of answers but no explicit solutions. A few answers wrongly conclude that the ratio of overtakes/overtakens is equal to the ratio of faster/slower runners.</p>
 <p><strong>Clevenson, Schilling, Watkins and Watkins (2001) “The Average Speed on the Highway”</strong></p>
@@ -499,6 +462,7 @@ share_sum(.5)
 <blockquote class="blockquote">
 <p>“if the same number of slow-growing and fast-growing tumors appear in a year, the screening test detects more slow-growers than fast-growers. If the slow growing tumors are less likely to be fatal than the fast growers, the people whose cancer is detected by screening do better, on average, than the people whose tumors are detected from symptoms</p>
 </blockquote>
+<p><a href="https://www.allendowney.com/blog/2023/10/28/why-are-you-so-slow/">Data that speeds are lognormal</a></p>
 
 
 </section>
