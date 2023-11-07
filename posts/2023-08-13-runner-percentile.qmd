@@ -31,8 +31,8 @@ format:
                      }}};
             </script>
 engine: knitr
-editor:
-   render-on-save: true
+# editor:
+#    render-on-save: true
 ---
 <style>
    h1 {  border-bottom: 4px solid black;}
@@ -56,9 +56,9 @@ editor:
 
    **Some additional implications:**
 
-   1. If the distribution of running-speeds is normal then your ratio of passing/passed exaggerates your position in the distribution of speeds, e.g. if you pass 10X as many people as you're passed by then there are *fewer* than 10X as many people who are slower than you relative to people faster than you.
-   2. If the distribution of running-speeds is sufficiently fat-tailed (e.g. $t$-distribution with df<2), then you get the opposite implication. (I think a sufficient condition for exaggeration is log-concavity of the probability density function, but I'm not certain).
-   3. If the frequency of passing is the same as the frequency of being passed then you must be running exactly the mean speed.
+   1. If the distribution of running-speeds is Gaussian then your ratio of passing/passed exaggerates your position in the distribution of speeds, e.g. if you pass 10X as many people as you're passed by then there are *fewer* than 10X as many people who are slower than you relative to people faster than you.
+   2. If the distribution of running-speeds is sufficiently fat-tailed (e.g. $t$-distribution with df<2), then you get the opposite implication (I think a sufficient condition for exaggeration seems to be log-concavity of the probability density function).
+   3. If your frequency of passing others is the same as the frequency of being passed then you must be running exactly the mean speed.
 
 #           FB Post
 
@@ -96,25 +96,28 @@ However with a t-distribution exaggeration with low degrees of freedom then exag
       r=\text{ratio pass/passed}
          &= \frac{s\Phi(s)-\int_{-\infty}^sx\phi(x)dx}
             {\int_{s}^{\infty}x\phi(x)dx-s(1-\Phi(s))} \\
-         &= \frac{E[s-x|x<s]}{E[x-s|x>s]}\frac{P(x<s)}{P(x>s)}
-   \end{aligned}$$
+         &= \utt{\frac{E[s-x|x<s]}{E[x-s|x>s]}}{ratio of speed of faster}{to speed of slower}
+            \utt{\frac{P(x<s)}{P(x>s)}}{ratio of slower}{to faster}
+   \end{aligned}
+   $$
 
-This last condition is the most important. It implies you can figure out your rank among runners $\frac{P(x<s)}{P(x>s)}$ if you know the relative distance in speeds among those who are faster and those who are slower. If the speed differences are identical then the two ratios are the same. For most distributions (e.g. the normal) the conditional expectations will be such that the slower guys are closer than the faster, implying the exaggeration property.
+This last condition is the most important. It implies you can figure out your rank among runners $\frac{P(x<s)}{P(x>s)}$ if you know the relative distance in speeds among those who are faster and those who are slower. If the speed differences are identical then the two ratios are the same. For most distributions (e.g. the Normal) the conditional expectations will be such that the slower guys are closer than the faster, implying the exaggeration property.
 
 Derivation of the final condition:
-$$\begin{aligned}
-   E[x|x<s]
-      &= \frac{\int_{-\infty}^s x\phi(x)dx}{\Phi(s)}\\
-      &= s-\frac{p}{\Phi(s)}
-      && \text{(from above)} \\
-   E[x|x>s]
-      &= \frac{\int_{s}^{\infty} x\phi(x)dx}{1-\Phi(s)}\\
-      &= s+\frac{q}{(1-\Phi(s))}\\
-   \frac{E[x|x<s]-s}{E[x|x>s]-s}
-      &= -\frac{p}{q}\frac{1-\Phi(s)}{\Phi(s)}\\
-   r=\frac{p}{q}
-      &= \frac{E[s-x|x<s]P(x<s)}{E[x-s|x>s]P(x>s)}
-\end{aligned}$$
+   $$\begin{aligned}
+      E[x|x<s]
+         &= \frac{\int_{-\infty}^s x\phi(x)dx}{\Phi(s)}\\
+         &= s-\frac{p}{\Phi(s)}
+         && \text{(from above)} \\
+      E[x|x>s]
+         &= \frac{\int_{s}^{\infty} x\phi(x)dx}{1-\Phi(s)}\\
+         &= s+\frac{q}{(1-\Phi(s))}\\
+      \frac{E[x|x<s]-s}{E[x|x>s]-s}
+         &= -\frac{p}{q}\frac{1-\Phi(s)}{\Phi(s)}\\
+      r=\frac{p}{q}
+         &= \frac{E[s-x|x<s]P(x<s)}{E[x-s|x>s]P(x>s)}
+   \end{aligned}
+   $$
 
 --------------------------------------------
 
@@ -125,19 +128,21 @@ Stating the condition again more explicitly:
       \ut{\frac{\int_s^\infty (x-s)\phi(x)dx}{\int_{-\infty}^s (s-x)\phi(x)dx}}{ratio pass/passed}
             &= \frac{a}{b}
                \utt{\frac{a}{b}}{asdf}{asfd}
-   \end{aligned}$$
+   \end{aligned}
+   $$
 
 Rewriting
 
 $$\begin{aligned}
    E[x-s|x>s]P(x>s)r &= E[s-x|x<s]P(x<s) \\
    E[x-s|x>s]P(x>s)(r-1) &= \mu \\
-\end{aligned}$$
+\end{aligned}
+$$
 
 
 
 
-#          Uniform Distribution of Speeds
+#           Uniform Distribution of Speeds
 
 With a uniform distribution you can easily see that the number of passings is proportional to the area of the triangle, and so proportional to the *square* of the number of runners below/above your speed.
 
@@ -161,7 +166,7 @@ With a uniform distribution you can easily see that the number of passings is pr
 \end{tikzpicture}
 ```
 
-#          Normal Distribution of Speeds
+#           Normal Distribution of Speeds
 
 ```{tikz}
 #| column: margin
@@ -261,7 +266,8 @@ $$\begin{aligned}
    \text{share I pass}
       &= \frac{s \Phi(s) + \phi(s)}{s \Phi(s) + \phi(s)+\phi(s) - s + s\Phi(s)} \\
       &= \frac{s \Phi(s) + \phi(s)}{2s\Phi(s) + 2\phi(s) - s}
-\end{aligned}$$
+\end{aligned}
+$$
 
 **Note on derivatives:**
 
@@ -270,9 +276,10 @@ $$\begin{aligned}
    \phi(x) &= \frac{1}{\sqrt{2\pi}}e^{-x^2/2}
       && \text{(standard normal)}\\
    \phi'(x) &= -x\phi(x)
-\end{aligned}$$
+\end{aligned}
+$$
 
-#                 Simulations
+#           Simulations
 
 ```{r}
 pass <- function(x) {
@@ -326,7 +333,7 @@ curve(x^0 - 1, -8, 8, add = TRUE)
 
 Each cell shows first the ratio pass/passed, then the ratio faster/slower $\frac{\Phi(s)}{1-\Phi(s)}$. We can see that exaggeration holds in each cell.
 
-Note that t with df=1 is weird because it doesn't have an expectation, i.e. $x\phi(x)$ never goes to zero, so confusing to think about.
+Note that t with df=1 is weird because it doesn't have an expectation, i.e. $x\phi(x)$ never goes to zero, so it's confusing to think about.
 
 | $s$ | gauss    | t(df=1)  | t(df=2)   |
 | --- | -------- | -------- | --------- |
@@ -338,60 +345,13 @@ Note that t with df=1 is weird because it doesn't have an expectation, i.e. $x\p
 | 10  | 95M/4M   | 8.6/14.3 | 58/53     |
 
 
-#                 Post
+#           Post
 
 Suppose you go for a run and you pass 90% of people you see (the other 10% of people pass you). What's your overall rank in the distribution of speeds?
 
 We can't know for sure but if you assume the distribution of speeds is Normal then you're at approximately 80% (i.e. 80% of runners are slower, 20% are faster). The asymmetry is because you're relatively less likely to pass (or be passed by) people who run at a similar speed as you.
 
-#           R simulation
 
-```
-pass <- function(x) {
-   x * pnorm(x) + 2 * dnorm(x)
-}
-passed <- function(x) {
-   x * pnorm(x) + 2 * dnorm(x) - x
-}
-share <- function(x) {
-   pass(x) / (pass(x) + passed(x))
-}
-
-
-
-x <- 0
-density <- dnorm
-
-pass_sum(0, function(x) {
-   dt(x, df = 1)
-})
-pass_sum(0, function(x) {
-   dt(x, df = 5)
-})
-
-
-passed_sum <- function(x) {
-   integral <- 0
-   for (speed in seq(x, 10, 0.1)) {
-      integral <- integral + dnorm(speed) * (speed - x) * 0.1
-   }
-   return(integral)
-}
-share_sum <- function(x) {
-   pass_sum(x) / (pass_sum(x) + passed_sum(x))
-}
-
-pass(0)
-pass_sum(0)
-
-passed(.5)
-
-share(.5)
-pnorm(.5)
-share_sum(.5)
-
-```
- -->
 #           References
 
 **Mathoverflow ["You pass X people and Y people pass you: how relatively fast are you?"](https://mathoverflow.net/questions/40913/you-pass-x-people-and-y-people-pass-you-how-relatively-fast-are-you)**
@@ -418,3 +378,5 @@ Erik:
 Length-time bias:
 
 >  "if the same number of slow-growing and fast-growing tumors appear in a year, the screening test detects more slow-growers than fast-growers. If the slow growing tumors are less likely to be fatal than the fast growers, the people whose cancer is detected by screening do better, on average, than the people whose tumors are detected from symptoms
+
+[Data that speeds are lognormal](https://www.allendowney.com/blog/2023/10/28/why-are-you-so-slow/)

@@ -19,6 +19,11 @@ format:
                         utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3]
                      }}};
             </script>
+            <style>
+            .caption{
+               text-align: center;
+            }
+            </style>
 execute:
   echo: false
   warning: false
@@ -27,15 +32,73 @@ execute:
 engine: knitr
 ---
 <style>
-.caption{
-   text-align: center;
+/* p { text-indent: -2em; margin-left: 2em; } */
+dl { margin-bottom: 0px; }
+dt strong { font-weight: bold; text-decoration: underline; }
+dd { margin-left: 60px; }
+/* dl {
+   display: grid;
+   grid-template-columns: max-content auto;
+   //  grid-auto-flow: row;
 }
+
+dt {
+   grid-column-start: 1;
+   width: 200px;
+}
+
+dd {
+   grid-column-start: 2;
+   padding-bottom: .5em;
+} */
 </style>
 
+$$\xymatrix{a \ar[r]& b}$$
 
-**When is a set of choices consistent with an additively separable utility function?** Suppose you have a preference relation $\succeq$, over a multiattribute space, $X$, does there exist a set of functions $u_i:X\rightarrow\mathbb{R}$, such that for all $x,x'\in X$,
-   $$x\succeq x' \iff \sum_{i=1}^n u_i(x_i) \geq \sum_{i=1}^n u_i(x'_i).$$
+**Currently we assume separability.**
+: We allow utility to depend on the comparison, $\delta$, and we assume the comparison affects each attribute in a separable way:
+      $$u(x,\delta)=f\left( v(x) + \sum_i x_i u_i(\delta)\right).\tag{1}$$
    
+
+**We want to justify this assumption.**
+: It's not super-clear to the reader what role separability plays, & whether we could make a weaker assumption on $u(x,\delta)$. However over the summer I concluded that any weaker assumptions would get weird behaviour.
+
+**TODO: reconstruct reasoning why nonseparable model is unsatisfactory.**
+:  .
+
+**What are the testable implications of separability?** 
+:  1. There's a ton of literature on separability in general.
+   2. The most general condition is non-existence of a set of choices such that each attribute realization appears equally-often on LHS and RHS. Can think of this as cancelling rows in a Motzkin matrix.
+   3. The independence assumption is much more intuitive, but it is only sufficient for binary attributes and $n\leq 4$.
+   4. Our condition is a bit more complicated than simple separability, it's a type of pairwise separability. Graphical intuition: a set of choices on a cube will violate pairwise separability if projecting the choices onto each face gives a cycle on each face.
+
+**Simplest condition: square cycle.**
+: In the $n=2$ case we have:
+   $$u(x_1,x_2,\delta)=v(x_1,x_2)+u_x(x_1,\delta)+u_y(x_2,\delta).$$
+   
+   I *believe* the following inequalities will be inconsistent with this:
+   $$\begin{aligned}
+      u(x_1,y_1,\delta) &\succ u(x_2,y_1,\delta)\\
+      u(x_2,y_2,\delta) &\succ u(x_1,y_2,\delta)\\
+      u(x_1,y_2,\delta') &\succ u(x_1,y_1,\delta')\\
+      u(x_2,y_1,\delta') &\succ u(x_2,y_2,\delta'),
+   \end{aligned}
+   $$
+   
+   proof: (unfinished)
+   $$\begin{aligned}
+      v(x_1,y_1) - v(x_2,y_1) + u_x(x_1,\delta)-u_x(x_2,\delta) &> 0\\
+      v(x_2,y_2) - v(x_1,y_2) + u_x(x_2,\delta)-u_x(x_1,\delta)  &> 0\\
+      u(x_1,y_1,\delta') - u(x_1,y_2,\delta')&> 0\\
+      u(x_2,y_2,\delta') - u(x_2,y_1,\delta')&> 0,
+   \end{aligned}
+   $$
+
+
+   <!-- PUZZLE: xymatrix doesn't render in quarto; MPE is pulling a header for quarto files from somewhere, but I don't know where, I can't find the file on disk. -->
+
+##             more notes
+
 **Summary.**
 
 | observations | granularity | attributes | sufficient for additivity                    |
@@ -72,7 +135,7 @@ engine: knitr
 
 **What we want: a necessary and sufficient condition for a finite space.**
 
-   - @wakker1989additive has a brief discussion on p33, states a cancellation condition.
+   - @wakker1989additive has a brief discussion on p33, states a cancellation condition as necessary and sufficient. If you have a set of inequalities where each realization appears equally often on the left-hand and the right-hand side.
    - He later mentions Dana Scott (1964) who derives something about sets of inequalities but hard to follow.
 
 
@@ -89,8 +152,8 @@ engine: knitr
    \node at (1,0) {$x_1$};\node at (2,0) {$x_2$};\node at (3,0) {$x_3$};
    \node at (0,1) {$y_1$};\node at (0,2) {$y_2$};\node at (0,3) {$y_3$};
    \draw (2,1) -- (1,2)  node[midway,fill=white,sloped] {$\succ$}; 
-   \draw (3,1) -- (1,3) node[midway,fill=white,sloped] {$\succ$}; 
-   \draw[dotted] (3,2) -- (2,3) node[midway,fill=white,sloped] {$\succ$}; 
+   \draw[dotted] (3,1) -- (1,3) node[midway,fill=white,sloped] {$\succ$}; 
+   \draw (3,2) -- (2,3) node[midway,fill=white,sloped] {$\succ$}; 
 \end{tikzpicture}
 ```
 
@@ -103,75 +166,14 @@ engine: knitr
    \end{aligned}
    $$
 
-   @wakker1988algebraic gives the Thomsen condition (for $n=2$) as:
+   [@wakker1988algebraic, p??] gives the Thomsen condition (for $n=2$) as:
       $$(x_1,y_2)\sim (x_2,y_1), (x_2,y_3)\sim (x_3,y_2)
          \implies (x_1,y_3)\sim (x_3,y_1)$$
 
    This is essentially double cancellation but with indifferences.
 
 
-##       Triple cancellation.
-
-```{tikz}
-#| column: margin
-#| fig-width: 2
-#| fig-cap: triple cancellation (Reidmeister)
-\begin{tikzpicture}[color=red, line width=1]
-   \draw[<->,black] (0,5)--(0,0)--(5,0);
-   \draw (2,1) -- (1,2) node[midway,fill=white,sloped] {$\succeq$};
-   \draw (4,1) -- (3,2) node[midway,fill=white,sloped] {$\succeq$};
-   \draw (2,3) -- (1,4) node[midway,fill=white,sloped] {$\succeq$};
-   \draw[dotted] (4,3) -- (3,4) node[midway,fill=white,sloped] {$\succeq$};
-\end{tikzpicture}
-```
-
-
-From @wakker1988algebraic, says it's for $n=2$:
-   $$(x_1,y_2)\succeq (x_2,y_1),
-      (x_3,y_2)\succeq (x_4,y_1),
-      (x_1,y_4)\succeq(x_2,y_3)
-      \implies
-      (x3,y4)\succeq (x4,y3)
-   $$
-   
-   Seems to also be known as "Reidmeister" condition.
-
-
-##       Independence
-
-```{tikz}
-#| column: margin
-#| fig-width: 2
-#| fig-cap: triple cancellation (Reidmeister)
-\begin{tikzpicture}[color=red, line width=1]
-   \draw[<->,black] (0,5)--(0,0)--(5,0);
-   \draw (2,1) -- (1,2) node[midway,fill=white,sloped] {$\succeq$};
-   \draw (4,1) -- (3,2) node[midway,fill=white,sloped] {$\succeq$};
-   \draw (2,3) -- (1,4) node[midway,fill=white,sloped] {$\succeq$};
-   \draw[dotted] (4,3) -- (3,4) node[midway,fill=white,sloped] {$\succeq$};
-\end{tikzpicture}
-```
-
-
-   $$(x_1,y_1,\bm{z}_1)\succeq (x_2,y_2,\bm{z}_1)
-         \iff (x_1,y_1,\bm{z}_2)\succeq (x_2,y_2,\bm{z}_2)
-      $$
-
-   @wakker1988algebraic calls it "coordinate independence" and says "it is known by many names, such as (preferential) independence, additivity, strong (strict) separability, and the sure-thing principle." Wakker writes it like this, which I think is basically equivalent:
-
-   $$(x_1,y_1)\succeq (x_2,y_1) \implies (x_1,y_2)\succeq (x_2,y_2)$$
-
-
-   @karni1998hexagon define independence if *both*:
-   
-   \begin{aligned}
-      (x_1,y_1)\succ (x_2,y_1)
-         \implies (x_1,y_1)\succ (x_2,y_1) \\
-      (x_1,y_1)\succ (x_1,y_2)
-         \implies (x_2,y_1)\succ (x_2,y_2) \\
-   \end{aligned}
-
-
+##             Hexagon condition
 
 ```{tikz}
 #| column: margin
@@ -195,9 +197,7 @@ From @wakker1988algebraic, says it's for $n=2$:
 \end{tikzpicture}
 ```
 
-##             Hexagon condition
-
-@wakker1989additive, this from @karni1998hexagon, for $n=2$:
+@wakker1989additive, this version from @karni1998hexagon, for $n=2$:
 
    $$(x_1,y_2)\sim (x_2,y_1),
       (x_3,y_1)\sim (x_2,y_2)\sim (x_1,y_3)
@@ -228,8 +228,80 @@ From @wakker1988algebraic, says it's for $n=2$:
 \end{tikzpicture}
 ```
 
+Karni and Safra say "the hexagon condition is ... logically weaker than the Thomsen condition and the triple cancelation condition." However their Lemma finds that under independence and restricted solvability ($\simeq$ continuity) then the hexagon condition will hold if and only if the Thomsen condition holds holds.
+
+##       Triple cancellation
+
+```{tikz}
+#| column: margin
+#| fig-width: 2
+#| fig-cap: triple cancellation (Reidmeister)
+\begin{tikzpicture}[color=red, line width=1]
+   \draw[<->,black] (0,5)--(0,0)--(5,0);
+   \draw (2,1) -- (1,2) node[midway,fill=white,sloped] {$\succeq$};
+   \draw (4,1) -- (3,2) node[midway,fill=white,sloped] {$\succeq$};
+   \draw (2,3) -- (1,4) node[midway,fill=white,sloped] {$\succeq$};
+   \draw[dotted] (4,3) -- (3,4) node[midway,fill=white,sloped] {$\succeq$};
+\end{tikzpicture}
+```
+
+
+From @wakker1988algebraic, says it's for $n=2$:
+   $$(x_1,y_2)\succeq (x_2,y_1),
+      (x_3,y_2)\succeq (x_4,y_1),
+      (x_1,y_4)\succeq(x_2,y_3)
+      \implies
+      (x3,y4)\succeq (x4,y3)
+   $$
+   
+   Seems to also be known as "Reidmeister" condition.
+
+##       mth-order cancellation
+
+@wakker1989additive p34 says .
+
+##       Independence
+
+```{tikz}
+#| column: margin
+#| fig-width: 2
+#| fig-cap: triple cancellation (Reidmeister)
+\begin{tikzpicture}[color=red, line width=1]
+   \draw[<->,black] (0,5)--(0,0)--(5,0);
+   \draw (2,1) -- (1,2) node[midway,fill=white,sloped] {$\succeq$};
+   \draw (4,1) -- (3,2) node[midway,fill=white,sloped] {$\succeq$};
+   \draw (2,3) -- (1,4) node[midway,fill=white,sloped] {$\succeq$};
+   \draw[dotted] (4,3) -- (3,4) node[midway,fill=white,sloped] {$\succeq$};
+\end{tikzpicture}
+```
+
+
+   $$(x_1,y_1,\bm{z}_1)\succeq (x_2,y_2,\bm{z}_1)
+         \iff (x_1,y_1,\bm{z}_2)\succeq (x_2,y_2,\bm{z}_2)
+      $$
+
+   @wakker1988algebraic calls it "coordinate independence" and says "it is known by many names, such as (preferential) independence, additivity, strong (strict) separability, and the sure-thing principle." Wakker writes it like this, which I think is basically equivalent:
+
+   $$(x_1,y_1)\succeq (x_2,y_1) \implies (x_1,y_2)\succeq (x_2,y_2)$$
+
+
+   @karni1998hexagon define independence if *both* of these hold:
+   
+   \begin{aligned}
+      (x_1,y_1)\succ (x_2,y_1)
+         \implies (x_1,y_1)\succ (x_2,y_1) \\
+      (x_1,y_1)\succ (x_1,y_2)
+         \implies (x_2,y_1)\succ (x_2,y_2) \\
+   \end{aligned}
+
+
+
 
 #                 References
+
+**Gorman (1968) The structure of utility functions**
+
+   Bradley et al. say "Gorman’s (1968) second theorem [is] that separable [independent] preferences are additive."
 
 **@fishburn1970utility ["Utility Theory for Decision Making"](https://apps.dtic.mil/sti/pdfs/AD0708563.pdf)**
 
@@ -268,14 +340,14 @@ From @wakker1988algebraic, says it's for $n=2$:
 
 **@bradley2005separable "Separable Discrete Preferences"**
 
-   - They note that separability of $\succ$ is not sufficient for additivity of u when the outcome space is discrete. Their counter-example is from Kraft (1959).
-   - They note that when outcomes are binary and additive then utility will be *linear*.
-   - *Nice result! Separability _is_ sufficient for binary dimensions when n<=4.* (however $\delta$ isn't binary, if we're going to consider that as a dimension)
+   - They note that independence of $\succ$ is not sufficient for additivity of u when the outcome space is discrete. Their counter-example is from Kraft (1959). (Note that they use "separable" to mean independent.
+   - *Nice result! independence _is_ sufficient additivity with binary dimensions and n<=4.* (however $\delta$ isn't binary, if we're going to consider that as a dimension)
+   - _Nice: when attributes are binary then additivity implies linearly additivity._ (proposition 5.3).
    - *Mirror property:* If $\succ$ is separable then $x\succ y$ implies $-y\succ -x$.
    - *Fishburn pair:* This refers back to Fishburn (1970), they say condition C can be represented as a pair.
    - They also enumerate all possible preference relations for n=1,2,3,4.
    - They say at the end they think it's only a *coincidence* that separability implies additivity for n<=4 because there aren't many cases. They say something like "they don't expect a general proof". 
-   - _their counter-example:_
+   - _The counter-example for n=5:_ (see drawing at side).
      - (0,1,1,0,1) ≻ (1,0,0,1,0)
      - (1,0,0,0,1) ≻ (0,1,1,0,0)
      - (0,1,1,0,1) ≻ (1,0,0,1,0)
@@ -301,11 +373,13 @@ From @wakker1988algebraic, says it's for $n=2$:
 
    > An additive ordinal utility function is unique up to increasing linear transformation.
 
-**Bergstrom **[Lecture Notes on Separable Preferences](https://econ.ucsb.edu/~tedb/Courses/GraduateTheoryUCSB/separabilitynotes.pdf)**
+**Bergstrom [Lecture Notes on Separable Preferences](https://econ.ucsb.edu/~tedb/Courses/GraduateTheoryUCSB/separabilitynotes.pdf)**: Seems to be all in a continuous setup:
 
-   - Theorem 1: preferences are separable in $i$ ($(x_i,x_{-i})\succeq(x_i',x_{-i})\implies (x_i,x'_{-i})\succeq(x_i',x'_{-i})$) if and only if you can write utility $U(f(x_i),x_{-i})$.
+   - Theorem 1: preferences are separable in $i$:
+      $$(x_i,x_{-i})\succeq(x_i',x_{-i})\implies (x_i,x'_{-i})\succeq(x_i',x'_{-i})$$
+      if and only if you can write utility $U(f(x_i),x_{-i})$.
    - Theorem 2: additively separable if and only if every subset is separable. Doesn't include proof but refers to Debreu (1960), Fishburn (1970), and Krantz et al. (1971).
-   - Theorem 3: with two commodities utility is additive separability if and only if double cancellation holds: u(x1,y1)>=u()
+   - Theorem 3: with two commodities then utility is additive separability if and only if double cancellation holds.
 
 **@chambers2016revealed "Revealed Preference"**
    
@@ -327,4 +401,25 @@ From @wakker1988algebraic, says it's for $n=2$:
 
 
 #                 Bibliography
+
+
+
+#                 Matrix Perspective
+
+**Matrix condition: .** Given some $A$ we know there exists $x$ such that $Ax>0$ if and only if there is no $y>0$ such that $yA=0$. So we can 
+
+
+**Matrix condition and hexagon.**
+
+   $$\begin{aligned}
+      \bmatrix{a & b \\ \hline
+            c & d \\}
+   \end{aligned}
+   $$
+
+   $$\left[\begin{array}{ccc|ccc}
+      x_1 & x_2 & x_3 & y_1 & y_2 & y_3 \\ \hline
+      . & . & . & . & . & . &
+   \end{array}\right]
+   $$
 
