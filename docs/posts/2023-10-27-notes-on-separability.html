@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Tom Cunningham">
-<meta name="dcterms.date" content="2023-10-31">
+<meta name="dcterms.date" content="2023-11-09">
 <meta name="description" content="Tom Cunningham blog">
 
 <title>Notes on Separability of Preferences | Tom Cunningham</title>
@@ -103,6 +103,11 @@ ga('send', {
             utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3]
          }}};
 </script>
+<style>
+.caption{
+   text-align: center;
+}
+</style>
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -178,7 +183,7 @@ ga('send', {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">October 31, 2023</p>
+        <p class="date">November 9, 2023</p>
       </div>
     </div>
     
@@ -199,11 +204,73 @@ ga('send', {
 
 
 <style>
-.caption{
-   text-align: center;
+/* p { text-indent: -2em; margin-left: 2em; } */
+dl { margin-bottom: 0px; }
+dt strong { font-weight: bold; text-decoration: underline; }
+dd { margin-left: 60px; }
+/* dl {
+   display: grid;
+   grid-template-columns: max-content auto;
+   //  grid-auto-flow: row;
 }
+
+dt {
+   grid-column-start: 1;
+   width: 200px;
+}
+
+dd {
+   grid-column-start: 2;
+   padding-bottom: .5em;
+} */
 </style>
-<p><strong>When is a set of choices consistent with an additively separable utility function?</strong> Suppose you have a preference relation <span class="math inline">\(\succeq\)</span>, over a multiattribute space, <span class="math inline">\(X\)</span>, does there exist a set of functions <span class="math inline">\(u_i:X\rightarrow\mathbb{R}\)</span>, such that for all <span class="math inline">\(x,x'\in X\)</span>, <span class="math display">\[x\succeq x' \iff \sum_{i=1}^n u_i(x_i) \geq \sum_{i=1}^n u_i(x'_i).\]</span></p>
+<p><span class="math display">\[\xymatrix{a \ar[r]&amp; b}\]</span></p>
+<dl>
+<dt><strong>Currently we assume separability.</strong></dt>
+<dd>
+We allow utility to depend on the comparison, <span class="math inline">\(\delta\)</span>, and we assume the comparison affects each attribute in a separable way: <span class="math display">\[u(x,\delta)=f\left( v(x) + \sum_i x_i u_i(\delta)\right).\tag{1}\]</span>
+</dd>
+<dt><strong>We want to justify this assumption.</strong></dt>
+<dd>
+It’s not super-clear to the reader what role separability plays, &amp; whether we could make a weaker assumption on <span class="math inline">\(u(x,\delta)\)</span>. However over the summer I concluded that any weaker assumptions would get weird behaviour.
+</dd>
+<dt><strong>TODO: reconstruct reasoning why nonseparable model is unsatisfactory.</strong></dt>
+<dd>
+.
+</dd>
+<dt><strong>What are the testable implications of separability?</strong></dt>
+<dd>
+<ol type="1">
+<li>There’s a ton of literature on separability in general.
+<ol start="2" type="1">
+<li>The most general condition is non-existence of a set of choices such that each attribute realization appears equally-often on LHS and RHS. Can think of this as cancelling rows in a Motzkin matrix.</li>
+<li>The independence assumption is much more intuitive, but it is only sufficient for binary attributes and <span class="math inline">\(n\leq 4\)</span>.</li>
+<li>Our condition is a bit more complicated than simple separability, it’s a type of pairwise separability. Graphical intuition: a set of choices on a cube will violate pairwise separability if projecting the choices onto each face gives a cycle on each face.</li>
+</ol></li>
+</ol>
+</dd>
+<dt><strong>Simplest condition: square cycle.</strong></dt>
+<dd>
+In the <span class="math inline">\(n=2\)</span> case we have: <span class="math display">\[u(x_1,x_2,\delta)=v(x_1,x_2)+u_x(x_1,\delta)+u_y(x_2,\delta).\]</span>
+</dd>
+</dl>
+<p>I <em>believe</em> the following inequalities will be inconsistent with this: <span class="math display">\[\begin{aligned}
+      u(x_1,y_1,\delta) &amp;\succ u(x_2,y_1,\delta)\\
+      u(x_2,y_2,\delta) &amp;\succ u(x_1,y_2,\delta)\\
+      u(x_1,y_2,\delta') &amp;\succ u(x_1,y_1,\delta')\\
+      u(x_2,y_1,\delta') &amp;\succ u(x_2,y_2,\delta'),
+   \end{aligned}
+   \]</span></p>
+<p>proof: (unfinished) <span class="math display">\[\begin{aligned}
+      v(x_1,y_1) - v(x_2,y_1) + u_x(x_1,\delta)-u_x(x_2,\delta) &amp;&gt; 0\\
+      v(x_2,y_2) - v(x_1,y_2) + u_x(x_2,\delta)-u_x(x_1,\delta)  &amp;&gt; 0\\
+      u(x_1,y_1,\delta') - u(x_1,y_2,\delta')&amp;&gt; 0\\
+      u(x_2,y_2,\delta') - u(x_2,y_1,\delta')&amp;&gt; 0,
+   \end{aligned}
+   \]</span></p>
+<p></p>
+<section id="more-notes" class="level2">
+<h2 class="anchored" data-anchor-id="more-notes">more notes</h2>
 <p><strong>Summary.</strong></p>
 <table class="table">
 <colgroup>
@@ -272,6 +339,7 @@ ga('send', {
 <li><span class="citation" data-cites="wakker1989additive">P. P. Wakker (<a href="#ref-wakker1989additive" role="doc-biblioref">1989</a>)</span> has a brief discussion on p33, states a cancellation condition as necessary and sufficient. If you have a set of inequalities where each realization appears equally often on the left-hand and the right-hand side.</li>
 <li>He later mentions Dana Scott (1964) who derives something about sets of inequalities but hard to follow.</li>
 </ul>
+</section>
 <section id="conditions" class="level1 page-columns page-full">
 <h1>Conditions</h1>
 <section id="double-cancellation-thomsen" class="level2 page-columns page-full">
@@ -315,16 +383,17 @@ ga('send', {
       \implies
       (x_2,y_3)\sim (x_3,y_2)
    \]</span></p>
-<div class="cell page-columns page-full" data-hash="2023-10-27-notes-on-separability_cache/html/unnamed-chunk-3_4c6f3df119a2ab84760ac0ff62eebf3e">
+<div class="cell page-columns page-full" data-hash="2023-10-27-notes-on-separability_cache/html/unnamed-chunk-3_21bb4cdadacf5dd18424e69617ceae32">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="2023-10-27-notes-on-separability_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="192"></p>
-<figcaption class="figure-caption">Example ofrom Fishburn (1970) of choices that satisfy independence (because monotonic), but violate hexagon condition, and therefore do not hae a separable representation.These numbers can be generated by <span class="math inline">\(u(x,y)=xy+x^y\)</span>.</figcaption>
+<figcaption class="figure-caption">Example ofrom Fishburn (1970) of choices that satisfy independence (because monotonic), but violate the hexagon condition, and therefore do not have a separable representation. These numbers can be generated by <span class="math inline">\(u(x,y)=xy+x^y\)</span>.</figcaption>
 </figure>
 </div>
 </div></div></div>
+<p>Karni and Safra say “the hexagon condition is … logically weaker than the Thomsen condition and the triple cancelation condition.” However they also give a Lemma that under independence and restricted solvability (continuity) then the hexagon condition will hold if and only if the Thomsen condition holds holds.</p>
 </section>
 <section id="triple-cancellation" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="triple-cancellation">Triple cancellation</h2>
@@ -352,13 +421,13 @@ ga('send', {
 </section>
 <section id="independence" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="independence">Independence</h2>
-<div class="cell page-columns page-full" data-hash="2023-10-27-notes-on-separability_cache/html/unnamed-chunk-5_8492d6766e739b08bca04484019b8cd6">
+<div class="cell page-columns page-full" data-hash="2023-10-27-notes-on-separability_cache/html/unnamed-chunk-5_52d30f23513927880b942616f0e86089">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="2023-10-27-notes-on-separability_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="192"></p>
-<figcaption class="figure-caption">triple cancellation (Reidmeister)</figcaption>
+<figcaption class="figure-caption">independence</figcaption>
 </figure>
 </div>
 </div></div></div>
@@ -378,6 +447,8 @@ ga('send', {
 </section>
 <section id="references" class="level1 page-columns page-full">
 <h1>References</h1>
+<p><strong>Gorman (1968) The structure of utility functions</strong></p>
+<p>Bradley et al.&nbsp;say “Gorman’s (1968) second theorem [is] that separable [independent] preferences are additive.”</p>
 <p><strong><span class="citation" data-cites="fishburn1970utility">Fishburn (<a href="#ref-fishburn1970utility" role="doc-biblioref">1970</a>)</span> <a href="https://apps.dtic.mil/sti/pdfs/AD0708563.pdf">“Utility Theory for Decision Making”</a></strong></p>
 <ul>
 <li>Chapter 4 “Additive Utilities with Finite Sets”. Derives cancellation condition from a Theorem of the Alternative, says it has been used for additive utility conditions by <span class="citation" data-cites="tversky1964additive">Tversky (<a href="#ref-tversky1964additive" role="doc-biblioref">1964</a>)</span>, Scott (1964), and Adams (1965).</li>
@@ -413,14 +484,14 @@ ga('send', {
 </ul>
 <p><strong><span class="citation" data-cites="bradley2005separable">Bradley, Hodge, and Kilgour (<a href="#ref-bradley2005separable" role="doc-biblioref">2005</a>)</span> “Separable Discrete Preferences”</strong></p>
 <ul>
-<li>They note that separability of <span class="math inline">\(\succ\)</span> is not sufficient for additivity of u when the outcome space is discrete. Their counter-example is from Kraft (1959).</li>
-<li>They note that when outcomes are binary and additive then utility will be <em>linear</em>.</li>
-<li><em>Nice result! Separability <em>is</em> sufficient for binary dimensions when n&lt;=4.</em> (however <span class="math inline">\(\delta\)</span> isn’t binary, if we’re going to consider that as a dimension)</li>
+<li>They note that independence of <span class="math inline">\(\succ\)</span> is not sufficient for additivity of u when the outcome space is discrete. Their counter-example is from Kraft (1959). (Note that they use “separable” to mean independent.</li>
+<li><em>Nice result! independence <em>is</em> sufficient additivity with binary dimensions and n&lt;=4.</em> (however <span class="math inline">\(\delta\)</span> isn’t binary, if we’re going to consider that as a dimension)</li>
+<li><em>Nice: when attributes are binary then additivity implies linearly additivity.</em> (proposition 5.3).</li>
 <li><em>Mirror property:</em> If <span class="math inline">\(\succ\)</span> is separable then <span class="math inline">\(x\succ y\)</span> implies <span class="math inline">\(-y\succ -x\)</span>.</li>
 <li><em>Fishburn pair:</em> This refers back to Fishburn (1970), they say condition C can be represented as a pair.</li>
 <li>They also enumerate all possible preference relations for n=1,2,3,4.</li>
 <li>They say at the end they think it’s only a <em>coincidence</em> that separability implies additivity for n&lt;=4 because there aren’t many cases. They say something like “they don’t expect a general proof”.</li>
-<li><em>their counter-example:</em>
+<li><em>The counter-example for n=5:</em> (see drawing at side).
 <ul>
 <li>(0,1,1,0,1) ≻ (1,0,0,1,0)</li>
 <li>(1,0,0,0,1) ≻ (0,1,1,0,0)</li>
@@ -443,11 +514,11 @@ ga('send', {
 <blockquote class="blockquote">
 <p>An additive ordinal utility function is unique up to increasing linear transformation.</p>
 </blockquote>
-<p><strong>Bergstrom </strong><a href="https://econ.ucsb.edu/~tedb/Courses/GraduateTheoryUCSB/separabilitynotes.pdf">Lecture Notes on Separable Preferences</a>**</p>
+<p><strong>Bergstrom <a href="https://econ.ucsb.edu/~tedb/Courses/GraduateTheoryUCSB/separabilitynotes.pdf">Lecture Notes on Separable Preferences</a></strong>: Seems to be all in a continuous setup:</p>
 <ul>
-<li>Theorem 1: preferences are separable in <span class="math inline">\(i\)</span> (<span class="math inline">\((x_i,x_{-i})\succeq(x_i',x_{-i})\implies (x_i,x'_{-i})\succeq(x_i',x'_{-i})\)</span>) if and only if you can write utility <span class="math inline">\(U(f(x_i),x_{-i})\)</span>.</li>
+<li>Theorem 1: preferences are separable in <span class="math inline">\(i\)</span>: <span class="math display">\[(x_i,x_{-i})\succeq(x_i',x_{-i})\implies (x_i,x'_{-i})\succeq(x_i',x'_{-i})\]</span> if and only if you can write utility <span class="math inline">\(U(f(x_i),x_{-i})\)</span>.</li>
 <li>Theorem 2: additively separable if and only if every subset is separable. Doesn’t include proof but refers to Debreu (1960), Fishburn (1970), and Krantz et al.&nbsp;(1971).</li>
-<li>Theorem 3: with two commodities utility is additive separability if and only if double cancellation holds: u(x1,y1)&gt;=u()</li>
+<li>Theorem 3: with two commodities then utility is additive separability if and only if double cancellation holds.</li>
 </ul>
 <p><strong><span class="citation" data-cites="chambers2016revealed">Chambers and Echenique (<a href="#ref-chambers2016revealed" role="doc-biblioref">2016</a>)</span> “Revealed Preference”</strong></p>
 <ul>
@@ -529,7 +600,7 @@ Wakker, Peter P. 1989. <em>Additive Representations of Preferences: A New Founda
 <li id="fn1"><p>Pollison: <em>“Debreu (1960) shows that with only two goods … preferences can be represented by an additively separable utility function if and only if a double cancellation condition holds.”</em><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-2023" class="csl-entry quarto-appendix-citeas" role="listitem">
-<span>“Notes on Separability of Preferences.”</span> 2023. October 31,
+<span>“Notes on Separability of Preferences.”</span> 2023. November 9,
 2023. <a href="https://tecunningham.github.io/posts/2023-10-27-notes-on-separability.html">tecunningham.github.io/posts/2023-10-27-notes-on-separability.html</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
