@@ -1,7 +1,7 @@
 ---
 title: Computer Synthesis
 author: Tom Cunningham
-date: 2022-04-11
+date: 2022-11-11
 date-modified: last-modified
 execute:
   echo: false
@@ -41,6 +41,7 @@ draft: true
     dl { margin-bottom: 0px; }
     dt strong { font-weight: bold; }
     dd { margin-left: 20px; }
+    blockquote { font-style: italic; }
 </style>
 
 <!-- 
@@ -48,59 +49,103 @@ draft: true
    - See also [2023-05-11-generative-ai-economics.qmd](2023-05-11-generative-ai-economics.qmd) 
 -->
 
+This is a long collection of notes on AI, especially regarding AI's ability to synthesize new artefacts (text, images, etc.).
+
+**The key thing: computers finally are perceiving the latent structure of the world.**
+
+<!--      Key: latent structure in the world, human perceive it (noumena), now we have taught computers to perceive it ; means-ends reasoning is separate ; 
+- Human latent structure is only intermediate step , will get deeper one
+- Continuous w history, but most latent structure was figured out in 19th century ; 
+- Unreliable narrator: novelist knows more than their characters, characters couldn't judge themselves ; 
+ -->
+
 #              Summary
 
 **Artificial neural nets (ANNs) work by finding latent hierarchical structures in data.** 
-:  If you feed them images they will learn to represent both low-level features (brightness, contrast, texture, line direction) and more abstract features (objects, light direction, style). If you feed them text they will learn to represent both low-level features (vocabulary, sentences, paragraphs, chapters) and more abstract features (tone, syntactical rules, logical structure, facts).
+:  If you feed them images they will learn to represent both low-level features of those images (brightness, contrast, texture, line direction) and more abstract features (the object depicted, light direction, style). If you feed them text they will learn to represent both low-level features (vocabulary, sentence structure, syntactical rules) and more abstract features (tone, logical structure, facts).
 
-: It is difficult to know how much of the performance of neural nets reflects them learning deep abstract representations vs just doing shallow permutations of the training data, in part because the training sets and the parameter spaces are so large -- in recent models each has around a trillion elements. Whatever the depth of representation it's clear that the outputs are concretely *useful* for a broad range of practical tasks.
+: It is difficult to know how much of the performance of neural nets reflects them learning deep representations vs doing shallow interpolations within the training data. It's hard in part because the training sets and the parameter spaces are both so large -- in recent models each has around a trillion elements. Whatever the depth of representation it's clear that the outputs are concretely *useful* for a broad range of practical tasks.
 
    <!-- 2. **Neural nets' mistakes can be interpreted as reflecting their hierarchical structure.** The mistakes that ANNs make can often be understood as side-effects of their hierarchical structure in representing information. The same is true of humans: many illusions and biases can be understood as side-effects of a hierarchical processing of information. -->
    <!-- examples: upside-down faces; contrast effects; backwards logical problems ; specifically: low-level information not accessible to the high-level, it gets thrown away; but can just.  -->
 
 **It seems plausible that neural nets will find latent structures in the world that humans have not discovered yet.**  
-: They are good at discovering hidden structure. Thus they might find a way of discriminating between male and female chicks based on appearance (something that humans cannot do), they might find a new association between behaviour and disease (comparable to discoveries about thalidomide, asbestos, smoking).
+: They might find patterns that humans haven't discovered yet: a way of discriminating between male and female chicks based on appearance, an association between behaviour and disease (c.f. thalidomide, asbestos, smoking). More broadly a lot of human intellectual history could be thought of as finding latent structures (the cycles of the planets, the laws of physics, the structure of evolution), and computers might discover other deep patterns that we have not yet figured out ourselves.
 
-   <!-- More broadly a lot of human intellectual history could be thought of as finding latent structures (the cycles of the planets, the laws of physics, the structure of evolution), and computers might discover other deep patterns that we have not yet figured out ourselves. -->
 
 **Generative models produce what is *probable* not what is *good*.** 
-: Many generative models (both text and image) can be thought of as generating data that is *probable* conditional on a prompt. Thus they will produce an output that has good qualities (logical, harmonious, perspicacious) just to the degree that the training data has those good qualities, but not because they are trying to achieve those good qualities. The typical training data does have good qualities compared to random data.
+: Many generative models (both text and image) can be thought of as generating data that is *probable* conditional on a prompt. Thus they will produce an output that has good qualities (logical, harmonious, perspicacious) just to the degree that the training data has those good qualities, but not because they are trying to achieve those good qualities.
 
-: If flaws in the training dataset are random (orthogonal to each other) then generative models can do better than the average human. If flaws in the training set are consistently in the same direction then generated content will reproduce the same flaws.
+: If flaws in the training dataset are random (orthogonal to each other) then generative models can do better than the average human. If flaws in the training set are consistently in the same direction then generated content will reproduce the same flaws. An ML model trained on human-drawn pictures will produce pictures in which the shadows are messed up in the same way that humans mess up their shadows, and the ML model will have no sense that this is a mistake. An ML model trained on code from bad programmers will produce bad code and see no problem with it. An ML model trained on human reasoning will make mistakes about the same fraction of the time humans do: if it made fewer mistakes then it would be failing to match the data on which it's trained.
 
-:  The situation is more complicated for models that have been fine-tuned with human feedback, e.g. chatGPT which has been which is trained with an additional layer of explicit rating for quality (RLHF).
+: This observation helps explain two important facts about LLMs:
 
-   <!-- The computer will look like it's exhibiting goal-directed behaviour but it's actually just imitating the goal-directed behaviour of humans and thus will inherit our flaws. -->
-   <!-- An ML model trained on human-drawn pictures will produce pictures in which the shadows are messed up in the same way that humans mess up their shadows, and the ML model will have no sense that this is a mistake. An ML model trained on bad code from bad programmers will produce bad code and see no problem with it. -->
-   <!-- - An ML model trained on human reasoning will make mistakes about the same fraction of the time humans do: if it made fewer mistakes then it would be failing to match the data on which it's trained. -->
+: 1. The quality of the answer depends on the tone of the question, because in the training data those two things are correlated. GPT's training data is primarily from books and the internet, and in that data there's a strong correlation between the care with which a question is asked and the quality of the answer. There's a big industry of people fine-tuning prompts to get better-quality answers from GPT.^[Some [examples](https://twitter.com/peteskomoroch/status/1640758062016507905) of answers depending on question tone.]
+
+: 2. GPT doesn't struggle with *hard* questions, it struggles with *rare* questions. If GPT encounters an easy-but-rare question it'll typically give a bad answer, because it doesn't have any similar .[^ryxcommar] In fact most easy questions are commonly-asked, and most hard questions are rarely-asked, so this limitation of GPT often isn't obvious.
+[^ryxcommar]: [Some nice examples of an LLM stumbling over easy-but-rare questions](https://ryxcommar.com/2023/03/28/chatgpt-as-a-query-engine-on-a-giant-corpus-of-text/).
+
+**It is easy to over-estimate the intelligence of LLMs.**
+
+: A GPT language model is quite explicitly trained to *appear* smart, not trained to *be* smart. If you're simply introduced to a computer that answers arbitrary questions then GPT is extraordinarily impressive. But you have a better sense of GPT's capabilities if you're instead told that it's a computer that predicts what other people would have answered to your question, based on patterns within a trillion words of human-generated text.
+
+      The deeper question is how well GPTs can extrapolate, or in other words to what degree can they construct text using deep representations vs local representations? The fact that a model predicts only the next word doesn't mean it doesn't have a deep representation: a sufficiently precise model of any corner of the universe is a model of the entire universe.[^universe]
+
+      Unfortunately it is challenging to see clearly how well models extrapolate because the training sets of the largest models aren't publicly available, and although there are various tests of understanding, there are [serious questions about contamination](https://towardsdatascience.com/the-decontaminated-evaluation-of-gpt-4-38a27fc45c30), meaning the largest models already have seen those tests and the answers to them. The neatest case of real extrapolation that I know of is GPT's ability to translate concepts from one language to another, which must require a somewhat high level of representation.
+
+   [^universe]: If you can simulate one phenomenon to arbitrary accuracy then you effectively have a model of *every* phenomenon. The orbit of the earth is affected by the sun, by the moon, by Jupiter, by each comet and each grain of space dust. Thus you effectively have a model of every object in the universe if you can tune your model of the trajectory of the earth to be sufficiently precise. In the same way, a sufficiently accurate model of word sequences would be able to predict everything that's said in text, and what's said in text is a projection from what happens in peoples' minds, so the most efficient model (presumably) would be one which modeled peoples' thought processes, which in turn would be best-fit by a model of the world that they're thinking about.
+
+**Generative language models will hit a temporary ceiling at expert-level performance.**
+
+: Generative models have been quickly approaching human performance on a variety of tasks, but becuase they are trained to predict the human answer, rather than predict the *correct* answer, we should expect them to hit a ceiling once they approach the performance of a human expert. However there are a number of important qualifications to this argument, I discuss in a [note on imitation learning](https://tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html).
+
+
+**Computer scientists *accidentally* invented general-purpose AI.**
+
+: GPT language models are general-purpose artificial intelligence in a loose sense: they can give pretty-good answers to a very broad range of ordinary common-sense questions. But this was a *surprise* to the people who built them. They were built to do a specific narrow job, and then to everyone's surprise they were able to do almost any job. Most previous work in AI had been trying to train a computer to perform a task correctly. In the 2010s people started training language models to predict missing words from human-generated text, but this was thought of as "pre-training," before the real training began of predicting the correct answer to a question (GPT stands for "generative pre-trained transformer"). However after 2018 it became clear, I think to almost everyone's surprise, that the pretrained models could perform an extraordinarily wide range of tasks without any explicit training. The key distinction is that they predicted the most-likely human ansewwr to a question, rather than the correct answer.
 
 **Unlike humans, computers can use their representations to synthesize new artefacts.** 
-: Human judgment has a notable asymmetry: we can easily recognize when an object satisfies a given property, but it's much harder to synthesize a new object that satisfies that property. E.g. we can trivially tell whether a joke is funny, or a poem rhymes, or a picture looks realistic, but we find it difficult to create a funny joke, a rhyming poem, or a realistic picture. This is sometimes attributed to the hierarchical and feed-foward nature of how the brain processes information.
+: Human judgment has a notable asymmetry between recognition and production. There are many properties of objects which we can immediately recognize, but we find it extraordinarily much more difficult to synthesize a new object that has that property. E.g. we can judge whether a joke is funny, or a poem rhymes, or a picture looks realistic, but we find it far harder to create a funny joke, a rhyming poem, or a realistic picture. This is sometimes attributed to the hierarchical and feed-foward nature of how the brain processes information.
 
 :  Artificial neural nets do not suffer from the same degree of asymmetry. They can be reversed to synthesize new objects that satisfy a given property. This means computers will be able to do qualitatively different things that humans cannot do, even with the same amount of knowledge.
 
-**Market structure: it seems plausible that OpenAI would become the dominant firm.** 
+<!-- **It seems plausible that market concentration will be high.** 
+   The market for web search seems a good preceent: that market is highly concentrated (Google has 90%+ market share), despite relatively low barriers to entry and low switching costs, presumably because fixed costs are very large, and because there are significant economis of scope (there is not much demand for specialized search engines). However Google only captures a small share of the total surplus generated by search because there is the threat of competition.
 
-:  The costs in AI are mostly fixed costs and so we might expect an equilibrium with a single dominant firm whose pricing power is limited by the threat of entry from other firms.^[John Sutton's model of "endogenous sunk costs" seems a good fit: as the market gets larger the sunk costs increase, and so concentration does not fall.] I think there is an analogy to the economics of web search where Google is the dominant firm, but is threatened by other potential entrants, and for that reason can only capture a small share of the total surplus generated by search. In most industries the first-mover retains their position for a long time so it seems plausible that OpenAI will become the dominant firm in AI. There also seem to be substantial economies of scope across use-cases, thus it doesn't seem likely that there would be different firms specialized for different use-cases (the same is true for search: it has not fractured into different markets).
+   There are a number of considerations in thinking about market concentration:
+   1. Fixed costs are large relative to variable costs for AI. Companies are spending enormous amounts of money on model-training.^[John Sutton's model of "endogenous sunk costs" seems a good fit here: as the market gets larger the sunk costs increase, and so concentration does not fall.]
+   2. There is high substitutability between AIs produced by different firms. There does not yet seem to be significant differentiation, however this will likely change when AIs start using person-specific or company-specific information.
+   3. There are high economies of scope in production. This seems a general fact about AI models: that general-purpose models commonly do better than domain-specific models. 
+   4. There are network effects in AI usage. It's not clear to me whether there will be significant network effects, e.g. whether a person using AI from company A will affect their friends' propensity to use AI from company B. -->
 
-**The effect on entertainment: platforms produce their own synthetic content.**
-:  It seems likely that computers could synthesize adequate-quality entertainment: stories, porn, music, television, video clips, computer games. The typical adult spends perhaps 5 hours/day on passive entertainment and much of it is fairly generic, meaning it could be generated by a computer and it would be similarly entertaining. The firms in the best position to synthesize engaging content would be those with access to large datasets on both content and engagement, e.g. Facebook, YouTube, TikTok, Netflix. Some platforms which are two-sided might become mostly one-sided because once they synthesize their own content they no longer need to attract creators. Platforms which host communication between real-life friends (e.g. FB, IG, WA) would retain a competitive edge because that experience cannot be so easily replaced by synthetic content.
+
+**The effect on entertainment: platforms will produce their own synthetic content.**
+:  It seems likely that computers could synthesize adequate-quality entertainment: stories, music, television, video clips, computer games, porn. The typical adult spends perhaps 5 hours a day on passive entertainment and it seems plausible a large share could be generated by a computer and it would be similarly entertaining. The firms in the best position to synthesize engaging content would be those with access to large datasets on both content and engagement: Meta, YouTube, TikTok, Netflix. Some platforms which are two-sided might become mostly one-sided because once they synthesize their own content they no longer need to attract creators. However platforms which host communication between people who have real-world connections (e.g. Facebook, Instagram, WhatsApp, LinkedIn) would might stay similar.
 
 :  In the short-run we could expect computers to produce content that is similar to existing content, but in the medium-term they might learn what features make it maximally engaging, in a similar way to how headline-writers have learned how to maximize peoples' propensity to click. As a consequence it's hard to anticipate how entertainment might evolve.
 
-:  Peoples' tastes depend heavily on their experience: people like what they're familiar with. As a consequence we might expect that in the short-run synthetic content will resemble what people already consume, but in the long-run it could get very weird through the endogenous evolution of tastes (setting aside any technological advances in the quality of synthetic generation).
+:  In addition peoples' tastes depend heavily on their experience: people like what they're familiar with. As a consequence we might expect that in the medium-run synthetic content will be recognizable to our current tastes, but in the long-run it could get very weird through the endogenous evolution of tastes.
 
-**The effect on art: computers could make art that is better than humans can.**
+**The effect on art: computers will be better than humans in some respects.**
 
-:  I think there's a compelling argument that computers will be able to make art that is *better* than humans can in certain ways. The success of an artwork is often judged by its ability to satisfy multiple different criteria simultaneously. For example a good picture both (a) depicts a specific scene, and (b) is a harmonious arrangement of colours. A good poem both (a) tells a story, (b) rhymes, and (c) scans. A good piece of music has symmetry at many levels. It's easy for humans to recognize when an existing artwork successfully satisfies multiple criteria but hard to create a new artwork that satisfies those criteria. Neural nets allow computers to learn to represent the characteristics of artworks, and so it seems plausible they would become better than humans in being able to find permutations that satisfy them.^[Computers have been better than humans at solving well-specified combinatorial problems for 70 years. The difference with newer generations of algorithms is that they can now learn categories that humans learn unconsciously: harmony, rhythm, representation, semantics, etc.]
+:  The success of an artwork is often judged by its ability to satisfy multiple different criteria simultaneously, for example a good picture both (a) depicts a specific scene, and (b) is a harmonious arrangement of colours. A good poem both (a) tells a story, (b) rhymes, and (c) scans. A good piece of music has symmetry at many levels. It's easy for humans to recognize when an existing artwork successfully satisfies multiple criteria but far harder to create a new artwork that satisfies those criteria. Neural nets allow computers to learn to represent the characteristics of artworks, and so it seems plausible they would become better than humans in being able to find permutations that satisfy them.^[Computers have been better than humans at solving well-specified combinatorial problems for 70 years. The difference with newer generations of algorithms is that they can now learn categories that humans learn unconsciously: harmony, rhythm, representation, semantics, etc.]
 
-**The effect on programming: increased efficiency.**
+**Puzzle: why do LLMs help so much with programming?**
 
-:  GPTs are already being used a lot by programmers, I think their primary uses are (1) saving time looking up knowledge, e.g. the names of function calls; (2) filling in boilerplate details.
+:  LLMs have been very widely adopted by computer programmers, with two obvious uses (1) as a reference, supplying the programmer with the correct function-name; (2) expanding a short prompt into a page of code.
 
-:  It seems paradoxical that a short prompt can be reliably translated into a long piece of code because it implies that the generated code must contain redundant information. If the short prompt was sufficient then why do we need the long specification? Why would programming languages have so much redundancy? Perhaps there is an asymmetry between writing and reading code: it makes sense to write code with the details implicit (it saves time) but read code with the details explicit (it helps with debugging and confirming the logic).[^djikstra] It seems likely that neural-net-augmented code would have a bigger relative effect on the productivity of programmers with relatively less knowledge.
+      The second use seems somewhat paradoxical: if a short prompt can be reliably translated into a long code block it implies that the generated code must contain redundant information. This would seem to imply that our programming languages are poorly designed, if it takes a page of code to specify information that could be conveyed in a sentence of natural language.
 
-   [^djikstra]: Relatedly Djikstra argued that advances in mathematics were accompanied by formalizations of the notation ([On the foolishness of "natural language programming"](https://www.cs.utexas.edu/users/EWD/transcriptions/EWD06xx/EWD667.html), )
+      I think a good explanation is that there is an asymmetry between writing and reading code: we want to write code with the details implicit but read code with the details explicit. From a natural language description we can get an immediate intuitive understanding of a logical operation, which is sufficient for most cases, but our intuition is not perfectly reliable and so it is important to be able to comb through explicit code to confirm all the details, especially when we are debugging.[^djikstra]
+
+   [^djikstra]: Djikstra wrote an essay, [On the foolishness of "natural language programming"](https://www.cs.utexas.edu/users/EWD/transcriptions/EWD06xx/EWD667.html), arguing that progress in mathematics depended critically on inventing  notations which ruled out the ambiguities of intuition and verbal reasoning:
+
+      > "Instead of regarding the obligation to use formal symbols as a burden, we should regard the convenience of using them as a privilege: thanks to them, school children can learn to do what in earlier days only genius could achieve."
+
+      > "formal texts ... are ... an amazingly effective tool for ruling out all sorts of nonsense that, when we use our native tongues, are almost impossible to avoid."
+
+      Djikstra is cheering on the tortoise but I think doesn't give appropriate credit to the hare. In many areas it has taken thousands of years of intellectual work for formal reasoning to catch up with intuition -- e.g. to formalize physics, logic, syntax.
+
 
 **The effect on adversarial problems: help the bad guys more than the good guys.** 
 
@@ -836,6 +881,53 @@ One vague feeling is that, if synthetic content becomes indistinguishable from o
 
 **Synthesis may make people value creative work less.** When technology makes something easier to create then it often loses its value.
 
+
+##              Appendix: We Created AI by Accident [from Facebook]
+
+<!-- I posted this on Facebook: https://www.facebook.com/tom.cunningham.374549/posts/pfbid02wdTFvcBbsJFEU9Fy8B7rdYLrhBbeyNBoUAuAKvLMSS8TUdwVTn4mUNXPDezpRf69l -->
+
+**Two key points:** 
+
+   1) Computer scientists *accidentally* invented general-purpose AI.
+   2) GPT models don't predict the right answer to a question, they predict what other people would answer to that question.
+
+One important surprising fact is that computer scientists *accidentally* invented general-purpose artificial intelligence. GPT models are in a loose sense general-purpose artificial intelligence, meaning that they can give pretty-good answers to a very broad range of ordinary common-sense questions. But this was a *surprise* to the people who built them. They were built to do a specific narrow job, and then to everyone's surprise they were able to do almost any job.
+
+Why do they work so well? The core distinction is between two different ways of answering a question:
+
+1. Trying to give the correct answer to that question.
+
+2. Trying to predict what other people would answer to that question.
+
+Most work on AI had focussed on approach 1, and then GPT accidentally stumbled on approach 2, which has turned out to be far more effective in most practical applications. Approach #2 is exactly what GPT models do: they predict the most-likely next word in a sequence given the prior words, without any direct access to what the words are *about*. The first GPT paper in 2018 simply used next-word prediction as a shortcut to do unsupervised pre-training, which prepared the model before training it on real data, i.e. before training the model to give the correct answer to a question. But over the course of the next few years people realized if you "prompted" GPT models in the right way they'll give you an excellent answer without ever having to directly train on the right and wrong answer.[5]
+
+This distinction between #1 and #2 is useful in interpreting the output of GPT models, especially the following two properties:
+
+1. The quality of the answer depends on the tone of the question, because in the training data those two things are correlated. GPT's training data is primarily from books and the internet, and in that data there's presumably a strong correlation between the care with which a question is asked and the quality of the answer. There's a big industry of people fine-tuning prompts to get better-quality answers from GPT.[1]
+
+2. GPT doesn't struggle with difficult questions, it struggles with *rare* questions. If GPT encounters an easy-but-rare question it'll typically give a bad answer, because it doesn't have any close model [2]. In fact most easy questions are commonly-asked, and most hard questions are rarely-asked, so this limitation of GPT often isn't obvious.
+
+One unfortunate side effect of GPT's approach to answer questions is that it can lead to people over-estimating its intelligence. GPT is quite explicitly trained to *appear* smart, not trained to *be* smart. If you're simply introduced to a computer that answers arbitrary questions then GPT is extraordinarily impressive. But you have a better sense of GPT's capabilities if you're instead told that it's a computer that predicts what other people would have answered to your question, based on 300B words from books and the internet.
+
+The most important point is how well GPTs can extrapolate, or in other words to what degree can it construct text using deep representations vs local representations? The fact that a model predicts only the next word doesn't mean it doesn't have a deep representation: a sufficiently precise model of any corner of the universe is a model of the entire universe.[3]
+
+Unfortunately I believe it's very challenging difficult to figure out exactly how well the models extrapolate because the training sets of the largest models aren't publicly available, and although there are various tests of understanding, there are serious questions about contamination, meaning the largest models already have seen those tests and the answers to them.[5] The neatest clear case of real extrapolation that I know of is GPT's ability to translate concepts from one language to another, which must require a somewhat high level of representation.
+
+(A note on raw LLMs vs tuned LLMs, e.g. comparing GPT vs chatGPT. Tuned LLMs have an additional training stage to make them better specifically at answering questions or having a conversation (because most training data is not in that format) by reweighting, or with human-evaluated reinforcement learning. I believe this fine-tuning hasn't been the primary cause of LLM's progress on benchmarks, rather it's the improvements to the raw models (model size, training size, architecture). Intuitively I think the fine-tuning can be thought of as shifting the LLM's output from predicting the answer that an average person would give towards predicitng the answer which an expert would give.)
+
+##          Notes
+
+[1] Some nice examples of question-answers dependent on question tone: https://twitter.com/peteskomoroch/status/1640758062016507905
+
+[2] Nice examples of easy-but-rare questions here: https://ryxcommar.com/2023/03/28/chatgpt-as-a-query-engine-on-a-giant-corpus-of-text/
+
+[3] If you can simulate one phenomenon to arbitrary accuracy then you effectively have a model of *every* phenomenon. The orbit of the earth is affected by the sun, by the moon, by Jupiter, by each comet and each grain of space dust. Thus you effectively have a model of every object in the universe if you can tune your model of the trajectory of the earth to be sufficiently precise. In the same way, a sufficiently accurate model of word sequences would be able to predict everything that's said in text, and what's said in text is a projection from what happens in peoples' minds, so the most efficient model (presumably) would be one which modeled peoples' thought processes, which in turn would be best-fit by a model of the world that they're thinking about.
+
+[4] Good discussion of the contamination issue here: https://towardsdatascience.com/the-decontaminated-evaluation-of-gpt-4-38a27fc45c30
+
+[5] In 2018 OpenAI published the first paper on a GPT, defined as a "generative pre-trained" model. Their idea was that they could first train a model to predict the next word in a given corpus of text, then take that model and "fine tune" it to solve some task, e.g. for sentiment classification, or question answering. The ability to predict the next word wasn't thought to be of direct use, it was just an indirect way of getting a model to learn some regularities in language. Over the next few years people noticed that the "fine tuning" stage wasn't necessary. If you have a model that can predict the next word in a sequence you can get it to do most anything by just supplying the right words to start it off.The 2018 paper mentions that prompting method can be used for one problem (sentiment classification), and then subsequent GPT papers gradually extended the use of prompting. Note that chatGPT models, in distinction to the raw GPT models, do fine-tune the output for dialog, but the impact of .
+
+
 ##             misc notes
 
 **Amazing that we're doing prompt engineering.** We built these huge models and now interacting with them in an extraordinarily indirect way, we have to coax knowledge out of them as if talking to a baby. / Puncturing a bladder of knowledge.
@@ -952,3 +1044,5 @@ One vague feeling is that, if synthetic content becomes indistinguishable from o
   
    Like when you give humans guns or nuclear weapons, it will change the social equilibrium.
 
+
+**[2015 note on recovering old media](https://www.facebook.com/tom.cunningham.374549/posts/pfbid0FvrNNwAN1iT7Nd6sPuiBwJJt44KWxt6zZxGfYr393xTp38ug3b7mP1avox5DXN3yl).**
