@@ -79,33 +79,37 @@ This note additionally has short appendices on the history of forged documents a
 
 ##          The Prevalence of Policy-Violating Content Will Decline
 
-**All large internet platforms use automated systems to detect policy-violating content.** All major platforms ban or suppress various types of content, e.g. hate speech, incitement to violence, nudity, graphic content. It has not been practical to  have a human review each message because the platforms have a high volume of messages being sent with low latency. However automated systems have always been used: early systems simply checked for the appearance of prohibited words or matched against media databases, later systems used classifiers trained on human labels.
+**All large internet platforms use automated systems to detect policy-violating content.** All major platforms ban or suppress various types of content, e.g. hate speech, incitement to violence, nudity, graphic content. It has not been practical to  have a human review each message because the platforms have a high volume of messages being sent with low latency. However automated systems have always been used: early systems simply checked for the appearance of prohibited words or matched against media databases, later systems used classifiers trained on human labels.<!-- add link to history-automated-moderation -->
 
-**Simple classifiers often have high accuracy.** Toxicity in text can be fairly well detected by identifying highly diagnostic phrases, however they have false positives (@chen2022profanity) and false negatives (@heiner2022toxic) which are easily spotted by humans.
+**Simple classifiers have high offline accuracy.** Simple classifiers which just look for the appearance of specific words are often useful, e.g. certain words and phrases are highly predictive of whether text would be labelled as "toxic" or "hate speech." However this method has many false positives (@chen2022profanity) and false negatives (@heiner2022toxic). Note that these classifiers typically have higher performance offline than online: once they are used in production then users will alter their messages to evade them.
 
-**Simple classifiers are easily evaded.**
-   - @han2020fortifying note that simple models are poor at detecting "veiled toxicity" which they define as including "codewords, novel forms of offense, and subtle and often unintentional manifestations of social bias such as microaggressions and condescension."
-   - @lees2021capturing note that simple models are poor at detecting "covert toxicity" which includes "types of toxicity that may not be immediately obvious. Covertly toxic comments may use obfuscation, code words, suggestive emojis, dark humor, or sarcasm ...[and] [m]icroaggressions." Both papers train models to identify toxicity where the ground truth is human rating of the text alone, without additional information on context or audience.]
+**Simple classifiers are easily evaded.** It is typically easy to alter a violating message such that humans still think it is violating, but the classifier does not.
+
    - @grondahl2018need note that hate speech detectors can easily be fooled if you "insert typos, change word boundaries or add innocuous words."
+   - @han2020fortifying note that simple models are poor at detecting "veiled toxicity" which they define as including "codewords, novel forms of offense, and subtle and often unintentional manifestations of social bias such as microaggressions and condescension."
+   - @lees2021capturing note that simple models are poor at detecting "covert toxicity" which includes "types of toxicity that may not be immediately obvious. Covertly toxic comments may use obfuscation, code words, suggestive emojis, dark humor, or sarcasm ...[and] [m]icroaggressions." Both papers train models to identify toxicity where the ground truth is human rating of the text alone, without additional information on context or audience.
 
-**Recent classifiers have performance that meets or exceeds human levels.**  Google's 2022 generation of text moderation models, which use transformer-based LLMs, are able to correctly classify many difficult cases (@whitlocklees2022perspective).[^employment] OpenAI say "Labeling quality by GPT-4 is similar to human moderators with light training ... [h]owever, both are still overperformed by experienced, well-trained human moderators." (@weng2023gpt4moderation).^[Arnaud Norman [writes about](https://bulkninja.notion.site/Email-Obfuscation-Rendered-almost-Ineffective-Against-ChatGPT-728fba1b948d42c6b8dfa73cb64984e4) how algorithms to scrape email addresses are often easy to evade, by adding special characters or other obfuscations, but that ChatGPT can straight-forwardly decode most such obfuscations.]
+**LLM-based classifiers are approaching human levels of performance.** In August 2023 OpenAI described using GPT-4 as a content labeler (@weng2023gpt4moderation) and said "[l]abeling quality by GPT-4 is similar to human moderators with light training ... [h]owever, both are still overperformed by experienced, well-trained human moderators."
 
-**Prevalence of policy-violating content has declined dramatically.** I think much of this decline can be attributed to improvements in the quality of classifiers. Meta reports that the prevalence of nudity, bullying, hate speech, and graphic content each declined by a factor of between 2 and 5 between 2017 and 2022, and that the share of identified-violating content that was first identified by an ML model ("proactive rate") is approaching 100% for most categories.[^metaDecline]
+**LLM-based classifiers handle adversarial cases well.** Google's 2022 generation of text moderation models, which use transformer-based LLMs, are able to correctly classify many types of adversarial messages which are designed to evade simpler classifiers. @whitlocklees2022perspective say their classifier performs well against "code-switching, covert toxicity, emoji-based hate, human-readable obfuscation, [and] distribution shift."^[Arnaud Norman [writes about](https://bulkninja.notion.site/Email-Obfuscation-Rendered-almost-Ineffective-Against-ChatGPT-728fba1b948d42c6b8dfa73cb64984e4) how algorithms to scrape email addresses are often easy to evade, by adding special characters or other obfuscations, but that ChatGPT can straight-forwardly decode most such obfuscations.]
+
+**Better classifiers will lower prevalence even if available to adversaries.** Suppose an adversarial content-producer had access to the classifier used by the platform. They could keep testing different variants of a violating post until they found a variant that was not identified as violating, i.e. a false negative. However as the platform's model becomes more accurate there will be fewer possible false positives, and so the task becomes relatively more time-consuming for the adversary, and so we should expect prevalence to decline.
+
+**The prevalence of policy-violating content has declined dramatically.** Meta reports that the prevalence of nudity, bullying, hate speech, and graphic content each declined by a factor of between 2 and 5 between 2017 and 2022, and that the share of identified-violating content that was first identified by an ML model ("proactive rate") is approaching 100% for most categories. I think much of this decline can be attributed to improvements in the quality of classifiers.[^metaDecline] Mark Zuckerberg has been making predictions for a long time that human raters could be substituted with AI. Although he was over-optimistic about the pace, I think he has been largely correct, e.g. in late 2018 he [said](https://www.facebook.com/notes/751449002072082/) "through the end of 2019, we expect to have trained our systems to proactively detect the vast majority of problematic content."
 
 ![](./2023-01-31-social-media-suspensions-data_files/figure-html/unnamed-chunk-28-1.png)
 
-**Content producers have limited ability to use AI models to obsfucate.** If a content-producer had access to the classifier used by the platform then they could keep testing different variants of a violating post until they found a variant that was not identified as violating, i.e. finding a false negative. However as the platform's model becomes more accurate the task becomes more difficult for the adversary, as false positives will be rarer, thus the balance of power shifts in favor of the platform. Below I give a more formal argument for this ("Venn diagram model").
 
-**Employment of human moderators will likely decline.** As computer accuracy improves fewer messages will need to be escalated for human review. Additionally fewer humans will be needed to label training data: @whitlocklees2022perspective and @weng2023gpt4moderation describe LLM classifiers that perform well simply by being given the text of the policy, optionally with a small set of positive and negative examples (i.e. "zero shot" or "few shot").
+**Employment of human moderators will likely decline.** As computer accuracy improves fewer messages will need to be escalated for human review, additionally fewer humans will be needed to label training data.
 
-**This prediction also applies to government censorship.** Governments which use simple word-matching to detect anti-government language can be circumvented by using indirect language. Better AI will allow governments to classify every post with reliability as high as if they had a human read each one, and so indirect language or obfuscation will no longer be an effective workaround for censorship.
+**This prediction also applies to government monitoring and censorship.** Many governments use some kind of automated scanning tools to intercept or censor messages based on their content, e.g. the US's NSA and Chinese government. Better AI will allow these agencies to classify every single post with reliability as high as if they had a human read each one, thus we should expect obfuscation will no longer be an effective workaround for censorship.
 
-**This prediction would fail if there were substantial limits on the performance of AI.** If there were ways of obfuscating content so that a human would recognize it but no AI could recognize it then . It seems plausible that AI systems will remain less flexible than humans in understanding for a long time but, because they are trained on enormous quantities of data, if they miss a subclass of violating content in the short-run they would be able to quickly learn to identify it from fresh human-labeled data.
+**This prediction would fail if there were hard limits on the performance of AI.** It's conceivable that there are ways of obfuscating content that will remain difficult for an AI to identify for a long time. However even in this case I expect the windows to be relatively small. Suppose humans invent new types of obfuscation, e.g. misspelling words in a particular way, then an AI which is continually trained on human-labeled samples could likely learn the pattern and thus force humans to adopt a new pattern.
 
 **Whether prevalence will decline all the way to zero depends on the definition of prevalence used.** An AI model can never perfectly predict human-rater evaluation because humans are themselves noisy: there is both between-rater variation and within-rater variation in labelling for any given piece of content. Thus whenever the ground truth is human judgment then even an infallible classifier could not be used to drive prevalence all the way to zero.
 
 
-[^metaDecline]: It is important to remember that the "proactive rate" is the share of *detected* content that is detected by AI, the share of *violating* content that is detected by AI will certainly be significantly lower but is not generally reported. See Meta's [Community Standards report](https://transparency.fb.com/data/community-standards-enforcement/) and [my visualization of this data](http://tecunningham.github.io/2023-01-31-social-media-suspensions-data.html#meta-facebook-instagram). It's also worth noting that Mark Zuckerberg made a series of predictions that human raters could be substituted with AI, which I think has turned out to be largely correct despite widespread skepticism (including by me), e.g. in late 2018 he [said](https://www.facebook.com/notes/751449002072082/) "through the end of 2019, we expect to have trained our systems to proactively detect the vast majority of problematic content."
+[^metaDecline]: It is important to remember that the "proactive rate" is the share of *detected* content that is detected by AI, the share of *violating* content that is detected by AI will certainly be significantly lower but is not generally reported. See Meta's [Community Standards report](https://transparency.fb.com/data/community-standards-enforcement/) and [my visualization of this data](http://tecunningham.github.io/2023-01-31-social-media-suspensions-data.html#meta-facebook-instagram).
 
 
 <!-- examples of obfuscation:
@@ -117,7 +121,7 @@ This note additionally has short appendices on the history of forged documents a
 
 ##          The Prevalence of *Context-Specific* Violations Will Increase
 
-**Some messages have a violating significance only to their intended audience.** We can define a message as violating in one of two ways: (1) has a violating significance to the average person (average citizen or average user), or (2) has a violating significance to the intended audience of that message.[^definition]
+**Some messages have a violating significance only to their intended audience.** We can define a message as violating in one of two ways: (1) has a violating significance to the average person (average citizen or average user), or (2) has a violating significance to the intended audience of that message. I will define a "contextual violation" as a message that is violating to its intended audience but not to the average person. This is stronger than just having a double meaning where both meanings are clear to all audiences. I am specifically talking about messages which are interpreted in distinct ways by different audiences. Of course contextual violations are often unstable, and the average person will often learn to detect the subtext.
 
 **Many messages use contextual violations.**[^selective]
 
@@ -127,7 +131,7 @@ This note additionally has short appendices on the history of forged documents a
 - Using emojis of eggplants and peaches with sexual connotations.
 - Using photos without explicit nudity but which can be read as pornographic.
 
-**Improved detection of violations is likely to cause substitution towards contextual violations.** As AI improves the ability to detect violations it seems likely that there will be at least some substitution towards context-specific violations, however as long as there is some cost then we would expect a less than one-for-one substitution.
+**Improved detection of violations is likely to cause substitution towards contextual violations.** As AI improves the ability to detect violations it seems likely that there will be at least some substitution towards context-specific violations, however as long as there is some cost to using a contextual-violation then we would expect a less than one-for-one substitution.
 
 **Platforms could detect contextual violations if they wanted to.** When doing human evaluation then platforms could either (1) provide human raters with detail about the message's context and audience, or (2) assign human raters to messages based on their experience with that community.^[Platforms already have some policies that include context, e.g. Facebook's ["Bullying and Harassment policy"](https://transparency.fb.com/policies/community-standards/bullying-harassment/)  bans "repeatedly contacting someone in a manner that is unwanted or sexually harassing."] Likewise AI models could be trained to include rich representation of the context. An additional advantage of adding context is that it can identify and exempt posts that violate the letter but not the spirit of the policy.
 
@@ -141,7 +145,7 @@ This note additionally has short appendices on the history of forged documents a
 
 [^HongKong]: https://www.axios.com/2022/11/28/china-protests-blank-paper-covid 
 
-[^selective]: A related phenomena is people using selective truths to give an impression that is false. E.g. it is common for anti-vaccination groups to refrain from posting provably false claims and instead post only those true claims which reflect badly on vaccines. People with a bias against some ethnic group likewise often refrain from posting provably false claims but post only those true claims that reflect badly on the hated group. Because the pool of true claims is enormous it is easy to collect a large set of true claims that collectively give a false impression.
+[^selective]: A related phenomena is people using selective truths to give an impression that is false. E.g. it is common for anti-vaccination groups to post mainly true claims, but only those claims which reflect badly on vaccines. People with a bias against some ethnic group likewise often refrain from posting provably false claims but post only those true claims that reflect badly on the disliked group. Because the pool of claims that are true is enormous it is easy to collect a large set of true claims that collectively give a false impression.
 
 <!-- could have better terminology: "context-specific violation" sounds like a subset of "violation", but I'm not using it that way -->
 
@@ -150,17 +154,19 @@ This note additionally has short appendices on the history of forged documents a
 
 ##          The Prevalence of Variants of Known-Violating Content Will Decline
 
-**Platforms check content against databases of known-violating content.** In addition to running classifiers on content, platforms also check content against databases of known-violating content. The databases are often shared across platforms ("signal sharing"), e.g. databases of illegal sexual media (PhotoDNA), IP-protected content (Content ID), or terrorist recruitment content (GIFCT).[^SignalSharing] As a consequence sophisticated uploaders will obfuscate their content, e.g. by adding noise, and platforms expand their matching algorithms using fuzzy matching.
+**Platforms typically check content against databases of known-violating content.** In addition to running classifiers on content platforms also check content against databases of known-violating content. The databases are often shared across platforms, known as "signal sharing", e.g. databases of illegal sexual media (PhotoDNA), IP-protected content (Content ID), or terrorist recruitment content (GIFCT).[^SignalSharing] As a consequence sophisticated uploaders often obfuscate their content, e.g. by adding noise, and platforms expand their matching algorithms using fuzzy matching.
 
-[^SignalSharing]: other "signal sharing" programs: NCMEC, StopNCII, ThreatExchange.
+[^SignalSharing]: Other signal sharing programs: National Center for Missing & Exploited Children Child Sexual Abuse Material (NCMEC-CSAM), Non-consensual Intimiate Imagery (StopNCII), ThreatExchange.
 
-**Improvements to AI will help platforms relatively more.** As I argue in the model below: as AI recognition approaches a human level it will be difficult to upload a recognizable variant of a known piece of violating content without the platform automatically labelling it as such.
+**Improvements to AI will help platforms relatively more.** Here the ground truth is whether a piece of content is a variation of another piece of content.
+
+ <!-- AI recognition approaches a human level it will be difficult to upload a recognizable variant of a known piece of violating content without the platform automatically labelling it as such. -->
 
 ##          Platforms Will Not Be Able to Identify Bots from Their Behavior
 
-**Most online platforms struggle with automated users who are disruptive in a variety of ways.** One way of protecting against bots is with behavioral tests, e.g. a CAPTCHA test asking users an image-recognition task[^captcha], or by using on-platform behavior to detect whether a user is human. However improvements in AI mean that computers have human-level performance on image-recognition tasks, and can learn to imitate human-style behavior patterns, thus it seems likely these behavioral tests will become ineffective against sophisticated actors. @searles2023empirical finds that most contemporary types of CAPTCHAs can be solved by bots with higher than human accuracy (p10).[^fingerprinting]
+**Most online platforms struggle with automated users (bots) who are disruptive in a variety of ways.** One way of protecting against bots is with behavioral tests, e.g. a CAPTCHA test asking users an image-recognition task[^captcha], or by using on-platform behavior to detect whether a user is human. However improvements in AI mean that computers have human-level performance on image-recognition tasks, and can learn to imitate human-style behavior patterns, thus it seems likely these behavioral tests will become ineffective against sophisticated actors. @searles2023empirical finds that most contemporary CAPTCHAs can be solved by computers with higher-than-human accuracy (p10).[^fingerprinting]
 
-**This does not imply that the prevalence of bots will increase.** All platforms need some defense against bots so they will have to rely relatively more on other forms of authentication, such as monetary payment, offline identity credentials (government ID, credit card number), hard-to-fake metadata (unique IP address, device ID), or 3rd-party identity provider (Sign in with Google, OpenID).^[The 3rd-party identity providers will themselves have to rely on some other ground truth when accepting signups.] Thus the barriers to signing up for a service, and especially posting on it, will become higher.
+**This does not imply that the prevalence of bots will increase.** All platforms need some defense against bots so they will have to rely relatively more on other forms of authentication, such as monetary payment, offline identity credentials (government ID, credit card number), hard-to-fake metadata (unique IP address, device ID), or 3rd-party identity provider (Sign in with Google, OpenID).^[The 3rd-party identity providers will themselves have to rely on some other ground truth when accepting signups.] Thus the barriers to signing up for a service, and especially posting on it, will become higher, but the effect on equilibrium prevalence of bots is ambiguous.
 
 [^captcha]: CAPTCHA stands for Completely Automated Public Turing test to tell Computers and Humans Apart.
 
@@ -168,21 +174,19 @@ This note additionally has short appendices on the history of forged documents a
 
 ##          Platforms Will Find It Hard to Discriminate between Real and Fake Media
 
-**In some cases the ground truth depends on properties outside the content.**  For example:
+**In some cases the ground truth depends on properties outside the content.** I will refer to these properties as "external" in contrast to "internal" properties which depend only on the content such as whether a picture depicts nudity. I discuss the distinction at greater length below. Some examples of external properties:
 
-   - Whether some media (audio, photo, video) has been manipulated or synthesized.
-   - Whether text was written by a human or a computer.
-   - Whether text was written by a specific person.
+   - Whether a piece of media was generated in the traditional way (photographing a scene, recording a sound), or has been manipulated or synthesized.
+   - Whether text was written by a human.
+   - Whether text was written by a specific person, e.g. by Shakespeare.
 
-I will refer to these properties as "external" in contrast to "internal" properties which depend only on the content, such as whether a picture depicts nudity.
+**Advances in AI will help with both forgery-detection and forgery-creation.** It is clear that a better statistical model of genuine artefacts will help detect forgeries but it will also help create convincing forgeries.
 
-**Advances in AI help with both forgery-detection and forgery-creation.** It is clear that a better statistical model of genuine artefacts will help detect forgeries, but also help create convincing forgeries.
+**Determined forgers will be able to fool humans.** It seems likely that the latter effect will dominate: it will gradually become possible to camouflage computer-generated content such that neither a computer nor a human could tell them apart. If the content-producer has access to the platforms' model then they can keep perturbing their fake media until it is labelled as non-fake.
 
-**Determined forgers will be able to .** It seems likely that the latter effect will dominate: it will gradually become possible to camouflage computer-generated content such that neither a computer nor a human could tell them apart. If the content-producer has access to the platforms' model then they can keep perturbing their fake media until it is labelled as non-fake.
+**We cannot reliably discriminate between real and AI-generated media.** As of late 2023, programs to detect synthetically generated media have relatively poor accuracy: OpenAI announced a model to detect LLM-created text in January 2023 but then [shut it down](https://decrypt.co/149826/openai-quietly-shutters-its-ai-detection-tool) in July because of poor performance. In June 2023 the NY Times compared a variety of tools to detect computer-generated images and found that with minimal effort they could all be [reliably fooled](https://www.nytimes.com/interactive/2023/06/28/technology/ai-detection-midjourney-stable-diffusion-dalle.html).
 
-**We cannot reliably discriminate between real and AI-generated media.** As of late 2023, programs to detect synthetically generated media have relatively poor accuracy: OpenAI announced a model to detect LLM-created text in January 2023 [shut it down](https://decrypt.co/149826/openai-quietly-shutters-its-ai-detection-tool) in July because of poor performance. In June 2023 the NY Times compared a variety of tools to detect computer-generated images and found that with minimal effort they could all be [reliably fooled](https://www.nytimes.com/interactive/2023/06/28/technology/ai-detection-midjourney-stable-diffusion-dalle.html).
-
-**The prevalence of synthetic media will increase on unmoderated platforms.** The major platforms have strong reason to reduce the spread of fake media[^ranking], and can control it with indirect means, e.g. Meta and YouTube dramatically decreased the prevalence of misinformation over 2016-2020 not primarily through better detection of whether a claim is false, but by a host of indirect measures. Thus I do not expect overall prevalence of fake factual media to substantially increase on the major platforms.
+**The prevalence of synthetic media will increase on unmoderated platforms.** The major platforms have incentives to limit the prevalence of fake media,[^ranking] and can control the prevalence even without reliable classifiers. E.g. Meta and YouTube dramatically decreased the prevalence of misinformation over 2016-2020 not primarily through real-time detection of whether a given claim is false, but by (1) adjusting ranking to penalize publishers who tend to circulate false claims; (2) punishing publishers who circulate proven-false claims. Thus I do not expect overall prevalence of fake factual media to substantially increase on the major platforms.
 
    [^ranking]: The goals of platforms in content moderation are discussed in my note on ranking, @cunningham2023ranking. 
    
@@ -192,7 +196,7 @@ I will refer to these properties as "external" in contrast to "internal" propert
 
 **It has always been easy to create misleading documents.**It is not difficult to forge or alter documents, or edit video in a misleading way. As a consequence mainstream media organizations typically do not publish leaked materials unless they have either a chain or provenance for the leaks or independent confirmation of their content. 
 
-**Influential forgeries of documents have been historically rare.** Over the past 25 years I estimate perhaps 10% of all influential leaks were based on forged materials.[^twoCases][^videoLeaks]
+**Influential forgeries of documents have been historically rare.** In an Appendix below I compile a simple dataset of politically influential document leaks in the US over the past 25 years and estimate around 10% of them were based on forged materials.[^twoCases][^videoLeaks]
 
 **The quantity of false claims circulating on the internet is not primarily constrained by the quality of their content.**A great deal of false claims already circulate on the internet, especially in loosely moderated parts: e.g. by email, on Telegram, 4chan, Truth Social, WhatsApp, Twitter. It's not clear that the quality of the faked media is an important constraint on the volume that circulates. It's not uncommon to find a clip of an interview with a politician edited to make it appear that they are admitting to a crime or secret agenda.[^Snopes] If people already take what they see at face value then adding deepfakes seems unlikely to change their opinions substantially. Alternatively if people are skeptical and look for corroborating sources then, again, deepfakes would be unpersuasive. It seems that deepfakes would only be influential if there are a significant population who are exposed to many lies but are not persuaded because the documentary evidence is not sufficiently strong.
 
@@ -240,14 +244,14 @@ Much of our common-sense understanding of media will be violated when we routine
 
 #           Appendix: Historical Observations on Forgeries
 
-**Influential leaks of political documents since 1997:**
+**Influential leaks of US political documents since 1997:**
  
 |                                                     |      |                   |                                                |
 | --------------------------------------------------- | ---- | ----------------- | ---------------------------------------------- |
 | Tripp Tapes                                         | 1997 | audio             | Linda Tripp to Kenneth Starr                   |
 | [**FORGERY**] Iraq letters to Niger ("yellowcake")  | 2002 | documents         | Unknown to Italian intelligence to CIA         |
 | [**FORGERY**] Bush military transcripts ("Killian") | 2004 | fax of 1970s memo | Unknown to retired colonel to Dan Rather / CBS |
-| Abu Ghraib photos                                   | 2004 | photos            | Unkown to CBS                                 |
+| Abu Ghraib photos                                   | 2004 | photos            | Unkown to CBS                                  |
 | Baghdad Airstrike ("Collateral Murder")             | 2007 | video             | Chelsea Manning to Wikileaks                   |
 | US Iraq war logs                                    | 2010 | digital docs      | Chelsea Manning to Wikileaks                   |
 | US Diplomatic cables                                | 2010 | digital docs      | Chelsea Manning to Wikileaks                   |
@@ -258,7 +262,6 @@ Much of our common-sense understanding of media will be violated when we routine
 | Colin Powell emails                                 | 2016 | emails            | Unknown to DCLeaks                             |
 | Panama papers                                       | 2016 | documents         | Unknown to Süddeutsche Zeitung                 |
 | Donald Trump Access Hollywood Tape                  | 2016 | video             | Unknown to Washington Post                     |
-| [**MIXED**] Macron emails                           | 2017 | emails            | Unknown to Pastebin                            |
 | China Cables                                        | 2019 | digital docs      | Unknown to the ICIJ                            |
 | Hunter Biden laptop                                 | 2020 | docs,audio,video  | computer shop to Giuliani to NY Post           |
 | Los Angeles Council call ("changuito")              | 2022 | audio             | Unknown to Reddit to LA Times                  |
@@ -270,7 +273,7 @@ Much of our common-sense understanding of media will be violated when we routine
 2. It's easy to forge credible documents but intelligence agencies and the media won't believe them without independent confirmation.
 3. It's easy to forge credible documents and for them to get coverage but not many people are motivated to try.
 
-**Older examples of influential forgeries.**
+**Other examples of influential forgeries.**
 
 |                                                           |      |                                                               |
 | --------------------------------------------------------- | ---- | ------------------------------------------------------------- |
@@ -280,12 +283,13 @@ Much of our common-sense understanding of media will be violated when we routine
 | Castle Document, letter to British govt in Dublin         | 1916 | unclear source, contributed to 1916 Easter rising             |
 | Zinoviev letter from Russia to UK Labour party            | 1924 | unclear source                                                |
 | Tanaka Memorial (Japanese plans for world domination)     | 1929 | unclear source                                                |
+| Macron emails                                             | 2017 | emails                                                        | Unknown to Pastebin                            
 
 **Notes.** 
 
 - The Macron email leaks seemed to include both real and fake content ([ref](https://www.csis.org/analysis/successfully-countering-russian-electoral-interference)). In fact one report says that Macron's team sent each other outrageous implausible emails as a pre-emptive defense to make any subsequent leaks seem less credible ([ref](https://www.lawfareblog.com/macron-leaks-are-they-real-and-it-russia)).
 
-- The Steele dossier isn't really a forgery: it doesn't purport to have a different author than its true author. The problem with the dossier is that the author makes knowingly false claims of fact. This .
+- The Steele dossier isn't really a forgery: it doesn't purport to have a different author than its true author. The problem with the dossier is that the author makes knowingly false claims of fact.
 
 
 #           Appendix: Model of AI and Internal Properties (Venn Model)
