@@ -53,8 +53,6 @@ dd {
 } */
 </style>
 
-$$\xymatrix{a \ar[r]& b}$$
-
 **Currently we assume separability.**
 : We allow utility to depend on the comparison, $\delta$, and we assume the comparison affects each attribute in a separable way:
       $$u(x,\delta)=f\left( v(x) + \sum_i x_i u_i(\delta)\right).\tag{1}$$
@@ -68,9 +66,9 @@ $$\xymatrix{a \ar[r]& b}$$
 
 **What are the testable implications of separability?** 
 :  1. There's a ton of literature on separability in general.
-   2. The most general condition is non-existence of a set of choices such that each attribute realization appears equally-often on LHS and RHS. Can think of this as cancelling rows in a Motzkin matrix.
-   3. The independence assumption is much more intuitive, but it is only sufficient for binary attributes and $n\leq 4$.
-   4. Our condition is a bit more complicated than simple separability, it's a type of pairwise separability. Graphical intuition: a set of choices on a cube will violate pairwise separability if projecting the choices onto each face gives a cycle on each face.
+   1. The most general condition is non-existence of a set of choices such that each attribute realization appears equally-often on LHS and RHS. Can think of this as cancelling rows in a Motzkin matrix.
+   2. The independence assumption is much more intuitive, but it is only sufficient for binary attributes and $n\leq 4$.
+   3. Our condition is a bit more complicated than simple separability, it's a type of pairwise separability. Graphical intuition: a set of choices on a cube will violate pairwise separability if projecting the choices onto each face gives a cycle on each face.
 
 **Simplest condition: square cycle.**
 : In the $n=2$ case we have:
@@ -146,13 +144,13 @@ $$\xymatrix{a \ar[r]& b}$$
 
 ```{tikz}
 #| column: margin
-#| fig-cap: double cancellation
+#| fig-cap: violation of double cancellation
 \begin{tikzpicture}[color=red,line width=1]
    \draw[<->,black] (0,4)--(0,0)--(4,0);
    \node at (1,0) {$x_1$};\node at (2,0) {$x_2$};\node at (3,0) {$x_3$};
    \node at (0,1) {$y_1$};\node at (0,2) {$y_2$};\node at (0,3) {$y_3$};
    \draw (2,1) -- (1,2)  node[midway,fill=white,sloped] {$\succ$}; 
-   \draw[dotted] (3,1) -- (1,3) node[midway,fill=white,sloped] {$\succ$}; 
+   \draw (3,1) -- (1,3) node[midway,fill=white,sloped] {$\prec$}; 
    \draw (3,2) -- (2,3) node[midway,fill=white,sloped] {$\succ$}; 
 \end{tikzpicture}
 ```
@@ -178,7 +176,7 @@ $$\xymatrix{a \ar[r]& b}$$
 ```{tikz}
 #| column: margin
 #| fig-width: 2
-#| fig-cap: Hexagon condition (Wakker 1989)
+#| fig-cap: Violation of Hexagon condition (Wakker 1989)
 \newcommand{\preference}[4][\succeq]{
    \draw[line width=1] (#2)--(#3);
    \draw[opacity=1] (#2)-- 
@@ -190,10 +188,10 @@ $$\xymatrix{a \ar[r]& b}$$
    \draw[<->,black] (0,4)--(0,0)--(4,0);
    \node at (1,0) {$x_1$};\node at (2,0) {$x_2$};\node at (3,0) {$x_3$};
    \node at (0,1) {$y_1$};\node at (0,2) {$y_2$};\node at (0,3) {$y_3$};
-   \draw (2,1)-- (1,2) node[midway,fill=white,sloped] {$\sim$};
-   \draw (1,3) -- (1.9,2.1) node[midway,fill=white,sloped] {$\sim$};
-   \draw (2.1,1.9) -- (3,1) node[midway,fill=white,sloped] {$\sim$};
-   \draw[dotted] (2,3)-- (3,2) node[midway,fill=white,sloped] {$\sim$};
+   \draw (2,1)-- (1,2) node[midway,fill=white,sloped] {$\succ$};
+   \draw (1,3) -- (1.9,2.1) node[midway,fill=white,sloped] {$\prec$};
+   \draw (2.1,1.9) -- (3,1) node[midway,fill=white,sloped] {$\prec$};
+   \draw (2,3)-- (3,2) node[midway,fill=white,sloped] {$\succ$};
 \end{tikzpicture}
 ```
 
@@ -235,13 +233,13 @@ Karni and Safra say "the hexagon condition is ... logically weaker than the Thom
 ```{tikz}
 #| column: margin
 #| fig-width: 2
-#| fig-cap: triple cancellation (Reidmeister)
+#| fig-cap: Violation of triple cancellation (Reidmeister)
 \begin{tikzpicture}[color=red, line width=1]
    \draw[<->,black] (0,5)--(0,0)--(5,0);
-   \draw (2,1) -- (1,2) node[midway,fill=white,sloped] {$\preceq$};
-   \draw (4,1) -- (3,2) node[midway,fill=white,sloped] {$\succeq$};
-   \draw (2,3) -- (1,4) node[midway,fill=white,sloped] {$\succeq$};
-   \draw[dotted] (4,3) -- (3,4) node[midway,fill=white,sloped] {$\succeq$};
+   \draw (2,1) -- (1,2) node[midway,fill=white,sloped] {$\succ$};
+   \draw (4,1) -- (3,2) node[midway,fill=white,sloped] {$\prec$};
+   \draw (2,3) -- (1,4) node[midway,fill=white,sloped] {$\prec$};
+   \draw (4,3) -- (3,4) node[midway,fill=white,sloped] {$\succ$};
 \end{tikzpicture}
 ```
 
@@ -266,11 +264,11 @@ From @wakker1988algebraic, says it's for $n=2$:
 ```{tikz}
 #| column: margin
 #| fig-width: 2
-#| fig-cap: independence
+#| fig-cap: Violation of independence.
 \begin{tikzpicture}[color=red, line width=1]
    \draw[<->,black] (0,5)--(0,0)--(5,0);
-   \draw (2,4) -- (2,1) node[midway,fill=white,sloped] {$\succeq$};
-   \draw[dotted] (4,4) -- (4,1) node[midway,fill=white,sloped] {$\succeq$};
+   \draw (2,4) -- (2,1) node[midway,fill=white,sloped] {$\succ$};
+   \draw (4,4) -- (4,1) node[midway,fill=white,sloped] {$\prec$};
 \end{tikzpicture}
 ```
 
@@ -293,6 +291,18 @@ From @wakker1988algebraic, says it's for $n=2$:
    \end{aligned}
 
    Note that monotonicity is sufficient for independence, but not necessary. If attributes are binary then monotonicity is both necessary and sufficient.
+
+```{tikz}
+#| column: margin
+#| fig-width: 2
+#| fig-cap: Indirect/revealed violation of independence.
+\begin{tikzpicture}[color=red, line width=1]
+   \draw[<->,black] (0,4)--(0,0)--(4,0);
+   \draw (1,1) -- (1,2) node[midway,fill=white,sloped] {$\succ$};
+   \draw (2,2) -- (2,3) node[midway,fill=white,sloped] {$\succ$};
+   \draw (3,3) -- (3,1) node[midway,fill=white,sloped] {$\succ$};
+\end{tikzpicture}
+```
 
 
 
