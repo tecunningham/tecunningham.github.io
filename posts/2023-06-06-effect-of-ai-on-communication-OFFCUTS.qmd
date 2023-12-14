@@ -399,6 +399,132 @@ Resolved No, was at 20% for a couple of months around August.
 
 Resvolved No, was 50% for a long time.
 
+#           Appendix: Model of AI and Internal Properties (Venn Model)
+
+**In short: *improvements in AI are likely to reduce overall prevalence of violating content on platforms*.** 
+
+**Better models will help both sides in this war:** they will help platforms detect violating content, but they also also help producers camouflage their violating content. I argue below that the net effect will likely be to help platforms, the basic argument is that if both sides had access to a *perfect* classifier then there would be zero violating content on the platform.^[Yann Lecunn made a similar argument in a [tweet](https://twitter.com/ylecun/status/1664651158562979841) from June 2023: "AI is part of the solution here, not part of the problem! It is because of progress in natural language understanding in multiple languages (due to self-supervised transformers) that, for example, hate speech can be detected and taken down in hundreds of languages.". Although I think the wording is misleading by implying that AI being part of the solution precludes it from also being part of the problem. Also worth noting that LeCunn misstates FB's own statistics: he says "82% of hate speech is taken down automatically by AI before anyone sees it." In fact it's 82% of *detected* hate speech, and the 82% refers to the share that is actioned before it is *reported*, not actioned before it is *seen*. The share of true hate speech detected by AI is necessarily smaller but FB does not report that figure.]
+
+**Prevalence of violating content has fallen.** Overall prevalence of violating content has shrunk dramatically over the past 5-10 years on the major social media platforms, and this can largely be attributed to improvements in classifiers.
+
+**Model: a Venn-diagram model of content moderation with classifiers.** I describe a game between a platform and a producer, each of whom has access to a classifier. We want to know the effect on total violating content that survives filtering by the platform. Conclusions:
+
+   1. If a plaform gets a better classifier then less violating content gets through.
+   2. If a producer gets a better classifier then the effect is ambiguous, but probably more violating content will get through. In practice this means producers using an AI model to rephrase text, add noise to photos, or synthesize video, such that the content remains violating but the platform's classifier does not pick it up.
+   3. If both platform and producer get a better classifier then probably less violating content will get through.
+   4. A lot of content will sit *just on the threshold* for getting filtered.
+
+
+##           Model
+
+**The diagram below illustrates three sets of posts:** ^[I'm assuming that the universe is all possible posts, e.g. all possible strings of text, or sets of pixels. Then sets $V$ and $\hat{V}$ and $M$ will be enormous, but the actually existing posts are only a tiny tiny fraction of the set of possible posts. When calculating prevalence we use cardinality of these sets, implying (1) posts are drawn uniformly from the sets, and (2) there are no identical posts, i.e. each post is drawn at most 1 time.]
+
+- **$V$: posts that are violating** -- according to expert human raters. I'm concentrating on "self-contained" rules, e.g. nudity, hate speech, holocaust denial, where the violation depends only on the direct content of the post. I'm not considering categories like misinformation, deepfakes, or spam where violation depends on whether the content is true, or the provenance of the content.
+- **$\hat{V}$: posts that are classified as violating** -- by the platform's classifier, can parameterize with a threshold ($\hat{V}(k)$). The red segments below represent the false positives and false negatives of the classifier:
+- **$M$: posts that the producer wants to send** -- i.e., posts that express their message, $M$. We can classify some producers as "good" (only wants to send non-violating $M\cap V=\varnothing$), or as bad (only want to send violating $M\cap V=M$).
+
+
+```{tikz}
+\begin{tikzpicture}[scale=2]
+   \draw (-1,-1)--(1,-1)--(1,1)--(-1,1)--(-1,-1);
+   \fill[red!50!white] (0,.1) circle (.5);
+   \fill[red!50!white] (-.1,-.1) circle (.5);
+   \begin{scope}
+      \clip (0,.1) circle (.5);
+      \fill[white] (-.1,-.1) circle (.5);
+   \end{scope}
+   \draw (0,.1) circle (.5);
+      \draw[dashed] (0,.6) -- (0,1.2) node[above,align=center] {violating posts\\($V$)};
+   \draw (-.1,-.1) circle (.5);
+      \draw[dashed] (-.6,-.1) -- (-1.2,-.1) node[left,align=center] {classified as violating\\by platform ($\hat{V}$)};
+   \draw (.1,-.2) circle (.5);
+      \draw[dashed] (.6,-.2) -- (1.2,-.2) node[right,align=center] {messages the producer\\wishes to send ($M$)};
+\end{tikzpicture}
+```
+
+##           Implications of this Model
+
+Suppose that we remove all detected violating posts (i.e. $\hat{V}$). In the case illustrated above the posts removed ($M\cap\hat{V}$) would be the majority of the producer's posts, and of those that remain only a small share are violating. We can make a few observations given this setup:
+
+
+1. **Improvements to the platform's classifier will reduce prevalence of violating content.** If we hold fixed the producer's production, then as the classifier $\hat{V}$ gets closer to $V$ we should generally expect fewer false-positives and fewer false-negatives, so overall a better outcome for the platform (there are cases where this wouldn't happen but they seem unusual.)
+
+2. **Improvements to producer's classifier will *probably* increase prevalence of violating content.** Suppose that producers have their own estimate of the platform's classifier, $\tilde{V}$, and they will produce posts uniformly from the set they believe will not be removed, i.e. from the set $M \backslash \tilde{V}$. If the producer learns the true classifier $\tilde{V}=\hat{V}$ then they will reduce their rate of deleted posts, which is good for the producer, but the effect on the platform can be ambiguous:
+   
+   - **For good producers:** For producer who do not wish to produce violating content ($M\cap V=\varnothing$) knowledge of the classifier will prevent them from producing false positives, and they will produce more true negatives, which is good for the platform.
+   - **For bad producers:** For producers who *only* want to produce violating content ($M\cap V=M$) they will increase their rate of violating but non-detected posts (false negatives), which is bad for the platform.
+   - **For neutral producers:** For neutral producers (where $M$ is neither a subset nor mutually exclusive with being violating), the net effect is ambiguous.
+
+   In fact the net effect seems likely to be negative because in most cases people who produce violating content do it on purpose, e.g. those who produce nudity and hate speech and holocaust denial do it intentionally, and they couldn't achieve their purpose without violating the policy.
+
+   **What this looks like in practice:** tricking classifiers by misspelling words, using roundabout phrasing, inverting colours in a photo, adding noise to a video. Earlier classifiers had difficulty with these manipulations but deep neural nets are much better at recognizing the deep content and are harder to confuse.
+
+   **Qualification.** In the argument above I'm holding fixed the platform's classifier $\hat{V}$. However if the producer changes the posts they produce then the performance of that classifier will change, e.g. precision might fall, and so the full effect should include an adjustment to that classifier. Could add an equilibrium condition that the classifier's threshold $k$ will be set such that precision will be $p$ ($\frac{|\hat{V}(k)\cap V \cap M|}{|\hat{V}(k)\cap M|}=p$). I don't think this would change the qualitative conclusion.
+   
+3. **Improvements to a classifier used by both platform and producer will lower prevalence of violating content.** Suppose both parties used the same classifier ($\tilde{V}=\hat{V}$), and that classifier was perfect ($\tilde{V}=\hat{V}=V$). Then there will be no violating posts shown: negative producers won't post anything, and neutral and positive producers will only produce non-violating posts. This argument applies to the limit of having a perfect model, but it seems reasonable to presume that on the path to that limit the rate of violating posts will generally decline.
+
+4. **Content will cluster just below the classifier threshold.** So far we have discussed everything in binary terms, thought realistically most things are continuous. If we action posts in a binary manner, e.g. filtering posts with a classifier score above some threshold, then producers will have an incentive to produce posts which are just below the threshold for filtering.
+
+<!-- **Followup: "open" policies.** This discussion has been predicated on there being an unambiguous ground truth, $V$. However in some cases violation of the policy can depend on facts outside of the content itself. E.g. whether a post is misinformation (depends on facts in the world), whether a link is exaggerating or leads to an ads-farm (depends on the content of the link), whether a post provokes hate speech (depends on user response to the post), whether a post is inauthentic (depends on whether author is who they claim to be). I think the analysis will be a bit different then. -->
+
+#           Appendix: Discrimination Model
+
+
+**Q: what happens when it gets easier to manufacture forgeries?** We want to know the equilibrium effect on the rate at which people accept both real and fake goods. Of particular interest is the relative effect of deepfake technology on (1) false positives - forgeries believed to be genuine, and (2) false negatives - genuine images believed to be forgeries.
+
+   **Core prediction: if the current share of fakes is small then the primary effect of deepfakes will be more false positives rather than more false negatives.** I.e. people will accept a lot more fake images as true, but they won't reject many more real images as fakes. I'm not sure how convincing the argument is in reality, but there's a nice crisp intuition of how it works in the model.
+
+```{tikz}
+#| column: margin
+\begin{tikzpicture}[scale=1.6]
+   %\draw (-1,-1)--(1,-1)--(1,1)--(-1,1)--(-1,-1);
+   \draw[<->,line width=1] (-2,0)-- node[midway,below] {quality signal} (2,0);
+   
+   \draw[black] plot[domain=-2:2] (\x,{exp(-(\x)^2)+0.1});
+   \node at (0,1.2) {real};
+
+   \draw[red] plot[domain=-2:2] (\x,{exp(-(\x+1.5)^2)+0.1});
+   \node[red] at (-1.5,1.2) {fake};
+
+   \draw (-.75,0) -- (-.75,1) node[right,rotate=90] {cutoff};
+\end{tikzpicture}
+```
+**Setup: you get a noisy signal of "genuineness".** After observing the signal you accept the good if $P(\text{real}|\text{signal})$ is above some probability threshold. We can draw two distributions of signals, and the intersection of the two curves will be the equilibrium threshold assuming that (1) fakes and real are equally likely; (2) the cost of a false positive is equal to the cost of a false negative.
+
+```{tikz}
+#| column: margin
+\begin{tikzpicture}[scale=1.6]
+   %\draw (-1,-1)--(1,-1)--(1,1)--(-1,1)--(-1,-1);
+   \draw[<->,line width=1] (-2,0)-- node[midway,below] {} (2,0);
+   
+   \draw[black] plot[domain=-2:2] (\x,{exp(-(\x)^2)+0.1});
+   %\node at (0,1.2) {real};
+
+   \draw[red,dashed] plot[domain=-2:2] (\x,{exp(-(\x+1.5)^2)+0.1});
+   \draw[red] plot[domain=-2:2] (\x,{exp(-(\x+1)^2)+0.1});
+   \draw[->,red] (-1.5,1.2) -- (-1,1.2) node[above]{};
+   %\node[red] at (-1,1.2) {fake};
+
+   \draw[dashed] (-.75,0) -- (-.75,1);
+   \draw (-.5,0) -- (-.5,1);
+\end{tikzpicture}
+```
+
+**Now let the technology for producing fakes gets better.** We model this as a shift to the right in the "quality" curve for fakes:
+
+**Implications.** Reading off this diagram we can see a number of effects. I think these will all be true as long as the monotone likelihood ratio property holds.
+
+   1. **The threshold gets higher.**
+   1. **More fakes get accepted (more false positives).** A larger share of all fakes will be above the threshold.
+   2. **More reals get rejected (more false negatives).** A smaller share of genuine items will be above the threshold.
+   3. **Consumer welfare is lower.** The consumer is accepting more fakes and fewer genuine articles.
+
+**Extensions/observations.**
+
+   1. **The size of each effect depends on the relative slope of the two distributions.** If the distribution of fakes was uniform then, as that distribution moved up, the threshold wouldn't change at all, and so the equilibrium effect would be entirely an increase in fakes accepted (false positives). If instead the distribution of reals was uniform then the threshold would move up, and so the effect would be entirely a decrease in genuine goods rejected (false negatives).
+   2. **If the prevalence of fakes is small then impact will mostly be on false positives.** If the prevalence of fakes is small then the threshold will cut the distribution of fakes near the center, but will cut the distribution of reals near the tail. Thus a rightward shift in the distribution of fakes will have a small impact on the threshold.
+   3. **If there's free entry then things will be worse.** Suppose that the overall quantity of fakes is increasing in the probability of being accepted, then as the technology to produce fakes gets better then the volume will also get higher. The increase in volume will further increase the threshold. As before the relative effect on FP vs FN will depend on the relative curvature of the two distributions.
+   4. **Distribution of fakes will likely be skew.** Suppose the forgers can create a bunch of *candidate* goods, and then measure the quality of each one, and only try to sell goods which exceed the cutoff threshold.  Then the distribution of fake goods will be truncated. But this is no longer an equilibrium because all the low-quality goods are now genuine. Need to think this through more.
 
 #           Miscellaneous
 
