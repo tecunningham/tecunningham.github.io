@@ -94,6 +94,10 @@ ga('send', {
   'anonymizeIp': true,
 });
 </script>
+<style>
+   h1 {  border-bottom: 4px solid black;}
+   h2 {  border-bottom: 1px solid #ccc;}
+</style>
 <script>window.MathJax = {
    loader: { load: ["https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/xypic.js"]},
    tex: {packages: {'[+]': ['xypic','bm']},
@@ -344,7 +348,7 @@ ga('send', {
 <p><strong>Two metrics.</strong> Suppose that you run an experiment with <span class="math inline">\(N\)</span> units assigned to treatment and control groups, and define <span class="math inline">\(\hat{t}_1\)</span> and <span class="math inline">\(\hat{t}_2\)</span> as the observed treatment effects for outcomes 1 and 2. We can decompose the observed outcomes into treatment-effects and noise:</p>
 <p><span class="math display">\[ \underbrace{\binom{\hat{t}_1}{\hat{t}_2}}_\text{outcomes} = \underbrace{\binom{t_1}{t_2}}_\text{treatment effects}  +  \underbrace{\binom{e_1}{e_2}}_\text{noise} \]</span></p>
 <p>In this paper we will be particularly interested in the covariances of the treatment effects, and of the noise.</p>
-<p>The noise terms <span class="math inline">\(e_1\)</span> and <span class="math inline">\(e_2\)</span> represent the sampling error, and therefore will have variances and covariances corresponding to the variances and covariances of the individual units, multiplied by a factor of <span class="math inline">\(\frac{2}{N}\)</span>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<div class="page-columns page-full"><p>The noise terms <span class="math inline">\(e_1\)</span> and <span class="math inline">\(e_2\)</span> represent the sampling error, and therefore will have variances and covariances corresponding to the variances and covariances of the individual units, multiplied by a factor of <span class="math inline">\(\frac{2}{N}\)</span>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Throughout we assume that the treatments change only the mean, not the variance, of outcomes.</p></li></div></div>
 <p>The variances and covariances of <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> represent the experimenter’s priors, and so are often difficult to quantify. If we are willing to identify priors with some set of previously-run experiments, i.e.&nbsp;an “empirical-Bayes” technique, we can recover them from the data using this relationship between covariance matrices:</p>
 <p><span class="math display">\[\Sigma_{\hat{t}}= \Sigma_t + \frac{2}{N}\Sigma_u,\]</span></p>
 <p>where <span class="math inline">\(\Sigma_u\)</span> is the unit-level covariance matrix. The following graph illustrates a case with negatively-correlated treatment effects, positively correlated noise, and uncorrelated outcomes.</p>
@@ -407,12 +411,12 @@ ga('send', {
 <li><p><strong>PPL.</strong></p></li>
 </ol>
 </section>
-<section id="bivarate-normal-shrinkage" class="level1">
+<section id="bivarate-normal-shrinkage" class="level1 page-columns page-full">
 <h1>Bivarate Normal Shrinkage</h1>
 <p>We can write it like this: <span class="math display">\[\utt{\binom{\hat{t}_1}{\hat{t}_2}}{observed}{effects}
       =\utt{\binom{t_1}{t_2}}{true}{effects}
          +\ut{\binom{e_1}{e_2}}{noise}\]</span></p>
-<p>With just two outcomes Normal shrinkage becomes:<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<div class="page-columns page-full"><p>With just two outcomes Normal shrinkage becomes:<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn2"><p><sup>2</sup>&nbsp;I’m working on finding a simpler way of writing this expression. I have a version in <code>multivariate-shrinkage-offcuts</code> using signal-noise ratio (SNR) which might be a bit easier to interpretd.</p></li></div></div>
 <p><span class="math display">\[\begin{aligned}
    \mathbb{E}[t_1| \hat{t}_1,\hat{t}_2] =&amp; \mu_1
          +\ut{|\Sigma_{\hat{t}}|^{-1}(\sigma^2_{t1}(\sigma^2_{t2} + \sigma^2_{e2})
@@ -470,12 +474,12 @@ ga('send', {
              &lt;&amp; \frac{\gamma_{t}}{\sigma_{t1}^2}
                       \frac{\gamma_{t}+\gamma_{e}}{\sigma^2_{t2} + \sigma^2_{e2}}.
 \end{aligned}\]</span></p>
-<p>The condition requires there be non-zero covariance in <em>both</em> the treatment-effects and the unit-level outcomes (i.e., both <span class="math inline">\(\gamma_t\neq0\)</span> and <span class="math inline">\(\gamma_e\neq0\)</span>).<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> We also can see that the two covariances must have the same sign – either both positive or both negative. Intuitively, this will occur when treatment-effects are closely correlated, such that <span class="math inline">\(\hat{t}_2\)</span> is a relatively better signal for <span class="math inline">\(t_1\)</span> than <span class="math inline">\(\hat{t}_1\)</span> itself, and so <span class="math inline">\(\hat{t}_1\)</span> instead becomes a signal for the correlated noise.</p>
+<div class="page-columns page-full"><p>The condition requires there be non-zero covariance in <em>both</em> the treatment-effects and the unit-level outcomes (i.e., both <span class="math inline">\(\gamma_t\neq0\)</span> and <span class="math inline">\(\gamma_e\neq0\)</span>).<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> We also can see that the two covariances must have the same sign – either both positive or both negative. Intuitively, this will occur when treatment-effects are closely correlated, such that <span class="math inline">\(\hat{t}_2\)</span> is a relatively better signal for <span class="math inline">\(t_1\)</span> than <span class="math inline">\(\hat{t}_1\)</span> itself, and so <span class="math inline">\(\hat{t}_1\)</span> instead becomes a signal for the correlated noise.</p><div class="no-row-height column-margin column-container"><li id="fn3"><p><sup>3</sup>&nbsp;If <span class="math inline">\(\gamma_e=0\)</span> the condition will never hold, because we know that <span class="math inline">\(\frac{\gamma_t}{\sigma_{t1}^2\sigma_{t2}^2}\)</span> represents the correlation in treatment effects, which is bounded between 0 and 1.</p></li></div></div>
 <div class="example">
 <p><strong>Example.</strong> You run an experiment where you randomly select married households and provide the wife with vocational training and education, and measure the impact on both the wife’s income, and the overall household’s income. You find that average annual female labor income increased by $1,000. However, you also find that average annual household income increased by $3,000, implying the average male income in the treated group is $2,000 higher than in the control group. If you believe that (a) the spillover effect from wife’s income to husband’s income is likely to be small or negative, and (b) the correlation between wife’s and husband’s income is strong, then this evidence should cause you to decrease your estimate of the true impact on both the wife’s income and the total income.</p>
 </div>
 <p>The following vector-field illustrates the strong version of the “good news is bad news” effect: it can be seen that, for a given value of <span class="math inline">\(\hat{t}_2\)</span>, progressively higher values of <span class="math inline">\(\hat{t}_1\)</span> are mapped into relatively lower values of <span class="math inline">\(t_1\)</span>.</p>
-<section id="summary" class="level2">
+<section id="summary" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <p>We can compare various quantities in the bivariate case. I put hats on the quantities that are functions of observable data:</p>
 <p><span class="math display">\[\begin{aligned}
@@ -501,7 +505,7 @@ ga('send', {
    \beta^{\text{CAUSAL}} &amp;= \frac{\text{cov}(t_2,t_1)}{\text{var}(t_1)}=\frac{\gamma_t}{\sigma_{t1}^2} \\
    \hat{\beta}^{AA}  &amp;= \frac{cov(e_2,e_1)}{var(e_1)} = \rho_e\frac{\sigma_{e2}}{\sigma_{e1}}
 \end{aligned}\]</span></p>
-<p>We can recover the surrogate relationship from the OLS. The terms on the right can be inferred from the distribution of user-level outcomes (or from <span class="math inline">\(\hat{\beta}^{AA}\)</span>) and from the distribution of experiment outcomes.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<div class="page-columns page-full"><p>We can recover the surrogate relationship from the OLS. The terms on the right can be inferred from the distribution of user-level outcomes (or from <span class="math inline">\(\hat{\beta}^{AA}\)</span>) and from the distribution of experiment outcomes.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn4"><p><sup>4</sup>&nbsp;I’m not certain how important the assumption of normal effect-sizes is for these relationships.</p></li></div></div>
 <p><span class="math display">\[\begin{aligned}
       \hat{\beta}^{\text{SURROGATE}}
          &amp;= \hat{\beta}^{\text{OLS}} - \frac{\gamma_e}{\sigma_{t1}^2+\sigma_{e1}^2}
@@ -546,9 +550,9 @@ ga('send', {
 </div>
 <p>The bias described will decline with sample-size N, but is invariant to the number of experiments. Additionally, if there is no true treatment-effect on outcome 1 (<span class="math inline">\(\sigma_{t1}^2=0\)</span>), as in the AA-tests illustrated in Figure 1, then the estimated <span class="math inline">\(\hat{\beta}\)</span> will always equal <span class="math inline">\(\frac{\gamma_e}{\sigma_e^2}\)</span>, even as the sample-size goes to infinity.</p>
 </section>
-<section id="causal-effects-instrumental-variables" class="level1">
+<section id="causal-effects-instrumental-variables" class="level1 page-columns page-full">
 <h1>Causal Effects / Instrumental Variables</h1>
-<p>In other circumstances we wish to understand the relationship between treatment-effects, i.e.:<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+<div class="page-columns page-full"><p>In other circumstances we wish to understand the relationship between treatment-effects, i.e.:<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn5"><p><sup>5</sup>&nbsp;One example would be when we have reason to believe that <span class="math inline">\(t_1\)</span> causes <span class="math inline">\(t_2\)</span>, and we wish to use experiments as instruments to estimate the causal relationship, see <span class="citation" data-cites="peysakhovich2018learning">Peysakhovich and Eckles (<a href="#ref-peysakhovich2018learning" role="doc-biblioref">2018</a>)</span> for more on this.</p></li></div></div>
 <p><span class="math display">\[\frac{dE[t_2|t_1]}{dt_1}=\frac{\gamma_t}{\sigma_{t1}^2}.\]</span></p>
 <p>Again this does not correspond to the quantity recovered by a regression, <span class="math inline">\(\hat{\beta}\)</span> above. There are now two biases: (1) an “activity” bias due to <span class="math inline">\(\gamma_e\)</span> in the numerator of <span class="math inline">\(\hat{\beta}\)</span>; (2) an attenuation bias due to <span class="math inline">\(\sigma_{e1}^2\)</span> in the denominator of <span class="math inline">\(\hat{\beta}\)</span>.</p>
 <div class="example">
@@ -643,14 +647,14 @@ ga('send', {
 </ol>
 </section>
 </section>
-<section id="composite-metrics" class="level1">
+<section id="composite-metrics" class="level1 page-columns page-full">
 <h1>Composite Metrics</h1>
 <p><strong>TL;DR:</strong> unshrunk composite metrics often have worse SNR than their components.</p>
 <p>We sometimes want to estimate the impact of an experiment on a “composite” outcome, a linear combination of <span class="math inline">\(n\)</span> outcomes with weights <span class="math inline">\(w=(w_1,\ldots,w_n)\)</span>. It is useful to calculate the <em>signal-to-noise ratio</em> (SNR) of the composite metric, <span class="math inline">\(\bar{y}\)</span>:</p>
 <p><span class="math display">\[\begin{aligned}
    \text{SNR}_{\bar{y}}=&amp; \frac{Var[w't]}{Var[w'e]}= \frac{w'\Sigma_tw}{w'\Sigma_ew}.
 \end{aligned}\]</span></p>
-<p>The signal-noise ratio is a useful statistic to track because an outcome with a higher SNR will have (a) a lower shrinkage factor, i.e.&nbsp;the posterior <span class="math inline">\(E[t|y]\)</span> will be relatively closer to the observed <span class="math inline">\(y\)</span>, and (b) will have a higher fraction of experiments that are statistically significantly different from zero:<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
+<div class="page-columns page-full"><p>The signal-noise ratio is a useful statistic to track because an outcome with a higher SNR will have (a) a lower shrinkage factor, i.e.&nbsp;the posterior <span class="math inline">\(E[t|y]\)</span> will be relatively closer to the observed <span class="math inline">\(y\)</span>, and (b) will have a higher fraction of experiments that are statistically significantly different from zero:<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn6"><p><sup>6</sup>&nbsp;Under the assumption that <span class="math inline">\(t\)</span> is mean-zero.</p></li></div></div>
 <p><span class="math display">\[\begin{aligned}
    \text{shrinkage factor}=&amp; 1-\frac{E[t|y]-\mu}{y-\mu}=\frac{1}{1+SNR},\\
    \text{fraction significant}=&amp; P(|y-\mu|&gt;1.96\sigma_e) \\=&amp; 2\Big(1-\Phi(\frac{1.96}{1+SNR})\Big).
@@ -684,7 +688,7 @@ ga('send', {
 <li><p><strong>Identify <em>conversion factors</em> between proximal and final metrics.</strong> These tell us the best-estimate impact on final metrics given the impact on proximal metrics. Conversion factors can be estimated either from (a) long-running tuning experiments; (b) a meta-analysis of prior experiments with similar designs. This is essentially a <em>forecast</em> (you could call it a “shipping forecast”) and the quality of the forecast can be evaluated statistically from prior experiments, and sometimes it will be appropriate to over-ride the forecast on the basis of additional information. Additionally the <span class="math inline">\(R^2\)</span> of prior forecasts helps calibrate how confident we should be about future forecasts.</p></li>
 <li><p><strong>Establish conversion factors between final metrics.</strong> E.g. we might say we’d put an equal weight on 1% DAU, 2% minutes/DAU, 5% posts/DAU, and 100% prevalence of spam.</p></li>
 </ol>
-<section id="comparing-launch-rules" class="level2 page-columns page-full">
+<div class="no-row-height column-margin column-container"><li id="fn7"><p><sup>7</sup>&nbsp;Precisely: if the distribution of effect-sizes is Normal with zero mean then having a statistically-significant effect in 50% of your experiments implies a shrinkage rate of just 10%.</p></li></div><section id="comparing-launch-rules" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="comparing-launch-rules">Comparing Launch Rules</h2>
 <div class="cell page-columns page-full" data-hash="2022-02-26-inference-with-experimental-data_cache/html/unnamed-chunk-10_0242de50116b3f3f626c9be00990a30a">
 
@@ -737,7 +741,7 @@ ga('send', {
          \Delta\bar{x} =&amp; (I-B-C)^{-1}\Big(\mu_t+\Sigma_t(\Sigma_t+\frac{1}{N}\Sigma_x)^{-1}(y-\mu_y)\Big).
 \end{aligned}\]</span></p>
 </section>
-<section id="appendix-derivation-of-multivariate-gaussian-posterior" class="level1">
+<section id="appendix-derivation-of-multivariate-gaussian-posterior" class="level1 page-columns page-full">
 <h1>Appendix: Derivation of Multivariate Gaussian Posterior</h1>
 <p>We start with the most general formula for updating one vector of variables, <span class="math inline">\(t\)</span>, having observed the realization of some other vector, <span class="math inline">\(y\)</span>, given they have a Gaussian joint distribution:</p>
 <p><span class="math display">\[\begin{aligned}
@@ -749,7 +753,7 @@ ga('send', {
   \mathbb{E}[t|y] =&amp; \mu_t+\Sigma_{t,y}\Sigma_{\hat{t}}^{-1}(y-\mu_y) \\
   \mathbb{V}[t|y] =&amp; \Sigma_t-\Sigma_{t,y}\Sigma_{t,y}^{-1}\Sigma_{t,y}^{T}.
 \end{aligned}\]</span></p>
-<p>Intuitively, updating to infer <span class="math inline">\(\mathbb{E}[t|y]\)</span>, can be thought of in three steps: (1) we take the unexpected part of the results, <span class="math inline">\(y-\mu_y\)</span>, (2) we normalize it by dividing it by its own covariance matrix, <span class="math inline">\(\Sigma_{\hat{t}}\)</span>, and (3) we transpose it into the <span class="math inline">\(t\)</span>-space by multiplying it by the covariance between signal and truth <span class="math inline">\(\Sigma_{t,y}\)</span>.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
+<div class="page-columns page-full"><p>Intuitively, updating to infer <span class="math inline">\(\mathbb{E}[t|y]\)</span>, can be thought of in three steps: (1) we take the unexpected part of the results, <span class="math inline">\(y-\mu_y\)</span>, (2) we normalize it by dividing it by its own covariance matrix, <span class="math inline">\(\Sigma_{\hat{t}}\)</span>, and (3) we transpose it into the <span class="math inline">\(t\)</span>-space by multiplying it by the covariance between signal and truth <span class="math inline">\(\Sigma_{t,y}\)</span>.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn8"><p><sup>8</sup>&nbsp;Note that the matrix <span class="math inline">\(\Sigma_{t,y}\Sigma_{\hat{t}}^{-1}\)</span> represents the expected regression coefficients one would find from regressing <span class="math inline">\(t\)</span> on <span class="math inline">\(y\)</span>.</p></li></div></div>
 <p>When we know that <span class="math inline">\(y\)</span> represents the results of an experiment with sample-size <span class="math inline">\(N\)</span>, we can write:</p>
 <p><span class="math display">\[\begin{aligned}
    y=&amp; t+\sum_i^N x_i \\
@@ -1079,19 +1083,7 @@ Efron, Bradley, and Trevor Hastie. 2021. <em>Computer Age Statistical Inference,
 <div id="ref-peysakhovich2018learning" class="csl-entry" role="listitem">
 Peysakhovich, Alexander, and Dean Eckles. 2018. <span>“Learning Causal Effects from Many Randomized Experiments Using Regularized Instrumental Variables.”</span> In <em>Proceedings of the 2018 World Wide Web Conference</em>, 699–707. International World Wide Web Conferences Steering Committee.
 </div>
-</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>Throughout we assume that the treatments change only the mean, not the variance, of outcomes.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>I’m working on finding a simpler way of writing this expression. I have a version in <code>multivariate-shrinkage-offcuts</code> using signal-noise ratio (SNR) which might be a bit easier to interpretd.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>If <span class="math inline">\(\gamma_e=0\)</span> the condition will never hold, because we know that <span class="math inline">\(\frac{\gamma_t}{\sigma_{t1}^2\sigma_{t2}^2}\)</span> represents the correlation in treatment effects, which is bounded between 0 and 1.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>I’m not certain how important the assumption of normal effect-sizes is for these relationships.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>One example would be when we have reason to believe that <span class="math inline">\(t_1\)</span> causes <span class="math inline">\(t_2\)</span>, and we wish to use experiments as instruments to estimate the causal relationship, see <span class="citation" data-cites="peysakhovich2018learning">Peysakhovich and Eckles (<a href="#ref-peysakhovich2018learning" role="doc-biblioref">2018</a>)</span> for more on this.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>Under the assumption that <span class="math inline">\(t\)</span> is mean-zero.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7"><p>Precisely: if the distribution of effect-sizes is Normal with zero mean then having a statistically-significant effect in 50% of your experiments implies a shrinkage rate of just 10%.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8"><p>Note that the matrix <span class="math inline">\(\Sigma_{t,y}\Sigma_{\hat{t}}^{-1}\)</span> represents the expected regression coefficients one would find from regressing <span class="math inline">\(t\)</span> on <span class="math inline">\(y\)</span>.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section></div></main> <!-- /main -->
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
