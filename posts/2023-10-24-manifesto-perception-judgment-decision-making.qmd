@@ -3,7 +3,7 @@ title: |
   | *Bloodhounds and Bulldogs*
   |
   | On Perception, Judgment, & Decision-Making
-author: Tom Cunningham, [Integrity Institute](https://integrityinstitute.org/)
+author: Tom Cunningham
 date: today
 number-sections: true
 format:
@@ -31,6 +31,7 @@ format:
 execute:
   echo: false
   cache: true # caches chunk output
+engine: knitr
 draft: true
 reference-location: margin
 figure-location: margin
@@ -76,14 +77,20 @@ This note contains some ideas about hierarchical structure in perception, judgme
 
 ::: {.column-margin}
    ![](images/bloodhound.jpeg)
+   <br /><br /><br />
 :::
 
-1. **A model of encapsulated inference ("bloodhound").** Many puzzling phenomena in perception, judgment, and decision-making can be explained if we assume that initial judgments are formed *pre-consciously* in a way that both (a) incorporates information not accessible to the conscious brain, and (b) does not incorporate information that is accessible to the conscious brain. This double-encapsulation of judgment is a necessary condition for biases to occur. This can be put formally in a model of the sequential aggregation of information. As an analogy we can think of someone tracking a scent with a bloodhound on a leash.\marginnote{\begin{tikzpicture}
-            \draw (0,0) circle[radius=1.5cm]
-               node[anchor=south east,align=center,yshift=1.5cm]{information\\available\\to system 2};
-            \draw (1.5,0) circle[radius=1.5cm]
-               node[anchor=south west,align=center,yshift=1.5cm]{information\\available\\to system 1};
-         \end{tikzpicture}}
+```{tikz}
+#| column: margin
+\begin{tikzpicture}
+   \draw (0,0) circle[radius=1.5cm]
+      node[anchor=south east,align=center,yshift=1.5cm]{information\\available\\to system 2};
+   \draw (1.5,0) circle[radius=1.5cm]
+      node[anchor=south west,align=center,yshift=1.5cm]{information\\available\\to system 1};
+\end{tikzpicture}
+```
+
+1. **A model of encapsulated inference ("bloodhound").** Many puzzling phenomena in perception, judgment, and decision-making can be explained if we assume that initial judgments are formed *pre-consciously* in a way that both (a) incorporates information not accessible to the conscious brain, and (b) does not incorporate information that is accessible to the conscious brain. This "double encapsulation" of judgment is a necessary condition for biases to occur in a model of the sequential aggregation of information. As an analogy we can think of someone tracking a scent with a bloodhound on a leash.
       Suppose the dog has private information, i.e. it know things that the human does not: this itself will not lead to inefficient decisions. However when the human also has private information, known only to her, then there can be inefficient decision-making relative to the benchmark of decisions based on pooling information between the person and the dog.
 
 2. **Applied to perception.** Many existing explanation of perceptual biases and illusions can be stated in terms of sequential aggregation of information.  A prototypical case occurs when a perceptual cue that is ordinarily informative appears in a context where we are consciously aware that it is uninformative. Because the informational value of the cue is known only to the pre-conscious system the cue will still affect our judgment even when we know it to be irrelevant. There is an additional set of biases in judging the strength of raw sensory stimuli, e.g. the light faling on your eye. If the conscious brain does not have direct access to those stimuli then it will be reverse-inferred from the signals received from the encapsulated processes, which will induce spillovers between signals and result in contrast effects and cross-modal effects.
@@ -94,7 +101,7 @@ This note contains some ideas about hierarchical structure in perception, judgme
 
 4. **Applied to decision-making.** We can treat decision-making as judgment of relative value, and so apply the same model of judgment: we rationally trust our intuitions of value, despite being uncertain about what influences them. This can cause inconsistencies in decision-making when we are in unusual contexts. Many people have attempted to formalize decision biases (ambiguity aversion, prospect theory, etc.) but I believe those formalizations have limited value because (1) the biases' fundamental causes are statistical regularities in the environment, and so the biases will be context-dependent rather than universal; and (2) people are self-reflective about their biases and act to correct them, so treating them as hard-wired into utility or perception will give misleading predictions.
 
-5. **Observation: the scientific study of human judgment has progressed very slowly.** There have been many dramatic shifts in paradigm and many laws have been proposed which later were found to generalize poorly outside their original domain. There is still today a lack of consensus around the basic reasons why human judgment is good in some domains, bad in others.
+5. **I discuss a little the history of the study of human judgment.** There have been many dramatic shifts in paradigm and many laws have been proposed which later were found to generalize poorly outside their original domain. There is still today a lack of consensus around the basic reasons why human judgment is good in some domains, bad in others.
 
 6. **Observation: human judgment is generally a close approximation of efficient inference.**  Computers can rarely outperform humans when given the same information. In the history of psychology many discoveries of laws in human judgment have turned out to reflect, on closer inspection, optimal responses to the environment. However there are some cases where judgment makes simple mistakes -- illusions, biases, anomalies -- and so some theory is needed to explain why those happen.
 
@@ -163,13 +170,13 @@ A simple prediction of this model is that influences on judgment of $v$ should c
 
 
 
-| **influence on judgment**                      | **correlation in world**                                   |
+<!-- | **influence on judgment**                      | **correlation in world**                                   |
 | ---------------------------------------------- | ---------------------------------------------------------- |
 | Blue objects look more distant                 | More-distant objects are tinted blue (Rayleigh scattering) |
 | Cold objects feel heavier                      | Heavier objects transfer more heat                         |
 |                                                | and objects are typically cooler than body temperature     |
 | People repeat actions that are rewarded        | Past rewards are correlated with future rewards            |
-| Random rewards cause more persistent responses | Rates of reward are persistent                             |
+| Random rewards cause more persistent responses | Rates of reward are persistent                             | -->
 
 
 <!--                      | Objects look darker against a light background                                             | Object and background share illumination | -->
@@ -184,20 +191,26 @@ So far we have discussed evidence that perception and judgment are consistent wi
 
 #                                            A Model of Encapsulated Inference ("Bloodhound")
 
-\marginnote{$$\xymatrix@R-2pc{
-& \boxed{x_{1}}\ar[dr]\\
-& \boxed{x_{2}}\ar[r] & \circ \ar[dr]\\
-& \boxed{x_{3}}\ar[rr] &  & \circ \ar[dr]\\
-v\ar[uuur]\ar[uur]\ar[ur]\ar[r]\ar[dr]\ar[ddr]\ar[dddr] &  \boxed{x_{4}}\ar[rru] &  &  & \hat{v}\\
-& \boxed{x_{5}}\ar[r] & \circ \ar[urr]\\
-& \boxed{x_{6}}\ar[ur]\\
-& \boxed{x_{7}}\ar[uuurrr]}$$}
+::: {.column-margin}
+$$\xymatrix@R-2pc{
+   & \boxed{x_{1}}\ar[dr]\\
+   & \boxed{x_{2}}\ar[r] & \circ \ar[dr]\\
+   & \boxed{x_{3}}\ar[rr] &  & \circ \ar[dr]\\
+   v\ar[uuur]\ar[uur]\ar[ur]\ar[r]\ar[dr]\ar[ddr]\ar[dddr] &  \boxed{x_{4}}\ar[rru] &  &  & \hat{v}\\
+   & \boxed{x_{5}}\ar[r] & \circ \ar[urr]\\
+   & \boxed{x_{6}}\ar[ur]\\
+   & \boxed{x_{7}}\ar[uuurrr]}
+$$
+:::
 
 The diagram shows a hierarchical model in which information is aggregated in stages, drawing on inputs that are not themselves directly accessible to the conscious brain.
 
 The intermediate nodes can be thought of as automatic unconscious judgments -- e.g. judgments about the distance of an object, the age of a person, or the value of a bottle of wine. The conscious brain only has access to those intermediate judgments, not the raw data, and it is this separation that can cause inconsistencies in judgment.
 
-\marginnote{$$\xymatrix@R-2pc{
+<br /><br /><br />
+
+::: {.column-margin}
+$$\xymatrix@R-2pc{
    & \overbrace{}^{\text{low-level}}\\
    & \boxed{x_{1}}\ar[ddr] & \\
    & \ldots \\
@@ -207,7 +220,9 @@ v\ar[uuur]\ar[ur]\ar[dr]\ar[dddr]
    & \boxed{z_{1}}\ar[urr] & \\
    & \ldots \\
    & \boxed{z_{n}}\ar[uuurr]\\
-   & \underbrace{}_{\text{high-level}}}$$}
+   & \underbrace{}_{\text{high-level}}}
+$$
+:::
 
 For simplicity I will talk about a model with one encapsulated node and two types of cue:  "low level" (available only to the encapsulated node), and "high level" (available only to the conscious brain). A bias occurs when this sequential aggregation of information reaches a different conclusion than would occur if all information was pooled:^[The model of doubly-encapsulated inference is formalized in my paper ["Hierarchical Aggregation of Information and Decision-Making"](https://www.dropbox.com/s/guf8u1r1z5qoc6g/paper_heuristics.pdf).]
 
@@ -301,17 +316,17 @@ I believe that this is broadly consistent with the empirical evidence:
 
 **Judgment of raw sensations.** Because the conscious brain does not directly observe the raw stimuli, it must infer them from the encapsulated system's outputs: $E\hat{x}_1=[\hat{x}_1|\hat{v}^1]$ and $\hat{x}_2=E[\hat{x}_2|\hat{v}^1]$. This predicts cross-modal effects in judgment of sensations, where one sensation influences estimate of another sensation:^[Cross-modal influences are often been cited as evidence *against* the encapsulation of perception, because they show influences across perceptual areas. However the fact that they show systematic errors in assessment of sensations demonstrates the existence of vertical encapsulation (i.e. lack of direct access to raw stimuli), at the same time as they show that the limits of horizontal encapsulation.]
    
-      $$\underbrace{\frac{d\hat{x}_1}{dx_2}}_{\text{cross-modal}\atop\text{effect}}
-            \propto \underbrace{corr(x_1,v)}_{\text{diagnostic value of $x_1$}}
-               \Big/ \underbrace{corr(x_2,v).}_{\text{diagnostic value of $x_2$}}
-      $$
+   $$\underbrace{\frac{d\hat{x}_1}{dx_2}}_{\text{cross-modal}\atop\text{effect}}
+         \propto \underbrace{corr(x_1,v)}_{\text{diagnostic value of $x_1$}}
+            \Big/ \underbrace{corr(x_2,v).}_{\text{diagnostic value of $x_2$}}
+   $$
 
 This is consistent with many laboratory examples showing "cross-modal" effects, where one stimuli (e.g. auditory) is influenced by some other stimuli (e.g. visual).
    
    Examples fitting this pattern: (1) the McGurk and anti-McGurk effects; (2) the Stroop effect; (3) confusing motion of beeps and flashes; (4) confusing numerosity of beeps and flashes; (5) phoneme restoration; (6) assimilation to expectations - proofreaders' errors; (7) Simon interference - response location & stimulus location.
 
 
-\marginnote{
+```
    \begin{tikzpicture}[scale=.5]
       \fill[black]  (0,0) circle (0.5);
       \foreach \i in {0,60,...,330}{
@@ -349,7 +364,7 @@ This is consistent with many laboratory examples showing "cross-modal" effects, 
    \end{tikzpicture}
    
    Contrast effects in shade, contrast, hue, and size.
-}
+```
 
 **Application: contrast and assimilation effects.** A common finding in perception is a contrast effect, where some quality appears less-intense when placed next to a more-intense neighbor, although we also observe  assimilation effects (the opposite) in some circumstances. I argue that (1) contrast effects in real-world perception are due to rational inference; (2) contrast effects in raw sensory stimuli are byproducts of double-encapsulation.
 
@@ -452,7 +467,7 @@ The encapsulated inference model says that judgments are largely instinctual and
 
 <!-- Could discuss semantics: fallacies and Gricean understanding of meaning of words ; -->
 
-#                                            Decision-Making
+#                                            Decision-Making [UNFINISHED]
 
 ## Nutshell
 
@@ -516,7 +531,7 @@ When two objects are evaluated side by side, that reveals some of the unconsciou
 #                                            Encapsulated Preferences
 
 
-\marginnote{$$\xymatrix@R-2pc{
+^[$$\xymatrix@R-2pc{
    & \overbrace{}^{\text{low-level}}\\
    & \boxed{x_{1}}\ar[ddr] & \\
    & \ldots \\
@@ -526,12 +541,12 @@ v\ar[uuur]\ar[ur]\ar[dr]\ar[dddr]
    & \boxed{z_{1}}\ar[urr] & \\
    & \ldots \\
    & \boxed{z_{n}}\ar[uuurr]\\
-   & \underbrace{}_{\text{high-level}}}$$}
+   & \underbrace{}_{\text{high-level}}}$$]
 
 Finally I introduce an additional model which I think is necessary to explain a lot of behaviours: *encapsulated preferences*. As with the previous model I assume an informationally-encapsulated system, but now assume it has a direct effect on decision-making, e.g. as a simplification we could say the final decision is a weighted average of the output of the two systems:
 
-\[\hat{v} = \lambda \underbrace{E[v|\bm{x}]}_{\text{low-level judgment}}
-      + (1-\lambda) \underbrace{E[v|E[v|\bm{x}],\bm{z}]}_{\text{high-level judgment}}.\]
+   $$\hat{v} = \lambda \underbrace{E[v|\bm{x}]}_{\text{low-level judgment}}
+      + (1-\lambda) \underbrace{E[v|E[v|\bm{x}],\bm{z}]}_{\text{high-level judgment}}.$$
 
 We could describe these low-level preferences as *hard-wired*, meaning that they intend to achieve the same value as high-level judgments ($v$), but they respond just to superficial stimuli, here $\bm{x}$. Put another way: we have an irreducible preference for characteristics which have historically been associated with value. In some cases that association is learned over the course of our life (learned preferences), in other cases it will be over evolutionary history (evolutionary preferences). This has a number of predictions:
 

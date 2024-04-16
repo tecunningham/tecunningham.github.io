@@ -53,6 +53,9 @@ dd {
 } */
 </style>
 
+<!-- PUZZLE: MarkdownPreviewEnhanced uses different header for rendering .qmd than .md, and so cannot render xymatrix or \ut. However I don't know where it's getting its header from, I can't find the file on disk. -->
+
+
 **Currently we assume separability.**
 : We allow utility to depend on the comparison, $\delta$, and we assume the comparison affects each attribute in a separable way:
       $$u(x,\delta)=f\left( v(x) + \sum_i x_i u_i(\delta)\right).\tag{1}$$
@@ -92,7 +95,29 @@ dd {
    $$
 
 
-   <!-- PUZZLE: xymatrix doesn't render in quarto; MPE is pulling a header for quarto files from somewhere, but I don't know where, I can't find the file on disk. -->
+**There exists a nice intuition for the cancellation condition.**
+: The usual expression of the cancellation condition is fairly abstract: that there cannot exist a set of preferences in which each realization of each attribute appears equally often on left-hand-side and right-hand-side.
+
+   There are some superior ways of explaining this:
+
+   1. **If the preferences are described in relative terms then they contain a cycle.** E.g. suppose we observe these preferences:
+      $$\binom{north}{west} \succ \binom{south}{west},  \binom{south}{west} \succ \binom{north}{east},
+         \binom{south}{east} \succ \binom{south}{west}
+      $$
+      We can write each in a *relative* style as follows:
+      $$North \succ South,\ \ \ 
+         South+West \succ North+East, \ \ \ 
+         East \succ West
+      $$
+      Alternatively we can avoid the additions and write this as:
+      $$v_{NS} > 0,  \ \ \  v_{WE} > v_{NS},  \ \ \  v_{WE} < 0$$
+
+      We can also apply this to non-binary attributes, e.g. 
+         $$\binom{3 lemons}{2 oranges} > \binom{2 lemons}{3 oranges}$$
+      Can be rewritten as:
+         $$v(\text{3rd lemon}) > v(\text{3rd orange})$$
+
+   2. **.**
 
 ##             more notes
 
