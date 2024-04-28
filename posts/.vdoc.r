@@ -569,7 +569,6 @@
 #
 #
 #
-#
 #| column: margin
 #| fig-width: 3
 #| fig-height: 1
