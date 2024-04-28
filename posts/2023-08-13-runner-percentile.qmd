@@ -48,17 +48,18 @@ engine: knitr
    $$\frac{\text{frequency of passing}}{\text{frequency of being passed}}
          =\frac{\text{share slower runners}}{\text{share faster runners}}
             \times
-            %= \frac{E[s-x|x<s]}{E[x-s|x>s]}\frac{P(x<s)}{P(x>s)}
             \frac{\text{avg excess above slower runners}}{\text{avg lag behind faster runners}}
+            %= \frac{E[s-x|x<s]}{E[x-s|x>s]}\frac{P(x<s)}{P(x>s)}
    $$
 
    **The ratio of slower/faster will not generally be equal to the ratio of passing/passed.** The reason is that your propensity to encounter another runner depends on the difference in speeds: you will rarely pass or be passed by those who run similar speeds to you.
 
    **Some additional implications:**
 
-   1. If the distribution of running-speeds is Gaussian then your ratio of passing/passed exaggerates your position in the distribution of speeds, e.g. if you pass 10X as many people as you're passed by then there are *fewer* than 10X as many people who are slower than you relative to people faster than you.
-   2. If the distribution of running-speeds is sufficiently fat-tailed (e.g. $t$-distribution with df<2), then you get the opposite implication (I think a sufficient condition for exaggeration seems to be log-concavity of the probability density function).
-   3. If your frequency of passing others is the same as the frequency of being passed then you must be running exactly the mean speed.
+   1. If you're passing the same number of people as pass you, then you must be running exactly the mean speed.
+   2. If the distribution of running-speeds is Gaussian then your ratio of passing/passed exaggerates your position in the distribution of speeds, e.g. if you pass 10X as many people as you're passed by then there are *fewer* than 10X as many people who are slower than you relative to people faster than you.
+   3. If the distribution of running-speeds is sufficiently fat-tailed (e.g. $t$-distribution with df<2), then you get the opposite implication (I think a sufficient condition for exaggeration seems to be log-concavity of the probability density function).
+
 
 #           FB Post
 
@@ -329,6 +330,7 @@ curve(x * dt(x, df = 2), from = -8, to = 8)
 curve(x^0 - 1, -8, 8, add = TRUE)
 # density= function(x){dt(x,df=1)}
 # plot(density,xlim=c(-10,10))
+#
 ```
 
 Each cell shows first the ratio pass/passed, then the ratio faster/slower $\frac{\Phi(s)}{1-\Phi(s)}$. We can see that exaggeration holds in each cell.
@@ -349,12 +351,12 @@ Note that t with df=1 is weird because it doesn't have an expectation, i.e. $x\p
 
 Suppose you go for a run and you pass 90% of people you see (the other 10% of people pass you). What's your overall rank in the distribution of speeds?
 
-We can't know for sure but if you assume the distribution of speeds is Normal then you're at approximately 80% (i.e. 80% of runners are slower, 20% are faster). The asymmetry is because you're relatively less likely to pass (or be passed by) people who run at a similar speed as you.
+We can't know for sure but if you assume the distribution of speeds is Normal then you're at approximately 80% (i.e. 80% of runners are slower, 20% are faster). The asymmetry is because you're relatively less likely to see people who run at a similar speed as you, you'll disproportinately be encountering people who are far from you in the distribution of running-speeds.
 
 
 #           References
 
-**Mathoverflow ["You pass X people and Y people pass you: how relatively fast are you?"](https://mathoverflow.net/questions/40913/you-pass-x-people-and-y-people-pass-you-how-relatively-fast-are-you)**
+**Mathoverflow (2010) ["You pass X people and Y people pass you: how relatively fast are you?"](https://mathoverflow.net/questions/40913/you-pass-x-people-and-y-people-pass-you-how-relatively-fast-are-you)**
    
    There are a number of sketches of answers but no explicit solutions. A few answers wrongly conclude that the ratio of overtakes/overtakens is equal to the ratio of faster/slower runners.
 
