@@ -10,7 +10,54 @@
 <atom:link href="tecunningham.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>{{&lt; meta description-meta &gt;}}</description>
 <generator>quarto-1.3.357</generator>
-<lastBuildDate>Sun, 28 Apr 2024 07:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 10 May 2024 07:00:00 GMT</lastBuildDate>
+<item>
+  <title>Premature Optimization and the Valley of Confusion</title>
+  <dc:creator>Tom Cunningham</dc:creator>
+  <link>tecunningham.github.io/posts/2024-05-10-premature-optimization.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p><strong>When formalizing tradeoffs our decisions typically get worse before they get better.</strong></p>
+<p>Those who climb the mountain of efficiency first pass through the valley of confusion.</p>
+<p>Data scientists are often asked to provide a formula to calculate the expected costs and benefits of a decision but this is hard. There are often many subtleties which we grasp intuitively but do not know how to formalize. For this reason using a simple model is often worse than no model.</p>
+<p>Some examples of common mistakes:</p>
+<ul>
+<li>Causal effects assumed to be equal to correlations.</li>
+<li>Decisions depend on a sharp threshold of statistical significance.</li>
+<li>Decisions depend on average rather than marginal value.</li>
+<li>Lack of accounting for opportunity cost.</li>
+<li>Lack of accounting for option value.</li>
+<li>Lack of accounting for network effects.</li>
+<li>Confusion over whether an outcome is intrinsically desirable or instrumentally desirable.</li>
+<li>Estimating the topline impact of product improvements with estimates from AB tests (i.e.&nbsp;accounting only on effects for existing users, not new users).</li>
+</ul>
+<p>These are all avoidable mistakes but it takes time and experience to model them correctly. In fact many of the tools we use to formalize optimization problems are relatively recent discoveries: over the last few centuries we figured out how to write down probabilities and expected value, linear programming, and dynamic programming. But before these discoveries we were still able to make quite subtle and complex decisions – we were able to build pyramids, welfare states, aeroplanes.</p>
+<p><strong>This is independent of whether decisions <em>should</em> be formalized.</strong> There are some situation where no formalization of costs and benefits will be sufficient, for various reasons. My point is different: even when we truly care only about a well-defined outcome it’s often better to rely on our instincts than to use a model if we don’t have time to deeply invest in that model.</p>
+<p>It’s a common idea that formalizing the costs and benefits of a decision can lead to worse decision-making. People talk about “MacNamara’s fallacy,” but this can be taken in two ways: whether problems are <em>intrinsically</em> unquantifiable or just <em>difficult</em> to quantify. In tech companies I think many problems are quantifiable in principle but it’s sufficiently hard that it’s sensible to leave off quantifying until you’re confident that you have a good model.</p>
+<p><strong>The process of formalizing a decision often looks like a dialogue.</strong> When you try to write down a model to represent the tradeoffs of a situation very often it feels like a dialogue with your intuition: you first write a simple model, and see that it implies that we should be making a radically different decision. You try to think through, intuitively, the implications of that decision, and see that there is some important factor that the model is missing, and so revise the model, and then look again at the implications.</p>
+<p><strong>Avoiding the valley of confusion.</strong> I have been talking about the choice between using judgment or relying on a model. There is an alternative route: instead of replacing judgment the goal should be to <em>augment</em> it. Broadly speaking by trying to summarize data in a way that helps inform intuitions about tradeoffs. If we continue this process we may end up at a comprehensive formal model which we can trust.</p>
+<p>Some examples:</p>
+<ul>
+<li><p>If we are trying to improve decisions about which experiments to ship then we can build a table of prior experiments, and for each new experiment summarize how it compares with prior ones. (My post on <a href="https://tecunningham.github.io/posts/2023-04-18-experiment-interpretation-extrapolation.html">experiment interpretation</a> expands on this.)</p></li>
+<li><p>If we are trying to improve decisions about the value of metrics as surrogates for causal effects, we can start by visualizing the distributions of each metric and the correlations between them to help build judgment about how they relate to user experience.</p></li>
+<li><p>If we are trying to improve evaluation of a given initiative we should start by mapping out prior initatives and compare their inputs (e.g.&nbsp;headcount, time) and outputs (metrics), to benchmark estimates.</p></li>
+</ul>
+<p>General considerations that apply to all evaluations:</p>
+<ol type="1">
+<li>All models should be described as fundamentally aids to human judgment, and it’s always legitimate to override their recommendations.</li>
+<li>Model output should not be described with a single number but a visualization to show how the broad patterns in data.</li>
+<li>We should summarize what decisions other people have made in similar situations, both inside and outside the company.</li>
+</ol>
+
+
+
+ ]]></description>
+  <guid>tecunningham.github.io/posts/2024-05-10-premature-optimization.html</guid>
+  <pubDate>Fri, 10 May 2024 07:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Peer Effects, Culture, and Taxes</title>
   <dc:creator>Tom Cunningham</dc:creator>
@@ -5565,94 +5612,6 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
 
  ]]></description>
   <guid>tecunningham.github.io/posts/2017-02-25-economist-explorers.html</guid>
-  <pubDate>Sat, 25 Feb 2017 08:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Weber’s Law Doesn’t Imply Concave Representations or Concave Judgments</title>
-  <link>tecunningham.github.io/posts/2017-02-25-weber-fechner-law.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="tecunningham.github.io/posts/https:/www.dropbox.com/s/24cumup0i7uiksn/runningman.jpg?raw=1" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">runningman</figcaption>
-</figure>
-</div>
-<p><strong>Nutshell.</strong></p>
-<ol type="1">
-<li>If you spend any time reading about behavioural economics you’ll come across “diminishing sensitivity” pretty soon, applied to all sorts of things in decision-making (probability weighting, value-function weighting, relative thinking), and often you’ll find a reference to “Weber’s law” from psychology.</li>
-<li>Weber’s law says that if you can tell the difference between a 1-pound and a 1.2-pound weight 90% of the time, then you will also be able to tell the difference between a 10-pound and 12-pound weight about 90% of the time (and generally, the ability to discriminate between two sensations is a function of the ratio of the magnitudes).</li>
-<li>This finding is often interpreted as implying that we have, in some sense, <em>concave</em> representations of value. And indeed this behaviour <em>would</em> be implied by a model in which we receive a signal which is a concave function of the underlying value, plus additive noise.</li>
-<li>However Weber’s law would also be seen if we have a linear representation of value with multiplicative noise. And there are good reasons to think that perceptual noise is generally closer to multiplicative than additive (but I leave that for another time).</li>
-<li>Also of interest is, given our assumptions about value and noise, how a person’s posteriors look. I.e., what is the average best-guess of the weight of an object, given it’s true weight. I also derive those below (you have to make assumptions about a person’s priors), and show that, under multiplicative noise &amp; lognormal priors, expected weight is concave function of true weight, while under additive noise &amp; uniform priors, expected weight is a linear function of true weight.</li>
-<li>In general I think that Weber’s law is <em>not</em> relevant most of the anomalies we see in decision-making. This note doesn’t really tie the knot on that argument, but I think these are useful results going in that direction. (I’m sure these mathematical points must have been made elsewhere but I’ve never been able to find them.)</li>
-</ol>
-<section id="history." class="level1">
-<h1>History.</h1>
-<p>Ernst Weber (1795-1878) tested subjects’ ability to discriminate between the strength of sensations - for example two sounds, two shades of light, two intensities of touch - and found that the Just Noticeable Difference (JND) between two sensations tended to be proportional to the average magnitude of the two sensations: e.g., if you can determine which of two lights is brighter with 80% accuracy, then Weber predicts that you will also have 80% accuracy when the brightness of both lights is doubled. Gustav Fechner (1801-1887) showed that, under the assumption that each JND has an equal subjective difference, this implies a logarithmic relationship between objective and subjective magnitude. Later S. S. Stevens (1906-1973) directly asked subjects for cardinal reports of subjective intensity and found a power law relationship (i.e., the logarithmic relation is a special case of this).</p>
-</section>
-<section id="in-decision-making" class="level1">
-<h1>In Decision-Making</h1>
-<p>In the 19th century a number of economists made a connection between the Weber-Fechner law and the diminishing marginal utility of consumption. However Max Weber – a different Weber – Weber the sociologist, wrote an essay in 1908 to explain that they are fundamentally distinct phenomena (“Marginal Utility Theory and the Fundamental Law of Psychophysics”). Stigler later wrote about Max Weber’s essay and agreed that there is little meaningful connection.</p>
-<p>More recently the Weber-Fechner law has been cited by a number of economists to explain diminishing sensitivity in other domains (not just in absolute consumption): Thaler (1980), Tversky &amp; Kahneman (1992), Thaler (1999), Gonzalez &amp; Wu (1999) all argue that the curvature of a gain/loss function, and of probability-weighting function, are somehow connected with the Weber-Fechner law in perception.</p>
-<p>However, I show below that the Weber behaviour (the proportional JND being invariant to scale) does not imply either (A) a concave internal representation of magnitude; or (B) a concave bias in judgment of magnitudes.</p>
-<p>(It’s also worth noting that a <em>literal</em> application of Weber’s law to decision-making would be the following: that subjects are equally likely to choose \$7 over \$8, as they are to choose \$70 over \$80. I’m not sure if this has ever been tested, it doesn’t seem like an especially interesting fact for economic decision-making.)</p>
-</section>
-<section id="webers-law-linear-vs-concave-representations-of-value" class="level1">
-<h1>Weber’s Law &amp; Linear vs Concave Representations of Value</h1>
-<p>First I show that Weber’s law does not imply that we must have, in some sense, a concave representation of value. I show that the law can be derived from two different setups: one in which we have a linear representation and multiplicative noise; one with a concave representation and additive noise.</p>
-<p>Suppose that we can observe subjects’ judgments about which of two values (<img src="https://latex.codecogs.com/png.latex?v_%7B1%7D"> and <img src="https://latex.codecogs.com/png.latex?v_%7B2%7D">) is greater. Then we can define a just noticeable difference, <img src="https://latex.codecogs.com/png.latex?JND(v,p)">, as the difference in values, such that subjects correctly discriminate <img src="https://latex.codecogs.com/png.latex?v"> and <img src="https://latex.codecogs.com/png.latex?v+JND(v,p)"> in a proportion <img src="https://latex.codecogs.com/png.latex?p"> of trials.</p>
-<section id="linear-representation-multiplicative-noise" class="level2">
-<h2 class="anchored" data-anchor-id="linear-representation-multiplicative-noise">Linear Representation &amp; Multiplicative Noise</h2>
-<p>Assume people get signals about underlying value with multiplicative noise, <img src="https://latex.codecogs.com/png.latex?s=v%5Ccdot%20e">, with <img src="https://latex.codecogs.com/png.latex?e"> lognormal. For conciseness let <img src="https://latex.codecogs.com/png.latex?%5Cdelta=JND(v_%7B1%7D,p)">, then <img src="https://latex.codecogs.com/png.latex?%5Cdelta"> can be implicitly defined as:</p>
-<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0Ap%20%20%20=&amp;%20%20P(E%5Bv_%7B1%7D+%5Cdelta%7Cs_%7B2%7D%5D%3EE%5Bv_%7B1%7D%7Cs_%7B1%7D%5D)%20%5C%5C%0A%20%20%20%20=&amp;%20%20P((v_%7B1%7D+%5Cdelta)e_%7B2%7D%3Ev_%7B1%7De_%7B1%7D)%20%5C%5C%0A%20%20%20%20=&amp;%20%20P(%5Cln(v_%7B1%7D+%5Cdelta)+%5Cln%20e_%7B2%7D%3E%5Cln%20v_%7B1%7D+%5Cln%20e_%7B1%7D)%20%5C%5C%0A%20%20%20%20=&amp;%20%20%5CPhi%5Cleft(%5Cfrac%7B%5Cln(v_%7B1%7D+%5Cdelta)-%5Cln%20v_%7B1%7D%7D%7B%5Csigma_%7Be%7D%5E%7B2%7D+%5Csigma_%7Be%7D%5E%7B2%7D%7D%5Cright)%0A%5Cend%7Baligned%7D%0A"></p>
-<p>where <img src="https://latex.codecogs.com/png.latex?%5CPhi"> is the CDF of a standard normal distribution. Then,</p>
-<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0A%5Cln(v_%7B1%7D+%5Cdelta)-%5Cln%20v_%7B1%7D%20=&amp;%20%20%202%5Csigma_%7Be%7D%5E%7B2%7D%5CPhi%5E%7B-1%7D(p)%20%5C%5C%0A%5Cfrac%7Bv_%7B1%7D+%5Cdelta%7D%7Bv_%7B1%7D%7D%20%20=&amp;%20%20%20%5Cexp(2%5Csigma_%7Be%7D%5E%7B2%7D%5CPhi%5E%7B-1%7D(p))%5C%5C%0AJND(v_%7B1%7D,p)=%5Cdelta%20%20%20%20%20%20%20%20%20=&amp;%20%20%20v_%7B1%7D%5Cleft%5B%5Cexp(2%5Csigma_%7Be%7D%5E%7B2%7D%5CPhi%5E%7B-1%7D(p))-1%5Cright%5D%0A%5Cend%7Baligned%7D%0A"></p>
-<p>In other words, the just noticeable difference is proportional to the value, <img src="https://latex.codecogs.com/png.latex?v_%7B1%7D">, as found by Weber.</p>
-</section>
-<section id="a-concave-representation-additive-noise" class="level2">
-<h2 class="anchored" data-anchor-id="a-concave-representation-additive-noise">A Concave Representation &amp; Additive Noise</h2>
-<p>Suppose that the decision-maker receives a concave signal of value with additive noise, i.e.&nbsp;<img src="https://latex.codecogs.com/png.latex?s=%5Cln%20v+e">, with Gaussian <img src="https://latex.codecogs.com/png.latex?e">. Then the derivation is very similar:</p>
-<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0A%20%20p%20=&amp;%20P(E%5Bv_%7B1%7D%7Cs_%7B2%7D%5D%3EE%5Bv_%7B1%7D%7Cs_%7B1%7D%5D)%20%5C%5C%0A%20%20%20%20=&amp;%20P(%5Cln(v_%7B1%7D+%5Cdelta)+e_%7B2%7D%3E%5Cln%20v_%7B1%7D+e_%7B1%7D).%0A%5Cend%7Baligned%7D%0A"></p>
-<p>The rest of the derivation is the same: i.e., the JND in the neighborhood of <img src="https://latex.codecogs.com/png.latex?v_%7B1%7D"> will be proportional to <img src="https://latex.codecogs.com/png.latex?v_%7B1%7D">.</p>
-</section>
-</section>
-<section id="webers-law-bias-in-judgment" class="level1">
-<h1>Weber’s Law &amp; Bias in Judgment</h1>
-<p>Weber’s law implies that perception is noisy. We can then ask what is the appropriate Bayesian posterior given noise. In particular, what will the relationship be between a value <img src="https://latex.codecogs.com/png.latex?v">, and the subjective best-estimate of that value given the signal <img src="https://latex.codecogs.com/png.latex?s(v)">, i.e.&nbsp;<img src="https://latex.codecogs.com/png.latex?E%5BE%5Bv%5C%7Cs%5D%5C%7Cv%5D">.</p>
-<p>It has often been assumed that Weber’s law will imply or justify a concave bias in estimates of value. However I show that this is not necessarily so.</p>
-<p><strong>Note on expectations:</strong> In a continuous setup, like the below, you can’t just write the conditional expectation as an integral without further notes. The conditional expectation is undefined without specifying which <em>limit</em> you’re taking (<a href="https://en.wikipedia.org/wiki/Borel%E2%80%93Kolmogorov_paradox">AKA Borel-Kolmogorov paradox</a>). Below I <em>believe</em> that the integrals follow from taking limits with respect to the noise. Intuitively, this is like assuming that you observe only that the signal is in some range <img src="https://latex.codecogs.com/png.latex?(s-%5Cvarepsilon,s+%5Cvarepsilon)">, and taking limits as <img src="https://latex.codecogs.com/png.latex?%5Cvarepsilon%5Crightarrow0">.</p>
-<section id="multiplicative-noise-posteriors-are-concave-in-v" class="level2">
-<h2 class="anchored" data-anchor-id="multiplicative-noise-posteriors-are-concave-in-v">Multiplicative Noise =&gt; Posteriors are Concave in <img src="https://latex.codecogs.com/png.latex?v"></h2>
-<p>Suppose we have lognormal priors for both <img src="https://latex.codecogs.com/png.latex?v"> and <img src="https://latex.codecogs.com/png.latex?e">:</p>
-<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Beqnarray*%7D%0A%5Cln%20v%20&amp;%20%5Csim%20&amp;%20N(%5Cmu_%7Bv%7D,%5Csigma_%7Bv%7D%5E%7B2%7D)%5C%5C%0A%5Cln%20e%20&amp;%20%5Csim%20&amp;%20N(%5Cmu_%7Be%7D,%5Csigma_%7Be%7D%5E%7B2%7D),%0A%5Cend%7Beqnarray*%7D%0A"></p>
-<p>and <img src="https://latex.codecogs.com/png.latex?s=v%5Ccdot%20e">, then we will have posteriors like:</p>
-<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Beqnarray*%7D%0Af(%5Cln%20v%7Cs)%20&amp;%20%5Csim%20&amp;%20N(%5Cfrac%7B%5Csigma_%7Bv%7D%5E%7B2%7D%7D%7B%5Csigma_%7Be%7D%5E%7B2%7D+%5Csigma_%7Bv%7D%5E%7B2%7D%7D%5Cln%20s,%5Cleft(%5Csigma_%7Bv%7D%5E%7B-2%7D+%5Csigma_%7Be%7D%5E%7B-2%7D%5Cright)%5E%7B-1%7D)%5C%5C%0AE%5Bv%7Cs%5D%20&amp;%20=%20&amp;%20%5Cexp%5Cleft(%5Cfrac%7B%5Csigma_%7Bv%7D%5E%7B2%7D%7D%7B%5Csigma_%7Be%7D%5E%7B2%7D+%5Csigma_%7Bv%7D%5E%7B2%7D%7D%5Cln%20s+%5Cfrac%7B1%7D%7B2%7D%5Cleft(%5Csigma_%7Bv%7D%5E%7B-2%7D+%5Csigma_%7Be%7D%5E%7B-2%7D%5Cright)%5E%7B-1%7D%5Cright)%5C%5C%0A&amp;%20=%20&amp;%20s%5E%7B%5Cfrac%7B%5Csigma_%7Bv%7D%5E%7B2%7D%7D%7B%5Csigma_%7Be%7D%5E%7B2%7D+%5Csigma_%7Bv%7D%5E%7B2%7D%7D%7De%5E%7B%5Cfrac%7B1%7D%7B2%7D(%5Csigma_%7Bv%7D%5E%7B-2%7D+%5Csigma_%7Be%7D%5E%7B-2%7D)%5E%7B-1%7D%7D%0A%5Cend%7Beqnarray*%7D%0A"></p>
-<p>This means that the expected <img src="https://latex.codecogs.com/png.latex?v"> is concave in the signal <img src="https://latex.codecogs.com/png.latex?s"> (because the exponent is less than one). Intuitively: a doubling of the value, which causes a doubling of the stimulus, will cause a <em>less</em> than doubling of the expected value conditional on that stimulus, because it will cause us to revise upwards our beliefs about both <img src="https://latex.codecogs.com/png.latex?v"> and <img src="https://latex.codecogs.com/png.latex?e">.</p>
-<p>Finally, we are also interested in the <em>average</em> posterior for a given <img src="https://latex.codecogs.com/png.latex?v">. This will also be concave (abbreviating <img src="https://latex.codecogs.com/png.latex?%5Calpha=%5Cfrac%7B%5Csigma_%7Bv%7D%5E%7B2%7D%7D%7B%5Csigma_%7Be%7D%5E%7B2%7D+%5Csigma_%7Bv%7D%5E%7B2%7D%7D">, and dropping the constant coefficient in <img src="https://latex.codecogs.com/png.latex?E%5Bv%7Cs%5D">):</p>
-<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Beqnarray*%7D%0AE%5BE%5Bv%7Cs%5D%7Cv%5D%20&amp;%20=%20&amp;%20%5Cint(v%5Ccdot%20e)%5E%7B%5Calpha%7Df(e)de%5C%5C%0A&amp;%20=%20&amp;%20v%5E%7B%5Calpha%7D%5Cint%20e%5E%7B%5Calpha%7Df(e)de.%0A%5Cend%7Beqnarray*%7D%0A"></p>
-</section>
-<section id="additive-noise-posteriors-are-linear-in-v" class="level2">
-<h2 class="anchored" data-anchor-id="additive-noise-posteriors-are-linear-in-v">Additive Noise =&gt; Posteriors are Linear in <img src="https://latex.codecogs.com/png.latex?v"></h2>
-<p>Suppose again that the decision-maker receives a logarithmic signal with additive noise: <img src="https://latex.codecogs.com/png.latex?s=%5Cln%20v+u">, and let <img src="https://latex.codecogs.com/png.latex?u"> be Gaussian. (I changed notation from <img src="https://latex.codecogs.com/png.latex?e"> to <img src="https://latex.codecogs.com/png.latex?u"> because I use a lot of exponential functions in the derivation.) Now assume that, in addition, <img src="https://latex.codecogs.com/png.latex?v"> is drawn from an improper uniform <img src="https://latex.codecogs.com/png.latex?(0,%5Cinfty)">. Consider the expected value of <img src="https://latex.codecogs.com/png.latex?v"> given the signal <img src="https://latex.codecogs.com/png.latex?s"> (I drop the constant term from the Gaussian distribution for conciseness):</p>
-<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Beqnarray*%7D%0AE%5Bv%7Cs%5D%20&amp;%20=%20&amp;%20%5Cfrac%7B%5Cint_%7B0%7D%5E%7B%5Cinfty%7Dve%5E%7B-%5Cleft(s-%5Cln%20v%5Cright)%5E%7B2%7D%7Ddv%7D%7B%5Cint_%7B0%7D%5E%7B%5Cinfty%7De%5E%7B-%5Cleft(s-%5Cln%20v%5Cright)%5E%7B2%7D%7Ddv%7D.%0A%5Cend%7Beqnarray*%7D%0A"></p>
-<p>Now exchange variables, so that <img src="https://latex.codecogs.com/png.latex?v=e%5E%7Bz%7D">:</p>
-<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Beqnarray*%7D%0AE%5Bv%7Cs%5D%20&amp;%20=%20&amp;%20%5Cfrac%7B%5Cint_%7B-%5Cinfty%7D%5E%7B%5Cinfty%7De%5E%7Bz%7De%5E%7B-(s-z)%5E%7B2%7D%7De%5E%7Bz%7Ddz%7D%7B%5Cint_%7B-%5Cinfty%7D%5E%7B%5Cinfty%7De%5E%7B-(s-z)%5E%7B2%7D%7De%5E%7Bz%7Ddz%7D%5C%5C%0A&amp;%20=%20&amp;%20%5Cfrac%7B%5Cint_%7B-%5Cinfty%7D%5E%7B%5Cinfty%7De%5E%7B-s%5E%7B2%7D+2(1+s)z-z%5E%7B2%7D%7Ddz%7D%7B%5Cint_%7B-%5Cinfty%7D%5E%7B%5Cinfty%7De%5E%7Bz-(s-z)%5E%7B2%7D%7Ddz%7D%5C%5C%0A&amp;%20=%20&amp;%20%5Cfrac%7B%5Cint_%7B-%5Cinfty%7D%5E%7B%5Cinfty%7De%5E%7B-(z-1-s)%5E%7B2%7D%7De%5E%7B1+2s%7Ddz%7D%7B%5Cint_%7B-%5Cinfty%7D%5E%7B%5Cinfty%7De%5E%7Bs+%5Cfrac%7B1%7D%7B4%7D%7De%5E%7B-((s+%5Cfrac%7B1%7D%7B2%7D)-z)%5E%7B2%7D%7Ddz%7D%5C%5C%0A&amp;%20=%20&amp;%20e%5E%7Bs%7De%5E%7B3/4%7D%5Cfrac%7B%5Cint_%7B-%5Cinfty%7D%5E%7B%5Cinfty%7De%5E%7B-(z-1-s)%5E%7B2%7D%7Ddz%7D%7B%5Cint_%7B-%5Cinfty%7D%5E%7B%5Cinfty%7De%5E%7B-((s+%5Cfrac%7B1%7D%7B2%7D)-z)%5E%7B2%7D%7Ddz%7D%0A%5Cend%7Beqnarray*%7D%0A"></p>
-<p>Note that both of the integrals are independent of <img src="https://latex.codecogs.com/png.latex?s"> (because the integration is between <img src="https://latex.codecogs.com/png.latex?-%5Cinfty"> and <img src="https://latex.codecogs.com/png.latex?%5Cinfty">), so there exists some <img src="https://latex.codecogs.com/png.latex?%5Ckappa"> such that:</p>
-<p><img src="https://latex.codecogs.com/png.latex?%0AE%5Bx%7Cs%5D=%5Ctext%7Be%7D%5E%7Bs%7D%5Ckappa.%0A"></p>
-<p>Finally we are interested in the average posterior for a given <img src="https://latex.codecogs.com/png.latex?v"> (here I’m again ignoring all constant terms):</p>
-<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Beqnarray*%7D%0AE%5BE%5Bv%7Cs%5D%7Cv%5D%20&amp;%20=%20&amp;%20%5Cint_%7B-%5Cinfty%7D%5E%7B%5Cinfty%7DE%5Bv%7Cs=%5Cln%20v+u%5D%5Ctext%7Be%7D%5E%7B-u%5E%7B2%7D%7Ddu%5C%5C%0A&amp;%20=%20&amp;%20%5Cint_%7B-%5Cinfty%7D%5E%7B%5Cinfty%7D%5Ctext%7Be%7D%5E%7B(%5Cln%20v+u)%7D%5Ckappa%5Ctext%7Be%7D%5E%7B-u%5E%7B2%7D%7Ddu%5C%5C%0A&amp;%20=%20&amp;%20v%5Cint_%7B-%5Cinfty%7D%5E%7B%5Cinfty%7D%5Ckappa%5Ctext%7Be%7D%5E%7Bu-u%5E%7B2%7D%7Ddu.%0A%5Cend%7Beqnarray*%7D%0A"></p>
-<p>I.e., despite the logarithmic internal representation, the average posterior is linear in the value.</p>
-
-
-</section>
-</section>
-
- ]]></description>
-  <guid>tecunningham.github.io/posts/2017-02-25-weber-fechner-law.html</guid>
   <pubDate>Sat, 25 Feb 2017 08:00:00 GMT</pubDate>
 </item>
 </channel>
