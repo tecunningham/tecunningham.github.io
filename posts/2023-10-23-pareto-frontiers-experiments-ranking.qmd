@@ -472,11 +472,15 @@ We can see that this will be identical to the relationship between $X_1$ and $X_
 
 #                       Appendix: Simulations for Non-Normal Distributions
 
-In this section I compare Pareto frontiers generated from different distribution of $(X,Y)$ from different joint distribution, and then draw the Pareto frontiers. We will see that in many cases the Pareto frontier looks roughly *elliptical* though not precisely an ellipse.
+In this section I compare Pareto frontiers generated from different distribution of $(X,Y)$ from different joint distribution, and then draw the Pareto frontiers. There are a few points of interest:
 
-The left-hand plot shows the raw distribution, the right-hand plot shows the Pareto frontier.
+1. Other distributions apart from the Normal do not have the property that the Pareto frontier is equal to an isovalue of the joint density.
+2. In my examples the Pareto frontier of many other distributions does look roughly *elliptical* though not precisely an ellipse. This makes me more comfortable to use an ellipse as a first-order approximation of a Pareto frontier.
+3. 
 
-The first plots confirm the analytical solution for Gaussian outcomes. 
+These simulations show something slightly different from what is proved in the prior section. These simulations show that as the number of experiments is large ($N\rightarrow\infty$) then the Pareto frontier begins to resemble an ellipse. What was proved in the previous section is that for any given $N$ the *expected* Pareto frontier will be an ellipse, where we calculate the expected value of $X$ and $Y$ for a given rate of tradeoff.
+
+In each case the left-hand plot shows the raw distribution, the right-hand plot shows the Pareto frontier.
 
 ```{r}
 library(MASS)
@@ -553,7 +557,7 @@ plot_pareto= function(points,pareto){
 }
 ```
 
-**Joint normal with positive correlation, small set:**
+**Joint normal with positive correlation, $N=10$:**
 ```{r}
 Sigma <- matrix(c(1, 1, 1, 4), 2, 2) # 2x2 covariance matrix
 points <- data.frame(mvrnorm(n = 10, rep(0, 2), Sigma)) %>%
@@ -562,40 +566,51 @@ plot_pareto(points,pareto_from_points(points))
 ```
 
 
-**Joint normal with positive correlation:**
+**Joint normal with positive correlation, $N$=100:**
 ```{r}
 Sigma <- matrix(c(1, 1, 1, 4), 2, 2) # 2x2 covariance matrix
-points <- data.frame(mvrnorm(n = 500, rep(0, 2), Sigma)) %>%
+points <- data.frame(mvrnorm(n = 100, rep(0, 2), Sigma)) %>%
    rename("x" = 1, "y" = 2)
 plot_pareto(points,pareto_from_points(points))
 ```
 
-**Independent Laplace:**
+
+**Joint *t* Distribution with 3 degrees of freedom, $N$=100.**
 ```{r}
-points <- tibble(x = rLaplace(5000), y = rLaplace(5000))
+library(mvtnorm)
+Sigma <- matrix(c(1, 1, 1, 4), 2, 2) # 2x2 covariance matrix
+points <- data.frame(rmvt(n=100,Sigma,df=3)) %>% rename("x" = 1, "y" = 2)
+plot_pareto(points,pareto_from_points(points))
+
+```
+
+
+**Independent Laplace, $N$=100:**
+```{r}
+points <- tibble(x = rLaplace(100), y = rLaplace(100))
 plot_pareto(points,pareto_from_points(points))
 ```
 
-**Common Laplace factor with independent Gaussian noise:**
+**Common Laplace factor with independent Gaussian noise, $N$=100:**
 ```{r}
-z <- rLaplace(200, mu = 0, b = 3)
+z <- rLaplace(100, mu = 0, b = 3)
 Sigma <- matrix(c(1, 0, 0, 1), 2, 2) # 2x2 covariance matrix
-points <- data.frame(mvrnorm(n = 200, rep(0, 2), Sigma)) %>%
+points <- data.frame(mvrnorm(n = 100, rep(0, 2), Sigma)) %>%
    rename("x" = 1, "y" = 2) %>%
    cbind(z) %>%
    mutate(x = z + 2 * x, y = z + 2 * y)
 plot_pareto(points,pareto_from_points(points))
 ```
 
-**Independent uniform:**
+**Independent uniform, $N$=100:**
 ```{r}
-points <- tibble(x = runif(5000) - .5, y = runif(5000) - .5)
+points <- tibble(x = runif(100) - .5, y = runif(100) - .5)
 plot_pareto(points,pareto_from_points(points))
 ```
 
-**Common uniform factor plus independent uniform noise:**
+**Common uniform factor plus independent uniform noise, $N$=100:**
 ```{r}
-points <- tibble(x = runif(5000) - .5, y = runif(5000) - .5, z = runif(5000) - .5) %>%
+points <- tibble(x = runif(100) - .5, y = runif(100) - .5, z = runif(100) - .5) %>%
    mutate(
       x = x + .5 * z,
       y = y + .5 * z
