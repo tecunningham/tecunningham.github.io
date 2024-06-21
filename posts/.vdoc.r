@@ -58,333 +58,484 @@
 #
 #
 #
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-library(MASS)
 library(tidyverse)
-library(ggforce)
-library(ExtDist) # extra distributions
-library(cowplot) # for combining two plots
+library(laGP)
+data <- tribble( # basic datapoints
+   ~x, ~y,
+   2, 2,
+   3, 6,
+   4, 5.6,
+   5, 8.5,
+   6, 11,
+   7, 8,
+   8, 4,
+   9, 2
+)
 
-# pareto frontier from selecting top N
-slope_steps <- 100
-pareto_topn <- function(points, num_sample) {
-   pareto <- data.frame(x = as.numeric(), y = as.numeric())
-   for (slope in 1:slope_steps) {
-      points <- points %>%
-         mutate(
-            # score = x + y * -log(slope / slope_steps),
-            score = x + y * tan(2 * 3.1415 * slope / slope_steps),
-            rank = rank(desc(score))
-         )
-      stats <- points %>%
-         summarize(
-            avg_x = sum(x[rank < num_sample]) / num_sample,
-            avg_y = sum(y[rank < num_sample]) / num_sample
-         )
-      pareto[nrow(pareto) + 1, ] <- list(x = stats$avg_x, y = stats$avg_y)
-   }
-   ggplot(pareto, aes(x, y)) +
-      geom_point(data = points, alpha = .1) +
-      geom_density_2d(data = points) +
-      geom_point(data = pareto, color = "red", alpha = 1) +
-      coord_fixed() +
-      xlim(-5, 5) +
-      ylim(-5, 5)
-}
-# pareto_topn(points, 1000)
+xa <- c(3, 4) # some subsets
+ya <- subset(data, x %in% xa)$y
+xb <- c(6, 8)
+yb <- subset(data, x %in% xb)$y
+xc <- c(4, 8)
+yc <- subset(data, x %in% xc)$y
 
-# pass this function a set of points and it'll draw a pareto frontier along each axis
-pareto_positive <- function(points) {
-   slope_steps <- 100
-   pareto <- data.frame(x = as.numeric(), y = as.numeric())
-   for (slope in 1:slope_steps) { # loop through slopes
-      slope_ratio <- slope / slope_steps
-      points <- points %>%
-         mutate(
-            # given an angle between 0 and 2pi, unit vector will be (cos(theta),sin(theta)).
-            # can get score by dot product with the unit vector
-            score = x * cos(slope_ratio * 3.1415 * 2) + y * sin(slope_ratio * 3.1415 * 2)
-         )
-      stats <- points %>%
-         summarize(
-            avg_x = sum(x[score > 0]),
-            avg_y = sum(y[score > 0])
-         )
-      pareto[nrow(pareto) + 1, ] <- list(x = stats$avg_x, y = stats$avg_y)
-   }
-   p <- ggplot(points, aes(x, y)) +
-      geom_point() +
-      coord_fixed()
-   q <- ggplot(pareto, aes(x, y)) +
-      geom_hline(yintercept = 0) +
-      geom_vline(xintercept = 0) +
-      # geom_point(data = points, alpha = .1) +
-      # geom_density_2d(data = points) +
-      geom_point(data = pareto, color = "red", alpha = 1) +
-      geom_polygon(data = pareto, alpha = 0.1) + # fill
-      coord_fixed()
-   plot_grid(p, q)
-}
+xx <- seq(0, 10, length = 1000)
+p <- predGP(newGP(matrix(data$x, ncol = 1), data$y, d = 10, g = 1e-8),
+   matrix(xx, ncol = 1),
+   lite = TRUE
+)
+pa <- predGP(newGP(matrix(xa, ncol = 1), ya, d = 10, g = 1e-8),
+   matrix(xx, ncol = 1),
+   lite = TRUE
+)
+pb <- predGP(newGP(matrix(xb, ncol = 1), yb, d = 10, g = 1e-8),
+   matrix(xx, ncol = 1),
+   lite = TRUE
+)
+pc <- predGP(newGP(matrix(xc, ncol = 1), yc, d = 10, g = 1e-8),
+   matrix(xx, ncol = 1),
+   lite = TRUE
+)
+pab <- predGP(newGP(matrix(c(xa, xb), ncol = 1), c(ya, yb), d = 10, g = 1e-8),
+   matrix(xx, ncol = 1),
+   lite = TRUE
+)
+
+curves <- tibble(
+   x = xx,
+   pamax = pa$mean + 2 * sqrt(pa$s2),
+   pamin = pa$mean - 2 * sqrt(pa$s2),
+   pa = pa$mean,
+   pbmax = pb$mean + 2 * sqrt(pb$s2),
+   pbmin = pb$mean - 2 * sqrt(pb$s2),
+   pb = pb$mean,
+   pmax = p$mean + 2 * sqrt(p$s2),
+   pmin = p$mean - 2 * sqrt(p$s2),
+   p = p$mean,
+   pab = pab$mean,
+   pc = pc$mean
+)
+
+theme_set(theme_bw() +
+   theme(
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.text.x = element_blank(),
+      axis.ticks.x = element_blank(),
+      axis.text.y = element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.title.x = element_blank(),
+      axis.title.y = element_blank(),
+      axis.line.x = element_line("black"),
+      panel.border = element_blank()
+   ))
+update_geom_defaults("line", list(size = 1))
 #
 #
 #
 #
-Sigma <- matrix(c(1, 1, 1, 4), 2, 2) # 2x2 covariance matrix
-points <- data.frame(mvrnorm(n = 500, rep(0, 2), Sigma)) %>%
-   rename("x" = 1, "y" = 2)
-pareto_positive(points)
 #
 #
 #
 #
-points <- tibble(x = rLaplace(5000), y = rLaplace(5000))
-pareto_positive(points)
 #
 #
 #
 #
-z <- rLaplace(200, mu = 0, b = 3)
-Sigma <- matrix(c(1, 0, 0, 1), 2, 2) # 2x2 covariance matrix
-points <- data.frame(mvrnorm(n = 200, rep(0, 2), Sigma)) %>%
-   rename("x" = 1, "y" = 2) %>%
-   cbind(z) %>%
-   mutate(x = z + 2 * x, y = z + 2 * y)
-pareto_positive(points)
 #
 #
 #
 #
-points <- tibble(x = runif(5000) - .5, y = runif(5000) - .5)
-pareto_positive(points)
 #
 #
 #
 #
-points <- tibble(x = runif(5000) - .5, y = runif(5000) - .5, z = runif(5000) - .5) %>%
-   mutate(
-      x = x + .5 * z,
-      y = y + .5 * z
-   )
-pareto_positive(points)
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+# From code in this book: https://bookdown.org/rbg/surrogates/chap5.html
+library(tidyverse)
+library(laGP)
+data <- tribble(
+   ~x, ~y,
+   #   1, 0,
+   2, 2,
+   3, 6,
+   4, 5.6,
+   5, 8.5,
+   6, 11, #
+   7, 8,
+   8, 4,
+   9, 2
+)
+
+xa <- c(3, 4) # 5
+ya <- subset(data, x %in% xa)$y
+xb <- c(6, 8)
+yb <- subset(data, x %in% xb)$y
+xc <- c(4, 8)
+yc <- subset(data, x %in% xc)$y
+
+xx <- seq(0, 10, length = 1000)
+p <- predGP(newGP(matrix(data$x, ncol = 1), data$y, d = 10, g = 1e-8),
+   matrix(xx, ncol = 1),
+   lite = TRUE
+)
+pa <- predGP(newGP(matrix(xa, ncol = 1), ya, d = 10, g = 1e-8),
+   matrix(xx, ncol = 1),
+   lite = TRUE
+)
+pb <- predGP(newGP(matrix(xb, ncol = 1), yb, d = 10, g = 1e-8),
+   matrix(xx, ncol = 1),
+   lite = TRUE
+)
+pc <- predGP(newGP(matrix(xc, ncol = 1), yc, d = 10, g = 1e-8),
+   matrix(xx, ncol = 1),
+   lite = TRUE
+)
+pab <- predGP(newGP(matrix(c(xa, xb), ncol = 1), c(ya, yb), d = 10, g = 1e-8),
+   matrix(xx, ncol = 1),
+   lite = TRUE
+)
+
+curves <- tibble(
+   x = xx,
+   pamax = pa$mean + 2 * sqrt(pa$s2),
+   pamin = pa$mean - 2 * sqrt(pa$s2),
+   pa = pa$mean,
+   pbmax = pb$mean + 2 * sqrt(pb$s2),
+   pbmin = pb$mean - 2 * sqrt(pb$s2),
+   pb = pb$mean,
+   pmax = p$mean + 2 * sqrt(p$s2),
+   pmin = p$mean - 2 * sqrt(p$s2),
+   p = p$mean,
+   pab = pab$mean,
+   pc = pc$mean
+)
+theme_set(theme_bw() +
+   theme(
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.text.x = element_blank(),
+      axis.ticks.x = element_blank(),
+      axis.text.y = element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.title.x = element_blank(),
+      axis.title.y = element_blank(),
+      axis.line.x = element_line("black"),
+      panel.border = element_blank()
+   ))
+update_geom_defaults("line", list(size = 1))
+#
+#
+#
+#| fig-height: 1
+ggplot(curves, aes(x, y)) +
+   geom_line(aes(y = p), linewidth = 1) +
+   ylim(0, 12)
+#
+#
+#
+#
+#
+#
+#| fig-height: 1
+ggplot(curves, aes(x, y)) +
+   geom_line(aes(y = p), linewidth = 1) +
+   geom_line(aes(y = pb), color = "red") +
+   geom_point(data = tibble(x = xb, y = yb), color = "red", size = 3) +
+   ylim(0, 12)
+#
+#
+#
+#
+#
+ggplot(curves, aes(x, y)) +
+   geom_line(aes(y = p), linewidth = 1) +
+   geom_line(aes(y = pb), color = "red") +
+   geom_line(aes(y = pb + 0.3), color = "#009900", linewidth = 1) +
+   geom_point(data = tibble(x = xb, y = yb), color = "red", size = 3) +
+   geom_point(data = tibble(x = xb, y = yb + 0.3), color = "#009900", size = 3) +
+   ylim(0, 12)
+```
+#
+#
+#
+#
+ggplot(curves, aes(x, y)) +
+   geom_line(aes(y = p), linewidth = 1) +
+   geom_line(aes(y = pa), color = "blue") +
+   geom_line(aes(y = pb), color = "red") +
+   geom_point(data = tibble(x = xa, y = ya), color = "blue", size = 3) +
+   geom_point(data = tibble(x = xb, y = yb), color = "red", size = 3) +
+   ylim(0, 12)
+```
+#
+#
+#
+#
+ggplot(curves, aes(x, y)) +
+   geom_line(aes(y = p), linewidth = 1) +
+   geom_line(aes(y = pa), color = "blue") +
+   geom_line(aes(y = pb), color = "red") +
+   geom_line(aes(y = pab), color = "#009900", linewidth = 1) +
+   geom_point(data = tibble(x = xa, y = ya), color = "blue", size = 3) +
+   geom_point(data = tibble(x = xb, y = yb), color = "red", size = 3) +
+   geom_point(data = tibble(x = c(xa, xb), y = c(ya, yb) + 0.2), color = "#009900", size = 3) +
+   ylim(0, 12)
+```
+#
+#
+#
+#
+#
+#
+## make an oscillation
+orbit <- 5 + 3 * sin(xx) + cos(xx * 20)
+xorbit <- c(2, 3.06, 3.2, 3.5, 4, 4.18, 6, 7)
+porbit <- predGP(newGP(matrix(xorbit, ncol = 1), orbit[xorbit * 100], d = 10, g = 1e-8),
+   matrix(xx, ncol = 1),
+   lite = TRUE
+)
+#theme_set(theme_bw())
+ggplot(tibble(x = xx, y = orbit, p = porbit$mean), aes(x, y)) +
+   geom_line(aes(y = y)) +
+   geom_line(aes(y = p), color="blue") +
+   geom_point(
+      data = tibble(x = xorbit, y = orbit[xorbit * 100]),
+      color = "blue", size = 3
+   ) +
+   ylim(0, 12)
+```
+#
+#
+#
+#
+ggplot(curves, aes(x, y)) +
+   geom_line(aes(y = p), linewidth = 1, color = "red") +
+   geom_line(aes(y = pc), color = "pink") +
+   # geom_line(aes(y = pb + 0.3), color = "#009900", linewidth = 1) +
+   # geom_point(data = tibble(x = xb, y = yb), color = "red", size = 3) +
+   # geom_point(data = tibble(x = xb, y = yb + 0.3), color = "#009900", size = 3) +
+   ylim(0, 12)
+```
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 #
 #
 #
