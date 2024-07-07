@@ -97,9 +97,7 @@ ga('send', {
 <link rel="stylesheet" href="../styles.css">
 <meta name="twitter:title" content="?meta:title | Tom Cunningham">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="tecunningham.github.io/posts/2023-06-06-effect-of-ai-on-communication-OFFCUTS_files/figure-html/unnamed-chunk-1-1.png">
-<meta name="twitter:image-height" content="581">
-<meta name="twitter:image-width" content="670">
+<meta name="twitter:image" content="tecunningham.github.io/posts/images/2023-02-07-17-15-00.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -166,6 +164,8 @@ ga('send', {
     h1 {  border-bottom: 4px solid black;}
     h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; font-size: 1.3em; color: black; }
 </style>
+<p><strong>SEE ALSO:</strong> 2023-10-26-models-of-ai-and-the-world.qmd</p>
+<p><span class="math display">\[\xymatrix{a&amp;b}\]</span></p>
 <p><strong>PRIORITY</strong></p>
 <ul>
 <li>Entertainment will be replaced but information will not.</li>
@@ -190,6 +190,7 @@ ga('send', {
 </ul>
 <p><strong>Other peoples’ writing:</strong></p>
 <ul>
+<li>Simon, Altay, Mercier “Misinformation Reloaded”</li>
 <li>READ THIS: https://knightcolumbia.org/content/how-to-prepare-for-the-deluge-of-generative-ai-on-social-media , <a href="https://twitter.com/random_walker/status/1671544042407198720?s=20">tweet thread</a></li>
 <li>https://knowledge.insead.edu/operations/navigating-trust-and-safety-world-generative-ai</li>
 <li><a href="https://academic.oup.com/ct/article/33/2-3/164/7202294">“artificial intelligence and the public arena”</a></li>
@@ -198,6 +199,7 @@ ga('send', {
 <li>https://web.stanford.edu/~gentzkow/research/ai_and_media.pdf</li>
 <li>https://web.stanford.edu/~gentzkow/research/ai_and_media_slides.pdf</li>
 </ul></li>
+<li>Sandy Pentland, <em>Honest Signals</em></li>
 </ul>
 <p><strong>IN A WORD:</strong></p>
 <ul>
@@ -340,151 +342,6 @@ ga('send', {
 <p><em>Hard for classifier to know what’s intrinsic:</em> If you only train on a subset of the sample space, then can’t tell whether a feature is intrinsic or diagnostic.</p>
 <p><em>Note: hard to talk about effect of features.</em> Need a clear counterfactual and often counterfactual is ambiguous. Think of simplex triangle. Uppercase is OK. Clouds is OK. Talking about effect of gross features is hard.</p>
 <p>.</p>
-</section>
-<section id="model-of-latent-space-embedding" class="level1 page-columns page-full">
-<h1>Model of Latent Space / Embedding</h1>
-<section id="summary" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
-
-<div class="no-row-height column-margin column-container"><div class="">
-<p><span class="math display">\[\xymatrix@R=1em@C=.5em{
-      \txt{state} &amp; \txt{signal} &amp; \txt{representation} \\
-      &amp; \boxed{x_{1}}\ar[dddr]\ar[ddr] \\
-      &amp; \boxed{x_{2}}\ar[ddr]\ar[dr] \\
-      v_1\ar[uur]\ar[ur]\ar[r]\ar[dr]\ar[ddr]\ar[dddr]&amp; \boxed{x_{3}}\ar[dr]\ar[r] &amp; \hat{v}_1\\
-      v_2\ar[uuur]\ar[uur]\ar[ur]\ar[r]\ar[dr]\ar[ddr] &amp; \boxed{x_{4}}\ar[r]\ar[ur] &amp; \hat{v}_2\\
-      &amp; \boxed{x_{5}}\ar[ur]\ar[uur]   \\
-      &amp; \boxed{x_{6}}\ar[uur]\ar[uur]
-   }
-   \]</span></p>
-</div></div><p><strong>The world has a low-dimensional representation.</strong> I.e. <span class="math display">\[\utt{\bm{x}}{$m\times 1$}{signal}  = \ut{A}{$m\times n$} \utt{\bm{v}}{$n\times 1$}{state}
-      ,\ \ m\gg n
-   \]</span></p>
-<table class="table">
-<thead>
-<tr class="header">
-<th style="text-align: center;">signal<br> (high dimensional)</th>
-<th style="text-align: center;">state<br> (low dimensional)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">image</td>
-<td style="text-align: center;">scene, lighting</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">text</td>
-<td style="text-align: center;">meaning, tone, dialect</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">audio</td>
-<td style="text-align: center;">speaker, words spoken</td>
-</tr>
-</tbody>
-</table>
-<p><strong>People have imperfect knowledge of A.</strong></p>
-<ul>
-<li><em>Implies feature space is sparse.</em></li>
-<li><em>Implies many-to-one mapping</em>.</li>
-<li><em>Nonlinear.</em> – convolutions, rotation, softmax.</li>
-<li><em>Hierarchical.</em> –</li>
-</ul>
-<ol type="1">
-<li><p><strong>Human understanding of mappings.</strong></p>
-<ul>
-<li>Some things we can go in both directions: <span class="math display">\[\text{text}\rightleftarrows\text{meaning}\]</span></li>
-<li>Some things we can only go in one direction: <span class="math display">\[\text{image}\rightarrow\text{scene}\]</span></li>
-<li>Some things we can <em>partly</em> go in the other direction: <span class="math display">\[\text{audio}\leftarrow\text{speech,(speaker)}\]</span></li>
-</ul></li>
-<li><p><strong>Consequences for computer understanding.</strong></p>
-<ol type="1">
-<li><em>Can do arbitrarily well with sufficient data.</em> With simple nearest-neighbor model then error will get arbitrarily low as <span class="math inline">\(n\rightarrow\infty\)</span>, but in many cases the feature space is so high and the mapping sufficiently complicated that convergence is very slow.</li>
-<li><em>Some problems are easy.</em> When <span class="math inline">\(m\)</span> is small, or if humans encode the core features, then it’s easy, and computers outperform humans.</li>
-<li><em>Generalization.</em> Expect computers to have lower ability to generalize compared to humans (they have big drop-off in accuracy between in-sample and out-of-sample).</li>
-<li><em>Adversarial.</em> Computers do very badly with adversarial attacks when they have a shallow understanding.</li>
-</ol></li>
-</ol>
-<p><strong>Summary:</strong></p>
-<ol type="1">
-<li>Humans observe a high-dimensional message <span class="math inline">\(\bm{x}\)</span>, and we infer from that a low-dimensional semantics <span class="math inline">\(\bm{v}\)</span>. We can also do the reverse: given some semantics <span class="math inline">\(\bm{v}\)</span> we generate a message <span class="math inline">\(\bm{x}\)</span> that expresses that (it’s a one-to-many mapping).</li>
-<li>Some examples:
-<ul>
-<li><strong>hate speech</strong> (<span class="math inline">\(x\)</span> is sentence, <span class="math inline">\(v\)</span> it how hateful)
-<ul>
-<li>humans can do both (<span class="math inline">\(x\rightarrow v\)</span> and <span class="math inline">\(v\rightarrow x\)</span>)</li>
-<li>simple classifier can do <span class="math inline">\(x\rightarrow v\)</span> badly, e.g.&nbsp;looking for bad words, but easily evaded</li>
-<li>AI can do both <span class="math inline">\(x\rightarrow v\)</span> and <span class="math inline">\(v\rightarrow x\)</span></li>
-</ul></li>
-<li><strong>nudity</strong> (<span class="math inline">\(x\)</span> is photo, <span class="math inline">\(v\)</span> it how nude)
-<ul>
-<li>humans can tell if nude (<span class="math inline">\(x\rightarrow v\)</span>), but can’t create photo</li>
-<li>simple classifier can do <span class="math inline">\(x\rightarrow v\)</span> badly, e.g.&nbsp;looking for flesh tones</li>
-<li>AI can do both <span class="math inline">\(x\rightarrow v\)</span> and <span class="math inline">\(v\rightarrow x\)</span></li>
-</ul></li>
-<li><strong>fake photo</strong> (<span class="math inline">\(x\)</span> is photo, <span class="math inline">\(v_1\)</span> is person and <span class="math inline">\(v_2\)</span> is activity)
-<ul>
-<li>humans can interpret photos (<span class="math inline">\(x\rightarrow v\)</span>), but can only create them if they <em>see</em> the <span class="math inline">\(v\)</span> happening in real life.</li>
-<li>simple classifier can’t do much</li>
-<li>AI can both interpret and synthesize photos (<span class="math inline">\(x\rightleftarrows v\)</span>)</li>
-</ul></li>
-</ul></li>
-</ol>
-<p><strong>Formal setup:</strong> <span class="math display">\[\begin{aligned}
-      \utt{x}{message}{$m\times 1$}
-         &amp;= \ut{A}{$m\times n$}
-            \utt{v}{value}{$n\times 1$}
-            + \utt{e}{error}{$m\times 1$} \\
-      v  &amp;\sim N(0,\Omega)\\
-      e  &amp;\sim N(0,\Sigma)\\
-      E[v|x]   &amp;\simeq A\Sigma(A\Omega A'+\Sigma)^{-1}x
-         &amp;&amp; \text{(double-check this)}
-   \end{aligned}
-   \]</span></p>
-<div class="cell page-columns page-full" data-layout-align="center" data-hash="2023-06-06-effect-of-ai-on-communication-OFFCUTS_cache/html/unnamed-chunk-1_88c31ba3bfe9e90572decd2087fee628">
-
-<div class="no-row-height column-margin column-container"><div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="2023-06-06-effect-of-ai-on-communication-OFFCUTS_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="288"></p>
-</figure>
-</div>
-</div></div></div>
-<p><strong>Two dimensional example.</strong></p>
-<ul>
-<li><em>Two features predict the underlying value:</em> we visualize <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>, which have positive correlation. The ellipse is an isovalue of the joint density, and the dotted lines are isovalues of <span class="math inline">\(E[v|x_1,x_2]\)</span>.</li>
-<li><em>Simple classifier does OK:</em> A classifier which just uses <span class="math inline">\(x_1\)</span> will be relatively high accuracy.</li>
-<li><em>Simple classifier is easy to evade:</em> An adversary can just lower their <span class="math inline">\(x_1\)</span> and raise their <span class="math inline">\(x_2\)</span> such that they get the same value of <span class="math inline">\(v\)</span> but fall outside the classified region. If there are arbitrarily many features <span class="math inline">\(x_1,\ldots\)</span>, then they can always find a way of evading the classifier.</li>
-<li><em>Perfect classifier cannot be evaded:</em> If the classifier conditions on all the observables (<span class="math inline">\(x_1,x_2\)</span>) then there’s no evasion.</li>
-</ul>
-</section>
-</section>
-<section id="model-of-ai-and-external-properties" class="level1">
-<h1>Model of AI and External Properties</h1>
-<p><strong>General:</strong></p>
-<p><span class="math display">\[\begin{aligned}
-   P(spam) &amp;= \mu \\
-   P(spam|\bm{x}) &amp;= \frac{P(\bm{x}|spam)P(spam)}{P(\bm{x})} \\
-      &amp;= \frac{P(\bm{x}|spam)\mu}{P(\bm{x}|spam)\mu + P(\bm{x}|-spam)(1-\mu)}
-\end{aligned}
-\]</span></p>
-<p><strong>Now with conditionally independent binary features:</strong> <span class="math display">\[\begin{aligned}
-   P(x_i=1|spam) &amp;= p \\
-   P(x_i=1|nonspam) &amp;= .5 \\
-   P(spam|x_i=1) &amp;= \frac{p\mu}{p\mu+.5(1-\mu)}\\
-   P(spam|x_i=0) &amp;= \frac{(1-p)\mu}{(1-p)\mu+.5(1-\mu)}\\\\
-   P(m\text{ of }n|spam) &amp;= \frac{p^m(1-p)^{n-m}\mu}{p^m(1-p)^{n-m}\mu+.5^m(1-\mu)}
-\end{aligned}
-\]</span></p>
-<p><strong>Claims:</strong></p>
-<ol type="1">
-<li>If receiver can add extra feature to their filter then discrimination gets better (obviously).</li>
-<li>If sender can randomize some feature then discrimination gets much worse (in short run) and a little worse (in medium run).</li>
-</ol>
-<p><strong>Want:</strong></p>
-<ol type="1">
-<li><strong>Internal property:</strong> adding more features to both sides will make discrimination perfect, but in this baseline model it won’t affect anything.</li>
-<li><strong>External property:</strong> adding more features on both sides will make discrimination worse. Yes, can do this, just distinguish between <span class="math inline">\(n_s\)</span>, <span class="math inline">\(n_r\)</span>, and <span class="math inline">\(n_h\)</span>. As the sender and receiver models get better then they impinge on <span class="math inline">\(n_h\)</span>. –&gt;</li>
-</ol>
 </section>
 <section id="references" class="level1">
 <h1>References</h1>
@@ -784,6 +641,82 @@ ga('send', {
 <p>Resvolved No, was 50% for a long time.</p>
 </section>
 </section>
+<section id="appendix-model-of-ai-and-internal-properties-venn-model" class="level1 page-columns page-full">
+<h1>Appendix: Model of AI and Internal Properties (Venn Model)</h1>
+<p><strong>In short: <em>improvements in AI are likely to reduce overall prevalence of violating content on platforms</em>.</strong></p>
+<div class="page-columns page-full"><p><strong>Better models will help both sides in this war:</strong> they will help platforms detect violating content, but they also also help producers camouflage their violating content. I argue below that the net effect will likely be to help platforms, the basic argument is that if both sides had access to a <em>perfect</em> classifier then there would be zero violating content on the platform.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn3"><p><sup>3</sup>&nbsp;Yann Lecunn made a similar argument in a <a href="https://twitter.com/ylecun/status/1664651158562979841">tweet</a> from June 2023: “AI is part of the solution here, not part of the problem! It is because of progress in natural language understanding in multiple languages (due to self-supervised transformers) that, for example, hate speech can be detected and taken down in hundreds of languages.”. Although I think the wording is misleading by implying that AI being part of the solution precludes it from also being part of the problem. Also worth noting that LeCunn misstates FB’s own statistics: he says “82% of hate speech is taken down automatically by AI before anyone sees it.” In fact it’s 82% of <em>detected</em> hate speech, and the 82% refers to the share that is actioned before it is <em>reported</em>, not actioned before it is <em>seen</em>. The share of true hate speech detected by AI is necessarily smaller but FB does not report that figure.</p></li></div></div>
+<p><strong>Prevalence of violating content has fallen.</strong> Overall prevalence of violating content has shrunk dramatically over the past 5-10 years on the major social media platforms, and this can largely be attributed to improvements in classifiers.</p>
+<p><strong>Model: a Venn-diagram model of content moderation with classifiers.</strong> I describe a game between a platform and a producer, each of whom has access to a classifier. We want to know the effect on total violating content that survives filtering by the platform. Conclusions:</p>
+<ol type="1">
+<li>If a plaform gets a better classifier then less violating content gets through.</li>
+<li>If a producer gets a better classifier then the effect is ambiguous, but probably more violating content will get through. In practice this means producers using an AI model to rephrase text, add noise to photos, or synthesize video, such that the content remains violating but the platform’s classifier does not pick it up.</li>
+<li>If both platform and producer get a better classifier then probably less violating content will get through.</li>
+<li>A lot of content will sit <em>just on the threshold</em> for getting filtered.</li>
+</ol>
+<section id="model" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="model">Model</h2>
+<div class="page-columns page-full"><p><strong>The diagram below illustrates three sets of posts:</strong> <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn4"><p><sup>4</sup>&nbsp;I’m assuming that the universe is all possible posts, e.g.&nbsp;all possible strings of text, or sets of pixels. Then sets <span class="math inline">\(V\)</span> and <span class="math inline">\(\hat{V}\)</span> and <span class="math inline">\(M\)</span> will be enormous, but the actually existing posts are only a tiny tiny fraction of the set of possible posts. When calculating prevalence we use cardinality of these sets, implying (1) posts are drawn uniformly from the sets, and (2) there are no identical posts, i.e.&nbsp;each post is drawn at most 1 time.</p></li></div></div>
+<ul>
+<li><strong><span class="math inline">\(V\)</span>: posts that are violating</strong> – according to expert human raters. I’m concentrating on “self-contained” rules, e.g.&nbsp;nudity, hate speech, holocaust denial, where the violation depends only on the direct content of the post. I’m not considering categories like misinformation, deepfakes, or spam where violation depends on whether the content is true, or the provenance of the content.</li>
+<li><strong><span class="math inline">\(\hat{V}\)</span>: posts that are classified as violating</strong> – by the platform’s classifier, can parameterize with a threshold (<span class="math inline">\(\hat{V}(k)\)</span>). The red segments below represent the false positives and false negatives of the classifier:</li>
+<li><strong><span class="math inline">\(M\)</span>: posts that the producer wants to send</strong> – i.e., posts that express their message, <span class="math inline">\(M\)</span>. We can classify some producers as “good” (only wants to send non-violating <span class="math inline">\(M\cap V=\varnothing\)</span>), or as bad (only want to send violating <span class="math inline">\(M\cap V=M\)</span>).</li>
+</ul>
+<div class="cell" data-hash="2023-06-06-effect-of-ai-on-communication-OFFCUTS_cache/html/unnamed-chunk-1_1d24b28bc4d22f5879219325329003a4">
+<div class="cell-output-display">
+<p><img src="2023-06-06-effect-of-ai-on-communication-OFFCUTS_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="implications-of-this-model" class="level2">
+<h2 class="anchored" data-anchor-id="implications-of-this-model">Implications of this Model</h2>
+<p>Suppose that we remove all detected violating posts (i.e.&nbsp;<span class="math inline">\(\hat{V}\)</span>). In the case illustrated above the posts removed (<span class="math inline">\(M\cap\hat{V}\)</span>) would be the majority of the producer’s posts, and of those that remain only a small share are violating. We can make a few observations given this setup:</p>
+<ol type="1">
+<li><p><strong>Improvements to the platform’s classifier will reduce prevalence of violating content.</strong> If we hold fixed the producer’s production, then as the classifier <span class="math inline">\(\hat{V}\)</span> gets closer to <span class="math inline">\(V\)</span> we should generally expect fewer false-positives and fewer false-negatives, so overall a better outcome for the platform (there are cases where this wouldn’t happen but they seem unusual.)</p></li>
+<li><p><strong>Improvements to producer’s classifier will <em>probably</em> increase prevalence of violating content.</strong> Suppose that producers have their own estimate of the platform’s classifier, <span class="math inline">\(\tilde{V}\)</span>, and they will produce posts uniformly from the set they believe will not be removed, i.e.&nbsp;from the set <span class="math inline">\(M \backslash \tilde{V}\)</span>. If the producer learns the true classifier <span class="math inline">\(\tilde{V}=\hat{V}\)</span> then they will reduce their rate of deleted posts, which is good for the producer, but the effect on the platform can be ambiguous:</p>
+<ul>
+<li><strong>For good producers:</strong> For producer who do not wish to produce violating content (<span class="math inline">\(M\cap V=\varnothing\)</span>) knowledge of the classifier will prevent them from producing false positives, and they will produce more true negatives, which is good for the platform.</li>
+<li><strong>For bad producers:</strong> For producers who <em>only</em> want to produce violating content (<span class="math inline">\(M\cap V=M\)</span>) they will increase their rate of violating but non-detected posts (false negatives), which is bad for the platform.</li>
+<li><strong>For neutral producers:</strong> For neutral producers (where <span class="math inline">\(M\)</span> is neither a subset nor mutually exclusive with being violating), the net effect is ambiguous.</li>
+</ul>
+<p>In fact the net effect seems likely to be negative because in most cases people who produce violating content do it on purpose, e.g.&nbsp;those who produce nudity and hate speech and holocaust denial do it intentionally, and they couldn’t achieve their purpose without violating the policy.</p>
+<p><strong>What this looks like in practice:</strong> tricking classifiers by misspelling words, using roundabout phrasing, inverting colours in a photo, adding noise to a video. Earlier classifiers had difficulty with these manipulations but deep neural nets are much better at recognizing the deep content and are harder to confuse.</p>
+<p><strong>Qualification.</strong> In the argument above I’m holding fixed the platform’s classifier <span class="math inline">\(\hat{V}\)</span>. However if the producer changes the posts they produce then the performance of that classifier will change, e.g.&nbsp;precision might fall, and so the full effect should include an adjustment to that classifier. Could add an equilibrium condition that the classifier’s threshold <span class="math inline">\(k\)</span> will be set such that precision will be <span class="math inline">\(p\)</span> (<span class="math inline">\(\frac{|\hat{V}(k)\cap V \cap M|}{|\hat{V}(k)\cap M|}=p\)</span>). I don’t think this would change the qualitative conclusion.</p></li>
+<li><p><strong>Improvements to a classifier used by both platform and producer will lower prevalence of violating content.</strong> Suppose both parties used the same classifier (<span class="math inline">\(\tilde{V}=\hat{V}\)</span>), and that classifier was perfect (<span class="math inline">\(\tilde{V}=\hat{V}=V\)</span>). Then there will be no violating posts shown: negative producers won’t post anything, and neutral and positive producers will only produce non-violating posts. This argument applies to the limit of having a perfect model, but it seems reasonable to presume that on the path to that limit the rate of violating posts will generally decline.</p></li>
+<li><p><strong>Content will cluster just below the classifier threshold.</strong> So far we have discussed everything in binary terms, thought realistically most things are continuous. If we action posts in a binary manner, e.g.&nbsp;filtering posts with a classifier score above some threshold, then producers will have an incentive to produce posts which are just below the threshold for filtering.</p></li>
+</ol>
+</section>
+</section>
+<section id="appendix-discrimination-model" class="level1 page-columns page-full">
+<h1>Appendix: Discrimination Model</h1>
+<p><strong>Q: what happens when it gets easier to manufacture forgeries?</strong> We want to know the equilibrium effect on the rate at which people accept both real and fake goods. Of particular interest is the relative effect of deepfake technology on (1) false positives - forgeries believed to be genuine, and (2) false negatives - genuine images believed to be forgeries.</p>
+<p><strong>Core prediction: if the current share of fakes is small then the primary effect of deepfakes will be more false positives rather than more false negatives.</strong> I.e. people will accept a lot more fake images as true, but they won’t reject many more real images as fakes. I’m not sure how convincing the argument is in reality, but there’s a nice crisp intuition of how it works in the model.</p>
+<div class="cell page-columns page-full" data-hash="2023-06-06-effect-of-ai-on-communication-OFFCUTS_cache/html/unnamed-chunk-2_7bfcfbafdd0d846dbe6d8a2b8b3dd021">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<p><img src="2023-06-06-effect-of-ai-on-communication-OFFCUTS_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div></div></div>
+<p><strong>Setup: you get a noisy signal of “genuineness”.</strong> After observing the signal you accept the good if <span class="math inline">\(P(\text{real}|\text{signal})\)</span> is above some probability threshold. We can draw two distributions of signals, and the intersection of the two curves will be the equilibrium threshold assuming that (1) fakes and real are equally likely; (2) the cost of a false positive is equal to the cost of a false negative.</p>
+<div class="cell page-columns page-full" data-hash="2023-06-06-effect-of-ai-on-communication-OFFCUTS_cache/html/unnamed-chunk-3_a223f9e63b8698d18c9c94904186982d">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<p><img src="2023-06-06-effect-of-ai-on-communication-OFFCUTS_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div></div></div>
+<p><strong>Now let the technology for producing fakes gets better.</strong> We model this as a shift to the right in the “quality” curve for fakes:</p>
+<p><strong>Implications.</strong> Reading off this diagram we can see a number of effects. I think these will all be true as long as the monotone likelihood ratio property holds.</p>
+<ol type="1">
+<li><strong>The threshold gets higher.</strong></li>
+<li><strong>More fakes get accepted (more false positives).</strong> A larger share of all fakes will be above the threshold.</li>
+<li><strong>More reals get rejected (more false negatives).</strong> A smaller share of genuine items will be above the threshold.</li>
+<li><strong>Consumer welfare is lower.</strong> The consumer is accepting more fakes and fewer genuine articles.</li>
+</ol>
+<p><strong>Extensions/observations.</strong></p>
+<ol type="1">
+<li><strong>The size of each effect depends on the relative slope of the two distributions.</strong> If the distribution of fakes was uniform then, as that distribution moved up, the threshold wouldn’t change at all, and so the equilibrium effect would be entirely an increase in fakes accepted (false positives). If instead the distribution of reals was uniform then the threshold would move up, and so the effect would be entirely a decrease in genuine goods rejected (false negatives).</li>
+<li><strong>If the prevalence of fakes is small then impact will mostly be on false positives.</strong> If the prevalence of fakes is small then the threshold will cut the distribution of fakes near the center, but will cut the distribution of reals near the tail. Thus a rightward shift in the distribution of fakes will have a small impact on the threshold.</li>
+<li><strong>If there’s free entry then things will be worse.</strong> Suppose that the overall quantity of fakes is increasing in the probability of being accepted, then as the technology to produce fakes gets better then the volume will also get higher. The increase in volume will further increase the threshold. As before the relative effect on FP vs FN will depend on the relative curvature of the two distributions.</li>
+<li><strong>Distribution of fakes will likely be skew.</strong> Suppose the forgers can create a bunch of <em>candidate</em> goods, and then measure the quality of each one, and only try to sell goods which exceed the cutoff threshold. Then the distribution of fake goods will be truncated. But this is no longer an equilibrium because all the low-quality goods are now genuine. Need to think this through more.</li>
+</ol>
+</section>
 <section id="miscellaneous" class="level1">
 <h1>Miscellaneous</h1>
 <p><strong>Laure X Cast:</strong> Trust in unsourced content will decline, and so network of communication will get <em>smaller</em>. You won’t trust people who you don’t have a direct connection with. / Laure X Cast made this argument that networks will get smaller.</p>
@@ -794,6 +727,7 @@ ga('send', {
 <p><strong>TO ADD: deeper limits on generative AI.</strong> limits on the classifiers, types of content which they cannot recognize or cannot synthesize to human level. E.g. chess with new rules.</p>
 <p><strong>TO ADD: ambiguous / bistable content.</strong></p>
 <p><strong>Things will get weird: chimeras:</strong> - <a href="https://en.wikipedia.org/wiki/The_Beast_(Revelation)">Beast of the sea</a> - Constant conjunction ; - There will be an earthquake and we will see what’s holding buildings together</p>
+<p><strong>TO READ:</strong> - andrew hall https://www.linkedin.com/posts/andrew-hall-40a88444_preparing-for-generative-ai-in-the-2024-election-activity-7132389045292146688-Zb76?utm_source=share&amp;utm_medium=member_ios</p>
 
 
 </section>
