@@ -85,13 +85,13 @@ So it seems like peer and media effects must be substantial proximal determinant
 
 **Media studies tend to find small effects from exposure to social media or to television,** but in most cases the media exposure is only a single-digit percentage-point share of their lifetime exposure to media. So the aggregate effect can be far larger than that measured in any credible experiment or natural experiment (in addition, much of the effect likely propagates through peer effects).
 
-An individual campaign advertisement might have very small effects on voting intention, but an individual campaign advertisement is only a tiny tiny share of your lifetime exposure to political communication. Small individual effects are consistent with peoples' political attitudes being overwhelmingly determined by exposure and persuasion.
+An individual campaign advertisement might have very small effects on voting intention, but an individual campaign advertisement is only a tiny share of your lifetime exposure to political communication. Small individual effects are consistent with political attitudes being overwhelmingly determined by exposure and persuasion.
 
 **More technically:** we can reconcile small effects with big variations if:
 
 1. Effects have a long half-life, e.g. exposure in childhood can affect your attitudes as an adult.
-2. Peer effects are propagated through many weak links, instead of a few strong links: i.e. there are substantial influences from all of society in addition to your family.
-3. Persuasion works even with indirect channels, e.g. your political views aren't just affected by campaign ads, but also by the implicit attitudes to politics reflected in all the media you're exposed to
+2. Peer effects are propagated through many weak links instead of a few strong links: i.e. there are substantial influences from all of society, not just closest friends and family.
+3. Persuasion works even with indirect channels, e.g. your political views aren't just affected by campaign ads, but also by the implicit attitudes to politics reflected in all the media you're exposed to.
 4. Attitudes are sensitive to the *average* rather than the *total* amount of persuasive material you're exposed to, thus marginal effects can be small while total effects are large.
 
 (As a footnote: from my time in social media companies I learned that individual peer effects are tiny, yet we also know that social media demand is *entirely* peer effects, i.e. people only use Facebook because other people use Facebook.)
