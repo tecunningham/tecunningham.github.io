@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.357">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2023-10-17">
 <meta name="description" content="Tom Cunningham blog">
 
-<title>Experiment Interpretation and Extrapolation | Tom Cunningham</title>
+<title>Experiment Interpretation and Extrapolation | Tom Cunningham – Tom Cunningham</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -27,6 +27,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -67,7 +68,13 @@ div.csl-indent {
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -76,6 +83,7 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -109,62 +117,86 @@ ga('send', {
 };
 </script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 <meta name="twitter:title" content="Experiment Interpretation and Extrapolation | Tom Cunningham">
-<meta name="twitter:description" content="">
-<meta name="twitter:image" content="tecunningham.github.io/posts/images/2023-10-13-11-56-04.png">
-<meta name="twitter:image-height" content="1078">
-<meta name="twitter:image-width" content="696">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Tom Cunningham blog">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="floating nav-fixed slimcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Tom Cunningham</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href=".././about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href=".././about.html"> 
+<span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/testingham" rel="" target=""><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/testingham"> <i class="bi bi-twitter" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://www.linkedin.com/in/tom-cunningham-a9433/" rel="" target=""><i class="bi bi-linkedin" role="img">
+    <a class="nav-link" href="https://www.linkedin.com/in/tom-cunningham-a9433/"> <i class="bi bi-linkedin" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://tecunningham.github.io/index.xml" rel="" target=""><i class="bi bi-rss-fill" role="img">
+    <a class="nav-link" href="https://tecunningham.github.io/index.xml"> <i class="bi bi-rss-fill" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://scholar.google.com/citations?user=MDB_DgkAAAAJ" rel="" target="">
- <span class="menu-text">scholar</span></a>
+    <a class="nav-link" href="https://scholar.google.com/citations?user=MDB_DgkAAAAJ"> 
+<span class="menu-text">scholar</span></a>
   </li>  
 </ul>
+          </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
-          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -199,7 +231,7 @@ ga('send', {
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
@@ -226,12 +258,13 @@ ga('send', {
   </ul>
 </nav>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
 
 
 
@@ -255,7 +288,7 @@ ga('send', {
 <li><p><strong>The extrapolation problem.</strong> Given an effect on metric A what’s our best estimate of the effect on metric B? This problem is common to observational inference, proximal goals, and extrapolation.</p>
 <p>There are three approaches to solving this: (1) using raw priors; (2) using correlation across units (surrogacy); (3) using correlation across experiments (meta-analysis). I argue that approach #3 is generally the best option but reasonable care needs to be taken in interpreting the results.</p></li>
 </ol>
-<div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;If the decision-maker is not technical then a data scientist or engineer can summarize for the decision-maker their best-estimate of the true impact on long-run outcomes, taking into account the evidence from the experiment and other sources of evidence, including the distribution of effects from other experiments.</p></li></div><p>I also briefly discuss two additional problems:</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;If the decision-maker is not technical then a data scientist or engineer can summarize for the decision-maker their best-estimate of the true impact on long-run outcomes, taking into account the evidence from the experiment and other sources of evidence, including the distribution of effects from other experiments.</p></div></div><p>I also briefly discuss two additional problems:</p>
 <ul>
 <li><p><strong>The explore-exploit problem.</strong> We would like to choose which experiments to run in an efficient and automated way. I think the technical solution is relatively clear but tech companies have struggled to implement it because good execution requires some discipline. I describe a simple algorithm that is not optimal but very simple and robust.</p></li>
 <li><p><strong>The culture problem.</strong> Inside tech companies people keep misusing experiments and misinterpreting the results, especially (1) running under-powered experiments, (2) selectively choosing results, and (3) looking at correlations without thinking about identification.</p>
@@ -264,10 +297,10 @@ ga('send', {
 </section>
 <section id="setup" class="level1 unnumbered page-columns page-full">
 <h1 class="unnumbered">Setup</h1>
-<div class="page-columns page-full"><p><strong>Firms choose their policy to maximize user retention.</strong> As a simplified model companies are choosing policies to maximize long-run retention (or revenue). A policy is, for example, a recommendation algorithm, or notification algorithm, or the text and images used in an advertisement or the UX on a signup page. Notice that policies are very high dimensional: there are millions or billions of alternatives, while we usually run only a few experiments.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn2"><p><sup>2</sup>&nbsp;In fact variation in the success of tech platforms is primarily due to variation in the inflow of new users, not due to variation in retention rates. However growth in new users is driven by the attractiveness of the product and retention is a good proxy for this.</p></li></div></div>
-<p><strong>Experiments and formal causal inference methods not the primary sources of causal knowledge.</strong> People already have substantial knowledge about the effects of their decisions without either randomized experiments or natural experiments (IV, RDD, etc.). We built cathedrals, aeroplanes, welfare states, we doubled human life-expectancy, &amp; WhatsApp grew to 1B users, all without randomized experiments or instrumental variables estimates. These achievements were all based on causal inference but <em>informal</em> causal inference, i.e.&nbsp;using our instinctive knowledge of how to process information without writing down or calculating the assumptions and distributions. Formal causal inference methods are useful but primarly insofar as they augment our already substantial causal abilities, and in most cases they clearly lag far behind humans intuitive ability to draw causal inferences. Inside companies the primary way people learn about causal relationships is raw data (e.g.&nbsp;dashboards) and common-sense reasoning about human behaviour.</p>
-<div class="page-columns page-full"><p><strong>Experiments only solve the low-dimensional problem.</strong> In most cases the dimensionality of the policy space is far higher than the dimensionality of experiment space, thus the responsibility for choosing policies is primarily human judgment. Humans come up with a few policy variants of interest, and then run experiments to compare their performance.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn3"><p><sup>3</sup>&nbsp;Statistically the problem is analagous to drilling for oil: you drill test holes trying to understand the distribution underneath. A common algorithm for this is <a href="https://en.wikipedia.org/wiki/Kriging">“Kriging”</a> (the invention of Danie Krige in 1960 to model gold mining in South Africa) which in some cases is equivalent to Gaussian process regression.</p></li><li id="fn4"><p><sup>4</sup>&nbsp;There is a nice analogy to machine learning: computers have been able to outperform humans at low-dimensional prediction problems, e.g.&nbsp;linear regression, for the last 100 years, but only in the last 10 years have they caught up in high-dimensional problems like recognition of patterns in images, speech, and text. The implication is that humans have extraordinarily powerful ability to intuitively represent latent structures in high-dimensional data, and we shouldn’t expect simple algorithms to replace that ability.</p></li></div></div>
-<div class="page-columns page-full"><p><strong>Most questions related to experiments can be expressed as conditional expectations.</strong> A good workhorse model of experimentation is the following. Suppose we have two metrics #1 and #2. Taking some set of experiments we can think of three joint distributions: the observed effects, the true effects, and the noise:<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn5"><p><sup>5</sup>&nbsp;For simplicitly assume the experiment doesn’t have any effect on variances or covariances of outcomes, the effects are typically small enough that it doesn’t matter.</p></li></div></div>
+<p><strong>Firms choose their policy to maximize user retention.</strong> As a simplified model companies are choosing policies to maximize long-run retention (or revenue). A policy is, for example, a recommendation algorithm, or notification algorithm, or the text and images used in an advertisement or the UX on a signup page. Notice that policies are very high dimensional: there are millions or billions of alternatives, while we usually run only a few experiments.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;In fact variation in the success of tech platforms is primarily due to variation in the inflow of new users, not due to variation in retention rates. However growth in new users is driven by the attractiveness of the product and retention is a good proxy for this.</p></div></div><p><strong>Experiments and formal causal inference methods not the primary sources of causal knowledge.</strong> People already have substantial knowledge about the effects of their decisions without either randomized experiments or natural experiments (IV, RDD, etc.). We built cathedrals, aeroplanes, welfare states, we doubled human life-expectancy, &amp; WhatsApp grew to 1B users, all without randomized experiments or instrumental variables estimates. These achievements were all based on causal inference but <em>informal</em> causal inference, i.e.&nbsp;using our instinctive knowledge of how to process information without writing down or calculating the assumptions and distributions. Formal causal inference methods are useful but primarly insofar as they augment our already substantial causal abilities, and in most cases they clearly lag far behind humans intuitive ability to draw causal inferences. Inside companies the primary way people learn about causal relationships is raw data (e.g.&nbsp;dashboards) and common-sense reasoning about human behaviour.</p>
+<p><strong>Experiments only solve the low-dimensional problem.</strong> In most cases the dimensionality of the policy space is far higher than the dimensionality of experiment space, thus the responsibility for choosing policies is primarily human judgment. Humans come up with a few policy variants of interest, and then run experiments to compare their performance.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;Statistically the problem is analagous to drilling for oil: you drill test holes trying to understand the distribution underneath. A common algorithm for this is <a href="https://en.wikipedia.org/wiki/Kriging">“Kriging”</a> (the invention of Danie Krige in 1960 to model gold mining in South Africa) which in some cases is equivalent to Gaussian process regression.</p></div><div id="fn4"><p><sup>4</sup>&nbsp;There is a nice analogy to machine learning: computers have been able to outperform humans at low-dimensional prediction problems, e.g.&nbsp;linear regression, for the last 100 years, but only in the last 10 years have they caught up in high-dimensional problems like recognition of patterns in images, speech, and text. The implication is that humans have extraordinarily powerful ability to intuitively represent latent structures in high-dimensional data, and we shouldn’t expect simple algorithms to replace that ability.</p></div><div id="fn5"><p><sup>5</sup>&nbsp;For simplicitly assume the experiment doesn’t have any effect on variances or covariances of outcomes, the effects are typically small enough that it doesn’t matter.</p></div></div><p><strong>Most questions related to experiments can be expressed as conditional expectations.</strong> A good workhorse model of experimentation is the following. Suppose we have two metrics #1 and #2. Taking some set of experiments we can think of three joint distributions: the observed effects, the true effects, and the noise:<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
 <p><span class="math display">\[\utt{\binom{\hat{t}_1}{\hat{t}_2}}{observed}{effects}
       =\utt{\binom{t_1}{t_2}}{true}{effects (ATE)}
          +\ut{\binom{e_1}{e_2}}{noise}
@@ -301,7 +334,7 @@ ga('send', {
 <li><p><strong>Benchmark statistic.</strong> We should also report a statistic comparing this observed effect to observed effects of other similar treatments. There are many ways of benchmarking and I think they are all convey the same basic information, e.g.&nbsp;the empirical-bayes shrunk estimate (and there are various shrinkage estimators), the FDR-adjusted p-value, or the fraction of statistically significant experiments. We have to use judgment in defining what a “similar” experiment is, and it’s important that we report to the end-user what class of similar experiments we’re using and how many we have. For the remainder of the section I will assume we are reporting an empirical-bayes shrunk estimate.</p></li>
 <li><p><strong>Idiosyncratic details.</strong> We should additional report any information about this treatment relative to the benchmark class, that could be relevant to its effect on this metric. E.g. (1) suppose this experiment only affects iPhone users then it is rational to heavily discount any outcomes on Android use unless they are highly significant; (2) suppose this experiment is a direct replication of a prior experiment, then we will likely wish to shrink our estimates towards that prior experiment rather than towards the mean of all experiments.</p></li>
 </ol>
-<div class="no-row-height column-margin column-container"><li id="fn6"><p><sup>6</sup>&nbsp;Equivalently, the point-estimate and p-value, or the upper and lower confidence bounds.</p></li></div><p><strong>Benchmarking solves all the problems above.</strong> An empirical-Bayes shrunk estimate represents our best guess at the true treatment effect conditional on the experiment being drawn from a given reference class.</p>
+<div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;Equivalently, the point-estimate and p-value, or the upper and lower confidence bounds.</p></div></div><p><strong>Benchmarking solves all the problems above.</strong> An empirical-Bayes shrunk estimate represents our best guess at the true treatment effect conditional on the experiment being drawn from a given reference class.</p>
 <p><strong>Useful shortcut: using the fraction of significant experiments to do shrinkage.</strong> A convenient rule of thumb for doing empirical Bayes shrinkage is to use the fraction of experiments that are statistically significant in some class. If the fraction is 5% then we should shrink all estimates to zero, if the fraction is 20% then we should shrink estimates by about 50%, and if the fraction is 1/2 then we should shrink estimates by about 20%. If everything’s Gaussian and every experiment has the same <span class="math inline">\(N\)</span> then the optimal shrinkage factor is <span class="math inline">\(1-(\frac{1}{1.96}\Phi^{-1}(\frac{q}{2}))^2\)</span>, where <span class="math inline">\(q\)</span> is the fraction of stat-sig experiments.</p>
 <section id="strategic-problems" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="strategic-problems"><span class="header-section-number">1.1</span> Strategic Problems</h2>
@@ -316,13 +349,13 @@ ga('send', {
 <section id="strategic-stopping" class="level2 page-columns page-full" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="strategic-stopping"><span class="header-section-number">1.2</span> Strategic Stopping</h2>
 <p><strong>I will ignore dynamic effects.</strong> For simplicity assume that all effects are constant, so the length of an experiment effectively determines just the sample size of that experiment. I.e. I will ignore time-dependent and exposure-dependent effects.</p>
-<div class="page-columns page-full"><p><strong>Stopping rules are irrelevant to expected effect sizes.</strong> Suppose an experiment has a given estimate. Does it matter to your estimate of the true causal effect if you learn that the experimenter chose the sample size <span class="math inline">\(N\)</span> by a data-dependent rule, e.g.&nbsp;continuing to collect data until the estimate was statistically significant? If you are estimating the true causal effect, <span class="math inline">\(E[t|\hat{t}]\)</span> then it doesn’t matter, your posterior will be identical either way.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> A simple proof: suppose we observe two noisy signals, <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>: <span class="math display">\[\begin{aligned}
+<p><strong>Stopping rules are irrelevant to expected effect sizes.</strong> Suppose an experiment has a given estimate. Does it matter to your estimate of the true causal effect if you learn that the experimenter chose the sample size <span class="math inline">\(N\)</span> by a data-dependent rule, e.g.&nbsp;continuing to collect data until the estimate was statistically significant? If you are estimating the true causal effect, <span class="math inline">\(E[t|\hat{t}]\)</span> then it doesn’t matter, your posterior will be identical either way.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> A simple proof: suppose we observe two noisy signals, <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>: <span class="math display">\[\begin{aligned}
          x_1 &amp;= v + e_1 \\
          x_2 &amp;= v + e_2 \\
          v,e_1,e_2 &amp;\sim  N(0,1)
       \end{aligned}\]</span> Suppose a peeker will report <span class="math inline">\(x_1\)</span> only if <span class="math inline">\(x_1&gt;0\)</span>, otherwise they will report <span class="math inline">\(x_1+x_2\)</span>. We can compare the expectation of <span class="math inline">\(v\)</span> given the sum, depending on whther the engineer peeked: <span class="math display">\[\utt{E[v|x_1+x_2]}{estimate}{without peeking} =
-         \utt{E[v|x_1+x_2|x_1&lt;0]}{estimate}{with peeking}\]</span> This holds because <span class="math inline">\(x_1+x_2\)</span> is a sufficient statistic for the distribution, i.e.&nbsp;<span class="math inline">\(x_1&lt;0\)</span> does not tell us any additional information. Note that peeking is not irrelevant to interpretation of a result if (1) the engineer can choose to report either <span class="math inline">\(x_1\)</span> or <span class="math inline">\(x_2\)</span>, (2) the engineer can choose to report <span class="math inline">\(x_1\)</span> alone <em>after</em> observing <span class="math inline">\(x_2\)</span>.[^deng]</p><div class="no-row-height column-margin column-container"><li id="fn7"><p><sup>7</sup>&nbsp;This argument holds if the engineer always has to report the most-recent estimate. If they can choose to ignore later datapoints, and report an earlier result, this is essentially a “selection of metrics” case as below, and so the selection rule <em>is</em> relevant for interpretation.</p></li></div></div>
-<pre><code>  [^deng]: See @deng2016continuous for a fuller argument that stopping rules are irrelevant, and a review of the prior literature.</code></pre>
+         \utt{E[v|x_1+x_2|x_1&lt;0]}{estimate}{with peeking}\]</span> This holds because <span class="math inline">\(x_1+x_2\)</span> is a sufficient statistic for the distribution, i.e.&nbsp;<span class="math inline">\(x_1&lt;0\)</span> does not tell us any additional information. Note that peeking is not irrelevant to interpretation of a result if (1) the engineer can choose to report either <span class="math inline">\(x_1\)</span> or <span class="math inline">\(x_2\)</span>, (2) the engineer can choose to report <span class="math inline">\(x_1\)</span> alone <em>after</em> observing <span class="math inline">\(x_2\)</span>.[^deng]</p>
+<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;This argument holds if the engineer always has to report the most-recent estimate. If they can choose to ignore later datapoints, and report an earlier result, this is essentially a “selection of metrics” case as below, and so the selection rule <em>is</em> relevant for interpretation.</p></div></div><pre><code>  [^deng]: See @deng2016continuous for a fuller argument that stopping rules are irrelevant, and a review of the prior literature.</code></pre>
 <p><strong>Stopping rules <em>would</em> be relevant if we made decisions based on statistical-significance.</strong> A stopping rule would be relevant if we conditioned only on statistical-signficance instead of the full estimate. In other words the expected true effect, conditioning only on whether or not the estimated effect is statistically significant, will depend on the stopping rule. For example if people kept running experiments until they were significant then significant experiments would tend to have small effect sizes. However it is clearly bad practice to condition only on this binary piece of information when you have the full estimate, and if you have the full estimate then the stopping rule becomes irrelevant.</p>
 <p><strong>The optimal stopping rule is data-dependent.</strong> The discussion above took a stopping rule as given, we can also ask what’s the efficient stopping rule. It’s clear that a fixed length is inefficient: we should stop an experiment sooner if it does unexpectedly well or unexpectedly badly, in both of those cases the value of collecting more information has decreased because it’s less likely to change our mind about a launch decision. Thus enforcing a static or pre-specific experiment length will lead to inefficient decision-making.</p>
 <p><strong>Considering engineers’ incentives.</strong> Now consider the launch process as a game, with the engineers trying to persuade the director to launch their feature. Suppose the director’s <em>ex post</em> optimal strategy is to launch if <span class="math inline">\(E[t|\hat{t}]&gt;0\)</span>, and suppose the engineers get a bonus whenever their feature is launched. In equilibrium the engineers will keep their experiments running until <span class="math inline">\(E[t|\hat{t}]&gt;0\)</span>, which will cause a skew distribution: the distribution of posteriors will show a cluster just above the threshold. The director’s strategy is <em>ex post</em> optimal but it’s not an efficient use of experimentation resources. In this game the director would likely wish to pre-commit to a different threshold which induces more efficient effort by engineers. However a more direct solution would be to align engineers’ incentives with those of the director by rewarding them for their true impact, i.e.&nbsp;setting their bonuses proportional to <span class="math inline">\(\max\{E[t|\hat{t}],0\}\)</span>, instead of discontinuously rewarding them for whether or not they launched.</p>
@@ -333,8 +366,8 @@ ga('send', {
 <p><span class="math display">\[\utt{E[t_1|\hat{t}_1,\hat{t}_1&gt;\hat{t}_2]}{assessment knowing}{it's winner}&lt;
       \utt{E[t_1|\hat{t}_1]}{assessment}{given outcome}
       \]</span></p>
-<div class="page-columns page-full"><p>This will hold whenever <span class="math inline">\(Cov(t_1,t_2)&gt;0\)</span>, i.e.&nbsp;when we have some shared source of uncertainty about the two treatment effects.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> We can write a model for this, however conditioning on this binary information (whether a variant is the winner) is not an efficient way of using the information at your disposal.</p><div class="no-row-height column-margin column-container"><li id="fn8"><p><sup>8</sup>&nbsp;Because <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> represent independent experiments we’ll have <span class="math inline">\(cov(e_1,e_2)=0\)</span>.</p></li></div></div>
-<div class="page-columns page-full"><p><strong>It’s better to condition on the whole distribution.</strong> In almost all cases we know much more than whether <span class="math inline">\(\hat{t}_1\)</span> is the winner, we also know the value of <span class="math inline">\(\hat{t}_2\)</span>, and then this reduces simply to the empirical Bayes problem, i.e.&nbsp;we simply wish to estimate: <span class="math display">\[E[t_1|\hat{t}_1,\ldots,\hat{t}_n],\]</span> and we can do that in the usual way.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> E.g. if we have a Normal prior over treatment effects then we can estimate <span class="math inline">\(\sigma_t^2\)</span> from <span class="math inline">\(Var(\hat{t})\)</span> and <span class="math inline">\(\sigma_e^2\)</span>. Once we have conditioned on <span class="math inline">\(\sigma_t^2\)</span> then it becomes irrelevant whether variant 1 is the winner or not, i.e.: <span class="math display">\[E[t_1|\hat{t}_1,\sigma_t^2]=E[t_1|\hat{t}_1,\sigma_t^2,\hat{t}_1&gt;\hat{t}_2].\]</span></p><div class="no-row-height column-margin column-container"><li id="fn9"><p><sup>9</sup>&nbsp;<span class="citation" data-cites="andrews2019inference">Andrews et al. (<a href="#ref-andrews2019inference" role="doc-biblioref">2019</a>)</span> describes some unbiased estimates for treatment effects conditional on them being winners. In general I would say this is an inefficient use of information, because we know much more about the distribution of treatment effects than just whether a specific variant is the winner. However that paper does argue that empirical Bayes estimates struggle when the sample-size is small or when we are estimating the tails of when variants are non-exchangeable, and in those cases the unbiased estimators may be useful.</p></li></div></div>
+<p>This will hold whenever <span class="math inline">\(Cov(t_1,t_2)&gt;0\)</span>, i.e.&nbsp;when we have some shared source of uncertainty about the two treatment effects.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> We can write a model for this, however conditioning on this binary information (whether a variant is the winner) is not an efficient way of using the information at your disposal.</p>
+<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;Because <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> represent independent experiments we’ll have <span class="math inline">\(cov(e_1,e_2)=0\)</span>.</p></div><div id="fn9"><p><sup>9</sup>&nbsp;<span class="citation" data-cites="andrews2019inference">Andrews et al. (<a href="#ref-andrews2019inference" role="doc-biblioref">2019</a>)</span> describes some unbiased estimates for treatment effects conditional on them being winners. In general I would say this is an inefficient use of information, because we know much more about the distribution of treatment effects than just whether a specific variant is the winner. However that paper does argue that empirical Bayes estimates struggle when the sample-size is small or when we are estimating the tails of when variants are non-exchangeable, and in those cases the unbiased estimators may be useful.</p></div></div><p><strong>It’s better to condition on the whole distribution.</strong> In almost all cases we know much more than whether <span class="math inline">\(\hat{t}_1\)</span> is the winner, we also know the value of <span class="math inline">\(\hat{t}_2\)</span>, and then this reduces simply to the empirical Bayes problem, i.e.&nbsp;we simply wish to estimate: <span class="math display">\[E[t_1|\hat{t}_1,\ldots,\hat{t}_n],\]</span> and we can do that in the usual way.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> E.g. if we have a Normal prior over treatment effects then we can estimate <span class="math inline">\(\sigma_t^2\)</span> from <span class="math inline">\(Var(\hat{t})\)</span> and <span class="math inline">\(\sigma_e^2\)</span>. Once we have conditioned on <span class="math inline">\(\sigma_t^2\)</span> then it becomes irrelevant whether variant 1 is the winner or not, i.e.: <span class="math display">\[E[t_1|\hat{t}_1,\sigma_t^2]=E[t_1|\hat{t}_1,\sigma_t^2,\hat{t}_1&gt;\hat{t}_2].\]</span></p>
 <p>Put another way: the selection rule is irrelevant (just as the stopping rule is irrelevant) once we condition on the distribution of observed outcomes.</p>
 <p><strong>Implication: show the distribution.</strong> If we are worried that engineers are selecting variants based on their outcomes then the simplest and cleanest fix is to calculate the distribution of variants and use that to discount any experiment results, either explicitly with an empirical Bayes estimator, or implicitly by showing the decision-maker the distribution.</p>
 </section>
@@ -353,13 +386,17 @@ ga('send', {
 <li><p><strong>Identify <em>conversion factors</em> between proximal and final metrics.</strong> These tell us the best-estimate impact on final metrics given the impact on proximal metrics. Conversion factors can be estimated either from (a) long-running tuning experiments; (b) a meta-analysis of prior experiments with similar designs.</p>
 <p>A final linear launch criteria can then be expressed as a set of conversion-factor weights applied to each of the proximal metrics.<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a></p></li>
 </ol>
-<div class="no-row-height column-margin column-container"><li id="fn10"><p><sup>10</sup>&nbsp;Arguably revenue or profit is a more truly final metric, and these are just proxies, but these are probably close enough to final for most purposes.</p></li><li id="fn11"><p><sup>11</sup>&nbsp;For derivation see <span class="citation" data-cites="cunningham2019interpreting">Cunningham and Kim (<a href="#ref-cunningham2019interpreting" role="doc-biblioref">2019</a>)</span>.</p></li></div></section>
+<div class="no-row-height column-margin column-container"><div id="fn10"><p><sup>10</sup>&nbsp;Arguably revenue or profit is a more truly final metric, and these are just proxies, but these are probably close enough to final for most purposes.</p></div><div id="fn11"><p><sup>11</sup>&nbsp;For derivation see <span class="citation" data-cites="cunningham2019interpreting">Cunningham and Kim (<a href="#ref-cunningham2019interpreting" role="doc-biblioref">2019</a>)</span>.</p></div></div></section>
 <section id="comparing-launch-rules" class="level2 page-columns page-full" data-number="1.6">
 <h2 data-number="1.6" class="anchored" data-anchor-id="comparing-launch-rules"><span class="header-section-number">1.6</span> Comparing Launch Rules</h2>
 <div class="cell page-columns page-full" data-hash="2023-04-18-experiment-interpretation-extrapolation_cache/html/unnamed-chunk-1_1634e6ad72f4517a49d1ed89c39b2c02">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
-<p><img src="2023-04-18-experiment-interpretation-extrapolation_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="2023-04-18-experiment-interpretation-extrapolation_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div></div></div>
 <div class="cell page-columns page-full" data-hash="2023-04-18-experiment-interpretation-extrapolation_cache/html/unnamed-chunk-2_429bb98322885e1e16f66627908bfb3d">
 
@@ -367,14 +404,18 @@ ga('send', {
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="2023-04-18-experiment-interpretation-extrapolation_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Ship if sum is positive</figcaption>
+<figcaption>Ship if sum is positive</figcaption>
 </figure>
 </div>
 </div></div></div>
 <div class="cell page-columns page-full" data-hash="2023-04-18-experiment-interpretation-extrapolation_cache/html/unnamed-chunk-3_157da9ce814bb016378958149a35f9e5">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
-<p><img src="2023-04-18-experiment-interpretation-extrapolation_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="2023-04-18-experiment-interpretation-extrapolation_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div></div></div>
 <p><strong>I find it useful to visualize different launch rules.</strong> For simplicity suppose our utility function is linear: we have two metrics, 1 and 2, and we care about them equally: <span class="math display">\[U(t_1,t_2)=t_1+t_2.\]</span> But we only observe noisy estimates <span class="math inline">\(\hat{t}_1,\hat{t}_2\)</span>.</p>
 <p><strong><span class="citation" data-cites="kohavi2020trustworthy">Kohavi et al. (<a href="#ref-kohavi2020trustworthy" role="doc-biblioref">2020</a>)</span> recommend a stat-sig shipping rule.</strong> They say (p105):</p>
@@ -389,7 +430,11 @@ ga('send', {
 <div class="cell page-columns page-full" data-hash="2023-04-18-experiment-interpretation-extrapolation_cache/html/unnamed-chunk-4_898fb3b07f60b6a5f1a8b4494866c708">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
-<p><img src="2023-04-18-experiment-interpretation-extrapolation_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="2023-04-18-experiment-interpretation-extrapolation_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div></div></div>
 <p><strong>The Leontief sandwich.</strong> I assumed above that our true utility function is linear. In fact tech companies often explicitly give nonlinear objective functions to teams, e.g.: <span class="math display">\[\begin{aligned}
       \max_k &amp;\ A(k)
@@ -406,7 +451,7 @@ ga('send', {
 <section id="the-extrapolation-problem" class="level1 page-columns page-full" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> The Extrapolation Problem</h1>
 <p><strong>Many problems are predicting the effect one one metric (downstream) given the effect on another metric (upstream).</strong> There are a variety of situations in which we cannot measure the effect on the downstream metric, either because it has high noise, or it is in the future:</p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 31%">
 <col style="width: 68%">
@@ -498,7 +543,7 @@ ga('send', {
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/2022-04-08-09-34-41.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">A simulated scatter-plot showing 20 experiments, with N=1,000,000, <span class="math inline">\(\sigma_{e1}^2=\sigma_{e2}^2=1\)</span>, with correlation 0.8. The experiments are all AA-tests, i.e.&nbsp;there are no true treatment effects, yet a regression of <span class="math inline">\(\hat{t}_2\)</span> on <span class="math inline">\(\hat{t}_1\)</span> will consistently yield statistically-significant coefficients of around 0.8.</figcaption>
+<figcaption>A simulated scatter-plot showing 20 experiments, with N=1,000,000, <span class="math inline">\(\sigma_{e1}^2=\sigma_{e2}^2=1\)</span>, with correlation 0.8. The experiments are all AA-tests, i.e.&nbsp;there are no true treatment effects, yet a regression of <span class="math inline">\(\hat{t}_2\)</span> on <span class="math inline">\(\hat{t}_1\)</span> will consistently yield statistically-significant coefficients of around 0.8.</figcaption>
 </figure>
 </div>
 </div></div><p>The bias is because in the regression our LHS variable is <em>estimated</em> retention (<span class="math inline">\(\Delta\widehat{\text{DAU}}_{LR}\)</span> instead of <span class="math inline">\(\Delta\text{DAU}_{LR}\)</span>), and the noise in that estimate will be correlated with the noise in the estimates of short-run metrics. In the linear bivariate case (where we have just one RHS variable) then we can write: <span class="math display">\[\begin{aligned}
@@ -523,7 +568,7 @@ ga('send', {
 <li><p><strong>Use experiment splitting.</strong> You can randomly assign users in each experiment to one or other sub-experiments. You now effectively have a set of <em>pairs</em> of experiments, each of which has experiments with identical treatment effects (<span class="math inline">\(\Delta \text{DAU}_{LR}\)</span>) but independent noise. Thus you can run a regression with LHS from one split, and RHS from other split, and you’ll get an unbiased estimate. Additionally you can easily fit a nonlinear model (<span class="citation" data-cites="coey2019improving">Coey and Cunningham (<a href="#ref-coey2019improving" role="doc-biblioref">2019</a>)</span> has details of how to do an experiment-splitting).</p></li>
 <li><p><strong>Run a regression just using the strongest experiments.</strong> If the distribution of experiments is fat-tailed then the strongest experiments will have higher SNR, and so lower bias. A worry about this is that you’re only estimating the relationship from outliers, so nonlinearities are more of a worry. At the same time the assumption of fat-tailed treatment-effects gives reason to believe the expectation will be nonlinear. (This is roughly how I interpret the <span class="citation" data-cites="peysakhovich2018learning">Peysakhovich and Eckles (<a href="#ref-peysakhovich2018learning" role="doc-biblioref">2018</a>)</span> experiments-as-instruments paper. They propose using L0 regularization and experiment-splitting cross-validations, which I think effectively selects the strongest experiments.)</p></li>
 </ol>
-<div class="no-row-height column-margin column-container"><li id="fn12"><p><sup>12</sup>&nbsp;See <span class="citation" data-cites="cunningham2019interpreting">Cunningham and Kim (<a href="#ref-cunningham2019interpreting" role="doc-biblioref">2019</a>)</span>, and see <span class="citation" data-cites="tripuraneni2023choosing">Tripuraneni et al. (<a href="#ref-tripuraneni2023choosing" role="doc-biblioref">2023</a>)</span> for a slightly different setup with weaker assumptions.</p></li></div><p><strong>Choosing a Reference Class.</strong> It is important to think about the reference-class of experiments which we use to calibrate our estimates. The long-run DAU prediction can be though of as an empirical-bayes estimate, which is our best estimate conditional on the experiment being a random draw from this class of experiments.</p>
+<div class="no-row-height column-margin column-container"><div id="fn12"><p><sup>12</sup>&nbsp;See <span class="citation" data-cites="cunningham2019interpreting">Cunningham and Kim (<a href="#ref-cunningham2019interpreting" role="doc-biblioref">2019</a>)</span>, and see <span class="citation" data-cites="tripuraneni2023choosing">Tripuraneni et al. (<a href="#ref-tripuraneni2023choosing" role="doc-biblioref">2023</a>)</span> for a slightly different setup with weaker assumptions.</p></div></div><p><strong>Choosing a Reference Class.</strong> It is important to think about the reference-class of experiments which we use to calibrate our estimates. The long-run DAU prediction can be though of as an empirical-bayes estimate, which is our best estimate conditional on the experiment being a random draw from this class of experiments.</p>
 <p>In many cases a company’s experiments will naturally fall into different classes: e.g.&nbsp;some have a very steep relationship between engagement and DAU, others have a very flat. It’s important to both (1) visualize all the experiments, so that a reference-class can be chosen sensibly; (2) calculate the <span class="math inline">\(R^2\)</span> across experiments, so we can have some sense of confidence in our extrapolation.</p>
 </section>
 </section>
@@ -591,7 +636,7 @@ In each case showing some content that is <em>less</em> interesting to the user,
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="2023-04-18-experiment-interpretation-extrapolation_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">If <span class="math inline">\(\beta_i^*\)</span> is already close to the global optimum then there will be not much loss from perturbing some users because the loss function should be flat in that neighborhood.</figcaption>
+<figcaption>If <span class="math inline">\(\beta_i^*\)</span> is already close to the global optimum then there will be not much loss from perturbing some users because the loss function should be flat in that neighborhood.</figcaption>
 </figure>
 </div>
 </div></div></div>
@@ -603,11 +648,11 @@ In each case showing some content that is <em>less</em> interesting to the user,
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="2023-04-18-experiment-interpretation-extrapolation_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">If we start at a point above the global optimum then the “low” group benefits and the “high” group suffers, but we can see that any short-term cost will be outweighed by long-term benefit.</figcaption>
+<figcaption>If we start at a point above the global optimum then the “low” group benefits and the “high” group suffers, but we can see that any short-term cost will be outweighed by long-term benefit.</figcaption>
 </figure>
 </div>
 </div></div></div>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 29%">
 <col style="width: 29%">
@@ -703,7 +748,7 @@ In each case showing some content that is <em>less</em> interesting to the user,
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-andrews2019inference" class="csl-entry" role="listitem">
 Andrews, I., Kitagawa, T., McCloskey, A., 2019. Inference on winners. National Bureau of Economic Research.
 </div>
@@ -758,18 +803,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -801,11 +835,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("tecunningham\.github\.io");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -815,8 +888,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -828,7 +910,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -872,6 +1077,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -897,6 +1103,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -957,6 +1189,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
