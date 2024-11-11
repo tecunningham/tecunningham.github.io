@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.357">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2023-10-25">
 <meta name="description" content="Tom Cunningham blog">
 
-<title>Thinking About Tradeoffs? Draw an Ellipse | Tom Cunningham</title>
+<title>Thinking About Tradeoffs? Draw an Ellipse | Tom Cunningham – Tom Cunningham</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -25,7 +25,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -36,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -82,7 +82,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -91,6 +97,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -115,62 +122,86 @@ ga('send', {
    h2 {  border-bottom: 1px solid #ccc;}
 </style>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 <meta name="twitter:title" content="Thinking About Tradeoffs? Draw an Ellipse | Tom Cunningham">
-<meta name="twitter:description" content="">
-<meta name="twitter:image" content="tecunningham.github.io/posts/2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-1-1.png">
-<meta name="twitter:image-height" content="514">
-<meta name="twitter:image-width" content="447">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Tom Cunningham blog">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="floating nav-fixed slimcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Tom Cunningham</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href=".././about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href=".././about.html"> 
+<span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/testingham" rel="" target=""><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/testingham"> <i class="bi bi-twitter" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://www.linkedin.com/in/tom-cunningham-a9433/" rel="" target=""><i class="bi bi-linkedin" role="img">
+    <a class="nav-link" href="https://www.linkedin.com/in/tom-cunningham-a9433/"> <i class="bi bi-linkedin" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://tecunningham.github.io/index.xml" rel="" target=""><i class="bi bi-rss-fill" role="img">
+    <a class="nav-link" href="https://tecunningham.github.io/index.xml"> <i class="bi bi-rss-fill" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://scholar.google.com/citations?user=MDB_DgkAAAAJ" rel="" target="">
- <span class="menu-text">scholar</span></a>
+    <a class="nav-link" href="https://scholar.google.com/citations?user=MDB_DgkAAAAJ"> 
+<span class="menu-text">scholar</span></a>
   </li>  
 </ul>
+          </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
-          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -205,7 +236,7 @@ ga('send', {
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
@@ -219,12 +250,13 @@ ga('send', {
   </ul>
 </nav>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
 
 
 
@@ -255,12 +287,20 @@ ga('send', {
 <div class="cell page-columns page-full" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-1_4bb7e47c4ed41520e4c5aeae8fd12fce">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
-<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div></div></div>
 <div class="cell page-columns page-full" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-2_48508bdd7f3e3c96af1e87a67367dc69">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
-<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div></div></div>
 <p><strong>Suppose we care about two metrics, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</strong> E.g. suppose we care about DAU and time-spent, or revenue and retention, or engagement and misinformation.</p>
 <p><strong>It is useful to draw a Pareto frontier.</strong> A Pareto frontier will show the set of achievable outcomes for X and Y, to make the tradeoff precise. If we have a well-defined objective function then we can visually represent the optimal choice where the indifference curve is tangent to the Pareto frontier.</p>
@@ -272,7 +312,11 @@ ga('send', {
 <div class="cell page-columns page-full" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-3_58fce7016551619d2ab1f7892a1f0e4c">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
-<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div></div></div>
 <p><strong>Suppose we have a set of experiments.</strong> Each experiment has some impact on two metrics, <span class="math inline">\(\Delta X\)</span> and <span class="math inline">\(\Delta Y\)</span>. We visualize such a set of experiments at right.</p>
 <p>If the set of features is <em>separable</em>, meaning that the impact of each feature is independent of what other features are launched, then a natural question will be the shape of the Pareto frontier formed by all possible combination of experiments.</p>
@@ -283,7 +327,11 @@ ga('send', {
 <div class="cell page-columns page-full" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-4_892222e0d622229a23671a8240941df9">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
-<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div></div></div>
 <p><strong>Suppose we are choosing a fixed set of items to show to a user, based on two metrics <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>.</strong> E.g. <code>pLike</code> and <code>pComment</code>, or <code>pDAU</code> and <code>quality</code> etc. A natural question will be the shape of the Pareto frontier formed by alternative selections of items.</p>
 <p><strong>The Pareto frontier will be an ellipse.</strong> We show below that, if the predictions are well calibrated, the outcomes are independent (i.e.&nbsp;additive), and the distribution of prediction obeys a joint Normal distribution, then the Pareto frontier will be an ellipse and it will have exactly the shape of an isovalue of the density of predictions. Thus knowing the variance and covariance of predictions allows us to exactly characterize the nature of the aggregate tradeoffs we face.</p>
@@ -300,28 +348,44 @@ ga('send', {
 <div class="cell page-columns page-full" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-5_388a7f2862c721051ab6f7ad2d60f448">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
-<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div></div></div>
 <p><strong>Different product areas have different Pareto frontiers.</strong> Typically two different product areas will have substantially different ability to affect different metrics, and we will often observe a situation like that shown on the right: team A’s choices primarily affect metric <span class="math inline">\(X\)</span>, team B’s choices primarily affect metric <span class="math inline">\(Y\)</span>.</p>
 <p><br><br><br></p>
 <div class="cell page-columns page-full" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-6_e37db323a9db1d4dbce81ffd97af014a">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
-<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div></div></div>
 <p><strong>We can also draw a <em>combined</em> Pareto frontier.</strong> Here we add up the Pareto frontiers of team A and B. In this case the combined frontier is somewhat tight, because the two constituent frontiers are tight. Neither individual Pareto frontier shows a substantial effect from changing weights (if we restrict weights to be positive), and so accordingly the combined Pareto frontier shows little response to a change in weights.</p>
 <p>Note that I have drawn the frontier only approximately, the frontier achieved by combining two ellipses does not have a simple representation. When the two constituent frontiers are straight lines then the combination will be a parallelogram. (Note also that when the two frontiers are circles then the combination will be a circle).</p>
 <div class="cell page-columns page-full" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-7_78f65e5d3fc6061482728ed58021bfb8">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
-<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div></div></div>
 <p><strong>Greater investment will shift Pareto frontiers out.</strong> Here we visualize reallocating employees from team B (the frontier shifts in) to team A (the frontier shifts out).</p>
 <p><br><br><br><br><br><br><br><br></p>
 <div class="cell page-columns page-full" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-8_af7a2ac6d9570600948403f809aee92c">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
-<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div></div></div>
 <p><strong>A combined company Pareto frontier will be loose.</strong> Here the green curve represents all the possible outcomes as you shift resources between team A and B: we have now turned a tight tradeoff into a loose tradeoff. In this case this represents that a change in company objectives will be reflected mainly in reallocation of effort <em>between</em> teams rather than <em>within</em> teams.</p>
 <p><br><br><br><br></p>
@@ -367,8 +431,8 @@ E[x_1|v\geq \bar{v}]
       X_2 =&amp; \frac{w\sigma_2^2+\rho\sigma_1\sigma_2}
                   {\sqrt{\sigma_1^2+w^2\sigma_2^2 + 2\rho w\sigma_1\sigma_2}}\gamma
    \end{aligned}\]</span></p>
-<div class="page-columns page-full"><p>We thus have expressions for <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> as a function of the relative weight <span class="math inline">\(w\)</span>. We wish to rearrange these to express <span class="math inline">\(X_1\)</span> directly in terms of <span class="math inline">\(X_2\)</span>. To help we turn to Mathematica, with the following input:<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;<a href="https://www.wolframcloud.com/env/tomcunningham/Ellipses.nb">see notebook</a></p></li></div></div>
-<pre><code>F1[w_,p_,s1_,s2_,g_]:=g(s1^2+w p s1 s2 )/Sqrt[s1^2+w^2 s2^2+2w p s1 s2]
+<p>We thus have expressions for <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> as a function of the relative weight <span class="math inline">\(w\)</span>. We wish to rearrange these to express <span class="math inline">\(X_1\)</span> directly in terms of <span class="math inline">\(X_2\)</span>. To help we turn to Mathematica, with the following input:<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;<a href="https://www.wolframcloud.com/env/tomcunningham/Ellipses.nb">see notebook</a></p></div></div><pre><code>F1[w_,p_,s1_,s2_,g_]:=g(s1^2+w p s1 s2 )/Sqrt[s1^2+w^2 s2^2+2w p s1 s2]
 F2[w_,p_,s1_,s2_,g_]:=g(w s2^2 +p s1 s2)/Sqrt[s1^2+w^2 s2^2+2w p s1 s2]
 Solve[{X1==F1[w,p,s1,s2,g],X2==F2[w,p,s1,s2,g]}, {X1,w}]
 Simplify[First[%1]]</code></pre>
@@ -407,10 +471,14 @@ Simplify[First[%1]]</code></pre>
 <div class="cell page-columns page-full" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-9_26d4c4976c38a54dadcfd2f074fe4bde">
 
 <div class="no-row-height column-margin column-container"><div class="cell-output-display">
-<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div></div></div>
-<div class="page-columns page-full"><p>We now wish to show that this curve is equal to an isovalue of the joint distribution of <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> (illustrated at right). We can write the isovalue of the joint Normal distribution of <span class="math inline">\((x_1,x_2)\)</span> for any given <span class="math inline">\(k\)</span> as follows:<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn2"><p><sup>2</sup>&nbsp;From Bertsekas and Tsitsiklis (2002) “Introduction to Probability”, <a href="http://athenasc.com/Bivariate-Normal.pdf">Section 4.7</a></p></li></div></div>
-<p><span class="math display">\[k = \frac{x_1^2}{\sigma_1^2}+\frac{x_2^2}{\sigma_2^2}-2\rho\frac{x_1x_2}{\sigma_1\sigma_2}.\]</span></p>
+<p>We now wish to show that this curve is equal to an isovalue of the joint distribution of <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> (illustrated at right). We can write the isovalue of the joint Normal distribution of <span class="math inline">\((x_1,x_2)\)</span> for any given <span class="math inline">\(k\)</span> as follows:<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;From Bertsekas and Tsitsiklis (2002) “Introduction to Probability”, <a href="http://athenasc.com/Bivariate-Normal.pdf">Section 4.7</a></p></div></div><p><span class="math display">\[k = \frac{x_1^2}{\sigma_1^2}+\frac{x_2^2}{\sigma_2^2}-2\rho\frac{x_1x_2}{\sigma_1\sigma_2}.\]</span></p>
 <p>Solving this quadratic we can write: <span class="math display">\[\begin{aligned}
       x_1 &amp;= x_2 \rho \frac{\sigma_1}{\sigma_2}
                \pm \frac{\sigma_1}{\sigma_2}\sqrt{-x_2^2+x_2^2\rho^2+k\sigma_2^2} \\
@@ -432,43 +500,71 @@ Simplify[First[%1]]</code></pre>
 <p><strong>Joint normal with positive correlation, small <span class="math inline">\(N\)</span>:</strong></p>
 <div class="cell" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-13_af094d4496b894f90166127fc7a66b06">
 <div class="cell-output-display">
-<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p><strong>Joint normal with positive correlation, <span class="math inline">\(N\)</span>=100:</strong></p>
 <div class="cell" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-14_7a1a4a7724d86b8e1820d30e8c4cf35a">
 <div class="cell-output-display">
-<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p><strong>Joint <em>t</em> Distribution with 3 degrees of freedom, <span class="math inline">\(N\)</span>=100.</strong></p>
 <div class="cell" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-15_0791ae8e12842a3be12a69778cf9344b">
 <div class="cell-output-display">
-<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p><strong>Independent Laplace, <span class="math inline">\(N\)</span>=100:</strong></p>
 <div class="cell" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-16_9ff74a98d3faff0bd434fe2836ef8b6b">
 <div class="cell-output-display">
-<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p><strong>Common Laplace factor with independent Gaussian noise, <span class="math inline">\(N\)</span>=100:</strong></p>
 <div class="cell" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-17_4b47c4fe4ae958a1626c78f30b1b9249">
 <div class="cell-output-display">
-<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p><strong>Independent uniform, <span class="math inline">\(N\)</span>=100:</strong></p>
 <div class="cell" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-18_c03ae8b0e073a517d43d7d0d20f8bbdd">
 <div class="cell-output-display">
-<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p><strong>Common uniform factor plus independent uniform noise, <span class="math inline">\(N\)</span>=100:</strong></p>
 <div class="cell" data-hash="2023-10-23-pareto-frontiers-experiments-ranking_cache/html/unnamed-chunk-19_819b2d9ed5de70a785d9f4ae46503766">
 <div class="cell-output-display">
-<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="2023-10-23-pareto-frontiers-experiments-ranking_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 
@@ -513,18 +609,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -556,7 +641,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
   const viewSource = window.document.getElementById('quarto-view-source') ||
                      window.document.getElementById('quarto-code-tools-source');
   if (viewSource) {
@@ -608,10 +715,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   if (showAllCode) {
     showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("tecunningham\.github\.io");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -621,8 +745,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -634,7 +767,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -678,6 +934,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -703,6 +960,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -783,16 +1066,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">      code-tools:</span></span>
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">         source: true</span></span>
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;style&gt;</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    h1 {  <span class="kw">border-bottom</span>: <span class="dv">4</span><span class="dt">px</span> <span class="dv">solid</span> <span class="cn">black</span><span class="op">;</span>  }</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    h2 {  <span class="kw">border-bottom</span>: <span class="dv">1</span><span class="dt">px</span> <span class="dv">solid</span> <span class="cn">#ccc</span><span class="op">;</span>}</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>&lt;style&gt;</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    h1 {  <span class="kw">border-bottom</span><span class="ch">:</span> <span class="dv">4</span><span class="dt">px</span> <span class="dv">solid</span> <span class="cn">black</span><span class="op">;</span>  }</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    h2 {  <span class="kw">border-bottom</span><span class="ch">:</span> <span class="dv">1</span><span class="dt">px</span> <span class="dv">solid</span> <span class="cn">#ccc</span><span class="op">;</span>}</span>
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">.reveal</span> section p {</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>      <span class="kw">display</span>: <span class="dv">inline-block</span><span class="op">;</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>      <span class="kw">font-size</span>: <span class="dv">2</span><span class="dt">em</span><span class="op">;</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>      <span class="pp">#line-height</span><span class="in">: 1.2em;</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>      <span class="pp">#vertical-align</span><span class="in">: top</span>;</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>      <span class="kw">display</span><span class="ch">:</span> <span class="dv">inline-block</span><span class="op">;</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>      <span class="kw">font-size</span><span class="ch">:</span> <span class="dv">2</span><span class="dt">em</span><span class="op">;</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>      <span class="pp">#line-height</span><span class="in">:</span> 1<span class="fu">.2em</span>;</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>      <span class="pp">#vertical-align</span><span class="in">:</span> top;</span>
 <span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>   }</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/style&gt;</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>&lt;/style&gt;</span>
 <span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- See also: 2019-12-13-a-market-for-impact </span></span>
 <span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="co">   </span><span class="al">TODO</span><span class="co">: state the implications about company strategy upfront</span></span>
@@ -979,7 +1262,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a>**Different product areas have different Pareto frontiers.** Typically two different product areas will have substantially different ability to affect different metrics, and we will often observe a situation like that shown on the right: team A's choices primarily affect metric $X$, team B's choices primarily affect metric $Y$.</span>
 <span id="cb2-227"><a href="#cb2-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br</span> <span class="kw">/&gt;&lt;br</span> <span class="kw">/&gt;&lt;br</span> <span class="kw">/&gt;</span></span>
+<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a>&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;</span>
 <span id="cb2-229"><a href="#cb2-229" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a><span class="in">```{tikz}</span></span>
 <span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a><span class="in">#| column: margin</span></span>
@@ -1038,7 +1321,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb2-288"><a href="#cb2-288" aria-hidden="true" tabindex="-1"></a>**Greater investment will shift Pareto frontiers out.** Here we visualize reallocating employees from team B (the frontier shifts in) to team A (the frontier shifts out).</span>
 <span id="cb2-289"><a href="#cb2-289" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-290"><a href="#cb2-290" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-291"><a href="#cb2-291" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br</span> <span class="kw">/&gt;&lt;br</span> <span class="kw">/&gt;&lt;br</span> <span class="kw">/&gt;&lt;br</span> <span class="kw">/&gt;&lt;br</span> <span class="kw">/&gt;&lt;br</span> <span class="kw">/&gt;&lt;br</span> <span class="kw">/&gt;&lt;br</span> <span class="kw">/&gt;</span></span>
+<span id="cb2-291"><a href="#cb2-291" aria-hidden="true" tabindex="-1"></a>&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;</span>
 <span id="cb2-292"><a href="#cb2-292" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-295"><a href="#cb2-295" aria-hidden="true" tabindex="-1"></a><span class="in">```{tikz}</span></span>
 <span id="cb2-296"><a href="#cb2-296" aria-hidden="true" tabindex="-1"></a><span class="in">#| column: margin</span></span>
@@ -1057,7 +1340,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb2-309"><a href="#cb2-309" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-310"><a href="#cb2-310" aria-hidden="true" tabindex="-1"></a>**A combined company Pareto frontier will be loose.** Here the green curve represents all the possible outcomes as you shift resources between team A and B:  we have now turned a tight tradeoff into a loose tradeoff. In this case this represents that a change in company objectives will be reflected mainly in reallocation of effort *between* teams rather than *within* teams.</span>
 <span id="cb2-311"><a href="#cb2-311" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-312"><a href="#cb2-312" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br</span> <span class="kw">/&gt;&lt;br</span> <span class="kw">/&gt;&lt;br</span> <span class="kw">/&gt;&lt;br</span> <span class="kw">/&gt;</span></span>
+<span id="cb2-312"><a href="#cb2-312" aria-hidden="true" tabindex="-1"></a>&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;</span>
 <span id="cb2-313"><a href="#cb2-313" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-314"><a href="#cb2-314" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-315"><a href="#cb2-315" aria-hidden="true" tabindex="-1"></a></span>
@@ -1408,9 +1691,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb2-682"><a href="#cb2-682" aria-hidden="true" tabindex="-1"></a><span class="co">#     xlim(-5, 5) +</span></span>
 <span id="cb2-683"><a href="#cb2-683" aria-hidden="true" tabindex="-1"></a><span class="co">#     ylim(-5, 5)</span></span>
 <span id="cb2-684"><a href="#cb2-684" aria-hidden="true" tabindex="-1"></a><span class="co">--&gt;</span></span>
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
+
 
 
 

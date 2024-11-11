@@ -170,6 +170,7 @@ In other words, how often have we have over-estimated the rationality of human b
 **the gambler’s fallacy goes in the opposite direction to reinforcement learning.** The gambler's fallacy: winning a gamble at time $t$ makes you *decrease* the expectation of winning at $t+1$, i.e. the *opposite* prediction of a simple reinforcement model. However there's a heuristic rationalization similar to the rationalization of rats in a maze: caveman Ug is shaking trees to get coconuts out. If there’s no coconut at time t, then there's an increased probability of a coconut at t+1.
 
 **Poggio and visual perception.** In 1983 Poggio found that he could reinterpret prior findings in perception as implementation of Bayesian inference:
+
    > “All problems in vision and more general perception were inverse problems, going back from the image to 3-D properties of objects and scenes. They were also, as typical for inverse problems, ill-posed. We used regularization techniques to “solve” specific vision problems such as edge detection and motion computation. In the process, we found that some of the existing algorithms for shape-from-shading, optical flow, and surface interpolation were a form of regularization. Our main contribution was to recognize illposedness as the main characteristic of vision problems and regularization as the set of techniques to be used for solving them.”
 
 
