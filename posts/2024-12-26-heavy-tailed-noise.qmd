@@ -28,19 +28,21 @@ In many cases a signal which is good news eventually starts to become bad news:
 
 #        Usually Signal is Light-Tailed, Noise is Heavy-Tailed
 
-In each of these cases I think it's because the noise has a fatter-tailed distribution than the signal. As a consequence when you see a very-high observation you conclude it's mostly noise, and so the very-high observation is less persuasive about the signal than a moderately-high observation.
+In each of these cases I think it's because the noise has a fatter-tailed distribution than the signal. As a consequence when you see a very-high observation you conclude it's mostly noise, and so at some point an increase in the observed outcome is bad news about the signal.
 
-#       Outliers Have One Cause, Not Many
+#       Outliers Usually Have One Cause, Not Many
 
-Scott Sumner argued ["extreme events generally have multiple causes"](https://www.themoneyillusion.com/author/ssumner/page/183/), with a few examples:
+This is a related but slightly different point. Scott Sumner argued ["extreme events generally have multiple causes"](https://www.themoneyillusion.com/author/ssumner/page/183/), with a few examples:
 
-1. Italy had very high COVID death rates, and this is probably the conjunction of a variety of different factors.
+1. Italy's very high COVID death rates are probably due to a number of different factors, not one.
 2. The great depression was due to "multiple policy errors, on both the supply side and the demand side."
-3. Bob Beamon's record long-jump in 1968 was probably due to a variety of factors.^[*"While Beamon received mostly accolades, there also were detractors. The critics harped on the conditions — a following wind of 2.0 meters per second (the maximum allowable velocity for a record), a lightning fast runway and, most important, the thin air of Mexico City. Beamon’s defenders point out that the other competitors, which included the world record co-holders, had the same factors going for them and they didn’t jump close to Beamon."*]
+3. Bob Beamon's record long-jump in 1968 was probably a coincidence of multiple causes.^[*"While Beamon received mostly accolades, there also were detractors. The critics harped on the conditions — a following wind of 2.0 meters per second (the maximum allowable velocity for a record), a lightning fast runway and, most important, the thin air of Mexico City. Beamon’s defenders point out that the other competitors, which included the world record co-holders, had the same factors going for them and they didn’t jump close to Beamon."*]
 
-I think Scott Sumner is wrong in his generalization: extreme events typically have a single cause, not multiple causes. Formally (following Nair, Weierman and Zwart below), extreme draws from a sum of thin-tailed influences tend to have many causes, but extreme draws from a sum of fat-tailed influences tend to have one cause. Thus if the distribution of outcomes is fat-tailed then the outliers are likely due to single causes.
+I think Sumner is wrong in his generalization: extreme events typically have a single cause, not multiple causes. Formally (following Nair, Weierman and Zwart below), extreme draws from a sum of thin-tailed influences tend to have many causes, but extreme draws from a sum of fat-tailed influences tend to have one cause.
 
-I'm not sure about Italy's COVD and the great depression, but for Bob Beamon's jump in 1968 it looks like a non-Normal outlier, not the sum of orthogonal influences (see the spike on the blue line):
+We often cannot observe the distributions of the individual components but we can observe the distribution of the final aggregate outcome, and if the final outcome is fat-tailed then at least some of the components must be fat-tailed.
+
+I'm not sure about Italy's COVD and the great depression, but for Bob Beamon's jump in 1968 it looks like a non-Normal outlier, not the sum of orthogonal influences (see the spike on the blue line at right). Thus from this evidence we should expect, all else equal, that Beamon's 8.9 metres was due to one big cause not many small ones.
 
 :::{.column-margin}
 ![](images/2024-12-26-07-59-52.png)
@@ -48,11 +50,19 @@ I'm not sure about Italy's COVD and the great depression, but for Bob Beamon's j
 
 #        Formalizing This
 
-**Literature.** De Finetti wrote a paper in 1961, "The Bayesian Approach to the Rejection of Outliers", giving a simple example where, with fat-tailed noise, a Bayesian will discount outlier observations.
+We can summarize the theory with three observations.
+: Suppose you observe a variable that is a sum of multiple components. Then:
+: 1. If components are IID and thin-tailed: outliers are due to many small causes ("conspiracy").
+: 2. If components are IID and fat-tailed: outliers are due to a few big causes ("catastrophe").
+: 3. If components are a mixture of thin-tailed and fat-tailed: low observations are due to the thin-tailed components, high observations are due to the fat-tailed components ("rejection").
+
+
+
+**Literature.** De Finetti wrote a paper in 1961, "The Bayesian Approach to the Rejection of Outliers", giving a simple example where, with fat-tailed noise, a Bayesian will discount outliers.
 
 There seem to be two modern strands of this literature that use somewhat different terminology:
 
-1. Anthony O’Hagan and Luis Pericchi (2012) [Bayesian heavy-tailed models and conflict resolution: a review](https://projecteuclid.org/download/pdfview_1/euclid.bjps/1341320249). They give a number of conditions under which you get "conflict resolution" or "rejection of outliers", broadly speaking when the noise has fatter tails than the signal. The critical condition is the relative speed of decline of the tails of the two distributions.
+1. Anthony O’Hagan and Luis Pericchi (2012) [Bayesian heavy-tailed models and conflict resolution: a review](https://projecteuclid.org/download/pdfview_1/euclid.bjps/1341320249). They give a number of conditions under which you get "conflict resolution" or "rejection of outliers", broadly speaking when the noise has fatter tails than the signal. The critical condition is the relative speed of decline of the tails of the distributions of signal and noise.
 
 2. Nair, Weierman and Zwart have a chapter "Catastrophes, conspiracies, and subexponential distributions" in their book ["The Fundamentals of Heavy Tails"](https://adamwierman.com/wp-content/uploads/2021/05/book-05-11.pdf). 
 
@@ -65,7 +75,8 @@ There seem to be two modern strands of this literature that use somewhat differe
 
 <!-- They talk about the Swedish mathematician Harald Cramer modelling the insurance business: the income is regular, but the payments are highly skew. We want to know what the distribution looks like as you aggregate many claims. -->
 
-**Analytic models.** I think the simplest way to get a closed-form solution which exhibits non-monotonic posteriors is with a Cauchy noise distribution:
+<!-- Specific distributions.
+: I was curious if there are assumptions on priors which give you a simple closed-form expression for the posterior. The papers above mostly just give asymptotic behavior as $t\rightarrow\infty$. This table shows my rough understanding but I'm not confident yet on these:
 
 
 | signal                 | noise  | posterior shape | posterior expression |
@@ -75,7 +86,7 @@ There seem to be two modern strands of this literature that use somewhat differe
 | Normal                 | Cauchy |    monotonic    |          ?           |
 | Discrete               | Cauchy |  non-monotonic  |       analytic       |
 | Spike-and-uniform slab | Normal |  non-monotonic  |     not analytic     |
-| Spike-and-uniform slab | Cauchy |  non-monotonic  |       analytic       |
+| Spike-and-uniform slab | Cauchy |  non-monotonic  |       analytic       | -->
 
 
 <!-- Tweedie's formula.
