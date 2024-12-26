@@ -17,18 +17,18 @@ editor:
 
 #        Too Much Good News is Sometimes Bad News
 
-In many cases a signal which is good news, eventually starts to become bad news:
+In many cases a signal which is good news eventually starts to become bad news:
 
 1. The longer you wait for a bus the likelier it is to be about to arrive, until at some point it becomes more likely that you've missed it.
 2. The lower the price the better the value until it becomes suspiciously cheap.
 3. If a drug is associated with a 5% higher rate of birth defects it's probably a selection effect, if it's associated with a 500% higher rate of birth defects it's probably causal.^[Bradford-Hill: "the mortality of chimney sweeps from scrotal cancer was some 200 times that of workers who were not specially exposed to tar or mineral oils."]
 <!-- 5. The fewer cars on a street the better it is for parking until there are suspiciously few cars, meaning it's probably street-cleaning day. -->
-1. If an AB test shows an effect of +2% ($\pm$ 1%) you update a lot, but if it shows a an effect of +100%  ($\pm$ 1%) then the experiment was probably misconfigured.^[This case is somewhat subtle: we generally think that treatment effects are fat-tailed, and we can be confident that noise is Normal because it's the sum of many IID variables. However there's an additional source of noise from implementation error which has even fatter tails than the distribution of treatment effects.]
-2. Reading a biography the subject seems progressively more impressive, as you learn more impressive details about them, until you start to wonder about the motivations of the biographer.
+1. If an AB test shows an effect of +2% ($\pm$ 1%) it's very persuasive, but if it shows a an effect of +50%  ($\pm$ 1%) then the experiment was probably misconfigured, and it's not at all persuasive.^[This case is somewhat subtle: we generally think that treatment effects are fat-tailed, and we can be confident that noise is Normal because it's the sum of many IID variables. However there's an additional source of noise from implementation error which has even fatter tails than the distribution of treatment effects.]
+2. When reading a biography each detail makes the the subject seem more impressive until you start to doubt the neutrality of the biographer.
 
-#        Signal is Usually Light-Tailed, Noise is Heavy-Tailed
+#        Usually Signal is Light-Tailed, Noise is Heavy-Tailed
 
-In each of these cases I think it's because the noise has a fatter-tailed distribution than the signal. As a consequence when you see a very-high observation you conclude it's mostly noise, and so it's less persuasive about the signal than a moderately-high observation.
+In each of these cases I think it's because the noise has a fatter-tailed distribution than the signal. As a consequence when you see a very-high observation you conclude it's mostly noise, and so the very-high observation is less persuasive about the signal than a moderately-high observation.
 
 #       Outliers Have One Cause, Not Many
 
@@ -36,13 +36,11 @@ Scott Sumner argued ["extreme events generally have multiple causes"](https://ww
 
 1. Italy had very high COVID death rates, and this is probably the conjunction of a variety of different factors.
 2. The great depression was due to "multiple policy errors, on both the supply side and the demand side."
-3. Bob Beamon's 1968 long-jump record was probably due to a variety of factors.^[*"While Beamon received mostly accolades, there also were detractors. The critics harped on the conditions — a following wind of 2.0 meters per second (the maximum allowable velocity for a record), a lightning fast runway and, most important, the thin air of Mexico City. Beamon’s defenders point out that the other competitors, which included the world record co-holders, had the same factors going for them and they didn’t jump close to Beamon."*]
+3. Bob Beamon's record long-jump in 1968 was probably due to a variety of factors.^[*"While Beamon received mostly accolades, there also were detractors. The critics harped on the conditions — a following wind of 2.0 meters per second (the maximum allowable velocity for a record), a lightning fast runway and, most important, the thin air of Mexico City. Beamon’s defenders point out that the other competitors, which included the world record co-holders, had the same factors going for them and they didn’t jump close to Beamon."*]
 
-I think Scott Sumner is mostly wrong in his generalization: extreme events typically have a single cause, not multiple causes.
+I think Scott Sumner is wrong in his generalization: extreme events typically have a single cause, not multiple causes. Formally (following Nair, Weierman and Zwart below), extreme draws from a sum of thin-tailed influences tend to have many causes, but extreme draws from a sum of fat-tailed influences tend to have one cause. Thus if the distribution of outcomes is fat-tailed then the outliers are likely due to single causes.
 
-We can formalize this claim: extreme draws from a sum of thin-tailed influences tend to have many causes, but extreme draws from a sum of fat-tailed influences tend to have one cause.
-
-I'm not sure about Italy and the great depression, but for Bob Beamon's jump in 1968 it looks like a non-Normal outlier, not the sum of orthogonal influences (see the spike on the blue line):
+I'm not sure about Italy's COVD and the great depression, but for Bob Beamon's jump in 1968 it looks like a non-Normal outlier, not the sum of orthogonal influences (see the spike on the blue line):
 
 :::{.column-margin}
 ![](images/2024-12-26-07-59-52.png)
