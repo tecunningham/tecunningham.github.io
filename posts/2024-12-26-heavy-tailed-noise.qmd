@@ -15,20 +15,25 @@ editor:
   render-on-save: true
 ---
 
-#        Too Much Good News is Sometimes Bad News
+Here are two nice pieces of Bayesian logic observations that help explain everyday intuitions:
+
+1. When an outcome is the sum of two components then your belief about the contribution of the thinner-tailed component will be first increasing then decreasing in the realization of the outcome.
+2. When you observe an outlier in some process, which is the sum of multiple components, then:
+   - If the components are thin-tailed, then the outlier implies each of the components is elevated.
+   - If the components are fat-tailed, then the outlier implies just one of the components is elevated and the others are at their ordinary levels.
+
+#        Too Much Good News is Often Bad News
 
 In many cases a signal which is good news eventually starts to become bad news:
 
-1. The longer you wait for a bus the likelier it is to be about to arrive, until at some point it becomes more likely that you've missed it.
+1. The longer you wait for a bus the likelier it is to be about to arrive, until at some point it's more likely that you've missed it.
 2. The lower the price the better the value until it becomes suspiciously cheap.
 3. If a drug is associated with a 5% higher rate of birth defects it's probably a selection effect, if it's associated with a 500% higher rate of birth defects it's probably causal.^[Bradford-Hill: "the mortality of chimney sweeps from scrotal cancer was some 200 times that of workers who were not specially exposed to tar or mineral oils."]
 <!-- 5. The fewer cars on a street the better it is for parking until there are suspiciously few cars, meaning it's probably street-cleaning day. -->
 1. If an AB test shows an effect of +2% ($\pm$ 1%) it's very persuasive, but if it shows a an effect of +50%  ($\pm$ 1%) then the experiment was probably misconfigured, and it's not at all persuasive.^[This case is somewhat subtle: we generally think that treatment effects are fat-tailed, and we can be confident that noise is Normal because it's the sum of many IID variables. However there's an additional source of noise from implementation error which has even fatter tails than the distribution of treatment effects.]
 2. When reading a biography each detail makes the the subject seem more impressive until you start to doubt the neutrality of the biographer.
 
-#        Usually Signal is Light-Tailed, Noise is Heavy-Tailed
-
-In each of these cases I think it's because the noise has a fatter-tailed distribution than the signal. As a consequence when you see a very-high observation you conclude it's mostly noise, and so at some point an increase in the observed outcome is bad news about the signal.
+In each of these cases I think it's because the noise has a fatter-tailed distribution than the signal. As a consequence when you see a very-high observation you conclude it's mostly noise, which implies that after a certain point an increase in the observed outcome becomes bad news instead of good news.
 
 #       Outliers Usually Have One Cause, Not Many
 
@@ -42,11 +47,19 @@ I think Sumner is wrong in his generalization: extreme events typically have a s
 
 We often cannot observe the distributions of the individual components but we can observe the distribution of the final aggregate outcome, and if the final outcome is fat-tailed then at least some of the components must be fat-tailed.
 
-I'm not sure about Italy's COVD and the great depression, but for Bob Beamon's jump in 1968 it looks like a non-Normal outlier, not the sum of orthogonal influences (see the spike on the blue line at right). Thus from this evidence we should expect, all else equal, that Beamon's 8.9 metres was due to one big cause not many small ones.
+I'm not sure about Italy's COVID and the great depression, but for Bob Beamon's jump in 1968 it looks like a non-Normal outlier, not the sum of orthogonal influences (see the spike on the blue line at right). Thus from this evidence we should expect, all else equal, that Beamon's 8.9 metres was due to one big cause not many small ones.
 
 :::{.column-margin}
 ![](images/2024-12-26-07-59-52.png)
 :::
+
+<!-- #        Practical Implications
+
+Implications for data science.
+: When we see outliers in data (e.g. Algeria's DAU is below forecast). 
+
+Implications for economics.
+: Many academic papers try to explain deviations in aggregate economic variables, e.g. they say "our mechanism can explain 25% of the increase in markups since 2003." It is hard to assess these claims because there are typically many other factors that can cause swings in the outcome variable. -->
 
 #        Formalizing This
 
