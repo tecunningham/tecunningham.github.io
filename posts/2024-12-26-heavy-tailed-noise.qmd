@@ -102,21 +102,34 @@ There seem to be two modern strands of this literature that use somewhat differe
 | Spike-and-uniform slab | Cauchy |  non-monotonic  |       analytic       | -->
 
 
-<!-- Tweedie's formula.
-: Tweedie's formula gives us the posterior from the empirical distribution as long as the noise is from an exponential family. First we'll do it with Normal noise: we observe $x=v+u$, signal $v$ is drawn from some distribution $g$ and noise is Normal:
+Note: non-monotonicity if and only if the sum is log-convex.
+: Suppose we observe $x$ which is the sum of $v$ and $u$. Tweedie's formula will give us $E[v|x]$ from the empirical distribution of $x$, as long as the distribution of $u$ is from an exponential family. If $u$ is Normal with variance $\sigma^2_u$ then we have:
+   $$E[v|x] = x + \sigma^2_u \frac{d}{dx}\log f(x).$$
+: There are two interesting bad news cases (i.e. non-monotonicity):
    $$\begin{aligned}
-      v \sim g(.) \text{  and  } x|v \sim N(v,\sigma^2) \\
+      \frac{dE[v|x]}{dx} &<0 && \text{($x$ is bad news about $v$)}\\
+      \frac{dE[v|x]}{dx} &>1 && \text{($x$ is bad news about $u$)}\\
    \end{aligned}$$
-: Tweedie tells us:
-   $$E[v|x] = x + \sigma^2 \frac{d}{dx}\log f(x)$$
-
-: We want to find non-monotonicities:
+: These correspond to:
    $$\begin{aligned}
-      \frac{dE[v|x]}{dx} = 1 + \sigma^2 \frac{d^2}{dx^2}\log f(x) &< 0 \\
-      \frac{d^2}{dx^2}\log f(x) &< -\frac{1}{\sigma^2} 
+      \frac{d^2}{dx^2}\log f(x) &< -\frac{1}{\sigma^2_u} && \text{(very log-concave)}\\
+      \frac{d^2}{dx^2}\log f(x) &> 0 && \text{(log-convex)}\\
    \end{aligned}$$
-: So we'll get non-monotonicities in the neighborhood of highly concave parts of the empirical distribution of observations. 
+: A nice observation: if the empirical distribution is log-convex at some point $x$, then the expectation of the Normal component $u$ must be decreasing at that point. (Note that log-concavity is a common way of characterizing light-tailed distributions.)
 
-HOWEVER -- it might be that even if g(.) is pointwise distribution there's still not a non-montonicity. 
+Note: bus arrival times.
+: Suppose the bus arrival time is $a$, then at time $t$ the expected wait time is $E[a-t|a>t]$. We'll assume $a\sim N(0,1)$, then there are two interesting quantities:
+$$\begin{aligned}
+   P(a>t) &= F(t) && \text{(probability bus has arrived)} \\
+   E[a|a>t]-t &= \frac{f(t)}{1-F(t)}-t && \text{(expected wait time)}
+\end{aligned}$$
+: Here the expected wait time is uniformly decreasing in $t$. However suppose that if we've missed the bus then the next expected arrival time is $T$ (e.g. tomorrow). Then we have expected wait time:
+$$\begin{aligned}
+   &F(t)T+(1-F(t))\frac{f(t)}{1-F(t)} - t\\
+   =& F(t)T + f(t) - t
+\end{aligned}$$
 
--->
+which will be decreasing, then increasing, then decreasing in $t$.
+
+You could supplement this model by saying you arrived at the bus-stop at time $t$, and it's now time $t'$. then we'll have terms like $P(a>t'|(a<t)\wedge(a>t'))$, but I think the basic non-monotonicity will still hold.
+
