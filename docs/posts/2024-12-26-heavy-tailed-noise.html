@@ -285,6 +285,42 @@ Suppose you observe a variable that is a sum of multiple components. Then:
 <li>Applications of the conspiracy principle: if a random group of people has a high average height then probably each individual is tall.</li>
 </ul></li>
 </ol>
+<dl>
+<dt>Note: non-monotonicity if and only if the sum is log-convex.</dt>
+<dd>
+Suppose we observe <span class="math inline">\(x\)</span> which is the sum of <span class="math inline">\(v\)</span> and <span class="math inline">\(u\)</span>. Tweedie’s formula will give us <span class="math inline">\(E[v|x]\)</span> from the empirical distribution of <span class="math inline">\(x\)</span>, as long as the distribution of <span class="math inline">\(u\)</span> is from an exponential family. If <span class="math inline">\(u\)</span> is Normal with variance <span class="math inline">\(\sigma^2_u\)</span> then we have: <span class="math display">\[E[v|x] = x + \sigma^2_u \frac{d}{dx}\log f(x).\]</span>
+</dd>
+<dd>
+There are two interesting bad news cases (i.e.&nbsp;non-monotonicity): <span class="math display">\[\begin{aligned}
+  \frac{dE[v|x]}{dx} &amp;&lt;0 &amp;&amp; \text{($x$ is bad news about $v$)}\\
+  \frac{dE[v|x]}{dx} &amp;&gt;1 &amp;&amp; \text{($x$ is bad news about $u$)}\\
+   \end{aligned}\]</span>
+</dd>
+<dd>
+These correspond to: <span class="math display">\[\begin{aligned}
+  \frac{d^2}{dx^2}\log f(x) &amp;&lt; -\frac{1}{\sigma^2_u} &amp;&amp; \text{(very log-concave)}\\
+  \frac{d^2}{dx^2}\log f(x) &amp;&gt; 0 &amp;&amp; \text{(log-convex)}\\
+   \end{aligned}\]</span>
+</dd>
+<dd>
+A nice observation: if the empirical distribution is log-convex at some point <span class="math inline">\(x\)</span>, then the expectation of the Normal component <span class="math inline">\(u\)</span> must be decreasing at that point. (Note that log-concavity is a common way of characterizing light-tailed distributions.)
+</dd>
+<dt>Note: bus arrival times.</dt>
+<dd>
+Suppose the bus arrival time is <span class="math inline">\(a\)</span>, then at time <span class="math inline">\(t\)</span> the expected wait time is <span class="math inline">\(E[a-t|a&gt;t]\)</span>. We’ll assume <span class="math inline">\(a\sim N(0,1)\)</span>, then there are two interesting quantities: <span class="math display">\[\begin{aligned}
+   P(a&gt;t) &amp;= F(t) &amp;&amp; \text{(probability bus has arrived)} \\
+   E[a|a&gt;t]-t &amp;= \frac{f(t)}{1-F(t)}-t &amp;&amp; \text{(expected wait time)}
+\end{aligned}\]</span>
+</dd>
+<dd>
+Here the expected wait time is uniformly decreasing in <span class="math inline">\(t\)</span>. However suppose that if we’ve missed the bus then the next expected arrival time is <span class="math inline">\(T\)</span> (e.g.&nbsp;tomorrow). Then we have expected wait time: <span class="math display">\[\begin{aligned}
+   &amp;F(t)T+(1-F(t))\frac{f(t)}{1-F(t)} - t\\
+   =&amp; F(t)T + f(t) - t
+\end{aligned}\]</span>
+</dd>
+</dl>
+<p>which will be decreasing, then increasing, then decreasing in <span class="math inline">\(t\)</span>.</p>
+<p>You could supplement this model by saying you arrived at the bus-stop at time <span class="math inline">\(t\)</span>, and it’s now time <span class="math inline">\(t'\)</span>. then we’ll have terms like <span class="math inline">\(P(a&gt;t'|(a&lt;t)\wedge(a&gt;t'))\)</span>, but I think the basic non-monotonicity will still hold.</p>
 
 
 </section>

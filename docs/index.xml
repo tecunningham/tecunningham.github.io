@@ -93,6 +93,30 @@ Suppose you observe a variable that is a sum of multiple components. Then:
 <li>Applications of the conspiracy principle: if a random group of people has a high average height then probably each individual is tall.</li>
 </ul></li>
 </ol>
+<dl>
+<dt>Note: non-monotonicity if and only if the sum is log-convex.</dt>
+<dd>
+Suppose we observe <img src="https://latex.codecogs.com/png.latex?x"> which is the sum of <img src="https://latex.codecogs.com/png.latex?v"> and <img src="https://latex.codecogs.com/png.latex?u">. Tweedie’s formula will give us <img src="https://latex.codecogs.com/png.latex?E%5Bv%7Cx%5D"> from the empirical distribution of <img src="https://latex.codecogs.com/png.latex?x">, as long as the distribution of <img src="https://latex.codecogs.com/png.latex?u"> is from an exponential family. If <img src="https://latex.codecogs.com/png.latex?u"> is Normal with variance <img src="https://latex.codecogs.com/png.latex?%5Csigma%5E2_u"> then we have: <img src="https://latex.codecogs.com/png.latex?E%5Bv%7Cx%5D%20=%20x%20+%20%5Csigma%5E2_u%20%5Cfrac%7Bd%7D%7Bdx%7D%5Clog%20f(x).">
+</dd>
+<dd>
+There are two interesting bad news cases (i.e.&nbsp;non-monotonicity): <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%5Cfrac%7BdE%5Bv%7Cx%5D%7D%7Bdx%7D%20&amp;%3C0%20&amp;&amp;%20%5Ctext%7B($x$%20is%20bad%20news%20about%20$v$)%7D%5C%5C%0A%20%20%5Cfrac%7BdE%5Bv%7Cx%5D%7D%7Bdx%7D%20&amp;%3E1%20&amp;&amp;%20%5Ctext%7B($x$%20is%20bad%20news%20about%20$u$)%7D%5C%5C%0A%20%20%20%5Cend%7Baligned%7D">
+</dd>
+<dd>
+These correspond to: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%5Cfrac%7Bd%5E2%7D%7Bdx%5E2%7D%5Clog%20f(x)%20&amp;%3C%20-%5Cfrac%7B1%7D%7B%5Csigma%5E2_u%7D%20&amp;&amp;%20%5Ctext%7B(very%20log-concave)%7D%5C%5C%0A%20%20%5Cfrac%7Bd%5E2%7D%7Bdx%5E2%7D%5Clog%20f(x)%20&amp;%3E%200%20&amp;&amp;%20%5Ctext%7B(log-convex)%7D%5C%5C%0A%20%20%20%5Cend%7Baligned%7D">
+</dd>
+<dd>
+A nice observation: if the empirical distribution is log-convex at some point <img src="https://latex.codecogs.com/png.latex?x">, then the expectation of the Normal component <img src="https://latex.codecogs.com/png.latex?u"> must be decreasing at that point. (Note that log-concavity is a common way of characterizing light-tailed distributions.)
+</dd>
+<dt>Note: bus arrival times.</dt>
+<dd>
+Suppose the bus arrival time is <img src="https://latex.codecogs.com/png.latex?a">, then at time <img src="https://latex.codecogs.com/png.latex?t"> the expected wait time is <img src="https://latex.codecogs.com/png.latex?E%5Ba-t%7Ca%3Et%5D">. We’ll assume <img src="https://latex.codecogs.com/png.latex?a%5Csim%20N(0,1)">, then there are two interesting quantities: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20P(a%3Et)%20&amp;=%20F(t)%20&amp;&amp;%20%5Ctext%7B(probability%20bus%20has%20arrived)%7D%20%5C%5C%0A%20%20%20E%5Ba%7Ca%3Et%5D-t%20&amp;=%20%5Cfrac%7Bf(t)%7D%7B1-F(t)%7D-t%20&amp;&amp;%20%5Ctext%7B(expected%20wait%20time)%7D%0A%5Cend%7Baligned%7D">
+</dd>
+<dd>
+Here the expected wait time is uniformly decreasing in <img src="https://latex.codecogs.com/png.latex?t">. However suppose that if we’ve missed the bus then the next expected arrival time is <img src="https://latex.codecogs.com/png.latex?T"> (e.g.&nbsp;tomorrow). Then we have expected wait time: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20&amp;F(t)T+(1-F(t))%5Cfrac%7Bf(t)%7D%7B1-F(t)%7D%20-%20t%5C%5C%0A%20%20%20=&amp;%20F(t)T%20+%20f(t)%20-%20t%0A%5Cend%7Baligned%7D">
+</dd>
+</dl>
+<p>which will be decreasing, then increasing, then decreasing in <img src="https://latex.codecogs.com/png.latex?t">.</p>
+<p>You could supplement this model by saying you arrived at the bus-stop at time <img src="https://latex.codecogs.com/png.latex?t">, and it’s now time <img src="https://latex.codecogs.com/png.latex?t'">. then we’ll have terms like <img src="https://latex.codecogs.com/png.latex?P(a%3Et'%7C(a%3Ct)%5Cwedge(a%3Et'))">, but I think the basic non-monotonicity will still hold.</p>
 
 
 </section>
