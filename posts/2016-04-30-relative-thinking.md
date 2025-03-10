@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Relative Thinking
+author: Tom Cunningham
+citation: true
 date: 2016-04-30
 format:
    html:
