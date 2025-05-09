@@ -434,7 +434,8 @@ The bias is because in the regression our LHS variable is *estimated* retention 
       \ut{\frac{cov(\hat{t}_2,\hat{t}_1)}{var(\hat{t}_1)}}{regression}
       = \utt{\frac{cov(t_2,\hat{t}_1)}{var(\hat{t_1})}}{what we}{want to know}
          + \ut{\frac{cov(e_2,e_1)}{var(\hat{t}_1)}}{bias}
-   \end{aligned}$$
+   \end{aligned}
+   $$
 
 The bias will be small if the short-run metrics have high signal-noise ratios (SNR), $\frac{var(t_1)}{var(e_1)}\gg 0$. A simple test for SNR ratio is the distribution of p-values: if most experiments are significant then the SNR is high. However in the typical case (1) $\Delta \widehat{\text{DAU}}_{SR}$ is the best predictor of $\Delta \widehat{\text{DAU}}_{LR}$; and (2) $\Delta \widehat{\text{DAU}}_{SR}$ has a low signal-noise ratio (i.e. few outcomes are stat-sig). This means the bias is large, and so results are hard to interpret.
 
@@ -454,9 +455,9 @@ Here are some alternatives:
    \end{aligned}
    $$
 
-   If everything is joint normal then the expectation is itself linear, and so this will be optimal. In practice the true distribution of effect-sizes is somewhat fat-tailed, which imply that the conditional expectation will be nonlinear in the observables. Nevertheless I think this is a good start. (One other complication is that the SNR is more complicated to calculate when experiments vary in their sample size).^[See @cunningham2019interpreting, and see @tripuraneni2023choosing for a slightly different setup with weaker assumptions.]
+   If everything is joint normal then the expectation is itself linear, and so this will be optimal. In practice the true distribution of effect-sizes is somewhat fat-tailed, which imply that the conditional expectation will be nonlinear in the observables. Nevertheless I think this is a good start. (One other complication is that the SNR is more complicated to calculate when experiments vary in their sample size).^[See @cunningham2019interpreting, and see @tripuraneni2023choosing for a slightly different setup with weaker assumptions. @bibaut2024nonparametric shows the relationship with LIML.]
 
-3. **Use experiment splitting.** You can randomly assign users in each experiment to one or other sub-experiments. You now effectively have a set of *pairs* of experiments, each of which has experiments with identical treatment effects ($\Delta \text{DAU}_{LR}$) but independent noise. Thus you can run a regression with LHS from one split, and RHS from other split, and you'll get an unbiased estimate. Additionally you can easily fit a nonlinear model (@coey2019improving has details of how to do an experiment-splitting).
+3. **Use experiment splitting.** You can randomly assign users in each experiment to one or other sub-experiments. You now effectively have a set of *pairs* of experiments, each of which has experiments with identical treatment effects ($\Delta \text{DAU}_{LR}$) but independent noise. Thus you can run a regression with LHS from one split, and RHS from other split, and you'll get an unbiased estimate. Additionally you can easily fit a nonlinear model (@coey2019improving has details of how to do an experiment-splitting).^[@bibaut2024nonparametric gives another formalization in terms of jacknife-instrumental-variable (JIVE).]
 
 4. **Run a regression just using the strongest experiments.** If the distribution of experiments is fat-tailed then the strongest experiments will have higher SNR, and so lower bias. A worry about this is that you're only estimating the relationship from outliers, so nonlinearities are more of a worry. At the same time the assumption of fat-tailed treatment-effects gives reason to believe the expectation will be nonlinear. (This is roughly how I interpret the @peysakhovich2018learning experiments-as-instruments paper. They propose using L0 regularization and experiment-splitting cross-validations, which I think effectively selects the strongest experiments.)
 
