@@ -481,16 +481,16 @@ ggplot(curves, aes(x, y)) +
 
 #           Discussion
 
-**I will use "superhuman" to mean the AI can answer some question better than any human can.** We can formalize "superhuman" ability in a variety of ways. The notation is introduced more fully below, but briefly $\bm{q}$ represents a question, $a(\bm{q})$ represents the correct answer, $\bar{a}(\bm{q})$ represents the computer's answer, and $\hat{a}_i(\bm{q})$ represents the answer of human $i$. The expectations can be interpreted as over the universe of all questions, or some subset of questions:
+**I will use "superhuman" to mean the AI can answer some question better than any human can.** We can formalize "superhuman" ability in a variety of ways. The notation is introduced more fully below, but briefly $\bm{q}$ represents a question, $a(\bm{q})$ represents the correct answer, $\bar{a}(\bm{q})$ represents the computer's answer, and $\hat{a}_i(\bm{q})$ represents the answer of human $i$. We assume squared error loss, and the expected error can be interpreted as either over the universe of all questions, or some subset of questions:
    $$\begin{aligned}
       \text{weak:}&&    \ut{E[(a(q)-\bar{a}(q))^2]}{error of computer}
-         &\leq  \ut{\frac{1}{n}\sum_{i=1}^mE[(a(q)-\hat{a}_i(q))^2]}{avg error of human}\\
+         &\leq  \ut{\frac{1}{m}\sum_{i=1}^mE[(a(q)-\hat{a}_i(q))^2]}{avg error of human}\\
       \text{medium:}&&  \ut{E[(a(q)-\bar{a}(q))^2]}{error of computer}
-         &\leq  \ut{E\left[(a(q)-\frac{1}{n}\sum_{i=1}^m\hat{a}_i(q))^2\right]}{error of avg human}\\
+         &\leq  \ut{E\left[(a(q)-\frac{1}{m}\sum_{i=1}^m\hat{a}_i(q))^2\right]}{error of avg human}\\
       \text{strong:}&&  \ut{E[(a(q)-\bar{a}(q))^2]}{error of computer}
          &\leq  \ut{\min_{i=1,\ldots,m}E[(a(q)-\hat{a}_i(q))^2]}{error of best human}\\
       \text{super-strong:}&& \ut{E[(a(q)-\bar{a}(q))^2]}{error of computer}
-         &\leq  \ut{E[(\min_{i=1,\ldots,m}\{a(q)-\hat{a}_i(q)\})^2]}{error of best human by question}\\
+         &\leq  \ut{E[\min_{i=1,\ldots,m}\{(a(q)-\hat{a}_i(q))^2\}]}{error of best human by question}\\
    \end{aligned}
    $$
    
@@ -612,9 +612,9 @@ ggplot(curves, aes(x, y)) +
    Note that we are fixing the question $\bm{q}$ and taking the expectation over all possible worlds, $\bm{w}$. I think you could probably rewrite this such that, in the world we are in, we should observe worse average performance across a set of questions, but I think you'd need to add some conditions to make sure that the questions are sufficiently independent (e.g. if there was a single weight $w_q$ which dominated all the other weights then the computer might beat the human by accident).
 
 **If there are two humans then the computer will outperform them both.**
-: Suppose there are two humans who each observe answers to different question, $Q_A$ and $Q_B$, and they both write them all down, so $\bar{Q}=(\smallmatrix{Q_A\\Q_B})$ and $\bar{\bm{a}}=(\smallmatrix{Q_A\bm{w}\\Q_B\bm{w}})$. Now the computer clearly has superior information to either human, and so if we let $\hat{\bm{w}}(i)$ represent the weights of human $i\in\{A,B\}$, then for any question $\bm{q}$ we can write:   
+: Suppose there are two humans who each observe answers to different question, $Q_A$ and $Q_B$, and they both write them all down, so $\bar{Q}=(\smallmatrix{Q_A\\Q_B})$ and $\bar{\bm{a}}=(\smallmatrix{Q_A\bm{w}\\Q_B\bm{w}})$. Now the computer has a strictly larger set of observations than either human, and so if we let $\hat{\bm{w}}(i)$ represent the weights of human $i\in\{A,B\}$, then for any question $\bm{q}$ we can write:   
    $$ E[\ut{(\bm{q}(\bm{w}-\bar{\bm{w}}))^2}{computer error}]\leq
-      E[\ut{(\bm{q}(\bm{a}-\hat{\bm{w}}(i)))^2}{human error}].
+      E[\ut{(\bm{q}(\bm{w}-\hat{\bm{w}}(i)))^2}{human error}].
    $$
 
 **If there are multiple humans then the computer can answer question no human can answer.** Suppose two humans observe the answers to the following questions:
@@ -630,11 +630,11 @@ ggplot(curves, aes(x, y)) +
       \tilde{q} &= \bmatrix{1 & -1 & -1} \\
    \end{aligned}
    
-   However if they both recorded their observations, so the computer observes $\bar{\bm{a}}=(\smallmatrix{Q_1\bm{w}\\Q_2\bm{w}})$, the computer will be able to infer both $w_2$ and $w_3$, and thus will be able to perfectly answer $\tilde{q}$. We can see this behaviour in LLMs: they sometimes combine a pair of facts or a pair of abilities which no single human has access to, e.g. when an LLM translates between two languages, for which there exists no human speaker of both.
+   However if they both recorded their observations then the computer observes $\bar{\bm{a}}=(\smallmatrix{Q_1\bm{w}\\Q_2\bm{w}})$, and so the computer will be able to infer both $w_2$ and $w_3$, and thus will be able to perfectly answer the question $\tilde{q}$ above. We can see this behaviour in LLMs: they sometimes combine a pair of facts or a pair of abilities which no single human has access to, e.g. when an LLM translates between a pair of languages for which there exists no human speaker of both.
 
-**If humans write outside their expertise then the computer will do worse.** In the cases above we assumed that the two humans recorded only what they directly observed, $\hat{Q}\subseteq Q$. This means the computer essentially had a window directly to the world. However the humans could instead have written down their estimated answers to other questions. Suppose both humans wrote down answers to every possible question, $\bm{q}\in\{-1,1\}^p$, then we could conjecture that the computer would learn the average of the two humans' weights:[^noise]
+**If humans write outside their expertise then the computer will do worse.** In the cases above we assumed that the two humans recorded only what they directly observed, $\hat{Q}\subseteq Q$. This means the computer essentially had a window directly to the world. However the humans could instead have written down their estimated answers to other questions, for which they have never observed the ground truth. Suppose both humans wrote down answers to every possible question, $\bm{q}\in\{-1,1\}^p$, then we could conjecture that the computer would learn the average of the two humans' weights:[^noise]
       $$\bar{\bm{w}}=\frac{1}{2}\hat{\bm{w}}_A+\frac{1}{2}\hat{\bm{w}}_B.$$
-   Here the computer will do worse than the two humans on the original questions, $Q_A$ and $Q_B$. The implication is that LLMs work so well only because people tend to write about what they know. Put another way, when an LLM answers a question, it will not predict the answer given by the average person, but will predict the answer given by people who are likely to answer that question in the real world, and luckily those people tend to be people who are subject-matter experts.
+   Here the computer will do worse than the two humans on the original questions, $Q_A$ and $Q_B$. The implication is that LLMs work so well only because people tend to write about what they know. Put another way, when an LLM answers a question, it will not predict the answer given by the average person, but will predict the answer given by people who are likely to answer that question in the real world. Luckily there tends to be a positive correlation between having knowledge about a domain, and writing about that domain.
 
    [^noise]: We would have to augment the computer's learning rule to allow for noise in answers - I need to confirm that the weighting will be exactly 1/2.
 
@@ -645,11 +645,11 @@ ggplot(curves, aes(x, y)) +
       \hat{\bm{w}}^E &= \text{explicit knowledge}\\
    \end{aligned}
    
-   When the human encounters a new question $\tilde{\bm{q}}$ they will use their tacit knowledge to form an estimate of the answer, $\hat{a}=\tilde{\bm{q}}'\hat{\bm{w}}^T$. But they have limited ability to introspect about that capacity, and so when asked how they make their judgments they can report only $\hat{\bm{w}}^E$. For simplicity assume tacit knowledge is perfect ($\hat{\bm{w}}^T=\bm{w}$), and explicit knowledge is imperfect ($\hat{\bm{w}}^E=\bm{w}$).
+   When the human encounters a new question $\tilde{\bm{q}}$ they will use their tacit knowledge to form an estimate of the answer, $\hat{a}=\tilde{\bm{q}}'\hat{\bm{w}}^T$. But they have limited ability to introspect about that capacity, and so when asked how they make their judgments they can report only $\hat{\bm{w}}^E$. For simplicity assume tacit knowledge is perfect ($\hat{\bm{w}}^T=\bm{w}$), and explicit knowledge is imperfect ($\hat{\bm{w}}^E\neq \bm{w}$).
 
-   The distinction becomes important when we want to create a new question. Here it's useful to interpret $\bm{q}$ not as a question but as an artefact, e.g. a text or image, and interpret $a=\bm{q}'\bm{w}$ as a property of that artefact, e.g. how persuasive is the text, or how attractive is the image. Suppose we want to choose $\bm{q}\in\{-1,1\}^n$ to maximize $a$. If we had perfect access to our beliefs $\bm{w}^T$ this would be simple, however if we have access only to imperfect explicit knowledge $\hat{\bm{w}}^E$, the artefact which maximizes that function will not generally be the one which maximizes $a$. This represents an asymmetry in human cognition: we can recognize certain patterns (whether text is persuasive, whether a picture is pretty), without being able to produce those patterns.
+   The distinction becomes important when we want to create a new $\bm{q}$. Here it's useful to interpret $\bm{q}$ as an artefact, e.g. a text or image, and interpret $a=\bm{q}'\bm{w}$ as a property of that artefact, e.g. how persuasive is the text, or how attractive is the image. Suppose we want to choose $\bm{q}\in\{-1,1\}^n$ to maximize $a$. If we had perfect access to our beliefs $\bm{w}^T$ this would be simple, however if we have access only to imperfect explicit knowledge $\hat{\bm{w}}^E$, the artefact which maximizes that function will not generally be the one which maximizes $a$. This represents an asymmetry in human cognition: we can recognize certain patterns (whether text is persuasive, whether a picture is pretty), without being able to produce those patterns.
 
-   Here the computer model is less constrained. Suppose the computer has observed sufficiently many questions such that they have perfectly learned human tacit knowledge, $\bar{\bm{w}}=\hat{\bm{w}}^T$. If computation is costless we could query every single $\bm{q}\in\{-1,1\}^p$ to find the highest $a$. More realistically we could use a diffusion algorithm, or reinforcement learning against human or computer evaluation, to find an artefact with a high $a$.
+   Here the computer model is less constrained. Suppose the computer has observed sufficiently many questions such that they have perfectly learned human tacit knowledge, $\bar{\bm{w}}=\hat{\bm{w}}^T$. If computation is costless we could query every single $\bm{q}\in\{-1,1\}^p$ to find the highest $a$. In the real-world we use a diffusion algorithm, or reinforcement learning against human or computer evaluation, to find an artefact with a high $a$.
 
 ##           Derivation
 
@@ -667,7 +667,7 @@ ggplot(curves, aes(x, y)) +
 
 Written more compactly:
    \begin{aligned}
-      Q      &\in \{-1,1\}^{p\times n}
+      Q      &\in \{-1,1\}^{n\times p}
          && \text{($n$ questions, each has $p$ binary parameters)}\\
       \bm{w} &\sim N(0,\Sigma) 
          && (p\times 1\text{ vector of true parameters of the world)}\\
@@ -722,17 +722,17 @@ We can normalize $q_1=q_2=1$, then we have:
 
 **With noise.** Suppose we only observe the answers with random noise, then we get this:
    \begin{aligned}
-      \ut{\bm{a}}{$m\times1$}   &= \ut{Q}{$m\times n$}\ut{\bm{w}}{$n\times1$}
+      \ut{\bm{a}}{$n\times1$}   &= \ut{Q}{$n\times p$}\ut{\bm{w}}{$p\times1$}
          + \ut{\bm{e}}{$n\times 1$} \\
-      \bm{e} &\sim N(\bm{0},s^2I_m) && \text{(i.i.d. noise w variance $s^2$)}\\
+      \bm{e} &\sim N(\bm{0},s^2I_n) && \text{(i.i.d. noise w variance $s^2$)}\\
       Cov(\bm{w},\bm{a})   &= \Sigma Q' \\
-      Var(\bm{a}) &= Q\Sigma Q' + s^2I_m \\
-      E[\bm{w}|Q,\bm{q}]   &= \Sigma Q'(Q\Sigma Q' + s^2I_m)^{-1}\bm{a}
+      Var(\bm{a}) &= Q\Sigma Q' + s^2I_n \\
+      E[\bm{w}|Q,\bm{a}]   &= \Sigma Q'(Q\Sigma Q' + s^2I_n)^{-1}\bm{a}
    \end{aligned}
 
 **Compare to Bayesian linear regression.**  We can compare this result to Bayesian linear regression (e.g. [Wikipedia](https://en.wikipedia.org/wiki/Bayesian_linear_regression)):
    \begin{aligned}
-      \bar{\beta}  &= \Sigma Q'(Q\Sigma Q' + s^2I_m)^{-1}\bm{a}
+      \bar{\beta}  &= \Sigma Q'(Q\Sigma Q' + s^2I_n)^{-1}\bm{a}
          && \text{(our result)} \\
       \tilde{\beta} &= (Q'Q+s^{2}\Sigma^{-1})^{-1}Q'\bm{a}
          && \text{(Bayesian linear regression)}\\
@@ -740,7 +740,7 @@ We can normalize $q_1=q_2=1$, then we have:
 
    I *believe* that these can be shown to be equivalent by the [matrix inversion lemma](https://en.wikipedia.org/wiki/Woodbury_matrix_identity), though I haven't confirmed this. There's a [note online](https://digitalcommons.usu.edu/cgi/viewcontent.cgi?article=1212&context=ece_facpub) that appears to show equivalence.
 
-**Extension: quadratic forms.** Instead of answers being linear in question-features ($a=q'w$) we could suppose they're quadratic, $a=q'Wa$, with $W$ a matrix having dimension $n^2$. I'm not sure whether we could still get an analytic solution for posteriors. Can visualize the matrix W: each bit in $q$ will add an "L" overlaid on the matrix (alternatively: a row and column), and $a$ will be the sum of the cells where both the row and the column are activated.
+**Extension: quadratic forms.** Instead of answers being linear in question-features ($a=q'w$) we could suppose they're quadratic, $a=q'Wq$, with $W$ a matrix having dimension $p^2$. I'm not sure whether we could still get an analytic solution for posteriors. Can visualize the matrix W: each bit in $q$ will add an "L" overlaid on the matrix (alternatively: a row and column), and $a$ will be the sum of the cells where both the row and the column are activated.
 
 **Extension: binary answers.** In some cases it is natural to think of the answer, $a$, as binary instead of continuous. We might be able to reinterpret the model with $a$ representing the log-odds ratio of a binary outcome. Alternatively there might be a way of having a beta-binomial conjugate prior over the probability of $a$.
 
