@@ -1,2 +1,1009 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"></html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Tom Cunningham">
+<meta name="description" content="Tom Cunningham blog">
+
+<title>Notes on the Economics of Transformative AI | Tom Cunningham – Tom Cunningham</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-12027453-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+<script>window.MathJax = {
+   loader: { load: ["https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/xypic.js"]},
+   tex: {packages: {'[+]': ['xypic','bm']},
+         macros: {  bm: ["\\boldsymbol{#1}", 1],
+                    ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+                    utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3] }
+   }
+};
+</script>
+<style>
+   h1 {  border-bottom: 4px solid black;}
+   h2 {  border-bottom: 1px solid #ccc;}
+</style>
+<meta name="quarto:status" content="draft">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+<meta name="twitter:title" content="Notes on the Economics of Transformative AI | Tom Cunningham">
+<meta name="twitter:description" content="Tom Cunningham blog">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Draft</div>
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Tom Cunningham</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href=".././about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/testingham"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/tom-cunningham-a9433/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://tecunningham.github.io/index.xml"> <i class="bi bi-rss-fill" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://scholar.google.com/citations?user=MDB_DgkAAAAJ"> 
+<span class="menu-text">scholar</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Notes on the Economics of Transformative AI</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+<style>
+   dl {display: grid;}
+   dt {grid-column-start: 1; width: 5cm;}
+   dd {grid-column-start: 2; margin-left: 2em;}
+</style>
+<dl>
+<dt>Observations on the economics of transformative AI.</dt>
+<dd>
+<p>This post will be a series of observations about the economics of AI, written partly in reflection on two great workshops: (1) Windfall Trust’s <a href="https://futureoflife.org/project/the-windfall-trust/">“Economic Scenarios for Transformative AI”</a>; (2) NBER’s <a href="https://www.nber.org/conferences/economics-transformative-ai-workshop-fall-2025">“Workshop on the Economics of Transformative AI.</a></p>
+</dd>
+</dl>
+<section id="general-observations" class="level2">
+<h2 class="anchored" data-anchor-id="general-observations">General Observations</h2>
+<dl>
+<dt>Most economists avoided talking about transformative AI.</dt>
+<dd>
+<p>Both workshops were intended for discussion of a hypothetical: what would happen if AI <em>could</em> do everything that humans can do? But more than half the papers put a cap on AI abilities, many were really focused on predicting the diffusion of <em>existing</em> levels of computer-level intelligence.</p>
+</dd>
+<dd>
+<p>Why did people avoid talking about super-AI? Some because they didn’t really believe it would come, &amp; so wanted to focus on the more likely effect of AI.</p>
+</dd>
+<dt>We’re removing a wall and we don’t know if it’s load-bearing.</dt>
+<dd>
+<p>We write down precise equilibrium models of the economy but it’s generally understood the models only roughly match aggregate statistics, and there are very many puzzles that economists argue over: about growth, the equity premium, lifecycle savings, the equilibrium size of firms, &amp; heterogeneity in productivity. It is easy to exaggerate how accurate these models are at predicting causal effects, and in fact structural models typically underperform black-box models for forecasting. We are now going to make some drastic changes to the production function, and predict how equilibrium will change.</p>
+</dd>
+<dt>I don’t think people appreciate the speed of improvement.</dt>
+<dd>
+<p>People gave various examples of things the models still couldn’t do: (1) ARC-AGI; (2) understand world models; (3) reliably operate a vending machine (Anthropic’s vending machine). These are all good examples but I don’t think there was a good sense of the rate of progress. I think it’s very likely that AI will solve all these things in a year. Some general observations about the rate of progress:</p>
+<ol type="1">
+<li>ARC-AGI is falling quickly: over a year performance on the original ARC-AGI went from around 10% to 80%, and over a few months performance on ARC-AGI-2 went from around 3% to 30%. It’s true that a large part of the performance improvement was due to writing wrappers, but I think it’s very likely the models will be pretty good at writing their own wrappers by this time next year, so they’ll be able to solve the class of problems which can be addressed by LLM+wrapper.</li>
+<li>Benchmarks are falling rapidly. I think it typically takes about 18 months for benchmark performance to go from 25% to 75%, whereas in the pre-2020s it was more like 5-10 years.</li>
+<li>The consumer utility is growing dramatically: the Elo score of models on chatbot arena is growing at around 200 points/year. This implies about a 75% win-rate, and equivalent to the difference in skill between the top-rated chess player in the world and the player ranked 100.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></li>
+</ol>
+</dd>
+<dt>The AI pessimism has gone away:</dt>
+<dd>
+<p>This time last year many economists confidently predicted negligible economic impacts of AI:</p>
+<ul>
+<li>Acemoglu predicted AI would cause 0.06% incremental productivity growth over the next 10 years</li>
+<li>Josh Gans said <a href="https://x.com/joshgans/status/1812492809326276786">“I don’t think it will boost growth appreciably”</a></li>
+<li>Robert Gordon <a href="https://www.newyorkfed.org/medialibrary/media/research/conference/2024/AMEC%20US%20Productivity/Sessiontrue3_Gordon_LGAtrueNYFedtrueFuturetrueoftrueLP_240216?utm_source=chatgpt.com">predicted small effects</a></li>
+<li>Paul Romer <a href="https://finance.yahoo.com/news/nobel-laureate-paul-romer-sees-093000071.html">predicted small effects</a></li>
+</ul>
+</dd>
+</dl>
+<p>I haven’t heard anyone make a claim like that this year.</p>
+<dl>
+<dt>All questions about AI are downstream of the statistical structure of the world.</dt>
+<dd>
+<p>I’m personally convinced that most existing work is too reduced-form, &amp; that in a few years the way we talk about AI’s effect on different domains will refer to the statistical structure of that domain – e.g.&nbsp;the dimensionality of the manifold. More precisely, the closeness of the fit between the structure of the domain and the structure of the brain trying to comprehend it – whether that brain is human or computer.</p>
+</dd>
+<dt>To add:</dt>
+<dd>
+<ul>
+<li>very emphatic opinions on regulation: Susan, Luis, Kevin</li>
+<li>Drone army and resource constraints:</li>
+</ul>
+<ol type="1">
+<li>Services become cheap, goods remain expensive:</li>
+<li>A Ricardian model:</li>
+<li>How does AI change the offense-defense balance?</li>
+<li>How will people find meaning?</li>
+<li>Automation and augmentation is confusing</li>
+<li>LLMs aren’t predicting next tokens. I think many economists have the m</li>
+</ol>
+<ul>
+<li>The dangers are a little surreal: responses to Chad Jones taslk.</li>
+<li>Many economists are focussed on competition.</li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="we-dont-have-a-standard-model-of-ai-capabilities." class="level2">
+<h2 class="anchored" data-anchor-id="we-dont-have-a-standard-model-of-ai-capabilities.">We don’t have a standard model of AI capabilities.</h2>
+<dl>
+<dt>Every conclusion depends on assumptions about machine intelligence.</dt>
+<dd>
+<p>All of the papers rely on some assumption on the difference between computer intelligence and human intelligence, but the assumptions differ. There is no canonical model of computer intelligence. In fact this is a famously difficult problem: for 80 years we’ve been struggling to come up with a good metric of computer intelligence.</p>
+<p>(This is what I’m personally most interested in, and part of the reason why I’m leaving OpenAI and joining METR.)</p>
+</dd>
+<dt>There are lots of ways that machine intelligence is modelled.</dt>
+<dd>
+<ul>
+<li>Reduced: (1) the share of tasks that a computer perform; (2) the time horizon of tasks that computers can perform; (3) your ability to extrapolate from known information.</li>
+</ul>
+</dd>
+<dd>
+<ul>
+<li>Structural: (1) access to an information set - either width or depth; (2) depth of processing.</li>
+</ul>
+</dd>
+<dt>Many measures of LLM capability are highly correlated.</dt>
+<dd>
+<p>As a consequence, AI researchers are comfortable talking just about ‘model intelligence’ without needing to define what they mean. The correlation of capability is consistent with the idea that LLMs are learning deep latent structures of the world, which are useful across a lot of domains.</p>
+</dd>
+<dt>We are making some progress in characterizing AI ability.</dt>
+<dd>
+<p>In 2024 people talked about AI intelligence in terms of years-of-education (Aschenbrenner and OpenAI talking about “phd-level intelligence”). In 2025 METR (<span class="citation" data-cites="kwa2025longtasks">Kwa et al. (<a href="#ref-kwa2025longtasks" role="doc-biblioref">2025</a>)</span>) made a good argument that the most parsimonious model of intelligence is the human-time-length of tasks.</p>
+</dd>
+</dl>
+</section>
+<section id="gdp-will-miss-a-lot" class="level2">
+<h2 class="anchored" data-anchor-id="gdp-will-miss-a-lot">GDP will miss a lot</h2>
+<p>There are two reasons why focussing just on GDP will miss important effects:</p>
+<dl>
+<dt>AI will change relative prices.</dt>
+<dd>
+<p>It’s likely the price of services will fall relative to goods. If we just talk about AI’s effect on output it’s much harder to see concretely how that changes income and consumption without thinking about these dramatic swings in relative prices.</p>
+</dd>
+<dt>AI services won’t show up in GDP.</dt>
+<dd>
+<p>AI is already providing a great deal of value (700M ChatGPT users), but the value won’t show up in GDP by our normal accounting methods. In fact it’s plausible that AI reduces GDP because it reduces demand for expertise: I no longer call my garage-door-repair guy, because ChatGPT tells me how to fix the door. Services are generally accounted for in GDP just by the wages paid to service-providers, if we replace those providers then GDP will fall even though the services are still being supplied.</p>
+</dd>
+</dl>
+</section>
+<section id="a-concrete-scenario-a-resource-constrained-world" class="level2">
+<h2 class="anchored" data-anchor-id="a-concrete-scenario-a-resource-constrained-world">A concrete scenario: a resource-constrained world</h2>
+<dl>
+<dt>I found it useful to have a concrete scenario in which AI can do everything humans can do.</dt>
+<dd>
+<p><strong>TL;DR: everything but land will become dirt cheap, and those who do not own land at the time of transition will have to live off others’ charity.</strong></p>
+<ol type="1">
+<li>Assume that every service and every good can be produced by AI. The inputs are just land, energy, and raw materials.</li>
+<li>You can now buy any good at all, price is not a relevant constraint, you just have to choose which object you like and find room for it (you can shop on Amazon with unlimited credit). You can also get any service at the highest possible quality (medical, massage, education, entertainment), price is no longer a constraint, only time.</li>
+<li>However there will still be some scarce resources. For simplicity I’ll say it’s just land (minerals and energy too, but minerals are in land, and energy production requires land and minerals).</li>
+<li>Suppose we flip a switch and plentiful robots appear, what will happen? People who already own it will be able to exchange slices of land for computer-made goods and services at very favorable rates. Those who do not have land will be stuck: their labor has become worthless, and they have nothing to exchange it for. If you are living in a rented apartment your landlord will evict you: you no longer have anything of value you can offer him in exchange for the value of the land.</li>
+<li>Throughout human history people have been born with an endowment of labor that they could use to exchange for goods and services. This will no longer be true: people can exchange their labor for others’ labor, but their labor will no longer have value for land or anything that requires scarce resources.</li>
+<li>Taken literally this implies that people without assets suddenly become entirely dependent on charity, even for a place to sleep. Perhaps the land-rich will collectively redistribute land and resources to the land-poor, and once you have a little land then all other goods and services become effectively unlimited.</li>
+<li>Finally we might expect political structure to follow economic structure. Democracy seems to be more common when workers have more economic power, and so if TAI causes most workers to lose their relative economic power, politics may follow.</li>
+</ol>
+</dd>
+</dl>
+</section>
+<section id="what-is-the-demand-for-labor" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-the-demand-for-labor">What is the Demand for Labor?</h2>
+<dl>
+<dt>We’re uncertain what residual value labor will have.</dt>
+<dd>
+<p>Many discussions ended up coming back to what value human labor will have when computers become super-capable:</p>
+<ol type="1">
+<li>What things can only humans do?</li>
+<li>Will people pay a premium for human labor?</li>
+<li>If humans have no advantage, what happens to wages?</li>
+</ol>
+</dd>
+<dt>What things can only humans do?</dt>
+<dd>
+<p>Many of the discussions circled around implicit assumptions on what humans can and cannot do.</p>
+</dd>
+<dt>Will people pay a premium for human labor?</dt>
+<dd>
+<p>Suppose a robot</p>
+<ol type="1">
+<li>Robot chef vs real chef.</li>
+<li>People are not willing to pay a significant premium for made-in-US vs made in the rest of the world.</li>
+<li>People are not willing to pay a premium for in-person entertainment and services: employment as musicians, .</li>
+</ol>
+</dd>
+<dt>If AI can do everything then wages will fall below subsistence.</dt>
+<dd>
+<p>There’s a Ricardian argument that AI will cause wages to go up even if AI can do everything: humans will just specialize in their comparative advantage (because AI will shift prices relative to the prices in autarky, giving humans gains from trade). Pascual Restrepo made this argument, similar arguments are in <span class="citation" data-cites="caselli2019robot">Caselli and Manning (<a href="#ref-caselli2019robot" role="doc-biblioref">2019</a>)</span>, <span class="citation" data-cites="smith2024">Smith (<a href="#ref-smith2024" role="doc-biblioref">2024</a>)</span>, and <span class="citation" data-cites="korinek2024scenarios">Korinek and Suh (<a href="#ref-korinek2024scenarios" role="doc-biblioref">2024</a>)</span>.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+</dd>
+<dd>
+However this reassuring conclusion depends on there being no other scarce inputs which humans and computers compete for. In fact humans do have resource inputs - say 100 square feet and 2000 calories/day. If a computer can do every task at a lower resource cost than a human then there will be no humans employed in equilibrium.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> In the hypothetical world this implies that humans who do not own land would starve: the price of their labor, denominated in energy, would fall below subsistence level. Among people who are still alive (because they own land, or from charity), would they work? Only if the incremental resource cost of working was sufficiently low that it undercut the resource cost of computers.
+</dd>
+<dd>
+<p>A thought experiment: suppose we have a stock of A100 chips, then we start introducing more powerful H100 chips. Assume the H100 can do more tasks/hour across all tasks. If A100s and H100s do not compete for other inputs then we will keep using A100s. But if both A100s and H100s require space and electricity then, once we have sufficiently many H100s, we will unplug the A100s to make room.</p>
+</dd>
+</dl>
+</section>
+<section id="ai-scientists-will-be-unlike-human-scientists" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="ai-scientists-will-be-unlike-human-scientists">AI scientists will be unlike human scientists</h2>
+<dl>
+<dt>Will efficiency curves start dropping faster?</dt>
+<dd>
+<p>A good way of making the AI R&amp;D question very concrete is to look at historical input-efficiency curves across a lot of different areas, and try to predict where they will go in the future. Should we expect them to start dropping faster? Which ones?</p>
+</dd>
+<dd>
+<p>In fact I think this is a very good quantity to forecast with, and to use as an assumption for specifying scenarios.</p>
+</dd>
+</dl>
+
+<div class="no-row-height column-margin column-container"><div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/2025-09-19-16-49-40.png" class="img-fluid figure-img"></p>
+<figcaption>Our World in Data: Technology Costs over time</figcaption>
+</figure>
+</div></div><dl>
+<dt>Most models of AI R&amp;D are based on human R&amp;D.</dt>
+<dd>
+Models of AI’s impact on technological discovery are often modelled on human R&amp;D, e.g.&nbsp;(1) AI increases the effective supply of human scientists; or (2) AI automates one component of the R&amp;D process. However this process is modelled on a production function fitted on data with human researchers.
+</dd>
+<dt>There’s another way to model this.</dt>
+<dd>
+<p>My instinct is that there’s a different way of modeling this that is more structural. Suppose we have an unobserved landscape, and it can be explored either by a human brain or a computer brain. Humans have been exploring the landscape, finding successively lower local minima, and also finding general patterns in the landscape (e.g.&nbsp;physical laws). We wish to understand how much computers will speed up exploration of the landscape.</p>
+</dd>
+</dl>
+<div class="cell page-columns page-full">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-09-19-transformative-AI-notes_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption><strong>Random landscape.</strong> Here there’s no structure: every <span class="math inline">\(x\)</span> is an independent random draw.</figcaption>
+</figure>
+</div>
+</div></div></div>
+<div class="cell page-columns page-full">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-09-19-transformative-AI-notes_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption><strong>Rugged landscape.</strong> This shows a Weiner process (random walk). Here there’s local correlation but no long-distance dependence.</figcaption>
+</figure>
+</div>
+</div></div></div>
+<div class="cell page-columns page-full">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-09-19-transformative-AI-notes_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption><strong>Regular landscape.</strong> Here there’s some latent structure, implying that you can make long-distance predictions from local observations.</figcaption>
+</figure>
+</div>
+</div></div></div>
+<dl>
+<dt>The effect of AI depends on nature of landscape.</dt>
+<dd>
+<p>Suppose each period we choose an <span class="math inline">\(x\)</span> to minimize <span class="math inline">\(y(x)\)</span>, where <span class="math inline">\(y(\cdot)\)</span> is unknown. This is a well-defined explore-exploit problem, and we can characterize the expected progression of efficiency over time (the decline in <span class="math inline">\(y(.)\)</span> over time) as a function of the statistical structure of the landscape:</p>
+<ol type="1">
+<li><strong>Random landscape:</strong> If each <span class="math inline">\(y(x)\)</span> is completely independent there’s no intelligence needed in choosing <span class="math inline">\(x\)</span> (beyond keeping track of which locations you’ve already tried). This is just drawing balls from an urn. The growth in efficiency as a function of <span class="math inline">\(N\)</span> draws depends on the distribution of values of <span class="math inline">\(y\)</span> (<span class="citation" data-cites="muth1986search">Muth (<a href="#ref-muth1986search" role="doc-biblioref">1986</a>)</span>, <span class="citation" data-cites="kortum1997research">Kortum (<a href="#ref-kortum1997research" role="doc-biblioref">1997</a>)</span>).</li>
+<li><strong>Rugged landscape:</strong> If <span class="math inline">\(y(x)\)</span> is correlated across <span class="math inline">\(x\)</span> but the correlation is local (e.g.&nbsp;if <span class="math inline">\(y(x)\)</span> is a Weiner process) then the best-estimate of <span class="math inline">\(y(x)\)</span> for a new <span class="math inline">\(x\)</span> will depend only on the neighboring values of <span class="math inline">\(x\)</span>. <span class="citation" data-cites="Callander2011">Callander (<a href="#ref-Callander2011" role="doc-biblioref">2011</a>)</span> and <span class="citation" data-cites="CarnehlSchneider2025">Carnehl and Schneider (<a href="#ref-CarnehlSchneider2025" role="doc-biblioref">2025</a>)</span> characterize the optimal strategy. Again we are not constrained on intelligence, only on data: the extrapolation algorithm is fairly simple.</li>
+<li><strong>Regular landscape:</strong> Finally suppose the landscape has some deep latent structure. In this case the best-estimate of <span class="math inline">\(y(x)\)</span> will depend on the entire collection of previously-observed pairs <span class="math inline">\((x,y)\)</span>, and so we <em>do</em> expect that predictions could be improved with more intelligence, and so AI should have a big impact.</li>
+</ol>
+</dd>
+<dt>Implications of landscape regularity.</dt>
+<dd>
+<p>If the world has a regular landscape then we are not primarily constrained on facts, we are constrained on intelligence. Thus if we build a sufficiently powerful pattern-matching machine our progrss might accelerate rapidly.</p>
+</dd>
+<dd>
+<p>Random lanscapes, where we’d expect little impact of AI:</p>
+<ul>
+<li><em>Discovering species.</em> Discovering viruses, discovering planets. When discovering new objects the observations cannot be well-predicted from first principles, we inevitably need new observations.</li>
+<li><em>Plant breeding.</em> Suppose we breed plants just by selecting the highest-yield mutations (and suppose we don’t observe anything but how well the plant grows). The statistical problem is trivial, and AI won’t help at all.</li>
+<li><em>Mapping a genome.</em> The exact base pairs in a genome require individual observations.</li>
+</ul>
+</dd>
+<dd>
+<p>Regular landscapes, where we expect a large impact.</p>
+<ul>
+<li><em>Folding proteins.</em></li>
+<li><em>Discovering candidate drugs.</em></li>
+</ul>
+</dd>
+<dt>AI R&amp;D has already lead to discontinuities.</dt>
+<dd>
+<p>Many fields which have been progressing slowly show a discontinuity when computers took over:</p>
+<ul>
+<li>Progress in solving optimization problems.</li>
+<li>Progress in proving combinatorics theorems (4-color theorem in 1976)</li>
+<li>Progress in chess strategy (frontier Elo fell quicker since 1997)</li>
+<li>Progress in protein folding.</li>
+</ul>
+<p>Some of these have hit provably global minima: the 4-color them; sphere packing; Ramsey numbers; Nash equilibrium of checkers, connect 4, texas holdem, and chess endgames.</p>
+<p>I think we can describe these discontinuities as when computer intelligence surpasses human intelligence <em>for a particular type of pattern-matching</em>. As computer intelligence becomes more general then we should expect more and more lines of progress to start accelerating.</p>
+</dd>
+<dt>Aristotle already had the jigsaw pieces.</dt>
+<dd>
+<p>There’s a nice analogy for this: did Aristotle already have enough jigsaw pieces for modern science? Was he constrained on facts or intelligence? Suppose we resurrected him, is it enough to explain our theories, or does he also need to see the data we’ve gathered?</p>
+</dd>
+<dd>
+<p>It seems to me plausible that we could persuade Aristotle of some of the following, just using facts he was already aware of: that the sun is a star, that the earth goes around it, that the whale is not a fish, that the human is a monkey, that force is mass times acceleration, that temperature is motion, that pitch is frequency.</p>
+</dd>
+<dt>Predicting the effect of AI is <em>intrinsically</em> difficult.</dt>
+<dd>
+<p>The “landscape” model above implies that we should expect AI to have a big effect when some domain has a latent undiscovered structure. But in many cases this is very difficult to know in advance: we don’t know where the floor is. It seems conceivable that there are some very simple undiscovered principles explaining cancer, fluid motion, evolution. But maybe these domains are irreducibly complex.</p>
+</dd>
+</dl>
+</section>
+<section id="models" class="level1">
+<h1>Models</h1>
+<p>Here are a few models that I find useful.</p>
+<dl>
+<dt><em>Labor only</em>: everyone is better off.</dt>
+<dd>
+<p>AI increases labor productivity, and makes everyone better off.</p>
+</dd>
+<dd>
+<p><br>
+</p>
+</dd>
+<dt><em>Differentiated labor</em>: welfare increases, GDP falls.</dt>
+<dd>
+<p>Suppose that each person has abilities in different areas (medicine, law, candlestick-making) and so they specialize and trade their outputs (doctor, lawyer, candlestick-maker). Suppose AI increases your productivity <em>outside</em> your area of specialty, flattening comparative advantage. In a symmetric setup with trade costs then everyone will do relatively more themselves (home production), and they will trade less, thus welfare increases but GDP falls.</p>
+<p>Next suppose there is some asymmetry, e.g.&nbsp;suppose doctors are paid more because their skills are relatively more scarce. Then a flattening of comparative advantage will flatten the wage profile, raising average incomes but lowering the incomes of the highest-paid (this is the same as the effect of catch-up growth in a trade model).</p>
+</dd>
+<dt><em>Labor and land</em>: wages collapse.</dt>
+<dd>
+<p>Suppose land and labor are gross complements, and that AI is a perfect substitute for labor, and that we have an arbitrarily large quantity of AI. Then the marginal product of labor falls to zero and the entirety of the output will be held by the land-owner. Human labor no longer has any value and workers must live off the charity of the land-owners.</p>
+<p>Formally:</p>
+<p><span class="math display">\[Y=(\ut{N}{land}^\rho+{(\ut{L}{labor}+\ut{C}{computers})}^{\rho})^{1/\rho}\]</span></p>
+<p>as <span class="math inline">\(C\rightarrow\infty\)</span> then the marginal product of labor goes to zero, and all income goes to land.</p>
+<p>Notes:</p>
+<ul>
+<li>I assumed labor and land are gross complements (<span class="math inline">\(\varepsilon&lt;1\)</span>). If production was Cobb-Douglas then making labor free implies we would get infinite output from a finite amount of land. As long as there is some limit on total output then land and labor must be gross complements beyond some point.</li>
+<li>I assumed AI labor is free. We could instead assume AI has some resource cost. In that case the price of labor will be driven down to the input cost of AI labor. The input cost of AI labor could be defined in a few ways but they all appear to me low compared to exiting human wages: the land cost of a GPU is a few square inches, the energy cost is 400 watts.</li>
+<li>We could distinguish between two sectors: a sector that requires land (goods) and a sector that requires only labor (services). If we introduce AI as free labor then human wages will retain the same purchasing power for services but their purchasing power for goods will collapse. Concretely: if you try to exchange your labor for goods you will have nothing to offer because the land-holder already has unlimited labor. The model predicts that workers will be not benefit from AI-produced-goods because AI requires land inputs.</li>
+</ul>
+</dd>
+</dl>
+
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Callander2011" class="csl-entry" role="listitem">
+Callander, Steven. 2011. <span>“Searching and Learning by Trial and Error.”</span> <em>American Economic Review</em> 101 (6): 2277–2308. <a href="https://doi.org/10.1257/aer.101.6.2277">https://doi.org/10.1257/aer.101.6.2277</a>.
+</div>
+<div id="ref-CarnehlSchneider2025" class="csl-entry" role="listitem">
+Carnehl, Christoph, and Johannes Schneider. 2025. <span>“A Quest for Knowledge.”</span> <em>Econometrica</em> 93 (2): 623–59. <a href="https://doi.org/10.3982/ECTA22144">https://doi.org/10.3982/ECTA22144</a>.
+</div>
+<div id="ref-caselli2019robot" class="csl-entry" role="listitem">
+Caselli, Francesco, and Alan Manning. 2019. <span>“Robot Arithmetic: New Technology and Wages.”</span> <em>American Economic Review: Insights</em> 1 (1): 1–12.
+</div>
+<div id="ref-korinek2024scenarios" class="csl-entry" role="listitem">
+Korinek, Anton, and Donghyun Suh. 2024. <span>“Scenarios for the Transition to AGI.”</span> National Bureau of Economic Research.
+</div>
+<div id="ref-kortum1997research" class="csl-entry" role="listitem">
+Kortum, Samuel. 1997. <span>“Research, Patenting, and Technological Change.”</span> <em>Econometrica</em> 65 (6): 1389–419. <a href="https://doi.org/10.2307/2171741">https://doi.org/10.2307/2171741</a>.
+</div>
+<div id="ref-kwa2025longtasks" class="csl-entry" role="listitem">
+Kwa, Thomas, Ben West, Joel Becker, Amy Deng, Katharyn Garcia, Max Hasin, Sami Jawhar, et al. 2025. <span>“Measuring AI Ability to Complete Long Tasks.”</span> <em>arXiv Preprint arXiv:2503.14499</em>. <a href="https://doi.org/10.48550/arXiv.2503.14499">https://doi.org/10.48550/arXiv.2503.14499</a>.
+</div>
+<div id="ref-muth1986search" class="csl-entry" role="listitem">
+Muth, John F. 1986. <em>Search Theory and the Manufacturing Progress Function</em>. Columbus: Ohio State University.
+</div>
+<div id="ref-smith2024" class="csl-entry" role="listitem">
+Smith, Noah. 2024. <span>“Plentiful, High-Paying Jobs in the Age of AI.”</span> <a href="https://www.noahpinion.blog/p/plentiful-high-paying-jobs-in-the">https://www.noahpinion.blog/p/plentiful-high-paying-jobs-in-the</a>.
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>It likely be impossible to approach a 100% win-rate, because (1) a fraction of people give noisy answers; (2) some easy queries have a unique correct answer; (3) some queries are ambiguous, meaning .<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><span class="citation" data-cites="korinek2024scenarios">Korinek and Suh (<a href="#ref-korinek2024scenarios" role="doc-biblioref">2024</a>)</span> argue that as AI progresses it will causes wages to increase then decrease, but this is a consequence of a specific assumption: that AI will have identical relative productivity across tasks to humans, and so as AI becomes more capable the equilibrium price vector first moves away from, then returns towards, the vector of human productivities.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Assuming computers are in sufficiently plentiful supply that we can ignore every other cost apart from their resource cost. If manufacturing computers requires resources then we could include their amortized manufacturing cost. If we have a scarce supply of computers for other reasons then of course this will keep human wages high.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("tecunningham\.github\.io");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
