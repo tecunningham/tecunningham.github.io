@@ -502,7 +502,7 @@ ggplot(curves, aes(x, y)) +
 
    [^RLHF]: E.g. see OpenAI's 2022 InstructGPT (@ouyang2022training). In fact they run reinforcement learning against a model trained to predict the human evaluation of outputs, and other papers run reinforcement learning against LLM-produced evaluations, RLAIF (@lee2023rlaif).
 
-**@bowman2023eight on super-human performance by LLMs.** I have found surprisingly little online or academic discussion about whether LLMs will hit a ceiling defined by human performance. A good paper by @bowman2023eight has a section titled "human performance on a task isn’t an upper bound on LLM performance." He says LLMs can outperform humans for two reasons: (1) "they are trained on far more data than any human sees," and (2) "they are often given additional training using reinforcement learning ... which trains them to produce responses that humans find helpful without requiring humans to demonstrate such helpful behavior." I think these correspond to two of the five reasons I identified (specialization and tacit knowledge).
+**@bowman2023eight on super-human performance by LLMs.** I have found surprisingly little online or academic discussion about whether LLMs will hit a ceiling defined by human performance. A good paper by @bowman2023eight has a section titled "human performance on a task isn't an upper bound on LLM performance." He says LLMs can outperform humans for two reasons: (1) "they are trained on far more data than any human sees," and (2) "they are often given additional training using reinforcement learning ... which trains them to produce responses that humans find helpful without requiring humans to demonstrate such helpful behavior." I think these correspond to two of the five reasons I identified (specialization and tacit knowledge).
 
 **For some tasks human-level performance is the ceiling by definition.** The ground truth about language interpretation is humans interpretation, and so it is hard to see how a computer could exhibit superhuman performance (in the super-strong sense).[^buffalo] In benchmarks for natural language understanding the labels are typically written by the human authors of the benchmark, so it would be impossible to observe superhuman performance (@tedeschi2023s). A similar point applies to content moderation the definition of ground truth is typically either majority-vote among paid human raters, or the reflective judgment of a senior human employee, thus a computer could only outperform in the weak senses above.[^wins]
 
@@ -720,11 +720,12 @@ We can normalize $q_1=q_2=1$, then we have:
          && \text{(this matrix doesn't have an inverse)}
    \end{aligned}
 
-**With noise.** Suppose we only observe the answers with random noise, then we get this:
+
+**With noise.** Suppose we only observe the answers with random noise, then we have
    \begin{aligned}
       \ut{\bm{a}}{$n\times1$}   &= \ut{Q}{$n\times p$}\ut{\bm{w}}{$p\times1$}
          + \ut{\bm{e}}{$n\times 1$} \\
-      \bm{e} &\sim N(\bm{0},s^2I_n) && \text{(i.i.d. noise w variance $s^2$)}\\
+      \bm{e} &\sim N(\bm{0},s^2I_n) && \text{(i.i.d. noise with variance $s^2$)}\\
       Cov(\bm{w},\bm{a})   &= \Sigma Q' \\
       Var(\bm{a}) &= Q\Sigma Q' + s^2I_n \\
       E[\bm{w}|Q,\bm{a}]   &= \Sigma Q'(Q\Sigma Q' + s^2I_n)^{-1}\bm{a}
@@ -735,14 +736,52 @@ We can normalize $q_1=q_2=1$, then we have:
       \bar{\beta}  &= \Sigma Q'(Q\Sigma Q' + s^2I_n)^{-1}\bm{a}
          && \text{(our result)} \\
       \tilde{\beta} &= (Q'Q+s^{2}\Sigma^{-1})^{-1}Q'\bm{a}
-         && \text{(Bayesian linear regression)}\\
+         && \text{(standard Bayesian linear regression)}\\
    \end{aligned}
 
-   I *believe* that these can be shown to be equivalent by the [matrix inversion lemma](https://en.wikipedia.org/wiki/Woodbury_matrix_identity), though I haven't confirmed this. There's a [note online](https://digitalcommons.usu.edu/cgi/viewcontent.cgi?article=1212&context=ece_facpub) that appears to show equivalence.
+   I *believe* that these can be shown to be equivalent by the [matrix inversion lemma](https://en.wikipedia.org/wiki/Woodbury_matrix_identity), though I haven't confirmed this. There is a concise proof in an online note from Utah State University.
 
-**Extension: quadratic forms.** Instead of answers being linear in question-features ($a=q'w$) we could suppose they're quadratic, $a=q'Wq$, with $W$ a matrix having dimension $p^2$. I'm not sure whether we could still get an analytic solution for posteriors. Can visualize the matrix W: each bit in $q$ will add an "L" overlaid on the matrix (alternatively: a row and column), and $a$ will be the sum of the cells where both the row and the column are activated.
+**Extension: quadratic forms.** Instead of answers being linear in question-features ($a=q'w$) we could suppose they're quadratic, $a=q'Wq$, with $W$ a matrix having dimension $p^2$. I am not sure whether we could still get an analytic solution for posteriors. One way to visualise $W$ is that each bit in $q$ adds an "L" (a row and a column) to the matrix, and $a$ is the sum of the cells where both the row and the column are activated.
 
 **Extension: binary answers.** In some cases it is natural to think of the answer, $a$, as binary instead of continuous. We might be able to reinterpret the model with $a$ representing the log-odds ratio of a binary outcome. Alternatively there might be a way of having a beta-binomial conjugate prior over the probability of $a$.
+
+###    Who's closer
+
+Suppose two people, $A$ and $B$, have observed different training sets $Q^A$ and $Q^B$, then we can characterize their expected error for the answer of a new question $q$ (where $q\not\in Q^A$, $q\not\in Q^B$):
+
+
+**Setup.** Let the true weights be $\bm{w}\sim N(0,\Sigma)$ and let the two individuals observe
+   $\bm a^i = Q^i\bm w\;(i\in\{A,B\})$.  Their posterior mean is  
+   $$\hat{\bm w}^{\,i}= \Sigma(Q^i)'\!\bigl(Q^i\Sigma(Q^i)'\bigr)^{-1}\bm a^i$$
+   and their posterior covariance is  
+   $$\Sigma_{\mid i}= \Sigma-\Sigma(Q^i)'\!\bigl(Q^i\Sigma(Q^i)'\bigr)^{-1}Q^i\Sigma.$$
+
+   **Expected error for a new question $q$.**  Both people answer the fresh question by
+   $\hat a_i = q'\hat{\bm w}^{\,i}$, while the truth is $a=q'\bm w$.  Conditioning on the
+   training set we therefore have  
+   $$
+      \mathbb{E}\!\left[(a-\hat a_i)^2\;\middle|\;Q^i\right]
+         =\mathbb{E}\!\left[(q'(\bm w-\hat{\bm w}^{\,i}))^2\;\middle|\;Q^i\right]
+         = q'\Sigma_{\mid i}q.  \tag{1}
+   $$
+
+   **Isotropic prior.**  If we specialise to $\Sigma=\sigma^{2}I_p$ then  
+   $\Sigma_{\mid i}= \sigma^{2}\!\bigl(I-P^{i}\bigr)$ with the orthogonal projector  
+   $P^{i}= (Q^i)'\bigl(Q^i(Q^i)'\bigr)^{-1}Q^i$ onto the row–span of $Q^i$.  Hence  
+   $$
+      \mathrm{err}_i(q)\equiv\mathbb{E}\!\left[(a-\hat a_i)^2\;\middle|\;Q^i\right]
+      =\sigma^{2}\bigl\|(I-P^{i})\,q\bigr\|^{2}.
+   $$
+
+   In words, the expected squared error is exactly the squared length of the component of $q$ that is **orthogonal** to the set of questions that person $i$ has already encountered.  It is zero if $q$ is contained in the span of their past questions and grows with the distance of $q$ from that span.
+
+   **Who's closer?**  Person $A$ is expected to be more accurate than $B$ precisely when  
+   $$
+        q'\Sigma_{\mid A}q \;<\; q'\Sigma_{\mid B}q
+        \qquad\bigl(\text{equivalently } 
+        \|(I-P^{A})q\| < \|(I-P^{B})q\|\bigr).
+   $$
+   Thus the tie-breaker between the two forecasters is which training set provides a better **projection** of the new question $q$.
 
 
 #           References

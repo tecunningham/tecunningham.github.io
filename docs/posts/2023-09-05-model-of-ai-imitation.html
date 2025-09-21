@@ -103,6 +103,15 @@ ga('send', {
   'anonymizeIp': true,
 });
 </script>
+<script>window.MathJax = {
+   loader: { load: ["https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/xypic.js"]},
+   tex: {packages: {'[+]': ['xypic','bm']},
+         macros: {  bm: ["\\boldsymbol{#1}", 1],
+                    ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+                    utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3] }
+   }
+};
+</script>
 <style>
    h1 {  border-bottom: 4px solid black;}
    h2 {  border-bottom: 1px solid #ccc;}
@@ -248,7 +257,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Modified</div>
       <div class="quarto-title-meta-contents">
-        <p class="date-modified">June 12, 2025</p>
+        <p class="date-modified">June 13, 2025</p>
       </div>
     </div>
       
@@ -555,15 +564,15 @@ window.Quarto = {
 </section>
 <section id="discussion" class="level1 page-columns page-full">
 <h1>Discussion</h1>
-<p><strong>I will use “superhuman” to mean the AI can answer some question better than any human can.</strong> We can formalize “superhuman” ability in a variety of ways. The notation is introduced more fully below, but briefly <span class="math inline">\(\bm{q}\)</span> represents a question, <span class="math inline">\(a(\bm{q})\)</span> represents the correct answer, <span class="math inline">\(\bar{a}(\bm{q})\)</span> represents the computer’s answer, and <span class="math inline">\(\hat{a}_i(\bm{q})\)</span> represents the answer of human <span class="math inline">\(i\)</span>. The expectations can be interpreted as over the universe of all questions, or some subset of questions: <span class="math display">\[\begin{aligned}
+<p><strong>I will use “superhuman” to mean the AI can answer some question better than any human can.</strong> We can formalize “superhuman” ability in a variety of ways. The notation is introduced more fully below, but briefly <span class="math inline">\(\bm{q}\)</span> represents a question, <span class="math inline">\(a(\bm{q})\)</span> represents the correct answer, <span class="math inline">\(\bar{a}(\bm{q})\)</span> represents the computer’s answer, and <span class="math inline">\(\hat{a}_i(\bm{q})\)</span> represents the answer of human <span class="math inline">\(i\)</span>. We assume squared error loss, and the expected error can be interpreted as either over the universe of all questions, or some subset of questions: <span class="math display">\[\begin{aligned}
       \text{weak:}&amp;&amp;    \ut{E[(a(q)-\bar{a}(q))^2]}{error of computer}
-         &amp;\leq  \ut{\frac{1}{n}\sum_{i=1}^mE[(a(q)-\hat{a}_i(q))^2]}{avg error of human}\\
+         &amp;\leq  \ut{\frac{1}{m}\sum_{i=1}^mE[(a(q)-\hat{a}_i(q))^2]}{avg error of human}\\
       \text{medium:}&amp;&amp;  \ut{E[(a(q)-\bar{a}(q))^2]}{error of computer}
-         &amp;\leq  \ut{E\left[(a(q)-\frac{1}{n}\sum_{i=1}^m\hat{a}_i(q))^2\right]}{error of avg human}\\
+         &amp;\leq  \ut{E\left[(a(q)-\frac{1}{m}\sum_{i=1}^m\hat{a}_i(q))^2\right]}{error of avg human}\\
       \text{strong:}&amp;&amp;  \ut{E[(a(q)-\bar{a}(q))^2]}{error of computer}
          &amp;\leq  \ut{\min_{i=1,\ldots,m}E[(a(q)-\hat{a}_i(q))^2]}{error of best human}\\
       \text{super-strong:}&amp;&amp; \ut{E[(a(q)-\bar{a}(q))^2]}{error of computer}
-         &amp;\leq  \ut{E[(\min_{i=1,\ldots,m}\{a(q)-\hat{a}_i(q)\})^2]}{error of best human by question}\\
+         &amp;\leq  \ut{E[\min_{i=1,\ldots,m}\{(a(q)-\hat{a}_i(q))^2\}]}{error of best human by question}\\
    \end{aligned}
    \]</span></p>
 <p>Note that we cannot rank benchmark #2 and #3: the error of the best human could be either higher or lower than the error of the average human. The most interesting question is whether AI can exhibit “super strong” superhuman performance. It seems clear that imitative learning can easily lead to superhuman performance by all the other 3 definitions through (1) reducing noise, and (2) combining expertise. However super-strong superhuman performance would require either (1) interpolation, (2) superior priors, or (3) using tacit human knowledge.</p>
@@ -652,7 +661,7 @@ Suppose humans only write down some of their observations, i.e.&nbsp;<span class
 <dd>
 Suppose there are two humans who each observe answers to different question, <span class="math inline">\(Q_A\)</span> and <span class="math inline">\(Q_B\)</span>, and they both write them all down, so <span class="math inline">\(\bar{Q}=(\smallmatrix{Q_A\\Q_B})\)</span> and <span class="math inline">\(\bar{\bm{a}}=(\smallmatrix{Q_A\bm{w}\\Q_B\bm{w}})\)</span>. Now the computer has a strictly larger set of observations than either human, and so if we let <span class="math inline">\(\hat{\bm{w}}(i)\)</span> represent the weights of human <span class="math inline">\(i\in\{A,B\}\)</span>, then for any question <span class="math inline">\(\bm{q}\)</span> we can write:<br>
 <span class="math display">\[ E[\ut{(\bm{q}(\bm{w}-\bar{\bm{w}}))^2}{computer error}]\leq
-  E[\ut{(\bm{q}(\bm{a}-\hat{\bm{w}}(i)))^2}{human error}].
+  E[\ut{(\bm{q}(\bm{w}-\hat{\bm{w}}(i)))^2}{human error}].
    \]</span>
 </dd>
 </dl>
@@ -666,7 +675,7 @@ Suppose there are two humans who each observe answers to different question, <sp
       \tilde{q} &amp;= \bmatrix{1 &amp; -1 &amp; -1} \\
    \end{aligned}\]</span>
 <p>However if they both recorded their observations then the computer observes <span class="math inline">\(\bar{\bm{a}}=(\smallmatrix{Q_1\bm{w}\\Q_2\bm{w}})\)</span>, and so the computer will be able to infer both <span class="math inline">\(w_2\)</span> and <span class="math inline">\(w_3\)</span>, and thus will be able to perfectly answer the question <span class="math inline">\(\tilde{q}\)</span> above. We can see this behaviour in LLMs: they sometimes combine a pair of facts or a pair of abilities which no single human has access to, e.g.&nbsp;when an LLM translates between a pair of languages for which there exists no human speaker of both.</p>
-<p><strong>If humans write outside their expertise then the computer will do worse.</strong> In the cases above we assumed that the two humans recorded only what they directly observed, <span class="math inline">\(\hat{Q}\subseteq Q\)</span>. This means the computer essentially had a window directly to the world. However the humans could instead have written down their estimated answers to other questions, for which they have never observed the ground truth. Suppose both humans wrote down answers to every possible question, <span class="math inline">\(\bm{q}\in\{-1,1\}^p\)</span>, then we could conjecture that the computer would learn the average of the two humans’ weights:<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a> <span class="math display">\[\bar{\bm{w}}=\frac{1}{2}\hat{\bm{w}}_A+\frac{1}{2}\hat{\bm{w}}_B.\]</span> Here the computer will do worse than the two humans on the original questions, <span class="math inline">\(Q_A\)</span> and <span class="math inline">\(Q_B\)</span>. The implication is that LLMs work so well only because people tend to write about what they know. Put another way, when an LLM answers a question, it will not predict the answer given by the average person, but will predict the answer given by people who are likely to answer that question in the real world. Luckily there tends to be a positive correlation between having knowledge about a domain, and writinggggg about that domain.</p>
+<p><strong>If humans write outside their expertise then the computer will do worse.</strong> In the cases above we assumed that the two humans recorded only what they directly observed, <span class="math inline">\(\hat{Q}\subseteq Q\)</span>. This means the computer essentially had a window directly to the world. However the humans could instead have written down their estimated answers to other questions, for which they have never observed the ground truth. Suppose both humans wrote down answers to every possible question, <span class="math inline">\(\bm{q}\in\{-1,1\}^p\)</span>, then we could conjecture that the computer would learn the average of the two humans’ weights:<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a> <span class="math display">\[\bar{\bm{w}}=\frac{1}{2}\hat{\bm{w}}_A+\frac{1}{2}\hat{\bm{w}}_B.\]</span> Here the computer will do worse than the two humans on the original questions, <span class="math inline">\(Q_A\)</span> and <span class="math inline">\(Q_B\)</span>. The implication is that LLMs work so well only because people tend to write about what they know. Put another way, when an LLM answers a question, it will not predict the answer given by the average person, but will predict the answer given by people who are likely to answer that question in the real world. Luckily there tends to be a positive correlation between having knowledge about a domain, and writing about that domain.</p>
 <div class="no-row-height column-margin column-container"><div id="fn14"><p><sup>14</sup>&nbsp;We would have to augment the computer’s learning rule to allow for noise in answers - I need to confirm that the weighting will be exactly 1/2.</p></div><div id="fn15"><p><sup>15</sup>&nbsp;This is related to the “generator-discriminator” gap, but specific to knowledge rather than to logical implication.</p></div></div><p><strong>If humans have tacit knowledge, then computers can outperform in choosing a question to maximize the answer.</strong> We can model tacit knowledge with two separate sets of human weights:<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a></p>
 <span class="math display">\[\begin{aligned}
       \hat{\bm{w}}^T   &amp;= \text{tacit knowledge}\\
@@ -690,7 +699,7 @@ Suppose there are two humans who each observe answers to different question, <sp
    \end{aligned}\]</span>
 Written more compactly:
 <span class="math display">\[\begin{aligned}
-      Q      &amp;\in \{-1,1\}^{p\times n}
+      Q      &amp;\in \{-1,1\}^{n\times p}
          &amp;&amp; \text{($n$ questions, each has $p$ binary parameters)}\\
       \bm{w} &amp;\sim N(0,\Sigma)
          &amp;&amp; (p\times 1\text{ vector of true parameters of the world)}\\
@@ -734,25 +743,52 @@ Written more compactly:
       Q\Sigma Q' &amp;= \bmatrix{ \sigma^2 q^1q^1 &amp; \sigma^2q^1q^2 \\ \sigma^2q^1q^2 &amp; \sigma^2q^2q^2}
          &amp;&amp; \text{(this matrix doesn't have an inverse)}
    \end{aligned}\]</span>
-<strong>With noise.</strong> Suppose we only observe the answers with random noise, then we get this:
+<strong>With noise.</strong> Suppose we only observe the answers with random noise, then we have
 <span class="math display">\[\begin{aligned}
-      \ut{\bm{a}}{$m\times1$}   &amp;= \ut{Q}{$m\times n$}\ut{\bm{w}}{$n\times1$}
+      \ut{\bm{a}}{$n\times1$}   &amp;= \ut{Q}{$n\times p$}\ut{\bm{w}}{$p\times1$}
          + \ut{\bm{e}}{$n\times 1$} \\
-      \bm{e} &amp;\sim N(\bm{0},s^2I_m) &amp;&amp; \text{(i.i.d. noise w variance $s^2$)}\\
+      \bm{e} &amp;\sim N(\bm{0},s^2I_n) &amp;&amp; \text{(i.i.d. noise with variance $s^2$)}\\
       Cov(\bm{w},\bm{a})   &amp;= \Sigma Q' \\
-      Var(\bm{a}) &amp;= Q\Sigma Q' + s^2I_m \\
-      E[\bm{w}|Q,\bm{q}]   &amp;= \Sigma Q'(Q\Sigma Q' + s^2I_m)^{-1}\bm{a}
+      Var(\bm{a}) &amp;= Q\Sigma Q' + s^2I_n \\
+      E[\bm{w}|Q,\bm{a}]   &amp;= \Sigma Q'(Q\Sigma Q' + s^2I_n)^{-1}\bm{a}
    \end{aligned}\]</span>
 <strong>Compare to Bayesian linear regression.</strong> We can compare this result to Bayesian linear regression (e.g.&nbsp;<a href="https://en.wikipedia.org/wiki/Bayesian_linear_regression">Wikipedia</a>):
 <span class="math display">\[\begin{aligned}
-      \bar{\beta}  &amp;= \Sigma Q'(Q\Sigma Q' + s^2I_m)^{-1}\bm{a}
+      \bar{\beta}  &amp;= \Sigma Q'(Q\Sigma Q' + s^2I_n)^{-1}\bm{a}
          &amp;&amp; \text{(our result)} \\
       \tilde{\beta} &amp;= (Q'Q+s^{2}\Sigma^{-1})^{-1}Q'\bm{a}
-         &amp;&amp; \text{(Bayesian linear regression)}\\
+         &amp;&amp; \text{(standard Bayesian linear regression)}\\
    \end{aligned}\]</span>
-<p>I <em>believe</em> that these can be shown to be equivalent by the <a href="https://en.wikipedia.org/wiki/Woodbury_matrix_identity">matrix inversion lemma</a>, though I haven’t confirmed this. There’s a <a href="https://digitalcommons.usu.edu/cgi/viewcontent.cgi?article=1212&amp;context=ece_facpub">note online</a> that appears to show equivalence.</p>
-<p><strong>Extension: quadratic forms.</strong> Instead of answers being linear in question-features (<span class="math inline">\(a=q'w\)</span>) we could suppose they’re quadratic, <span class="math inline">\(a=q'Wa\)</span>, with <span class="math inline">\(W\)</span> a matrix having dimension <span class="math inline">\(n^2\)</span>. I’m not sure whether we could still get an analytic solution for posteriors. Can visualize the matrix W: each bit in <span class="math inline">\(q\)</span> will add an “L” overlaid on the matrix (alternatively: a row and column), and <span class="math inline">\(a\)</span> will be the sum of the cells where both the row and the column are activated.</p>
+<p>I <em>believe</em> that these can be shown to be equivalent by the <a href="https://en.wikipedia.org/wiki/Woodbury_matrix_identity">matrix inversion lemma</a>, though I haven’t confirmed this. There is a concise proof in an online note from Utah State University.</p>
+<p><strong>Extension: quadratic forms.</strong> Instead of answers being linear in question-features (<span class="math inline">\(a=q'w\)</span>) we could suppose they’re quadratic, <span class="math inline">\(a=q'Wq\)</span>, with <span class="math inline">\(W\)</span> a matrix having dimension <span class="math inline">\(p^2\)</span>. I am not sure whether we could still get an analytic solution for posteriors. One way to visualise <span class="math inline">\(W\)</span> is that each bit in <span class="math inline">\(q\)</span> adds an “L” (a row and a column) to the matrix, and <span class="math inline">\(a\)</span> is the sum of the cells where both the row and the column are activated.</p>
 <p><strong>Extension: binary answers.</strong> In some cases it is natural to think of the answer, <span class="math inline">\(a\)</span>, as binary instead of continuous. We might be able to reinterpret the model with <span class="math inline">\(a\)</span> representing the log-odds ratio of a binary outcome. Alternatively there might be a way of having a beta-binomial conjugate prior over the probability of <span class="math inline">\(a\)</span>.</p>
+<section id="whos-closer" class="level3">
+<h3 class="anchored" data-anchor-id="whos-closer">Who’s closer</h3>
+<p>Suppose two people, <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, have observed different training sets <span class="math inline">\(Q^A\)</span> and <span class="math inline">\(Q^B\)</span>, then we can characterize their expected error for the answer of a new question <span class="math inline">\(q\)</span> (where <span class="math inline">\(q\not\in Q^A\)</span>, <span class="math inline">\(q\not\in Q^B\)</span>):</p>
+<p><strong>Setup.</strong> Let the true weights be <span class="math inline">\(\bm{w}\sim N(0,\Sigma)\)</span> and let the two individuals observe <span class="math inline">\(\bm a^i = Q^i\bm w\;(i\in\{A,B\})\)</span>. Their posterior mean is<br>
+<span class="math display">\[\hat{\bm w}^{\,i}= \Sigma(Q^i)'\!\bigl(Q^i\Sigma(Q^i)'\bigr)^{-1}\bm a^i\]</span> and their posterior covariance is<br>
+<span class="math display">\[\Sigma_{\mid i}= \Sigma-\Sigma(Q^i)'\!\bigl(Q^i\Sigma(Q^i)'\bigr)^{-1}Q^i\Sigma.\]</span></p>
+<p><strong>Expected error for a new question <span class="math inline">\(q\)</span>.</strong> Both people answer the fresh question by <span class="math inline">\(\hat a_i = q'\hat{\bm w}^{\,i}\)</span>, while the truth is <span class="math inline">\(a=q'\bm w\)</span>. Conditioning on the training set we therefore have<br>
+<span class="math display">\[
+      \mathbb{E}\!\left[(a-\hat a_i)^2\;\middle|\;Q^i\right]
+         =\mathbb{E}\!\left[(q'(\bm w-\hat{\bm w}^{\,i}))^2\;\middle|\;Q^i\right]
+         = q'\Sigma_{\mid i}q.  \tag{1}
+   \]</span></p>
+<p><strong>Isotropic prior.</strong> If we specialise to <span class="math inline">\(\Sigma=\sigma^{2}I_p\)</span> then<br>
+<span class="math inline">\(\Sigma_{\mid i}= \sigma^{2}\!\bigl(I-P^{i}\bigr)\)</span> with the orthogonal projector<br>
+<span class="math inline">\(P^{i}= (Q^i)'\bigl(Q^i(Q^i)'\bigr)^{-1}Q^i\)</span> onto the row–span of <span class="math inline">\(Q^i\)</span>. Hence<br>
+<span class="math display">\[
+      \mathrm{err}_i(q)\equiv\mathbb{E}\!\left[(a-\hat a_i)^2\;\middle|\;Q^i\right]
+      =\sigma^{2}\bigl\|(I-P^{i})\,q\bigr\|^{2}.
+   \]</span></p>
+<p>In words, the expected squared error is exactly the squared length of the component of <span class="math inline">\(q\)</span> that is <strong>orthogonal</strong> to the set of questions that person <span class="math inline">\(i\)</span> has already encountered. It is zero if <span class="math inline">\(q\)</span> is contained in the span of their past questions and grows with the distance of <span class="math inline">\(q\)</span> from that span.</p>
+<p><strong>Who’s closer?</strong> Person <span class="math inline">\(A\)</span> is expected to be more accurate than <span class="math inline">\(B\)</span> precisely when<br>
+<span class="math display">\[
+        q'\Sigma_{\mid A}q \;&lt;\; q'\Sigma_{\mid B}q
+        \qquad\bigl(\text{equivalently }
+        \|(I-P^{A})q\| &lt; \|(I-P^{B})q\|\bigr).
+   \]</span> Thus the tie-breaker between the two forecasters is which training set provides a better <strong>projection</strong> of the new question <span class="math inline">\(q\)</span>.</p>
+</section>
 </section>
 </section>
 <section id="references" class="level1">

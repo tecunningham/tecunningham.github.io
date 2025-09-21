@@ -1,0 +1,141 @@
+\documentclass[11pt]{article}
+% Packages
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{bm}
+\usepackage[all]{xy}
+\usepackage{enumitem}
+\usepackage{sectsty}
+\usepackage{booktabs}
+\sectionfont{\sectionrule{0pt}{0pt}{-4pt}{1pt}}
+\subsectionfont{\sectionrule{0pt}{0pt}{-4pt}{.1pt}}
+
+% Custom commands
+\newcommand{\ut}[2]{\underbrace{#1}_{\text{#2}}}
+\newcommand{\utt}[3]{\underbrace{#1}_{\substack{\text{#2}\\\text{#3}}}}
+
+% Theorem environments
+\newtheorem{prop}{Proposition}
+
+% Metadata
+\title{A Model of ChatGPT}
+\author{Tom Cunningham}
+\date{June 14, 2025}
+
+\begin{document}
+\maketitle
+
+This paper develops a simple model of human and AI ability to answer questions. Each question $\bm{q}$ is a high-dimensional vector, with a true scalar answer $a$. An agent's estimate of the answer is an interpolation based on previously-seen questions and answers $(\bm{q}^i,a^i)_{i=1,\ldots,n}$. This framework extends an \href{https://tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html}{earlier model} developed for a different purpose.
+
+The model yields several implications:
+\begin{enumerate}
+  \item \textbf{The quality of an answer to a new question depends on its distance from the training set.} For a new question $\bm{q}$, the expected error is a function of the distance between $\bm{q}$ and the training set $\bm{Q}$.
+  \item \textbf{The quality of answers increases with the size of the training set.} The expected error decreases linearly with the number of linearly-independent examples in the training set.
+  \item \textbf{The value of advice from another agent depends on the distance between their training sets.}
+\end{enumerate}
+
+This framework can be interpreted as a model of an agent, ``the user,`` who must provide an estimate for the answer to a question $\bm{q}$ and can choose whether to consult an AI model like ChatGPT. The key components of the model are:
+\begin{enumerate}[label=\arabic*., leftmargin=2em]
+  \item \textbf{The dimensionality of the question ($p$).} A higher-dimensional problem may be more costly to enter into the AI, but it also increases the potential benefit.
+  \item \textbf{The public information set.} These are the training questions that the AI has observed, which we can conceptualize as the corpus of public knowledge (e.g., the internet).
+  \item \textbf{The private information set.} These are the questions that the user has personally encountered and for which they have observed the true answer.
+\end{enumerate}
+
+A user will consult the AI if and only if the expected improvement in their answer exceeds the associated cost. The model predicts that an AI will be most useful for questions with components that are novel to the user but contained within the AI's public training data.
+
+This leads to several corollaries:
+\begin{enumerate}[label=\arabic*., leftmargin=2em]
+  \item An AI will not be used for questions the user has encountered before.
+  \item An AI is more likely to be used for domains with higher \emph{latent} dimensionality ($p$).
+  \item An AI is more likely to be used for domains with lower \emph{surface} dimensionality, as this reduces the cost of specifying the question.
+  \item An AI is more likely to be used by humans with less experience in a domain (i.e., smaller $n_{\text{private}}$).
+\end{enumerate}
+
+We can make some conjectures about adoption by occupation:
+
+\begin{center}
+\begin{tabular}{p{0.35\textwidth}p{0.15\textwidth}p{0.4\textwidth}}
+\toprule
+Occupation & Predicted ChatGPT Use & Reason \\
+\midrule
+Software engineer & High & Many novel discrete problems, similar to those on public internet \\
+Software engineer -- idiosyncratic language & Low & Many novel discrete problems, not similar to those on public internet \\
+Physician & High & Many novel discrete problems, similar to those on public internet \\
+Contact center worker & Low & Novel problems, but not similar to those on the internet \\
+Architect & Low & Novel problems, not discrete, not text-based \\
+Manual worker & Low & Not text-based \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+We can make some conjectures about adoption by task:
+
+\begin{center}
+\begin{tabular}{p{0.45\textwidth}p{0.15\textwidth}p{0.35\textwidth}}
+\toprule
+Task & Predicted ChatGPT Use & Reason \\
+\midrule
+Intellectual curiosity & High & Novel discrete problem, similar to those on the internet \\
+Diagnosing medical problems & High & Novel discrete problem, similar to those on the internet \\
+Problems with widely-adopted systems (car, house, computer) & High & Novel discrete problem, similar to those on the internet \\
+Problems with idiosyncratic systems (custom setups) & Low & Novel discrete problem, \emph{not} similar to those on the internet \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Additional things to add:
+\begin{enumerate}[label=\arabic*., leftmargin=2em]
+  \item \textbf{High-dimensional answers.} Our model assumes \emph{scalar} answers. In fact ChatGPT gives high-dimensional outputs. We discuss extensions below.
+  \item \textbf{Tacit knowledge.} ChatGPT will be more likely to be used for domains where humans have tacit knowledge.
+\end{enumerate}
+
+\section{Model}
+
+\subsection*{State of the World and Questions}
+The state of the world is defined by a vector of $p$ unobserved parameters, $\bm{w} \in \mathbb{R}^p$. A question is a vector of $p$ binary features, $\bm{q} \in \{-1, 1\}^p$. The true answer to a question $\bm{q}$ is a scalar $a$ determined by the linear relationship
+$$a = \bm{q}'\bm{w} = \sum_{k=1}^p q_k w_k.$$
+
+\subsection*{Agents and Information}
+There is a set of agents indexed by $i \in \mathcal{I}$. Each agent $i$ possesses an information set $\mathcal{D}_i$, which consists of $n_i$ questions they have previously encountered, along with their true answers. Write this information as $(\bm{Q}_i, \bm{a}_i)$ with
+\begin{align*}
+\bm{Q}_i &= \begin{bmatrix} \bm{q}_{i,1}' \\ \vdots \\ \bm{q}_{i,n_i}' \end{bmatrix}, &
+\bm{a}_i &= \bm{Q}_i \bm{w}.
+\end{align*}
+
+\subsection*{Beliefs}
+All agents share a common prior belief that $\bm{w}$ is drawn from
+$$\bm{w} \sim N(\bm{0}, \Sigma).$$
+A common assumption is an isotropic prior, $\Sigma = \sigma^2 \bm{I}_p$. Given their information, agent $i$ forms a posterior for $\bm{w}$ and hence an estimate for a new question $\hat{a}_{\text{new}} = \bm{q}_{\text{new}}' \mathbb{E}[\bm{w} \mid \mathcal{D}_i]$.
+
+\section{Propositions}
+
+\begin{prop}[Posterior over $\bm{w}$ given $\bm{Q}$ and $\bm{a}$]\label{prop:posterior}
+The agent's posterior mean and variance are
+\begin{align*}
+      \hat{\bm w}&= \Sigma \bm{Q}^{\top}(\bm{Q}\Sigma \bm{Q}^{\top})^{-1}\bm a,\\
+      \Sigma_{\mid a} &=\Sigma-\Sigma \bm{Q}^{\top}(\bm{Q}\Sigma \bm{Q}^{\top})^{-1}\bm{Q}\Sigma.
+\end{align*}
+\end{prop}
+
+\begin{proof}
+See Appendix for a full derivation.
+\end{proof}
+
+\begin{prop}[Expected error for a given question]\label{prop:error}
+The expected squared error for a new question $\bm q$ is
+$$\mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \bm q' \Sigma_{\mid a} \bm q.$$ 
+For an isotropic prior $\Sigma = \sigma^2 \bm{I}$, this simplifies to
+$$\mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \sigma^2 \|(\bm{I}-\bm{P_Q})\bm q\|^2,$$
+where $\bm{P_Q}$ projects onto the row-span of $\bm{Q}$.
+\end{prop}
+
+\begin{prop}[Error decreases with more independent questions]\label{prop:error-average}
+With an isotropic prior and new questions uniformly random on $\{-1,1\}^p$,
+$$\mathbb{E}_{\bm{q}}[\text{error}(\bm{q})] = \sigma^2 (p - \operatorname{rank}(\bm{Q})).$$
+\end{prop}
+
+\begin{prop}[Posterior in two-stage estimation]\label{prop:twostage}
+Consider a computer (C) with data $(\bm{Q}_C, \bm{a}_C)$ and a human (H) with $(\bm{Q}_H, \bm{a}_H)$. The human observes the computer's estimate $\hat{a}_C$ for a new question $\bm q$ and updates their belief. Various informational assumptions about the computer yield weights that nest oracle trust and total skepticism; see text for details.
+\end{prop}
+
+\end{document} 

@@ -1,0 +1,601 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  11pt,
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod,
+  oneside]{scrartcl}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[left=1in,marginparwidth=2.0666666666667in,textwidth=4.1333333333333in,marginparsep=0.3in]{geometry}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\usepackage[all]{xy}
+\newcommand{\bm}[1]{\boldsymbol{#1}}
+\newcommand{\ut}[2]{\underbrace{#1}_{\text{#2}}}
+\newcommand{\utt}[3]{\underbrace{#1}_{\substack{\text{#2}\\\text{#3}}}}
+\usepackage{enumitem}
+\usepackage{sectsty}
+\sectionfont{\sectionrule{0pt}{0pt}{-4pt}{1pt}}
+\subsectionfont{\sectionrule{0pt}{0pt}{-4pt}{.1pt}}
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{sidenotes}{}{\usepackage{sidenotes}}
+\@ifpackageloaded{marginnote}{}{\usepackage{marginnote}}
+\makeatother
+
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={A Model of ChatGPT},
+  pdfauthor={Tom Cunningham},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{A Model of ChatGPT}
+\author{Tom Cunningham}
+\date{2025-06-14}
+
+\begin{document}
+\maketitle
+
+
+\begin{description}
+\tightlist
+\item[This note gives a simple model of human and AI ability to answer
+questions.]
+Each question \(\bm{q}\) is a high-dimensional vector of bits, with a
+true scalar answer \(a\). Each agent tries to estimate the answer by
+interpolating among previous questions \((\bm{q}^i,a^i)_{i=1,\ldots,n}\)
+that they have encountered. This is an extension of an
+\href{https://tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html}{earlier
+model} I wrote for a different purpose.
+\item[The model gives a series of general implications:]
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item[]
+\item
+  \textbf{The quality of answer to a new question depends on the
+  distance from the training set.} For a new question \(\bm{q}\), the
+  expected error is a function of the distance between \(\bm{q}\) and
+  the training set \(Q\).
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  \textbf{The quality of answers will increase with the size of the
+  training set.} Precisely, the expected error will decrease linearly
+  with the number of linearly-independent examples in the training set.
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  \textbf{The value of getting advice from another agent depends on
+  distance between the two training sets.}
+\end{enumerate}
+\end{description}
+
+\subsection{Implications for ChatGPT}\label{implications-for-chatgpt}
+
+\begin{description}
+\item[Interpreted as a model of ChatGPT, this gives a set of
+predictions.]
+We can interpret this model as one of ChatGPT use, there are three basic
+ingredients:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \(p\) represents the dimensionality
+\item
+  Public questions -- these are the training questions that ChatGPT has
+  observed. Roughly speaking we can say these consist of all the
+  questions and answers on the public internet. ChatGPT's full training
+  process is of course more complicated, we discuss below.
+\item
+  Private questions -- these are the questions that the human has
+  themselves encountered (and observed the answer for).
+\end{enumerate}
+\end{description}
+
+A human will invoke ChatGPT if and only if the expected improvement in
+the answer exceeds some cost.
+
+\begin{description}
+\tightlist
+\item[ChatGPT will be adopted for questions which contain novel
+components (outside of private question space) that are inside public
+question space.]
+\item[Corollaries:]
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item[]
+\item
+  ChatGPT will not be used for questions that the user has encountered
+  before.
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  ChatGPT will be more likely to be used for domains with higher
+  \emph{latent} dimensionality (\(p\)).
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  ChatGPT will be more likely be used for domains with lower surface
+  dimensionality -- because it takes more time to specify the question.
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  ChatGPT will be more likely to be used for humans with less experience
+  in a domain (\(n_{\text{private}}\)).
+\end{enumerate}
+\end{description}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+occupation & dimensionality \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+junior contact center worker & \\
+senior contact center worker & \\
+physician & \\
+\end{longtable}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+task/question & \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+& \\
+\end{longtable}
+
+\begin{description}
+\tightlist
+\item[Additional things we'd like to add:]
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item[]
+\item
+  ChatGPT will be more likely to be used for domains where humans have
+  tacit knowledge.
+\end{enumerate}
+\end{description}
+
+\section{Model}\label{model}
+
+The world is characterized by a set of \(p\) weights, \(\bm{w}\). All
+agents have Gaussian priors over those weights:
+\[\bm{w}\sim N(\bm{0},\sigma^2I_p)\]
+
+Each agent observes a matrix \(Q\) of questions, each question has \(p\)
+binary parameters:
+
+\[\begin{aligned}
+      Q      &\in \{-1,1\}^{n\times p}
+         && \text{($n$ questions, each has $p$ binary parameters)}\\
+      \bm{w} &\sim N(0,\Sigma) 
+         && (p\times 1\text{ vector of true parameters of the world)}\\
+      \ut{\bm{a}}{$n\times1$}   &= \ut{Q}{$n\times p$}\ut{\bm{w}}{$p\times1$}
+         && \text{(answers provided by the world)}\\
+   \end{aligned}
+   \]
+
+We can also write this out in matrix form:
+
+\[\begin{aligned}
+      Q &= \begin{bmatrix}q_1^1 & \ldots & q^1_p \\ & \ddots & \\ q^n_1 & \ldots & q^n_p\end{bmatrix}
+         && \text{(matrix of $n$ questions, each with $p$ parameters)} \\
+      \bm{w}'  &= \begin{bmatrix}w_1 \ldots w_p\end{bmatrix}
+         && \text{(vector of $p$ unobserved weights)}\\
+      \bm{a}    &= \begin{bmatrix}a^1 \\ \vdots \\ a^n\end{bmatrix}
+         = \begin{bmatrix}q_1^1 w_1 + \ldots q_p^1w_p \\ \vdots \\ q_1^n w_1 + \ldots q_p^n w_p\end{bmatrix}
+         && \text{(vector of $n$ observed answers)}\\
+   \end{aligned}
+   \]
+
+\textbf{Training Data.} Each agent \(i\) has access to a set of
+observations, or ``training data,'' which consists of a set of questions
+\(Q_i\) and their corresponding answers \(\bm{a}_i\). \[\begin{aligned}
+      \mathcal{D}_i = \{ (Q_i, \bm{a}_i) \}
+   \end{aligned}
+   \]
+
+\section{Propositions}\label{propositions}
+
+\begin{description}
+\tightlist
+\item[Proposition 1 (Posterior for a given question).]
+The agent's posterior mean and variance will be: \[\begin{aligned}
+  \hat{\bm w}&= \Sigma Q^{\top}(Q\Sigma Q^{\top})^{-1}\bm a\\
+  \Sigma_{\mid a} &=\Sigma-\Sigma Q^{\top}(Q\Sigma Q^{\top})^{-1}Q\Sigma
+   \end{aligned}
+   \]
+\end{description}
+
+Proof (via Gaussian conditioning)
+
+The derivation follows from the standard formula for conditional
+Gaussian distributions. We begin by defining the joint distribution of
+the weights \(\bm{w}\) and the answers \(\bm{a}\).
+
+The weights and answers are jointly Gaussian:
+
+\[\begin{pmatrix} \bm{w} \\ \bm{a} \end{pmatrix} \sim N\left(
+      \begin{pmatrix} \bm{0} \\ \bm{0} \end{pmatrix},
+      \begin{pmatrix} 
+         \Sigma & \Sigma Q' \\
+         Q\Sigma & Q\Sigma Q'
+      \end{pmatrix}
+   \right)
+   \]
+
+where the covariance terms are derived as follows: -
+\(Cov(\bm{w}, \bm{w}) = \Sigma\) (prior covariance) -
+\(Cov(\bm{a}, \bm{a}) = Cov(Q\bm{w}, Q\bm{w}) = Q Cov(\bm{w}, \bm{w}) Q' = Q\Sigma Q'\)
+-
+\(Cov(\bm{w}, \bm{a}) = Cov(\bm{w}, Q\bm{w}) = Cov(\bm{w}, \bm{w})Q' = \Sigma Q'\)
+
+The conditional mean \(E[\bm{w}|\bm{a}]\) is given by the formula: {[}
+E{[}\bm{w}\textbar{}\bm{a}{]} = E{[}\bm{w}{]} +
+Cov(\bm{w},\bm{a})Var(\bm{a})\^{}\{-1\}(\bm{a} - E{[}\bm{a}{]}) {]}
+Substituting the values from our model (\(E[\bm{w}] = \bm{0}\),
+\(E[\bm{a}] = \bm{0}\)): {[} \hat{\bm{w}} = \bm{0} +
+(\Sigma Q')(Q\Sigma Q')\^{}\{-1\}(\bm{a} - \bm{0}) =
+\Sigma Q'(Q\Sigma Q')\^{}\{-1\}\bm{a} {]} This gives us the posterior
+mean of the weights. The posterior covariance is given by: {[}
+Var(\bm{w}\textbar{}\bm{a}) = Var(\bm{w}) -
+Cov(\bm{w},\bm{a})Var(\bm{a})\^{}\{-1\}Cov(\bm{a},\bm{w}) = \Sigma -
+\Sigma Q'(Q\Sigma Q')\^{}\{-1\}Q\Sigma {]} ∎
+
+\begin{description}
+\tightlist
+\item[Proposition 2 (Expected error for a given question).]
+The expected squared error for a new question \(\bm q\) is:
+\[ \mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \bm q' \Sigma_{\mid a} \bm q \]
+For an isotropic prior where \(\Sigma = \sigma^2 I\), the error is
+proportional to the squared distance of \(\bm q\) from the subspace
+spanned by the previously seen questions \(Q\):
+\[ \mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \sigma^2 \|(I-P_Q)\bm q\|^2 \]
+where \(P_Q\) is the projection matrix onto the row-span of \(Q\).
+\end{description}
+
+Proof
+
+From Proposition 2, the expected error with an isotropic prior is
+\(\sigma^2 \|(I-P_Q)\bm q\|^2\). Since \(\sigma^2 > 0\), the error is
+zero if and only if \(\|(I-P_Q)\bm q\|^2 = 0\). This is true if and only
+if \((I-P_Q)\bm q = \bm 0\), which means \(\bm q = P_Q \bm q\). This
+condition holds if and only if \(\bm q\) is in the subspace onto which
+\(P_Q\) projects, which is the row-span of \(Q\). ∎
+
+\begin{description}
+\tightlist
+\item[Proposition 3 (Error decreases linearly with the number of
+independent questions).]
+The average expected squared error over all possible new questions
+\(\bm{q}\) decreases linearly with the number of linearly independent
+questions in the training set \(Q\). Specifically, with an isotropic
+prior \(\Sigma = \sigma^2 I\), the average error is:
+\[\mathbb{E}_{\bm{q}}[\text{error}(\bm{q})] = \sigma^2 (p - \operatorname{rank}(Q))\]
+where the expectation is taken over new questions \(\bm{q}\) with i.i.d.
+components drawn uniformly from \(\{-1,1\}\).
+\end{description}
+
+Proof
+
+The proof proceeds in two steps. First, we write the expression for the
+error for a given new question \(\bm q\). Second, we average this error
+over the distribution of all possible questions.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Predictive error for a fixed \(\bm q\).} From Proposition 2,
+  the expected squared error for a specific new question \(\bm q\),
+  given an isotropic prior \(\Sigma = \sigma^2 I\), is: {[}
+  \text{error}(\bm q) = \mathbb{E}{[}(\bm q'(\bm w -
+  \hat{\bm w}))\^{}2{]} = \sigma\^{}2 \bm q'(I-P\_Q)\bm q {]} where
+  \(P_Q = Q'(QQ')^{-1}Q\) is the projection matrix onto the row-span of
+  \(Q\).
+\item
+  \textbf{Average over random new questions.} We now take the
+  expectation of this error over the distribution of new questions
+  \(\bm q\). The components of \(\bm q\) are i.i.d. uniform on
+  \(\{-1,1\}\), which implies that \(\mathbb{E}[\bm q] = \bm 0\) and
+  \(\mathbb{E}[\bm q \bm q'] = I_p\). The average error is: {[}
+
+  \begin{aligned}
+     \mathbb{E}_{\bm q}[\text{error}(\bm q)] &= \mathbb{E}_{\bm q}[\sigma^2 \bm q'(I-P_Q)\bm q] \\
+                                            &= \sigma^2 \mathbb{E}_{\bm q}[\operatorname{tr}(\bm q'(I-P_Q)\bm q)] \\
+                                            &= \sigma^2 \mathbb{E}_{\bm q}[\operatorname{tr}((I-P_Q)\bm q \bm q')] \\
+                                            &= \sigma^2 \operatorname{tr}((I-P_Q)\mathbb{E}_{\bm q}[\bm q \bm q']) \\
+                                            &= \sigma^2 \operatorname{tr}(I-P_Q) \\
+                                            &= \sigma^2 (\operatorname{tr}(I) - \operatorname{tr}(P_Q))
+  \end{aligned}
+
+  {]} The trace of the identity matrix is \(p\). The trace of a
+  projection matrix is the dimension of the subspace it projects onto,
+  so \(\operatorname{tr}(P_Q) = \operatorname{rank}(Q)\). Thus, the
+  average error is: {[} \mathbb{E}\_\{\bm q\}{[}\text{error}(\bm q){]} =
+  \sigma\^{}2 (p - \operatorname{rank}(Q)) {]} Since the rank of \(Q\)
+  increases with each linearly independent question added, the average
+  error decreases linearly until \(\operatorname{rank}(Q)=p\), at which
+  point it becomes zero. ∎
+\end{enumerate}
+
+\begin{description}
+\tightlist
+\item[Proposition 4 (Posterior in two-stage estimation).]
+We consider a two-stage process. First, an agent (the ``computer,''
+\(C\)) with training data \((Q_C, \bm{a}_C)\) forms an estimate for the
+answer to a new question \(\bm{q}\). Second, another agent (the
+``human,'' \(H\)) with their own training data \((Q_H, \bm{a}_H)\)
+observes the computer's estimate and updates their own belief.
+\end{description}
+
+The human has a prior over the weights
+\(\bm{w} \sim N(\bm{0}, \Sigma)\). After observing their own data, the
+human's posterior for \(\bm{w}\) is \(N(\hat{\bm{w}}_H, \Sigma_H)\),
+where from Proposition 1: \[\begin{aligned}
+      \hat{\bm{w}}_H &= \Sigma Q_H^{\top}(Q_H\Sigma Q_H^{\top})^{-1}\bm{a}_H \\
+      \Sigma_H &= \Sigma - \Sigma Q_H^{\top}(Q_H\Sigma Q_H^{\top})^{-1}Q_H\Sigma
+   \end{aligned}\] The human's initial estimate for the answer to a new
+question \(\bm{q}\) is \(\mu_H = \bm{q}'\hat{\bm{w}}_H\) with variance
+\(\sigma_H^2 = \bm{q}'\Sigma_H \bm{q}\).
+
+The computer has its own training data \((Q_C, \bm{a}_C)\). It provides
+an estimate \(\hat{a}_C = \bm{q}'\hat{\bm{w}}_C\) for the true answer
+\(a = \bm{q}'\bm{w}\). The human observes \(\hat{a}_C\) and updates
+their posterior for \(a\). We assume the computer's observations may be
+noisy, such that \(\bm{a}_C = Q_C\bm{w} + \bm{\epsilon}_C\) with
+\(\bm{\epsilon}_C \sim N(0, s_C^2 I)\).
+
+We analyze the human's final posterior for \(a\) under different
+assumptions about what the human knows about the computer's process.
+
+\begin{description}
+\tightlist
+\item[Proposition 4.1 (Minimal knowledge: ``Pure Kalman filter'').]
+\textbf{Assumption:} The human has no knowledge of the computer's
+training set \(Q_C\) but believes the computer's estimate is unbiased
+with a known mean squared error \(\tau^2\). That is,
+\(\hat{a}_C = a + \eta\), where \(\eta \sim N(0, \tau^2)\) and is
+independent of \(\bm{w}\).
+\end{description}
+
+\textbf{Result:} Upon observing \(\hat{a}_C\), the human's posterior for
+\(a\) is:
+\[ a \mid \hat{a}_C \sim N\left( \mu_H + \alpha(\hat{a}_C - \mu_H), (1-\alpha)\sigma_H^2 \right) \]
+where \(\alpha = \frac{\sigma_H^2}{\sigma_H^2 + \tau^2} \in [0,1]\). The
+human's new estimate is a weighted average of their own initial estimate
+and the computer's estimate. The weight \(\alpha\) placed on the
+computer's estimate is higher when the computer is believed to be more
+accurate (smaller \(\tau^2\)) or when the human's own estimate is more
+uncertain (larger \(\sigma_H^2\)).
+
+\begin{description}
+\tightlist
+\item[Proposition 4.2 (Knowledge of computer's questions).]
+\textbf{Assumption:} The human knows the computer's training questions
+\(Q_C\) and its noise level \(s_C^2\), but not the observed answers
+\(\bm{a}_C\).
+\end{description}
+
+\textbf{Result:} The human can model the computer's estimate as
+\(\hat{a}_C = \bm{q}'P\bm{w} + \bm{q}'\bm{\zeta}\), where
+\(P = \Sigma Q_C'(Q_C\Sigma Q_C' + s_C^2I)^{-1}Q_C\) and
+\(\bm{\zeta} = \Sigma Q_C'(Q_C\Sigma Q_C' + s_C^2I)^{-1}\bm{\epsilon}_C\).
+
+The pair \((a, \hat{a}_C)\) is jointly Gaussian, conditional on the
+human's data. The posterior for \(a\) is:
+\[ a \mid \hat{a}_C \sim N\left( \mu_H + \kappa(\hat{a}_C - \mu_C), \sigma_H^2 - \kappa\sigma_{HC} \right) \]
+where: - \(\mu_C = \bm{q}'P\hat{\bm{w}}_H\) (human's expectation of
+computer's estimate) - \(\sigma_{HC} = \bm{q}'\Sigma_H P' \bm{q}\)
+(covariance) -
+\(\sigma_C^2 = \bm{q}'P\Sigma_H P' \bm{q} + \bm{q}'\Sigma_\zeta \bm{q}\)
+(variance of computer's estimate) -
+\(\Sigma_\zeta = s_C^2 P \Sigma^{-1} P'\) -
+\(\kappa = \frac{\sigma_{HC}}{\sigma_C^2}\) (the weight on the
+computer's prediction error)
+
+The weight \(\kappa\) depends on the covariance structure, which is
+influenced by the overlap between the subspaces spanned by \(Q_H\) and
+\(Q_C\).
+
+\begin{description}
+\tightlist
+\item[Proposition 4.3 (Limiting cases).]
+The framework of Proposition 4.2 nests two extreme cases: 1.
+\textbf{Oracle Trust:} If the human believes the computer's estimate is
+perfect (e.g., \(s_C^2 \to 0\) and \(Q_C\) spans the relevant subspace),
+then \(\kappa \to \sigma_H^2 / (\bm{q}'P\Sigma_H P'\bm{q})\), and the
+posterior variance collapses towards zero. In the simplified Kalman
+model, if \(\tau^2 \to 0\), then \(\alpha \to 1\), and the human adopts
+the computer's answer, \(a \mid \hat{a}_C \to N(\hat{a}_C, 0)\). 2.
+\textbf{Total Skepticism:} If the human believes the computer provides
+no information (e.g., \(\sigma_{HC} \to 0\) because \(Q_C\) is
+irrelevant to \(\bm{q}\)), then \(\kappa \to 0\). In the Kalman model,
+if \(\tau^2 \to \infty\), then \(\alpha \to 0\). In both cases, the
+human ignores the computer's estimate and reverts to their original
+posterior, \(a \mid \hat{a}_C \sim N(\mu_H, \sigma_H^2)\).
+\end{description}
+
+\section{Related Literature}\label{related-literature}
+
+\subsection{Agrawal et al.~(2018) ``Exploring the Impact of Artificial
+Intelligence: Prediction versus
+Judgment''}\label{agrawal-et-al.-2018-exploring-the-impact-of-artificial-intelligence-prediction-versus-judgment}
+
+https://www.nber.org/system/files/working\_papers/w24626/w24626.pdf
+
+\subsection{Kleinberg et al.~(2017) ``Human Decisions and Machine
+Predictions''}\label{kleinberg-et-al.-2017-human-decisions-and-machine-predictions}
+
+\section{References}\label{references}
+
+
+
+
+\end{document}

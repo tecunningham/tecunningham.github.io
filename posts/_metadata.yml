@@ -16,11 +16,40 @@ execute:
 reference-location: margin
 figure-location: margin
 
+# format: 
+#    html:
+#       include-in-header:
+#          - text: |
+#             <style>
+#                h1 {  border-bottom: 4px solid black;}
+#                h2 {  border-bottom: 1px solid #ccc;}
+#             </style>
+
 format: 
    html:
+      other-formats: false
+      html-math-method:
+         method: mathjax
+         url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js"
+         #     ^ this forces SVG instead of CHTML, otherwise xypic renders weird
       include-in-header:
          - text: |
+            <script>window.MathJax = {
+               loader: { load: ["https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/xypic.js"]},
+               tex: {packages: {'[+]': ['xypic','bm']},
+                     macros: {  bm: ["\\boldsymbol{#1}", 1],
+                                ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+                                utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3] }
+               }
+            };
+            </script>
             <style>
                h1 {  border-bottom: 4px solid black;}
                h2 {  border-bottom: 1px solid #ccc;}
             </style>
+   # pdf:
+   #    header-includes:
+   #       - \usepackage{bm}
+   #       - \usepackage{xypic}
+   #       - \newcommand{\ut}[2]{\underbrace{#1}_{\text{#2}}}
+   #       - \newcommand{\utt}[3]{\underbrace{#1}_{\substack{\text{#2}\\\text{#3}}}}

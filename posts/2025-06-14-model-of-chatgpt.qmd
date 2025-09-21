@@ -1,0 +1,291 @@
+---
+title: A Model of ChatGPT
+author:
+  - name: Tom Cunningham
+citation: true
+date: 2025-06-14
+date-modified: last-modified
+execute:
+  echo: false
+  warning: false
+  error: false
+  cache: true # caches chunk output
+  freeze: auto # ??? extra caching
+editor:
+  render-on-save: true
+format:
+   # pdf:
+   #    include-in-header:
+   #       - text: |
+   #          \usepackage[all]{xy}
+   #          \newcommand{\bm}[1]{\boldsymbol{#1}}
+   #          \newcommand{\ut}[2]{\underbrace{#1}_{\text{#2}}}
+   #          \newcommand{\utt}[3]{\underbrace{#1}_{\substack{\text{#2}\\\text{#3}}}}
+   #          \usepackage{enumitem}
+   #          \usepackage{sectsty}
+   #          \sectionfont{\sectionrule{0pt}{0pt}{-4pt}{1pt}}
+   #          \subsectionfont{\sectionrule{0pt}{0pt}{-4pt}{.1pt}}
+
+   # typst:  ## PROBLEM: it can read some latex, but can't do \begin{aligned}
+   #   include-in-header:
+   #     - text: |
+   #         #show heading: it => {
+   #           block(
+   #             width: 100%,
+   #             inset: (bottom: 6pt),
+   #             stroke: (bottom: 0.5pt),
+   #           )[#it]
+   #         }
+   html:
+      toc: true
+      toc-depth: 2
+      toc-location: left
+      html-math-method:
+         method: mathjax
+         url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js"
+         #     ^ this forces SVG instead of CHTML, otherwise xypic renders weird
+      include-in-header:
+         - text: |
+            <script>window.MathJax = {
+                     loader: { load: ['[custom]/xypic.js'],
+                                 paths: {custom: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/'}},
+                  tex: {packages: {'[+]': ['xypic']},
+                     macros: {
+                        bm: ["\\boldsymbol{#1}", 1],
+                        bmatrix: ["\\begin{bmatrix}#1\\end{bmatrix}", 1],
+                        smallmatrix: ["\\begin{smallmatrix}#1\\end{smallmatrix}", 1],
+                        ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+                        utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3]
+                     }}};
+            </script>
+            <style>
+               h1 {  border-bottom: 4px solid black; }
+               h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; color: black; }
+               dl { margin-bottom: 0px; }
+               dt strong { font-weight: bold; }
+               dd { margin-left: 20px; }
+               .cell-output-display p {padding: 0 0 0cm 0; margin: 0 0 0 0;}
+            </style>
+---
+
+This paper develops a simple model of human and AI ability to answer questions. Each question $\bm{q}$ is a high-dimensional vector, with a true scalar answer $a$. An agent's estimate of the answer is an interpolation based on previously-seen questions and answers $(\bm{q}^i,a^i)_{i=1,\ldots,n}$. This framework extends an [earlier model](https://tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html) developed for a different purpose.
+
+The model yields several implications:
+
+1.  **The quality of an answer to a new question depends on its distance from the training set.** For a new question $\bm{q}$, the expected error is a function of the distance between $\bm{q}$ and the training set $\bm{Q}$.
+
+2.  **The quality of answers increases with the size of the training set.** The expected error decreases linearly with the number of linearly-independent examples in the training set.
+
+3.  **The value of advice from another agent depends on the distance between their training sets.**
+
+This framework can be interpreted as a model of an agent, "the user," who must provide an estimate for the answer to a question $\bm{q}$ and can choose whether to consult an AI model like ChatGPT. The key components of the model are:
+
+1.  **The dimensionality of the question ($p$).** A higher-dimensional problem may be more costly to enter into the AI, but it also increases the potential benefit.
+2.  **The public information set.** These are the training questions that the AI has observed, which we can conceptualize as the corpus of public knowledge (e.g., the internet).
+3.  **The private information set.** These are the questions that the user has personally encountered and for which they have observed the true answer.
+ 
+A user will consult the AI if and only if the expected improvement in their answer exceeds the associated cost. The model predicts that an AI will be most useful for questions with components that are novel to the user but contained within the AI's public training data.
+
+This leads to several corollaries:
+
+1.  An AI will not be used for questions the user has encountered before.
+2.  An AI is more likely to be used for domains with higher *latent* dimensionality ($p$).
+3.  An AI is more likely to be used for domains with lower *surface* dimensionality, as this reduces the cost of specifying the question.
+4.  An AI is more likely to be used by humans with less experience in a domain (i.e., smaller $n_{\text{private}}$).
+
+
+We can make some conjectures about adoption by occupation:
+: 
+
+| occupation                                 | predicted ChatGPT use | reason                                                                |
+| ------------------------------------------ | --------------------- | --------------------------------------------------------------------- |
+| software engineer                          | high                  | many novel discrete problems, similar to those on public internet     |
+| software engineer - idiosyncratic language | low                   | many novel discrete problems, not similar to those on public internet |
+| physician                                  | high                  | many novel discrete problems, similar to those on public internet     |
+| contact center worker                      | low                   | novel problems, but not similar to those on the internet              |
+| architect                                  | low                   | novel problems, not discrete, not text-based                          |
+| manual worker                              | low                   | not not text-based                                                    |
+
+We can make some conjectures about adoption by task:
+:
+
+| task                                                        | predicted ChatGPT use | reason                                                      |
+| ----------------------------------------------------------- | --------------------- | ----------------------------------------------------------- |
+| Intellectual curiosity                                      | high                  | novel discrete problem, similar to those on the internet    |
+| Diagnosing medical problems                                 | high                  | novel discrete problem, similar to those on the internet    |
+| Problems with widely-adopted systems (car, house, computer) | high                  | novel discrete problem, similar to those on the internet    |
+| Problems with idiosyncratic systems (custom setups)         | low                   | novel discrete problem, *not* similar to those the internet |
+
+
+Additional things to add:
+: 1. **High-dimensional answers.** Our model assumes *scalar* answers. In fact ChatGPT gives high-dimensional outputs. I think we can say some nice things here.
+: 2. **Tacit knowledge.** ChatGPT will be more likely to be used for domains where humans have tacit knowledge.
+
+
+
+#           Model
+
+**The State of the World and Questions.** The state of the world is defined by a vector of $p$ unobserved parameters, $\bm{w} \in \mathbb{R}^p$. A question is a vector of $p$ binary features, $\bm{q} \in \{-1, 1\}^p$. The true answer to a question $\bm{q}$ is a scalar $a$ determined by the linear relationship:
+$$a = \bm{q}'\bm{w} = \sum_{k=1}^p q_k w_k$$
+
+**Agents and Information.** There is a set of agents, indexed by $i \in \mathcal{I}$. Each agent $i$ possesses an information set $\mathcal{D}_i$, which consists of $n_i$ questions they have previously encountered, along with their true answers. We can represent this information as a pair $(\bm{Q}_i, \bm{a}_i)$:
+
+*   $\bm{Q}_i$ is an $n_i \times p$ matrix where each row is a question vector. Let the $j$-th question for agent $i$ be $\bm{q}_{i,j}'$, so that:
+    $$\bm{Q}_i = \begin{bmatrix} \bm{q}_{i,1}' \\ \vdots \\ \bm{q}_{i,n_i}' \end{bmatrix} = \begin{bmatrix} q_{i,1,1} & \cdots & q_{i,1,p} \\ \vdots & \ddots & \vdots \\ q_{i,n_i,1} & \cdots & q_{i,n_i,p} \end{bmatrix}$$
+*   $\bm{a}_i$ is an $n_i \times 1$ vector of the corresponding answers. The answers are generated according to the true model:
+    $$\bm{a}_i = \bm{Q}_i \bm{w}$$
+
+**Beliefs.** All agents share a common prior belief about the state of the world, assuming the weights $\bm{w}$ are drawn from a multivariate Gaussian distribution:
+$$\bm{w} \sim N(\bm{0}, \Sigma)$$
+where $\Sigma$ is a $p \times p$ positive-semidefinite covariance matrix. A common assumption we will use is an isotropic prior, where $\Sigma = \sigma^2 \bm{I}_p$ for some scalar $\sigma^2 > 0$. This implies that, a priori, the weights are uncorrelated and have equal variance.
+
+Given their information set $\mathcal{D}_i$, agent $i$ forms a posterior belief about $\bm{w}$. When a new question $\bm{q}_{\text{new}}$ arises, the agent uses their posterior distribution to form an estimate of the answer, $\hat{a}_{\text{new}} = \bm{q}_{\text{new}}' \mathbb{E}[\bm{w} \mid \mathcal{D}_i]$.
+
+#           Propositions
+
+**Proposition 1 (Posterior over $\bm{w}$ given $\bm{Q}$ and $\bm{a}$).** *The agent's posterior mean and variance will be:*
+   $$\begin{aligned}
+      \hat{\bm w}&= \Sigma \bm{Q}^{\top}(\bm{Q}\Sigma \bm{Q}^{\top})^{-1}\bm a\\
+      \Sigma_{\mid a} &=\Sigma-\Sigma \bm{Q}^{\top}(\bm{Q}\Sigma \bm{Q}^{\top})^{-1}\bm{Q}\Sigma.
+   \end{aligned}
+   $$
+
+*Proof.* The derivation follows from the standard formula for conditional Gaussian distributions. We begin by defining the joint distribution of the weights $\bm{w}$ and the answers $\bm{a}$. The weights and answers are jointly Gaussian:
+   $$\begin{pmatrix} \bm{w} \\ \bm{a} \end{pmatrix} \sim N\left(
+      \begin{pmatrix} \bm{0} \\ \bm{0} \end{pmatrix},
+      \begin{pmatrix} 
+         \Sigma & \Sigma \bm{Q}' \\
+         \bm{Q}\Sigma & \bm{Q}\Sigma \bm{Q}'
+      \end{pmatrix}
+   \right)
+   $$
+where the covariance terms are derived as follows:
+- $Cov(\bm{w}, \bm{w}) = \Sigma$ (prior covariance)
+- $Cov(\bm{a}, \bm{a}) = Cov(\bm{Q}\bm{w}, \bm{Q}\bm{w}) = \bm{Q} Cov(\bm{w}, \bm{w}) \bm{Q}' = \bm{Q}\Sigma \bm{Q}'$
+- $Cov(\bm{w}, \bm{a}) = Cov(\bm{w}, \bm{Q}\bm{w}) = Cov(\bm{w}, \bm{w})\bm{Q}' = \Sigma \bm{Q}'$
+
+The conditional mean $E[\bm{w}|\bm{a}]$ is given by the formula:
+   $$E[\bm{w}|\bm{a}] = E[\bm{w}] + Cov(\bm{w},\bm{a})Var(\bm{a})^{-1}(\bm{a} - E[\bm{a}])$$
+
+Substituting the values from our model ($E[\bm{w}] = \bm{0}$, $E[\bm{a}] = \bm{0}$):
+   $$\hat{\bm{w}} = \bm{0} + (\Sigma \bm{Q}')(\bm{Q}\Sigma \bm{Q}')^{-1}(\bm{a} - \bm{0}) = \Sigma \bm{Q}'(\bm{Q}\Sigma \bm{Q}')^{-1}\bm{a}$$
+
+This gives us the posterior mean of the weights. The posterior covariance is given by:
+   $$Var(\bm{w}|\bm{a}) = Var(\bm{w}) - Cov(\bm{w},\bm{a})Var(\bm{a})^{-1}Cov(\bm{a},\bm{w}) = \Sigma - \Sigma \bm{Q}'(\bm{Q}\Sigma \bm{Q}')^{-1}\bm{Q}\Sigma.$$
+$\square$
+
+
+**Proposition 2 (Expected error for a given question).** *The expected squared error for a new question $\bm q$ is:*
+  $$ \mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \bm q' \Sigma_{\mid a} \bm q $$
+  *For an isotropic prior where $\Sigma = \sigma^2 \bm{I}$, the error is proportional to the squared distance of $\bm q$ from the subspace spanned by the previously seen questions in $\bm{Q}$:*
+  $$ \mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \sigma^2 \|(\bm{I}-\bm{P_Q})\bm q\|^2 $$
+  *where $\bm{P_Q}$ is the projection matrix onto the row-span of $\bm{Q}$.*
+
+*Proof.* The prediction error is $\bm{q}'\bm{w} - \bm{q}'\hat{\bm{w}} = \bm{q}'(\bm{w} - \hat{\bm{w}})$. The expected squared error is the variance of this prediction error.
+$$
+\begin{aligned}
+\mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] &= \mathbb{E}[\bm q'(\bm w - \hat{\bm w})(\bm w - \hat{\bm w})'\bm q] \\
+&= \bm q' \mathbb{E}[(\bm w - \hat{\bm w})(\bm w - \hat{\bm w})'] \bm q \\
+&= \bm q' Var(\bm w \mid \bm a) \bm q = \bm q' \Sigma_{\mid a} \bm q
+\end{aligned}
+$$
+This proves the first part of the proposition. For the second part, we assume an isotropic prior $\Sigma = \sigma^2\bm{I}$. Substituting this into the expression for $\Sigma_{\mid a}$ from Proposition 1:
+$$
+\begin{aligned}
+\Sigma_{\mid a} &= \sigma^2\bm{I} - (\sigma^2\bm{I})\bm{Q}'(\bm{Q}(\sigma^2\bm{I})\bm{Q}')^{-1}\bm{Q}(\sigma^2\bm{I}) \\
+&= \sigma^2\bm{I} - \sigma^4 \bm{Q}'(\sigma^2\bm{Q}\bm{Q}')^{-1}\bm{Q} \\
+&= \sigma^2\bm{I} - \sigma^4 (\sigma^2)^{-1} \bm{Q}'(\bm{Q}\bm{Q}')^{-1}\bm{Q} \\
+&= \sigma^2(\bm{I} - \bm{Q}'(\bm{Q}\bm{Q}')^{-1}\bm{Q})
+\end{aligned}
+$$
+Let $\bm{P_Q} = \bm{Q}'(\bm{Q}\bm{Q}')^{-1}\bm{Q}$, which is the projection matrix onto the row space of $\bm{Q}$. Then $\Sigma_{\mid a} = \sigma^2(\bm{I} - \bm{P_Q})$. The expected squared error is:
+$$
+\mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \bm q' \sigma^2(\bm{I} - \bm{P_Q}) \bm q = \sigma^2 \bm q'(\bm{I} - \bm{P_Q})\bm q
+$$
+Since $\bm{I} - \bm{P_Q}$ is an idempotent projection matrix, $\bm q'(\bm{I} - \bm{P_Q})\bm q = \bm q'(\bm{I} - \bm{P_Q})'(\bm{I} - \bm{P_Q})\bm q = \|(\bm{I} - \bm{P_Q})\bm q\|^2$. Thus,
+$$
+\mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \sigma^2 \|(\bm{I}-\bm{P_Q})\bm q\|^2
+$$
+$\square$
+
+**Proposition 3 (Error decreases with more independent questions).** *The average expected squared error over all possible new questions $\bm{q}$ decreases linearly with the number of linearly independent questions in the training set $\bm{Q}$. Specifically, with an isotropic prior $\Sigma = \sigma^2 \bm{I}$, the average error is:*
+      $$\mathbb{E}_{\bm{q}}[\text{error}(\bm{q})] = \sigma^2 (p - \operatorname{rank}(\bm{Q}))$$
+   *where the expectation is taken over new questions $\bm{q}$ with i.i.d. components drawn uniformly from $\{-1,1\}$.*
+
+*Proof.* The proof proceeds in two steps. First, we write the expression for the error for a given new question $\bm q$. Second, we average this error over the distribution of all possible questions.
+
+1.  **Predictive error for a fixed $\bm q$.** From Proposition 2, the expected squared error for a specific new question $\bm q$, given an isotropic prior $\Sigma = \sigma^2 \bm{I}$, is:
+    \[
+       \text{error}(\bm q) = \mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \sigma^2 \bm q'(\bm{I}-\bm{P_Q})\bm q
+    \]
+    where $\bm{P_Q} = \bm{Q}'(\bm{Q}\bm{Q}')^{-1}\bm{Q}$ is the projection matrix onto the row-span of $\bm{Q}$.
+
+2.  **Average over random new questions.** We now take the expectation of this error over the distribution of new questions $\bm q$. The components of $\bm q$ are i.i.d. uniform on $\{-1,1\}$, which implies that $\mathbb{E}[\bm q] = \bm 0$ and $\mathbb{E}[\bm q \bm q'] = \bm{I}_p$. The average error is:
+    \[\begin{aligned}
+       \mathbb{E}_{\bm q}[\text{error}(\bm q)] &= \mathbb{E}_{\bm q}[\sigma^2 \bm q'(\bm{I}-\bm{P_Q})\bm q] \\
+                                              &= \sigma^2 \mathbb{E}_{\bm q}[\operatorname{tr}(\bm q'(\bm{I}-\bm{P_Q})\bm q)] \\
+                                              &= \sigma^2 \mathbb{E}_{\bm q}[\operatorname{tr}((\bm{I}-\bm{P_Q})\bm q \bm q')] \\
+                                              &= \sigma^2 \operatorname{tr}((\bm{I}-\bm{P_Q})\mathbb{E}_{\bm q}[\bm q \bm q']) \\
+                                              &= \sigma^2 \operatorname{tr}(\bm{I}-\bm{P_Q}) \\
+                                              &= \sigma^2 (\operatorname{tr}(\bm{I}) - \operatorname{tr}(\bm{P_Q}))
+    \end{aligned}\]
+    The trace of the identity matrix is $p$. The trace of a projection matrix is the dimension of the subspace it projects onto, so $\operatorname{tr}(\bm{P_Q}) = \operatorname{rank}(\bm{Q})$. Thus, the average error is:
+    \[
+       \mathbb{E}_{\bm q}[\text{error}(\bm q)] = \sigma^2 (p - \operatorname{rank}(\bm{Q}))
+    \]
+    Since the rank of $\bm{Q}$ increases with each linearly independent question added, the average error decreases linearly until $\operatorname{rank}(\bm{Q})=p$, at which point it becomes zero. $\square$
+
+
+**Proposition 4 (Posterior in two-stage estimation).** *We consider a two-stage process. First, an agent (the "computer," $C$) with training data $(\bm{Q}_C, \bm{a}_C)$ forms an estimate for the answer to a new question $\bm{q}$. Second, another agent (the "human," $H$) with their own training data $(\bm{Q}_H, \bm{a}_H)$ observes the computer's estimate and updates their own belief.*
+
+  *The human has a prior over the weights $\bm{w} \sim N(\bm{0}, \Sigma)$. After observing their own data, the human's posterior for $\bm{w}$ is $N(\hat{\bm{w}}_H, \Sigma_H)$, where from Proposition 1:*
+   $$\begin{aligned}
+      \hat{\bm{w}}_H &= \Sigma \bm{Q}_H^{\top}(\bm{Q}_H\Sigma \bm{Q}_H^{\top})^{-1}\bm{a}_H \\
+      \Sigma_H &= \Sigma - \Sigma \bm{Q}_H^{\top}(\bm{Q}_H\Sigma \bm{Q}_H^{\top})^{-1}\bm{Q}_H\Sigma
+   \end{aligned}$$
+  *The human's initial estimate for the answer to a new question $\bm{q}$ is $\mu_H = \bm{q}'\hat{\bm{w}}_H$ with variance $\sigma_H^2 = \bm{q}'\Sigma_H \bm{q}$.*
+
+  *The computer has its own training data $(\bm{Q}_C, \bm{a}_C)$. It provides an estimate $\hat{a}_C = \bm{q}'\hat{\bm{w}}_C$ for the true answer $a = \bm{q}'\bm{w}$. The human observes $\hat{a}_C$ and updates their posterior for $a$. We assume the computer's observations may be noisy, such that $\bm{a}_C = \bm{Q}_C\bm{w} + \bm{\epsilon}_C$ with $\bm{\epsilon}_C \sim N(0, s_C^2 \bm{I})$.*
+
+  *We analyze the human's final posterior for $a$ under different assumptions about what the human knows about the computer's process.*
+
+**Proposition 4.1 (Updating with minimal information).** *Assume the human has no knowledge of the computer's training set $\bm{Q}_C$ but believes the computer's estimate is unbiased with a known mean squared error $\tau^2$. That is, $\hat{a}_C = a + \eta$, where $\eta \sim N(0, \tau^2)$ and is independent of $\bm{w}$.*
+
+  *Upon observing $\hat{a}_C$, the human's posterior for $a$ is:*
+  $$ a \mid \hat{a}_C \sim N\left( \mu_H + \alpha(\hat{a}_C - \mu_H), (1-\alpha)\sigma_H^2 \right) $$
+  *where $\alpha = \frac{\sigma_H^2}{\sigma_H^2 + \tau^2} \in [0,1]$. The human's new estimate is a weighted average of their own initial estimate and the computer's estimate. The weight $\alpha$ placed on the computer's estimate is higher when the computer is believed to be more accurate (smaller $\tau^2$) or when the human's own estimate is more uncertain (larger $\sigma_H^2$).*
+
+**Proposition 4.2 (Knowledge of computer's questions).** *Assume the human knows the computer's training questions $\bm{Q}_C$ and its noise level $s_C^2$, but not the observed answers $\bm{a}_C$.*
+
+  *The human can model the computer's estimate as $\hat{a}_C = \bm{q}'\bm{P}\bm{w} + \bm{q}'\bm{\zeta}$, where $\bm{P} = \Sigma \bm{Q}_C'(\bm{Q}_C\Sigma \bm{Q}_C' + s_C^2\bm{I})^{-1}\bm{Q}_C$ and $\bm{\zeta} = \Sigma \bm{Q}_C'(\bm{Q}_C\Sigma \bm{Q}_C' + s_C^2\bm{I})^{-1}\bm{\epsilon}_C$.*
+  
+  *The pair $(a, \hat{a}_C)$ is jointly Gaussian, conditional on the human's data. The posterior for $a$ is:*
+  $$ a \mid \hat{a}_C \sim N\left( \mu_H + \kappa(\hat{a}_C - \mu_C), \sigma_H^2 - \kappa\sigma_{HC} \right) $$
+  *where:*
+   - $\mu_C = \bm{q}'\bm{P}\hat{\bm{w}}_H$ (human's expectation of computer's estimate)
+   - $\sigma_{HC} = \bm{q}'\Sigma_H \bm{P}' \bm{q}$ (covariance)
+   - $\sigma_C^2 = \bm{q}'\bm{P}\Sigma_H \bm{P}' \bm{q} + \bm{q}'\Sigma_\zeta \bm{q}$ (variance of computer's estimate)
+   - $\Sigma_\zeta = s_C^2 \bm{P} \Sigma^{-1} \bm{P}'$
+   - $\kappa = \frac{\sigma_{HC}}{\sigma_C^2}$ (the weight on the computer's prediction error)
+
+  *The weight $\kappa$ depends on the covariance structure, which is influenced by the overlap between the subspaces spanned by $\bm{Q}_H$ and $\bm{Q}_C$.*
+
+**Proposition 4.3 (Limiting cases).** *The framework of Proposition 4.2 nests two extreme cases:*
+  1. **Oracle Trust:** *If the human believes the computer's estimate is perfect (e.g., $s_C^2 \to 0$ and $\bm{Q}_C$ spans the relevant subspace), then $\kappa \to \sigma_H^2 / (\bm{q}'\bm{P}\Sigma_H \bm{P}'\bm{q})$, and the posterior variance collapses towards zero. In the simplified Kalman model, if $\tau^2 \to 0$, then $\alpha \to 1$, and the human adopts the computer's answer, $a \mid \hat{a}_C \to N(\hat{a}_C, 0)$.*
+  2. **Total Skepticism:** *If the human believes the computer provides no information (e.g., $\sigma_{HC} \to 0$ because $\bm{Q}_C$ is irrelevant to $\bm{q}$), then $\kappa \to 0$. In the Kalman model, if $\tau^2 \to \infty$, then $\alpha \to 0$. In both cases, the human ignores the computer's estimate and reverts to their original posterior, $a \mid \hat{a}_C \sim N(\mu_H, \sigma_H^2)$.*
+
+
+#           Related Literature
+
+##          Agrawal et al. (2018) "Exploring the Impact of Artificial Intelligence: Prediction versus Judgment"
+
+https://www.nber.org/system/files/working_papers/w24626/w24626.pdf
+
+##          Kleinberg et al. (2017) "Human Decisions and Machine Predictions"
+
+
+
+
+
+
+#           References
