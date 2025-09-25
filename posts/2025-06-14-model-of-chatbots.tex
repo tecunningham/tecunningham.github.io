@@ -1,0 +1,375 @@
+% ===== Speed toggle =====
+\newif\ifdraft
+\drafttrue            % <- set \draftfalse for final
+\documentclass[\ifdraft draft\fi]{article}
+\usepackage[margin=1.5in]{geometry}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{sectsty}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{bm}
+\usepackage[\ifdraft draft\else hidelinks\fi]{hyperref} % HYPERREF: disable link creation in draft (huge speedup)
+\usepackage[\ifdraft draft\else final\fi]{graphicx} % Graphics: skip embedding in draft to speed up
+\usepackage[most]{tcolorbox} % or consider 'framed' for lighter needs
+\usepackage[round]{natbib}
+\bibliographystyle{plainnat} % or an econ style you prefer (AER if you have it)
+\setlength{\parskip}{0.5em} % Add paragraph spacing
+\sectionfont{\sectionrule{0pt}{0pt}{-4pt}{1pt}}
+\subsectionfont{\sectionrule{0pt}{0pt}{-4pt}{.1pt}}
+\newtheorem{proposition}{Proposition}
+\tcbuselibrary{theorems} % Custom proof environment with light grey background
+\newtcolorbox{greyproof} {colback=gray!10,colframe=gray!20,boxrule=0.5pt,arc=2pt,boxsep=3pt,left=6pt,right=6pt,top=6pt,bottom=6pt}
+
+\title{A Knowledge-Sharing Model of Chatbots}
+\author{Tom Cunningham}
+\date{Sept 24 2025}
+\begin{document}
+\maketitle
+\begin{abstract}
+   This note formalizes a common intuitive model of chatbots as sharing existing knowledge. People will consult a chatbot when they encounter a question for which they do not know the answer, but they expect the answer exists somewhere in the public domain (and therefore the chatbot's training set). The model gives strong predictions about chatbot adoption across demographics, occupations, and tasks.  Insofar as wages are driven by differences in knowledge then we should expect chatbots to flatten those differences, and cause (1) higher average consumption; (2) lower wages for the highest-paid; (3) lower trade, i.e. lower GDP (because more tasks move into home production).
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+   This note treats chatbots as lowering the cost of access to existing public knowledge. A chatbot is essentially a database of questions for which the answer already exists in the public domain (and hence in the LLM training data). It implies that people will consult a chatbot when they encounter a question for which (i) they do not know the answer, and (ii) they expect that someone else does know the answer, and has documented it in the public domain. 
+   
+   The model expresses a very common intuitive view of LLMs, but has not been stated as explicitly before as far as I am aware. LLM chatbots clearly do many things which would not normally be described as answering questions (drawing pictures, editing text, writing code), however the majority share of chatbot queries appear to be asking for information (\citet{chatterji2025chatgpt}). The core predictions can be expressed assuming a discrete set of questions, but I also derive predictions from a fuller model which allows for the user and chatbot to interpolate between answers among different related questions.
+   
+   This model gives us very basic predictions about when chatbots will be used:
+
+   \begin{enumerate}
+      \item \textbf{Chatbots will be consulted more by novices more than experts in a domain.} This is because novices are more likely to encounter a question that they have not encountered before. A corollary is that chatbots will be used where you are a \textit{relative} novice, e.g. a doctor will be more likely to use a chatbot for a legal question, and a lawyer will be relatively more likely to use a chatbot for a medical question. 
+      \item \textbf{Chatbots will be used more in occupations with high returns to experience.} In domains where workers frequently encounter problems that are neither highly repetitive, nor entirely idiosyncratic, then we would expect high returns to experience, and also high chatbot use.
+      \item \textbf{Chatbots will be used more in occupations with high mobility.} If the same questions tend to recur across jobs within the same occupation then we expect high mobility between jobs, and also high chatbot use.
+      \item \textbf{Chatbots will be consulted more for well-documented domains.} Chatbots will be used more for questions about technologies that are public than technologies that are proprietary (which do not appear in the training material), and prevalence of questions about a technology should be convex in the popularity of that technology.
+   \end{enumerate}
+
+The model also gives us basic predictions about the equilibrium effect of chatbots:
+
+   \begin{enumerate}
+      \item \textbf{Chatbots raise welfare through better decisions.} We should also expect increases in welfare if agents can adjust on other margins, especially reducing the use of other information-sources (books, web search), and through expanding the set of questions that a person attempts to answer.
+      \item \textbf{Chatbots flatten comparative advantage.} If comparative advantage is due to differences in knowledge (the set of questions for which you know the answer) then chatbots will flatten those differences. This is formally equivalent to ``catch up'' technology growth in trade models, where the catch-up implies: (1) higher average wages; (2) lower wages for the highest-paid; (3) lower trade, i.e. lower GDP (\citet{dornbusch1977comparative}, \citet{wilson1980general}). 
+   \end{enumerate}
+
+   \paragraph{Existing models of AI adoption.} We can compare this to a few existing models of AI:
+   \begin{itemize} 
+      \item \textbf{AI performs a task autonomously.} \cite{zeira1998workers} models automation as allowing capital to perform some task instead of labor. We then expect workers who previously specialized in those tasks to see declines in their wages, e.g. \cite{acemoglu2011handbook}, \cite{acemoglu2018race}.
+      \item \textbf{AI reduces the time required to perform a task.} \cite{eloundou2023gpts} implicitly assumes that LLMs reduce the time required to complete a task by a fixed proportion.[UNFINISHED]
+      \item \textbf{AI supplies knowledge.} \citet{ide2024artificialintelligenceknowledgeeconomy} and \citet{autor2025expertise} [UNFINISHED]. Important point about Garicano/Ide/Talamas model: (1) whether the knowledge required for a problem is known ex ante or ex post; (2) whether you can rank knowledge on a scale.
+   \end{itemize} 
+
+
+
+   \paragraph{Vector model.} We also describe a model in which each question is a vector, based on an earlier model of LLMs written for a different purpose, \citet{cunningham2023imitation}. Suppose each question $\bm{q}$ is a vector of binary characteristics. The true answer is a scalar, $a$, determined by a set of unobserved weights $a=\bm{w}\bm{q}$. The human guesses the answer to the new question by interpolating among previously-seen questions ($(\bm{q}^i,a^i)_{i=1,\ldots,n}$). They can also consult a chatbot which answers questions in the same way, but with a different set of previously-seen questions (i.e. the training data). We can then give a crisp closed-form expression for the expected benefit of consulting a chatbot. We expect a chatbot to be consulted when you encounter a question that has components which fall outside the space formed from by your knowledge set (questions for which you know the answer), but which fall inside the space formed by the chatbot's knowledge set.
+
+   \subsection{Conjectures About Adoption}
+
+   We can make some conjectures about adoption by occupation and by task:
+
+   \begin{table}[H]
+   \centering
+   \begin{tabular}{@{}p{5cm}p{2cm}p{5cm}@{}}
+   \toprule
+   \textbf{Occupation} & \textbf{Predicted ChatGPT use} & \textbf{Reason} \\
+   \midrule
+      software engineer - python & high & problems novel, discrete, similar to those on internet \\
+      \midrule
+      software engineer - proprietary & low & problems novel, discrete, not similar to those on internet \\
+      \midrule
+      physician & high & problems novel, discrete, similar to those on internet \\
+      \midrule
+      contact center worker & low & problems novel, discrete, not similar to those on internet\\
+      \midrule
+      architect & low & problems novel, not discrete, not text-based \\
+      \midrule
+      manual worker & low & problems not text-based \\
+   \bottomrule
+   \end{tabular}
+   \captionsetup{justification=centering}
+   \caption{Conjectures about adoption by occupation}
+   \end{table}
+
+   \begin{table}[H]
+   \centering
+   \begin{tabular}{@{}p{5cm}p{2cm}p{5cm}@{}}
+   \toprule
+   \textbf{Task} & \textbf{Predicted chatbot use} & \textbf{Reason} \\
+   \midrule
+      Intellectual curiosity & high & novel, discrete, similar to those on the internet \\
+      \midrule
+      Diagnosing medical problems & high & novel, discrete, similar to those on the internet \\
+      \midrule
+      Problems with widely-adopted systems (car, house, computer) & high & novel, discrete, similar to those on the internet \\
+      \midrule
+      Problems with idiosyncratic systems (custom setups) & low & novel, discrete, \textit{not} similar to those the internet \\
+   \bottomrule
+   \end{tabular}
+   \captionsetup{justification=centering}
+   \caption{Conjectures about adoption by task}
+   \end{table}
+
+\subsection{Additional issues.}
+
+\begin{enumerate}
+   \item \textbf{Why are LLMs used as advisors, not deputies?} It's notable that LLMs are relatively rarely given autonomy to make a decision without human oversight. ChatGPT is mostly built as an advisor, it can't take actions on your behalf, but it's worth asking why that is. This could be accommodated by this model if most questions have large private components, such that ChatGPT's answer is worse the the human's, but the ChatGPT-augmented answer is better than the human's.
+   
+   \item \textbf{Relationship to time-savings.} This model quantifies the benefit from ChatGPT as the \textit{accuracy} of an answer to a question. Much other literature on LLM measure the value in time-savings, e.g. most RCTs of LLM augmentation (both in the laboratory and the field), and many self-reports. We could convert the accuracy increase to a time-savings if we say that people can spend more time to increase accuracy.
+
+   \item \textbf{How does ChatGPT differ from Google?} If we interpret ChatGPT's training set as the content of the public internet then the same model could be applied to a search engine. We could distinguish ChatGPT in two ways: (1) the cost of consulting ChatGPT is significantly lower because it will give an answer immediately, instead of directing the human to another page where they have to skim the text; (2) ChatGPT can \textit{interpolate} questions in its training data, e.g. it will give an answer to your question even if nobody has answered that question before, but the answer can be predicted from the answer to other qeustions.
+   
+   \item \textbf{Dimensionality of the domain.} We might be able to extend the model to distinguish between two types of dimensionality: (1) surface dimensionality (how many letters it takes to express the question/prompt); (2) the latent dimensionality of the domain. In general the returns to experience will depend on the latent dimensionality of the domain: if the latent dimensionality is low then a few examples is enough to learn the patterns, if the latent dimensionality is high then error continuously decreases with experience (there's a nice closed-form expression for this).
+
+   \item \textbf{High-dimensional answers.} Our model assumes \textit{scalar} answers. In fact ChatGPT gives high-dimensional outputs. I think we can say some nice things here.
+    
+    \item \textbf{Tacit knowledge.} For some ChatGPT prompts the user can \textit{recognize} a correct answer, but cannot produce a correct answer themselves (AKA a generation-validation gap). E.g. asking for a picture, asking for a poem. The generation-validation asymmetry can be due either to (1) computational difficulty; (2) tacit knowledge.
+    
+    \item \textbf{Routine questions.} For some ChatGPT prompts the user can clearly do the task themselves, without any extra information but it's time-consuming: e.g. doing a simple mathematical operation, alphabetizing a list, typing out boilerplate code. These types of queries don't fit our model so well.
+
+\end{enumerate}
+
+% \item Chatbots is more likely to be used for domains with higher \textit{latent} dimensionality ($p$).
+% \item Chatbots are more likely to be used for domains with lower \textit{surface} dimensionality, as this reduces the cost of specifying the question.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Simple Model}
+
+Here we define the simplest model: given some question you will consult the chatbot if and only if (1) you do not know the answer to this question; (2) the chatbot does know the answer to this question.
+
+Suppose you are confronted by a question ($q\in\mathcal{Q}$), and you have to supply an answer, $\hat{a}\in\mathcal{R}$, and where your prior over the true answer is Gaussian $a\sim N(0,1)$, and your payoff is quadratic in the difference between your guess and the true answer, $(a-\hat{a})^2$.
+
+The chatbot's set of prior questions-observed is $\bm{Q}_1\subseteq \mathcal{Q}$, the user's set is $\bm{Q}_2\subseteq \mathcal{Q}$, with the composition of both sets public knowledge. It is clear that the user will consult the chatbot if and only if $q\in Q_1$ and $q\not{\in}Q_2$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Model}
+
+\paragraph{The State of the World and Questions.} The state of the world is defined by a vector of $p$ unobserved parameters, $\bm{w} \in \mathbb{R}^p$. A question is a vector of $p$ binary features, $\bm{q} \in \{-1, 1\}^p$. The true answer to a question $\bm{q}$ is a scalar $a$ determined by the linear relationship:
+\[a = \bm{q}'\bm{w} = \sum_{k=1}^p q_k w_k\]
+
+\paragraph{Agents and Information.} There is a set of agents, indexed by $i \in \mathcal{I}$. Each agent $i$ possesses an information set $\mathcal{D}_i$, which consists of $n_i$ questions they have previously encountered, along with their true answers. We can represent this information as a pair $(\bm{Q}_i, \bm{a}_i)$:
+
+\begin{itemize}
+    \item   $\bm{Q}_i$ is an $n_i \times p$ matrix where each row is a question vector. Let the $j$-th question for agent $i$ be $\bm{q}_{i,j}'$, so that:
+    \[\bm{Q}_i = \begin{bmatrix} \bm{q}_{i,1}' \\ \vdots \\ \bm{q}_{i,n_i}' \end{bmatrix} = \begin{bmatrix} q_{i,1,1} & \cdots & q_{i,1,p} \\ \vdots & \ddots & \vdots \\ q_{i,n_i,1} & \cdots & q_{i,n_i,p} \end{bmatrix}\]
+    \item   $\bm{a}_i$ is an $n_i \times 1$ vector of the corresponding answers. The answers are generated according to the true model:
+    \[\bm{a}_i = \bm{Q}_i \bm{w}\]
+\end{itemize}
+
+\paragraph{Beliefs.} All agents share a common prior belief about the state of the world, assuming the weights $\bm{w}$ are drawn from a multivariate Gaussian distribution:
+\[\bm{w} \sim N(\bm{0}, \Sigma)\]
+where $\Sigma$ is a $p \times p$ positive-semidefinite covariance matrix. A common assumption we will use is an isotropic prior, where $\Sigma = \sigma^2 \bm{I}_p$ for some scalar $\sigma^2 > 0$. This implies that, a priori, the weights are uncorrelated and have equal variance.
+
+Given their information set $\mathcal{D}_i$, agent $i$ forms a posterior belief about $\bm{w}$. When a new question $\bm{q}_{\text{new}}$ arises, the agent uses their posterior distribution to form an estimate of the answer, $\hat{a}_{\text{new}} = \bm{q}_{\text{new}}' \mathbb{E}[\bm{w} \mid \mathcal{D}_i]$.
+
+\section{Propositions}
+
+\begin{proposition}[Posterior over $\bm{w}$ given $\bm{Q}$ and $\bm{a}$]
+The agent's posterior mean and variance will be:
+   \[\begin{aligned}
+      \hat{\bm w}&= \Sigma \bm{Q}^{\top}(\bm{Q}\Sigma \bm{Q}^{\top})^{-1}\bm a\\
+      \Sigma_{\mid a} &=\Sigma-\Sigma \bm{Q}^{\top}(\bm{Q}\Sigma \bm{Q}^{\top})^{-1}\bm{Q}\Sigma.
+   \end{aligned}
+   \]
+\end{proposition}
+\begin{greyproof}
+\begin{proof}
+The derivation follows from the standard formula for conditional Gaussian distributions. We begin by defining the joint distribution of the weights $\bm{w}$ and the answers $\bm{a}$. The weights and answers are jointly Gaussian:
+   \[\begin{pmatrix} \bm{w} \\ \bm{a} \end{pmatrix} \sim N\left(
+      \begin{pmatrix} \bm{0} \\ \bm{0} \end{pmatrix},
+      \begin{pmatrix} 
+         \Sigma & \Sigma \bm{Q}' \\
+         \bm{Q}\Sigma & \bm{Q}\Sigma \bm{Q}'
+      \end{pmatrix}
+   \right)
+   \]
+where the covariance terms are derived as follows:
+\begin{itemize}
+    \item $Cov(\bm{w}, \bm{w}) = \Sigma$ (prior covariance)
+    \item $Cov(\bm{a}, \bm{a}) = Cov(\bm{Q}\bm{w}, \bm{Q}\bm{w}) = \bm{Q} Cov(\bm{w}, \bm{w}) \bm{Q}' = \bm{Q}\Sigma \bm{Q}'$
+    \item $Cov(\bm{w}, \bm{a}) = Cov(\bm{w}, \bm{Q}\bm{w}) = Cov(\bm{w}, \bm{w})\bm{Q}' = \Sigma \bm{Q}'$
+\end{itemize}
+The conditional mean $E[\bm{w}|\bm{a}]$ is given by the formula:
+   \[E[\bm{w}|\bm{a}] = E[\bm{w}] + Cov(\bm{w},\bm{a})Var(\bm{a})^{-1}(\bm{a} - E[\bm{a}])\]
+
+Substituting the values from our model ($E[\bm{w}] = \bm{0}$, $E[\bm{a}] = \bm{0}$):
+   \[\hat{\bm{w}} = \bm{0} + (\Sigma \bm{Q}')(\bm{Q}\Sigma \bm{Q}')^{-1}(\bm{a} - \bm{0}) = \Sigma \bm{Q}'(\bm{Q}\Sigma \bm{Q}')^{-1}\bm{a}\]
+
+This gives us the posterior mean of the weights. The posterior covariance is given by:
+   \[Var(\bm{w}|\bm{a}) = Var(\bm{w}) - Cov(\bm{w},\bm{a})Var(\bm{a})^{-1}Cov(\bm{a},\bm{w}) = \Sigma - \Sigma \bm{Q}'(\bm{Q}\Sigma \bm{Q}')^{-1}\bm{Q}\Sigma.\]
+\end{proof}
+\end{greyproof}
+
+
+\begin{proposition}[Expected error for a given question]
+The expected squared error for a new question $\bm q$ is:
+  \[ \mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \bm q' \Sigma_{\mid a} \bm q \]
+  For an isotropic prior where $\Sigma = \sigma^2 \bm{I}$, the error is proportional to the squared distance of $\bm q$ from the subspace spanned by the previously seen questions in $\bm{Q}$:
+  \[ \mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \sigma^2 \|(\bm{I}-\bm{P_Q})\bm q\|^2 \]
+  where $\bm{P_Q}$ is the projection matrix onto the row-span of $\bm{Q}$.
+\end{proposition}
+\begin{greyproof}
+\begin{proof}
+The prediction error is $\bm{q}'\bm{w} - \bm{q}'\hat{\bm{w}} = \bm{q}'(\bm{w} - \hat{\bm{w}})$. The expected squared error is the variance of this prediction error.
+\[
+\begin{aligned}
+\mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] &= \mathbb{E}[\bm q'(\bm w - \hat{\bm w})(\bm w - \hat{\bm w})'\bm q] \\
+&= \bm q' \mathbb{E}[(\bm w - \hat{\bm w})(\bm w - \hat{\bm w})'] \bm q \\
+&= \bm q' Var(\bm w \mid \bm a) \bm q = \bm q' \Sigma_{\mid a} \bm q
+\end{aligned}
+\]
+This proves the first part of the proposition. For the second part, we assume an isotropic prior $\Sigma = \sigma^2\bm{I}$. Substituting this into the expression for $\Sigma_{\mid a}$ from Proposition 1:
+\[
+\begin{aligned}
+\Sigma_{\mid a} &= \sigma^2\bm{I} - (\sigma^2\bm{I})\bm{Q}'(\bm{Q}(\sigma^2\bm{I})\bm{Q}')^{-1}\bm{Q}(\sigma^2\bm{I}) \\
+&= \sigma^2\bm{I} - \sigma^4 \bm{Q}'(\sigma^2\bm{Q}\bm{Q}')^{-1}\bm{Q} \\
+&= \sigma^2\bm{I} - \sigma^4 (\sigma^2)^{-1} \bm{Q}'(\bm{Q}\bm{Q}')^{-1}\bm{Q} \\
+&= \sigma^2(\bm{I} - \bm{Q}'(\bm{Q}\bm{Q}')^{-1}\bm{Q})
+\end{aligned}
+\]
+Let $\bm{P_Q} = \bm{Q}'(\bm{Q}\bm{Q}')^{-1}\bm{Q}$, which is the projection matrix onto the row space of $\bm{Q}$. Then $\Sigma_{\mid a} = \sigma^2(\bm{I} - \bm{P_Q})$. The expected squared error is:
+\[
+\mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \bm q' \sigma^2(\bm{I} - \bm{P_Q}) \bm q = \sigma^2 \bm q'(\bm{I} - \bm{P_Q})\bm q
+\]
+Since $\bm{I} - \bm{P_Q}$ is an idempotent projection matrix, $\bm q'(\bm{I} - \bm{P_Q})\bm q = \bm q'(\bm{I} - \bm{P_Q})'(\bm{I} - \bm{P_Q})\bm q = \|(\bm{I} - \bm{P_Q})\bm q\|^2$. Thus,
+\[
+\mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \sigma^2 \|(\bm{I}-\bm{P_Q})\bm q\|^2
+\]
+\end{proof}
+\end{greyproof}
+
+\begin{proposition}[Error decreases with more independent questions]
+The average expected squared error over all possible new questions $\bm{q}$ decreases linearly with the number of linearly independent questions in the training set $\bm{Q}$. Specifically, with an isotropic prior $\Sigma = \sigma^2 \bm{I}$, the average error is:
+      \[\mathbb{E}_{\bm{q}}[\text{error}(\bm{q})] = \sigma^2 (p - \operatorname{rank}(\bm{Q}))\]
+   where the expectation is taken over new questions $\bm{q}$ with i.i.d. components drawn uniformly from $\{-1,1\}$.
+\end{proposition}
+\begin{greyproof}
+\begin{proof}
+The proof proceeds in two steps. First, we write the expression for the error for a given new question $\bm q$. Second, we average this error over the distribution of all possible questions.
+
+\begin{enumerate}
+    \item  \textbf{Predictive error for a fixed $\bm q$.} From Proposition 2, the expected squared error for a specific new question $\bm q$, given an isotropic prior $\Sigma = \sigma^2 \bm{I}$, is:
+    \[
+       \text{error}(\bm q) = \mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \sigma^2 \bm q'(\bm{I}-\bm{P_Q})\bm q
+    \]
+    where $\bm{P_Q} = \bm{Q}'(\bm{Q}\bm{Q}')^{-1}\bm{Q}$ is the projection matrix onto the row-span of $\bm{Q}$.
+
+    \item  \textbf{Average over random new questions.} We now take the expectation of this error over the distribution of new questions $\bm q$. The components of $\bm q$ are i.i.d. uniform on $\{-1,1\}$, which implies that $\mathbb{E}[\bm q] = \bm 0$ and $\mathbb{E}[\bm q \bm q'] = \bm{I}_p$. The average error is:
+    \[\begin{aligned}
+       \mathbb{E}_{\bm q}[\text{error}(\bm q)] &= \mathbb{E}_{\bm q}[\sigma^2 \bm q'(\bm{I}-\bm{P_Q})\bm q] \\
+                                              &= \sigma^2 \mathbb{E}_{\bm q}[\operatorname{tr}(\bm q'(\bm{I}-\bm{P_Q})\bm q)] \\
+                                              &= \sigma^2 \mathbb{E}_{\bm q}[\operatorname{tr}((\bm{I}-\bm{P_Q})\bm q \bm q')] \\
+                                              &= \sigma^2 \operatorname{tr}((\bm{I}-\bm{P_Q})\mathbb{E}_{\bm q}[\bm q \bm q']) \\
+                                              &= \sigma^2 \operatorname{tr}(\bm{I}-\bm{P_Q}) \\
+                                              &= \sigma^2 (\operatorname{tr}(\bm{I}) - \operatorname{tr}(\bm{P_Q}))
+    \end{aligned}\]
+    The trace of the identity matrix is $p$. The trace of a projection matrix is the dimension of the subspace it projects onto, so $\operatorname{tr}(\bm{P_Q}) = \operatorname{rank}(\bm{Q})$. Thus, the average error is:
+    \[
+       \mathbb{E}_{\bm q}[\text{error}(\bm q)] = \sigma^2 (p - \operatorname{rank}(\bm{Q}))
+    \]
+    Since the rank of $\bm{Q}$ increases with each linearly independent question added, the average error decreases linearly until $\operatorname{rank}(\bm{Q})=p$, at which point it becomes zero.
+\end{enumerate}
+\end{proof}
+\end{greyproof}
+
+
+\begin{proposition}[Two–stage updating with agents 1 and 2]
+Consider two agents who share an isotropic prior $\bm{w}\sim N(\bm{0},\,\sigma^{2}\bm{I}_p)$.  
+
+   \begin{itemize}[nosep]
+      \item Agent $1$ observes data $(\bm{Q}_1,\bm{a}_1)$ and forms the posterior mean
+      \[\hat{\bm w}_1 = \bm{Q}_1^{\top}(\bm{Q}_1\bm{Q}_1^{\top})^{-1}\bm{a}_1, \qquad \bm{P}_1 := \bm{Q}_1^{\top}(\bm{Q}_1\bm{Q}_1^{\top})^{-1}\bm{Q}_1.\]
+      \item Agent $2$ observes data $(\bm{Q}_2,\bm{a}_2)$ and forms the posterior mean
+      \[\hat{\bm w}_2 = \bm{Q}_2^{\top}(\bm{Q}_2\bm{Q}_2^{\top})^{-1}\bm{a}_2, \qquad \bm{P}_2 := \bm{Q}_2^{\top}(\bm{Q}_2\bm{Q}_2^{\top})^{-1}\bm{Q}_2.\]
+      \item A new question $\bm{q}\in\{-1,1\}^{p}$ arrives.  Agent $1$ announces the estimate $\hat{a}_1 = \bm{q}'\hat{\bm w}_1$.
+   \end{itemize}
+
+Let
+   \begin{align}
+      \mu_2 &= \bm{q}'\hat{\bm w}_2, &  \sigma_2^{2} &= \sigma^{2}\,\bm{q}'(\bm{I}-\bm{P}_2)\bm{q},\\
+      \mu_{2,1} &= \bm{q}'\bm{P}_1\hat{\bm w}_2, & \sigma_{21} &= \sigma^{2}\,\bm{q}'(\bm{I}-\bm{P}_2)\bm{P}_1^{\top}\bm{q},\\
+      \sigma_{1\mid 2}^{2} &= \sigma^{2}\,\bm{q}'\bm{P}_1(\bm{I}-\bm{P}_2)\bm{P}_1^{\top}\bm{q}, & \kappa &= \frac{\sigma_{21}}{\sigma_{1\mid2}^{2}}.
+   \end{align}
+
+Then, the posterior distribution of the true answer $a=\bm{q}'\bm{w}$ for agent $2$ before seeing $\hat{a}_1$ is $N(\mu_2,\,\sigma_2^{2})$, and after observing $\hat{a}_1$ it is
+   $$
+      a\mid \hat{a}_1,\bm{a}_2 \;\sim\; N\bigl(\mu_{2\mid1},\,\sigma_{2\mid1}^{2}\bigr),\qquad
+      \mu_{2\mid1}=\mu_{2}+\kappa\bigl(\hat{a}_1-\mu_{2,1}\bigr),\quad
+      \sigma_{2\mid1}^{2}=\sigma_{2}^{2}-\kappa\,\sigma_{21}.
+   $$
+\end{proposition}
+
+\begin{greyproof}
+\begin{proof}
+The estimate of agent 1 is a linear function of the true weights $\bm{w}$, since $\bm{a}_1 = \bm{Q}_1\bm{w}$, so $\hat{a}_1 = \bm{q}'\hat{\bm w}_1 = \bm{q}'\bm{Q}_1^{\top}(\bm{Q}_1\bm{Q}_1^{\top})^{-1}\bm{a}_1 = \bm{q}'\bm{P}_1\bm{w}$.
+
+Conditioning on agent $2$'s data, the posterior for $\bm{w}$ is $N(\hat{\bm w}_2,\,\Sigma_2)$ with $\Sigma_2 = \sigma^{2}(\bm{I}-\bm{P}_2)$. The pair $(a,\hat{a}_1)$ is therefore jointly Gaussian, since both are linear functions of $\bm{w}$. Their joint distribution conditional on agent 2's data has:
+
+\begin{itemize}
+    \item $E[a | \bm{a}_2] = \bm{q}'\hat{\bm{w}}_2 = \mu_2$
+    \item $E[\hat{a}_1 | \bm{a}_2] = \bm{q}'\bm{P}_1\hat{\bm{w}}_2 = \mu_{2,1}$
+    \item $\text{Var}(a | \bm{a}_2) = \bm{q}'\sigma^2(\bm{I} - \bm{P}_2)\bm{q} = \sigma_2^2$
+    \item $\text{Var}(\hat{a}_1 | \bm{a}_2) = \bm{q}'\bm{P}_1\sigma^2(\bm{I} - \bm{P}_2)\bm{P}_1^{\top}\bm{q} = \sigma_{1|2}^2$
+    \item $\text{Cov}(a, \hat{a}_1 | \bm{a}_2) = \bm{q}'\sigma^2(\bm{I} - \bm{P}_2)\bm{P}_1^{\top}\bm{q} = \sigma_{21}$
+\end{itemize}
+
+So the covariance matrix of $(a, \hat{a}_1)$ conditional on agent 2's data is:
+$$\begin{pmatrix}
+  \sigma_2^{2} & \sigma_{21} \\
+  \sigma_{21} & \sigma_{1\mid2}^{2}
+\end{pmatrix}$$
+
+For any joint Gaussian vector, the conditional distribution of the first component given the second is again Gaussian with
+\[
+\mu_{2\mid1}=\mu_{2}+\frac{\sigma_{21}}{\sigma_{1\mid2}^{2}}\bigl(\hat{a}_1-\mu_{2,1}\bigr), \qquad
+\sigma_{2\mid1}^{2}=\sigma_{2}^{2}-\frac{\sigma_{21}^{2}}{\sigma_{1\mid2}^{2}}.
+\]
+Identifying $\kappa=\sigma_{21}/\sigma_{1\mid2}^{2}$ yields the stated result.
+\end{proof}
+\end{greyproof}
+
+\begin{proposition}[Conditions for valuable two-stage updating]
+In the setting of Proposition 4, consulting agent 1 provides value to agent 2 if and only if:
+\[\bm{q}'(\bm{I} - \bm{P}_2)\bm{P}_1^{\top}\bm{q} \neq 0\]
+When this condition holds:
+\begin{itemize}
+    \item The posterior mean changes: $\mu_{2|1} \neq \mu_2$
+    \item The posterior variance decreases: $\sigma_{2|1}^2 < \sigma_2^2$
+\end{itemize}
+When this condition fails, consulting agent 1 provides no additional information: $\mu_{2|1} = \mu_2$ and $\sigma_{2|1}^2 = \sigma_2^2$.
+\end{proposition}
+
+\begin{greyproof}
+\begin{proof}
+From Proposition 4, the change in the posterior mean is $\mu_{2|1} - \mu_2 = \kappa(\hat{a}_1 - \mu_{2,1})$, and the change in posterior variance is $\sigma_2^2 - \sigma_{2|1}^2 = \kappa \sigma_{21}$, where $\kappa = \frac{\sigma_{21}}{\sigma_{1|2}^2}$ and $\sigma_{21} = \sigma^2 \bm{q}'(\bm{I} - \bm{P}_2)\bm{P}_1^{\top}\bm{q}$.
+
+If $\sigma_{21} = 0$, then $\kappa = 0$, so $\mu_{2|1} = \mu_2$ and $\sigma_{2|1}^2 = \sigma_2^2$. 
+
+If $\sigma_{21} \neq 0$, then $\kappa \neq 0$ (since $\sigma_{1|2}^2 \geq 0$ with equality only when $\bm{P}_1(\bm{I} - \bm{P}_2) = \bm{0}$, which implies $\sigma_{21} = 0$). In this case, both the mean and variance will generally change unless $\hat{a}_1 = \mu_{2,1}$, which occurs with probability zero.
+
+Therefore, two-stage updating provides value if and only if $\sigma_{21} = \sigma^2 \bm{q}'(\bm{I} - \bm{P}_2)\bm{P}_1^{\top}\bm{q} \neq 0$.
+\end{proof}
+\end{greyproof}
+
+The intuition behind Proposition 5 is straightforward: \textbf{it is worthwhile to consult another agent if and only if the component of the question that you don't understand overlaps with the other agent's area of expertise.}
+
+More precisely:
+\begin{itemize}
+    \item $(\bm{I} - \bm{P}_2)\bm{q}$ represents the \textit{residual} of the question after projecting it onto agent 2's own experience. This is the part of the question that agent 2 finds novel or unfamiliar.
+    \item $\bm{P}_1^{\top}\bm{q}$ represents the component of the question that lies within agent 1's area of expertise (the row space of their experience matrix $\bm{Q}_1$).
+    \item The condition $\bm{q}'(\bm{I} - \bm{P}_2)\bm{P}_1^{\top}\bm{q} \neq 0$ requires that these two components are not orthogonal—there must be some overlap between what agent 2 doesn't know and what agent 1 does know.
+\end{itemize}
+
+This formalizes the intuitive notion that collaboration is valuable when agents have \textit{complementary} rather than identical or completely unrelated knowledge. If agent 1's expertise is orthogonal to the unfamiliar aspects of the question for agent 2, then agent 1's opinion provides no useful information. Conversely, if there is overlap between agent 2's knowledge gaps and agent 1's strengths, then consultation becomes valuable.
+
+In the context of the ChatGPT model, this suggests that an AI assistant is most valuable for questions where:
+\begin{enumerate}
+    \item The question contains elements that are novel to the human user (large $\|(\bm{I} - \bm{P}_2)\bm{q}\|$)
+    \item These novel elements fall within the AI's training domain (non-zero projection onto the AI's knowledge space)
+\end{enumerate}
+
+\bibliography{ai.bib}
+
+\end{document} 
