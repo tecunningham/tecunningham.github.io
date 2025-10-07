@@ -10,134 +10,10 @@
 <atom:link href="tecunningham.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>{{&lt; meta description-meta &gt;}}</description>
 <generator>quarto-1.5.57</generator>
-<lastBuildDate>Mon, 06 Oct 2025 07:00:00 GMT</lastBuildDate>
-<item>
-  <title>Too Much Good News is Bad News</title>
-  <dc:creator>Tom Cunningham</dc:creator>
-  <link>tecunningham.github.io/posts/2024-12-26-heavy-tailed-noise.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<p>Here are two nice pieces of Bayesian logic observations that help explain everyday intuitions:</p>
-<ol type="1">
-<li>When an outcome is the sum of two components then your belief about the contribution of the thinner-tailed component will be first increasing then decreasing in the realization of the outcome.</li>
-<li>When you observe an outlier in some process, which is the sum of multiple components, then:
-<ul>
-<li>If the components are thin-tailed, then the outlier implies each of the components is elevated.</li>
-<li>If the components are fat-tailed, then the outlier implies just one of the components is elevated and the others are at their ordinary levels.</li>
-</ul></li>
-</ol>
-<section id="too-much-good-news-is-often-bad-news" class="level1">
-<h1>Too Much Good News is Often Bad News</h1>
-<p>In many cases a signal which is good news eventually starts to become bad news:</p>
-<ol type="1">
-<li>The longer you wait for a bus the likelier it is to be about to arrive, until at some point it’s more likely that you’ve missed it.</li>
-<li>The lower the price the better the value until it becomes suspiciously cheap.</li>
-<li>If a drug is associated with a 5% higher rate of birth defects it’s probably a selection effect, if it’s associated with a 500% higher rate of birth defects it’s probably causal.<sup>1</sup> </li>
-<li>If an AB test shows an effect of +2% (<img src="https://latex.codecogs.com/png.latex?%5Cpm"> 1%) it’s very persuasive, but if it shows a an effect of +50% (<img src="https://latex.codecogs.com/png.latex?%5Cpm"> 1%) then the experiment was probably misconfigured, and it’s not at all persuasive.<sup>2</sup></li>
-<li>When reading a biography each detail makes the the subject seem more impressive until you start to doubt the neutrality of the biographer.</li>
-</ol>
-<p>In each of these cases I think it’s because the noise has a fatter-tailed distribution than the signal. As a consequence when you see a very-high observation you conclude it’s mostly noise, which implies that after a certain point an increase in the observed outcome becomes bad news instead of good news.</p>
-</section>
-<section id="outliers-usually-have-one-cause-not-many" class="level1 page-columns page-full">
-<h1>Outliers Usually Have One Cause, Not Many</h1>
-<p>This is a related but slightly different point. Scott Sumner argued <a href="https://www.themoneyillusion.com/author/ssumner/page/183/">“extreme events generally have multiple causes”</a>, with a few examples:</p>
-<ol type="1">
-<li>Italy’s very high COVID death rates are probably due to a number of different factors, not one.</li>
-<li>The great depression was due to “multiple policy errors, on both the supply side and the demand side.”</li>
-<li>Bob Beamon’s record long-jump in 1968 was probably a coincidence of multiple causes.<sup>3</sup></li>
-</ol>
-<p>I think Sumner is wrong in his generalization: extreme events typically have a single cause, not multiple causes. Formally (following Nair, Weierman and Zwart below), extreme draws from a sum of thin-tailed influences tend to have many causes, but extreme draws from a sum of fat-tailed influences tend to have one cause.</p>
-<p>We often cannot observe the distributions of the individual components but we can observe the distribution of the final aggregate outcome, and if the final outcome is fat-tailed then at least some of the components must be fat-tailed.</p>
-<p>I’m not sure about Italy’s COVID and the great depression, but for Bob Beamon’s jump in 1968 it looks like a non-Normal outlier, not the sum of orthogonal influences (see the spike on the blue line at right). Thus from this evidence we should expect, all else equal, that Beamon’s 8.9 metres was due to one big cause not many small ones.</p>
-
-<div class="no-row-height column-margin column-container"><div class="">
-<p><img src="tecunningham.github.io/posts/images/2024-12-26-07-59-52.png" class="img-fluid"></p>
-</div></div></section>
-<section id="formalizing-this" class="level1 page-columns page-full">
-<h1>Formalizing This</h1>
-<dl>
-<dt>We can summarize the theory with three observations.</dt>
-<dd>
-Suppose you observe a variable that is a sum of multiple components. Then:
-</dd>
-<dd>
-<ol type="1">
-<li>If components are IID and thin-tailed: outliers are due to many small causes (“conspiracy”).</li>
-</ol>
-</dd>
-<dd>
-<ol start="2" type="1">
-<li>If components are IID and fat-tailed: outliers are due to a few big causes (“catastrophe”).</li>
-</ol>
-</dd>
-<dd>
-<ol start="3" type="1">
-<li>If components are a mixture of thin-tailed and fat-tailed: low observations are due to the thin-tailed components, high observations are due to the fat-tailed components (“rejection”).</li>
-</ol>
-</dd>
-</dl>
-<p><strong>Literature.</strong> De Finetti wrote a paper in 1961, “The Bayesian Approach to the Rejection of Outliers”, giving a simple example where, with fat-tailed noise, a Bayesian will discount outliers.</p>
-<p>There seem to be two modern strands of this literature that use somewhat different terminology:</p>
-
-<div class="no-row-height column-margin column-container"><div class="">
-<p><img src="tecunningham.github.io/posts/images/2024-12-28-15-29-13.png" class="img-fluid"></p>
-</div></div><ol type="1">
-<li><p>Anthony O’Hagan and Luis Pericchi (2012) <a href="https://projecteuclid.org/download/pdfview_1/euclid.bjps/1341320249">Bayesian heavy-tailed models and conflict resolution: a review</a>. They give a number of conditions under which you get “conflict resolution” or “rejection of outliers”, broadly speaking when the noise has fatter tails than the signal. The critical condition is the relative speed of decline of the tails of the distributions of signal and noise. The illustration at right is very elegant, showing how the posterior will be bimodal when you have the sum of two heavy-tailed distributions.</p></li>
-<li><p>Nair, Weierman and Zwart have a chapter “Catastrophes, conspiracies, and subexponential distributions” in their book <a href="https://adamwierman.com/wp-content/uploads/2021/05/book-05-11.pdf">“The Fundamentals of Heavy Tails”</a>.</p>
-<ul>
-<li>Suppose you observe the sum of a set of <img src="https://latex.codecogs.com/png.latex?N"> IID random variables. They discuss two polar ways in which your posteriors about the components will depend on the sum:</li>
-<li>If the components are heavy tailed you get the “catastrophe principle”: the probability that the sum exceeds some value <img src="https://latex.codecogs.com/png.latex?t"> will be approximately equal to the probability that the maximum of <img src="https://latex.codecogs.com/png.latex?N"> components exceeds <img src="https://latex.codecogs.com/png.latex?t">, as <img src="https://latex.codecogs.com/png.latex?t%5Crightarrow%5Cinfty">.</li>
-<li>If the components are light-tailed you get the “conspiracy principle”: the probability that the sum exceeds some value <img src="https://latex.codecogs.com/png.latex?t"> <img src="https://latex.codecogs.com/png.latex?t"> dominates the probability of the maximum exceeding <img src="https://latex.codecogs.com/png.latex?t">, as <img src="https://latex.codecogs.com/png.latex?t%5Crightarrow%5Cinfty">.</li>
-<li>Applications of the catastrophe principle: If a certain year has many earthquake deaths then probably there was one large earthquake, not many small ones. If a random group of people has a high average number of Twitter followers, probably one member of the group is a big outlier, and the others have an ordinary number.</li>
-<li>Applications of the conspiracy principle: if a random group of people has a high average height then probably each individual is tall.</li>
-</ul></li>
-</ol>
-<dl>
-<dt>Note: non-monotonicity if and only if the sum is log-convex.</dt>
-<dd>
-Suppose we observe <img src="https://latex.codecogs.com/png.latex?x"> which is the sum of <img src="https://latex.codecogs.com/png.latex?v"> and <img src="https://latex.codecogs.com/png.latex?u">. Tweedie’s formula will give us <img src="https://latex.codecogs.com/png.latex?E%5Bv%7Cx%5D"> from the empirical distribution of <img src="https://latex.codecogs.com/png.latex?x">, as long as the distribution of <img src="https://latex.codecogs.com/png.latex?u"> is from an exponential family. If <img src="https://latex.codecogs.com/png.latex?u"> is Normal with variance <img src="https://latex.codecogs.com/png.latex?%5Csigma%5E2_u"> then we have: <img src="https://latex.codecogs.com/png.latex?E%5Bv%7Cx%5D%20=%20x%20+%20%5Csigma%5E2_u%20%5Cfrac%7Bd%7D%7Bdx%7D%5Clog%20f(x).">
-</dd>
-<dd>
-There are two interesting bad news cases (i.e.&nbsp;non-monotonicity): <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%5Cfrac%7BdE%5Bv%7Cx%5D%7D%7Bdx%7D%20&amp;%3C0%20&amp;&amp;%20%5Ctext%7B($x$%20is%20bad%20news%20about%20$v$)%7D%5C%5C%0A%20%20%5Cfrac%7BdE%5Bv%7Cx%5D%7D%7Bdx%7D%20&amp;%3E1%20&amp;&amp;%20%5Ctext%7B($x$%20is%20bad%20news%20about%20$u$)%7D%5C%5C%0A%20%20%20%5Cend%7Baligned%7D">
-</dd>
-<dd>
-These correspond to: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%5Cfrac%7Bd%5E2%7D%7Bdx%5E2%7D%5Clog%20f(x)%20&amp;%3C%20-%5Cfrac%7B1%7D%7B%5Csigma%5E2_u%7D%20&amp;&amp;%20%5Ctext%7B(very%20log-concave)%7D%5C%5C%0A%20%20%5Cfrac%7Bd%5E2%7D%7Bdx%5E2%7D%5Clog%20f(x)%20&amp;%3E%200%20&amp;&amp;%20%5Ctext%7B(log-convex)%7D%5C%5C%0A%20%20%20%5Cend%7Baligned%7D">
-</dd>
-<dd>
-A nice observation: if the empirical distribution is log-convex at some point <img src="https://latex.codecogs.com/png.latex?x">, then the expectation of the Normal component <img src="https://latex.codecogs.com/png.latex?u"> must be decreasing at that point. (Note that log-concavity is a common way of characterizing light-tailed distributions.)
-</dd>
-<dt>Note: bus arrival times.</dt>
-<dd>
-Suppose the bus arrival time is <img src="https://latex.codecogs.com/png.latex?a">, then at time <img src="https://latex.codecogs.com/png.latex?t"> the expected wait time is <img src="https://latex.codecogs.com/png.latex?E%5Ba-t%7Ca%3Et%5D">. We’ll assume <img src="https://latex.codecogs.com/png.latex?a%5Csim%20N(0,1)">, then there are two interesting quantities: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20P(a%3Et)%20&amp;=%20F(t)%20&amp;&amp;%20%5Ctext%7B(probability%20bus%20has%20arrived)%7D%20%5C%5C%0A%20%20%20E%5Ba%7Ca%3Et%5D-t%20&amp;=%20%5Cfrac%7Bf(t)%7D%7B1-F(t)%7D-t%20&amp;&amp;%20%5Ctext%7B(expected%20wait%20time)%7D%0A%5Cend%7Baligned%7D">
-</dd>
-<dd>
-Here the expected wait time is uniformly decreasing in <img src="https://latex.codecogs.com/png.latex?t">. However suppose that if we’ve missed the bus then the next expected arrival time is <img src="https://latex.codecogs.com/png.latex?T"> (e.g.&nbsp;tomorrow). Then we have expected wait time: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20&amp;F(t)T+(1-F(t))%5Cfrac%7Bf(t)%7D%7B1-F(t)%7D%20-%20t%5C%5C%0A%20%20%20=&amp;%20F(t)T%20+%20f(t)%20-%20t%0A%5Cend%7Baligned%7D">
-</dd>
-</dl>
-<p>which will be decreasing, then increasing, then decreasing in <img src="https://latex.codecogs.com/png.latex?t">.</p>
-<p>You could supplement this model by saying you arrived at the bus-stop at time <img src="https://latex.codecogs.com/png.latex?t">, and it’s now time <img src="https://latex.codecogs.com/png.latex?t'">. then we’ll have terms like <img src="https://latex.codecogs.com/png.latex?P(a%3Et'%7C(a%3Ct)%5Cwedge(a%3Et'))">, but I think the basic non-monotonicity will still hold.</p>
-
-
-</section>
-
-
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>Bradford-Hill: “the mortality of chimney sweeps from scrotal cancer was some 200 times that of workers who were not specially exposed to tar or mineral oils.”↩︎</p></li>
-<li id="fn2"><p>This case is somewhat subtle: we generally think that treatment effects are fat-tailed, and we can be confident that noise is Normal because it’s the sum of many IID variables. However there’s an additional source of noise from implementation error which has even fatter tails than the distribution of treatment effects.↩︎</p></li>
-<li id="fn3"><p><em>“While Beamon received mostly accolades, there also were detractors. The critics harped on the conditions — a following wind of 2.0 meters per second (the maximum allowable velocity for a record), a lightning fast runway and, most important, the thin air of Mexico City. Beamon’s defenders point out that the other competitors, which included the world record co-holders, had the same factors going for them and they didn’t jump close to Beamon.”</em>↩︎</p></li>
-</ol>
-</section></div> ]]></description>
-  <guid>tecunningham.github.io/posts/2024-12-26-heavy-tailed-noise.html</guid>
-  <pubDate>Mon, 06 Oct 2025 07:00:00 GMT</pubDate>
-</item>
+<lastBuildDate>Thu, 02 Oct 2025 07:00:00 GMT</lastBuildDate>
 <item>
   <title>Economics and AI</title>
+  <dc:creator>Tom Cunningham</dc:creator>
   <link>tecunningham.github.io/posts/2025-09-19-transformative-AI-notes.html</link>
   <description><![CDATA[ 
 
@@ -349,7 +225,7 @@ The NBER workshop was a set of chapters written for a volume on the impact of Tr
 </dd>
 <dt>A pocket model: LLMs share knowledge.</dt>
 <dd>
-<p>Here is a simple mental model that I often use: <em>LLMs share knowledge</em>. The model is unsatisfactory in many respects but has the virtues of being very simple and very general. Consider an LLM as just a database of answers to questions, containing the set of answers that already exist in the public domain (i.e., in the LLM’s training set).<sup>5</sup> LLMs therefore lower the cost of access to existing knowledge, and people will consult an LLM when they encounter a problem for which (i) they do know the answer, but (ii) they expect that someone else does know the answer (and the answer was included in the training set).</p>
+<p>Here is a simple mental model that I often use: <em>LLMs share knowledge</em>. The model is unsatisfactory in many respects but has the virtues of being very simple and very general. Consider an LLM as just a database of answers to questions, containing the set of answers that already exist in the public domain (i.e., in the LLM’s training set).<sup>5</sup> LLMs therefore lower the cost of access to existing knowledge, and people will consult an LLM when they encounter a problem for which (i) they do not know the answer, but (ii) they expect that someone else does know the answer (and the answer was included in the training set).</p>
 <p>This is a very crude model of an LLM but I think it gives a reasonable characterization of their adoption and effect so far. Around 1/3 of adults in rich countries are regularly using chatbots, and I think it’s fair to say the majority of the use is solving problems outside the domain of the user’s own expertise, but inside someone else’s expertise (see our <a href="https://www.nber.org/papers/w34255">ChatGPT paper</a>). This knowledge-sharing model predicts that LLMs will flatten comparative advantage, so we should see more home production (people solve their own problems), less trade, and lower returns to experience.</p>
 <p>The model has a number of imperfections as a general model of AI: (1) LLMs are often used to do tasks that don’t require knowledge outside the user’s domain, e.g.&nbsp;solving a problem that requires time and patience but not knowledge such as certain types of computer programming, writing, or creating images; (2) the model treats LLMs as strictly bound by the limits of human knowledge, this was a good approximation for early LLMs but it’s clear that AI is progressively expanding the boundary of human knowledge in a variety of ways.</p>
 <p>This model is related to the Garicano-Ide-Talamas models in which an AI shares existing knowledge.</p>
@@ -637,15 +513,16 @@ Trammell, Philip, and Anton Korinek. 2025. <span>“Economic Growth Under Transf
 <div id="ref-varian2011economic" class="csl-entry">
 Varian, Hal. 2011. <span>“Economic Value of Google.”</span> <a href="https://dl.icdst.org/pdfs/files1/f87de5ba3c43760ebcbc2a1d90950dbc.pdf">https://dl.icdst.org/pdfs/files1/f87de5ba3c43760ebcbc2a1d90950dbc.pdf</a>.
 </div>
-</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{2025,
-  author = {},
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{cunningham2025,
+  author = {Cunningham, Tom},
   title = {Economics and {AI}},
   date = {2025-10-02},
   url = {tecunningham.github.io/posts/2025-09-19-transformative-AI-notes.html},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-2025" class="csl-entry quarto-appendix-citeas">
-<span>“Economics and AI.”</span> 2025. October 2, 2025. <a href="https://tecunningham.github.io/posts/2025-09-19-transformative-AI-notes.html">tecunningham.github.io/posts/2025-09-19-transformative-AI-notes.html</a>.
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-cunningham2025" class="csl-entry quarto-appendix-citeas">
+Cunningham, Tom. 2025. <span>“Economics and AI.”</span> October 2, 2025.
+<a href="https://tecunningham.github.io/posts/2025-09-19-transformative-AI-notes.html">tecunningham.github.io/posts/2025-09-19-transformative-AI-notes.html</a>.
 </div></div></section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2025-09-19-transformative-AI-notes.html</guid>
   <pubDate>Thu, 02 Oct 2025 07:00:00 GMT</pubDate>
@@ -881,6 +758,131 @@ Suppose you’ll admitting a student to your PhD program only if they have a GRE
  ]]></description>
   <guid>tecunningham.github.io/posts/2020-10-02-on-deriving-things.html</guid>
   <pubDate>Thu, 30 Jan 2025 08:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Too Much Good News is Bad News</title>
+  <dc:creator>Tom Cunningham</dc:creator>
+  <link>tecunningham.github.io/posts/2024-12-26-heavy-tailed-noise.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>Here are two nice pieces of Bayesian logic observations that help explain everyday intuitions:</p>
+<ol type="1">
+<li>When an outcome is the sum of two components then your belief about the contribution of the thinner-tailed component will be first increasing then decreasing in the realization of the outcome.</li>
+<li>When you observe an outlier in some process, which is the sum of multiple components, then:
+<ul>
+<li>If the components are thin-tailed, then the outlier implies each of the components is elevated.</li>
+<li>If the components are fat-tailed, then the outlier implies just one of the components is elevated and the others are at their ordinary levels.</li>
+</ul></li>
+</ol>
+<section id="too-much-good-news-is-often-bad-news" class="level1">
+<h1>Too Much Good News is Often Bad News</h1>
+<p>In many cases a signal which is good news eventually starts to become bad news:</p>
+<ol type="1">
+<li>The longer you wait for a bus the likelier it is to be about to arrive, until at some point it’s more likely that you’ve missed it.</li>
+<li>The lower the price the better the value until it becomes suspiciously cheap.</li>
+<li>If a drug is associated with a 5% higher rate of birth defects it’s probably a selection effect, if it’s associated with a 500% higher rate of birth defects it’s probably causal.<sup>1</sup> </li>
+<li>If an AB test shows an effect of +2% (<img src="https://latex.codecogs.com/png.latex?%5Cpm"> 1%) it’s very persuasive, but if it shows a an effect of +50% (<img src="https://latex.codecogs.com/png.latex?%5Cpm"> 1%) then the experiment was probably misconfigured, and it’s not at all persuasive.<sup>2</sup></li>
+<li>When reading a biography each detail makes the the subject seem more impressive until you start to doubt the neutrality of the biographer.</li>
+</ol>
+<p>In each of these cases I think it’s because the noise has a fatter-tailed distribution than the signal. As a consequence when you see a very-high observation you conclude it’s mostly noise, which implies that after a certain point an increase in the observed outcome becomes bad news instead of good news.</p>
+</section>
+<section id="outliers-usually-have-one-cause-not-many" class="level1 page-columns page-full">
+<h1>Outliers Usually Have One Cause, Not Many</h1>
+<p>This is a related but slightly different point. Scott Sumner argued <a href="https://www.themoneyillusion.com/author/ssumner/page/183/">“extreme events generally have multiple causes”</a>, with a few examples:</p>
+<ol type="1">
+<li>Italy’s very high COVID death rates are probably due to a number of different factors, not one.</li>
+<li>The great depression was due to “multiple policy errors, on both the supply side and the demand side.”</li>
+<li>Bob Beamon’s record long-jump in 1968 was probably a coincidence of multiple causes.<sup>3</sup></li>
+</ol>
+<p>I think Sumner is wrong in his generalization: extreme events typically have a single cause, not multiple causes. Formally (following Nair, Weierman and Zwart below), extreme draws from a sum of thin-tailed influences tend to have many causes, but extreme draws from a sum of fat-tailed influences tend to have one cause.</p>
+<p>We often cannot observe the distributions of the individual components but we can observe the distribution of the final aggregate outcome, and if the final outcome is fat-tailed then at least some of the components must be fat-tailed.</p>
+<p>I’m not sure about Italy’s COVID and the great depression, but for Bob Beamon’s jump in 1968 it looks like a non-Normal outlier, not the sum of orthogonal influences (see the spike on the blue line at right). Thus from this evidence we should expect, all else equal, that Beamon’s 8.9 metres was due to one big cause not many small ones.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><img src="tecunningham.github.io/posts/images/2024-12-26-07-59-52.png" class="img-fluid"></p>
+</div></div></section>
+<section id="formalizing-this" class="level1 page-columns page-full">
+<h1>Formalizing This</h1>
+<dl>
+<dt>We can summarize the theory with three observations.</dt>
+<dd>
+Suppose you observe a variable that is a sum of multiple components. Then:
+</dd>
+<dd>
+<ol type="1">
+<li>If components are IID and thin-tailed: outliers are due to many small causes (“conspiracy”).</li>
+</ol>
+</dd>
+<dd>
+<ol start="2" type="1">
+<li>If components are IID and fat-tailed: outliers are due to a few big causes (“catastrophe”).</li>
+</ol>
+</dd>
+<dd>
+<ol start="3" type="1">
+<li>If components are a mixture of thin-tailed and fat-tailed: low observations are due to the thin-tailed components, high observations are due to the fat-tailed components (“rejection”).</li>
+</ol>
+</dd>
+</dl>
+<p><strong>Literature.</strong> De Finetti wrote a paper in 1961, “The Bayesian Approach to the Rejection of Outliers”, giving a simple example where, with fat-tailed noise, a Bayesian will discount outliers.</p>
+<p>There seem to be two modern strands of this literature that use somewhat different terminology:</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><img src="tecunningham.github.io/posts/images/2024-12-28-15-29-13.png" class="img-fluid"></p>
+</div></div><ol type="1">
+<li><p>Anthony O’Hagan and Luis Pericchi (2012) <a href="https://projecteuclid.org/download/pdfview_1/euclid.bjps/1341320249">Bayesian heavy-tailed models and conflict resolution: a review</a>. They give a number of conditions under which you get “conflict resolution” or “rejection of outliers”, broadly speaking when the noise has fatter tails than the signal. The critical condition is the relative speed of decline of the tails of the distributions of signal and noise. The illustration at right is very elegant, showing how the posterior will be bimodal when you have the sum of two heavy-tailed distributions.</p></li>
+<li><p>Nair, Weierman and Zwart have a chapter “Catastrophes, conspiracies, and subexponential distributions” in their book <a href="https://adamwierman.com/wp-content/uploads/2021/05/book-05-11.pdf">“The Fundamentals of Heavy Tails”</a>.</p>
+<ul>
+<li>Suppose you observe the sum of a set of <img src="https://latex.codecogs.com/png.latex?N"> IID random variables. They discuss two polar ways in which your posteriors about the components will depend on the sum:</li>
+<li>If the components are heavy tailed you get the “catastrophe principle”: the probability that the sum exceeds some value <img src="https://latex.codecogs.com/png.latex?t"> will be approximately equal to the probability that the maximum of <img src="https://latex.codecogs.com/png.latex?N"> components exceeds <img src="https://latex.codecogs.com/png.latex?t">, as <img src="https://latex.codecogs.com/png.latex?t%5Crightarrow%5Cinfty">.</li>
+<li>If the components are light-tailed you get the “conspiracy principle”: the probability that the sum exceeds some value <img src="https://latex.codecogs.com/png.latex?t"> <img src="https://latex.codecogs.com/png.latex?t"> dominates the probability of the maximum exceeding <img src="https://latex.codecogs.com/png.latex?t">, as <img src="https://latex.codecogs.com/png.latex?t%5Crightarrow%5Cinfty">.</li>
+<li>Applications of the catastrophe principle: If a certain year has many earthquake deaths then probably there was one large earthquake, not many small ones. If a random group of people has a high average number of Twitter followers, probably one member of the group is a big outlier, and the others have an ordinary number.</li>
+<li>Applications of the conspiracy principle: if a random group of people has a high average height then probably each individual is tall.</li>
+</ul></li>
+</ol>
+<dl>
+<dt>Note: non-monotonicity if and only if the sum is log-convex.</dt>
+<dd>
+Suppose we observe <img src="https://latex.codecogs.com/png.latex?x"> which is the sum of <img src="https://latex.codecogs.com/png.latex?v"> and <img src="https://latex.codecogs.com/png.latex?u">. Tweedie’s formula will give us <img src="https://latex.codecogs.com/png.latex?E%5Bv%7Cx%5D"> from the empirical distribution of <img src="https://latex.codecogs.com/png.latex?x">, as long as the distribution of <img src="https://latex.codecogs.com/png.latex?u"> is from an exponential family. If <img src="https://latex.codecogs.com/png.latex?u"> is Normal with variance <img src="https://latex.codecogs.com/png.latex?%5Csigma%5E2_u"> then we have: <img src="https://latex.codecogs.com/png.latex?E%5Bv%7Cx%5D%20=%20x%20+%20%5Csigma%5E2_u%20%5Cfrac%7Bd%7D%7Bdx%7D%5Clog%20f(x).">
+</dd>
+<dd>
+There are two interesting bad news cases (i.e.&nbsp;non-monotonicity): <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%5Cfrac%7BdE%5Bv%7Cx%5D%7D%7Bdx%7D%20&amp;%3C0%20&amp;&amp;%20%5Ctext%7B($x$%20is%20bad%20news%20about%20$v$)%7D%5C%5C%0A%20%20%5Cfrac%7BdE%5Bv%7Cx%5D%7D%7Bdx%7D%20&amp;%3E1%20&amp;&amp;%20%5Ctext%7B($x$%20is%20bad%20news%20about%20$u$)%7D%5C%5C%0A%20%20%20%5Cend%7Baligned%7D">
+</dd>
+<dd>
+These correspond to: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%5Cfrac%7Bd%5E2%7D%7Bdx%5E2%7D%5Clog%20f(x)%20&amp;%3C%20-%5Cfrac%7B1%7D%7B%5Csigma%5E2_u%7D%20&amp;&amp;%20%5Ctext%7B(very%20log-concave)%7D%5C%5C%0A%20%20%5Cfrac%7Bd%5E2%7D%7Bdx%5E2%7D%5Clog%20f(x)%20&amp;%3E%200%20&amp;&amp;%20%5Ctext%7B(log-convex)%7D%5C%5C%0A%20%20%20%5Cend%7Baligned%7D">
+</dd>
+<dd>
+A nice observation: if the empirical distribution is log-convex at some point <img src="https://latex.codecogs.com/png.latex?x">, then the expectation of the Normal component <img src="https://latex.codecogs.com/png.latex?u"> must be decreasing at that point. (Note that log-concavity is a common way of characterizing light-tailed distributions.)
+</dd>
+<dt>Note: bus arrival times.</dt>
+<dd>
+Suppose the bus arrival time is <img src="https://latex.codecogs.com/png.latex?a">, then at time <img src="https://latex.codecogs.com/png.latex?t"> the expected wait time is <img src="https://latex.codecogs.com/png.latex?E%5Ba-t%7Ca%3Et%5D">. We’ll assume <img src="https://latex.codecogs.com/png.latex?a%5Csim%20N(0,1)">, then there are two interesting quantities: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20P(a%3Et)%20&amp;=%20F(t)%20&amp;&amp;%20%5Ctext%7B(probability%20bus%20has%20arrived)%7D%20%5C%5C%0A%20%20%20E%5Ba%7Ca%3Et%5D-t%20&amp;=%20%5Cfrac%7Bf(t)%7D%7B1-F(t)%7D-t%20&amp;&amp;%20%5Ctext%7B(expected%20wait%20time)%7D%0A%5Cend%7Baligned%7D">
+</dd>
+<dd>
+Here the expected wait time is uniformly decreasing in <img src="https://latex.codecogs.com/png.latex?t">. However suppose that if we’ve missed the bus then the next expected arrival time is <img src="https://latex.codecogs.com/png.latex?T"> (e.g.&nbsp;tomorrow). Then we have expected wait time: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20&amp;F(t)T+(1-F(t))%5Cfrac%7Bf(t)%7D%7B1-F(t)%7D%20-%20t%5C%5C%0A%20%20%20=&amp;%20F(t)T%20+%20f(t)%20-%20t%0A%5Cend%7Baligned%7D">
+</dd>
+</dl>
+<p>which will be decreasing, then increasing, then decreasing in <img src="https://latex.codecogs.com/png.latex?t">.</p>
+<p>You could supplement this model by saying you arrived at the bus-stop at time <img src="https://latex.codecogs.com/png.latex?t">, and it’s now time <img src="https://latex.codecogs.com/png.latex?t'">. then we’ll have terms like <img src="https://latex.codecogs.com/png.latex?P(a%3Et'%7C(a%3Ct)%5Cwedge(a%3Et'))">, but I think the basic non-monotonicity will still hold.</p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Bradford-Hill: “the mortality of chimney sweeps from scrotal cancer was some 200 times that of workers who were not specially exposed to tar or mineral oils.”↩︎</p></li>
+<li id="fn2"><p>This case is somewhat subtle: we generally think that treatment effects are fat-tailed, and we can be confident that noise is Normal because it’s the sum of many IID variables. However there’s an additional source of noise from implementation error which has even fatter tails than the distribution of treatment effects.↩︎</p></li>
+<li id="fn3"><p><em>“While Beamon received mostly accolades, there also were detractors. The critics harped on the conditions — a following wind of 2.0 meters per second (the maximum allowable velocity for a record), a lightning fast runway and, most important, the thin air of Mexico City. Beamon’s defenders point out that the other competitors, which included the world record co-holders, had the same factors going for them and they didn’t jump close to Beamon.”</em>↩︎</p></li>
+</ol>
+</section></div> ]]></description>
+  <guid>tecunningham.github.io/posts/2024-12-26-heavy-tailed-noise.html</guid>
+  <pubDate>Thu, 26 Dec 2024 08:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Premature Optimization and the Valley of Confusion</title>
