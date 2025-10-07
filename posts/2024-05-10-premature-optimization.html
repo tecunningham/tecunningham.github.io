@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Tom Cunningham">
-<meta name="dcterms.date" content="2025-10-06">
+<meta name="dcterms.date" content="2024-05-10">
 <meta name="description" content="Tom Cunningham blog">
 
-<title>Chatbot Usage | Tom Cunningham – Tom Cunningham</title>
+<title>Premature Optimization and the Valley of Confusion | Tom Cunningham – Tom Cunningham</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -96,62 +96,18 @@ ga('send', {
    h1 {  border-bottom: 4px solid black;}
    h2 {  border-bottom: 1px solid #ccc;}
 </style>
-<meta name="quarto:status" content="draft">
 
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.jskatex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
- var mathElements = document.getElementsByClassName("math");
- var macros = [];
- for (var i = 0; i < mathElements.length; i++) {
-  var texText = mathElements[i].firstChild;
-  if (mathElements[i].tagName == "SPAN") {
-   katex.render(texText.data, mathElements[i], {
-    displayMode: mathElements[i].classList.contains('display'),
-    throwOnError: false,
-    macros: macros,
-    fleqn: false
-   });
-}}});
-  </script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.jskatex.min.css">
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../styles.css">
-<meta name="twitter:title" content="Chatbot Usage | Tom Cunningham">
+<meta name="twitter:title" content="Premature Optimization and the Valley of Confusion | Tom Cunningham">
 <meta name="twitter:description" content="Tom Cunningham blog">
 <meta name="twitter:card" content="summary">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="floating nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Draft</div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
@@ -196,10 +152,10 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Chatbot Usage</h1>
+      <h1 class="title">Premature Optimization and the Valley of Confusion</h1>
                       </div>
   </div>
     
@@ -216,7 +172,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">October 6, 2025</p>
+        <p class="date">May 10, 2024</p>
       </div>
     </div>
     
@@ -226,8 +182,13 @@ window.Quarto = {
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-<!-- margin-sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -235,148 +196,39 @@ window.Quarto = {
 
 
 
-<style>
-   h1 {  border-bottom: 4px solid black; }
-   h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; color: black; }
-   dl {display: grid;}
-   dt {grid-column-start: 1; width: 4cm;}
-   dd {grid-column-start: 2; margin-left: 2em;}
-</style>
-<section id="thread" class="level1">
-<h1>thread</h1>
-<p>A few interesting facts from our new paper about how people use ChatGPT (with <span class="citation" data-cites="zoe">@zoe</span>, <span class="citation" data-cites="carl">@carl</span>, <span class="citation" data-cites="chris">@chris</span>, <span class="citation" data-cites="ronnie">@ronnie</span>, <span class="citation" data-cites="deming">@deming</span>, )</p>
-<ol type="1">
-<li><p>The biggest impact of LLMs so far appears to be an assistant helping to solve everyday problems. A few years ago many people expected the primary impact to be in business processes – that is large and growing, but chatbots are even larger. ChatGPT’s answers to questions are pretty dry, Wikipedia-level, but there turns out to be an enormous demand for that.</p></li>
-<li><p>Use of ChatGPT has exploded, both in the number of users and the messages/user. An interesting question is how much of the growth is due to diffusion and how much to increase in capabilities. It’s difficult to tease these apart, but the capabilities are clearly growing fast (by user preference over responses, at about 200 Elo points/year). If a large share of the growth in usage is due to capabilities growth this has a big impact on our forecasts of AI’s impact: we’re not primarily forecasting a diffusion process (Acemoglu &amp; Aghion), but a growth process.</p></li>
-<li></li>
-</ol>
-<hr>
-<dl>
-<dt>Summary</dt>
-<dd>
-<ol type="1">
-<li>Chatbot adoption has grown like crazy: 1/2 of adults in rich countries use chatbots.</li>
-<li>Usage per user has also grown very steeply.</li>
-<li>A large part of chatbot growth is likely due to growth in utility, not just diffusion of existing quality. This has implications for projections forward.</li>
-<li>Most conversations on ChatGPT are about solving concrete practical problems.</li>
-<li>Most conversations are not for paid work.</li>
-</ol>
-</dd>
-<dt>Interpretation.</dt>
-<dd>
-<ol type="1">
-<li><strong>Autonomous use of LLMs is still niche.</strong> The primary economic impact is through helping people (AKA augmentation, uplift, hybrid). There is some missing capability.</li>
-<li><strong>Question-answering model.</strong> People are using ChatGPT to solve problems (answer questions) that <em>they</em> have not encountered before, but other people have. Implies chatbots will raise welfare but lower exchange.</li>
-</ol>
-</dd>
-</dl>
-</section>
-<section id="chatbot-growth" class="level1">
-<h1>Chatbot Growth</h1>
-<dl>
-<dt>Chatbot adoption has grown like crazy.</dt>
-<dd>
-ChatGPT has 700M weekly active users, around 10% of the world adult population. In rich countries the reach is close to 30%. ChatGPT is the largest chatbot (others: Gemini, Meta.ai, Claude, DeepSeek, Grok).
-</dd>
-<dd>
-<img src="images/2025-09-14-20-20-00.png" class="img-fluid">
-</dd>
-<dt>Usage per user has also grown a lot.</dt>
-<dd>
-<img src="images/2025-09-14-20-21-48.png" class="img-fluid">
-</dd>
-</dl>
-</section>
-<section id="chatbot-usage" class="level1">
-<h1>Chatbot Usage</h1>
-<dl>
-<dt>People are mostly solving concrete practical problems.</dt>
-<dd>
-<img src="images/2025-09-14-20-43-21.png" class="img-fluid"> Note: a large share of writing, and image-generation, which doesn’t perfectly fit the question-answering model discussed below.
-</dd>
-<dt>The majority of conversations are not work-related.</dt>
-<dd>
-<p>Prompt we used to classify whether work-related:</p>
-<blockquote class="blockquote">
+<p><strong>When formalizing tradeoffs our decisions typically get worse before they get better.</strong></p>
+<p>Those who climb the mountain of efficiency first pass through the valley of confusion.</p>
+<p>Data scientists are often asked to provide a formula to calculate the expected costs and benefits of a decision but this is hard. There are often many subtleties which we grasp intuitively but do not know how to formalize. For this reason using a simple model is often worse than no model.</p>
+<p>Some examples of common mistakes:</p>
 <ul>
-<li>likely part of work (e.g.&nbsp;“rewrite this HR complaint”) <br></li>
-<li>likely not part of work (e.g.&nbsp;“does ice reduce pimples?”)</li>
+<li>Causal effects assumed to be equal to correlations.</li>
+<li>Decisions depend on a sharp threshold of statistical significance.</li>
+<li>Decisions depend on average rather than marginal value.</li>
+<li>Lack of accounting for opportunity cost.</li>
+<li>Lack of accounting for option value.</li>
+<li>Lack of accounting for network effects.</li>
+<li>Confusion over whether an outcome is intrinsically desirable or instrumentally desirable.</li>
+<li>Estimating the topline impact of product improvements with estimates from AB tests (i.e.&nbsp;accounting only on effects for existing users, not new users).</li>
 </ul>
-</blockquote>
-<p><img src="images/2025-09-14-20-42-45.png" class="img-fluid"></p>
-<p>Interpretation: ChatGPT is mostly <em>home production,</em> it’s not final consumption, but it also won’t show up in GDP because it’s not exchange.</p>
-</dd>
-</dl>
-</section>
-<section id="automation-vs-augmentation" class="level1">
-<h1>Automation vs Augmentation</h1>
-<dl>
-<dt>LLMs are used far more for augmentation than automation.</dt>
-<dd>
-Define automation as using the response without manually verifying it – e.g.&nbsp;reading the answer, validating the code.
-</dd>
-</dl>
-</section>
-<section id="question-answering-model" class="level1">
-<h1>Question-Answering Model</h1>
-<dl>
-<dt>Summary: chatbots are for new-to-you questions.</dt>
-<dd>
-<p>Chatbots give you answers to questions based on existing questions &amp; answers in their training data.</p>
-<p>Implication: Chatbots will be used when you face a question that is new to you but familiar to someone else.</p>
-</dd>
-<dt>Setup.</dt>
-<dd>
-<p>Every day you face a question <span class="math inline">q</span> and have to guess an answer <span class="math inline">a</span>. - You receive payoff - You observe the true answer (this eliminates the explore-exploit tradeoff). - Each guess will be an interpolation based on the questions you’ve faced before.</p>
-<p>You can consult ChatGPT, which guesses at answers based on its own set of questions. ChatGPT’s training set is the set of question-answer pairs that exist on the internet.</p>
-<p>Prediction: ChatGPT used when you face a question that is new to you, but familiar to someone else.</p>
-<p>The same logic applies to other stores of information (books, search engines). Chatbots are distinctive in being able to interpolate answers to new questions.</p>
-</dd>
-<dt>What people will use ChatGPT?</dt>
-<dd>
+<p>These are all avoidable mistakes but it takes time and experience to model them correctly. In fact many of the tools we use to formalize optimization problems are relatively recent discoveries: over the last few centuries we figured out how to write down probabilities and expected value, linear programming, and dynamic programming. But before these discoveries we were still able to make quite subtle and complex decisions – we were able to build pyramids, welfare states, aeroplanes – our informal and intuitive methods were sufficient.</p>
+<p><strong>This is independent of whether decisions <em>should</em> be formalized.</strong> There are some situation where no formalization of costs and benefits will be sufficient, for various reasons. My point is different: even when we truly care only about a well-defined outcome it’s often better to rely on our instincts than to use a model if we don’t have time to deeply invest in that model.</p>
+<p>It’s a common idea that formalizing the costs and benefits of a decision can lead to worse decision-making. People talk about “MacNamara’s fallacy,” but this can be taken in two ways: whether problems are <em>intrinsically</em> unquantifiable or just <em>difficult</em> to quantify. In tech companies I think many problems are quantifiable in principle but it’s sufficiently hard that it’s sensible to leave off quantifying until you’re confident that you have a good model.</p>
+<p><strong>The process of formalizing a decision often looks like a dialogue.</strong> When you try to write down a model to represent the tradeoffs of a situation very often it feels like a dialogue with your intuition: you first write a simple model, and see that it implies that we should be making a radically different decision. You try to think through, intuitively, the implications of that decision, and see that there is some important factor that the model is missing, and so revise the model, and then look again at the implications.</p>
+<p><strong>Avoiding the valley of confusion.</strong> I have been talking about the choice between using judgment or relying on a model. There is an alternative route: instead of replacing judgment the goal should be to <em>augment</em> it. Broadly speaking by trying to summarize data in a way that helps inform intuitions about tradeoffs. If we continue this process we may end up at a comprehensive formal model which we can trust.</p>
+<p>Some examples:</p>
+<ul>
+<li><p>If we are trying to improve decisions about which experiments to ship then we can build a table of prior experiments, and for each new experiment summarize how it compares with prior ones. (My post on <a href="https://tecunningham.github.io/posts/2023-04-18-experiment-interpretation-extrapolation.html">experiment interpretation</a> expands on this.)</p></li>
+<li><p>If we are trying to improve decisions about the value of metrics as surrogates for causal effects, we can start by visualizing the distributions of each metric and the correlations between them to help build judgment about how they relate to user experience.</p></li>
+<li><p>If we are trying to improve evaluation of a given initiative we should start by mapping out prior initatives and compare their inputs (e.g.&nbsp;headcount, time) and outputs (metrics), to benchmark estimates.</p></li>
+</ul>
+<p>General considerations that apply to all evaluations:</p>
 <ol type="1">
-<li><em>People with less experience:</em> young people, people who’ve just changed careers.</li>
-<li><em>People in rugged occupations:</em> – occupations which face a stream of new questions, but where the answer is well-documented – e.g.&nbsp;doctor, lawyer.</li>
+<li>All models should be described as fundamentally aids to human judgment, and it’s always legitimate to override their recommendations.</li>
+<li>Model output should not be described with a single number but a visualization to show how the broad patterns in data.</li>
+<li>We should summarize what decisions other people have made in similar situations, both inside and outside the company.</li>
 </ol>
-</dd>
-<dt>What questions will ChatGPT be used for?</dt>
-<dd>
-<ol type="1">
-<li><em>Questions similar to those in the training set</em> – e.g.&nbsp;common technologies, not idiosyncratic or proprietary technologies (usage should be convex in the popularity of a programming language).</li>
-</ol>
-</dd>
-<dt>What combinations of people and question should we expect?</dt>
-<dd>
-<ol type="1">
-<li><em>Questions outside your expertise.</em> Doctor/lawyer model - the doctor is more likely to ask a legal question, the lawyer is more likely to ask a medical question.</li>
-<li><em>Questions that .</em></li>
-</ol>
-</dd>
-</dl>
-<section id="effects" class="level2">
-<h2 class="anchored" data-anchor-id="effects">Effects</h2>
-<dl>
-<dt>Effects on individual welfare.</dt>
-<dd>
-<ol type="1">
-<li>You give better answers to questions.</li>
-<li>You spend less time on other information sources.</li>
-<li>You change the set of questions you attempt.</li>
-</ol>
-</dd>
-<dt>Effects on equilibrium.</dt>
-<dd>
-<p>Suppose people trade based on their expertise. An LLM makes expertise common knowledge, it will increase welfare but reduce trade.</p>
-<p>Effect on distribution is equivalent to catch-up growth in trade models, Wilson (1980):</p>
-<blockquote class="blockquote">
-<p>When the transfer of technology to the less efficient producers becomes complete, so that all differences in the technology among countries are eliminated, the welfare of that country which initially had the highest wage must have decreased. … A similar argument can be used to show that the diffusion of technical knowledge must result in an increase in the welfare of the country which initially had the lowest relative wage”</p>
-</blockquote>
-</dd>
-</dl>
 
 
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
