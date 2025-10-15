@@ -428,7 +428,7 @@ General model of knowledge.
 | BANDIT / LANDSCAPE                  |        |             |
 | - K-arm bandit                      |  none  | categorical |
 | - Jovanovic & Nyarko                |  none  | categorical |
-| - Callander rugged landscape        |  none  |   scalar    |
+| - Brownian landscape (Callander)    |  none  |   scalar    |
 | - NK fitness                        |  none  |   vector    |
 | - Bayesian optimization (GP-UCB/TS) |  none  |   vector    |
 |                                     |        |             |
@@ -464,19 +464,22 @@ Continuous action, Gaussian-quadratic outcome.
 
 Continuous action, Weiner outcome.
 
-: Callander (2011, AER) "Searching and Learning by Trial and Error.": Outcomes are the realized path of a Brownian motion over the choice space; optimal experimentation is history‑dependent and can settle at local optima.
+: @bardhi2026learning review the literature on "correlated learning."
+
+      Callander (2011, AER) "Searching and Learning by Trial and Error.": Outcomes are the realized path of a Brownian motion over the choice space; optimal experimentation is history‑dependent and can settle at local optima.
 
       > "Innovation in this market is irregular with frequent changes of direction and cycles between frontier and niche innovation. We show how the ruggedness of the technological landscape itself deters innovation, generating less entry and product diﬀerentiation, narrower markets, and more intense competition than in a world of certainty."
-: Carnehl & Schneider (2025, Ecma) "A Quest for Knowledge"
+
+: @CarnehlSchneider2025 use this setup to generally characterize science & discovery:
 
       > "Researchers select a question and how intensely to study it. The novelty of a question determines both the value and difficulty of discovering its answer. We show that the benefits of discoveries are nonmonotone in novelty. Knowledge expands endogenously step-by-step over time."
 
 
 Atomic actions.
 
-: - Kortum (1997) ["Research, Patenting, and Technological Change"](https://egc.yale.edu/sites/default/files/Kortum_1997.pdf). He assumes that technological progress comes from taking random draws from a distribution (undirected search). Then growth over time will be characterized by the extreme value distribution of the underlying distribution, & returns to experience will depend on the thickeness of tails: (1) Bounded: (hits a ceiling) ; (2) exponential (thin tails): $A=\ln n$; (3) Pareto (thick tails): $A = n^\gamma$. Note that completely random (undirected) search seems a poor fit for most innovation processes. Examples: Edison testing filaments, high-through drug discovery, evaluating mutations. The theory has a clear implication: that over time the share of trials that are failures increases very strongly; but in fact it's not clear this is true.
+: - @kortum1997research assumes that technological progress comes from taking random draws from a distribution (undirected search). Then growth over time will be characterized by the extreme value distribution of the underlying distribution, & returns to experience will depend on the thickeness of tails: (1) Bounded: (hits a ceiling) ; (2) exponential (thin tails): $A=\ln n$; (3) Pareto (thick tails): $A = n^\gamma$. Note that completely random (undirected) search seems a poor fit for most innovation processes. Examples: Edison testing filaments, high-through drug discovery, evaluating mutations. The theory has a clear implication: that over time the share of trials that are failures increases very strongly; but in fact it's not clear this is true.
 
-: - Agrawal, McHale and Oettl (2023) model a finite distribution of alternatives, and the inventor has a prior probability of success for each. They let AI change the distribution of priors, and they show that this change will decrease time-to-success and increase R&D effort.^[Note that they set up the landscape as a combination of N elements, but by email they confirm that the combinatorial structure isn't actually used. They say their earlier paper on needles-in-haystack does use that structure.]
+: - Agrawal, McHale and Oettl (2023) model a finite distribution of alternatives, and the inventor has a prior probability of success for each. They let AI change the distribution of priors, and they show that this change will tend to decrease time-to-success and increase R&D effort.^[Note that they set up the landscape as a combination of N elements, but by email they confirm that the combinatorial structure isn't actually used. They say their earlier paper, @agrawal2019needles, does use the combinatorial structure.]
 
 
 Vector action.
@@ -485,7 +488,7 @@ Vector action.
 : Models:
 
       1. _House-of-cards._ The fitness of each genotype is a random draw. You can get nice clean expressions for the expected number of local optima.
-      2. _Mount Fuji_ -- The function is entirely separable.
+      2. _Mount Fuji_ -- The function is entirely separable, i.e. no interaction (epistasis).
       3. _NK model_ Total fitness $W$ is the arithmetic mean of the $N$ component contributions:
      $$W(s) = \frac{1}{N} \sum_{i=1}^N w_i(s_i, s_{i_1}, \dots, s_{i_K}),$$
      Note that component $w_i$ depends on $s_i$ plus up to $K$ other components. This model is highly cited in management, but less in economics. (Kauffman & Weinberger (1989))
@@ -529,8 +532,6 @@ Others:
 Learning curves
 : McNerny (2022) talk about Wright's law: cost falls exponentially with quantity, $c\propto Q^{-\alpha}$. They say typical $\alpha$ = 0.32, so 10X quantity gets 50% reduction in cost. (They note that it's hard to distinguish between effects of scale vs effects of time; also there could be reverse causation from scale to cost.)
 
-
-
 #          Appendix
 
 Some other literature.
@@ -565,8 +566,6 @@ CLAIM: AI acceleration depends on the structure of the landscape.
 : 2. _Regular landscape: optimizing algorithms._ -- can find patterns that others haven't discovered. / Especially good at solving problems that are not deterministic, but borrow structure from other similar problems -- e.g. crosswords, chess, sudoku. / And will likely find the *ground truth* for some algorithms, the best possible: e.g. efficiency bound for algorithm, or Nash strategy for a game.
 : 3. _Regular landscape: ._
 
-
---------------------------------------------
 
 
 #                    Related Literature
@@ -610,7 +609,7 @@ CLAIM: AI acceleration depends on the structure of the landscape.
 >  - Discovery of new materials
 
 
-##          Hassabit Lex Fridman interview
+##          Hassabis Lex Fridman interview
 
 
 You need a latent structure, and all natural systems have a latent structure.

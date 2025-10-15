@@ -22,7 +22,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -685,7 +705,7 @@ We have a huge desert &amp; we want to know the best spots to drill for water. W
 <td style="text-align: center;">categorical</td>
 </tr>
 <tr class="even">
-<td>- Callander rugged landscape</td>
+<td>- Brownian landscape (Callander)</td>
 <td style="text-align: center;">none</td>
 <td style="text-align: center;">scalar</td>
 </tr>
@@ -780,13 +800,14 @@ We have a huge desert &amp; we want to know the best spots to drill for water. W
 </dd>
 <dt>Continuous action, Weiner outcome.</dt>
 <dd>
+<p><span class="citation" data-cites="bardhi2026learning">Bardhi and Callander (<a href="#ref-bardhi2026learning" role="doc-biblioref">2026</a>)</span> review the literature on “correlated learning.”</p>
 <p>Callander (2011, AER) “Searching and Learning by Trial and Error.”: Outcomes are the realized path of a Brownian motion over the choice space; optimal experimentation is history‑dependent and can settle at local optima.</p>
 <blockquote class="blockquote">
 <p>“Innovation in this market is irregular with frequent changes of direction and cycles between frontier and niche innovation. We show how the ruggedness of the technological landscape itself deters innovation, generating less entry and product diﬀerentiation, narrower markets, and more intense competition than in a world of certainty.”</p>
 </blockquote>
 </dd>
 <dd>
-<p>Carnehl &amp; Schneider (2025, Ecma) “A Quest for Knowledge”</p>
+<p><span class="citation" data-cites="CarnehlSchneider2025">Carnehl and Schneider (<a href="#ref-CarnehlSchneider2025" role="doc-biblioref">2025</a>)</span> use this setup to generally characterize science &amp; discovery:</p>
 <blockquote class="blockquote">
 <p>“Researchers select a question and how intensely to study it. The novelty of a question determines both the value and difficulty of discovering its answer. We show that the benefits of discoveries are nonmonotone in novelty. Knowledge expands endogenously step-by-step over time.”</p>
 </blockquote>
@@ -794,12 +815,12 @@ We have a huge desert &amp; we want to know the best spots to drill for water. W
 <dt>Atomic actions.</dt>
 <dd>
 <ul>
-<li>Kortum (1997) <a href="https://egc.yale.edu/sites/default/files/Kortum_1997.pdf">“Research, Patenting, and Technological Change”</a>. He assumes that technological progress comes from taking random draws from a distribution (undirected search). Then growth over time will be characterized by the extreme value distribution of the underlying distribution, &amp; returns to experience will depend on the thickeness of tails: (1) Bounded: (hits a ceiling) ; (2) exponential (thin tails): <span class="math inline">\(A=\ln n\)</span>; (3) Pareto (thick tails): <span class="math inline">\(A = n^\gamma\)</span>. Note that completely random (undirected) search seems a poor fit for most innovation processes. Examples: Edison testing filaments, high-through drug discovery, evaluating mutations. The theory has a clear implication: that over time the share of trials that are failures increases very strongly; but in fact it’s not clear this is true.</li>
+<li><span class="citation" data-cites="kortum1997research">Kortum (<a href="#ref-kortum1997research" role="doc-biblioref">1997</a>)</span> assumes that technological progress comes from taking random draws from a distribution (undirected search). Then growth over time will be characterized by the extreme value distribution of the underlying distribution, &amp; returns to experience will depend on the thickeness of tails: (1) Bounded: (hits a ceiling) ; (2) exponential (thin tails): <span class="math inline">\(A=\ln n\)</span>; (3) Pareto (thick tails): <span class="math inline">\(A = n^\gamma\)</span>. Note that completely random (undirected) search seems a poor fit for most innovation processes. Examples: Edison testing filaments, high-through drug discovery, evaluating mutations. The theory has a clear implication: that over time the share of trials that are failures increases very strongly; but in fact it’s not clear this is true.</li>
 </ul>
 </dd>
 <dd>
 <ul>
-<li>Agrawal, McHale and Oettl (2023) model a finite distribution of alternatives, and the inventor has a prior probability of success for each. They let AI change the distribution of priors, and they show that this change will decrease time-to-success and increase R&amp;D effort.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></li>
+<li>Agrawal, McHale and Oettl (2023) model a finite distribution of alternatives, and the inventor has a prior probability of success for each. They let AI change the distribution of priors, and they show that this change will tend to decrease time-to-success and increase R&amp;D effort.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></li>
 </ul>
 </dd>
 <dt>Vector action.</dt>
@@ -810,7 +831,7 @@ See a good discussion of evolutionary fitness landscapes <a href="https://www.gg
 <p>Models:</p>
 <ol type="1">
 <li><em>House-of-cards.</em> The fitness of each genotype is a random draw. You can get nice clean expressions for the expected number of local optima.</li>
-<li><em>Mount Fuji</em> – The function is entirely separable.</li>
+<li><em>Mount Fuji</em> – The function is entirely separable, i.e.&nbsp;no interaction (epistasis).</li>
 <li><em>NK model</em> Total fitness <span class="math inline">\(W\)</span> is the arithmetic mean of the <span class="math inline">\(N\)</span> component contributions: <span class="math display">\[W(s) = \frac{1}{N} \sum_{i=1}^N w_i(s_i, s_{i_1}, \dots, s_{i_K}),\]</span> Note that component <span class="math inline">\(w_i\)</span> depends on <span class="math inline">\(s_i\)</span> plus up to <span class="math inline">\(K\)</span> other components. This model is highly cited in management, but less in economics. (Kauffman &amp; Weinberger (1989))</li>
 <li><em>Rugged Mount Fuji</em> - <span class="math inline">\(f(\sigma) =−cd(\sigma,\sigma^*)+\eta(\sigma)\)</span>, where <span class="math inline">\(d(.,.)\)</span> is Hamming distance between <span class="math inline">\(\sigma\)</span> and the global optimum <span class="math inline">\(\sigma^*\)</span>.</li>
 </ol>
@@ -926,7 +947,6 @@ Places where evaluation is expensive: (1) drugs; (2) ;
 </ol>
 </dd>
 </dl>
-<hr>
 </section>
 </section>
 <section id="related-literature" class="level1">
@@ -970,8 +990,8 @@ Places where evaluation is expensive: (1) drugs; (2) ;
 <p>AI for Science, Medicine &amp; Climate - Identifying eye disease from retinal scans - Genetic missense mutations - Fusion - plasma containment - Faster matrix multiplication - SOTA weather forecasting - Discovery of new materials</p>
 </blockquote>
 </section>
-<section id="hassabit-lex-fridman-interview" class="level2">
-<h2 class="anchored" data-anchor-id="hassabit-lex-fridman-interview">Hassabit Lex Fridman interview</h2>
+<section id="hassabis-lex-fridman-interview" class="level2">
+<h2 class="anchored" data-anchor-id="hassabis-lex-fridman-interview">Hassabis Lex Fridman interview</h2>
 <dl>
 <dt>You need a latent structure, and all natural systems have a latent structure.</dt>
 <dd>
@@ -1011,14 +1031,28 @@ Models where the learning curve arrives endogenously: 1. Muth (1986): you take r
 </ol>
 
 
+
 </section>
 
 
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-agrawal2019needles" class="csl-entry" role="listitem">
+Agrawal, Ajay, John McHale, and Alexander Oettl. 2019. <span>“Finding Needles in Haystacks: Artificial Intelligence and Recombinant Growth.”</span> In <em>The Economics of Artificial Intelligence: An Agenda</em>, edited by Ajay Agrawal, Joshua Gans, and Avi Goldfarb, 149–74. Chicago, IL: University of Chicago Press. <a href="https://doi.org/10.7208/9780226613475-007">https://doi.org/10.7208/9780226613475-007</a>.
+</div>
+<div id="ref-bardhi2026learning" class="csl-entry" role="listitem">
+Bardhi, Arjada, and Steven Callander. 2026. <span>“Learning in a Correlated World.”</span> <em>Economics</em> 51624: 072515.
+</div>
+<div id="ref-CarnehlSchneider2025" class="csl-entry" role="listitem">
+Carnehl, Christoph, and Johannes Schneider. 2025. <span>“A Quest for Knowledge.”</span> <em>Econometrica</em> 93 (2): 623–59. <a href="https://doi.org/10.3982/ECTA22144">https://doi.org/10.3982/ECTA22144</a>.
+</div>
+<div id="ref-kortum1997research" class="csl-entry" role="listitem">
+Kortum, Samuel. 1997. <span>“Research, Patenting, and Technological Change.”</span> <em>Econometrica</em> 65 (6): 1389–419. <a href="https://doi.org/10.2307/2171741">https://doi.org/10.2307/2171741</a>.
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1"><p>Define equilibrium as when everyone chooses the same <span class="math inline">\(x\)</span> every period. This follows if there’s common priors, common-knowledge-of-rationality, and a regularity assumption on beliefs. Choosing some <span class="math inline">\(\cap{x}\)</span> implies that, for every <span class="math inline">\(x\neq\cap{x}\)</span>, that <span class="math inline">\(E[y(\cap{x})] - E[y(x)]\geq 0\)</span>. Assume these inequalities are always strict, meaning every <span class="math inline">\(E[y(x)]\)</span> is one-to-one (injective). Then if two people choose different <span class="math inline">\(x\)</span> they must disagree about one of those inequalities, violating common knowledge of rationality (Aumann’s agreeing-to-disagree).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Note that they set up the landscape as a combination of N elements, but by email they confirm that the combinatorial structure isn’t actually used. They say their earlier paper on needles-in-haystack does use that structure.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Note that they set up the landscape as a combination of N elements, but by email they confirm that the combinatorial structure isn’t actually used. They say their earlier paper, <span class="citation" data-cites="agrawal2019needles">Agrawal, McHale, and Oettl (<a href="#ref-agrawal2019needles" role="doc-biblioref">2019</a>)</span>, does use the combinatorial structure.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{cunningham,
   author = {Cunningham, Tom},
