@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Tom Cunningham">
+<meta name="dcterms.date" content="2025-06-14">
+<meta name="description" content="Tom Cunningham blog">
+
+<title>A Model of Chatbots [==SUPERCEDED==] | Tom Cunningham – Tom Cunningham</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-d5e7c60e6424aa6ccf163f01508596ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-12027453-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+<script>window.MathJax = {
+   loader: { load: ["https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/xypic.js"]},
+   tex: {packages: {'[+]': ['xypic','bm']},
+         macros: {  bm: ["\\boldsymbol{#1}", 1],
+                    ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+                    utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3] }
+   }
+};
+</script>
+<style>
+   h1 {  border-bottom: 4px solid black;}
+   h2 {  border-bottom: 1px solid #ccc;}
+</style>
+<script>window.MathJax = {
+         loader: { load: ['[custom]/xypic.js'],
+                     paths: {custom: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/'}},
+      tex: {packages: {'[+]': ['xypic']},
+         macros: {
+            bm: ["\\boldsymbol{#1}", 1],
+            bmatrix: ["\\begin{bmatrix}#1\\end{bmatrix}", 1],
+            smallmatrix: ["\\begin{smallmatrix}#1\\end{smallmatrix}", 1],
+            ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+            utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3]
+         }}};
+</script>
+<style>
+   h1 {  border-bottom: 4px solid black; }
+   h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; color: black; }
+   dl { margin-bottom: 0px; }
+   dt strong { font-weight: bold; }
+   dd { margin-left: 20px; }
+   .cell-output-display p {padding: 0 0 0cm 0; margin: 0 0 0 0;}
+</style>
+<meta name="quarto:status" content="draft">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+<meta name="twitter:title" content="A Model of Chatbots [==SUPERCEDED==] | Tom Cunningham">
+<meta name="twitter:description" content="Tom Cunningham blog">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Draft</div>
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Tom Cunningham</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href=".././about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/testingham"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/tom-cunningham-a9433/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://tecunningham.github.io/index.xml"> <i class="bi bi-rss-fill" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://scholar.google.com/citations?user=MDB_DgkAAAAJ"> 
+<span class="menu-text">scholar</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">A Model of Chatbots [==SUPERCEDED==]</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Tom Cunningham </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">June 14, 2025</p>
+      </div>
+    </div>
+    
+      <div>
+      <div class="quarto-title-meta-heading">Modified</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date-modified">October 29, 2025</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>==SUPERCEDED==</p>
+<p>==MOVED TO .TEX==</p>
+<p>This paper develops a simple model of human and AI ability to answer questions. Each question <span class="math inline">\(\bm{q}\)</span> is a high-dimensional vector, with a true scalar answer <span class="math inline">\(a\)</span>. An agent’s estimate of the answer is an interpolation based on previously-seen questions and answers <span class="math inline">\((\bm{q}^i,a^i)_{i=1,\ldots,n}\)</span>. This framework extends an <a href="https://tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html">earlier model</a> developed for a different purpose.</p>
+<p>The model yields several implications:</p>
+<ol type="1">
+<li><p><strong>The quality of an answer to a new question depends on its distance from the training set.</strong> For a new question <span class="math inline">\(\bm{q}\)</span>, the expected error is a function of the distance between <span class="math inline">\(\bm{q}\)</span> and the training set <span class="math inline">\(\bm{Q}\)</span>.</p></li>
+<li><p><strong>The quality of answers increases with the size of the training set.</strong> The expected error decreases linearly with the number of linearly-independent examples in the training set.</p></li>
+<li><p><strong>The value of advice from another agent depends on the distance between their training sets.</strong></p></li>
+</ol>
+<p>This framework can be interpreted as a model of an agent, “the user,” who must provide an estimate for the answer to a question <span class="math inline">\(\bm{q}\)</span> and can choose whether to consult an AI model like ChatGPT. The key components of the model are:</p>
+<ol type="1">
+<li><strong>The dimensionality of the question (<span class="math inline">\(p\)</span>).</strong> A higher-dimensional problem may be more costly to enter into the AI, but it also increases the potential benefit.</li>
+<li><strong>The public information set.</strong> These are the training questions that the AI has observed, which we can conceptualize as the corpus of public knowledge (e.g., the internet).</li>
+<li><strong>The private information set.</strong> These are the questions that the user has personally encountered and for which they have observed the true answer.</li>
+</ol>
+<p>A user will consult the AI if and only if the expected improvement in their answer exceeds the associated cost. The model predicts that an AI will be most useful for questions with components that are novel to the user but contained within the AI’s public training data.</p>
+<p>This leads to several corollaries:</p>
+<ol type="1">
+<li>An AI will not be used for questions the user has encountered before.</li>
+<li>An AI is more likely to be used for domains with higher <em>latent</em> dimensionality (<span class="math inline">\(p\)</span>).</li>
+<li>An AI is more likely to be used for domains with lower <em>surface</em> dimensionality, as this reduces the cost of specifying the question.</li>
+<li>An AI is more likely to be used by humans with less experience in a domain (i.e., smaller <span class="math inline">\(n_{\text{private}}\)</span>).</li>
+</ol>
+<dl>
+<dt>We can make some conjectures about adoption by occupation:</dt>
+<dd>
+
+</dd>
+</dl>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 15%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>occupation</th>
+<th>predicted ChatGPT use</th>
+<th>reason</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>software engineer</td>
+<td>high</td>
+<td>many novel discrete problems, similar to those on public internet</td>
+</tr>
+<tr class="even">
+<td>software engineer - idiosyncratic language</td>
+<td>low</td>
+<td>many novel discrete problems, not similar to those on public internet</td>
+</tr>
+<tr class="odd">
+<td>physician</td>
+<td>high</td>
+<td>many novel discrete problems, similar to those on public internet</td>
+</tr>
+<tr class="even">
+<td>contact center worker</td>
+<td>low</td>
+<td>novel problems, but not similar to those on the internet</td>
+</tr>
+<tr class="odd">
+<td>architect</td>
+<td>low</td>
+<td>novel problems, not discrete, not text-based</td>
+</tr>
+<tr class="even">
+<td>manual worker</td>
+<td>low</td>
+<td>not not text-based</td>
+</tr>
+</tbody>
+</table>
+<p>We can make some conjectures about adoption by task:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 15%">
+<col style="width: 42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>task</th>
+<th>predicted ChatGPT use</th>
+<th>reason</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Intellectual curiosity</td>
+<td>high</td>
+<td>novel discrete problem, similar to those on the internet</td>
+</tr>
+<tr class="even">
+<td>Diagnosing medical problems</td>
+<td>high</td>
+<td>novel discrete problem, similar to those on the internet</td>
+</tr>
+<tr class="odd">
+<td>Problems with widely-adopted systems (car, house, computer)</td>
+<td>high</td>
+<td>novel discrete problem, similar to those on the internet</td>
+</tr>
+<tr class="even">
+<td>Problems with idiosyncratic systems (custom setups)</td>
+<td>low</td>
+<td>novel discrete problem, <em>not</em> similar to those the internet</td>
+</tr>
+</tbody>
+</table>
+<dl>
+<dt>Additional things to add:</dt>
+<dd>
+<ol type="1">
+<li><strong>High-dimensional answers.</strong> Our model assumes <em>scalar</em> answers. In fact ChatGPT gives high-dimensional outputs. I think we can say some nice things here.</li>
+</ol>
+</dd>
+<dd>
+<ol start="2" type="1">
+<li><strong>Tacit knowledge.</strong> ChatGPT will be more likely to be used for domains where humans have tacit knowledge.</li>
+</ol>
+</dd>
+</dl>
+<section id="model" class="level1">
+<h1>Model</h1>
+<p><strong>The State of the World and Questions.</strong> The state of the world is defined by a vector of <span class="math inline">\(p\)</span> unobserved parameters, <span class="math inline">\(\bm{w} \in \mathbb{R}^p\)</span>. A question is a vector of <span class="math inline">\(p\)</span> binary features, <span class="math inline">\(\bm{q} \in \{-1, 1\}^p\)</span>. The true answer to a question <span class="math inline">\(\bm{q}\)</span> is a scalar <span class="math inline">\(a\)</span> determined by the linear relationship: <span class="math display">\[a = \bm{q}'\bm{w} = \sum_{k=1}^p q_k w_k\]</span></p>
+<p><strong>Agents and Information.</strong> There is a set of agents, indexed by <span class="math inline">\(i \in \mathcal{I}\)</span>. Each agent <span class="math inline">\(i\)</span> possesses an information set <span class="math inline">\(\mathcal{D}_i\)</span>, which consists of <span class="math inline">\(n_i\)</span> questions they have previously encountered, along with their true answers. We can represent this information as a pair <span class="math inline">\((\bm{Q}_i, \bm{a}_i)\)</span>:</p>
+<ul>
+<li><span class="math inline">\(\bm{Q}_i\)</span> is an <span class="math inline">\(n_i \times p\)</span> matrix where each row is a question vector. Let the <span class="math inline">\(j\)</span>-th question for agent <span class="math inline">\(i\)</span> be <span class="math inline">\(\bm{q}_{i,j}'\)</span>, so that: <span class="math display">\[\bm{Q}_i = \begin{bmatrix} \bm{q}_{i,1}' \\ \vdots \\ \bm{q}_{i,n_i}' \end{bmatrix} = \begin{bmatrix} q_{i,1,1} &amp; \cdots &amp; q_{i,1,p} \\ \vdots &amp; \ddots &amp; \vdots \\ q_{i,n_i,1} &amp; \cdots &amp; q_{i,n_i,p} \end{bmatrix}\]</span></li>
+<li><span class="math inline">\(\bm{a}_i\)</span> is an <span class="math inline">\(n_i \times 1\)</span> vector of the corresponding answers. The answers are generated according to the true model: <span class="math display">\[\bm{a}_i = \bm{Q}_i \bm{w}\]</span></li>
+</ul>
+<p><strong>Beliefs.</strong> All agents share a common prior belief about the state of the world, assuming the weights <span class="math inline">\(\bm{w}\)</span> are drawn from a multivariate Gaussian distribution: <span class="math display">\[\bm{w} \sim N(\bm{0}, \Sigma)\]</span> where <span class="math inline">\(\Sigma\)</span> is a <span class="math inline">\(p \times p\)</span> positive-semidefinite covariance matrix. A common assumption we will use is an isotropic prior, where <span class="math inline">\(\Sigma = \sigma^2 \bm{I}_p\)</span> for some scalar <span class="math inline">\(\sigma^2 &gt; 0\)</span>. This implies that, a priori, the weights are uncorrelated and have equal variance.</p>
+<p>Given their information set <span class="math inline">\(\mathcal{D}_i\)</span>, agent <span class="math inline">\(i\)</span> forms a posterior belief about <span class="math inline">\(\bm{w}\)</span>. When a new question <span class="math inline">\(\bm{q}_{\text{new}}\)</span> arises, the agent uses their posterior distribution to form an estimate of the answer, <span class="math inline">\(\hat{a}_{\text{new}} = \bm{q}_{\text{new}}' \mathbb{E}[\bm{w} \mid \mathcal{D}_i]\)</span>.</p>
+</section>
+<section id="propositions" class="level1">
+<h1>Propositions</h1>
+<p><strong>Proposition 1 (Posterior over <span class="math inline">\(\bm{w}\)</span> given <span class="math inline">\(\bm{Q}\)</span> and <span class="math inline">\(\bm{a}\)</span>).</strong> <em>The agent’s posterior mean and variance will be:</em> <span class="math display">\[\begin{aligned}
+      \hat{\bm w}&amp;= \Sigma \bm{Q}^{\top}(\bm{Q}\Sigma \bm{Q}^{\top})^{-1}\bm a\\
+      \Sigma_{\mid a} &amp;=\Sigma-\Sigma \bm{Q}^{\top}(\bm{Q}\Sigma \bm{Q}^{\top})^{-1}\bm{Q}\Sigma.
+   \end{aligned}
+   \]</span></p>
+<p><em>Proof.</em> The derivation follows from the standard formula for conditional Gaussian distributions. We begin by defining the joint distribution of the weights <span class="math inline">\(\bm{w}\)</span> and the answers <span class="math inline">\(\bm{a}\)</span>. The weights and answers are jointly Gaussian: <span class="math display">\[\begin{pmatrix} \bm{w} \\ \bm{a} \end{pmatrix} \sim N\left(
+      \begin{pmatrix} \bm{0} \\ \bm{0} \end{pmatrix},
+      \begin{pmatrix}
+         \Sigma &amp; \Sigma \bm{Q}' \\
+         \bm{Q}\Sigma &amp; \bm{Q}\Sigma \bm{Q}'
+      \end{pmatrix}
+   \right)
+   \]</span> where the covariance terms are derived as follows: - <span class="math inline">\(Cov(\bm{w}, \bm{w}) = \Sigma\)</span> (prior covariance) - <span class="math inline">\(Cov(\bm{a}, \bm{a}) = Cov(\bm{Q}\bm{w}, \bm{Q}\bm{w}) = \bm{Q} Cov(\bm{w}, \bm{w}) \bm{Q}' = \bm{Q}\Sigma \bm{Q}'\)</span> - <span class="math inline">\(Cov(\bm{w}, \bm{a}) = Cov(\bm{w}, \bm{Q}\bm{w}) = Cov(\bm{w}, \bm{w})\bm{Q}' = \Sigma \bm{Q}'\)</span></p>
+<p>The conditional mean <span class="math inline">\(E[\bm{w}|\bm{a}]\)</span> is given by the formula: <span class="math display">\[E[\bm{w}|\bm{a}] = E[\bm{w}] + Cov(\bm{w},\bm{a})Var(\bm{a})^{-1}(\bm{a} - E[\bm{a}])\]</span></p>
+<p>Substituting the values from our model (<span class="math inline">\(E[\bm{w}] = \bm{0}\)</span>, <span class="math inline">\(E[\bm{a}] = \bm{0}\)</span>): <span class="math display">\[\hat{\bm{w}} = \bm{0} + (\Sigma \bm{Q}')(\bm{Q}\Sigma \bm{Q}')^{-1}(\bm{a} - \bm{0}) = \Sigma \bm{Q}'(\bm{Q}\Sigma \bm{Q}')^{-1}\bm{a}\]</span></p>
+<p>This gives us the posterior mean of the weights. The posterior covariance is given by: <span class="math display">\[Var(\bm{w}|\bm{a}) = Var(\bm{w}) - Cov(\bm{w},\bm{a})Var(\bm{a})^{-1}Cov(\bm{a},\bm{w}) = \Sigma - \Sigma \bm{Q}'(\bm{Q}\Sigma \bm{Q}')^{-1}\bm{Q}\Sigma.\]</span> <span class="math inline">\(\square\)</span></p>
+<p><strong>Proposition 2 (Expected error for a given question).</strong> <em>The expected squared error for a new question <span class="math inline">\(\bm q\)</span> is:</em> <span class="math display">\[ \mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \bm q' \Sigma_{\mid a} \bm q \]</span> <em>For an isotropic prior where <span class="math inline">\(\Sigma = \sigma^2 \bm{I}\)</span>, the error is proportional to the squared distance of <span class="math inline">\(\bm q\)</span> from the subspace spanned by the previously seen questions in <span class="math inline">\(\bm{Q}\)</span>:</em> <span class="math display">\[ \mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \sigma^2 \|(\bm{I}-\bm{P_Q})\bm q\|^2 \]</span> <em>where <span class="math inline">\(\bm{P_Q}\)</span> is the projection matrix onto the row-span of <span class="math inline">\(\bm{Q}\)</span>.</em></p>
+<p><em>Proof.</em> The prediction error is <span class="math inline">\(\bm{q}'\bm{w} - \bm{q}'\hat{\bm{w}} = \bm{q}'(\bm{w} - \hat{\bm{w}})\)</span>. The expected squared error is the variance of this prediction error. <span class="math display">\[
+\begin{aligned}
+\mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] &amp;= \mathbb{E}[\bm q'(\bm w - \hat{\bm w})(\bm w - \hat{\bm w})'\bm q] \\
+&amp;= \bm q' \mathbb{E}[(\bm w - \hat{\bm w})(\bm w - \hat{\bm w})'] \bm q \\
+&amp;= \bm q' Var(\bm w \mid \bm a) \bm q = \bm q' \Sigma_{\mid a} \bm q
+\end{aligned}
+\]</span> This proves the first part of the proposition. For the second part, we assume an isotropic prior <span class="math inline">\(\Sigma = \sigma^2\bm{I}\)</span>. Substituting this into the expression for <span class="math inline">\(\Sigma_{\mid a}\)</span> from Proposition 1: <span class="math display">\[
+\begin{aligned}
+\Sigma_{\mid a} &amp;= \sigma^2\bm{I} - (\sigma^2\bm{I})\bm{Q}'(\bm{Q}(\sigma^2\bm{I})\bm{Q}')^{-1}\bm{Q}(\sigma^2\bm{I}) \\
+&amp;= \sigma^2\bm{I} - \sigma^4 \bm{Q}'(\sigma^2\bm{Q}\bm{Q}')^{-1}\bm{Q} \\
+&amp;= \sigma^2\bm{I} - \sigma^4 (\sigma^2)^{-1} \bm{Q}'(\bm{Q}\bm{Q}')^{-1}\bm{Q} \\
+&amp;= \sigma^2(\bm{I} - \bm{Q}'(\bm{Q}\bm{Q}')^{-1}\bm{Q})
+\end{aligned}
+\]</span> Let <span class="math inline">\(\bm{P_Q} = \bm{Q}'(\bm{Q}\bm{Q}')^{-1}\bm{Q}\)</span>, which is the projection matrix onto the row space of <span class="math inline">\(\bm{Q}\)</span>. Then <span class="math inline">\(\Sigma_{\mid a} = \sigma^2(\bm{I} - \bm{P_Q})\)</span>. The expected squared error is: <span class="math display">\[
+\mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \bm q' \sigma^2(\bm{I} - \bm{P_Q}) \bm q = \sigma^2 \bm q'(\bm{I} - \bm{P_Q})\bm q
+\]</span> Since <span class="math inline">\(\bm{I} - \bm{P_Q}\)</span> is an idempotent projection matrix, <span class="math inline">\(\bm q'(\bm{I} - \bm{P_Q})\bm q = \bm q'(\bm{I} - \bm{P_Q})'(\bm{I} - \bm{P_Q})\bm q = \|(\bm{I} - \bm{P_Q})\bm q\|^2\)</span>. Thus, <span class="math display">\[
+\mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \sigma^2 \|(\bm{I}-\bm{P_Q})\bm q\|^2
+\]</span> <span class="math inline">\(\square\)</span></p>
+<p><strong>Proposition 3 (Error decreases with more independent questions).</strong> <em>The average expected squared error over all possible new questions <span class="math inline">\(\bm{q}\)</span> decreases linearly with the number of linearly independent questions in the training set <span class="math inline">\(\bm{Q}\)</span>. Specifically, with an isotropic prior <span class="math inline">\(\Sigma = \sigma^2 \bm{I}\)</span>, the average error is:</em> <span class="math display">\[\mathbb{E}_{\bm{q}}[\text{error}(\bm{q})] = \sigma^2 (p - \operatorname{rank}(\bm{Q}))\]</span> <em>where the expectation is taken over new questions <span class="math inline">\(\bm{q}\)</span> with i.i.d. components drawn uniformly from <span class="math inline">\(\{-1,1\}\)</span>.</em></p>
+<p><em>Proof.</em> The proof proceeds in two steps. First, we write the expression for the error for a given new question <span class="math inline">\(\bm q\)</span>. Second, we average this error over the distribution of all possible questions.</p>
+<ol type="1">
+<li><p><strong>Predictive error for a fixed <span class="math inline">\(\bm q\)</span>.</strong> From Proposition 2, the expected squared error for a specific new question <span class="math inline">\(\bm q\)</span>, given an isotropic prior <span class="math inline">\(\Sigma = \sigma^2 \bm{I}\)</span>, is: [ (q) = [(q’(w - ))^2] = ^2 q’(-)q ] where <span class="math inline">\(\bm{P_Q} = \bm{Q}'(\bm{Q}\bm{Q}')^{-1}\bm{Q}\)</span> is the projection matrix onto the row-span of <span class="math inline">\(\bm{Q}\)</span>.</p></li>
+<li><p><strong>Average over random new questions.</strong> We now take the expectation of this error over the distribution of new questions <span class="math inline">\(\bm q\)</span>. The components of <span class="math inline">\(\bm q\)</span> are i.i.d. uniform on <span class="math inline">\(\{-1,1\}\)</span>, which implies that <span class="math inline">\(\mathbb{E}[\bm q] = \bm 0\)</span> and <span class="math inline">\(\mathbb{E}[\bm q \bm q'] = \bm{I}_p\)</span>. The average error is: [</p>
+<span class="math display">\[\begin{aligned}
+   \mathbb{E}_{\bm q}[\text{error}(\bm q)] &amp;= \mathbb{E}_{\bm q}[\sigma^2 \bm q'(\bm{I}-\bm{P_Q})\bm q] \\
+                                          &amp;= \sigma^2 \mathbb{E}_{\bm q}[\operatorname{tr}(\bm q'(\bm{I}-\bm{P_Q})\bm q)] \\
+                                          &amp;= \sigma^2 \mathbb{E}_{\bm q}[\operatorname{tr}((\bm{I}-\bm{P_Q})\bm q \bm q')] \\
+                                          &amp;= \sigma^2 \operatorname{tr}((\bm{I}-\bm{P_Q})\mathbb{E}_{\bm q}[\bm q \bm q']) \\
+                                          &amp;= \sigma^2 \operatorname{tr}(\bm{I}-\bm{P_Q}) \\
+                                          &amp;= \sigma^2 (\operatorname{tr}(\bm{I}) - \operatorname{tr}(\bm{P_Q}))
+\end{aligned}\]</span>
+<p>] The trace of the identity matrix is <span class="math inline">\(p\)</span>. The trace of a projection matrix is the dimension of the subspace it projects onto, so <span class="math inline">\(\operatorname{tr}(\bm{P_Q}) = \operatorname{rank}(\bm{Q})\)</span>. Thus, the average error is: [ _{q}[(q)] = ^2 (p - ()) ] Since the rank of <span class="math inline">\(\bm{Q}\)</span> increases with each linearly independent question added, the average error decreases linearly until <span class="math inline">\(\operatorname{rank}(\bm{Q})=p\)</span>, at which point it becomes zero. <span class="math inline">\(\square\)</span></p></li>
+</ol>
+<p><strong>Proposition 4 (Posterior in two-stage estimation).</strong> <em>We consider a two-stage process. First, an agent (the “computer,” <span class="math inline">\(C\)</span>) with training data <span class="math inline">\((\bm{Q}_C, \bm{a}_C)\)</span> forms an estimate for the answer to a new question <span class="math inline">\(\bm{q}\)</span>. Second, another agent (the “human,” <span class="math inline">\(H\)</span>) with their own training data <span class="math inline">\((\bm{Q}_H, \bm{a}_H)\)</span> observes the computer’s estimate and updates their own belief.</em></p>
+<p><em>The human has a prior over the weights <span class="math inline">\(\bm{w} \sim N(\bm{0}, \Sigma)\)</span>. After observing their own data, the human’s posterior for <span class="math inline">\(\bm{w}\)</span> is <span class="math inline">\(N(\hat{\bm{w}}_H, \Sigma_H)\)</span>, where from Proposition 1:</em> <span class="math display">\[\begin{aligned}
+      \hat{\bm{w}}_H &amp;= \Sigma \bm{Q}_H^{\top}(\bm{Q}_H\Sigma \bm{Q}_H^{\top})^{-1}\bm{a}_H \\
+      \Sigma_H &amp;= \Sigma - \Sigma \bm{Q}_H^{\top}(\bm{Q}_H\Sigma \bm{Q}_H^{\top})^{-1}\bm{Q}_H\Sigma
+   \end{aligned}\]</span> <em>The human’s initial estimate for the answer to a new question <span class="math inline">\(\bm{q}\)</span> is <span class="math inline">\(\mu_H = \bm{q}'\hat{\bm{w}}_H\)</span> with variance <span class="math inline">\(\sigma_H^2 = \bm{q}'\Sigma_H \bm{q}\)</span>.</em></p>
+<p><em>The computer has its own training data <span class="math inline">\((\bm{Q}_C, \bm{a}_C)\)</span>. It provides an estimate <span class="math inline">\(\hat{a}_C = \bm{q}'\hat{\bm{w}}_C\)</span> for the true answer <span class="math inline">\(a = \bm{q}'\bm{w}\)</span>. The human observes <span class="math inline">\(\hat{a}_C\)</span> and updates their posterior for <span class="math inline">\(a\)</span>. We assume the computer’s observations may be noisy, such that <span class="math inline">\(\bm{a}_C = \bm{Q}_C\bm{w} + \bm{\epsilon}_C\)</span> with <span class="math inline">\(\bm{\epsilon}_C \sim N(0, s_C^2 \bm{I})\)</span>.</em></p>
+<p><em>We analyze the human’s final posterior for <span class="math inline">\(a\)</span> under different assumptions about what the human knows about the computer’s process.</em></p>
+<p><strong>Proposition 4.1 (Updating with minimal information).</strong> <em>Assume the human has no knowledge of the computer’s training set <span class="math inline">\(\bm{Q}_C\)</span> but believes the computer’s estimate is unbiased with a known mean squared error <span class="math inline">\(\tau^2\)</span>. That is, <span class="math inline">\(\hat{a}_C = a + \eta\)</span>, where <span class="math inline">\(\eta \sim N(0, \tau^2)\)</span> and is independent of <span class="math inline">\(\bm{w}\)</span>.</em></p>
+<p><em>Upon observing <span class="math inline">\(\hat{a}_C\)</span>, the human’s posterior for <span class="math inline">\(a\)</span> is:</em> <span class="math display">\[ a \mid \hat{a}_C \sim N\left( \mu_H + \alpha(\hat{a}_C - \mu_H), (1-\alpha)\sigma_H^2 \right) \]</span> <em>where <span class="math inline">\(\alpha = \frac{\sigma_H^2}{\sigma_H^2 + \tau^2} \in [0,1]\)</span>. The human’s new estimate is a weighted average of their own initial estimate and the computer’s estimate. The weight <span class="math inline">\(\alpha\)</span> placed on the computer’s estimate is higher when the computer is believed to be more accurate (smaller <span class="math inline">\(\tau^2\)</span>) or when the human’s own estimate is more uncertain (larger <span class="math inline">\(\sigma_H^2\)</span>).</em></p>
+<p><strong>Proposition 4.2 (Knowledge of computer’s questions).</strong> <em>Assume the human knows the computer’s training questions <span class="math inline">\(\bm{Q}_C\)</span> and its noise level <span class="math inline">\(s_C^2\)</span>, but not the observed answers <span class="math inline">\(\bm{a}_C\)</span>.</em></p>
+<p><em>The human can model the computer’s estimate as <span class="math inline">\(\hat{a}_C = \bm{q}'\bm{P}\bm{w} + \bm{q}'\bm{\zeta}\)</span>, where <span class="math inline">\(\bm{P} = \Sigma \bm{Q}_C'(\bm{Q}_C\Sigma \bm{Q}_C' + s_C^2\bm{I})^{-1}\bm{Q}_C\)</span> and <span class="math inline">\(\bm{\zeta} = \Sigma \bm{Q}_C'(\bm{Q}_C\Sigma \bm{Q}_C' + s_C^2\bm{I})^{-1}\bm{\epsilon}_C\)</span>.</em></p>
+<p><em>The pair <span class="math inline">\((a, \hat{a}_C)\)</span> is jointly Gaussian, conditional on the human’s data. The posterior for <span class="math inline">\(a\)</span> is:</em> <span class="math display">\[ a \mid \hat{a}_C \sim N\left( \mu_H + \kappa(\hat{a}_C - \mu_C), \sigma_H^2 - \kappa\sigma_{HC} \right) \]</span> <em>where:</em> - <span class="math inline">\(\mu_C = \bm{q}'\bm{P}\hat{\bm{w}}_H\)</span> (human’s expectation of computer’s estimate) - <span class="math inline">\(\sigma_{HC} = \bm{q}'\Sigma_H \bm{P}' \bm{q}\)</span> (covariance) - <span class="math inline">\(\sigma_C^2 = \bm{q}'\bm{P}\Sigma_H \bm{P}' \bm{q} + \bm{q}'\Sigma_\zeta \bm{q}\)</span> (variance of computer’s estimate) - <span class="math inline">\(\Sigma_\zeta = s_C^2 \bm{P} \Sigma^{-1} \bm{P}'\)</span> - <span class="math inline">\(\kappa = \frac{\sigma_{HC}}{\sigma_C^2}\)</span> (the weight on the computer’s prediction error)</p>
+<p><em>The weight <span class="math inline">\(\kappa\)</span> depends on the covariance structure, which is influenced by the overlap between the subspaces spanned by <span class="math inline">\(\bm{Q}_H\)</span> and <span class="math inline">\(\bm{Q}_C\)</span>.</em></p>
+<p><strong>Proposition 4.3 (Limiting cases).</strong> <em>The framework of Proposition 4.2 nests two extreme cases:</em> 1. <strong>Oracle Trust:</strong> <em>If the human believes the computer’s estimate is perfect (e.g., <span class="math inline">\(s_C^2 \to 0\)</span> and <span class="math inline">\(\bm{Q}_C\)</span> spans the relevant subspace), then <span class="math inline">\(\kappa \to \sigma_H^2 / (\bm{q}'\bm{P}\Sigma_H \bm{P}'\bm{q})\)</span>, and the posterior variance collapses towards zero. In the simplified Kalman model, if <span class="math inline">\(\tau^2 \to 0\)</span>, then <span class="math inline">\(\alpha \to 1\)</span>, and the human adopts the computer’s answer, <span class="math inline">\(a \mid \hat{a}_C \to N(\hat{a}_C, 0)\)</span>.</em> 2. <strong>Total Skepticism:</strong> <em>If the human believes the computer provides no information (e.g., <span class="math inline">\(\sigma_{HC} \to 0\)</span> because <span class="math inline">\(\bm{Q}_C\)</span> is irrelevant to <span class="math inline">\(\bm{q}\)</span>), then <span class="math inline">\(\kappa \to 0\)</span>. In the Kalman model, if <span class="math inline">\(\tau^2 \to \infty\)</span>, then <span class="math inline">\(\alpha \to 0\)</span>. In both cases, the human ignores the computer’s estimate and reverts to their original posterior, <span class="math inline">\(a \mid \hat{a}_C \sim N(\mu_H, \sigma_H^2)\)</span>.</em></p>
+</section>
+<section id="related-literature" class="level1">
+<h1>Related Literature</h1>
+<section id="agrawal-et-al.-2018-exploring-the-impact-of-artificial-intelligence-prediction-versus-judgment" class="level2">
+<h2 class="anchored" data-anchor-id="agrawal-et-al.-2018-exploring-the-impact-of-artificial-intelligence-prediction-versus-judgment">Agrawal et al.&nbsp;(2018) “Exploring the Impact of Artificial Intelligence: Prediction versus Judgment”</h2>
+<p>https://www.nber.org/system/files/working_papers/w24626/w24626.pdf</p>
+</section>
+<section id="kleinberg-et-al.-2017-human-decisions-and-machine-predictions" class="level2">
+<h2 class="anchored" data-anchor-id="kleinberg-et-al.-2017-human-decisions-and-machine-predictions">Kleinberg et al.&nbsp;(2017) “Human Decisions and Machine Predictions”</h2>
+</section>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{cunningham2025,
+  author = {Cunningham, Tom},
+  title = {A {Model} of {Chatbots} {{[}==SUPERCEDED=={]}}},
+  date = {2025-06-14},
+  url = {tecunningham.github.io/posts/2025-06-14-model-of-chatgpt.html},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-cunningham2025" class="csl-entry quarto-appendix-citeas" role="listitem">
+Cunningham, Tom. 2025. <span>“A Model of Chatbots
+[==SUPERCEDED==].”</span> June 14, 2025. <a href="https://tecunningham.github.io/posts/2025-06-14-model-of-chatgpt.html">tecunningham.github.io/posts/2025-06-14-model-of-chatgpt.html</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("tecunningham\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
