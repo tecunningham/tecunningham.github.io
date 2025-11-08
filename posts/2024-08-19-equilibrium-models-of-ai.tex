@@ -1,0 +1,1878 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  11pt,
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod,
+  oneside]{scrartcl}
+\usepackage{xcolor}
+\usepackage[top=2cm, bottom=1.3cm, left=.5cm, right=7cm, heightrounded,
+marginparwidth=5cm, marginparsep=5mm]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage[]{libertinus}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+\usepackage{sectsty}
+\usepackage{sidenotes}
+\usepackage{sidenotes}
+%\renewcommand{\marginnote}[2][]{\marginpar{#2}}
+\renewcommand{\marginnote}[2][]{\sidenotetext[#1]{\parbox{\marginparwidth}{#2}}}
+%\renewcommand{\marginnote}[2][]{\@sidenotes@placemarginal{0}{\textsuperscript{1}~#2}}
+%\renewcommand{\thempfootnote}{}
+\usepackage{enumitem}
+\setlist[description]{style=multiline,leftmargin=5cm,itemsep=20pt}
+\sectionfont{\sectionrule{0pt}{0pt}{-4pt}{1pt}}
+\subsectionfont{\sectionrule{0pt}{0pt}{-4pt}{.1pt}}
+\newcommand{\ut}[2]{\underbrace{#1}_{\text{#2}}}
+\newcommand{\utt}[3]{\underbrace{#1}_{\substack{\text{#2}\\\text{#3}}}}
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{sidenotes}{}{\usepackage{sidenotes}}
+\@ifpackageloaded{marginnote}{}{\usepackage{marginnote}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Models of the Economic Impact of AI},
+  pdfauthor={Tom Cunningham},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Models of the Economic Impact of AI}
+\author{Tom Cunningham.}
+\date{2025-11-08}
+\begin{document}
+\maketitle
+
+
+\begin{description}
+\item[This note will discuss models of AI's \emph{equilibrium} impact on
+the economy.]
+In the last 10 years there have been a dozen papers written trying to
+predict the effects of AI that give a wide range of predictions about
+the effect on productivity, wages, and inequality. I will discuss these
+models and try to explain the relationship between assumptions and
+predictions.\sidenote{\footnotesize The only review article I'm aware of is Lu and
+  Zhou (2021) from 2021.}
+
+We mostly doesn't discuss evidence for the \emph{size} of the
+productivity effects from AI or which types of activities it will
+directly impact. Instead the note focusses on the \emph{equilibrium}
+effects - how society will rearrange itself to make room for AI through
+changes in wages, employment, and distribution of income.
+\item[Summary of predictions.]
+This is a somewhat opinionated take on the models below:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  AI will increase total goods and services and, to a smaller extent,
+  decrease the amount that people choose to work.
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  The sectors in which AI has the biggest productivity effects will
+  likely come to employ fewer people, and people who have skills which
+  are replaced by AI will have lower wages and employment.
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  AI will increase real wages but it will likely increase the returns to
+  capital more (i.e.~reducing the labor share of income).
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  It is unclear whether AI will raise the wages of the more-educated or
+  less-educated more.
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  If AI can outperform most humans at \emph{every} task (AGI) then it
+  will cause a huge boost in output but decrease wages (the returns to
+  working), because computers compete with humans for land and energy
+  inputs.
+\end{enumerate}
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-1-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\item[Many of the models discussed can be summarized with diagrams.]
+Most of the differences between models comes down to assumptions on the
+degree of \emph{substitutability} between different inputs, specifically
+(1) how substitutable are computers for humans in producing certain
+goods; and (2) how substitutable is the demand for different types of
+goods. The key substitutability assumptions of most of these models can
+be illustrated with a diagram showing networks of inputs and outputs,
+here \(\sigma\) represents the \emph{elasticity of substitution}:
+\(\sigma=0\) means perfect complements, \(\sigma=\infty\) means perfect
+substitutes. I explain below how to interpret the elasticity of
+substitution formally.
+\item[I also list some things I think are missing from the literature.]
+To me the most notable hole in the literature is a theory of what
+\emph{types} of tasks AI will be good at. The majority of the papers
+discussed assume a single dimension of task ``difficulty'' and represent
+AI as continuation of progress in capital's ability to do progressively
+more difficult tasks. However it seems clear that recent AI models have
+a distinctively different pattern of capabilities than the distribution
+across people.
+\end{description}
+
+\section{Models}\label{models}
+
+\begin{description}
+\item[We will build up a series of models of the impact of AI.]
+In this section I start from the simplest model and gradually add
+complications with references to individual papers. The following
+section lists each of the papers and describes their assumptions and
+implications.
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{images/2024-09-06-10-46-02.png}}
+In Western countries GDP/capita has increased by about 20 times over
+1820-2022
+(\href{https://ourworldindata.org/grapher/gdp-per-capita-maddison?tab=chart}{Our
+World in Data})
+
+\end{footnotesize}}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-2-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\item[In the simplest model AI increases output.]
+In developed countries the amount of output produced per person has
+increased by around 20X over the last 200 years. The simplest model of
+AI is that it continues that growth in productivity.
+
+At right we illustrate this with the simplest of diagrams: output is a
+function of labor, and we color the arrow from labor to output blue to
+represent growth in labor productivity.
+\end{description}
+
+\vspace{3cm}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{images/2024-08-19-14-36-53.png}}
+Hours worked per worker fell by about 50\% since 1870. In addition
+people now start work at later ages and spend more years in retirement
+(\href{https://ourworldindata.org/grapher/gdp-per-capita-maddison\#all-charts}{Our
+World in Data})
+
+\end{footnotesize}}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-3-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\item[AI will reduce hours worked.]
+Over the last 100 years output/worker has grown by about 10X in
+developed countries, and hours worked have fallen by about 50\%. Thus if
+AI increases productivity we could expect that it will decrease the
+total hours worked, although by a much smaller proportional amount than
+the increase in output.\sidenote{\footnotesize Boppart and Krusell (2020) say ``across
+  countries and historically, hours fall steadily by a little below
+  0.5\% per year.''}
+
+We can represent the tradeoff between output and leisure in the diagram
+at right (leisure is defined as time spent not working). The arrow from
+time to output is colored blue to represent an increase in productivity.
+The historical trends imply an elasticity of substitution around
+0.7.\sidenote{\footnotesize If the relative price of output fell by 10X and the
+  relative consumption increased by 5X this implies an elasticity of
+  substitution between consumption and leisure slightly below 1
+  (\(\sigma=\frac{d\ln(x_G/x_L)}{d\ln(p_L/p_G)}=\frac{\ln(5)}{\ln(10)}\simeq 0.7\)).}
+\end{description}
+
+\vspace{3cm}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{images/2024-08-20-12-43-29.png}}
+US employment shares over time
+(\href{https://www.clevelandfed.org/publications/economic-commentary/2019/ec-201909-changes-in-us-occupational-structure}{Cleveland
+Fed})
+
+\end{footnotesize}}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-4-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\item[Employment will decline in the sectors where productivity
+increases.]
+AI is likely to increase productivity (output/hour) much more in some
+sectors. This could cause employment to either increase or decrease in
+the most-affected sectors. Historically the sectors which have had the
+highest growth in productivity have tended to shrink in employment. Over
+the last 150 years employment has shifted from agriculture, to
+manufacturing, and then to services, roughly in line with productivity
+growth in each sector. Put another way, people became satiated with
+cheap agricultural goods, and then satiated with cheap manufactured
+goods, and so now spend most of their income on services.\sidenote{\footnotesize Nordhaus
+  (2021) says ``the sectors that are experiencing the most rapid price
+  declines are also experiencing slight declines in expenditure
+  shares.'' This is also the assumption underlying the ``cost disease''
+  model in Baumol and Bowen (1965).}
+
+This pattern can be represented by the elasticity of substitution. Ngai
+and Pissarides (2007) estimate an elasticity of substitution of of 0.6
+between agriculture, manufacturing and services from historical changes.
+
+Thus if AI dramatically increases productivity in knowledge work but not
+in-person services then we'd expect a reallocation of labor from the
+former to the latter.
+\end{description}
+
+\vspace{3cm}
+
+\marginnote{\begin{footnotesize}
+
+Acemoglu and Restrepo (2022) find that industries with high rates of
+adoption of automation (e.g.~car manufacturing, computer services,
+metals, chemicals, plastics) had much lower wage growth, even
+controlling for the level of education.
+
+\end{footnotesize}}
+
+\begin{description}
+\item[Workers with skills replaced by AI will suffer extended loss of
+earnings.]
+Labor does not flow perfectly between occupations. Historically we have
+seen that people whose skills are replaced by automation have lower
+incomes: Acemoglu and Restrepo (2022) estimate that automation had large
+negative effects on US workers who had skills that were automated,
+Autor, Dorn, and Hanson (2021) estimate that competition from China had
+large persistent declines in employment and income for those who worked
+in manufacturing.
+
+However different empirical studies find different results:
+
+\begin{itemize}
+\tightlist
+\item
+  Giuntella, Lu, and Wang (2022) finds adoption of robots in China
+  reduced employment and wages.
+\item
+  J. Bessen et al. (2023) finds that automation decreases employment of
+  incumbent workers in Holland, but there was no effect of computer
+  adoption.
+\item
+  Humlum (2019) estimates that robot adoption in Denmark increased
+  lowered the wages of production workers by 5\% but raised average real
+  wages by 0.8\%.
+\item
+  Adachi, Kawaguchi, and Saito (2024) find that robot adoption in Japan,
+  instrumented with robot prices, caused an increase in employment in
+  the corresponding sector.
+\item
+  Hotte, Somers, and Theodorakopoulos (2023) reviews 127 studies on
+  technological change and employment.
+\end{itemize}
+
+A number of recent papers model frictions that prevent efficient
+adjustment: Costinot and Werning (2023), Beraja and Zorzi (2022), Lehr
+and Restrepo (2022).
+\end{description}
+
+\vspace{3cm}
+
+\marginnote{\begin{footnotesize}
+
+Since 1963 the real hourly wages have grown by 70\% for male workers
+with post-college educations, but have been essentially unchanged for
+high school dropouts. Note that over the same period there was a large
+increase in education which normally would be expected to have a
+counterbalanced effect (i.e.~lowering the relative wages of the
+educated).
+
+\end{footnotesize}}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-5-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\item[The relative effect of AI on educated or uneducated workers is
+unclear.]
+It is hard to say whether AI will have a bigger effect on educated or
+uneducated workers.
+
+Over 1980-2000 the wages of college graduates increased dramatically
+relative to non-college graduates in the US, despite a big increase in
+the number of college graduates over the same period.
+
+A common explanation is that technology disproprtionately increased the
+productivity of high-skill labor (people who could use computers), and
+that the work of low-skill and high-skill labor are relatively
+substitutable (\(\sigma>1\)), thus an educated office worker could now
+do work that otherwise would be done by a secretary and clerk. Katz and
+Murphy (1992) estimate an elasticity of substitution between college and
+high-school labor of 1.4 (Katz and Murphy 1992).
+\end{description}
+
+\vspace{1cm}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{images/2024-08-20-11-54-54.png}}
+from ILO (2015).
+
+\end{footnotesize}}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-6-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\item[The labor share may fall.]
+A lot of the discussion about AI focusses on what share of GDP will be
+paid to labor (in wages) and what share will be paid to capital. Over
+the last 100 years the share of income going to labor in Western
+countries has typically hovered around 2/3, but it has declined somewhat
+since 1980.\sidenote{\footnotesize Autor et al. (2020) say \emph{``Although there is
+  controversy over the degree to which the fall in the labor share of
+  GDP is due to measurement issues \ldots{} there is a general consensus
+  that the fall is real and significant.''}}
+
+A simple model of the economy is that output is produced by labor and
+capital (businesses, land, energy, computers), and each is paid their
+marginal product. We can model AI as increasing the effective
+productivity of capital inputs (the blue arrow). This will increase the
+marginal product of both capital and of labor. If we assume that the
+elasticity of substitution is 1 (AKA Cobb-Douglas) this would imply that
+the returns to capital and labor increase by equal amounts, and so the
+labor share of income remains constant.\sidenote{\footnotesize Gechert et al. (2022)
+  survey the literature and argue the elasticity of substitution between
+  capital and labor is well below 1, which would imply that increasing
+  the productivity of capital would increase the labor share. Acemoglu
+  (2024) assumes aggregate capital and labor have elasticity of
+  substitution of 0.5.}
+
+The recent decline in the labor share has had a number of explanations,
+most prominent is Autor et al. (2020) who note that it is mostly driven
+by a reallocation of product market shares towards firms with higher
+productivity and lower labor costs, \& they attribute that to
+technological changes which have strengthened competition.\sidenote{\footnotesize They
+  say '' a rise in superstar firms would occur if consumers have become
+  more sensitive to quality-adjusted prices due to, for example, greater
+  product market competition (e.g., through globalization) or improved
+  search technologies \ldots{} or the growth of platform competition''}
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-7-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\item[Wages will depend on the substitutability across goods.]
+We can instead divide the economy into \(N\) different tasks (or
+``intermediate goods'') and model the impact of AI as progressively
+allowing AI to perform more tasks. The implication for labor income will
+depend on the substitutability of the different tasks in utility.
+
+Zeira (1998) assumes each task can be produced either by labor or
+capital (i.e.~their elasticity of substitution is \(\infty\)), and over
+time we progressively learn how to automate different tasks, illustrated
+by the blue arrow connecting capital to task \(n\). They also assume
+that the relative productivity of capital and labor between tasks is the
+same (we return to this below). If the share of income spent on each
+task remains constant (\(\sigma=1\)) then the capital share will be
+equal to the fraction of tasks that are automated, and so will steadily
+increase with automation.\sidenote{\footnotesize This discussion is taken from Aghion,
+  Jones, and Jones (2019) on p4.}
+
+However it is more reasonable to assume that \(\sigma<1\), consistent
+with the discussion above on structural change. This implies that, as
+each task is automated, the expenditure on that task will fall. When an
+additional task is automated there are two effects on labor income: (1)
+the price of that good falls, increasing the real wage; (2) the demand
+for labor to produce that good falls, decreasing the real wage.
+
+In fact the capital share has stayed mostly constant over the last 150
+years despite a great deal of automation. Aghion, Jones, and Jones
+(2019) note that the capital share could be stable if (1) the elasticity
+of substitution between goods is below 1, i.e.~they are gross
+complements (consistent with the evidence on structural change given
+above), and (2) the progress of automation is becoming progressively
+slower, e.g.~if a constant fraction of the remaining human tasks are
+automated each year. Korinek and Suh (2024) make a related argument,
+that labor income will increase if automation is sufficiently slow
+(there is a ``long tail'' of tasks).
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+In the US the majority of workers in 2018 are in occupations that did
+not exist in 1940 (red bars), from Autor et al. (2024).
+
+\end{footnotesize}}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-8-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\item[AI is likely to create new occupations.]
+In addition to shifting people between occupations, technology has
+created entirely new occupations: Autor et al. (2024) find that the
+majority of US workers in 2018 have job titles that did not exist in the
+Census of 1940. Acemoglu and Restrepo (2018) have a task model in which
+technological progress extends the abilities of both capital and labor:
+it allows capital to perform an additional human-only task \(K\), and it
+allows labor to perform an entirely new task \(K\). This can generate a
+steady progress of automation while still maintaining a constant labor
+share of income.
+\end{description}
+
+\vspace{3cm}
+
+\begin{description}
+\tightlist
+\item[The effect of AGI on wages is likely negative.]
+The following points discuss the implications of computers being able to
+do all human work, AKA Artificial General Intelligence (AGI). We show
+that the implications for wages will depend on the degree of comparative
+advantage, and the relative consumption of inputs like land and energy.
+\end{description}
+
+\vspace{3cm}
+
+\begin{description}
+\item[If we have AGI and no comparative advantage then wages will fall.]
+The task-based models discussed so far describe an equilibrium where
+only some tasks are automated, and the labor share is maintained either
+because the remaining human-done tasks become more valuable (Aghion,
+Jones, and Jones (2019)) or technological progress creates new
+human-only tasks (Acemoglu and Restrepo (2018)). These assumptions are
+necessary to fit historical data.
+
+However it is reasonable to ask what would happen if AI can do
+\emph{all} the tasks that humans can do. We first assume that humans and
+computers have the same relative costs of doing each task (assumed in
+Aghion, Jones, and Jones (2019) and Korinek and Suh (2024)). In this
+case humans and computers are essentially interchangeable, and so the
+price of computers will rise and the price of humans will fall until
+they are the same. Korinek and Suh (2024) note that this will cause
+wages to decline in absolute terms: the comparative advantage between
+humans and machines has disappeared, so the marginal value of human
+labor is what it would be in a world without capital. This will hold
+whether capital is fixed or endogenous. However note that despite wages
+falling total output will be very large, this is primarily a
+distribution problem.
+\end{description}
+
+\begin{description}
+\item[If humans retain a comparative advantage then wages would remain
+high.]
+The previous conclusion relied on humans and computers having the same
+\emph{relative} costs across tasks. However it's clear that some human
+tasks are relatively much easier for a computer, e.g.~doing numerical
+calculation, relative to transcribing a recording. This implies that
+even if computers can do every task there are differences in comparative
+advantage, and thus gains from trade. This argument is made by
+(\textbf{Smith2024?}): ``humans will have plentiful, high-paying jobs in
+the age of AI dominance.''
+
+Under this assumption achieving AGI will cause high wages, but further
+growth in computer capabilities (or further accumulation of capital)
+will not increase human wages any further, and therefore the labor share
+of output will fall.\sidenote{\footnotesize This is what happens in Acemoglu and
+  Restrepo (2018) with ``full automation'': there is comparative
+  advantage between labor and capital, but the labor share goes to zero.}
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-9-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\item[If computers and humans compete for other inputs then AGI will
+lower wages.]
+Suppose as before that computers can do all human tasks, but that they
+require energy, space, or materials. Then increasing the productivity of
+computers will cause those other factors of production to be shifted
+towards computer production, which will lower the marginal product of
+labor, and thus will lower wages.
+
+This was essentially the case of horses: they still have a comparative
+advantage relative to cars but their input and maintenance costs are
+much higher, and for that reason the economic value of horses has fallen
+dramatically.\sidenote{\footnotesize (\textbf{Smith2024?}) seems to acknowledge that
+  this argument undercuts the comparative advantage argument for high
+  wages. He has two responses: (1) that the government would limit
+  energy use by AI (``if human lives are at stake \ldots{} most
+  governments seem likely to limit AI's ability to hog energy.'') or (2)
+  that the non-energy costs of AI compute are high (``turning energy
+  into compute is really, really expensive and hard \ldots{} {[}t{]}hose
+  bottlenecks are specific to compute; unlike energy, they're not things
+  that you can allocate back and forth between compute manufacturing and
+  human consumption.'')}
+
+Korinek and Suh (2024) briefly discuss competition for fixed factors. A
+NY Times article reports responses from a few economists (Autor,
+Acemoglu) to a comparative advantage argument who say that they do not
+expect computers to be able to do all human tasks, but if they do then
+they do not think wages will hold up because of the resource costs.
+Autor: ``humans have a real cost of upkeep,\ldots{} Accordingly, humans
+might become a noncompetitive factor of production for any
+activity.''\sidenote{\footnotesize \href{https://www.nytimes.com/2024/03/22/opinion/ai-jobs-comparative-advantage.html}{Peter
+  Coy, NY Times March 22 2024}.}
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-10-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\item[Knowledge sharing: wages will level up.]
+This is a model that I have not seen in the literature but it seems
+natural way of representing how LLMs are being used in
+practice.\sidenote{\footnotesize It's closely related to an informal argument in Autor
+  (2024): he says ``{[}AI{]} would simultaneously temper the monopoly
+  power that doctors hold over medical care, lawyers over document
+  production, software engineers over computer code, professors over
+  undergraduate education, etc.''}. Suppose each person's comparative
+advantage is constituted by their private knowledge, but LLMs make that
+private knowledge public. Now the doctor can be a proficient lawyer, and
+vice versa. This has a number of implications:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Overall output will increase, especially in high-paid professions
+  where knowledge is scarce (medicine, engineering, law), and wages will
+  flatten.
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Measured GDP is likely to fall because exchange of services will be
+  less necessary, as knowledge is shared.
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  The incentives to discover new information will weaken, because there
+  will be less return from possessing private information.
+\end{enumerate}
+\item[AI contributions to productivity growth.]
+A number of recent papers discuss AI's ability to directly contribute to
+innovation: Aghion, Jones, and Jones (2019), Nordhaus (2021), Davidson
+(2021), Erdil and Besiroglu (2023), (\textbf{trammell2023economic?}).
+\item[AI and directed technical change.]
+A number of papers discuss the ability to direct technical change, e.g.
+Acemoglu and Restrepo (2018) have a model in which innovation can either
+create new tasks for computers or new tasks for humans. Brynjolfsson
+(2023) and Autor (2024) discuss in an informal way the potential for
+human-augmenting vs human-automating AI innovation.
+\item[Asset pricing.]
+A number of recent papers discuss how AI will be reflected in asset
+prices. Chow, Halperin, and Mazlish (2023) argue that expectations of AI
+should increase real interest rates through both (1) expectations of
+higher future consumption, and (2) concerns about existential risk.
+However they find little evidence that interest rates have increased.
+Eisfeldt et al. (2023) find that, on the release of ChatGPT, the value
+of firms with higher share of workers that are ``exposed'' to AI
+relatively increased.
+\end{description}
+
+\section{Models of Automation and AI
+(Chronological)}\label{models-of-automation-and-ai-chronological}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-11-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\item[Zeira (1998) ``Workers, Machines, and Economic Growth'']
+Zeira (1998) divides the economy into \(N\) intermediate goods, each of
+which can be produced by labor, and some can additionally be produced by
+capital. Assuming that all the goods have elasticity of substitution of
+1 means the capital share of the economy will be exactly the share of
+goods that can be produced by capital.\sidenote{\footnotesize This discussion is taken
+  from Aghion, Jones, and Jones (2019) on p4.}
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-12-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\item[Krusell et al. (2000), ``Capital-skill complementarity and
+inequality: A macroeconomic analysis'']
+They argue that the rise in the skill premium can mainly be explained by
+complementarity between capital and skill, rather than by a change in
+technology that increases the returns to skill.
+
+They construct a nested production function with four inputs (capital
+equipment, capital structures, skilled labor, and unskilled labor), and
+they estimate elasticities of substitution between each of the inputs.
+\item[Autor, Levy, and Murnane (2003), ``The Skill Content of Recent
+Technological Change: An Empirical Exploration'']
+They split labor into routine tasks (operate tabulating machine, pack
+goods) and non-routine tasks (design a building, navigate a boat), with
+substitutability index of 1. They assume that computers are perfect
+substitutes for routine tasks: this will lower the returns to routine
+labor, and raise the return to non-routine labor. Each person has a
+certain productivity in routine vs non-routine tasks. As computer
+capital grows this increases the wages of non-routine workers, and
+decreases the wages of routine workers. They say \emph{``the model can
+explain 60 percent of the estimated relative demand shift favoring
+college labor during 1970 to 1998. Task changes within nominally
+identical occupations account for almost half of this impact.''}
+
+Routine: \emph{``can be accomplished by following explicit rules''};
+non-routine: \emph{``problem-solving and complex communication
+activities.''} They use various measures from DOT to define
+routine/nonroutine and analytic/manual (p1293). For routine cognitive:
+``STS, which measures adaptability to work requiring Set limits,
+Tolerances, or Standards.''
+
+Professions that have been mostly eliminated: elevator operator,
+switchboard operator, typist, assembly line worker, data entry clerk,
+toll booth operator, film projectionist, mail sorter, meter reader,
+stock broker, parking attendant, printer, bookkeeper, order clerk.
+
+\[\begin{aligned}
+  Q &=(L_R+C)^{1-\beta}L_N^\beta\\
+  C &= \text{computer}\\
+  L_R &= \text{routine labor}\\
+  L_N &= \text{non-routine labor}
+   \end{aligned}\]
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-13-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\item[Sachs and Kotlikoff (2012) ``Smart Machines and Long-Term
+Misery'']
+They assume machines are relatively more substitutable with unskilled
+than skilled labor, by them both producing intermediate goods. They note
+that an increase in machine productivity will lower unskilled wages if
+(1) substitutability of machines and unskilled labor is high
+(\(\varepsilon_{ML}\) large); (2) substitutability of intermediate goods
+and skilled labor is low (\(\varepsilon_{SN}\) small); and (3) the share
+of skilled labor in final output is high.
+
+They then build an overlapping generations model, where each agent is
+unskilled in the first period, and can save to invest in a mixture of
+machinery and skills. They show that a rise in machine productivity can
+permanently lower the welfare of all succeeding generations through
+lowering their ability to save. Sachs has a number of other papers with
+other coauthors that appear to extend this dynamic framework.
+\item[Aghion, Jones, and Jones (2019) ``Artificial Intelligence and
+Economic Growth'']
+This paper discusses the task-based model of Zeira (1998), which implies
+that automation should cause a progressive increase in the labor share.
+They show that automation can generate balanced growth (meaning the
+labor share asymptotes to a constant level) if the elasticity of
+substitution between capital and labor is below 1, and the automation
+process is such that constant \emph{fraction} of the remaining human
+tasks are automated each year.
+
+They also discuss a model with both production and research, where both
+are Cobb-Douglas, in which growth will be hyperbolic.
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-14-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\tightlist
+\item[J. E. Bessen (2016), ``How computer automation affects
+occupations: Technology, jobs, and skills'']
+This paper has a model in which there are different types of labor
+(plumber, lawyer), and each occupation consists of a bundle of tasks.
+Automation typically automates just one task, which . Bessen gives
+examples: introduction of the ATM did not lead to fewer bank tellers,
+introduction of the barcode scanner did not reduce the number of
+checkout clerks. He says that there are some occupations that have
+declined due to automation (telephone operators, typesetters), but most
+occupations that are exposed to automation have increased. He disagrees
+with Autor, Levy, and Murnane (2003)'s interpretation that computers led
+to a hollowing out.
+\item[Acemoglu and Restrepo (2018) ``The Race Between Man and Machine:
+Implications of Technology for Growth, Factor Shares, and Employment'']
+This model is similar to task models discussed above, but additionally
+assumes that techincal progress creates new tasks that only humans can
+do, e.g.~``radiology technician'' and ``management analyst''.
+
+The model thus generates the observed historical pattern that (a) we are
+continually automating human tasks, yet (b) the share of labor in output
+has remained about the same. There's a continuum of tasks from \(N-1\)
+to \(N\), labor can do all of them but capital can only do some of them,
+and among those which capital can do, labor has a comparative advantage
+in tasks with a higher index. Advance of technology means that capital
+can do some new tasks, but we also create new labor-only tasks (increase
+\(N\)).\sidenote{\footnotesize A nice observation (p1500): if the CES coefficients
+  (\(\sigma\) and \(\zeta\)) are both equal to 1 then aggregate output
+  will be Cobb-Douglas, where the capital share is the share of tasks
+  that are automated.}
+
+Note: they discuss a scenario in which there is full automation
+(Proposition 4 (i) and Proposition 6 (i)), and say that all tasks will
+be done by capital, and the labor share will go to zero, but it is
+unclear to me why the comparative advantage between labor and capital
+does not hold. Also it is notable that they do not discuss competition
+for fixed factors if there is full automation (land and energy).
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+Output is a CES aggregate of tasks:
+\[Y=\tilde{B} \left[ \int_{N-1}^N y(i)^{\frac{\sigma-1}{\sigma}} \, d\Phi(i) \right]^{\frac{\sigma}{\sigma-1}}\]
+Each task is a CES aggregate of labor and task-specific technology
+\(q(i)\): \[y(i)=\begin{cases}
+      \overline{B}(\zeta) \left[ \eta^{\frac{1}{\zeta}} q(i)^{\frac{\zeta - 1}{\zeta}} + (1-\eta)^{\frac{1}{\zeta}} \left( k(i) + \gamma(i) l(i) \right)^{\frac{\zeta - 1}{\zeta}} \right]^{\frac{\zeta}{\zeta - 1}}
+      &, i\leq I\\
+      \overline{B}(\zeta) \left[ \eta^{\frac{1}{\zeta}} q(i)^{\frac{\zeta - 1}{\zeta}} + (1-\eta)^{\frac{1}{\zeta}} \left( \gamma(i) l(i) \right)^{\frac{\zeta - 1}{\zeta}} \right]^{\frac{\zeta}{\zeta - 1}}
+      &, i>I
+   \end{cases}
+\]
+
+\end{footnotesize}}
+
+\begin{description}
+\tightlist
+\item[Nordhaus (2021), ``Are we Approaching an Economic Singularity?
+Information Technology and the Future of Economic Growth.'']
+Nordhaus discusses ways in which AI could accelerate economic growth. He
+says the recent trends in growth do not make it look like it's imminent.
+Particular points:
+
+\begin{enumerate}
+\def\labelenumi{(\arabic{enumi})}
+\tightlist
+\item
+  Historically sectors with higher growth rates have declined as a share
+  of output, implying that acceleration in individual areas will not
+  lead to topline acceleration in output growth.
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{(\arabic{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Recent macroeconomic trends imply that capital is only slowly
+  substituting for labor. The singularity would happen when they are
+  perfect substitutes, and extrapolating recent trends does not imply
+  that they are close to becoming perfect substitutes.
+\end{enumerate}
+\item[Hemous and Olsen (2022), ``The Rise of the Machines: Automation,
+Horizontal Innovation, and Income Inequality'']
+I believe this paper primarily expands previous models by endogenizing
+the direction of technical change.
+
+There are a set of \(N\) intermediate goods with some elasticity of
+substitution. Each good is produced from high-skilled and low-skilled
+labor with Cobb-Douglas production, however some sectors can use
+machines to substitute for low-skilled labor (p.~183, eq. 2). Over time
+the set of goods increases (\(N\)). There is no capital, instead
+machines are themselves produced from the final good.
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-15-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\tightlist
+\item[Acemoglu and Restrepo (2022), ``Tasks, Automation, and the Rise in
+in US Wage Inequality'']
+Each type of worker does the task in which they have a comparative
+advantage. Gradually computers get better at different tasks, and then
+take over that task. Each progression increases overall output but when
+a group of workers gets displaced then their income declines. They argue
+that this model is a good fit for overall wage dynamics over 1980-2020,
+as workers in routine industries have become displaced.
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+Parameters (p2008):
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.4122}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.0382}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.0840}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.4656}}@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Elasticity of substitution between tasks & 0.5 & \(\lambda\) & (Humlum
+2019) \\
+Elasticity of substitution between labor and capital & 1 & \(\sigma\) &
+(\textbf{karabarbounis2014global?}), (\textbf{oberfield2021micro?}) \\
+Elasticity of substitution between industries & 0.2 & \(\eta\) &
+(\textbf{buera2015skill?}) \\
+Cost savings from automation & 30\% & \(\pi\) & Acemoglu and Restrepo
+(2020) \\
+\end{longtable}
+
+\end{footnotesize}}
+
+\begin{description}
+\tightlist
+\item[Benzell, Brynjolfsson, and Saint-Jacques (2022) ``Digital
+Abundance Meets Scarce Architects'' {[}UNFINISHED{]}]
+They have three inputs: capital, labor, and architecture (produced by
+labor). There's some elasticity of substitution between regular
+capital-labor production and architecture. They say this generates a
+decrease in labor share and in interest rates after a technology
+advance. They say the returns to architecture come through intangibles
+or executive compensation (I think).
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-16-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\tightlist
+\item[(\textbf{trammell2023economic?}) ``Economic Growth Under
+Transformative AI'' {[}UNFINISHED{]}]
+They consider a few mechanisms: (1) AI increases capital's substitution
+for labor; (2) AI increases the growth rate of TFP.
+\end{description}
+
+\vspace{5cm}
+
+\begin{description}
+\tightlist
+\item[A. K. Agrawal, Gans, and Goldfarb (2023) ``The Turing
+Transformation''\sidenote{\footnotesize I believe A. Agrawal, Gans, and Goldfarb
+  (2023) has the same basic argument but I could not find a copy online.}]
+They assume that products need a skilled and unskilled input which are
+perfect complements (\(\sigma=0\)). If AI can perfectly replace the
+skilled labor this will lower the wages of skilled workers but raise the
+wages of unskilled workers.
+
+This essay is written in response to Brynjolfsson (``The Turing Trap'')
+and Acemoglu, who both wrote pieces saying we should avoid building AI
+which directly replaces human skills. They say ``one person's substitute
+is another person's complement'', \& this model shows that replacing
+some human jobs will raise wages of other humans.
+
+They give some examples: (1) digital maps allow anyone to be a taxi
+driver; (2) LLMs raise the productivity of untrained call center
+workers; (3) AI diagnosis would let nurses look after patients; (4) AI
+translation allows people to transact across borders; (5) LLMs allow
+people with poor literacy to communicate well.
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-17-1.pdf}}
+
+\end{footnotesize}}
+
+\marginnote{\begin{footnotesize}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+elasticity of substitution between tasks & \(\sigma\) & 0.5 \\
+current fraction of automated tasks & \(\Phi_0\) & 0.6 \\
+\end{longtable}
+
+\end{footnotesize}}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{images/2024-08-20-12-30-22.png}}
+They predict that the real compensation of labor will increase then
+decrease as AI advances.
+
+\end{footnotesize}}
+
+\begin{description}
+\item[Korinek and Suh (2024) ``Scenarios for the Transition to AGI'']
+As in Zeira (1998) there are a fixed set of tasks performed by labor,
+and as AI progresses it unlocks the ability for capital to perform that
+task. They assume that the tasks are gross complements (\(\sigma<0.5\)),
+meaning that when a task becomes automatable then its expenditure share
+will fall.
+
+Their key finding: \emph{``for low levels of automation, advances in
+automation increase wages as the economy becomes more productive, but
+for higher levels of automation, wages decline due to the displacement
+of labor.''}
+
+We can describe the intuition in terms of the gains from \emph{trading}
+with another person: the gains are proportional to how different their
+skills are (comparative advantage). Korinek and Suh assume that AI's
+skills start out very different (they can only do a few tasks), and then
+gradually become more similar to human skills, meaning that the relative
+productivity across tasks eventually becomes the same.
+
+\[\begin{aligned}
+  Y &= A \left[ \int_i y(i)^{\frac{\sigma-1}{\sigma}} \, d\Phi(i) \right]^{\frac{\sigma}{\sigma-1}}
+     && \text{(output is CES across tasks)}\\
+  y(i) &= a_K(i)k(i) + a_L(i)\ell(i)
+     && \text{(each task can be performed by capital or labor)}\\
+  a_L(i) &= 1 && \text{(normalize labor productivity to 1)}\\
+  a_K(i) &= \begin{cases}1&i<I\\0&i\geq I\end{cases} && \text{(capital gradually catching up)}\\
+   \end{aligned}\]
+\item[Autor et al. (2024), ``New frontiers: The origins and content of
+new work, 1940--2018'']
+This paper has a model of rolling tasks which extends Acemoglu and
+Restrepo (2018) to two sectors, high-skilled and low-skilled. The model
+distinguishes between two types of innovation: augmentation (increases
+the value of outputs), and automation (substitutes for labor inputs).
+They collect a data about occupations over time. They estimate the
+degree of automating vs augmenting innovation by looking at patents
+which can be matched to occupational titles (from the Labor Dept's
+\emph{Dictionary of Occupational Titles}) vs those that can be matched
+to names of industries (from the Census Bureau's \emph{Index of
+Occupations and Industries}).
+
+They find that the majority of current employment is in professions that
+were only invented since 1940, and they estimate the relative impact of
+augmenting vs automating innovation.
+\item[Acemoglu (2024) ``The Simple Macroeconomics of AI'']
+He sets up a standard task-based model then discusses various different
+ways in which AI can change the parameters. However his primary
+quantitative prediction over the next decade uses a very simple
+calculation, using the following calculation:
+\end{description}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.5304}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.0435}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.4261}}@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Share of tasks exposed to AI & 20\% & Eloundou \\
+Share of exposed tasks that can profitably be performed by AI & 23\% &
+Svanberg et al. \\
+=\textgreater{} GDP share impacted by AI & 4.6\% & \\
+& & \\
+Labor cost savings in AI-performed tasks & 27\% &
+(\textbf{noy2023generative?}) and
+(\textbf{brynjolfsson2023generative?}) \\
+Labor share of output & 57\% & \\
+=\textgreater{} Avg total cost savings & 15.4\% & \\
+& & \\
+=\textgreater{} Aggregate TFP increase (=GDP share * avg cost savings) &
+0.71\% & \\
+\end{longtable}
+
+\begin{description}
+\item[Aghion and Bunel (2024), ``AI and Growth: where do we stand'']
+They use two different methods to estimate the productivity impact, both
+yield roughly 1\%/year. Their second method is basically the same as
+that used in Acemoglu (2024), but paramerized with much higher numbers,
+that seem more reasonable to me.
+\item[Autor (2024) ``Applying AI to Rebuild Middle-Class Jobs'']
+This essay argues that expertise is the primary source of labor's value,
+and that AI can be a complement to expertise rather than a substitute.
+
+\begin{quote}
+``Expertise is the primary source of labor's value in the US and other
+industrialized countries. Jobs that require little training or
+certification, such as restaurant servers, janitors, manual laborers and
+(even) childcare workers, are typically found at the bottom of the wage
+ladder.''
+\end{quote}
+
+He says computers and the internet increased inequality:
+
+\begin{quote}
+``by making information and calculation cheap and abundant,
+computerization catalyzed an unprecedented concentration of
+decision-making power, and accompanying resources, among elite
+experts.''
+\end{quote}
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-18-1.pdf}}
+
+\end{footnotesize}}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-19-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\item[Ide and Talamas (2024a) ``Artificial Intelligence in the Knowledge
+Economy'']
+Each human has a \emph{ceiling} on their ability (on a continuum of
+tasks from 0 to 1), but there's no comparative advantage below that
+ceiling. Thus there's assortative matching between skills and tasks.
+
+The paper has two big predictions:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \emph{Non-autonomous AI will benefit the least knowledgeable.} For
+  non-autonomous AI you still need a human for every problem, so it
+  effectively extends the range of tasks each person can handle.
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  \emph{Autonomous AI will benefit the most knowledgeable individuals.}
+  Autonomous AI is a substitute for lowexactly like a human, and there's
+  vertical strafication, so it'll lower relative returns to low types
+  (but assumption of comparative advantage).
+\end{enumerate}
+
+Additionally there's friction to trade, so endogenous formation of firms
+(partnerships between low \& high ability).
+\item[Ide and Talamas (2024b)]
+asdf
+\end{description}
+
+\begin{description}
+\item[Barnett (2025) ``The economic consequences of automating remote
+work'']
+This blog post estimates that about 1/3 of all labor in the US could be
+done remotely. He then asks what would happen if we expand the supply of
+remote labor by 100X through AI. If the elasticity of substitution
+between remote labor and other labor is 0.5, then output would double.
+If the elasticity was 10 (his preferred estimate) then output would
+increase by 50X.
+\end{description}
+
+\section{Related Models}\label{related-models}
+
+These are not models of AI and automation, however they're useful
+reference models.
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-20-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\item[Ricardo (1821) ``Principles of Political Economy''
+{[}UNFINISHED{]}]
+This is a famous model of trade: suppose English and Portugese labor can
+produce cloth and wine with linear production functions, what will
+happen if Portugese labor becomes better at producing cloth?
+
+Generally: if your industry becomes more productive, and you are a small
+share of output, and demand is inelastic (gross complements), this is
+\emph{bad} for you.
+
+If Leontief preferences then prices will be determined by whoever's
+budget constraint is the largest, so if you grow productivity then you
+grow income, but at some point you discretely become price-setter and so
+lose.
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-21-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\tightlist
+\item[Dixit and Stiglitz (1977) ``Monopolistic Competition and Optimum
+Product Diversity'']
+In this paper each type of good requires a fixed cost to produce, and
+then is linear in inputs. Here I've put an ``F'' on the side of each
+product to indicate a fixed cost. Elasticity of substitution is
+typically assumed to be above 1 (\(\sigma>1\)). The important
+implication is that as market size gets larger then the number of
+products offered will be larger. The model is widely used in macro and
+trade.
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-22-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\item[Capital Accumulation: if \(\sigma=1\) then no change.]
+We can also model the choice of capital, assuming that labor can be
+split between output and maintaining capital goods, and we assume that
+the total stock of capital is proportional to the time spent maintaining
+capital goods. We can ask what happens when capital productivity
+increases:
+
+\begin{itemize}
+\tightlist
+\item
+  If capital and labor have substitutability of 1 (\(\sigma=1\)) then
+  capital stock will not change. increases in capital productivity will
+  increase output and will increase the returns to both factors, but
+  will not change the quantity of capital accumulated, because the
+  relative returns to capital and labor do not change (the value of
+  capital measured in output will increase, but the physical quantity
+  will not change).
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  If capital and labor are gross substitutes (\(\sigma>1\)) then capital
+  will increase. The effective price of capital decreases, and so the
+  share of output spent on capital will increase, and so the share of
+  time allocated to capital maintenance will increase, and so the
+  physical quantity of capital will increase.
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  If capital and labor are gross complements (\(\sigma<1\)) then capital
+  will decrease.
+\end{itemize}
+
+An analogy: imagine crop yield depends on harvesting and on scythes, and
+that time can be spent on either harvesting or scythe production. If
+time and scythes are complements then an increase in scythe productivity
+will cause a decrease in the quantity of scythes produced. If time and
+scythes are substitutes then more productive scythes will cause an
+increase in the quantity produced.
+\item[Autor et al. (2020) ``The Fall of the Labor Share and the Rise of
+Superstar Firms'']
+They assume there are a variety of firms, with the same Cobb-Douglas
+production function, but each has a different level of total factor
+productivity. They assume that higher productivity firms have higher
+proportional markups, which will hold for certain utility functions
+(however not with a CES utility function which implies fixed
+proportional markups).
+
+They then empirically show that there has been a lot of reallocation
+towards higher-productivity firms, which can explain the increasing
+trends in markups and declining labor share.
+\item[Jones (2023) ``The AI dilemma: Growth versus existential risk'']
+This paper makes two points about the tradeoff between AI-driven
+economic growth and AI-caused existential risk:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  The appropriate tradeoff is extremely sensitive to the curvature of
+  utility: if we have log utility then we would be prepared to risk a
+  lot; if we have CRRA bounded utility then we woudl take very little
+  risk.
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  If AI growth delivers greater life expectancy or population then the.
+\end{enumerate}
+\end{description}
+
+\section{Technical Details}\label{technical-details}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-23-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\item[Macroeconomic models are built from a chain of functions.]
+Macroeconomic models are typically built from production functions
+(mapping inputs to goods), and utility functions (mapping goods to
+consumer value). We'll represent these functions with diagrams like
+those on the right.
+\item[The critical assumptions in a model are over the substitutability
+of inputs (\(\sigma\)).]
+Most of the difference between models is in the assumptions about
+\emph{substitutability} of inputs, represented with \(\sigma\). The
+elasticity can be defined as the effect of a change in relative price on
+relative consumption (assuming \(x_1\) and \(x_2\) are chosen to
+maximize profits given input prices \(p_1\) and \(p_2\)):
+\[\sigma_{21}=\frac{d\ln(x_1/x_2)}{d\ln(p_1/p_2)}.\]
+
+It is often convenient to assume that functions have the following
+structure, in which the elasticity of substitution is equal to
+\(\sigma\) everywhere (i.e.~for every value of the inputs, \(A,B,C\)).
+\[\begin{aligned}
+  \text{output}&=\left(\text{A}^\frac{\sigma}{\sigma-1}+\text{B}^\frac{\sigma}{\sigma-1}+\text{C}^\frac{\sigma}{\sigma-1}\right)^\frac{\sigma-1}{\sigma}.
+   \end{aligned}\]
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-24-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\tightlist
+\item[When \(\sigma>1\), inputs are substitutes.]
+For example tractors and horses are substitutes in producing wheat. This
+has two useful implications: (1) when the quantity of horses increases,
+the share of income going to horses will increase (assuming each input
+is paid their marginal product); (2) when the price of tractors falls
+then the quantity of horses demanded will fall.
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-25-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\tightlist
+\item[When \(\sigma<1\), inputs are complements.]
+For example cowboys and horses are complements in producing beef. This
+has two implications: (1) when the quantity of horses increases the
+share of income going to horses will decrease; (2) when the price of
+horses falls then the quantity of cowboys demanded will increase (for a
+given price of cowboys).
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-26-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\tightlist
+\item[When \(\sigma=1\), factor shares will be fixed.]
+For example suppose we model a strawberry farm as producing
+strawberries, with land and farmworkers as inputs.
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-27-1.pdf}}
+
+\end{footnotesize}}
+
+\begin{description}
+\tightlist
+\item[Many of the models have two stages.]
+In the first stage factors combine to create goods, in the second stage
+goods combine to create utility.
+\end{description}
+
+\marginnote{\begin{footnotesize}
+
+\[\begin{aligned}
+   good_j &= \left(\sum_{i}factor_{i,j}^\frac{\sigma_j}{\sigma_j-1}\right)^\frac{\sigma_j-1}{\sigma_j}
+      && \text{(production)} \\
+   u&=\left(\sum_{j}good_j^\frac{\sigma}{\sigma-1}\right)^\frac{\sigma-1}{\sigma}
+      && \text{(utility)} \\
+\end{aligned}
+\]
+
+\end{footnotesize}}
+
+\begin{description}
+\item[We assume that all consumers consume the same ratio of goods.]
+We assume that utility is homothetic meaning that the relative
+consumption of different goods is independent of the level of income.
+Although homotheticity certainly isn't exactly true (e.g.~Engel curves
+for food), Ngai and Pissarides (2007) argue that it's a reasonable
+approximation and is consistent with the broad facts of structural
+change.
+\item[A small changes to productivity will be directly reflected in
+output.]
+Suppose productivity grows by 20\% in one sector, and that sector
+constitutes 10\% of the economy, then we should expect total output to
+increase by 2\% (i.e.~20\% x 10\%). This is Hulten's theorem
+(\textbf{hulten1978growth?}), and holds for small changes in a
+competitive economy with constant returns to scale (see derivation in
+Acemoglu (2024)).
+\item[A large change in productivity will depend on the degree of
+complementarity.]
+Suppose AI makes labor much more productive in some sector, e.g.~10X
+more productive, then the effect on output will depend on
+substitutability. If \(\sigma=1\) (Cobb-Douglas), then Hulten's theorem
+will continue to be accurate for large changes, but if \(\sigma<0\)
+(gross complements) then the effect will be smaller, where \(\lambda\)
+is the growth in productivity, and \(X\) is the factor share:
+
+\[\utt{\frac{Y'}{Y}}{output}{growth}=[(1-X)+ X \lambda^{-(1-\sigma)} ]^{-\frac{1}{1-\sigma}}\]
+
+If \(\lambda=\infty\) then growth is \((1-X)^{-\frac{1}{1-\sigma}}\).
+
+If perfect complements (\(\sigma=0\)) then
+\(\frac{Y'}{Y}=\frac{1}{1-X}\), thus automating 10\% of the economy will
+get 10\% growth, and automating 50\% of the economy would get 100\%
+growth.
+
+If perfect complements (\(\sigma=0\)) then
+\(\frac{Y'}{Y}=[1-X(1-\lambda^{-1})]^{-1}\).
+\end{description}
+
+\sidenote{\footnotesize (\textbf{baqaee2019macro?}) extend Hulten's theorem beyond
+  first-order terms and show that second-order terms are often
+  important, e.g.~in calibrations to oil shocks .}
+
+\begin{description}
+\item[The effect of productivity on factor income depends on
+substitutability and the factor share.]
+Suppose the productivity of factor \(X\) increases: this will increase
+overall output, and the incomes of all other factors, but if
+\(\sigma<1\) then it will decrease the \emph{share} of output going to
+factor \(X\). The net effect on factor income will be positive if and
+only if the share of output going to that factor, \(s_X\), starts at a
+sufficiently high level \(s_X>\sigma\) (see Acemoglu (2024) p12).
+\end{description}
+
+\subsection{A Knowledge-Sharing Model}\label{a-knowledge-sharing-model}
+
+See also \texttt{2024-08-05-ricardian-ai.md}
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-28-1.pdf}}
+
+\end{footnotesize}}
+
+Suppose we think of LLMs as making private knowledge public. We start
+with a world where each person has an absolute advantage in the output
+that they produce:
+
+Then LLMs share knowledge which makes everyone better at \emph{every}
+tasks, i.e.~tasks that they're not already specialized in.
+
+\marginnote{\begin{footnotesize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{2024-08-19-equilibrium-models-of-ai_files/figure-pdf/unnamed-chunk-29-1.pdf}}
+
+\end{footnotesize}}
+
+Implications \& observations:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{The composition of output will shift.} We will produce
+  relatively much more of the things where knowledge is a scarce input
+  (and so wages are high): medicine, engineering, law.
+\item
+  \textbf{Highly paid professiosn wages will fall} The quantity of
+  output will increase and the wage will fall, but aggregate welfare
+  increases.
+\item
+  \textbf{Measured GDP could fall.} Because exchange of services would
+  be less necessary, because we can do those things ourselves.
+\item
+  \textbf{The incentives to discover new information will weaken.} If
+  you expect any private information to become public, through LLMs,
+  then you will no longer be able to earn a return from possessing that
+  information.
+\item
+  \textbf{Junior workers become experts / learning curve is compressed.}
+  Junior workers can use LLMs to very quickly catch up.
+\item
+  \textbf{Even physical jobs would be affected.} Strawberry pickers,
+  baristas, arborists, can ask an LLM how to solve a problem, or can ask
+  multimodal model to critique their form.
+\item
+  \textbf{This is similar to books and the internet.} The printing press
+  and the internet also dramatically changed the distribution of
+  information, I guess they'd have comparable economic impact.
+\end{enumerate}
+
+\newpage
+
+\newpage
+
+\section*{Bibliography}\label{bibliography}
+\addcontentsline{toc}{section}{Bibliography}
+
+\phantomsection\label{refs}
+\begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-acemoglu2024simple}
+Acemoglu, Daron. 2024. {``The Simple Macroeconomics of AI.''} National
+Bureau of Economic Research.
+\url{https://economics.mit.edu/sites/default/files/2024-04/The\%20Simple\%20Macroeconomics\%20of\%20AI.pdf}.
+
+\bibitem[\citeproctext]{ref-acemoglu2018race}
+Acemoglu, Daron, and Pascual Restrepo. 2018. {``The Race Between Man and
+Machine: Implications of Technology for Growth, Factor Shares, and
+Employment.''} \emph{American Economic Review} 108 (6): 1488--1542.
+
+\bibitem[\citeproctext]{ref-acemoglu2020unpacking}
+---------. 2020. {``Unpacking Skill Bias: Automation and New Tasks.''}
+w26681. National Bureau of Economic Research.
+
+\bibitem[\citeproctext]{ref-acemoglu2022tasks}
+---------. 2022. {``Tasks, Automation, and the Rise in US Wage
+Inequality.''} \emph{Econometrica} 90 (5): 1973--2016.
+
+\bibitem[\citeproctext]{ref-adachi2024robots}
+Adachi, Daisuke, Daiji Kawaguchi, and Yukiko U Saito. 2024. {``Robots
+and Employment: Evidence from Japan, 1978--2017.''} \emph{Journal of
+Labor Economics} 42 (2): 591--634.
+
+\bibitem[\citeproctext]{ref-aghion2024ai}
+Aghion, Philippe, and Simon Bunel. 2024. {``AI and Growth: Where Do We
+Stand.''}
+\url{https://www.frbsf.org/wp-content/uploads/AI-and-Growth-Aghion-Bunel.pdf}.
+
+\bibitem[\citeproctext]{ref-aghion2019artificial}
+Aghion, Philippe, Benjamin F. Jones, and Charles I. Jones. 2019.
+{``Artificial Intelligence and Economic Growth.''} In \emph{An Agenda},
+edited by Ajay Agrawal, Joshua Gans, and Avi Goldfarb, 237--90. Chicago:
+University of Chicago Press.
+\url{https://doi.org/doi:10.7208/9780226613475-011}.
+
+\bibitem[\citeproctext]{ref-agrawal2023turing}
+Agrawal, Ajay K, Joshua S Gans, and Avi Goldfarb. 2023. {``The Turing
+Transformation: Artificial Intelligence, Intelligence Augmentation, and
+Skill Premiums.''} National Bureau of Economic Research.
+
+\bibitem[\citeproctext]{ref-agrawal2023automation}
+Agrawal, Ajay, Joshua S Gans, and Avi Goldfarb. 2023. {``Do We Want Less
+Automation?''} \emph{Science} 381 (6654): 155--58.
+
+\bibitem[\citeproctext]{ref-autor2024applying}
+Autor, David. 2024. {``Applying AI to Rebuild Middle Class Jobs.''}
+National Bureau of Economic Research.
+
+\bibitem[\citeproctext]{ref-autor2024new}
+Autor, David, Caroline Chin, Anna Salomons, and Bryan Seegmiller. 2024.
+{``New Frontiers: The Origins and Content of New Work, 1940--2018.''}
+\emph{The Quarterly Journal of Economics}, qjae008.
+
+\bibitem[\citeproctext]{ref-autor2021persistence}
+Autor, David, David Dorn, and Gordon H Hanson. 2021. {``On the
+Persistence of the China Shock.''} National Bureau of Economic Research.
+
+\bibitem[\citeproctext]{ref-autor2020fall}
+Autor, David, David Dorn, Lawrence F Katz, Christina Patterson, and John
+Van Reenen. 2020. {``{The Fall of the Labor Share and the Rise of
+Superstar Firms*}.''} \emph{The Quarterly Journal of Economics} 135 (2):
+645--709. \url{https://doi.org/10.1093/qje/qjaa004}.
+
+\bibitem[\citeproctext]{ref-autor2003skill}
+Autor, David, Frank Levy, and Richard J Murnane. 2003. {``The Skill
+Content of Recent Technological Change: An Empirical Exploration.''}
+\emph{The Quarterly Journal of Economics} 118 (4): 1279--1333.
+
+\bibitem[\citeproctext]{ref-barnett2025consequences}
+Barnett, Matthew. 2025. {``The Economic Consequences of Automating
+Remote Work.''}
+\url{https://epoch.ai/gradient-updates/consequences-of-automating-remote-work}.
+
+\bibitem[\citeproctext]{ref-baumol1965performing}
+Baumol, W. J., and W. G. Bowen. 1965. {``On the Performing Arts: The
+Anatomy of Their Economic Problems.''} \emph{The American Economic
+Review} 55 (1/2): 495--502. \url{http://www.jstor.org/stable/1816292}.
+
+\bibitem[\citeproctext]{ref-benzell2022digital}
+Benzell, Seth G, Erik Brynjolfsson, and Guillaume Saint-Jacques. 2022.
+{``Digital Abundance Meets Scarce Architects: Implications for Wages,
+Interest Rates, and Growth.''}
+
+\bibitem[\citeproctext]{ref-beraja2022inefficient}
+Beraja, Martin, and Nathan Zorzi. 2022. {``Inefficient Automation.''}
+National Bureau of Economic Research.
+
+\bibitem[\citeproctext]{ref-bessen2016computer}
+Bessen, James E. 2016. {``How Computer Automation Affects Occupations:
+Technology, Jobs, and Skills.''} \emph{Boston Univ. School of Law, Law
+and Economics Research Paper}, no. 15-49.
+
+\bibitem[\citeproctext]{ref-bessen2023automatic}
+Bessen, James, Martin Goos, Anna Salomons, and Wiljan Van den Berge.
+2023. {``Automatic Reaction-What Happens to Workers at Firms That
+Automate?''} \emph{The Review of Economics and Statistics}, no. Feb. 6,
+2023.
+
+\bibitem[\citeproctext]{ref-boppart2020labor}
+Boppart, Timo, and Per Krusell. 2020. {``Labor Supply in the Past,
+Present, and Future: A Balanced-Growth Perspective.''} \emph{Journal of
+Political Economy} 128 (1): 118--57.
+
+\bibitem[\citeproctext]{ref-brynjolfsson2023turing}
+Brynjolfsson, Erik. 2023. {``The Turing Trap: The Promise \& Peril of
+Human-Like Artificial Intelligence.''} In \emph{Augmented Education in
+the Global Age}, 103--16. Routledge.
+
+\bibitem[\citeproctext]{ref-chow2023transformative}
+Chow, Trevor, Basil Halperin, and J Zachary Mazlish. 2023.
+{``Transformative AI, Existential Risk, and Asset Pricing.''} Working
+Paper.
+
+\bibitem[\citeproctext]{ref-costinot2023robots}
+Costinot, Arnaud, and Ivan Werning. 2023. {``Robots, Trade, and Luddism:
+A Sufficient Statistic Approach to Optimal Technology Regulation.''}
+\emph{The Review of Economic Studies} 90 (5): 2261--91.
+
+\bibitem[\citeproctext]{ref-davidson2021could}
+Davidson, Tom. 2021. {``Could Advanced AI Drive Explosive Economic
+Growth.''} \emph{Open Philanthropy} 25.
+
+\bibitem[\citeproctext]{ref-dixit1977monopolistic}
+Dixit, Avinash K, and Joseph E Stiglitz. 1977. {``Monopolistic
+Competition and Optimum Product Diversity.''} \emph{The American
+Economic Review} 67 (3): 297--308.
+
+\bibitem[\citeproctext]{ref-eisfeldt2023labor}
+Eisfeldt, Andrea L, Gregor Schubert, Miao Ben Zhang, and Bledi Taska.
+2023. {``The Labor Impact of Generative AI on Firm Values.''}
+\emph{Available at SSRN 4436627}.
+
+\bibitem[\citeproctext]{ref-erdil2023explosive}
+Erdil, Ege, and Tamay Besiroglu. 2023. {``Explosive Growth from AI
+Automation: A Review of the Arguments.''} \emph{arXiv Preprint
+arXiv:2309.11690}.
+
+\bibitem[\citeproctext]{ref-gechert2022measuring}
+Gechert, Sebastian, Tomas Havranek, Zuzana Irsova, and Dominika
+Kolcunova. 2022. {``Measuring Capital-Labor Substitution: The Importance
+of Method Choices and Publication Bias.''} \emph{Review of Economic
+Dynamics} 45: 55--82.
+
+\bibitem[\citeproctext]{ref-giuntella2022workers}
+Giuntella, Osea, Yi Lu, and Tianyi Wang. 2022. {``How Do Workers and
+Households Adjust to Robots? Evidence from China.''} National Bureau of
+Economic Research.
+
+\bibitem[\citeproctext]{ref-hemous2022rise}
+Hemous, David, and Morten Olsen. 2022. {``The Rise of the Machines:
+Automation, Horizontal Innovation, and Income Inequality.''}
+\emph{American Economic Journal: Macroeconomics} 14 (1): 179--223.
+
+\bibitem[\citeproctext]{ref-hotte2023technology}
+Hotte, Kerstin, Melline Somers, and Angelos Theodorakopoulos. 2023.
+{``Technology and Jobs: A Systematic Literature Review.''}
+\emph{Technological Forecasting and Social Change} 194: 122750.
+
+\bibitem[\citeproctext]{ref-humlum2019robot}
+Humlum, Anders. 2019. {``Robot Adoption and Labor Market Dynamics.''}
+\emph{Princeton University}. \url{https://www.nber.org/papers/w33777}.
+
+\bibitem[\citeproctext]{ref-ide2024artificialintelligenceknowledgeeconomy}
+Ide, Enrique, and Eduard Talamas. 2024a. {``Artificial Intelligence in
+the Knowledge Economy.''} \url{https://arxiv.org/abs/2312.05481}.
+
+\bibitem[\citeproctext]{ref-ide2024turingvalleyaicapabilities}
+---------. 2024b. {``The Turing Valley: How AI Capabilities Shape Labor
+Income.''} \url{https://arxiv.org/abs/2408.16443}.
+
+\bibitem[\citeproctext]{ref-ilo2015income}
+ILO, IMF, OECD. 2015. {``Income Inequality and Labour Income Share in
+G20 Countries: Trends, Impacts and Causes.''}
+
+\bibitem[\citeproctext]{ref-jones2023ai}
+Jones, Charles I. 2023. {``The AI Dilemma: Growth Versus Existential
+Risk.''} National Bureau of Economic Research.
+
+\bibitem[\citeproctext]{ref-katz1992changes}
+Katz, Lawrence F, and Kevin M Murphy. 1992. {``Changes in Relative
+Wages, 1963--1987: Supply and Demand Factors.''} \emph{The Quarterly
+Journal of Economics} 107 (1): 35--78.
+
+\bibitem[\citeproctext]{ref-korinek2024scenarios}
+Korinek, Anton, and Donghyun Suh. 2024. {``Scenarios for the Transition
+to AGI.''} National Bureau of Economic Research.
+\url{https://arxiv.org/abs/2403.12107}.
+
+\bibitem[\citeproctext]{ref-krusell2000capital}
+Krusell, Per, Lee E Ohanian, Jose-Victor Rios-Rull, and Giovanni L
+Violante. 2000. {``Capital-Skill Complementarity and Inequality: A
+Macroeconomic Analysis.''} \emph{Econometrica} 68 (5): 1029--53.
+
+\bibitem[\citeproctext]{ref-lehr2022optimal}
+Lehr, Nils Haakon, and Pascual Restrepo. 2022. {``Optimal Gradualism.''}
+National Bureau of Economic Research.
+
+\bibitem[\citeproctext]{ref-lu2021review}
+Lu, Yingying, and Yixiao Zhou. 2021. {``A Review on the Economics of
+Artificial Intelligence.''} \emph{Journal of Economic Surveys} 35 (4):
+1045--72.
+
+\bibitem[\citeproctext]{ref-ngai2007structural}
+Ngai, L Rachel, and Christopher A Pissarides. 2007. {``Structural Change
+in a Multisector Model of Growth.''} \emph{American Economic Review} 97
+(1): 429--43.
+
+\bibitem[\citeproctext]{ref-nordhaus2021singularity}
+Nordhaus, William D. 2021. {``Are We Approaching an Economic
+Singularity? Information Technology and the Future of Economic
+Growth.''} \emph{American Economic Journal: Macroeconomics} 13 (1):
+299--332.
+
+\bibitem[\citeproctext]{ref-ricardo1821principles}
+Ricardo, David. 1821. \emph{On the Principles of Political Economy}. J.
+Murray London.
+
+\bibitem[\citeproctext]{ref-sachs2012smart}
+Sachs, Jeffrey D, and Laurence J Kotlikoff. 2012. {``Smart Machines and
+Long-Term Misery.''} National Bureau of economic research.
+
+\bibitem[\citeproctext]{ref-zeira1998workers}
+Zeira, Joseph. 1998. {``Workers, Machines, and Economic Growth.''}
+\emph{The Quarterly Journal of Economics} 113 (4): 1091--1117.
+
+\end{CSLReferences}
+
+
+
+
+\end{document}
