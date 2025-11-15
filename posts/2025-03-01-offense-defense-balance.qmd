@@ -1,0 +1,365 @@
+---
+title: AI and the Offense-Defense Balance
+latex-auto-mk: false # this stops it from updating packages every compile
+bibliography: ai.bib
+draft: true
+execute:
+  echo: false
+  warning: false
+  error: false
+  cache: true # caches chunk output
+format:
+   html:
+#      toc: true
+#      toc-depth: 2
+#      toc-location: left
+      code-fold: true
+      html-math-method:
+         method: mathjax
+         url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js"
+         #     ^ this forces SVG instead of CHTML, otherwise xypic renders weird
+      include-in-header:
+         - text: |
+            <script>window.MathJax = {
+                     loader: { load: ['[custom]/xypic.js'],
+                                 paths: {custom: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/'}},
+                  tex: {packages: {'[+]': ['xypic']},
+                     macros: {
+                        bm: ["\\boldsymbol{#1}", 1],
+                        ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+                        utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3]
+                     }}};
+            </script>
+            <style>
+               h1 {  border-bottom: 4px solid black; }
+               h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; color: black; }
+               dl {display: grid;grid-template-columns: max-content auto;}
+               dt {grid-column-start: 1; width: 4cm;}
+               dd {grid-column-start: 2; margin-left: 2em;}
+            </style>
+engine: knitr
+editor:
+  render-on-save: true
+---
+
+AI will change the balance of power across *dozens* of different areas.
+: AI is already being adopted by both sides in teaching, hiring, war, education, publication, communication.
+
+      In some cases it will shift things in favor of the offense, in some it will shift in favor of defense.
+
+      I describe four stylized models of the offense-defense balance.
+      
+
+      | Offense       | Defense         | AI favors |
+      | ------------- | --------------- | --------- |
+      | finding holes | plugging holes  | defense   |
+      | finding holes | watching holes  | offense   |
+      | forging items | verifying items | defense   |
+      | forging items | examining items | offense   |
+   
+
+The theory will be very loose.
+: By the standards of economic theory published in journals this blog post is going to be enormously loose. But it feels like a sufficiently important question that it's worth taking a picture even if it's blurry.
+
+Offense as finding holes.
+: Suppose offense and defense are both exerting effort to find *holes*. If offense finds a hole that's not defended, then it wins the game. Two subgames:
+
+      - **Defense plugs holes.** When defense finds a hole then it can fix it, putting a plug in it. If offense finds a hole, and it's not fixed, then it wins a point. If AI makes it easier for both sides to find holes, and assuming the return to effort on finding holes is decreasing, this will favor the defender, because we eventually run out of holes.
+
+      - **Defense watches holes.** When defense finds a hold then it can *watch* that hole, but they have limited attention. Now if both sides get better at finding holes the advantage will be to the attacker (assuming the defender has diminishing ability to watch more holes).
+
+Offense as forging items.
+: Suppose offense chooses some X and the defender examines it to see if it's genuine. Both sides have access to a classifier that can give an imperfect signal of whether X is genuine.
+
+      - **Defense verifies items.** Suppose defense can freely verify the quality of the item. As the classifier gets better this will tend to favor the defense because we know a perfect classifier must perfectly favor the defense.
+
+      - **Defense examines items.** The offense chooses some X and the defender examines it to see whether it *appears* genuine. In this case the appearance of X isn't the ground truth, the property depends on some external fact about the world. In this case a perfect classifier helps the offense because they can then pass their forgeries off perfectly.
+
+##           Applications
+
+
+|                                | AI helps offense                      | AI helps defense                 | Guess at benefit |
+| ------------------------------ | ------------------------------------- | -------------------------------- | :--------------: |
+| WARFARE                        |                                       |                                  |                  |
+| - assassination                | autonomous assassination drones       | autonomous anti-drone drones     |     offense      |
+| - battle robots                | autonomous attack robots              | autonomous defense robots        |        ?         |
+| - camouflage                   | AI signal disruption                  | AI signal detection              |     defense      |
+|                                |                                       |                                  |                  |
+| COMPUTER SECURITY              |                                       |                                  |                  |
+| - compromise a server          | AI fuzzing                            | AI defensive fuzzing             |     defense      |
+| - vulnerabilities in OSS       | AI code checking                      | AI defensive code checking       |     defense      |
+| - spear phishing               | AI forgery of phishing emails         | AI phishing detector             |     offense      |
+|                                |                                       |                                  |                  |
+| EDUCATION                      |                                       |                                  |                  |
+| - cheating on problemsets      | AI answers the question for you       | (none)                           |     offense      |
+| - cheating on essays           | AI writes the essay                   | AI detector                      |     offense      |
+|                                |                                       |                                  |                  |
+| RESEARCH                       |                                       |                                  |                  |
+| - forging historical documents | produce an image that looks authentic | recognize whether it's a forgery |     offense      |
+| - faking data in research      | AI generates fake data                | AI detects faked data            |     offense      |
+|                                |                                       |                                  |                  |
+| CONTENT MODERATION             |                                       |                                  |                  |
+| - email spam with link         | AI customized spam                    |                                  |     offense      |
+| - policy-violating content     | AI obsfucation                        | AI detection                     |     defense      |
+| - censoring communication      | AI obsfucation                        | AI detection                     |     defense      |
+| - forgery/deepfakes            | AI                                    |                                  |     offense      |
+| - watermarking                 | AI watermarking                       | AI watermark removal             |                  |
+|                                |                                       |                                  |                  |
+| WORK                           |                                       |                                  |                  |
+| - leaking information          | AI to obscure activity                | AI identifying activity          |     defense      |
+| - monitoring productivity      | AI to obscure activity                | AI identifying activity          |     defense      |
+|                                |                                       |                                  |                  |
+| TRADE                          |                                       |                                  |                  |
+| - quality check                | compromise on product quality         | inspect quality                  |                  |
+
+
+Theory points:
+
+1. If finding holes --> favors defense.
+2. If covering surface, & costly --> favors defense (but killer drones).
+3. If forging --> favors 
+4. If technology changes quickly --- favors offense.
+
+
+
+
+
+
+
+#           Model
+
+The attacker wins if they discover a hole that defense hasn't discovered.
+: The two sides spend $c_A$ and $c_D$ on searching for holes, and there's a density of holes $f(x)$, so the probability of the attacker winning is:
+   $$\utt{F(c_A)-F(c_D)}{prob attacker finds}{a hole that defender does not}$$
+
+There's no pure strategy equilibrium.
+: If the attacker ever wins, we must have some occasions when $F(c_A)>F(c_D)$. But they face the same marginal cost, and attacker has lower marginal benefit (bcos $c_A>c_D$), which is a contradiction. [==fix this==]
+
+Conjecture at a mixed-strategy equilibrium.
+: Defense plays a fixed $c_D$. The attacker is indifferent between playing 0 and playing $c_A$ which satisfies:
+   $$\begin{aligned}
+      \utt{f(c_A)}{marginal return}{to effort} &= \utt{1}{marginal}{cost} \\
+      \utt{F(c_A)-F(c_D)}{benefit}{from participating} &= \utt{c_A}{cost from}{participating} \\
+   \end{aligned}
+   $$
+
+How does distribution $f$ affect equilibrium?
+: - $c_A=f^{-1}(1)$ , so if fat tails then attackers will put in a lot of effort, if thin tails then not so much.
+
+Will be equilibrium when the blue and green are exactly the same size:
+
+```{tikz}
+\begin{tikzpicture}
+   \draw[<->] (5,0) node[right] {$x$} -- (0,0)-- (0,5) node[above]{};
+   \draw[dotted] (5,1)--(-0.05,1) node[left] {1};
+   \draw[dashed] (1.61,0)--(1.61,4) node[above]{$c_A$};
+   \draw[dashed] (.8,0)--(.8,4) node[above]{$c_D$};
+   \draw[blue, thick, domain=0:5, samples=100] plot (\x, {5*exp(-\x)}) node[above]{$f(x)$};
+   \fill[blue,domain=.8:1.61] (.8,1) -- plot (\x, {5*exp(-\x)}) -- (1.61,1) -- cycle;
+   \fill[green!50!black] (0,0)--(.8,0)--(.8,1)--(0,1)--cycle;
+
+\end{tikzpicture}
+```
+
+
+
+#        General Theory on Offense-Defense
+
+Lanchester (1915) [Lanchester Laws](https://en.wikipedia.org/wiki/Lanchester%27s_laws)
+: General laws of ratio required by offense and defense in a battle.
+
+Huntington (1958) ["Arms Races"](https://www.dropbox.com/scl/fi/x3evqh8ei5ltbzvf4wph2/Huntington-Arms-Races-s.pdf?rlkey=3eqa318v7x3q7myyzxirgetom&e=1&dl=0)
+: (...)
+
+Tullock contest functions.
+: Typically symmetric. The share of surplus consumed will be inverse to steepness of diminishing returns. 
+
+Schneier (2018) ["Artificial Intelligence and the Attack/Defense Balance"](https://www.computer.org/csdl/magazine/sp/2018/02/msp2018020096/13rRUzpQPMi)
+: > "Both attack and defense will benefit from AI technologies, but I believe that AI has the capability to tip the scales more toward defense.  ... defense is currently in a worse position than offense precisely because of the human components. Present-day attacks pit the relative advantages of computers and humans against the relative weaknesses of computers and humans. Computers moving into what are traditionally human areas will rebalance that equation."
+
+Glaser & Kaufman (1998) [What Is the Offense-Defense Balance and How Can We Measure It?](https://sci-hub.se/10.2307/2539240)
+: They say it's been an influential theory, and says that war is rare today because technology favors defense over offense.
+
+      > "As originally described by Robert Jervis, the two key variables in the theory are (1) the offense-defense balance -- whether it is "easier" to take territory or to defend it, and (2) offense-defense distinguishability -- whether the forces that support offensive missions are different from those that support defensive missions.  The basic predictions concerning the offense-defense balance are that as the advantage of offense increases, the security dilemma becomes more severe, arms races become more intense, and war becomes more likely"
+
+      Definition of the balance: 
+      
+      > “ratio of forces the attacker requires to take territory to the cost of the forces the defender has deployed.” 
+
+
+Garfinkel & Dafoe (2019) ["How does the offense-defense balance scale?"](https://www.tandfonline.com/doi/full/10.1080/01402390.2019.1631810)
+: They conjecture that in many cases growth in resources will favor defense:
+
+      > "growth in investments will favor offense when investment levels are sufficiently low and favor defense when they are sufficiently high."
+
+Bonfanti (2022) [Artificial intelligence and the offense-defense balance in cyber security](https://www.research-collection.ethz.ch/bitstream/handle/20.500.11850/569895/10.4324_9781003110224-6_chapterpdf.pdf;jsessionid=C6C82EB047449664F5D228BA7ED7C4C3?sequence=3)
+: General discussion, *"It is difficult to establish which application, defensive or offensive, will benefit relatively more from the integration of AI capabilities."*
+
+Maxwell Tabarrok (2024) ["A Theory of Equilibrium in the Offense-Defense Balance"](https://www.maximum-progress.com/p/a-theory-of-equilibrium-in-the-offense)
+: Just says that there will be effects of AI on both defense as well as offense, so you shouldn't expect partial equilibrium effects of offensive AI to be the full effect. E.g. if there are killer drones then people will go outside less. (also on [lesswrong](https://www.lesswrong.com/posts/FDShX8cmgdKvDWkFJ/a-theory-of-equilibrium-in-the-offense-defense-balance))
+
+
+Heather Adkins (2024) ["The Offense-Defense Balance"](https://securityandtechnology.org/blog/technologist-talks-the-offense-defense-balance/)
+: She says that vulnerability discovery is increasing, & that's probably driven by LLMs, but it's unclear whether this is changing the offense-defense balance.
+
+      > "Are we going to find vulnerabilities faster on the defense side or the offense side? And then how quickly can we fix them? And that, I think, ultimately is just to make a very complicated conversation very simple, that’s the linchpin in this question. Who’s going to win is going to be who runs faster at the software vulnerability problem, in my view."
+
+      > "by 2050, I do think we will have systems that are relatively self healing."
+
+
+Bressler, Trager, Dafoe (2021) [The Offense-Defense Balance and the Costs of Anarchy: When Welfare Improves Under Offensive Advantage](https://preprints.apsanet.org/engage/apsa/article-details/60aff17fcb523e8582d8f64e)
+: Notes that welfare is generally better when there's a big asymmetry, as there's less equilibrium conflict.
+
+      > "High defensive advantage is first-best because attacking is difficult and the arms burdens required to deter attacks and maintain peace are low. High offensive advantage is comparatively worse because war is likely, but war tends to be smaller in scale, quicker, and less costly. Intermediate offensive advantage is worst because high arms burdens are required to deter attacks while wars, when they occur, are larger, longer, and more destructive. "
+
+Jabarian & Imas (2025) ["Artificial Writing & Automated Detection"](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5407424)
+: They evaluate the tradeoff of FNR and FPR among different artificial writing programs, but I think do not consider the equilibrium effects.
+
+@garfinkel2007conflict
+: Good review of the economics of conflict, centered around the Tullock contest function. 
+
+#        Tullock
+
+Let $e_1,e_2\ge 0$ be the **effort choices** of the two players, and let $c_1,c_2>0$ be their **marginal costs of effort**.
+
+1. **Contest success function.** Player 1 wins the prize with probability
+   $$P_1(e_1,e_2)=\frac{e_1^{r_1}}{e_1^{r_1}+e_2^{r_2}}$$
+   and player 2 wins with $P_2(e_1,e_2)=1-P_1(e_1,e_2)$.
+
+2. **Payoffs.** Let the prize be worth $V>0$ to both players. Then player 1’s payoff is
+   $$u_1(e_1,e_2)=V\,P_1(e_1,e_2)-c_1 e_1
+     = V\frac{e_1^{r_1}}{e_1^{r_1}+e_2^{r_2}}-c_1 e_1,$$
+   and symmetrically for player 2:
+   $$u_2(e_1,e_2)=V\frac{e_2^{r_2}}{e_1^{r_1}+e_2^{r_2}}-c_2 e_2.$$
+
+3. **First-order condition for player 1.** Fix $e_2$ and maximize $u_1(e_1,e_2)$ over $e_1\ge 0$.
+   1. Differentiate $P_1$ with respect to $e_1$:
+      $$\frac{\partial P_1}{\partial e_1}
+        =\frac{r_1 e_1^{r_1-1} e_2^{r_2}}{\bigl(e_1^{r_1}+e_2^{r_2}\bigr)^2}.$$
+   2. The derivative of $u_1$ is therefore
+      $$\frac{\partial u_1}{\partial e_1}
+        =V\frac{r_1 e_1^{r_1-1} e_2^{r_2}}{\bigl(e_1^{r_1}+e_2^{r_2}\bigr)^2}-c_1.$$
+   3. An interior best response $e_1>0$ must satisfy the FOC
+      $$V r_1 e_1^{r_1-1} e_2^{r_2}
+        =c_1\bigl(e_1^{r_1}+e_2^{r_2}\bigr)^2. \tag{BR1-FOC}$$
+
+4. **Parametric best-response curve for player 1.** It is convenient to re-express the FOC in terms of the ratio
+   $$t \equiv \frac{e_1^{r_1}}{e_2^{r_2}}, \qquad t>0.$$
+   We can solve for the pair $(e_1,e_2)$ that lies on player 1’s best-response locus.
+   1. Rewrite the FOC using $t$:
+      1. Note that $e_1^{r_1}=t e_2^{r_2}$ and hence
+         $$e_1^{r_1-1}
+           =\frac{e_1^{r_1}}{e_1}
+           =\frac{t e_2^{r_2}}{e_1}.$$
+      2. Using $e_1=t^{1/r_1} e_2^{r_2/r_1}$ we get
+         $$e_1^{r_1-1}
+           =t^{(r_1-1)/r_1} e_2^{r_2(1-1/r_1)}.$$
+      3. Substituting into (BR1-FOC) gives
+         $$V r_1 t^{(r_1-1)/r_1} e_2^{r_2(2-1/r_1)}
+           = c_1 e_2^{2r_2}(t+1)^2.$$
+      4. Cancelling the common factor $e_2^{r_2(2-1/r_1)}$ yields
+         $$V r_1 t^{(r_1-1)/r_1}
+           = c_1 e_2^{r_2(2+1/r_1)}(t+1)^2.$$
+   2. Solving this for $e_2$ gives the opponent’s effort along player 1’s best-response locus:
+      $$e_2(t)
+        =\Biggl(\frac{V r_1}{c_1}\,
+                 \frac{t^{(r_1-1)/r_1}}{(1+t)^2}\Biggr)^{\!\!1/\bigl(r_2(2+1/r_1)\bigr)}.$$
+   3. Given $e_2(t)$, player 1’s effort on the best-response curve is
+      $$e_1(t)
+        =t^{1/r_1}\, e_2(t)^{\,r_2/r_1}.$$
+
+5. **Symmetry for player 2.** The same derivation, swapping the indices, yields a parametric best-response curve $(e_2(s),e_1(s))$ for player 2, where $s\equiv e_2^{r_2}/e_1^{r_1}$ plays the role of $t$ above.
+
+6. **Global maximization vs. FOCs.**
+   1. For each fixed $e_2$, the payoff $u_1(e_1,e_2)$ is continuous on $[0,\infty)$ and differentiable for $e_1>0$, with $\frac{\partial u_1}{\partial e_1}$ given above.
+   2. Any interior optimum must satisfy (BR1-FOC), but the converse need not hold in general: a solution of the FOC could in principle be a local minimum rather than a maximum.
+   3. In the parameter ranges used in the figures (all $r_i>0$, linear costs $c_i e_i$, and $V>0$), the function $u_1(e_1,e_2)$ is **single-peaked** in $e_1$ for each fixed $e_2$:
+      1. As $e_1\downarrow 0$ we have $u_1(e_1,e_2)\to 0$ and $\frac{\partial u_1}{\partial e_1}>0$.
+      2. As $e_1\uparrow\infty$ the cost term $c_1 e_1$ dominates and $u_1(e_1,e_2)\to -\infty$, while $\frac{\partial u_1}{\partial e_1}<0$ for sufficiently large $e_1$.
+      3. Because the derivative changes sign only once, there is at most one interior critical point, and it must be a global maximum if it is positive; otherwise the unique best response is $e_1^*(e_2)=0$.
+   4. The TikZ code for the best-response diagrams is built from the parametric formulas $(e_1(t),e_2(t))$ and their symmetric counterparts, which select exactly this global-maximum branch. Any visually “two-valued” behavior in earlier drafts came from plotting *all* algebraic solutions of the FOC, not from multiple global maxima; the current version renders only the economically relevant best response.
+
+For the symmetric benchmark with $r_1=r_2=r$ and $c_1=c_2=c$ this machinery reduces to the familiar expressions. For example, when $r=1$ the scalar best-response function simplifies to
+   $$e_1(e_2)=\max\{0,\sqrt{V e_2/c}-e_2\},$$
+   and the symmetric equilibrium has $e_1=e_2=V/(4c)$, with total dissipation $e_1+e_2=V/2$.
+
+
+
+```{tikz}
+#| engine-opts: !expr list(extra.preamble=c("\\usepackage{./preamble_quarto}", "\\input{./tullock_br2d}"))
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=3 by 3, horizontal sep=2.0cm, vertical sep=1.8cm},
+  width=4.5cm,
+  height=4.5cm,
+  title style={yshift=-0.8em}
+]
+
+% ---------- Row 1: r_1 = r_2 in {1/2, 1, 2} (symmetric costs) ----------
+\TullockBRContent{0.5}{0.5}{1}{1}
+
+\TullockBRContent{1}{1}{1}{1}
+
+\TullockBRContent{2}{2}{1}{1}
+
+% ---------- Row 2: r_2 > r_1 (c_1=c_2=1, more extreme gaps) ----------
+\TullockBRContent{0.5}{1.5}{1}{1}
+
+\TullockBRContent{1}{2.5}{1}{1}
+
+\TullockBRContent{0.5}{3}{1}{1}
+
+% ---------- Row 3: c_2 > c_1 (r_1=r_2=1, increasing cost gap) ----------
+\TullockBRContent{1}{1}{1}{1.5}
+
+\TullockBRContent{1}{1}{1}{3}
+
+\TullockBRContent{1}{1}{1}{6}
+
+\end{groupplot}
+\end{tikzpicture}
+```
+
+https://link.springer.com/content/pdf/10.1007/s00199-021-01367-4.pdf
+
+#        Miscellaneous
+
+- Allisat, A. “AI Arms Race: the evolving battle between email spam and spam filters.”
+
+
+- **[On the Societal Impact of Open Foundation Models](https://crfm.stanford.edu/open-fms/paper.pdf#:~:text=access%20to%20resources,to%20report%20vulnerabilities)** -- They talk about the "marginal risk"
+
+
+- [Spam filters](https://isi.jhu.edu/wp-content/uploads/2022/04/Adversarial_Attacks_Against_Machine_Learning_Based_SpamFilters__IEEE.pdf)
+
+
+- [HN argument about effect on faking research](https://news.ycombinator.com/item?id=43295692)
+
+
+- Cullen O'Keefe (2025) [Will AI Lawyers Make Swords or Shields?](https://juralnetworks.substack.com/p/will-ai-lawyers-make-swords-or-shields)
+
+   > "When I first thought of the possibility of AI Lawyers, my initial reaction was that AI lawyers will be overall good for the cause of justice. ... As I thought about it more, though, I realized I was failing to consider how AI Lawyers might affect prosecution dynamics."
+
+
+- [NYT Article on Improvements in ID Forgery Technology](https://www.nytimes.com/2025/02/13/nyregion/students-high-tech-fake-ids.html)
+
+- Garfinkel and Dafoe (2019) ["Artificial Intelligence, Foresight, and the Offense-Defense Balance"](http://warontherocks.com/2019/12/artificial-intelligence-foresight-and-the-offense-defense-balance/)
+-
+#                                Appendix
+
+##       models
+
+Finding holes in a wall -> AI helps defense.
+: Both sides are trying to find holes. Offense will randomize where it looks. If there are a finite number of holes then improved hole-finding will win.
+
+Guarding a perimeter -> AI helps defense.
+: Each side chooses some points to cover on a surface. The attacker wins proportional to the uncovered points. It costs something to cover each point.
+
+Inspecting items for quality -> AI helps defense.
+: You are delivering a cargo of 1000 things. The recipient randomly chooses a fraction for manual inspection. E.g. delivering wool to the auction. 
+
+Inspecting items for certification -> AI helps offense.
+: You are delivering a cargo of 1000 things. The recipient is checking for signs of authenticity, where authenticity is an *external* property. 
+
+Nuclear bomb.
+: Once you know how to create a nuclear bomb then you can threaten the world. Generally with CBRN.
