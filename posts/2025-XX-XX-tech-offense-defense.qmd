@@ -1,0 +1,623 @@
+---
+title: How Technology Changes the Offense-Defense Balance
+latex-auto-mk: false
+bibliography: ai.bib
+draft: true
+execute:
+  echo: false
+  warning: false
+  error: false
+  cache: true
+format:
+   html:
+      code-fold: true
+      html-math-method:
+         method: mathjax
+         url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js"
+      include-in-header:
+         - text: |
+            <script>window.MathJax = {
+                     loader: { load: ['[custom]/xypic.js'],
+                                 paths: {custom: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/'}},
+                  tex: {packages: {'[+]': ['xypic']},
+                     macros: {
+                        bm: ["\\boldsymbol{#1}", 1],
+                        ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+                        utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3]
+                     }}};
+            </script>
+            <style>
+               h1 {  border-bottom: 4px solid black; }
+               h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; color: black; }
+               dl {display: grid;grid-template-columns: max-content auto;}
+               dt {grid-column-start: 1; width: 4cm;}
+               dd {grid-column-start: 2; margin-left: 2em;}
+            </style>
+engine: knitr
+editor:
+  render-on-save: true
+---
+
+When a new technology emerges—better AI, faster networks, improved sensors—who benefits more: attackers or defenders?
+
+The answer depends not on the technology itself, but on the **structure of the conflict**. A tool that helps defense in one setting can help offense in another.
+
+I identify four mechanisms that determine which side benefits. Each has distinct logic and clear predictions.
+
+# A Decision Framework
+
+To determine which side benefits from technology, ask three questions:
+
+```{tikz}
+#| fig-cap: "Decision tree for predicting which side benefits from improved technology"
+\begin{tikzpicture}[
+   level 1/.style={sibling distance=5.5cm, level distance=2.2cm},
+   level 2/.style={sibling distance=2.8cm, level distance=2.2cm},
+   edge from parent/.style={draw, -latex, thick},
+   every node/.style={font=\small},
+   question/.style={rectangle, draw, thick, align=center, rounded corners, fill=blue!10, minimum width=2.6cm, minimum height=0.9cm},
+   answer/.style={rectangle, draw, thick, align=center, rounded corners, fill=green!10, minimum width=2.1cm, minimum height=0.75cm, font=\footnotesize},
+   defense/.style={rectangle, draw, thick, align=center, rounded corners, fill=blue!20, minimum width=2.1cm, minimum height=0.75cm, font=\footnotesize},
+   offense/.style={rectangle, draw, thick, align=center, rounded corners, fill=red!20, minimum width=2.1cm, minimum height=0.75cm, font=\footnotesize},
+   label/.style={font=\scriptsize, pos=0.25}
+]
+
+\node[question] {Is search space\\finite?}
+   child {
+      node[question] {Can defense\\fix holes?}
+      child {
+         node[defense] {\textbf{DEFENSE}\\Plugging holes}
+         edge from parent node[label, left] {Yes}
+      }
+      child {
+         node[offense] {\textbf{OFFENSE}\\Watching holes}
+         edge from parent node[label, right] {No}
+      }
+      edge from parent node[label, left] {Yes}
+   }
+   child {
+      node[question] {Ground truth\\available?}
+      child {
+         node[defense] {\textbf{DEFENSE}\\Verification}
+         edge from parent node[label, left] {Yes}
+      }
+      child {
+         node[offense] {\textbf{OFFENSE}\\Appearance only}
+         edge from parent node[label, right] {No}
+      }
+      edge from parent node[label, right] {No}
+   };
+
+\end{tikzpicture}
+```
+
+The logic:
+
+**Finite search space.**
+: When vulnerabilities are limited, better search eventually exhausts them—favoring defense.
+
+**Fix vs. monitor.**
+: If defense can permanently fix holes, they accumulate protection. If they can only monitor known holes (with limited attention), the attack surface grows faster than defense capacity.
+
+**Ground truth vs. appearance.**
+: If defense can verify against reality (e.g., check a document's actual history), better classifiers help defense. If defense only sees appearances (e.g., does this essay "look" authentic?), better classifiers reveal how to optimize forgeries.
+
+# Four Core Mechanisms
+
+##        Mechanism 1: Finite Search Space (Defense Favored)
+
+When both sides search for vulnerabilities in a **finite space**, improved search technology favors defense.
+
+The intuition.
+: Imagine a wall with 100 holes. Attacker and defender both search—one to exploit, one to plug. With weak search, attacker finds 20 holes, defender finds 15, leaving 5 gaps. As search improves, both find more. Eventually all 100 are discovered and plugged. The attacker's advantage vanishes.
+
+```{tikz}
+#| fig-cap: "As search technology improves in finite space, defense wins"
+\begin{tikzpicture}
+   % Time axis
+   \draw[-latex, thick] (0,0) -- (12,0) node[right] {Search capability};
+
+   % Two scenarios side by side
+   \begin{scope}[xshift=0cm]
+      \node[above] at (2.5, 3.5) {\textbf{Low search capability}};
+
+      % The wall
+      \draw[thick, fill=gray!20] (0,0) rectangle (5,3);
+      \node at (2.5, 3.8) {};
+
+      % Holes (circles)
+      \foreach \x/\y in {0.5/0.5, 1.5/0.5, 2.5/0.5, 3.5/0.5, 4.5/0.5,
+                          0.5/1.5, 1.5/1.5, 2.5/1.5, 3.5/1.5, 4.5/1.5,
+                          0.5/2.5, 1.5/2.5, 2.5/2.5, 3.5/2.5, 4.5/2.5} {
+         \draw[thick, fill=white] (\x,\y) circle (0.15);
+      }
+
+      % Plugged holes (defense found)
+      \foreach \x/\y in {0.5/0.5, 1.5/0.5, 2.5/0.5,
+                          0.5/1.5, 1.5/1.5,
+                          0.5/2.5} {
+         \draw[thick, fill=blue!40] (\x,\y) circle (0.15);
+      }
+
+      % Exploited holes (attack found but defense didn't)
+      \foreach \x/\y in {3.5/0.5, 4.5/0.5, 2.5/1.5} {
+         \draw[thick, fill=red!60] (\x,\y) circle (0.15);
+      }
+
+      \node[blue, below] at (2.5, -0.3) {6 holes plugged};
+      \node[red, below] at (2.5, -0.8) {3 exploitable gaps};
+   \end{scope}
+
+   \begin{scope}[xshift=7cm]
+      \node[above] at (2.5, 3.5) {\textbf{High search capability}};
+
+      % The wall
+      \draw[thick, fill=gray!20] (0,0) rectangle (5,3);
+
+      % All holes found and plugged
+      \foreach \x/\y in {0.5/0.5, 1.5/0.5, 2.5/0.5, 3.5/0.5, 4.5/0.5,
+                          0.5/1.5, 1.5/1.5, 2.5/1.5, 3.5/1.5, 4.5/1.5,
+                          0.5/2.5, 1.5/2.5, 2.5/2.5, 3.5/2.5, 4.5/2.5} {
+         \draw[thick, fill=blue!40] (\x,\y) circle (0.15);
+      }
+
+      \node[blue, below] at (2.5, -0.3) {15 holes plugged};
+      \node[green!50!black, below] at (2.5, -0.8) {0 exploitable gaps};
+   \end{scope}
+
+\end{tikzpicture}
+```
+
+**Example: Code vulnerability discovery.**
+: Fuzzing tools help both sides find bugs. But codebases have finitely many bugs. As fuzzing improves, defenders find and fix them faster than new ones emerge. Google's OSS-Fuzz has found and fixed 10,000+ vulnerabilities. The backlog shrinks.
+
+**Key feature:** Saturation. The search space is bounded.
+
+##        Mechanism 2: Attention Constraints (Offense Favored)
+
+When defense cannot fix vulnerabilities but must **monitor** them with limited attention, improved search favors offense.
+
+The intuition.
+: Imagine a city with many entry points. Defense has limited guards. As search reveals more entry points, defense spreads thinner. The attacker needs only ONE unwatched entry to succeed.
+
+```{tikz}
+#| fig-cap: "As known attack surface grows, defense attention spreads thinner"
+\begin{tikzpicture}
+   \begin{scope}
+      \node[above] at (0, 3.2) {\textbf{Low search capability}};
+
+      % Small perimeter
+      \draw[thick, blue!50] (0,0) circle (1.5);
+
+      % Few known entry points
+      \foreach \angle in {0, 60, 120, 180, 240, 300} {
+         \fill[black] ({1.5*cos(\angle)}, {1.5*sin(\angle)}) circle (0.1);
+      }
+
+      % Defense watching most
+      \foreach \angle in {0, 60, 120, 180} {
+         \draw[thick, blue, -latex] ({1.5*cos(\angle)}, {1.5*sin(\angle)}) -- ({2.2*cos(\angle)}, {2.2*sin(\angle)});
+      }
+
+      % Unwatched points (attacker opportunity)
+      \foreach \angle in {240, 300} {
+         \draw[thick, red, -latex] ({1.5*cos(\angle)}, {1.5*sin(\angle)}) -- ({2.2*cos(\angle)}, {2.2*sin(\angle)});
+      }
+
+      \node[below] at (0, -2.2) {6 entry points};
+      \node[below] at (0, -2.7) {4 watched, \textcolor{red}{2 unwatched}};
+   \end{scope}
+
+   \begin{scope}[xshift=7cm]
+      \node[above] at (0, 3.2) {\textbf{High search capability}};
+
+      % Large perimeter
+      \draw[thick, blue!50] (0,0) circle (1.5);
+
+      % Many known entry points
+      \foreach \angle in {0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330} {
+         \fill[black] ({1.5*cos(\angle)}, {1.5*sin(\angle)}) circle (0.1);
+      }
+
+      % Defense watching same absolute number
+      \foreach \angle in {0, 60, 120, 180} {
+         \draw[thick, blue, -latex] ({1.5*cos(\angle)}, {1.5*sin(\angle)}) -- ({2.2*cos(\angle)}, {2.2*sin(\angle)});
+      }
+
+      % Many unwatched points
+      \foreach \angle in {30, 90, 150, 210, 240, 270, 300, 330} {
+         \draw[thick, red, -latex] ({1.5*cos(\angle)}, {1.5*sin(\angle)}) -- ({2.2*cos(\angle)}, {2.2*sin(\angle)});
+      }
+
+      \node[below] at (0, -2.2) {12 entry points};
+      \node[below] at (0, -2.7) {4 watched, \textcolor{red}{8 unwatched}};
+   \end{scope}
+\end{tikzpicture}
+```
+
+**Example: Network intrusion detection.**
+: As networks grow, security teams discover more attack vectors. But personnel are limited—they can't monitor every endpoint. The attack surface expands faster than monitoring capacity.
+
+**Key feature:** Unbounded monitoring burden. Things-to-watch grows faster than watching capacity.
+
+##        Mechanism 3: Verification with Ground Truth (Defense Favored)
+
+When defense can **verify** items against ground truth, improved classification favors defense.
+
+The intuition.
+: You're testing whether a diamond is real. Your device gives a signal: real diamonds give 10, fakes give 0-8. As the device improves, signal separation increases. With perfect testing, no fake passes.
+
+```{tikz}
+#| fig-cap: "Better classifiers with ground truth verification favor defense"
+\begin{tikzpicture}
+   \begin{scope}
+      \node[above] at (3, 3.5) {\textbf{Weak classifier}};
+
+      % Axis
+      \draw[-latex, thick] (0,0) -- (6,0) node[right] {Signal};
+      \draw[-latex, thick] (0,0) -- (0,3);
+
+      % Genuine distribution (narrow, high signal)
+      \draw[thick, blue, domain=4:5.8, samples=50] plot (\x, {2.5*exp(-10*(\x-5)^2)});
+      \fill[blue, opacity=0.2, domain=4:5.8, samples=50] plot (\x, {2.5*exp(-10*(\x-5)^2)}) -- (5.8,0) -- (4,0) -- cycle;
+      \node[blue] at (5, 2.8) {Genuine};
+
+      % Fake distribution (broad, low signal)
+      \draw[thick, red, domain=0.2:4, samples=50] plot (\x, {1.8*exp(-0.8*(\x-2)^2)});
+      \fill[red, opacity=0.2, domain=0.2:4, samples=50] plot (\x, {1.8*exp(-0.8*(\x-2)^2)}) -- (4,0) -- (0.2,0) -- cycle;
+      \node[red] at (2, 2.2) {Fakes};
+
+      % Threshold
+      \draw[thick, dashed, green!50!black] (3.5, 0) -- (3.5, 2.5);
+      \node[green!50!black, right] at (3.5, 1.5) {Threshold};
+
+      % Show overlap
+      \draw[thick, <->, purple] (3.5, -0.5) -- (4.5, -0.5);
+      \node[purple, below] at (4, -0.8) {Many fakes pass};
+   \end{scope}
+
+   \begin{scope}[xshift=8cm]
+      \node[above] at (3, 3.5) {\textbf{Strong classifier}};
+
+      % Axis
+      \draw[-latex, thick] (0,0) -- (6,0) node[right] {Signal};
+      \draw[-latex, thick] (0,0) -- (0,3);
+
+      % Genuine distribution (very narrow)
+      \draw[thick, blue, domain=4.5:5.5, samples=50] plot (\x, {2.8*exp(-50*(\x-5)^2)});
+      \fill[blue, opacity=0.2, domain=4.5:5.5, samples=50] plot (\x, {2.8*exp(-50*(\x-5)^2)}) -- (5.5,0) -- (4.5,0) -- cycle;
+      \node[blue] at (5, 3.1) {Genuine};
+
+      % Fake distribution (still can't reach high signals)
+      \draw[thick, red, domain=0.2:3.8, samples=50] plot (\x, {1.8*exp(-0.8*(\x-2)^2)});
+      \fill[red, opacity=0.2, domain=0.2:3.8, samples=50] plot (\x, {1.8*exp(-0.8*(\x-2)^2)}) -- (3.8,0) -- (0.2,0) -- cycle;
+      \node[red] at (2, 2.2) {Fakes};
+
+      % Threshold
+      \draw[thick, dashed, green!50!black] (4.2, 0) -- (4.2, 2.5);
+      \node[green!50!black, right] at (4.2, 1.5) {Threshold};
+
+      % Clean separation
+      \node[green!50!black, below] at (3, -0.8) {Clean separation};
+   \end{scope}
+\end{tikzpicture}
+```
+
+**Example: Document authentication.**
+: Banks verify checks against actual account records. Better fraud detection (signature verification, watermark detection) helps defense more, because the bank can verify against ground truth.
+
+**Key feature:** Ground truth access. Defense can check against an objective standard offense cannot replicate.
+
+##        Mechanism 4: Examination without Ground Truth (Offense Favored)
+
+When defense only observes **appearances** without ground truth, improved classification can favor offense.
+
+The intuition.
+: You're detecting whether a student wrote their own essay. Your classifier flags "AI-like" patterns. But you can't verify ground truth—whether AI was actually used. As the classifier improves, it reveals which patterns to avoid. AI tools optimize to evade detection. The classifier becomes a training signal for the attacker.
+
+```{tikz}
+#| fig-cap: "Better classifiers without ground truth can help offense optimize forgeries"
+\begin{tikzpicture}
+   \begin{scope}
+      \node[above] at (3, 4.2) {\textbf{Weak classifier (v1)}};
+
+      % Axis
+      \draw[-latex, thick] (0,0) -- (6,0) node[right] {``Looks authentic''};
+      \draw[-latex, thick] (0,0) -- (0,3.5);
+
+      % Student-written distribution
+      \draw[thick, blue, domain=3:5.8, samples=50] plot (\x, {2.2*exp(-2*(\x-4.5)^2)});
+      \fill[blue, opacity=0.2, domain=3:5.8, samples=50] plot (\x, {2.2*exp(-2*(\x-4.5)^2)}) -- (5.8,0) -- (3,0) -- cycle;
+      \node[blue] at (4.5, 2.5) {Student};
+
+      % Early AI (obvious)
+      \draw[thick, red, domain=0.2:2.5, samples=50] plot (\x, {2*exp(-2*(\x-1.5)^2)});
+      \fill[red, opacity=0.2, domain=0.2:2.5, samples=50] plot (\x, {2*exp(-2*(\x-1.5)^2)}) -- (2.5,0) -- (0.2,0) -- cycle;
+      \node[red] at (1.5, 2.3) {AI v1};
+
+      % Threshold
+      \draw[thick, dashed, green!50!black] (2.8, 0) -- (2.8, 2.5);
+      \node[green!50!black, above] at (2.8, 2.5) {Threshold};
+
+      \node[below] at (3, -0.3) {Easy to detect AI writing};
+   \end{scope}
+
+   \begin{scope}[xshift=8cm]
+      \node[above] at (3, 4.2) {\textbf{Strong classifier (v2)}};
+
+      % Axis
+      \draw[-latex, thick] (0,0) -- (6,0) node[right] {``Looks authentic''};
+      \draw[-latex, thick] (0,0) -- (0,3.5);
+
+      % Student-written distribution (same)
+      \draw[thick, blue, domain=3:5.8, samples=50] plot (\x, {2.2*exp(-2*(\x-4.5)^2)});
+      \fill[blue, opacity=0.2, domain=3:5.8, samples=50] plot (\x, {2.2*exp(-2*(\x-4.5)^2)}) -- (5.8,0) -- (3,0) -- cycle;
+      \node[blue] at (4.5, 2.5) {Student};
+
+      % Advanced AI (optimized to pass threshold)
+      \draw[thick, red, domain=2.5:5.5, samples=50] plot (\x, {2*exp(-2*(\x-4)^2)});
+      \fill[red, opacity=0.2, domain=2.5:5.5, samples=50] plot (\x, {2*exp(-2*(\x-4)^2)}) -- (5.5,0) -- (2.5,0) -- cycle;
+      \node[red] at (4, 1.5) {AI v2};
+
+      % Threshold moved right but...
+      \draw[thick, dashed, green!50!black] (3.2, 0) -- (3.2, 2.5);
+      \node[green!50!black, above] at (3.2, 2.5) {New threshold};
+
+      % Overlap region
+      \draw[thick, <->, purple] (3.5, -0.5) -- (5, -0.5);
+      \node[purple, below] at (4.25, -0.8) {AI mimics student};
+   \end{scope}
+\end{tikzpicture}
+```
+
+**Example: AI essay detection.**
+: Detectors flag "AI-like" patterns but can't verify whether AI was used. As detectors improve, they reveal what to avoid. AI tools train on these signals, optimizing evasion. Structurally favors offense.
+
+**Example: Deepfakes.**
+: Video authentication looks for artifacts. But it's checking appearance, not ground truth. Better detection reveals exactly what artifacts to eliminate. Each detector generation trains the next generator generation.
+
+**Key feature:** No ground truth. Defense's classifier reveals how to optimize forgeries.
+
+# The Role of Technology Speed
+
+Even when technology structurally favors one side, the **speed of technological change** matters enormously.
+
+```{tikz}
+#| fig-cap: "Rapid technological change favors offense (exploitation window grows)"
+\begin{tikzpicture}
+   % Slow change scenario
+   \begin{scope}
+      \node[above, font=\bfseries] at (3, 5.5) {Slow technological change};
+
+      % Time axis
+      \draw[-latex, very thick] (0,0) -- (6.5,0) node[right] {Time};
+
+      % Technology levels (stepped)
+      \draw[thick, blue] (0, 1) -- (2, 1) node[pos=0.5, above] {Tech v1};
+      \draw[thick, blue] (2, 2) -- (4, 2) node[pos=0.5, above] {Tech v2};
+      \draw[thick, blue] (4, 3) -- (6, 3) node[pos=0.5, above] {Tech v3};
+      \draw[thick, blue, dashed] (2,1) -- (2,2);
+      \draw[thick, blue, dashed] (4,2) -- (4,3);
+
+      % Offense exploits (red bars)
+      \fill[red, opacity=0.3] (2, 0) rectangle (2.5, 2);
+      \fill[red, opacity=0.3] (4, 0) rectangle (4.5, 3);
+
+      % Defense patches (green bars)
+      \fill[green, opacity=0.3] (2.5, 0) rectangle (4, 2);
+      \fill[green, opacity=0.3] (4.5, 0) rectangle (6, 3);
+
+      % Labels
+      \draw[<->, thick] (2, -0.5) -- (2.5, -0.5) node[midway, below, font=\footnotesize] {Exploit};
+      \draw[<->, thick] (2.5, -0.5) -- (4, -0.5) node[midway, below, font=\footnotesize] {Defend};
+
+      \node[below] at (3, -1.3) {Long time to exploit each advance};
+      \node[below] at (3, -1.8) {Defense patches before next advance};
+   \end{scope}
+
+   % Fast change scenario
+   \begin{scope}[yshift=-8cm]
+      \node[above, font=\bfseries] at (3, 5.5) {Rapid technological change};
+
+      % Time axis
+      \draw[-latex, very thick] (0,0) -- (6.5,0) node[right] {Time};
+
+      % Technology levels (many rapid steps)
+      \foreach \x in {0, 0.8, 1.6, 2.4, 3.2, 4.0, 4.8} {
+         \draw[thick, blue] (\x, {\x*0.6 + 1}) -- ({\x+0.8}, {\x*0.6 + 1});
+         \draw[thick, blue, dashed] ({\x+0.8}, {\x*0.6 + 1}) -- ({\x+0.8}, {(\x+0.8)*0.6 + 1});
+      }
+      \node[blue, above] at (2.4, 2.5) {Tech advances};
+
+      % Offense exploits (many small red bars)
+      \foreach \x in {0.8, 1.6, 2.4, 3.2, 4.0, 4.8} {
+         \fill[red, opacity=0.4] (\x, 0) rectangle ({\x+0.3}, {\x*0.6 + 1});
+      }
+
+      % Defense never catches up (thin green bars)
+      \foreach \x in {0.8, 1.6, 2.4, 3.2, 4.0} {
+         \fill[green, opacity=0.2] ({\x+0.3}, 0) rectangle ({\x+0.6}, {\x*0.6 + 1});
+      }
+
+      % Cumulative vulnerability window
+      \fill[red, opacity=0.15] (0.8, 0) rectangle (6, 4);
+
+      \node[below] at (3, -1.3) {Continuous exploitation window};
+      \node[below] at (3, -1.8) {Defense always behind};
+   \end{scope}
+\end{tikzpicture}
+```
+
+The logic.
+: **Patching takes time.** Each offensive capability opens an exploitation window before defense adapts. Slow technological change: defense catches up. Rapid change: offense maintains persistent advantage—each new capability arrives before the previous one is defended.
+
+Why AI is concerning.
+: AI capabilities advance rapidly—new models every few months, new exploits continuously. Even in structurally defensive domains (vulnerability finding), rapid pace means practical offensive advantage.
+
+**Example: Zero-day vulnerabilities.**
+: Gradual fuzzing improvement: security teams patch at a steady pace. Rapid AI-enabled discovery: patching can't keep up. Theoretical defensive advantage (finite vulnerabilities) overwhelmed by practical offensive advantage (rapid advancement).
+
+# Phase Diagram: Effort and Equilibrium
+
+How does improved technology shift equilibrium behavior?
+
+In the "finding holes" scenario, let $e_A$ and $e_D$ be attacker and defender effort. Attacker wins with probability:
+$$P(\text{win}) = F(e_A) - F(e_D)$$
+where $F$ is the cumulative probability of finding vulnerabilities.
+
+```{tikz}
+#| fig-cap: "As search technology improves (shifting F), equilibrium moves"
+\begin{tikzpicture}
+   % Panel 1: Effort space
+   \begin{scope}
+      \node[above, font=\bfseries] at (3, 5) {Equilibrium in effort space};
+
+      % Axes
+      \draw[-latex, thick] (0,0) -- (6,0) node[right] {$e_D$ (defense effort)};
+      \draw[-latex, thick] (0,0) -- (0,5) node[above] {$e_A$ (attack effort)};
+
+      % Isoprofit curves (attacker)
+      \foreach \i in {1, 2, 3} {
+         \draw[red, thick, domain=0.5:5.5, samples=50] plot (\x, {\i + 2/\x});
+      }
+      \node[red, right] at (5.5, 3.2) {Attacker BR};
+
+      % Isoprofit curves (defender)
+      \foreach \i in {1, 2, 3} {
+         \draw[blue, thick, domain=0.5:5.5, samples=50] plot ({\i + 2/\x}, \x);
+      }
+      \node[blue, above] at (3.2, 4.5) {Defender BR};
+
+      % Equilibrium point (low tech)
+      \fill[black] (2, 2) circle (0.1) node[below right] {$E_1$ (low tech)};
+
+      % Equilibrium point (high tech)
+      \fill[green!50!black] (1.2, 1.2) circle (0.1) node[above left] {$E_2$ (high tech)};
+
+      % Arrow showing movement
+      \draw[-latex, thick, purple] (2, 2) -- (1.2, 1.2);
+
+      \node[below, align=center] at (3, -0.8) {Both sides exert less effort\\(vulnerabilities exhausted faster)};
+   \end{scope}
+
+   % Panel 2: Outcome space
+   \begin{scope}[xshift=8.5cm]
+      \node[above, font=\bfseries] at (3, 5) {Defense success rate};
+
+      % Axes
+      \draw[-latex, thick] (0,0) -- (6,0) node[right] {Search capability};
+      \draw[-latex, thick] (0,0) -- (0,5) node[left, align=right, font=\footnotesize] {Defense\\success};
+
+      % Success curve (sigmoid)
+      \draw[thick, green!50!black, domain=0.3:5.7, samples=100]
+         plot (\x, {4 / (1 + exp(-1.5*(\x-3)))});
+
+      % Points
+      \fill[black] (2, {4 / (1 + exp(-1.5*(2-3)))}) circle (0.08);
+      \fill[green!50!black] (4.5, {4 / (1 + exp(-1.5*(4.5-3)))}) circle (0.08);
+
+      % Dotted lines
+      \draw[dotted] (2, 0) -- (2, {4 / (1 + exp(-1.5*(2-3)))})
+         -- (0, {4 / (1 + exp(-1.5*(2-3)))});
+      \draw[dotted] (4.5, 0) -- (4.5, {4 / (1 + exp(-1.5*(4.5-3)))})
+         -- (0, {4 / (1 + exp(-1.5*(4.5-3)))});
+
+      % Labels
+      \node[left, font=\footnotesize] at (0, {4 / (1 + exp(-1.5*(2-3)))}) {50\%};
+      \node[left, font=\footnotesize] at (0, {4 / (1 + exp(-1.5*(4.5-3)))}) {95\%};
+
+      \node[below, align=center] at (3, -0.8) {Defense success\\approaches 100\%};
+   \end{scope}
+\end{tikzpicture}
+```
+
+**Key insight.**
+: In finite search space, as search improves:
+- Both sides exert *less* effort (search is cheaper)
+- Defense success rate *increases* dramatically
+- The marginal vulnerability becomes harder to find; defense finds it first
+
+Structure matters more than raw capability—equilibrium dynamics determine outcomes.
+
+# Application: Classifying Real-World Cases
+
+Apply the framework to real cases:
+
+## Code Vulnerability Discovery
+
+- **Finite search space?** Yes—codebases have finitely many bugs
+- **Can fix?** Yes—patches are permanent
+- **Prediction:** Defense favored (Mechanism 1)
+- **Reality:** OSS-Fuzz found 10,000+ bugs, now fixed. Vulnerability backlog declining. ✓
+
+## Spear Phishing Emails
+
+- **Finite space?** No—unbounded forgery space
+- **Ground truth?** No—only appearance ("looks legitimate?")
+- **Prediction:** Offense favored (Mechanism 4)
+- **Reality:** AI generates personalized phishing at scale. Filters flag patterns; attackers adapt. Offense leads. ✓
+
+## AI Essay Detection
+
+- **Finite space?** No—unbounded essay variations
+- **Ground truth?** No—only appearance ("looks AI-written?")
+- **Prediction:** Offense favored (Mechanism 4)
+- **Reality:** GPTZero, Turnitin reveal what patterns to avoid. AI tools evade. Detection accuracy declining. ✓
+
+## Content Moderation
+
+- **Finite space?** Effectively yes—finitely many policy evasions
+- **Can fix?** Yes—patterns added to filters permanently
+- **Prediction:** Defense favored (Mechanism 1)
+- **Reality:** Platforms continuously improve. Detection rates rising for policy violations. ✓
+
+## Deepfakes
+
+- **Finite space?** No—unbounded synthetic media
+- **Ground truth?** Partial—provenance systems exist (C2PA) but most verification is appearance-based
+- **Prediction:** Currently offense (Mechanism 4), but provenance could shift to defense
+- **Reality:** Deepfake quality improving faster than detection. Each detector trains better generators. Provenance systems (content credentials) could create ground truth and flip this. ✓
+
+# Summary
+
+Technology doesn't uniformly help offense or defense—the structure of the conflict determines which side benefits.
+
+Four key mechanisms:
+
+| Mechanism                   | Key Feature              | Technology Favors | Examples                              |
+| --------------------------- | ------------------------ | ----------------- | ------------------------------------- |
+| Finite search & fixing      | Exhaustible vulnerabilities | **Defense**       | Code fuzzing, vulnerability scanning  |
+| Finite search & monitoring  | Limited attention        | **Offense**       | Network intrusion, perimeter security |
+| Verification (ground truth) | External validation      | **Defense**       | Document authentication, watermarking |
+| Examination (appearance)    | No ground truth          | **Offense**       | Essay detection, deepfakes            |
+
+The speed of technological change creates an additional offensive advantage: rapid advancement prevents defense from catching up, even in structurally defensive domains.
+
+**For policy and strategy:**
+- In defensive domains (finite search, ground truth), invest in accelerating discovery and patching
+- In offensive domains (appearance-based), invest in provenance systems to create ground truth
+- In all domains, consider slowing the pace of capability advancement to allow defense time to adapt
+
+The offense-defense balance is not fixed—it's a design choice embedded in our institutions and technologies.
+
+# References
+
+Key papers on offense-defense balance and conflict:
+
+Garfinkel & Skaperdas (2007) "Economics of Conflict: An Overview"
+: Comprehensive review of contest models and conflict economics. Discusses how returns to scale affect equilibrium efforts.
+
+Garfinkel & Dafoe (2019) "How does the offense-defense balance scale?"
+: Argues that growth in investments tends to favor defense when investment levels are high.
+
+Glaser & Kaufmann (1998) "What Is the Offense-Defense Balance and How Can We Measure It?"
+: Defines the balance as the ratio of forces attacker needs relative to defender's deployed forces.
+
+Schneier (2018) "Artificial Intelligence and the Attack/Defense Balance"
+: Argues AI will favor defense because current attacks exploit human weaknesses that AI can shore up.
+
+Heather Adkins (2024) "The Offense-Defense Balance"
+: Discusses how vulnerability discovery is accelerating with LLMs, with the key question being who runs faster at finding and fixing vulnerabilities.
+
+Bressler, Trager, Dafoe (2021) "The Offense-Defense Balance and the Costs of Anarchy"
+: Shows that welfare can be better under high offensive advantage than intermediate levels, due to reduced conflict intensity.
