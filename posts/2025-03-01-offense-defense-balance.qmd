@@ -42,6 +42,11 @@ editor:
   render-on-save: true
 ---
 
+==TO DO: draw isovalue curves for various parameters==
+
+
+
+
 AI will change the balance of power across *dozens* of different areas.
 : AI is already being adopted by both sides in teaching, hiring, war, education, publication, communication.
 
@@ -218,6 +223,21 @@ Jabarian & Imas (2025) ["Artificial Writing & Automated Detection"](https://pape
 @garfinkel2007conflict
 : Good review of the economics of conflict, centered around the Tullock contest function. 
 
+#        General Tullock
+
+Let $e_1,e_2\ge 0$ be the effort choices of the two players, and we have general payoff function:
+
+   $$P_1(e_1,e_2)$$
+
+Simplest properties of CSF: (1) diminishing returns; (2) homogenous; (3) positive cross-partial (& so strategic complements).
+
+Suppose player 1 gets a multiplicative boost, then:
+
+1. If you hold effort fixed then player 1 gets a higher share of winnings.
+2. **Player 1 effort falls.** If $\frac{P_1}{de_1}\propto\frac{1}{e_1}$ then player 1's effort would be unchanged, but we expect marginal returns will fall *faster* than $1/x$, because it's bounded above.
+3. **Player 2 effort rises.** Because of strategic complements.
+
+
 #        Tullock
 
 Let $e_1,e_2\ge 0$ be the **effort choices** of the two players, and let $c_1,c_2>0$ be their **marginal costs of effort**.
@@ -259,14 +279,15 @@ Let $e_1,e_2\ge 0$ be the **effort choices** of the two players, and let $c_1,c_
            = c_1 e_2^{2r_2}(t+1)^2.$$
       4. Cancelling the common factor $e_2^{r_2(2-1/r_1)}$ yields
          $$V r_1 t^{(r_1-1)/r_1}
-           = c_1 e_2^{r_2(2+1/r_1)}(t+1)^2.$$
-   2. Solving this for $e_2$ gives the opponent’s effort along player 1’s best-response locus:
+           = c_1 e_2^{r_2/r_1}(t+1)^2.$$
+   2. Solving this for $e_2$ gives the opponent's effort along player 1's best-response locus:
       $$e_2(t)
         =\Biggl(\frac{V r_1}{c_1}\,
-                 \frac{t^{(r_1-1)/r_1}}{(1+t)^2}\Biggr)^{\!\!1/\bigl(r_2(2+1/r_1)\bigr)}.$$
-   3. Given $e_2(t)$, player 1’s effort on the best-response curve is
+                 \frac{t^{(r_1-1)/r_1}}{(1+t)^2}\Biggr)^{\!\!r_1/r_2}.$$
+   3. Given $e_2(t)$, player 1's effort on the best-response curve is
       $$e_1(t)
-        =t^{1/r_1}\, e_2(t)^{\,r_2/r_1}.$$
+        =t^{1/r_1}\, e_2(t)^{\,r_2/r_1}
+        =\frac{V r_1}{c_1}\,\frac{t}{(1+t)^2}.$$
 
 5. **Symmetry for player 2.** The same derivation, swapping the indices, yields a parametric best-response curve $(e_2(s),e_1(s))$ for player 2, where $s\equiv e_2^{r_2}/e_1^{r_1}$ plays the role of $t$ above.
 
@@ -284,6 +305,21 @@ For the symmetric benchmark with $r_1=r_2=r$ and $c_1=c_2=c$ this machinery redu
    and the symmetric equilibrium has $e_1=e_2=V/(4c)$, with total dissipation $e_1+e_2=V/2$.
 
 
+```{tikz}
+#| engine-opts: !expr list(extra.preamble=c("\\usepackage{./preamble_quarto}", "\\input{./tullock_br2d}"))
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=1 by 1, horizontal sep=2.0cm, vertical sep=1.8cm},
+  width=4.5cm,
+  height=4.5cm,
+  title style={yshift=-0.8em}
+]
+\TullockBRContent{2}{2}{1}{1}
+\end{groupplot}
+\end{tikzpicture}
+```
+
+
 
 ```{tikz}
 #| engine-opts: !expr list(extra.preamble=c("\\usepackage{./preamble_quarto}", "\\input{./tullock_br2d}"))
@@ -295,6 +331,7 @@ For the symmetric benchmark with $r_1=r_2=r$ and $c_1=c_2=c$ this machinery redu
   title style={yshift=-0.8em}
 ]
 
+
 % ---------- Row 1: r_1 = r_2 in {1/2, 1, 2} (symmetric costs) ----------
 \TullockBRContent{0.5}{0.5}{1}{1}
 
@@ -303,7 +340,7 @@ For the symmetric benchmark with $r_1=r_2=r$ and $c_1=c_2=c$ this machinery redu
 \TullockBRContent{2}{2}{1}{1}
 
 % ---------- Row 2: r_2 > r_1 (c_1=c_2=1, more extreme gaps) ----------
-\TullockBRContent{0.5}{1.5}{1}{1}
+\TullockBRContent{0.5}{1}{1}{1}
 
 \TullockBRContent{1}{2.5}{1}{1}
 
@@ -363,3 +400,75 @@ Inspecting items for certification -> AI helps offense.
 
 Nuclear bomb.
 : Once you know how to create a nuclear bomb then you can threaten the world. Generally with CBRN.
+
+
+#       Tullock isovalue curves
+
+We keep the same basic Tullock contest setup as in the main text, but now focus on **isovalue curves** for the *contest success function* alone, ignoring costs.
+
+1. **Contest success function with asymmetry.** Let $e_1,e_2\ge 0$ be the effort choices of the two players, and let $\alpha_1,\alpha_2>0$ capture multiplicative effectiveness (or "quality") advantages. For exponents $r_1,r_2>0$, player 1's probability of winning the prize is  
+   $$P_1(e_1,e_2)
+     =\frac{\alpha_1 e_1^{r_1}}{\alpha_1 e_1^{r_1}+\alpha_2 e_2^{r_2}},$$  
+   and player 2's winning probability is $P_2(e_1,e_2)=1-P_1(e_1,e_2)$.
+
+2. **Isovalue definition.** Fix some target success probability $\bar p\in(0,1)$ for player 1. The **isovalue locus** for player 1 at level $\bar p$ is the set of effort pairs $(e_1,e_2)$ such that  
+   $$P_1(e_1,e_2)=\bar p.$$
+
+3. **Solving explicitly for the isovalue curve.** We solve $P_1(e_1,e_2)=\bar p$ for $e_1$ as a function of $e_2$.
+   1. Start from the definition:  
+      $$\bar p
+        =\frac{\alpha_1 e_1^{r_1}}{\alpha_1 e_1^{r_1}+\alpha_2 e_2^{r_2}}.$$
+   2. Multiply both sides by the denominator:  
+      $$\bar p\bigl(\alpha_1 e_1^{r_1}+\alpha_2 e_2^{r_2}\bigr)
+        =\alpha_1 e_1^{r_1}.$$
+   3. Expand the left-hand side:  
+      $$\bar p\alpha_1 e_1^{r_1}
+        +\bar p\alpha_2 e_2^{r_2}
+        =\alpha_1 e_1^{r_1}.$$
+   4. Subtract $\bar p\alpha_1 e_1^{r_1}$ from both sides to collect the $e_1^{r_1}$ terms:  
+      $$\bar p\alpha_2 e_2^{r_2}
+        =\alpha_1 e_1^{r_1}-\bar p\alpha_1 e_1^{r_1}
+        =\alpha_1(1-\bar p)e_1^{r_1}.$$
+   5. Solve for $e_1^{r_1}$:  
+      $$e_1^{r_1}
+        =\frac{\bar p\alpha_2}{\alpha_1(1-\bar p)}\,e_2^{r_2}.$$
+   6. Take the $r_1$‑th root of both sides to get $e_1$ as a function of $e_2$:  
+      $$e_1(e_2)
+        =\Biggl(\frac{\bar p\alpha_2}{\alpha_1(1-\bar p)}\Biggr)^{\!1/r_1}
+          e_2^{r_2/r_1}.$$
+
+4. **Interpretation.**
+   1. For each fixed parameter tuple $(r_1,r_2,\alpha_1,\alpha_2,\bar p)$, the isovalue locus is a simple power function in the $(e_2,e_1)$‑plane.
+   2. **Asymmetries in effectiveness** $(\alpha_1,\alpha_2)$ change the *vertical scale* of the curve: if player 1 gets a larger $\alpha_1$ (holding everything else fixed), then the constant factor in front of $e_2^{r_2/r_1}$ shrinks, so player 1 can sustain the same winning probability $\bar p$ with **lower effort** $e_1$ for any given opponent effort $e_2$.
+   3. **Asymmetries in exponents** $(r_1,r_2)$ change the *curvature* of the isovalue curve via the exponent $r_2/r_1$. When $r_1=r_2$ the locus is a straight line through the origin; when $r_2\ne r_1$ it becomes a nonlinear curve.
+
+5. **Scaling the axes.** In the figures below we simply re‑label the horizontal axis as player 2's effort $x_2=e_2$ and the vertical axis as player 1's effort $x_1=e_1$, and truncate both axes to the interval $[0,100]$ to match the units used elsewhere in the post.
+
+```{tikz}
+#| engine-opts: !expr list(extra.preamble=c("\\usepackage{./preamble_quarto}", "\\input{./tullock_iso2d}"))
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=3 by 3, horizontal sep=2.0cm, vertical sep=1.8cm},
+  width=4.5cm,
+  height=4.5cm,
+  title style={yshift=-0.8em}
+]
+
+% ---------- Row 1: symmetric exponents r_1 = r_2 and symmetric effectiveness ----------
+\TullockIsoContent{0.5}{0.5}{1}{1}
+\TullockIsoContent{1}{1}{1}{1}
+\TullockIsoContent{2}{2}{1}{1}
+
+% ---------- Row 2: player 2 has higher exponent (r_2 > r_1), symmetric effectiveness ----------
+\TullockIsoContent{0.5}{0.7}{1}{1}
+\TullockIsoContent{1}{1.2}{1}{1}
+\TullockIsoContent{2}{2}{1}{1}
+
+% ---------- Row 3: effectiveness asymmetry via (\alpha_1,\alpha_2) ----------
+\TullockIsoContent{1}{1}{1}{1.5}
+\TullockIsoContent{1}{1}{1}{3}
+\TullockIsoContent{1}{1}{1}{6}
+
+\end{groupplot}
+\end{tikzpicture}
+```

@@ -1,5 +1,5 @@
 ---
-title: How Technology Changes the Offense-Defense Balance
+title: How Technology Changes the Offense-Defense Balance (Claude)
 latex-auto-mk: false
 bibliography: ai.bib
 draft: true
@@ -38,11 +38,45 @@ editor:
   render-on-save: true
 ---
 
+::: {.callout-note appearance="simple"}
+## Abstract
+When technology improves, does it help attackers or defenders? The answer depends on conflict structure, not the technology itself. I identify four mechanisms: (1) finite search with fixing → defense, (2) finite search with monitoring → offense, (3) verification with ground truth → defense, (4) examination without ground truth → offense. The speed of technological change adds a separate offensive advantage. Applications include code vulnerability discovery (defense), AI essay detection (offense), and deepfakes (offense, but provenance systems could flip this).
+:::
+
 When a new technology emerges—better AI, faster networks, improved sensors—who benefits more: attackers or defenders?
 
 The answer depends not on the technology itself, but on the **structure of the conflict**. A tool that helps defense in one setting can help offense in another.
 
+```{tikz}
+#| fig-cap: "The same technology can favor different sides depending on conflict structure"
+\begin{tikzpicture}
+   % Draw a simple 2x2 showing same tech, different outcomes
+   \node[font=\Large\bfseries] at (4, 4.5) {Better AI Search Technology};
+
+   % Left example
+   \begin{scope}[xshift=0cm]
+      \node[font=\bfseries, align=center] at (2, 3.5) {Finite vulnerabilities\\+ Can fix};
+      \draw[-latex, ultra thick, blue] (2, 3) -- (2, 2);
+      \node[font=\bfseries, blue, align=center] at (2, 1.5) {DEFENSE\\WINS};
+      \node[font=\footnotesize, align=center] at (2, 0.8) {(Code fuzzing)};
+   \end{scope}
+
+   % Right example
+   \begin{scope}[xshift=5.5cm]
+      \node[font=\bfseries, align=center] at (2, 3.5) {Unbounded space\\+ No ground truth};
+      \draw[-latex, ultra thick, red] (2, 3) -- (2, 2);
+      \node[font=\bfseries, red, align=center] at (2, 1.5) {OFFENSE\\WINS};
+      \node[font=\footnotesize, align=center] at (2, 0.8) {(Deepfakes)};
+   \end{scope}
+\end{tikzpicture}
+```
+
 I identify four mechanisms that determine which side benefits. Each has distinct logic and clear predictions.
+
+::: {.callout-note}
+## Visual Convention
+Throughout this document: **Blue** = Defense benefits, **Red** = Offense benefits, **Green** = Secure/Protected
+:::
 
 # A Decision Framework
 
@@ -378,6 +412,11 @@ The intuition.
 
 **Key feature:** No ground truth. Defense's classifier reveals how to optimize forgeries.
 
+::: {.callout-important}
+## The Classifier Paradox
+Better detection without ground truth creates a **training signal for attackers**. Each improvement in the classifier reveals exactly what features to optimize in the next generation of forgeries. This is why AI essay detection and deepfake detection face a structural disadvantage.
+:::
+
 # The Role of Technology Speed
 
 Even when technology structurally favors one side, the **speed of technological change** matters enormously.
@@ -582,21 +621,23 @@ Apply the framework to real cases:
 
 Technology doesn't uniformly help offense or defense—**structure determines outcomes**.
 
-| Mechanism                   | Key Feature           | Favors      | Examples                     |
-| --------------------------- | --------------------- | ----------- | ---------------------------- |
-| Finite search & fixing      | Exhaustible holes     | **Defense** | Code fuzzing                 |
-| Finite search & monitoring  | Limited attention     | **Offense** | Network intrusion            |
-| Verification (ground truth) | External validation   | **Defense** | Document authentication      |
-| Examination (appearance)    | No ground truth       | **Offense** | Essay detection, deepfakes   |
+| Mechanism                   | Key Feature           | Critical Question                | Favors      | Examples                     |
+| --------------------------- | --------------------- | -------------------------------- | ----------- | ---------------------------- |
+| Finite search & fixing      | Exhaustible holes     | Can defense permanently fix?     | **Defense** | Code fuzzing                 |
+| Finite search & monitoring  | Limited attention     | Can defense scale monitoring?    | **Offense** | Network intrusion            |
+| Verification (ground truth) | External validation   | Is ground truth available?       | **Defense** | Document authentication      |
+| Examination (appearance)    | No ground truth       | Does improvement reveal signals? | **Offense** | Essay detection, deepfakes   |
 
 **Speed matters:** Rapid technological change creates offensive advantage—each capability arrives before the previous one is defended.
 
-**Implications:**
-- Defensive domains → Accelerate discovery and patching
-- Offensive domains → Invest in provenance systems (create ground truth)
-- All domains → Consider slowing capability advancement to allow defense time
+::: {.callout-tip}
+## Policy Implications
+- **Defensive domains** (finite search, ground truth) → Accelerate discovery and patching
+- **Offensive domains** (appearance-based) → Invest in provenance systems to create ground truth
+- **All domains** → Consider slowing capability advancement to give defense time to adapt
 
-The offense-defense balance is not fixed—it's a design choice.
+The offense-defense balance is not fixed—**it's a design choice** embedded in our institutions and technologies.
+:::
 
 # References
 

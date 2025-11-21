@@ -52,7 +52,7 @@ The model also gives us basic predictions about the equilibrium effect of chatbo
 
    \begin{enumerate}
       \item \textbf{Chatbots raise welfare through better decisions.} We should also expect increases in welfare if agents can adjust on other margins, especially reducing the use of other information-sources (books, web search), and through expanding the set of questions that a person attempts to answer.
-      \item \textbf{Chatbots flatten comparative advantage.} If comparative advantage is due to differences in knowledge (the set of questions for which you know the answer) then chatbots will flatten those differences. This is formally equivalent to ``catch up'' technology growth in trade models, where the catch-up implies: (1) higher average wages; (2) lower wages for the highest-paid; (3) lower trade, i.e. lower GDP (\citet{dornbusch1977comparative}, \citet{wilson1980general}). 
+      \item \textbf{Chatbots flatten comparative advantage.} If comparative advantage is due to differences in knowledge (the set of questions for which you know the answer) then chatbots will flatten those differences. In a class of trade models where productivity differences are entirely driven by knowledge gaps, this is formally equivalent to ``catch up'' technology growth, where the catch-up implies: (1) higher average wages; (2) lower wages for the highest-paid; (3) lower trade, i.e. lower GDP (\citet{dornbusch1977comparative}, \citet{wilson1980general}). 
    \end{enumerate}
 
    \paragraph{Existing models of AI adoption.} We can compare this to a few existing models of AI:
@@ -67,7 +67,9 @@ The model also gives us basic predictions about the equilibrium effect of chatbo
    
 
 
-   \paragraph{Vector model.} We also describe a model in which each question is a vector, based on an earlier model of LLMs written for a different purpose, \citet{cunningham2023imitation}. Suppose each question $\bm{q}$ is a vector of binary characteristics. The true answer is a scalar, $a$, determined by a set of unobserved weights $a=\bm{w}\bm{q}$. The human guesses the answer to the new question by interpolating among previously-seen questions ($(\bm{q}^i,a^i)_{i=1,\ldots,n}$). They can also consult a chatbot which answers questions in the same way, but with a different set of previously-seen questions (i.e. the training data). We can then give a crisp closed-form expression for the expected benefit of consulting a chatbot. We expect a chatbot to be consulted when you encounter a question that has components which fall outside the space formed from by your knowledge set (questions for which you know the answer), but which fall inside the space formed by the chatbot's knowledge set.
+   \paragraph{Vector model.} We also describe a model in which each question is a vector, based on an earlier model of LLMs written for a different purpose, \citet{cunningham2023imitation}.
+   
+      Suppose each question $\bm{q}$ is a vector of binary characteristics, and the true answer is a scalar, $a$, determined by a set of unobserved weights, $\bm{w}$, with $a=\bm{w}\bm{q}$. The human guesses the answer to the new question by interpolating among previously-seen questions and answers ($(\bm{q}^i,a^i)_{i=1,\ldots,n}$). They can also consult a chatbot which answers questions in the same way, but with a different set of previously-seen questions (i.e. the chatbot's training data). We can then give a crisp closed-form expression for the expected benefit of consulting a chatbot, based on the relationship between the question $q$, the human's experience $Q_1$, and the chatbot's experience, $Q_2$. We expect a chatbot to be consulted when you encounter a question that has components which fall outside the space formed from by your knowledge set (questions for which you know the answer), but which fall inside the space formed by the chatbot's knowledge set.
 
    \subsection{Conjectures About Adoption}
 
@@ -108,7 +110,7 @@ The model also gives us basic predictions about the equilibrium effect of chatbo
       \midrule
       Problems with widely-adopted systems (car, house, computer) & high & novel, discrete, similar to those on the internet \\
       \midrule
-      Problems with idiosyncratic systems (custom setups) & low & novel, discrete, \textit{not} similar to those the internet \\
+      Problems with idiosyncratic systems (custom setups) & low & novel, discrete, \textit{not} similar to those on the internet \\
    \bottomrule
    \end{tabular}
    \captionsetup{justification=centering}
@@ -118,11 +120,11 @@ The model also gives us basic predictions about the equilibrium effect of chatbo
 \subsection{Additional issues.}
 
 \begin{enumerate}
-   \item \textbf{Why are LLMs used as advisors, not deputies?} It's notable that LLMs are relatively rarely given autonomy to make a decision without human oversight. ChatGPT is mostly built as an advisor, it can't take actions on your behalf, but it's worth asking why that is. This could be accommodated by this model if most questions have large private components, such that ChatGPT's answer is worse the the human's, but the ChatGPT-augmented answer is better than the human's.
+   \item \textbf{Why are LLMs used as advisors, not deputies?} It's notable that LLMs are relatively rarely given autonomy to make a decision without human oversight. ChatGPT is mostly built as an advisor, it can't take actions on your behalf, but it's worth asking why that is. This could be accommodated by this model if most questions have large private components, such that ChatGPT's answer is worse than the human's, but the ChatGPT-augmented answer is better than the human's.
    
-   \item \textbf{Relationship to time-savings.} This model quantifies the benefit from ChatGPT as the \textit{accuracy} of an answer to a question. Much other literature on LLM measure the value in time-savings, e.g. most RCTs of LLM augmentation (both in the laboratory and the field), and many self-reports. We could convert the accuracy increase to a time-savings if we say that people can spend more time to increase accuracy.
+   \item \textbf{Relationship to time-savings.} This model quantifies the benefit from ChatGPT as the \textit{accuracy} of an answer to a question. Much other literature on LLMs measures the value in time-savings, e.g. most RCTs of LLM augmentation (both in the laboratory and the field), and many self-reports. We could convert the accuracy increase to a time-savings if we say that people can spend more time to increase accuracy.
 
-   \item \textbf{How does ChatGPT differ from Google?} If we interpret ChatGPT's training set as the content of the public internet then the same model could be applied to a search engine. We could distinguish ChatGPT in two ways: (1) the cost of consulting ChatGPT is significantly lower because it will give an answer immediately, instead of directing the human to another page where they have to skim the text; (2) ChatGPT can \textit{interpolate} questions in its training data, e.g. it will give an answer to your question even if nobody has answered that question before, but the answer can be predicted from the answer to other qeustions.
+   \item \textbf{How does ChatGPT differ from Google?} If we interpret ChatGPT's training set as the content of the public internet then the same model could be applied to a search engine. We could distinguish ChatGPT in two ways: (1) the cost of consulting ChatGPT is significantly lower because it will give an answer immediately, instead of directing the human to another page where they have to skim the text; (2) ChatGPT can \textit{interpolate} questions in its training data, e.g. it will give an answer to your question even if nobody has answered that question before, but the answer can be predicted from the answer to other questions.
    
    \item \textbf{Dimensionality of the domain.} We might be able to extend the model to distinguish between two types of dimensionality: (1) surface dimensionality (how many letters it takes to express the question/prompt); (2) the latent dimensionality of the domain. In general the returns to experience will depend on the latent dimensionality of the domain: if the latent dimensionality is low then a few examples is enough to learn the patterns, if the latent dimensionality is high then error continuously decreases with experience (there's a nice closed-form expression for this).
 
@@ -142,9 +144,11 @@ The model also gives us basic predictions about the equilibrium effect of chatbo
 
 Here we define the simplest model: given some question you will consult the chatbot if and only if (1) you do not know the answer to this question; (2) the chatbot does know the answer to this question.
 
-Suppose you are confronted by a question ($q\in\mathcal{Q}$), and you have to supply an answer, $\hat{a}\in\mathcal{R}$, and where your prior over the true answer is Gaussian $a\sim N(0,1)$, and your payoff is quadratic in the difference between your guess and the true answer, $(a-\hat{a})^2$.
+Suppose you are confronted by a question ($q\in\mathcal{Q}$), and you have to supply an answer, $\hat{a}\in\mathcal{R}$.
 
-The chatbot's set of prior questions-observed is $\bm{Q}_1\subseteq \mathcal{Q}$, the user's set is $\bm{Q}_2\subseteq \mathcal{Q}$, with the composition of both sets public knowledge. It is clear that the user will consult the chatbot if and only if $q\in Q_1$ and $q\not{\in}Q_2$.
+The chatbot's set of prior questions-observed is $\bm{Q}_1\subseteq \mathcal{Q}$, the user's set is $\bm{Q}_2\subseteq \mathcal{Q}$, with the composition of both sets public knowledge (i.e. you know \emph{whether} the chatbot knows the answer to each question, without you knowing what that answer is).
+
+It is clear that the user will consult the chatbot if and only if $q\in Q_1$ and $q\not{\in}Q_2$. In the vector model below, this discrete rule is replaced by a continuous analogue: you benefit from consulting the chatbot when the components of the question that lie outside your own experience overlap with the subspace spanned by the chatbot's experience.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Model}
@@ -166,6 +170,8 @@ The chatbot's set of prior questions-observed is $\bm{Q}_1\subseteq \mathcal{Q}$
 where $\Sigma$ is a $p \times p$ positive-semidefinite covariance matrix. A common assumption we will use is an isotropic prior, where $\Sigma = \sigma^2 \bm{I}_p$ for some scalar $\sigma^2 > 0$. This implies that, a priori, the weights are uncorrelated and have equal variance.
 
 Given their information set $\mathcal{D}_i$, agent $i$ forms a posterior belief about $\bm{w}$. When a new question $\bm{q}_{\text{new}}$ arises, the agent uses their posterior distribution to form an estimate of the answer, $\hat{a}_{\text{new}} = \bm{q}_{\text{new}}' \mathbb{E}[\bm{w} \mid \mathcal{D}_i]$.
+
+Throughout the analysis below we make two simplifying assumptions. First, observations are noiseless: when an agent has seen a question before, they observe its exact true answer, so that $\bm{a}_i = \bm{Q}_i\bm{w}$. Second, the matrices $\bm{Q}_i\Sigma\bm{Q}_i^{\top}$ (and, under an isotropic prior, $\bm{Q}_i\bm{Q}_i^{\top}$) are invertible, so that the posterior expressions are well defined. Both assumptions can be relaxed (for example by allowing noisy answers), at the cost of slightly more involved algebra but with the same basic geometry: what matters is how a new question projects onto the subspaces spanned by past questions.
 
 \section{Propositions}
 
@@ -365,13 +371,45 @@ More precisely:
     \item The condition $\bm{q}'(\bm{I} - \bm{P}_2)\bm{P}_1^{\top}\bm{q} \neq 0$ requires that these two components are not orthogonal—there must be some overlap between what agent 2 doesn't know and what agent 1 does know.
 \end{itemize}
 
-This formalizes the intuitive notion that collaboration is valuable when agents have \textit{complementary} rather than identical or completely unrelated knowledge. If agent 1's expertise is orthogonal to the unfamiliar aspects of the question for agent 2, then agent 1's opinion provides no useful information. Conversely, if there is overlap between agent 2's knowledge gaps and agent 1's strengths, then consultation becomes valuable.
+Put informally: consultation becomes valuable when there is overlap between agent 2's knowledge gaps and agent 1's strengths. 
 
 In the context of the ChatGPT model, this suggests that an AI assistant is most valuable for questions where:
 \begin{enumerate}
     \item The question contains elements that are novel to the human user (large $\|(\bm{I} - \bm{P}_2)\bm{q}\|$)
     \item These novel elements fall within the AI's training domain (non-zero projection onto the AI's knowledge space)
 \end{enumerate}
+
+\subsection{Human alone, chatbot alone, or consultation?}
+
+We can characterize the conditions for the three possible actions: 
+
+Suppose there is some small $\varepsilon$ cost to delegating a question to the chatbot, and some slightly larger $\delta>\varepsilon$ cost to consulting the chatbot first, and then giving a human-adjusted answer. Then we can characterize the conditions for the three regions:
+
+$$S_{1\to 2} = \bm{q}'(\bm{I}-\bm{P}_2)\bm{P}_1^{\top}\bm{q} \quad\text{(chatbot has info the human lacks)}$$
+$$S_{2\to 1} = \bm{q}'(\bm{I}-\bm{P}_1)\bm{P}_2^{\top}\bm{q} \quad\text{(human has info the chatbot lacks)}$$
+
+\begin{table}[h]
+   \centering
+   \begin{tabular}{lcp{6cm}}
+   \toprule
+   Policy & Condition & Interpretation \\
+   \midrule
+   Human alone 
+     & $S_{1\to 2} = 0 \;\text{and}\; S_{2\to 1} \neq 0$
+     & Chatbot has no relevant information beyond what the human already knows, while the human has some information the chatbot lacks. \\
+   Chatbot alone
+     & $S_{2\to 1} = 0 \;\text{and}\; S_{1\to 2} \neq 0$
+     & Human has no relevant information beyond what the chatbot already knows, while the chatbot has some information the human lacks. \\
+   Consultation
+     & $S_{1\to 2} \neq 0 \;\text{and}\; S_{2\to 1} \neq 0$
+     & Each has relevant information that the other lacks, so combining them is worthwhile despite the higher consultation cost $\delta > \varepsilon$. \\
+   \bottomrule
+   \end{tabular}
+   \caption{Information-structure conditions for preferring human alone, chatbot alone, or consultation.}
+   \label{tab:policies}
+\end{table}
+
+\newpage
 
 \bibliography{ai.bib}
 
