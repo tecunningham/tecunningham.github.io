@@ -16,6 +16,7 @@
 \usepackage[most]{tcolorbox} % or consider 'framed' for lighter needs
 \usepackage[round]{natbib}
 \bibliographystyle{plainnat} % or an econ style you prefer (AER if you have it)
+\usepackage{tikz}
 \setlength{\parskip}{0.5em} % Add paragraph spacing
 \sectionfont{\sectionrule{0pt}{0pt}{-4pt}{1pt}}
 \subsectionfont{\sectionrule{0pt}{0pt}{-4pt}{.1pt}}
@@ -23,9 +24,10 @@
 \tcbuselibrary{theorems} % Custom proof environment with light grey background
 \newtcolorbox{greyproof} {colback=gray!10,colframe=gray!20,boxrule=0.5pt,arc=2pt,boxsep=3pt,left=6pt,right=6pt,top=6pt,bottom=6pt}
 
-\title{A Knowledge-Sharing Model of Chatbots}
+\title{A Knowledge-Sharing Model of Chatbots [SUPERCEDED]}
 \author{Tom Cunningham}
 \date{Sept 24 2025}
+
 \begin{document}
 \maketitle
 \begin{abstract}
@@ -33,13 +35,16 @@
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\textbf{SUPERCEDED: SEE model-of-chatbots.qmd}
+
 \section{Introduction}
 
    This note treats chatbots as lowering the cost of access to existing public knowledge. A chatbot is essentially a database of questions for which the answer already exists in the public domain (and hence in the LLM training data). It implies that people will consult a chatbot when they encounter a question for which (i) they do not know the answer, and (ii) they expect that someone else does know the answer, and has documented it in the public domain. 
    
-   The model expresses a very common intuitive view of LLMs, but has not been stated as explicitly before as far as I am aware. LLM chatbots clearly do many things which would not normally be described as answering questions (drawing pictures, editing text, writing code), however the majority share of chatbot queries appear to be asking for information (\citet{chatterji2025chatgpt}). The core predictions can be expressed assuming a discrete set of questions, but I also derive predictions from a fuller model which allows for the user and chatbot to interpolate between answers among different related questions.
+   The model expresses a very common view of LLMs, but has not been stated as explicitly before as far as I am aware. LLM chatbots clearly do many things which would not normally be described as answering questions (drawing pictures, drafting text, editing text, writing code), however the majority share of chatbot queries appear to be asking for information (\citet{chatterji2025chatgpt}). The core predictions can be expressed assuming a discrete set of questions, but I also derive predictions from a fuller model which allows for the user and chatbot to interpolate between answers among different related questions.
    
-   This model gives us very basic predictions about when chatbots will be used:
+   This model gives a variety of predictions about when chatbots will be used:
 
    \begin{enumerate}
       \item \textbf{Chatbots will be consulted more by novices more than experts in a domain.} This is because novices are more likely to encounter a question that they have not encountered before. A corollary is that chatbots will be used where you are a \textit{relative} novice, e.g. a doctor will be more likely to use a chatbot for a legal question, and a lawyer will be relatively more likely to use a chatbot for a medical question. 
@@ -51,14 +56,14 @@
 The model also gives us basic predictions about the equilibrium effect of chatbots:
 
    \begin{enumerate}
-      \item \textbf{Chatbots raise welfare through better decisions.} We should also expect increases in welfare if agents can adjust on other margins, especially reducing the use of other information-sources (books, web search), and through expanding the set of questions that a person attempts to answer.
+      \item \textbf{Chatbots raise welfare through better decisions.} We should also expect increases in welfare if agents can adjust on other margins, especially through reducing the use of other information-sources (books, web search), and through expanding the set of questions that a person attempts to answer.
       \item \textbf{Chatbots flatten comparative advantage.} If comparative advantage is due to differences in knowledge (the set of questions for which you know the answer) then chatbots will flatten those differences. In a class of trade models where productivity differences are entirely driven by knowledge gaps, this is formally equivalent to ``catch up'' technology growth, where the catch-up implies: (1) higher average wages; (2) lower wages for the highest-paid; (3) lower trade, i.e. lower GDP (\citet{dornbusch1977comparative}, \citet{wilson1980general}). 
    \end{enumerate}
 
    \paragraph{Existing models of AI adoption.} We can compare this to a few existing models of AI:
    \begin{itemize} 
       \item \textbf{AI performs a task autonomously.} \cite{zeira1998workers} models automation as allowing capital to perform some task instead of labor. We then expect workers who previously specialized in those tasks to see declines in their wages, e.g. \cite{acemoglu2011handbook}, \cite{acemoglu2018race}.
-      \item \textbf{AI reduces the time required to perform a task.} \cite{eloundou2023gpts} implicitly assumes that LLMs reduce the time required to complete a task by a fixed proportion.[UNFINISHED]
+      \item \textbf{AI reduces the time required to perform a task.} \cite{eloundou2023gpts} treats LLMs as reducing the time required to complete a task by a fixed proportion.[UNFINISHED]
       \item \textbf{AI supplies knowledge.} \citet{ide2024artificialintelligenceknowledgeeconomy} and \citet{autor2025expertise} [UNFINISHED]. Important point about Garicano/Ide/Talamas model: (1) whether the knowledge required for a problem is known ex ante or ex post; (2) whether you can rank knowledge on a scale.
       
          Note: \citet{garicano2006organization} says "Our theory suggests that the impact of communication technology during the last years of the 1990s and early 2000s should lead organizations toward increasing centralization, an equalization of routine jobs, and a reduction of self-employment as hierarchies get larger through larger spans of control and more layers ... Our interpretation is that the underlying source of variation is the costs of acquiring and communicating information: improvements in the cost of accessing knowledge, mostly concentrated in the 1980s and early 1990s but present throughout the period, followed by improvements in communication technology in the late 1990s."
@@ -70,6 +75,8 @@ The model also gives us basic predictions about the equilibrium effect of chatbo
    \paragraph{Vector model.} We also describe a model in which each question is a vector, based on an earlier model of LLMs written for a different purpose, \citet{cunningham2023imitation}.
    
       Suppose each question $\bm{q}$ is a vector of binary characteristics, and the true answer is a scalar, $a$, determined by a set of unobserved weights, $\bm{w}$, with $a=\bm{w}\bm{q}$. The human guesses the answer to the new question by interpolating among previously-seen questions and answers ($(\bm{q}^i,a^i)_{i=1,\ldots,n}$). They can also consult a chatbot which answers questions in the same way, but with a different set of previously-seen questions (i.e. the chatbot's training data). We can then give a crisp closed-form expression for the expected benefit of consulting a chatbot, based on the relationship between the question $q$, the human's experience $Q_1$, and the chatbot's experience, $Q_2$. We expect a chatbot to be consulted when you encounter a question that has components which fall outside the space formed from by your knowledge set (questions for which you know the answer), but which fall inside the space formed by the chatbot's knowledge set.
+
+   \marginpar{Suppose we have *compound* atomic questions. Prediction: will consult a chatbot if subquestion outside your experience but inside shared experience.}
 
    \subsection{Conjectures About Adoption}
 
@@ -120,7 +127,7 @@ The model also gives us basic predictions about the equilibrium effect of chatbo
 \subsection{Additional issues.}
 
 \begin{enumerate}
-   \item \textbf{Why are LLMs used as advisors, not deputies?} It's notable that LLMs are relatively rarely given autonomy to make a decision without human oversight. ChatGPT is mostly built as an advisor, it can't take actions on your behalf, but it's worth asking why that is. This could be accommodated by this model if most questions have large private components, such that ChatGPT's answer is worse than the human's, but the ChatGPT-augmented answer is better than the human's.
+   \item \textbf{Why are LLMs used as advisors, not agents?} It's notable that LLMs are relatively rarely given autonomy to make a decision without human oversight. ChatGPT is mostly built as an advisor, it cannot take actions on your behalf. This could be accommodated by this model if most questions have large private components, such that ChatGPT's answer is worse than the human's, but the ChatGPT-augmented answer is better than the human's.
    
    \item \textbf{Relationship to time-savings.} This model quantifies the benefit from ChatGPT as the \textit{accuracy} of an answer to a question. Much other literature on LLMs measures the value in time-savings, e.g. most RCTs of LLM augmentation (both in the laboratory and the field), and many self-reports. We could convert the accuracy increase to a time-savings if we say that people can spend more time to increase accuracy.
 
@@ -140,7 +147,9 @@ The model also gives us basic predictions about the equilibrium effect of chatbo
 % \item Chatbots are more likely to be used for domains with lower \textit{surface} dimensionality, as this reduces the cost of specifying the question.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Simple Model}
+\section{Model with Atomic Questions}
+
+
 
 Here we define the simplest model: given some question you will consult the chatbot if and only if (1) you do not know the answer to this question; (2) the chatbot does know the answer to this question.
 
@@ -150,8 +159,34 @@ The chatbot's set of prior questions-observed is $\bm{Q}_1\subseteq \mathcal{Q}$
 
 It is clear that the user will consult the chatbot if and only if $q\in Q_1$ and $q\not{\in}Q_2$. In the vector model below, this discrete rule is replaced by a continuous analogue: you benefit from consulting the chatbot when the components of the question that lie outside your own experience overlap with the subspace spanned by the chatbot's experience.
 
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+    % Draw circles
+    \draw[fill=blue!20] (-1,0) circle (1.5cm);
+    \draw[fill=red!20] (1,0) circle (1.5cm);
+    
+    % Labels for the sets
+    \node at (-1,2) {$\bm{Q}_1$ (Chatbot)};
+    \node at (1,2) {$\bm{Q}_2$ (User)};
+    
+    % Label the intersection
+    \node at (0,0) {$q \in Q_1 \cap Q_2$};
+    
+    % Label the consultation region (Q_1 \ Q_2)
+    %\node at (-1.8,0) {$q \in Q_1 \\ Q_2$\\\small (consult chatbot)};
+    
+    % Label the region where user knows but chatbot doesn't
+    \node at (1.8,0) {$q \in Q_2 \setminus Q_1$};
+    
+    % Label the region where neither knows
+    \node at (0,-2.5) {$q \notin Q_1 \cup Q_2$};
+\end{tikzpicture}
+\caption{The user consults the chatbot when $q \in Q_1 \setminus Q_2$: the question is in the chatbot's knowledge set but not in the user's knowledge set.}
+\end{figure}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Model}
+\section{Model with Vector Questions}
 
 \paragraph{The State of the World and Questions.} The state of the world is defined by a vector of $p$ unobserved parameters, $\bm{w} \in \mathbb{R}^p$. A question is a vector of $p$ binary features, $\bm{q} \in \{-1, 1\}^p$. The true answer to a question $\bm{q}$ is a scalar $a$ determined by the linear relationship:
 \[a = \bm{q}'\bm{w} = \sum_{k=1}^p q_k w_k\]
