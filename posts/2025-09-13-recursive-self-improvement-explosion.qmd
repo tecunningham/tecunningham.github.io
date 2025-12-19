@@ -3,6 +3,12 @@ title: Recursive Self-Improvement
 author: Tom Cunningham
 date: today
 draft: true
+engine: knitr
+execute:
+  echo: false
+  warning: false
+  error: false
+  cache: true # caches chunk output
 editor:
   render-on-save: true
 ---
@@ -24,7 +30,7 @@ Progress in AI is rapid but smooth.
 
 : We can measure progress in various ways, algorithmic progress has accelerated over the last 10-15 years. Epoch estimate that algorithmic efficiency has been growing at 3X/year between 2012-2024, measured by effective compute.
 
-Forecasters expect an 8-20% chance of an explosion.
+Forecasters expect an 8-20% chance of an explosion by 2030.
 : They define an explosion as a 3X speedup in the historical rate of progress by some measure.
 
 AI has already been accelerating AI research.
@@ -35,29 +41,66 @@ There's good theoretical reason to expect an explosion.
 
 : If AI increases AI, then it will.
 
-AI speedups to discovery depends on the.
+AI usefulness for optimization depends on features of the setup.
+
+: Hassabis says AI will make progress wherever there's (1) combinatorial search space; (2) clear feedback; (3) lots of data or an automatic validator. But there's clearly a fourth condition: that the data has some lower-dimensional latent structure. There are many problems that satisfy the first 3 but where we don't expect substantial progress from autonomous NNs: (A) the telephone book; (B) mapping out stars in the sky; (C) documenting the genome.
+
 
 
 #           Models
 
 AK model of recursive growth.
 
-: Suppose we have $Y=AK^\alpha$, and also we use some share $s$ of output on R&D, which increases productivity $A=sY^\beta$, then if $\beta+\alpha>1$ we get a continuously increasing growth rate. Aghion, Jones and Jones (2017) elaborate on this model, where AI gradually is able to take over human tasks, & gets a similar condition.
+: Suppose we have $Y=AK^\alpha$, and also we use some share $s$ of output on R&D, which increases productivity $A=sY^\beta$, then if $\beta+\alpha>1$ we get a continuously increasing growth rate. Aghion, Jones and Jones (2017) elaborate on this model, where AI gradually is able to take over human tasks, & they get a similar condition.
 
-: The critical question is whether the returns to R&D effort are sufficiently steep. Some classic papers: Bloom et al. "are we running out of ideas"; and Erdil. 
+: The critical question is whether the returns to R&D effort are sufficiently steep. Some classic papers: Bloom et al. "are we running out of ideas"; and Erdil. 
+
+#           Figure / Evals
+
+Q: what evals would be useful? Suppose we can plot the following:
+
+```{tikz}
+\begin{tikzpicture}[scale=1.2]
+    % Draw axes
+    \draw[->] (0,0) -- (5,0) node[right,align=left] {trainer-model ability\\(time horizon)};
+    \draw[->] (0,0) -- (0,5) node[midway,above,rotate=90] {trained-model ability};
+    
+    % Map values 2, 8, 16, 32, 64 to positions 0, 1, 2, 3, 4 (equal distances)
+    % For the sqrt curve: if position p corresponds to value v = 2*2^p,
+    % then sqrt(v) = sqrt(2*2^p) = sqrt(2)*2^(p/2)
+    % Using TikZ syntax: 2^(\x/2) for 2^(p/2)
+    \draw[thick, blue] (0,0) plot[domain=0:4, samples=100] (\x, {2*sqrt(\x)});
+    
+    % Add tick marks at equal distances: positions 0, 1, 2, 3, 4
+    \foreach \val/\pos in {2/0, 8/1, 16/2, 32/3, 64/4} {
+        \draw (\pos,0) -- (\pos,-0.1);
+        \node[below] at (\pos,-0.15) {\val};
+    }
+    
+    % Add grid (optional, for better readability)
+    \draw[gray, very thin, dashed] (0,0) grid (4.5,4.5);
+\end{tikzpicture}
+```
+
+We could plot data from a variety of differnt experiments on this plot, & ask some interesting questions:
+
+1. At what time horizon do we forecast models beating human-level ability at training models?
+2. Do we see grokking, i.e. discontinuous jumps in model-training ability?
+3. Are some models better than others at model-training?
 
 
 
 #           References
 
 FRI/METR forecasts of AI progress.
-: 
+: (...)
 
 Kortum (1997) ["Research, Patenting, and Technological Change"](https://egc.yale.edu/sites/default/files/Kortum_1997.pdf)
-: He assumes that technological progress comes from taking random draws from a distribution (undirected search). Then growth over time will be characterized by the extreme value distribution of the underlying distribution, & returns to experience will depend on the thickeness of tails:
-   - Bounded: (hits a ceiling)
-   - Exponential (thin tails): $A=\ln n$
-   - Pareto (thick tails): $A = n^\gamma$
+: He assumes that technological progress comes from taking random draws from a distribution (undirected search). Then growth over time will be characterized by the extreme value distribution of the underlying distribution, & returns to experience will depend on the thickeness of tails. Alternative assumptions:
+
+      - Bounded: growth slows as it approaches a ceiling.
+      - Exponential (thin tails): $A=\ln n$
+      - Pareto (thick tails): $A = n^\gamma$
 
 Erdil, Besiroglu, Ho (2024) ["Estimating Idea Production: A Methodological Survey"](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4814445)
 : They discuss the difficulty of estimating the returns to R&D on productivity across a few different domains. They have nice estimates for chess inputs & outputs. They also estimate algorithmic progress:
@@ -71,8 +114,8 @@ Erdil, Besiroglu, Ho (2024) ["Estimating Idea Production: A Methodological Surve
 
       $$\begin{aligned}
          Y &= AK^\alpha \\
-         \dot{K} &= \propto Y && \text{(constant savings rate)}\\
-         \dot{A}/A \propto A^{-\beta}K^[\lambda] && \text{(productivity growth)}
+         \dot{K} &\propto Y && \text{(constant savings rate)}\\
+         \dot{A}/A &\propto A^{-\beta}K^\lambda && \text{(productivity growth)}
       \end{aligned}$$
 
       You'll get steady-state growth if and only if $\lambda/\beta+\alpha=1$. You'll get hyperbolic growth if $\lambda/\beta+\alpha>1$.
@@ -80,6 +123,15 @@ Erdil, Besiroglu, Ho (2024) ["Estimating Idea Production: A Methodological Surve
 
 Aghion, Jones, and Jones (2019) "Artificial Intelligence and Economic Growth"
 : They give conditions under which automating R&D will cause an explosion in GDP growth (i.e. a steadily increasing rate of growth, AKA hyperbolic growth).
+
+
+<!-- $$\begin{aligned}
+         Y_t &= A_t^{\sigma} K_t^{\alpha} L^{1-\alpha} \\
+         \dot A_t &= K_t^{\beta} S^{\lambda} A_t^{\phi}
+      \end{aligned}$$
+
+      In task-based automation interpretations, ($\alpha$) and ($\beta$) reflect the fractions of tasks automated in goods and idea production. Aghion, Jones and Jones analyze when AI-driven automation can yield accelerating growth (“Type I”) or even a singularity (“Type II”). in their Cobb–Douglas setup a key threshold is ($\gamma = \frac{\sigma}{1-\alpha}\cdot\frac{\beta}{1-\phi}$), with a Type II singularity when ($\gamma>1$). -->
+
 
 Eric Drexler (2025) ["The Reality of Recursive Self-Improvement"](https://aiprospects.substack.com/p/the-reality-of-recursive-improvement)
 : He argues that . Automating steps in the optimization loop:
@@ -95,3 +147,43 @@ Eric Drexler (2025) ["The Reality of Recursive Self-Improvement"](https://aipros
 
 
 
+Eric Drexler (Aug 2025) ["The Reality of Recursive Self-Improvement"](https://aiprospects.substack.com/p/the-reality-of-recursive-improvement)
+
+:  Automating steps in the optimization loop:
+
+      - Automating differentiation.
+      - Neural architecture search.
+      - Bayesian optimization.
+
+:  > "The fundamental mechanism is systemic friction reduction — aggregate improvements expand possibilities by enabling faster progress and more ambitious goals
+
+    > "In hyperparameter optimization, advances in Bayesian and multi-fidelity methods often achieve order-of-magnitude savings compared to naive grid search. What once required thousands of full model trainings can now be accomplished with fewer and more intelligent probes. As daunting costs of innovation fall, research becomes faster and more ambitious.
+
+    > "The trajectory toward comprehensive AI capabilities makes these developments predictable, not in detail, but in outline.
+
+
+#       We need more bottom-up modelling of AI's economic effect [UNFINISHED]
+
+There are two approaches to modelling AI's effect.
+
+: From a lot of conversations about recursive self-improvement I realized it's useful to distinguish between two qualitatively different ways of thinking about AI's ability to do work:
+
+      1. _Top down:_ AI replaces each of the human subtasks.
+      2. _Bottom-up:_ AI just does the entire procedure from first principles.
+   
+      I think 80% of discussion of economic impacts was of the top-down type.
+
+What would bottom-up modelling look like?
+:    There are some papers with "model organisms" of recursive self-improvement: Grefenstette (1986) [genetic algorithm to learn parameters for genetic algorithsm](https://ui.adsabs.harvard.edu/abs/1986ITSMC..16..122G/abstract); [AutoML-Zero](https://arxiv.org/pdf/2003.03384) (2020); Schmidhuber (2003) [Godel Machines](https://arxiv.org/abs/cs/0309048?utm_source=chatgpt.com). 
+
+What are the implications for recursive self-improvement?
+: AI treats it as a pure optimization problem, already it's better at chip design, algorithm design.
+
+
+Some related discussion:
+: Nathan Lambert recapitulates some discussions from the Curve about recursive self-improvement [here](https://www.interconnects.ai/p/thoughts-on-the-curve).
+
+    This is related to the Bresnahan/systems view of AI. He talks about the first wave of ML models: "The transition to ICT-based production has largely proceeded at the production system level, not the task level."[^bresnahan] 
+
+
+[^bresnahan]: "My empirical conclusion about these applications is that the lazy idea of AI – that is, of computer systems that are able to perform productive tasks previously done by humans– is irrelevant to understanding how these technologies create value. Here“irrelevant” does not mean that substitution of machine for human tasks is less important than other determinants of the value in use of AITs. It means irrelevant: task-level substitution of machine for human plays no role in these highly valuable systems."
