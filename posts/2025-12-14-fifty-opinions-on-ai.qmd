@@ -5,7 +5,7 @@ bibliography: ai.bib
 reference-location: section
 ---
 <style>
-   h2 { text-align: center; border-bottom: 0px; padding-below: 0px; margin-below: 0px; }
+   h2 { text-align: center; border-bottom: 8px solid black; padding-below: 0px; margin-below: 0px; }
    dl {display: grid; grid-template-columns: max-content auto;
        }
    dt {grid-column-start: 1; width: 5cm;  padding-bottom: 30px;
@@ -24,8 +24,10 @@ I do my best to give reasons, but some have just bubbled up from my unconscious 
 
 ##    Today's impact of AI
 
-The welfare impact is around 1/2% of GDP.
-: The impact is through (A) using chatbots to solve everyday problems (home production); (B) increased productivity at work. The former doesn't show up in GDP at all, the latter will only partly be reflected in GDP because it primarily increases productivity in services, and we don't have a good way of measuring the quantity or quality of services produced (we impute it from the wages paid to the service-providers).
+The welfare impact in 2025 is around 1% of GDP.
+: The impact is through (A) using chatbots to solve everyday problems (home production); (B) increased productivity at work.
+
+      The former doesn't show up in measured GDP at all, the latter will only partly be reflected in GDP because it primarily increases productivity in services, and much of the GDP of services is imputed from the input costs (i.e. wages paid to service-providers).
 
 The welfare impact has been increasing at around 4X/year.
 : Adoption has been growing around 2X/year, and the value/user has been growing around 2X/year. This growth can be decomposed into growth in capabilities and diffusion, I'd say it's been roughly 50-50.
@@ -35,18 +37,29 @@ The welfare impact has been increasing at around 4X/year.
 Neural nets extract the low-dimensional structure of the world.
 : Our pre-conscious brains extract low-dimensional representations from high-dimensional inputs. We have finally we've taught computers to do the same thing (AKA the manifold hypothesis, @bengio2013representation).
 
-LLMs make private knowledge public.
-: Chatbots can be trained to produce answers to questions, given some corpus of existing questions with known answers (a mix of pretraining, paid raters, & user preference data). 
+LLMs imitate human answers to questions.
+: A simple model of LLMs is that they provide answers to questions, based on a large training set of questions & answers. This has a number of implications:
 
-      Now that computers can perceive the latent low-dimensional structure of the world, we can train them to answer factual questions. However they will be limited just to the facts that included in their training set (or those which they can retrieve using tools, and common sense.
+      1. LLMs will be used for *new-to-you* questions, i.e. questions that you have not encountered before, but someone else has.
 
-      This changes the access to knowledge & we can make some basic predictions. Suppose each person has a set of questions which they know the answer to, & this determines their economic capabilities. People have different knowledge-sets, & so they trade. We can treat LLMs as pooling all that private knowledge to make it public. The implications: (A) greater welfare; (B) lower inequality; (C) less trade.
+      2. LLMs will be used for tasks which are *routine* in the sense that there's relatively little variation, and input space is relatively low-dimensional.
+
+      3. The performance of an LLM on a task depends not on the intrinsic properties of that task, but just on the density of similar tasks in the training data (@vonwerra2025jaggeddata).
+
+      4. LLMs exhibit superhuman performance ("transcendence") when the task requires combining the answers to two questions (@cunningham2023imitation, @abreu2025taxonomytranscendence).
 
 LLMs are worse at generalization than humans.
-: We can extend the knowledge model above. It seems clear that LLMs (1) are less sample-efficient learners than humans; (2) are relatively worse at questions that are farther from their training data. Suppose you encounter a new question, you don't know the answer to.
+: The model above treated knowledge as binary: either you know the answer or you don't. We can extend this to extrapolation, and it seems clear that
 
-LLMs are temporarily stuck at a ceiling of human ability.
-: LLMs very quickly caught up with human abilities because they're trained on human judgments (human generated text, paid rater judgment, LLM user preferences). However we can hook them up directly to the real world & they can learn from that, & so we should expect them to surpass the ceiling soon. (A nice analogy: suppose you play chess by looking up each position in the history of recorded games, and otherwise playing randomly; then you will quickly get to a pretty reasonable level of skill, but you hit a ceiling).
+      1. LLMs are less sample-efficient learners than humans
+      2. LLMs are relatively worse at questions that are farther from their training data (compared to humans).
+
+We are moving from human-supervised to world-supervised AI.
+: LLMs very quickly caught up with human abilities because they're trained on human judgments (human generated text, paid rater judgment, LLM user preferences). This led to a plateau around expert-human level.
+
+      However we can hook them up directly to the real world & they can learn from that, & so we are starting to see them break out of that plateau. (A nice analogy: suppose you play chess by looking up each position in the history of recorded games, and otherwise playing randomly; then you will rapidly become a competent player, but then hit a ceiling).
+
+      The properties you need to make progress on world-supervised problems: (1) cheap real-world feedback; (2) .
 
 Unlike humans, computers can use their representations to synthesize new artefacts.
 : Human judgment has a notable asymmetry between recognition and production. There are many properties of objects which we can immediately recognize, but it's far more difficult to synthesize a new object that has that property. We can judge whether a joke is funny, or a poem rhymes, or a picture looks realistic, but we find it far harder to create a funny joke, a rhyming poem, or a realistic picture. This is sometimes attributed to the hierarchical and feed-foward nature of how the brain processes information.
@@ -59,12 +72,10 @@ LLM capabilities are highly correlated.
 LLM capabilities are qualitatively different from human capabilities.
 : The crispest representation is that LLMs can pass all exams, and pass all interview questions, but they cannot do the associated jobs. There is still a substantial bottleneck. Loosely I would characterize the bottleneck as failure to generalize, difficulty with off-distribution tasks. Concretely this manifests in weakness in unusual situations, interactive decision-making, or continual learning.
 
-We cannot direct technical change.
-: .
+##    Economic Effects of AI
 
-
-
-##    Future Economic Effects
+LLMs make private knowledge public.
+: We can apply the question-answering model of LLMs described above to economic equilibrium. Suppose each person has a set of questions which they know the answer to, & this determines their economic capabilities (i.e. they earn rents off their private knowledge). If we treat LLMs as pooling all that private knowledge to make it public, this has clear implications: (A) greater welfare; (B) lower inequality; (C) less trade (i.e. lower GDP).
 
 Market power is not a big deal.
 : I think you could get a good approximation of the static economic effect of AI assuming that the market is competitive, i.e. the competition questions are second-order. The market today is highly competitive: there's a small gap in capabilities among the frontier labs, and open models are, at worst, 12 months behind. It's possible that one lab will jump ahead, but it seems reasonable to treat the market as competitive as an approximation. 
@@ -74,6 +85,14 @@ AI companies will capture a small share of the surplus.
 
 Baumol effects are not a big deal.
 : ABC
+
+We cannot direct technical change.
+: .
+
+Jobs don't decompose tasks with observable outputs.
+: It's notable that the vast majority of labor is paid by *inputs* by *outputs*. I.e. work is mostly paid by the hour, or by the month, not paid by output (performance pay, piece rate). This implies that observing peoples' output is difficult, and so it's likely that .
+
+: Why is observing output difficult? (...)
 
 Demand will shift towards intelligence over knowledge.
 : LLMs make knowledge cheap.
@@ -99,6 +118,8 @@ Demand for human-produced goods is limited.
 AI will significantly advance science.
 : My very basic model of science: over thousands of years we've been gradually uncovering deeper and simpler latent structures of the world, progressively adding them to the textbooks. In retrospect those structures are obvious, it required the flash of insight.
 
+##    Safety Effects
+
 ##    Social Effects
 
 It will dissolve the glue that holds everything together.
@@ -113,9 +134,9 @@ Computers will be able to make better art than humans.
 
 The effect on adversarial problems: help the bad guys more than the good guys.
 
-:  In adversarial situations like spam-detection computers will help both spammers and spam-detectors, but they seem likely to shift the balance in favor of the spammers because of the relative advantage computers have at synthesizing over recognizing content (compared to humans). Humans can intuitively discriminate between real and fake artefacts, but that ability will become less valuable when computers have learned the cues that humans use to make those discriminations.
+:  In adversarial situations like spam-detection computers will help both spammers and spam-detectors. However they seem likely to shift the balance in favor of the spammers because of the relative advantage computers have at synthesizing over recognizing content (compared to humans). Humans can intuitively discriminate between real and fake artefacts, but that ability will become less valuable when computers have learned the cues that humans use to make those discriminations.
 
-The effect on communication: greater reliance on *provenance* than on *content*.
+Communication will rely relatively more on *provenance* than on *content*.
 
 :  When evaluating a message we can use signals either from the content or the provenance (i.e. where the message come from). Many communication systems already rely heavily on provenance, e.g. spam detection relies heavily on the identity of the sender. As generative ML improves I think we should expect equilibrium to move even further in the direction of provenance and reputation and away from content (see my [post](https://tecunningham.github.io/posts/2023-06-06-effect-of-ai-on-communication.html)).
 
@@ -131,7 +152,16 @@ Our nominal ends are not our actual ends.
 ##    What Research is Needed
 
 We are constrained more on theory than on data.
-: 
+: We have many projects which are collecting data on AI impacts, we can organize them into a waterfall, from top to bottom:
+
+      1. **Data on AI capabilities** -- benchmarks that have representative tasks across the economy  - e.g. GDP-val (@patwardhan2025gdpval), APEX.
+      2. **Data on AI uplift** -- effect on productivity, e.g. @becker2025uplift.
+      3. **Data on AI adoption** -- adoption by occupations, by industry, by demographic, E.g. @bick2024rapid.
+      4. **Data on AI usage** -- what types of economic tasks are LLMs used for, e.g. @handa2025economicindex, @chatterji2025chatgpt.
+      5. **Data on AI economic effects** -- changes in hiring and wages by occupation, e.g. @brynjolfsson2025canaries.
+
+      Each of these is relatively *unopinionated*, they try to canvas AI impacts in general. But just collecting data isn't very useful without theory.
+
 
 Someone should organize a conference of junior people working on transformative AI.
 : 
@@ -142,10 +172,33 @@ We need to unbundle labor.
 Randomized trials have limited value.
 : 
 
-We need more work on offense-defense balance.
-: 
+We need more work on the offense-defense balance
+
+: There are dozens of cases where there's some offense-defense balance, and it's no immediately clear how AI will affect that balance. Some examples that came up in the Curve:
+
+      - hacking
+      - ransomware
+      - spearfishing
+      - media manipulation
+      - drone assassinations
+      - drone warfare. 
+   
+    In each case it's clear that AI could help both sides, but arguable how the equilibrium will be affected.
+
+We should have some common theory.
+: It seems wasteful to treat each of these problems independently, there ought to be some general principles we can apply on how AI will affect offense-defense balance.
+
+      The closest I know is @garfinkel2019offensedefense. The argue that when both sides get sufficiently strong then this will generally tend to favor the defender:
+
+      > "we offer a general formalization of the offense-defense balance in terms of contest success functions. Simple models of ground invasions and cyberattacks that exploit software vulnerabilities suggest that, in both cases, growth in investments will favor offense when investment levels are sufficiently low and favor defense when they are sufficiently high."
+
+      I also have a [note from 2023](https://tecunningham.github.io/posts/2023-06-06-effect-of-ai-on-communication.html), which argues that AI will favor the defender for "internal" properties (where human judgment is the ground truth), but favor the attacker for "external" properties (where external reality is the ground truth).
+
+      This seems an incredibly fertile area for economic theory but I have seen very little enagement from economists.
 
 ##    Opinions on the Discourse
+
+
 
 Discourse is tangled because we don't have a theory of capabilities.
 : Many disagreements .
@@ -161,4 +214,13 @@ LLMs expose some holes in classical economics.
 
 Knife-edge explosion conditions are bogus.
 : sadf
+
+Having explicit forecasts would be very useful.
+: What do we expect AI to do to these things?
+
+      - Wages & employment, across sectors and tenure.
+      - The price of land, the value of the capital stock.
+      - Incomes across different countries.
+
+      I feel it's like early 2020 and COVID: if we're trying to make a decision about whether to announce a lock-down it should be based on a clear idea about the counterfactual, which includes a lot of equilibrium effects.
 

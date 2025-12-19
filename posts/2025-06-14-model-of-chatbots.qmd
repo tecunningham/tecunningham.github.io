@@ -1,5 +1,5 @@
 ---
-title: "A Knowledge-Sharing Model of Chatbots"
+title: "A Knowledge-Sharing Model of LLMs"
 engine: knitr
 execute:
   echo: false
@@ -458,7 +458,32 @@ Some implications:
 \end{tikzpicture}
 ```
 
+#  Visualization of Question Density
 
+```{tikz}
+%| label: fig-question-density
+%| fig-cap: "Question density and accuracy curves"
+
+\begin{tikzpicture}[scale=1.2]
+  % Define axes
+  \draw[->] (0,0) -- (6,0);
+  \node[right] at (6,-0.15) {Questions $q$};
+  \draw[->] (0,0) -- (0,4.5) node[above] {Accuracy};
+    
+  % 2. LLM accuracy - follows density of questions (scaled version)
+  \draw[thick, red] plot[smooth, domain=0:5.5] (\x, {3.5 * exp(-\x/1.5)});
+  \node[red, above right, align=center] at (1.8, {3.5 * exp(-1.8/1.5) + 0.2}) {LLM\\Accuracy};
+  
+  % 3. Human accuracy - flat (constant)
+  \draw[thick, green!60!black] (0,2.5) -- (5.5,2.5);
+  \node[green!60!black, right] at (5.5,2.5) {Human Accuracy};
+  
+  % Add some reference points
+  \node[below] at (1,-0.1) {Common};
+  \node[below] at (4.5,-0.1) {Rare};
+  
+\end{tikzpicture}
+```
 
 # Model with Vector Questions
 
