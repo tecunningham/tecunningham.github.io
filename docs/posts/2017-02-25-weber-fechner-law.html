@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Tom Cunningham">
+<meta name="dcterms.date" content="2017-02-25">
+<meta name="description" content="Tom Cunningham blog">
+
+<title>Weber’s Law Doesn’t Imply Concave Representations or Concave Judgments | Tom Cunningham – Tom Cunningham</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-d5e7c60e6424aa6ccf163f01508596ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-12027453-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+<script>window.MathJax = {
+   loader: { load: ["https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/xypic.js"]},
+   tex: {packages: {'[+]': ['xypic','bm']},
+         macros: {  bm: ["\\boldsymbol{#1}", 1],
+                    ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+                    utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3] }
+   }
+};
+</script>
+<style>
+   h1 {  border-bottom: 8px solid #557;}
+   h2 {  border-bottom: 1px solid #ccc;}
+   .greyproof {
+      background-color: #f5f5f5;
+      padding: 1em;
+      margin: 1em 0;
+      border-radius: 4px;
+   }
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+<meta name="twitter:title" content="Weber’s Law Doesn’t Imply Concave Representations or Concave Judgments | Tom Cunningham">
+<meta name="twitter:description" content="Tom Cunningham blog">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Tom Cunningham</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href=".././about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/testingham"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/tom-cunningham-a9433/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://tecunningham.github.io/index.xml"> <i class="bi bi-rss-fill" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://scholar.google.com/citations?user=MDB_DgkAAAAJ"> 
+<span class="menu-text">scholar</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Weber’s Law Doesn’t Imply Concave Representations or Concave Judgments</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 25, 2017</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://www.dropbox.com/s/24cumup0i7uiksn/runningman.jpg?raw=1" class="img-fluid figure-img"></p>
+<figcaption>runningman</figcaption>
+</figure>
+</div>
+<p><strong>Nutshell.</strong></p>
+<ol type="1">
+<li>If you spend any time reading about behavioural economics you’ll come across “diminishing sensitivity” pretty soon, applied to all sorts of things in decision-making (probability weighting, value-function weighting, relative thinking), and often you’ll find a reference to “Weber’s law” from psychology.</li>
+<li>Weber’s law says that if you can tell the difference between a 1-pound and a 1.2-pound weight 90% of the time, then you will also be able to tell the difference between a 10-pound and 12-pound weight about 90% of the time (and generally, the ability to discriminate between two sensations is a function of the ratio of the magnitudes).</li>
+<li>This finding is often interpreted as implying that we have, in some sense, <em>concave</em> representations of value. And indeed this behaviour <em>would</em> be implied by a model in which we receive a signal which is a concave function of the underlying value, plus additive noise.</li>
+<li>However Weber’s law would also be seen if we have a linear representation of value with multiplicative noise. And there are good reasons to think that perceptual noise is generally closer to multiplicative than additive (but I leave that for another time).</li>
+<li>Also of interest is, given our assumptions about value and noise, how a person’s posteriors look. I.e., what is the average best-guess of the weight of an object, given it’s true weight. I also derive those below (you have to make assumptions about a person’s priors), and show that, under multiplicative noise &amp; lognormal priors, expected weight is concave function of true weight, while under additive noise &amp; uniform priors, expected weight is a linear function of true weight.</li>
+<li>In general I think that Weber’s law is <em>not</em> relevant most of the anomalies we see in decision-making. This note doesn’t really tie the knot on that argument, but I think these are useful results going in that direction. (I’m sure these mathematical points must have been made elsewhere but I’ve never been able to find them.)</li>
+</ol>
+<section id="history." class="level1">
+<h1>History.</h1>
+<p>Ernst Weber (1795-1878) tested subjects’ ability to discriminate between the strength of sensations - for example two sounds, two shades of light, two intensities of touch - and found that the Just Noticeable Difference (JND) between two sensations tended to be proportional to the average magnitude of the two sensations: e.g., if you can determine which of two lights is brighter with 80% accuracy, then Weber predicts that you will also have 80% accuracy when the brightness of both lights is doubled. Gustav Fechner (1801-1887) showed that, under the assumption that each JND has an equal subjective difference, this implies a logarithmic relationship between objective and subjective magnitude. Later S. S. Stevens (1906-1973) directly asked subjects for cardinal reports of subjective intensity and found a power law relationship (i.e., the logarithmic relation is a special case of this).</p>
+</section>
+<section id="in-decision-making" class="level1">
+<h1>In Decision-Making</h1>
+<p>In the 19th century a number of economists made a connection between the Weber-Fechner law and the diminishing marginal utility of consumption. However Max Weber – a different Weber – Weber the sociologist, wrote an essay in 1908 to explain that they are fundamentally distinct phenomena (“Marginal Utility Theory and the Fundamental Law of Psychophysics”). Stigler later wrote about Max Weber’s essay and agreed that there is little meaningful connection.</p>
+<p>More recently the Weber-Fechner law has been cited by a number of economists to explain diminishing sensitivity in other domains (not just in absolute consumption): Thaler (1980), Tversky &amp; Kahneman (1992), Thaler (1999), Gonzalez &amp; Wu (1999) all argue that the curvature of a gain/loss function, and of probability-weighting function, are somehow connected with the Weber-Fechner law in perception.</p>
+<p>However, I show below that the Weber behaviour (the proportional JND being invariant to scale) does not imply either (A) a concave internal representation of magnitude; or (B) a concave bias in judgment of magnitudes.</p>
+<p>(It’s also worth noting that a <em>literal</em> application of Weber’s law to decision-making would be the following: that subjects are equally likely to choose \$7 over \$8, as they are to choose \$70 over \$80. I’m not sure if this has ever been tested, it doesn’t seem like an especially interesting fact for economic decision-making.)</p>
+</section>
+<section id="webers-law-linear-vs-concave-representations-of-value" class="level1">
+<h1>Weber’s Law &amp; Linear vs Concave Representations of Value</h1>
+<p>First I show that Weber’s law does not imply that we must have, in some sense, a concave representation of value. I show that the law can be derived from two different setups: one in which we have a linear representation and multiplicative noise; one with a concave representation and additive noise.</p>
+<p>Suppose that we can observe subjects’ judgments about which of two values (<span class="math inline">\(v_{1}\)</span> and <span class="math inline">\(v_{2}\)</span>) is greater. Then we can define a just noticeable difference, <span class="math inline">\(JND(v,p)\)</span>, as the difference in values, such that subjects correctly discriminate <span class="math inline">\(v\)</span> and <span class="math inline">\(v+JND(v,p)\)</span> in a proportion <span class="math inline">\(p\)</span> of trials.</p>
+<section id="linear-representation-multiplicative-noise" class="level2">
+<h2 class="anchored" data-anchor-id="linear-representation-multiplicative-noise">Linear Representation &amp; Multiplicative Noise</h2>
+<p>Assume people get signals about underlying value with multiplicative noise, <span class="math inline">\(s=v\cdot e\)</span>, with <span class="math inline">\(e\)</span> lognormal. For conciseness let <span class="math inline">\(\delta=JND(v_{1},p)\)</span>, then <span class="math inline">\(\delta\)</span> can be implicitly defined as:</p>
+<p><span class="math display">\[
+\begin{aligned}
+p   =&amp;  P(E[v_{1}+\delta|s_{2}]&gt;E[v_{1}|s_{1}]) \\
+    =&amp;  P((v_{1}+\delta)e_{2}&gt;v_{1}e_{1}) \\
+    =&amp;  P(\ln(v_{1}+\delta)+\ln e_{2}&gt;\ln v_{1}+\ln e_{1}) \\
+    =&amp;  \Phi\left(\frac{\ln(v_{1}+\delta)-\ln v_{1}}{\sigma_{e}^{2}+\sigma_{e}^{2}}\right)
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(\Phi\)</span> is the CDF of a standard normal distribution. Then,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\ln(v_{1}+\delta)-\ln v_{1} =&amp;   2\sigma_{e}^{2}\Phi^{-1}(p) \\
+\frac{v_{1}+\delta}{v_{1}}  =&amp;   \exp(2\sigma_{e}^{2}\Phi^{-1}(p))\\
+JND(v_{1},p)=\delta         =&amp;   v_{1}\left[\exp(2\sigma_{e}^{2}\Phi^{-1}(p))-1\right]
+\end{aligned}
+\]</span></p>
+<p>In other words, the just noticeable difference is proportional to the value, <span class="math inline">\(v_{1}\)</span>, as found by Weber.</p>
+</section>
+<section id="a-concave-representation-additive-noise" class="level2">
+<h2 class="anchored" data-anchor-id="a-concave-representation-additive-noise">A Concave Representation &amp; Additive Noise</h2>
+<p>Suppose that the decision-maker receives a concave signal of value with additive noise, i.e.&nbsp;<span class="math inline">\(s=\ln v+e\)</span>, with Gaussian <span class="math inline">\(e\)</span>. Then the derivation is very similar:</p>
+<p><span class="math display">\[
+\begin{aligned}
+  p =&amp; P(E[v_{1}|s_{2}]&gt;E[v_{1}|s_{1}]) \\
+    =&amp; P(\ln(v_{1}+\delta)+e_{2}&gt;\ln v_{1}+e_{1}).
+\end{aligned}
+\]</span></p>
+<p>The rest of the derivation is the same: i.e., the JND in the neighborhood of <span class="math inline">\(v_{1}\)</span> will be proportional to <span class="math inline">\(v_{1}\)</span>.</p>
+</section>
+</section>
+<section id="webers-law-bias-in-judgment" class="level1">
+<h1>Weber’s Law &amp; Bias in Judgment</h1>
+<p>Weber’s law implies that perception is noisy. We can then ask what is the appropriate Bayesian posterior given noise. In particular, what will the relationship be between a value <span class="math inline">\(v\)</span>, and the subjective best-estimate of that value given the signal <span class="math inline">\(s(v)\)</span>, i.e.&nbsp;<span class="math inline">\(E[E[v\|s]\|v]\)</span>.</p>
+<p>It has often been assumed that Weber’s law will imply or justify a concave bias in estimates of value. However I show that this is not necessarily so.</p>
+<p><strong>Note on expectations:</strong> In a continuous setup, like the below, you can’t just write the conditional expectation as an integral without further notes. The conditional expectation is undefined without specifying which <em>limit</em> you’re taking (<a href="https://en.wikipedia.org/wiki/Borel%E2%80%93Kolmogorov_paradox">AKA Borel-Kolmogorov paradox</a>). Below I <em>believe</em> that the integrals follow from taking limits with respect to the noise. Intuitively, this is like assuming that you observe only that the signal is in some range <span class="math inline">\((s-\varepsilon,s+\varepsilon)\)</span>, and taking limits as <span class="math inline">\(\varepsilon\rightarrow0\)</span>.</p>
+<section id="multiplicative-noise-posteriors-are-concave-in-v" class="level2">
+<h2 class="anchored" data-anchor-id="multiplicative-noise-posteriors-are-concave-in-v">Multiplicative Noise =&gt; Posteriors are Concave in <span class="math inline">\(v\)</span></h2>
+<p>Suppose we have lognormal priors for both <span class="math inline">\(v\)</span> and <span class="math inline">\(e\)</span>:</p>
+<p><span class="math display">\[
+\begin{eqnarray*}
+\ln v &amp; \sim &amp; N(\mu_{v},\sigma_{v}^{2})\\
+\ln e &amp; \sim &amp; N(\mu_{e},\sigma_{e}^{2}),
+\end{eqnarray*}
+\]</span></p>
+<p>and <span class="math inline">\(s=v\cdot e\)</span>, then we will have posteriors like:</p>
+<p><span class="math display">\[
+\begin{eqnarray*}
+f(\ln v|s) &amp; \sim &amp; N(\frac{\sigma_{v}^{2}}{\sigma_{e}^{2}+\sigma_{v}^{2}}\ln s,\left(\sigma_{v}^{-2}+\sigma_{e}^{-2}\right)^{-1})\\
+E[v|s] &amp; = &amp; \exp\left(\frac{\sigma_{v}^{2}}{\sigma_{e}^{2}+\sigma_{v}^{2}}\ln s+\frac{1}{2}\left(\sigma_{v}^{-2}+\sigma_{e}^{-2}\right)^{-1}\right)\\
+&amp; = &amp; s^{\frac{\sigma_{v}^{2}}{\sigma_{e}^{2}+\sigma_{v}^{2}}}e^{\frac{1}{2}(\sigma_{v}^{-2}+\sigma_{e}^{-2})^{-1}}
+\end{eqnarray*}
+\]</span></p>
+<p>This means that the expected <span class="math inline">\(v\)</span> is concave in the signal <span class="math inline">\(s\)</span> (because the exponent is less than one). Intuitively: a doubling of the value, which causes a doubling of the stimulus, will cause a <em>less</em> than doubling of the expected value conditional on that stimulus, because it will cause us to revise upwards our beliefs about both <span class="math inline">\(v\)</span> and <span class="math inline">\(e\)</span>.</p>
+<p>Finally, we are also interested in the <em>average</em> posterior for a given <span class="math inline">\(v\)</span>. This will also be concave (abbreviating <span class="math inline">\(\alpha=\frac{\sigma_{v}^{2}}{\sigma_{e}^{2}+\sigma_{v}^{2}}\)</span>, and dropping the constant coefficient in <span class="math inline">\(E[v|s]\)</span>):</p>
+<p><span class="math display">\[
+\begin{eqnarray*}
+E[E[v|s]|v] &amp; = &amp; \int(v\cdot e)^{\alpha}f(e)de\\
+&amp; = &amp; v^{\alpha}\int e^{\alpha}f(e)de.
+\end{eqnarray*}
+\]</span></p>
+</section>
+<section id="additive-noise-posteriors-are-linear-in-v" class="level2">
+<h2 class="anchored" data-anchor-id="additive-noise-posteriors-are-linear-in-v">Additive Noise =&gt; Posteriors are Linear in <span class="math inline">\(v\)</span></h2>
+<p>Suppose again that the decision-maker receives a logarithmic signal with additive noise: <span class="math inline">\(s=\ln v+u\)</span>, and let <span class="math inline">\(u\)</span> be Gaussian. (I changed notation from <span class="math inline">\(e\)</span> to <span class="math inline">\(u\)</span> because I use a lot of exponential functions in the derivation.) Now assume that, in addition, <span class="math inline">\(v\)</span> is drawn from an improper uniform <span class="math inline">\((0,\infty)\)</span>. Consider the expected value of <span class="math inline">\(v\)</span> given the signal <span class="math inline">\(s\)</span> (I drop the constant term from the Gaussian distribution for conciseness):</p>
+<p><span class="math display">\[
+\begin{eqnarray*}
+E[v|s] &amp; = &amp; \frac{\int_{0}^{\infty}ve^{-\left(s-\ln v\right)^{2}}dv}{\int_{0}^{\infty}e^{-\left(s-\ln v\right)^{2}}dv}.
+\end{eqnarray*}
+\]</span></p>
+<p>Now exchange variables, so that <span class="math inline">\(v=e^{z}\)</span>:</p>
+<p><span class="math display">\[
+\begin{eqnarray*}
+E[v|s] &amp; = &amp; \frac{\int_{-\infty}^{\infty}e^{z}e^{-(s-z)^{2}}e^{z}dz}{\int_{-\infty}^{\infty}e^{-(s-z)^{2}}e^{z}dz}\\
+&amp; = &amp; \frac{\int_{-\infty}^{\infty}e^{-s^{2}+2(1+s)z-z^{2}}dz}{\int_{-\infty}^{\infty}e^{z-(s-z)^{2}}dz}\\
+&amp; = &amp; \frac{\int_{-\infty}^{\infty}e^{-(z-1-s)^{2}}e^{1+2s}dz}{\int_{-\infty}^{\infty}e^{s+\frac{1}{4}}e^{-((s+\frac{1}{2})-z)^{2}}dz}\\
+&amp; = &amp; e^{s}e^{3/4}\frac{\int_{-\infty}^{\infty}e^{-(z-1-s)^{2}}dz}{\int_{-\infty}^{\infty}e^{-((s+\frac{1}{2})-z)^{2}}dz}
+\end{eqnarray*}
+\]</span></p>
+<p>Note that both of the integrals are independent of <span class="math inline">\(s\)</span> (because the integration is between <span class="math inline">\(-\infty\)</span> and <span class="math inline">\(\infty\)</span>), so there exists some <span class="math inline">\(\kappa\)</span> such that:</p>
+<p><span class="math display">\[
+E[x|s]=\text{e}^{s}\kappa.
+\]</span></p>
+<p>Finally we are interested in the average posterior for a given <span class="math inline">\(v\)</span> (here I’m again ignoring all constant terms):</p>
+<p><span class="math display">\[
+\begin{eqnarray*}
+E[E[v|s]|v] &amp; = &amp; \int_{-\infty}^{\infty}E[v|s=\ln v+u]\text{e}^{-u^{2}}du\\
+&amp; = &amp; \int_{-\infty}^{\infty}\text{e}^{(\ln v+u)}\kappa\text{e}^{-u^{2}}du\\
+&amp; = &amp; v\int_{-\infty}^{\infty}\kappa\text{e}^{u-u^{2}}du.
+\end{eqnarray*}
+\]</span></p>
+<p>I.e., despite the logarithmic internal representation, the average posterior is linear in the value.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("tecunningham\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

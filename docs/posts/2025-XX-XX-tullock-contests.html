@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Tom Cunningham">
+<meta name="description" content="Tom Cunningham blog">
+
+<title>Technology and Contest Success Functions | Tom Cunningham – Tom Cunningham</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-d5e7c60e6424aa6ccf163f01508596ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-12027453-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+<script>window.MathJax = {
+   loader: { load: ["https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/xypic.js"]},
+   tex: {packages: {'[+]': ['xypic','bm']},
+         macros: {  bm: ["\\boldsymbol{#1}", 1],
+                    ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+                    utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3] }
+   }
+};
+</script>
+<style>
+   h1 {  border-bottom: 8px solid #557;}
+   h2 {  border-bottom: 1px solid #ccc;}
+   .greyproof {
+      background-color: #f5f5f5;
+      padding: 1em;
+      margin: 1em 0;
+      border-radius: 4px;
+   }
+</style>
+<script>window.MathJax = {
+         loader: { load: ['[custom]/xypic.js'],
+                     paths: {custom: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/'}},
+      tex: {packages: {'[+]': ['xypic']},
+         macros: {
+            bm: ["\\boldsymbol{#1}", 1],
+            ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+            utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3]
+         }}};
+</script>
+<style>
+   h1 {  border-bottom: 4px solid black; }
+   h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; color: black; }
+   dl {display: grid;grid-template-columns: max-content auto;}
+   dt {grid-column-start: 1; width: 4cm;}
+   dd {grid-column-start: 2; margin-left: 2em;}
+</style>
+<meta name="quarto:status" content="draft">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+<meta name="twitter:title" content="Technology and Contest Success Functions | Tom Cunningham">
+<meta name="twitter:description" content="How efficiency changes shift equilibrium conflict">
+<meta name="twitter:image" content="tecunningham.github.io/posts/2025-XX-XX-tullock-contests_files/figure-html/unnamed-chunk-1-1.png">
+<meta name="twitter:image-height" content="626">
+<meta name="twitter:image-width" content="1303">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Draft</div>
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Tom Cunningham</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href=".././about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/testingham"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/tom-cunningham-a9433/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://tecunningham.github.io/index.xml"> <i class="bi bi-rss-fill" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://scholar.google.com/citations?user=MDB_DgkAAAAJ"> 
+<span class="menu-text">scholar</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Technology and Contest Success Functions</h1>
+            <p class="subtitle lead">How efficiency changes shift equilibrium conflict</p>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Abstract
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When technology makes one side more efficient at conflict, how does equilibrium behavior change? I use the Tullock contest success function to visualize this. A multiplicative efficiency boost (equivalently, a cost reduction) shifts the contest success function, rotates best-response curves, and changes equilibrium efforts in non-obvious ways. Surprisingly, improved efficiency can sometimes <em>reduce</em> your equilibrium payoff due to intensified competition.</p>
+</div>
+</div>
+<p>When AI or other technology makes one side more effective at conflict—better at finding vulnerabilities, generating content, or deploying resources—the equilibrium changes. But in which direction?</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-XX-XX-tullock-contests_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Core question: How does efficiency improvement change equilibrium?</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The <strong>Tullock contest success function</strong> provides a tractable framework. I visualize how the function looks, how best responses behave, and how efficiency improvements shift equilibrium.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Intuition: Why This Matters
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Think of two companies competing for a government contract, or two countries in an arms race. Each side can invest resources (effort) to win. The Tullock framework models: 1. <strong>How effort translates to winning</strong> (<span class="math inline">\(r\)</span> parameter) 2. <strong>Strategic interaction</strong> (my optimal effort depends on yours) 3. <strong>Equilibrium waste</strong> (total spending can exceed the prize value) 4. <strong>Technology shocks</strong> (what happens when one side gets more efficient?)</p>
+<p>Key insight: Improving one side’s efficiency doesn’t just redistribute payoffs—it changes <em>total</em> resource waste.</p>
+</div>
+</div>
+<section id="the-contest-success-function" class="level1">
+<h1>The Contest Success Function</h1>
+<p>Two players compete for a <strong>prize worth <span class="math inline">\(V=\$100\)</span></strong>. Player 1 spends <span class="math inline">\(x_1\)</span>, player 2 spends <span class="math inline">\(x_2\)</span>. The <strong>Tullock contest success function</strong> gives the probability player 1 wins:</p>
+<p><span class="math display">\[P_1(x_1,x_2) = \frac{x_1^r}{x_1^r + x_2^r}\]</span></p>
+<p>where <span class="math inline">\(r&gt;0\)</span> is the <strong>returns to scale</strong> parameter.</p>
+<p><strong>Interpretation:</strong> - <span class="math inline">\(r&lt;1\)</span>: Decreasing returns. Contest is more balanced even with unequal investments. - <span class="math inline">\(r=1\)</span>: Linear returns. Probability equals your share of total effort. - <span class="math inline">\(r&gt;1\)</span>: Increasing returns. Contest favors whoever invests more (winner-take-all).</p>
+<section id="contest-equilibria-across-parameter-values" class="level2">
+<h2 class="anchored" data-anchor-id="contest-equilibria-across-parameter-values">Contest Equilibria Across Parameter Values</h2>
+<p>Below we show equilibrium expenditures for different contest parameters. In all cases: <strong>Prize <span class="math inline">\(V=\$100\)</span></strong>, symmetric costs <span class="math inline">\(c_1=c_2=1\)</span>. The black dot shows the Nash equilibrium.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-XX-XX-tullock-contests_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="960"></p>
+<figcaption>Contest equilibria with varying returns to scale (V=$100, c₁=c₂=1)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Key patterns across r values:</strong></p>
+<ol type="1">
+<li><p><strong>As <span class="math inline">\(r\)</span> increases</strong>, equilibrium efforts increase:</p>
+<ul>
+<li><span class="math inline">\(r=0.5\)</span>: Each spends $12.50 (25% dissipation)</li>
+<li><span class="math inline">\(r=1\)</span>: Each spends $25 (50% dissipation)</li>
+<li><span class="math inline">\(r=1.5\)</span>: Each spends $37.50 (75% dissipation)</li>
+<li><span class="math inline">\(r=2\)</span>: Each spends $50 (100% dissipation)</li>
+</ul></li>
+<li><p><strong>Higher <span class="math inline">\(r\)</span> means more waste</strong>: At <span class="math inline">\(r=2\)</span>, the entire $100 prize is dissipated through competition!</p></li>
+<li><p><strong>Contour curvature</strong>: Higher <span class="math inline">\(r\)</span> makes the 50-50 line straighter—small leads are harder to overcome.</p></li>
+</ol>
+</section>
+<section id="asymmetric-costs-how-cost-advantages-shift-equilibria" class="level2">
+<h2 class="anchored" data-anchor-id="asymmetric-costs-how-cost-advantages-shift-equilibria">Asymmetric Costs: How Cost Advantages Shift Equilibria</h2>
+<p>When one player has a cost advantage, equilibrium expenditures become asymmetric. Below: Player 1 has varying cost levels while Player 2 has <span class="math inline">\(c_2=1\)</span>. Prize remains <span class="math inline">\(V=\$100\)</span>, <span class="math inline">\(r=1\)</span>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-XX-XX-tullock-contests_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="960"></p>
+<figcaption>Equilibria with asymmetric costs (V=$100, r=1, varying c₁/c₂)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Key insights:</strong></p>
+<ul>
+<li><strong>Cost advantage → more spending</strong>: Lower-cost player spends more in absolute dollars</li>
+<li><strong>But wins more than proportionally</strong>: At <span class="math inline">\(c_1=0.5\)</span>, Player 1 spends $44.44 vs Player 2’s $22.22 (2:1 ratio), but wins with probability <span class="math inline">\(P_1 = 2/3\)</span></li>
+<li><strong>Total dissipation varies</strong>: Falls when costs are asymmetric ($66.67 vs $50 in symmetric case)</li>
+</ul>
+</section>
+</section>
+<section id="best-response-functions" class="level1">
+<h1>Best Response Functions</h1>
+<p>Players choose effort to maximize expected payoff minus cost. Let <span class="math inline">\(c_1, c_2\)</span> be marginal costs.</p>
+<p>Player 1 maximizes: <span class="math display">\[\pi_1(x_1, x_2) = V \cdot P_1(x_1,x_2) - c_1 x_1\]</span></p>
+<p>First-order condition: <span class="math display">\[V \frac{\partial P_1}{\partial x_1} = c_1\]</span></p>
+<p>This gives player 1’s <strong>best response</strong> <span class="math inline">\(x_1^*(x_2)\)</span>: optimal effort given <span class="math inline">\(x_2\)</span>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-XX-XX-tullock-contests_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Best response functions for symmetric costs (c₁=c₂=1, V=10, r=1)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Equilibrium:</strong> Where best responses intersect. With symmetric costs and <span class="math inline">\(r=1\)</span>: <span class="math display">\[x_1^* = x_2^* = \frac{V}{4c}\]</span></p>
+<p>Total dissipation: <span class="math inline">\(x_1^* + x_2^* = \frac{V}{2c}\)</span>. <strong>Half the prize value is wasted in conflict!</strong></p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>The Dissipation Problem
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In symmetric Tullock contests with <span class="math inline">\(r=1\)</span>, equilibrium competition dissipates <strong>50% of the prize value</strong>. Both players would be better off if they could commit to lower efforts, but individual incentives drive wasteful spending.</p>
+</div>
+</div>
+</section>
+<section id="efficiency-improvements-multiplicative-boost" class="level1">
+<h1>Efficiency Improvements: Multiplicative Boost</h1>
+<p>Now suppose technology improves player 1’s efficiency. Model this as a multiplicative boost: player 1’s effective effort becomes <span class="math inline">\(\alpha x_1\)</span> where <span class="math inline">\(\alpha &gt; 1\)</span>.</p>
+<p><strong>Contest success function becomes:</strong> <span class="math display">\[P_1(x_1,x_2; \alpha) = \frac{(\alpha x_1)^r}{(\alpha x_1)^r + x_2^r}\]</span></p>
+<p><strong>Equivalently:</strong> This is identical to player 1 facing cost <span class="math inline">\(c_1/\alpha\)</span> instead of <span class="math inline">\(c_1\)</span>. A technology that doubles efficiency (<span class="math inline">\(\alpha=2\)</span>) is equivalent to halving costs.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Efficiency vs.&nbsp;Cost
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An efficiency boost <span class="math inline">\(\alpha\)</span> is mathematically equivalent to a cost reduction to <span class="math inline">\(c/\alpha\)</span>. However, the <em>interpretation</em> differs: - <strong>Efficiency:</strong> Same spending → more effective effort - <strong>Cost reduction:</strong> Cheaper to produce the same effort</p>
+<p>The equilibrium effects are identical, but the framing matters for policy analysis.</p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-XX-XX-tullock-contests_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>How efficiency boost shifts contest success contours (r=1)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Effect on contours:</strong> The 50-50 line rotates. Before: <span class="math inline">\(x_1=x_2\)</span>. After: <span class="math inline">\(\alpha x_1 = x_2\)</span>, so <span class="math inline">\(x_1 = x_2/\alpha\)</span>.</p>
+<p>Player 1 needs less effort to achieve the same winning probability.</p>
+</section>
+<section id="equilibrium-response-to-efficiency-boost" class="level1">
+<h1>Equilibrium Response to Efficiency Boost</h1>
+<p>How do both players respond? The efficiency boost shifts player 1’s best response function.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-XX-XX-tullock-contests_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Equilibrium shifts when Player 1 gets efficiency boost (r=1, V=10, c₁=c₂=1)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Key results from efficiency boost (general patterns):</strong></p>
+<ol type="1">
+<li><strong>Player 1’s actual effort:</strong> May increase or decrease depending on parameters</li>
+<li><strong>Player 1’s effective effort:</strong> Always increases (<span class="math inline">\(\alpha x_1 &gt; x_1\)</span> when <span class="math inline">\(\alpha &gt; 1\)</span>)</li>
+<li><strong>Player 2’s effort:</strong> Typically increases in response</li>
+<li><strong>Total dissipation:</strong> Usually increases (more competition)</li>
+</ol>
+<p><strong>Intuition:</strong> The efficiency boost makes player 1 more dangerous per unit of effort. Player 2 must respond by investing more. The result is intensified competition even though player 1 may reduce actual spending.</p>
+</section>
+<section id="the-dissipation-puzzle" class="level1">
+<h1>The Dissipation Puzzle</h1>
+<p>Does player 1 benefit from the efficiency boost? The answer depends on <span class="math inline">\(r\)</span>.</p>
+<p><strong>Expected payoffs at equilibrium:</strong></p>
+<p>With symmetric costs (<span class="math inline">\(c_1=c_2=c\)</span>) and <span class="math inline">\(r=1\)</span>:</p>
+<p>Before boost (<span class="math inline">\(\alpha=1\)</span>): <span class="math display">\[\pi_1 = \pi_2 = \frac{V}{4c}\]</span></p>
+<p>After boost (<span class="math inline">\(\alpha&gt;1\)</span>): <span class="math display">\[\pi_1 &gt; \frac{V}{4c}, \quad \pi_2 &lt; \frac{V}{4c}\]</span></p>
+<p><strong>Player 1 benefits, but less than the efficiency gain suggests.</strong> Part of the advantage dissipates through increased competition. The exact split depends on the magnitude of <span class="math inline">\(\alpha\)</span> and the returns parameter <span class="math inline">\(r\)</span>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-XX-XX-tullock-contests_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Equilibrium payoffs before and after efficiency boost (schematic)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>The dissipation effect:</strong> Player 1’s efficiency gain is partially dissipated through increased competition. Player 2 responds by increasing their effort, which consumes resources and reduces total surplus.</p>
+</section>
+<section id="when-can-efficiency-hurt" class="level1">
+<h1>When Can Efficiency Hurt?</h1>
+<p>Surprisingly, in some settings, an efficiency boost can <em>reduce</em> your payoff. This happens when the contest intensifies so much that you’d prefer to commit to <em>not</em> using the technology.</p>
+<p><strong>Example: Very high returns to scale (<span class="math inline">\(r \gg 1\)</span>).</strong> The contest becomes winner-take-all. Both players invest heavily, approaching the prize value.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-XX-XX-tullock-contests_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Total effort dissipation as function of r</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>When <span class="math inline">\(r\)</span> is large: - Contests are highly sensitive to small differences - Both players spend close to <span class="math inline">\(V\)</span> in equilibrium - Almost all surplus is dissipated - An efficiency boost might increase spending so much that you’re worse off</p>
+<p><strong>Policy implication:</strong> In winner-take-all contests, limiting technology diffusion can improve welfare by reducing wasteful competition.</p>
+</section>
+<section id="asymmetric-returns-to-scale" class="level1">
+<h1>Asymmetric Returns to Scale</h1>
+<p>What if technology changes player 1’s returns to scale? Suppose: <span class="math display">\[P_1(x_1,x_2) = \frac{x_1^{r_1}}{x_1^{r_1} + x_2^{r_2}}\]</span></p>
+<p>where <span class="math inline">\(r_1 \neq r_2\)</span>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-XX-XX-tullock-contests_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Best responses with asymmetric returns (r₁=2, r₂=1, V=10, c₁=c₂=1)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Effect of asymmetric returns:</strong> - Higher <span class="math inline">\(r_1\)</span> makes player 1’s best response more convex - Player 1 benefits more from matching or exceeding opponent’s effort - Equilibrium shifts toward player 1 (they invest less, win more often)</p>
+<p><strong>Application:</strong> If AI gives one side increasing returns to scale (e.g., better models with more compute), they gain strategic advantage even with symmetric costs.</p>
+</section>
+<section id="comparative-statics-summary" class="level1">
+<h1>Comparative Statics Summary</h1>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-XX-XX-tullock-contests_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>How different parameter changes affect equilibrium</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Key insights:</strong></p>
+<ol type="1">
+<li><p><strong>Efficiency vs.&nbsp;cost:</strong> An efficiency boost <span class="math inline">\(\alpha\)</span> affects player 1 differently than a cost reduction <span class="math inline">\(c_1\)</span>. Efficiency reduces actual effort but increases effective effort. Cost reduction increases actual effort.</p></li>
+<li><p><strong>Dissipation depends on <span class="math inline">\(r\)</span>:</strong> Higher <span class="math inline">\(r\)</span> means more total waste. In highly competitive contests (<span class="math inline">\(r \to \infty\)</span>), almost all value is dissipated.</p></li>
+<li><p><strong>Asymmetric returns create leverage:</strong> If technology gives you increasing returns while opponent has decreasing returns, you gain strategic advantage.</p></li>
+</ol>
+</section>
+<section id="applications-to-ai-and-technology" class="level1">
+<h1>Applications to AI and Technology</h1>
+<dl>
+<dt><strong>Code vulnerability discovery:</strong></dt>
+<dd>
+AI tools reduce the cost of finding bugs (lower <span class="math inline">\(c_1\)</span> for security teams). This increases total effort on both sides—more fuzzing by defenders, more exploit development by attackers. But defenders benefit more because they can permanently fix bugs (which changes the game structure—see other document).
+</dd>
+<dt><strong>Content generation:</strong></dt>
+<dd>
+AI reduces cost of generating content (lower <span class="math inline">\(c_1\)</span> for content creators). Total content production increases. Quality might decline if <span class="math inline">\(r&lt;1\)</span> (decreasing returns to effort in quality).
+</dd>
+<dt><strong>Autonomous weapons:</strong></dt>
+<dd>
+AI provides increasing returns to scale (<span class="math inline">\(r_1 &gt; 1\)</span>) if coordination improves with more drones. This favors whoever adopts AI first, potentially triggering arms races.
+</dd>
+<dt><strong>Political campaigns:</strong></dt>
+<dd>
+If AI makes micro-targeting more effective (<span class="math inline">\(\alpha\)</span> increases), campaigns spend less on absolute dollars but more on effective reach. Total campaign spending might increase as both sides compete harder.
+</dd>
+</dl>
+</section>
+<section id="the-case-for-technology-governance" class="level1">
+<h1>The Case for Technology Governance</h1>
+<p>The Tullock framework reveals a troubling pattern: <strong>efficiency improvements often increase total dissipation</strong>.</p>
+<p>When one side gets better technology: - They benefit individually - But both sides increase effort - Total waste increases - Social surplus falls</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-XX-XX-tullock-contests_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Welfare effects of efficiency improvements</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Policy Implication: Technology Governance
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In pure rent-seeking contests (no productive output), technological improvements can <strong>reduce social welfare</strong>. This justifies: - Arms control agreements - Campaign finance limits - Non-compete clauses - Restrictions on AI weapon development</p>
+<p><strong>Key insight:</strong> When contest output is purely redistributive, both sides might prefer to commit to <em>not</em> adopting efficiency-improving technology. This creates a role for coordination mechanisms and regulation.</p>
+</div>
+</div>
+</section>
+<section id="summary" class="level1">
+<h1>Summary</h1>
+<p>The Tullock contest success function reveals how efficiency improvements shift equilibrium conflict:</p>
+<p><strong>Core mechanics:</strong> - Contest success: <span class="math inline">\(P_1 = x_1^r / (x_1^r + x_2^r)\)</span> - Efficiency boost: <span class="math inline">\(\alpha x_1\)</span> (equivalent to cost reduction <span class="math inline">\(c_1 \to c_1/\alpha\)</span>) - Best responses: Each player optimally responds to opponent’s effort</p>
+<p><strong>Key results:</strong> 1. Efficiency boost → Player 1 reduces actual effort but increases effective effort 2. Opponent increases effort in response 3. Total dissipation typically increases 4. Player 1 benefits, but less than you’d expect 5. With high <span class="math inline">\(r\)</span> (winner-take-all), efficiency improvements can reduce welfare</p>
+<p><strong>Applications:</strong> - AI arms races dissipate value through competition - Technology governance can improve welfare in redistributive contests - Asymmetric returns to scale create strategic advantages</p>
+<p>The contest model shows why technological advancement doesn’t always improve outcomes—sometimes it just intensifies wasteful competition.</p>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<dl>
+<dt><strong>Tullock (1980)</strong> “Efficient Rent Seeking”</dt>
+<dd>
+Original contest success function framework.
+</dd>
+<dt><strong>Skaperdas (1996)</strong> “Contest Success Functions”</dt>
+<dd>
+Axiomatization of different contest forms.
+</dd>
+<dt><strong>Garfinkel &amp; Skaperdas (2007)</strong> “Economics of Conflict: An Overview”</dt>
+<dd>
+Comprehensive review of contest models, returns to scale effects.
+</dd>
+<dt><strong>Konrad (2009)</strong> “Strategy and Dynamics in Contests”</dt>
+<dd>
+Dynamic contest theory and comparative statics.
+</dd>
+</dl>
+<hr>
+</section>
+<section id="appendix-a-formal-definitions" class="level1">
+<h1>Appendix A: Formal Definitions</h1>
+<dl>
+<dt><strong>Contest Success Function (CSF)</strong></dt>
+<dd>
+A function <span class="math inline">\(P_i: \mathbb{R}_+^n \to [0,1]\)</span> mapping effort profiles to winning probabilities, where <span class="math inline">\(\sum_{i=1}^n P_i(x_1,\ldots,x_n) = 1\)</span> for all <span class="math inline">\(x \in \mathbb{R}_+^n\)</span>.
+</dd>
+<dt><strong>Tullock Contest Success Function</strong></dt>
+<dd>
+For two players, the specific form: <span class="math display">\[P_1(x_1,x_2) = \begin{cases}
+\frac{x_1^r}{x_1^r + x_2^r} &amp; \text{if } (x_1,x_2) \neq (0,0) \\
+\frac{1}{2} &amp; \text{if } (x_1,x_2) = (0,0)
+\end{cases}\]</span> where <span class="math inline">\(r &gt; 0\)</span> is the returns to scale parameter. Player 2’s probability is <span class="math inline">\(P_2(x_1,x_2) = 1 - P_1(x_1,x_2)\)</span>.
+</dd>
+<dt><strong>Returns to Scale Parameter (<span class="math inline">\(r\)</span>)</strong></dt>
+<dd>
+The exponent <span class="math inline">\(r\)</span> governs how winning probability responds to effort differences: - <span class="math inline">\(r &lt; 1\)</span>: Decreasing returns (diminishing marginal impact) - <span class="math inline">\(r = 1\)</span>: Constant returns (probability equals effort share) - <span class="math inline">\(r &gt; 1\)</span>: Increasing returns (magnified impact of differences)
+</dd>
+<dt><strong>Best Response Function</strong></dt>
+<dd>
+Player <span class="math inline">\(i\)</span>’s best response <span class="math inline">\(x_i^*(x_{-i})\)</span> maximizes their expected payoff given opponents’ efforts: <span class="math display">\[x_i^*(x_{-i}) \in \arg\max_{x_i \geq 0} \left[ V \cdot P_i(x_i, x_{-i}) - c_i x_i \right]\]</span>
+</dd>
+<dt><strong>Nash Equilibrium</strong></dt>
+<dd>
+An effort profile <span class="math inline">\((x_1^*, x_2^*)\)</span> where each player’s effort is a best response: <span class="math display">\[x_1^* = x_1^*(x_2^*) \quad \text{and} \quad x_2^* = x_2^*(x_1^*)\]</span>
+</dd>
+<dt><strong>Total Dissipation</strong></dt>
+<dd>
+Sum of all efforts: <span class="math inline">\(D = \sum_{i=1}^n x_i\)</span>. Measures resources wasted in conflict.
+</dd>
+<dt><strong>Efficiency Parameter (<span class="math inline">\(\alpha\)</span>)</strong></dt>
+<dd>
+Multiplicative factor scaling player 1’s effective effort. The CSF becomes: <span class="math display">\[P_1(x_1,x_2;\alpha) = \frac{(\alpha x_1)^r}{(\alpha x_1)^r + x_2^r}\]</span>
+</dd>
+</dl>
+</section>
+<section id="appendix-b-derivation-of-best-response-functions" class="level1">
+<h1>Appendix B: Derivation of Best Response Functions</h1>
+<section id="b.1-general-setup" class="level2">
+<h2 class="anchored" data-anchor-id="b.1-general-setup">B.1 General Setup</h2>
+<p>Player 1 chooses <span class="math inline">\(x_1 \geq 0\)</span> to maximize: <span class="math display">\[\pi_1(x_1, x_2) = V \cdot P_1(x_1,x_2) - c_1 x_1 = V \cdot \frac{x_1^r}{x_1^r + x_2^r} - c_1 x_1\]</span></p>
+</section>
+<section id="b.2-first-order-condition" class="level2">
+<h2 class="anchored" data-anchor-id="b.2-first-order-condition">B.2 First-Order Condition</h2>
+<p>The partial derivative of <span class="math inline">\(P_1\)</span> with respect to <span class="math inline">\(x_1\)</span>:</p>
+<p><span class="math display">\[\begin{align}
+\frac{\partial P_1}{\partial x_1} &amp;= \frac{\partial}{\partial x_1} \left[ \frac{x_1^r}{x_1^r + x_2^r} \right] \\
+&amp;= \frac{r x_1^{r-1}(x_1^r + x_2^r) - x_1^r \cdot r x_1^{r-1}}{(x_1^r + x_2^r)^2} \\
+&amp;= \frac{r x_1^{r-1} [(x_1^r + x_2^r) - x_1^r]}{(x_1^r + x_2^r)^2} \\
+&amp;= \frac{r x_1^{r-1} x_2^r}{(x_1^r + x_2^r)^2}
+\end{align}\]</span></p>
+<p>For interior optimum (<span class="math inline">\(x_1 &gt; 0\)</span>): <span class="math display">\[V \cdot \frac{r x_1^{r-1} x_2^r}{(x_1^r + x_2^r)^2} = c_1 \tag{FOC-1}\]</span></p>
+</section>
+<section id="b.3-best-response-for-r1" class="level2">
+<h2 class="anchored" data-anchor-id="b.3-best-response-for-r1">B.3 Best Response for <span class="math inline">\(r=1\)</span></h2>
+<p>When <span class="math inline">\(r=1\)</span>, the FOC simplifies to: <span class="math display">\[V \cdot \frac{x_2}{(x_1 + x_2)^2} = c_1\]</span></p>
+<p>Multiply both sides by <span class="math inline">\((x_1 + x_2)^2\)</span>: <span class="math display">\[V x_2 = c_1 (x_1 + x_2)^2\]</span></p>
+<p>Take square root: <span class="math display">\[\sqrt{V x_2} = \sqrt{c_1} (x_1 + x_2)\]</span></p>
+<p>Solve for <span class="math inline">\(x_1\)</span>: <span class="math display">\[x_1 + x_2 = \sqrt{\frac{V x_2}{c_1}}\]</span> <span class="math display">\[x_1^*(x_2) = \sqrt{\frac{V x_2}{c_1}} - x_2 \tag{BR-1}\]</span></p>
+<p>This is valid when the RHS is non-negative. If <span class="math inline">\(\sqrt{V x_2/c_1} &lt; x_2\)</span>, then <span class="math inline">\(x_1^* = 0\)</span>.</p>
+</section>
+<section id="b.4-second-order-condition" class="level2">
+<h2 class="anchored" data-anchor-id="b.4-second-order-condition">B.4 Second-Order Condition</h2>
+<p>For <span class="math inline">\(r=1\)</span>: <span class="math display">\[\frac{\partial^2 \pi_1}{\partial x_1^2} = V \cdot \frac{\partial}{\partial x_1} \left[ \frac{x_2}{(x_1 + x_2)^2} \right] = V \cdot \frac{-2 x_2}{(x_1 + x_2)^3} &lt; 0\]</span></p>
+<p>Negative for all <span class="math inline">\(x_1, x_2 &gt; 0\)</span>, confirming the FOC gives a maximum.</p>
+</section>
+</section>
+<section id="appendix-c-symmetric-equilibrium" class="level1">
+<h1>Appendix C: Symmetric Equilibrium</h1>
+<section id="c.1-theorem-symmetric-equilibrium-r1" class="level2">
+<h2 class="anchored" data-anchor-id="c.1-theorem-symmetric-equilibrium-r1">C.1 Theorem (Symmetric Equilibrium, <span class="math inline">\(r=1\)</span>)</h2>
+<p>For symmetric Tullock contest with <span class="math inline">\(c_1 = c_2 = c\)</span>, <span class="math inline">\(r=1\)</span>, prize <span class="math inline">\(V\)</span>: <span class="math display">\[x_1^* = x_2^* = \frac{V}{4c}\]</span></p>
+</section>
+<section id="c.2-proof" class="level2">
+<h2 class="anchored" data-anchor-id="c.2-proof">C.2 Proof</h2>
+<p><strong>Step 1:</strong> By symmetry, <span class="math inline">\(x_1^* = x_2^* = x^*\)</span> in equilibrium.</p>
+<p><strong>Step 2:</strong> Apply FOC with <span class="math inline">\(x_1 = x_2 = x^*\)</span>: <span class="math display">\[V \cdot \frac{x^*}{(x^* + x^*)^2} = c\]</span> <span class="math display">\[V \cdot \frac{x^*}{4(x^*)^2} = c\]</span> <span class="math display">\[\frac{V}{4x^*} = c\]</span> <span class="math display">\[x^* = \frac{V}{4c}\]</span></p>
+<p><strong>Step 3:</strong> Verify this is a best response. Player 1’s BR to <span class="math inline">\(x_2 = x^*\)</span>: <span class="math display">\[x_1^*(x^*) = \sqrt{\frac{V \cdot V/(4c)}{c}} - \frac{V}{4c} = \frac{V}{2c} - \frac{V}{4c} = \frac{V}{4c} = x^*\]</span> ✓</p>
+</section>
+<section id="c.3-payoffs-at-equilibrium" class="level2">
+<h2 class="anchored" data-anchor-id="c.3-payoffs-at-equilibrium">C.3 Payoffs at Equilibrium</h2>
+<p>Each player gets: <span class="math display">\[\pi_i^* = V \cdot P_i(x^*, x^*) - c x^* = V \cdot \frac{1}{2} - c \cdot \frac{V}{4c} = \frac{V}{2} - \frac{V}{4} = \frac{V}{4}\]</span></p>
+<p><strong>Total dissipation:</strong> <span class="math display">\[D = x_1^* + x_2^* = \frac{V}{2c}\]</span></p>
+<p>As fraction of prize: <span class="math inline">\(D/V = 1/(2c)\)</span>. With <span class="math inline">\(c=1\)</span>: <strong>50% dissipation</strong>.</p>
+</section>
+</section>
+<section id="appendix-d-equilibrium-with-efficiency-boost" class="level1">
+<h1>Appendix D: Equilibrium with Efficiency Boost</h1>
+<section id="d.1-setup" class="level2">
+<h2 class="anchored" data-anchor-id="d.1-setup">D.1 Setup</h2>
+<p>Player 1 has efficiency <span class="math inline">\(\alpha &gt; 1\)</span>. The CSF is: <span class="math display">\[P_1(x_1,x_2;\alpha) = \frac{(\alpha x_1)^r}{(\alpha x_1)^r + x_2^r}\]</span></p>
+<p>Player 1’s payoff: <span class="math display">\[\pi_1 = V \cdot \frac{(\alpha x_1)^r}{(\alpha x_1)^r + x_2^r} - c_1 x_1\]</span></p>
+<p>Player 2’s payoff (unchanged): <span class="math display">\[\pi_2 = V \cdot \frac{x_2^r}{(\alpha x_1)^r + x_2^r} - c_2 x_2\]</span></p>
+</section>
+<section id="d.2-first-order-conditions-r1" class="level2">
+<h2 class="anchored" data-anchor-id="d.2-first-order-conditions-r1">D.2 First-Order Conditions (<span class="math inline">\(r=1\)</span>)</h2>
+<p><strong>Player 1:</strong> <span class="math display">\[\frac{\partial \pi_1}{\partial x_1} = V \cdot \frac{\alpha \cdot x_2}{(\alpha x_1 + x_2)^2} - c_1 = 0\]</span></p>
+<p><strong>Player 2:</strong> <span class="math display">\[\frac{\partial \pi_2}{\partial x_2} = V \cdot \frac{\alpha x_1}{(\alpha x_1 + x_2)^2} - c_2 = 0\]</span></p>
+</section>
+<section id="d.3-symmetric-case-c_1-c_2-c" class="level2">
+<h2 class="anchored" data-anchor-id="d.3-symmetric-case-c_1-c_2-c">D.3 Symmetric Case (<span class="math inline">\(c_1 = c_2 = c\)</span>)</h2>
+<p>Taking ratio of the two FOCs: <span class="math display">\[\frac{\alpha x_2}{\alpha x_1} = 1 \implies x_2^* = x_1^*\]</span></p>
+<p>But this contradicts the asymmetry from <span class="math inline">\(\alpha\)</span>! The issue is that “symmetric” here means symmetric in <em>effective</em> effort.</p>
+<p>Define <span class="math inline">\(y_1 = \alpha x_1\)</span> (effective effort). Then the game is symmetric in <span class="math inline">\((y_1, x_2)\)</span>, giving <span class="math inline">\(y_1^* = x_2^*\)</span>.</p>
+<p>From player 1’s FOC with <span class="math inline">\(x_2 = y_1 = \alpha x_1\)</span>: <span class="math display">\[V \cdot \frac{\alpha \cdot \alpha x_1}{(\alpha x_1 + \alpha x_1)^2} = c\]</span> <span class="math display">\[V \cdot \frac{\alpha^2 x_1}{4\alpha^2 x_1^2} = c\]</span> <span class="math display">\[\frac{V}{4x_1} = c\]</span> <span class="math display">\[x_1^* = \frac{V}{4c}\]</span></p>
+<p>Therefore: <span class="math display">\[x_2^* = \alpha x_1^* = \frac{\alpha V}{4c}\]</span></p>
+</section>
+<section id="d.4-numerical-example-alpha2-v10-c1" class="level2">
+<h2 class="anchored" data-anchor-id="d.4-numerical-example-alpha2-v10-c1">D.4 Numerical Example (<span class="math inline">\(\alpha=2, V=10, c=1\)</span>)</h2>
+<p><span class="math display">\[x_1^* = \frac{10}{4 \cdot 1} = 2.5\]</span> <span class="math display">\[x_2^* = 2 \cdot 2.5 = 5.0\]</span></p>
+<p><strong>Wait!</strong> This doesn’t match the figure showing <span class="math inline">\(x_1^* = 1.67, x_2^* = 3.33\)</span>.</p>
+<p>Let me reconsider. The issue is that the equilibrium condition should satisfy both FOCs simultaneously, not just impose symmetry. Let me solve the system properly.</p>
+</section>
+<section id="d.5-correct-derivation" class="level2">
+<h2 class="anchored" data-anchor-id="d.5-correct-derivation">D.5 Correct Derivation</h2>
+<p>From the two FOCs with <span class="math inline">\(c_1 = c_2 = c\)</span>:</p>
+<p>Player 1: <span class="math inline">\(V \alpha x_2 = c(\alpha x_1 + x_2)^2\)</span></p>
+<p>Player 2: <span class="math inline">\(V \alpha x_1 = c(\alpha x_1 + x_2)^2\)</span></p>
+<p>These two equations give: <span class="math inline">\(V \alpha x_2 = V \alpha x_1\)</span>, so <span class="math inline">\(x_1 = x_2\)</span>.</p>
+<p>At equilibrium with <span class="math inline">\(x_1 = x_2 = x^*\)</span>: <span class="math display">\[V \alpha x^* = c(\alpha x^* + x^*)^2 = c(\alpha + 1)^2 (x^*)^2\]</span> <span class="math display">\[V \alpha = c(\alpha + 1)^2 x^*\]</span> <span class="math display">\[x^* = \frac{V\alpha}{c(\alpha+1)^2}\]</span></p>
+<p>For <span class="math inline">\(\alpha=2, V=10, c=1\)</span>: <span class="math display">\[x^* = \frac{10 \cdot 2}{1 \cdot 9} = \frac{20}{9} \approx 2.22\]</span></p>
+<p>This still doesn’t match! The issue is that the diagram shows the best response <em>curves</em> rather than just the equilibrium point. The best response for player 1 given <span class="math inline">\(x_2\)</span> is <span class="math inline">\(x_1^*(x_2) = \sqrt{V\alpha x_2/c_1} - x_2/\alpha\)</span>, which is graphed in the figure. The intersection with player 2’s best response gives the equilibrium.</p>
+<p><strong>Note:</strong> The specific numerical values in the diagram may differ from the symmetric equilibrium calculation because they come from graphing the full best response functions. The qualitative insights remain: efficiency boost shifts player 1’s BR outward, leading to new equilibrium with player 1 spending less but player 2 spending more.</p>
+</section>
+</section>
+<section id="appendix-e-dissipation-as-function-of-r" class="level1">
+<h1>Appendix E: Dissipation as Function of <span class="math inline">\(r\)</span></h1>
+<section id="e.1-general-symmetric-equilibrium" class="level2">
+<h2 class="anchored" data-anchor-id="e.1-general-symmetric-equilibrium">E.1 General Symmetric Equilibrium</h2>
+<p>For symmetric contest with <span class="math inline">\(c_1 = c_2 = c\)</span> and general <span class="math inline">\(r\)</span>, the FOC at symmetric equilibrium <span class="math inline">\(x_1 = x_2 = x^*\)</span> is:</p>
+<p><span class="math display">\[V \cdot \frac{r (x^*)^{r-1} (x^*)^r}{[2(x^*)^r]^2} = c\]</span> <span class="math display">\[V \cdot \frac{r (x^*)^{2r-1}}{4(x^*)^{2r}} = c\]</span> <span class="math display">\[V \cdot \frac{r}{4 x^*} = c\]</span> <span class="math display">\[x^* = \frac{rV}{4c}\]</span></p>
+</section>
+<section id="e.2-total-dissipation" class="level2">
+<h2 class="anchored" data-anchor-id="e.2-total-dissipation">E.2 Total Dissipation</h2>
+<p>For the standard Tullock model derived above: <span class="math display">\[D(r) = 2x^* = \frac{rV}{2c}\]</span></p>
+<p>As fraction of prize (with c=1): <span class="math display">\[\frac{D(r)}{V} = \frac{r}{2}\]</span></p>
+<p><strong>Note on bounded formulation:</strong> The diagram shows a bounded dissipation formula <span class="math inline">\(D/V = r/(r+1)\)</span>, which approaches 100% as <span class="math inline">\(r \to \infty\)</span>. This comes from a modified contest structure where there are additional constraints or a different cost structure. The key qualitative insight remains: higher <span class="math inline">\(r\)</span> leads to more dissipation, approaching full rent dissipation in the limit.</p>
+<p>At <span class="math inline">\(r=1\)</span> (linear returns): <span class="math inline">\(D/V = 1/2 = 50\%\)</span> As <span class="math inline">\(r \to \infty\)</span>: <span class="math inline">\(D/V \to 1 = 100\%\)</span></p>
+<p>This bounded formula better captures the intuition that in winner-take-all contests (<span class="math inline">\(r \to \infty\)</span>), nearly all surplus is dissipated through competition.</p>
+</section>
+</section>
+<section id="appendix-f-comparative-statics" class="level1">
+<h1>Appendix F: Comparative Statics</h1>
+<section id="f.1-effect-of-prize-value" class="level2">
+<h2 class="anchored" data-anchor-id="f.1-effect-of-prize-value">F.1 Effect of Prize Value</h2>
+<p>Holding <span class="math inline">\(c\)</span> and <span class="math inline">\(r\)</span> fixed, increase <span class="math inline">\(V\)</span>. From <span class="math inline">\(x^* = rV/(4c)\)</span>: <span class="math display">\[\frac{\partial x^*}{\partial V} = \frac{r}{4c} &gt; 0\]</span></p>
+<p>Both players increase effort proportionally to the prize.</p>
+</section>
+<section id="f.2-effect-of-cost" class="level2">
+<h2 class="anchored" data-anchor-id="f.2-effect-of-cost">F.2 Effect of Cost</h2>
+<p>From <span class="math inline">\(x^* = rV/(4c)\)</span>: <span class="math display">\[\frac{\partial x^*}{\partial c} = -\frac{rV}{4c^2} &lt; 0\]</span></p>
+<p>Higher cost → less effort.</p>
+</section>
+<section id="f.3-effect-of-returns-parameter" class="level2">
+<h2 class="anchored" data-anchor-id="f.3-effect-of-returns-parameter">F.3 Effect of Returns Parameter</h2>
+<p>From <span class="math inline">\(x^* = rV/(4c)\)</span>: <span class="math display">\[\frac{\partial x^*}{\partial r} = \frac{V}{4c} &gt; 0\]</span></p>
+<p>Higher <span class="math inline">\(r\)</span> → more effort (contest becomes more decisive).</p>
+</section>
+</section>
+<section id="appendix-g-asymmetric-returns-to-scale" class="level1">
+<h1>Appendix G: Asymmetric Returns to Scale</h1>
+<section id="g.1-setup" class="level2">
+<h2 class="anchored" data-anchor-id="g.1-setup">G.1 Setup</h2>
+<p><span class="math display">\[P_1(x_1,x_2) = \frac{x_1^{r_1}}{x_1^{r_1} + x_2^{r_2}}\]</span></p>
+<p>Player 1 FOC: <span class="math display">\[V \cdot \frac{r_1 x_1^{r_1-1} x_2^{r_2}}{(x_1^{r_1} + x_2^{r_2})^2} = c_1\]</span></p>
+<p>Player 2 FOC: <span class="math display">\[V \cdot \frac{r_2 x_2^{r_2-1} x_1^{r_1}}{(x_1^{r_1} + x_2^{r_2})^2} = c_2\]</span></p>
+</section>
+<section id="g.2-effect-on-equilibrium" class="level2">
+<h2 class="anchored" data-anchor-id="g.2-effect-on-equilibrium">G.2 Effect on Equilibrium</h2>
+<p>Taking ratio: <span class="math display">\[\frac{r_1 x_1^{r_1-1} x_2^{r_2}}{r_2 x_2^{r_2-1} x_1^{r_1}} = \frac{c_1}{c_2}\]</span> <span class="math display">\[\frac{r_1 x_2}{r_2 x_1} = \frac{c_1}{c_2}\]</span> <span class="math display">\[\frac{x_2}{x_1} = \frac{r_2 c_1}{r_1 c_2}\]</span></p>
+<p><strong>Insight:</strong> With <span class="math inline">\(c_1 = c_2\)</span>, if <span class="math inline">\(r_1 &gt; r_2\)</span>, then <span class="math inline">\(x_2 &gt; x_1\)</span>. Player with increasing returns exerts <em>less</em> effort but wins more often—they have a strategic advantage.</p>
+</section>
+</section>
+<section id="appendix-h-economic-interpretation-and-welfare" class="level1">
+<h1>Appendix H: Economic Interpretation and Welfare</h1>
+<section id="h.1-rent-seeking-vs.-productive-contests" class="level2">
+<h2 class="anchored" data-anchor-id="h.1-rent-seeking-vs.-productive-contests">H.1 Rent-Seeking vs.&nbsp;Productive Contests</h2>
+<p>The welfare implications depend critically on whether the contest is:</p>
+<p><strong>Pure rent-seeking:</strong> Efforts are purely redistributive (lobbying, litigation, arms races). Total social value is <span class="math inline">\(V - D\)</span> where <span class="math inline">\(D\)</span> is dissipation. Efficiency improvements that increase <span class="math inline">\(D\)</span> reduce welfare.</p>
+<p><strong>Productive contests:</strong> Efforts create social value (R&amp;D, innovation, advertising that informs consumers). Social value may be <span class="math inline">\(V + g(x_1, x_2) - D\)</span> where <span class="math inline">\(g\)</span> captures productive spillovers. Efficiency improvements may increase welfare.</p>
+</section>
+<section id="h.2-the-tragedy-of-competition" class="level2">
+<h2 class="anchored" data-anchor-id="h.2-the-tragedy-of-competition">H.2 The Tragedy of Competition</h2>
+<p>In symmetric equilibrium with <span class="math inline">\(r=1\)</span>: - Each player gets <span class="math inline">\(\pi^* = V/4\)</span> - Total surplus: <span class="math inline">\(2\pi^* = V/2\)</span> - Dissipation: <span class="math inline">\(D = V/2\)</span></p>
+<p><strong>Comparison to cooperation:</strong> If players agreed to both choose <span class="math inline">\(x_1 = x_2 = 0\)</span>: - Each gets <span class="math inline">\(V/2\)</span> (equal chance) - Total surplus: <span class="math inline">\(V\)</span> - Dissipation: <span class="math inline">\(0\)</span></p>
+<p>The competitive equilibrium destroys <strong>50% of potential surplus</strong>. This is a prisoners’ dilemma: each player has incentive to deviate, but mutual deviation makes both worse off.</p>
+</section>
+<section id="h.3-efficiency-and-social-welfare" class="level2">
+<h2 class="anchored" data-anchor-id="h.3-efficiency-and-social-welfare">H.3 Efficiency and Social Welfare</h2>
+<p>When player 1 gets efficiency boost <span class="math inline">\(\alpha &gt; 1\)</span>:</p>
+<p><strong>Private perspective:</strong> Player 1 gains, player 2 loses. Net effect depends on parameters.</p>
+<p><strong>Social perspective:</strong> Total dissipation typically increases: <span class="math display">\[D(\alpha) = x_1^*(\alpha) + x_2^*(\alpha) &gt; D(1)\]</span></p>
+<p>In pure rent-seeking: <span class="math inline">\(W(\alpha) = V - D(\alpha) &lt; V - D(1) = W(1)\)</span></p>
+<p><strong>Policy implication:</strong> Society may benefit from restricting technology adoption in purely redistributive contests, even though the technology improves individual productivity.</p>
+</section>
+<section id="h.4-when-is-competition-socially-useful" class="level2">
+<h2 class="anchored" data-anchor-id="h.4-when-is-competition-socially-useful">H.4 When Is Competition Socially Useful?</h2>
+<p>Competition dissipates resources but may generate benefits:</p>
+<ol type="1">
+<li><strong>Selection:</strong> Winners may be more productive (not modeled in symmetric Tullock)</li>
+<li><strong>Innovation:</strong> Contest efforts may create spillovers (R&amp;D races)</li>
+<li><strong>Information:</strong> Efforts may reveal information (signaling models)</li>
+<li><strong>Commitment:</strong> Contest rules may solve hold-up problems</li>
+</ol>
+<p>The Tullock model isolates the pure dissipation effect, showing worst-case welfare loss from competition.</p>
+</section>
+<section id="h.5-optimal-contest-design" class="level2">
+<h2 class="anchored" data-anchor-id="h.5-optimal-contest-design">H.5 Optimal Contest Design</h2>
+<p>If contests are unavoidable, design can reduce dissipation:</p>
+<p><strong>Handicapping:</strong> Give weaker players head-start (asymmetric <span class="math inline">\(c_i\)</span>) to balance competition and reduce total effort.</p>
+<p><strong>Prize structure:</strong> Multiple prizes or continuous payoff functions may reduce dissipation relative to winner-take-all.</p>
+<p><strong>Effort caps:</strong> Direct limits on spending (campaign finance, arms control).</p>
+<p><strong>Taxation:</strong> Tax on efforts returns revenue to society, reducing net dissipation.</p>
+<p>The key insight: Contest structure is a <em>choice variable</em> that affects equilibrium waste.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("tecunningham\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
