@@ -1,5 +1,6 @@
 ---
 title: "A Knowledge-Sharing Model of LLMs"
+draft: true
 engine: knitr
 execute:
   echo: false
@@ -12,28 +13,37 @@ bibliography: ai.bib
 format: html
 ---
 
-## Abstract
+One sentence version.
+: LLMs observe more datapoints than humans, but are worse at extrapolating from those data points; this therefore makes them relatively better at *common* problems, and relatively worse at *rare* problems.
 
-This note formalizes a common intuitive model of chatbots as sharing existing knowledge. People will consult a chatbot when they encounter a question for which they do not know the answer, but they expect the answer exists somewhere in the public domain (and therefore the chatbot's training set). The model gives strong predictions about chatbot adoption across demographics, occupations, and tasks.  Insofar as wages are driven by differences in knowledge then we should expect chatbots to flatten those differences, and cause (1) higher average consumption; (2) lower wages for the highest-paid; (3) lower trade, i.e. lower GDP (because more tasks move into home production).
+    In this note I give a simplified formal model of LLM vs human abilities, discuss the evidence we have on LLM capabilities, & the implications for the economic and safety effects of LLMs. 
+
+#       Overview
+
+Puzzle: why are LLMs better than humans at some tasks, worse at others?
+: We do not have a standard theory of LLM capabilities, & there is a well-known puzzle: LLMs beat almost all humans on certain tasks (exam questions, interview questions), yet lose to almost all humans on other tasks (agentic tasks, playing games).
+: People have proposed various properties of the tasks which might explain this jaggedness: computational complexity; time horizon; verifiability.
+
+Answer: success depends on similarity to the tasks in training set.
+: For simplicity, treat humans and LLMs both as solving a supervised learning problem. Additionally assume that LLMs are worse at extrapolation.
 
 
-#                       EXTRAPOLATION / unified theory of chatbot vs human
+LLMs have more knowledge than humans but less intelligence.
 
-Two sentence version.
-: LLMs observe more data than humans, but are worse at extrapolating from those data points, this therefore makes them good at *common* problems and bad at *rare* problems.
+This explains the capabilities of LLMs (jaggedness).
+: I argue below that this gives a crisp characterization of what tasks LLMs can and cannot do.
+
+This explains the economic implications of LLMs.
+
+
+
 
       The economic and safety implications are downstream of this:
       
       1. LLMs speeds up common tasks; (2) LLMs are good at tasks that take humans a short time (without context); (3) .
 
-##       Overview
 
-Puzzle: why are LLMs better than humans at some tasks, worse at others.
-: LLMs beat almost all humans on some tasks (exam questions, interview questions), but lose to most humans on others (agentic tasks, playing games).
-: People have proposed various properties of the tasks which might fit this: computational complexity; time horizon; verifiabilit.
 
-Answer: success depends on similarity to the tasks in training set.
-: For simplicity, treat humans and LLMs both as solving a supervised learning problem. Additionally assume that LLMs are worse at extrapolation.
 
 The theory has clear testable implications.
 :  - Given some task, and two agents, the agent will be more likely to succeed if it has more experience with closer tasks.
@@ -43,7 +53,10 @@ Helps explain many facts:
     2. LLMs can do short-horizon tasks as well as humans, but not long-horizon tasks.
 
 
-##       Applications
+##       Implications for Capabilities
+
+We want to explain the jaggedness.
+: Does this theory of LLMs do a good job of explaining the capabilities of LLMs, i.e. the set of tasks that they can and cannot do?
 
 Chatbot use.
 :  1. Chatbots are used for new-to-you questions.
@@ -60,6 +73,11 @@ LLM transcendence.
 
 Economic impacts / adoption
 :  - Software engineering/
+
+##       Implications for Economics
+
+##       Implications for Safety
+
 
 ##       Formalization
 
@@ -834,3 +852,45 @@ $$S_{2\to 1} = \bm{q}'(\bm{I}-\bm{P}_1)\bm{P}_2^{\top}\bm{q} \quad\text{(human h
   : Information-structure conditions for preferring human alone, chatbot
   alone, or consultation.
 :::
+
+
+
+
+# 2025-12-15 |                      venn diagram model & implications
+
+##    Assumptions
+
+1. **Human-supervised:** LLMs can do tasks that are *close* to the set of tasks in the training set, but they're relatively worse outside.
+
+2. **World-supervised:** works if (A) feedback is cheap; (B) has latent structure.
+
+##    Implications
+
+1. **Two types of human-supervised progress:**
+   - more data
+   - better extrapolation
+
+2. **Will use LLMs for new-to-you tasks.** Will use for new-to-you questions.
+
+3. **Will use LLMs for separable tasks.** Where the .
+
+##    Implications for catastrophic risk
+
+1. Things we're worried about:
+   - AI R&D
+   - Bioweapons
+   - Hacking
+   - Autonomy/self-replication
+
+2. Two types of AI R&D progress
+   - imitation learning
+   - learning directly (AlphaZero).
+
+3. Implication: it's useful to prune the training data to hinder capabilities.
+   - You can get around this but LLMs aren't great at extrapolation.
+
+
+#           Old Abstract
+
+This note formalizes a common intuitive model of chatbots as sharing existing knowledge. People will consult a chatbot when they encounter a question for which they do not know the answer, but they expect the answer exists somewhere in the public domain (and therefore the chatbot's training set). The model gives strong predictions about chatbot adoption across demographics, occupations, and tasks.  Insofar as wages are driven by differences in knowledge then we should expect chatbots to flatten those differences, and cause (1) higher average consumption; (2) lower wages for the highest-paid; (3) lower trade, i.e. lower GDP (because more tasks move into home production).
+

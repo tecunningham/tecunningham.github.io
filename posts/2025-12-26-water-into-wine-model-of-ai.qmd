@@ -1,0 +1,285 @@
+---
+title: "Water Into Wine, a Model of AI"
+author: Tom Cunningham.
+draft: true
+date: today
+geometry: top=2cm, bottom=1.3cm, left=.5cm, right=7cm, heightrounded, marginparwidth=5cm, marginparsep=5mm
+execute:
+  echo: false
+  warning: false
+  error: false
+  cache: true # caches chunk output
+format: 
+   html:
+      code-fold: true
+      embed-resources: true
+      html-math-method: mathjax
+      include-in-header:
+         - text: |
+            <script>window.MathJax = {
+                     loader: { load: ['[custom]/xypic.js'],
+                               paths: {custom: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/'}},
+                  tex: {packages: {'[+]': ['xypic']},
+                     macros: {
+                        bm: ["\\boldsymbol{#1}", 1],
+                        ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+                        utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3]
+                     }}};
+            </script>
+            <style>
+               h1 {  border-bottom: 4px solid black;}
+               h2 {  border-bottom: 1px solid #ccc;}
+               dl { display: grid; grid-template-columns: 250px auto;}
+               dt { grid-column-start: 1; font-weight: bold; margin-right: 10px;  }
+               dd { grid-column-start: 2; }
+               /* quarto-document-content { width: 500px; } */
+               /* .column-margin { width: 300px; }*/
+            </style>
+
+   # pdf:
+   #    fontfamily: libertinus
+   #    include-in-header:
+   #       - text: |
+   #          \usepackage{sectsty}
+   #          \usepackage{sidenotes}
+   #          \usepackage{sidenotes}
+   #          %\renewcommand{\marginnote}[2][]{\marginpar{#2}}
+   #          \renewcommand{\marginnote}[2][]{\sidenotetext[#1]{\parbox{\marginparwidth}{#2}}}
+   #          %\renewcommand{\marginnote}[2][]{\@sidenotes@placemarginal{0}{\textsuperscript{1}~#2}}
+   #          %\renewcommand{\thempfootnote}{}
+   #          \usepackage{enumitem}
+   #          \setlist[description]{style=multiline,leftmargin=5cm,itemsep=20pt}
+   #          \sectionfont{\sectionrule{0pt}{0pt}{-4pt}{1pt}}
+   #          \subsectionfont{\sectionrule{0pt}{0pt}{-4pt}{.1pt}}
+   #          \newcommand{\ut}[2]{\underbrace{#1}_{\text{#2}}}
+   #          \newcommand{\utt}[3]{\underbrace{#1}_{\substack{\text{#2}\\\text{#3}}}}
+
+bibliography: ai.bib
+reference-location: document
+toc-location: left
+#citation-location: margin
+fig-width: 3       # these are in inches, 3in=7.6cm
+fig-height: 5
+engine: knitr
+---
+
+**TL;DR:** discovering a technology that turns water into wine will be good for the bread-makers but bad for the wine-makers. I find this a useful pocket model for thinking about the economic effects of AI.
+
+#           AI Turns Water Into Wine
+
+Suppose there's a village of bakers and winemakers, every day they trade bread for wine. One day someone discovers a trick to turn water into wine, and the secret is announced publicly. We can walk through the economic effects:[^assumptions]
+
+   1. Wine production is up, bread output stays the same.
+   2. The price of wine collapses, relative to bread, and so winemakers are made worse off (they can no longer exchange their wine for bread).
+   3. GDP falls, because GDP measures trade, and the bakers no longer need to trade as they're making their own wine.
+   4. The village's tax receipts fall, because tax comes from trade (e.g. income tax).
+   5. If there's trade between villages, then bread-exporting villages are relatively better off, and wine-exporting villages are relatively worse off.
+   6. Although it's possible to redistribute goods in a way to make both bakers and winemakers benefit from the discovery (a Pareto improvement), it requires taking bread from the bakers, instead of just taxing trade.
+   7. If winemakers can immediately convert to bread-makers (turning wine-presses to grain mills), then everybody benefits and no redistribution is needed.
+
+[^assumptions]: Assumptions: (1) bread-makers and wine-makers have no ability to change what they produce, i.e. it's an endowment economy; (2) everyone has CES preferences with wine and bread gross complements.
+
+
+#         AI Turns Water into Services
+
+I find the water-into-wine model a useful thumbnail for thinking about the economic effects of AI, especially through being explicit about the different effects across sectors. AI is likely to have dramatic effects on relative prices, making many services effectively free, and this can make it confusing to think about the effects on output, GDP, or wages.
+
+Here I'll restate the model, but instead of bread and wine I'll use "goods" and "services". I'm using "services" is used as shorthand to mean things that LLMs can do autonomously: software engineering, legal and medical advice, copywriting, editing, etc. The term "goods" refers to everything else. This doesn't correspond to how "services" is used in the national accounts, but I think it's a useful evocative shorthand.
+
+We'll make the assumptions a bit more formal:
+
+1. Everyone in the economy is either a good-producer or service-producer, with no ability to change what they produce.
+2. Everyone want to consume both services and goods (CES utility, with gross complements).
+
+We can walk through the economic effects of services becoming free:
+
+1. Service production is up, goods production is the same.
+2. The relative price of services collapses, and so service-producers are made worse off (they can no longer exchange their services for goods).
+3. GDP falls, because GDP measures trade, and the goods-producers no longer need to trade as AI is performing the services.
+4. Tax receipts fall, because tax comes from trade (e.g. income tax).
+5. Goods-exporting countries are relatively better off, and service-exporting countries are relatively worse off.
+
+
+##       Additional Points
+
+
+If AI a complement or substitute for expertise?
+: The water-into-wine model assumes that AI is a *substitute* for expertise, i.e. the technology levels the playing field between workers, flattening comparative advantage. This seems a reasonable assumption about LLMs as of 2025, as they are trained to share existing knowledge, rather than create new knowledge.
+
+      A couple of useful notes:
+
+      1. If AI is *neutral* with respect to expertise, shifting productivity by the same fraction across all workers, this is effectively similar to AI being complementary to expertise, because it won't have significant effects on allocation of labor (wine-makers still make wine, bakers still make bread).
+
+      2. If AI is a complement to expertise, but each output is a gross complement in utility, then the effects will be similar to AI-as-a-substitute. Suppose wine-making productivity doubles just for wine-makers but elasticity of substitution between bread & wine is 1/2. This implies demand for wine is inelastic, the price of wine will fall more than proportionately, so wine-producers are made worse off by the technology.
+
+      Some discussion about whether AI is a complement or substitute for expertise in @agrawal2023turing @autor2025expertise.
+
+
+Suppose the technology is sold.
+: We assumed that the technology to make water from wine is provided for free. I think this is a reasonable for approximation for AI, i.e. we ignore the benefits to the AI-producer, for a couple of reasons: (1) the AI market appears highly competitive -- margins are low, quality levels are fairly similar across frontier LLMs; (2) costs are falling by 10X/year or more.
+
+      However let's consider what would happen if the inventor of water-into-wine was a monopolist. They already have plenty of wine, their goal would be to sell wine up until the point that it maximized how much bread they could get, given that the wine-producers are also selling their wine. This will depend on the preferences of the bread producers.
+      
+      If $\varepsilon=1$ (Cobb-Douglas) then bread-makers will sell half their bread, and wine-makers half their wine, irrespective of prices. The inventor would flood the market with wine, diluting the winemakers, and getting half the total bread produced. The total surplus would be roughly equally split between bread-makers and the inventor, and wine-makers would get only their own wine, and no bread at all.
+      
+      If $\varepsilon<1$ (gross complements) then demand for wine will be inelastic: as more wine is offered, less total bread will be paid. 
+      
+      In an Edgeworth box, this will depend on the offer curve of the bread-producers. If the bread-producers have Cobb-Douglas preferences then their offer cure
+
+Incorporating capital.
+: 
+
+Trade costs.
+: .
+
+Comparison with single-product models?
+: Much discussion of the economic impacts of AI talks about aggregate output, and how AI changes the relative productivity of capital and labor, or the different types of labor.
+
+
+
+#        Quantitative Model
+
+Edgeworth boxes for winemaker and baker. 
+
+```{tikz}
+#| fig-width: 10
+#| engine-opts: !expr list(extra.preamble=c("\\usepackage{./preamble_quarto}"))
+\pgfplotsset{compat=1.18}
+\begin{tikzpicture}[scale=2]
+
+\def\a{0.5}
+\def\Prange{6}
+\def\samples{260}
+\def\rayalpha{0.25}
+
+\pgfplotsset{
+  edgebox/.style={
+    width=7cm, height=7cm,
+    xmin=0,xmax=1,ymin=0,ymax=1,
+    axis lines=none,
+    ticks=none,
+    clip=true,
+    unbounded coords=jump, % IMPORTANT: skip huge/out-of-range points safely
+  }
+}
+
+\newcommand{\drawbox}{
+  \addplot[black, thick] coordinates {(0,0) (1,0) (1,1) (0,1) (0,0)};
+}
+
+% SAFE macro name (does not start with \end...)
+\newcommand{\drawEndowPoint}{
+  \addplot[only marks, mark=*, mark size=2.0pt] coordinates {(1,0)};
+  \node[anchor=south east, font=\scriptsize] at (axis cs:0.99,0.02)
+    {Endowment: Baker $(1,0)$, Winemaker $(0,1)$};
+}
+
+\newcommand{\pricerays}{
+  \foreach \pp in {0.25,0.5,1,2,4}{
+    \addplot[black, opacity=\rayalpha, very thin, domain=0:1, samples=2]
+      ({x},{max(0, min(1, -\pp*(x-1)))});
+  }
+}
+
+% Panel macro: #1 xshift, #2 sigma, #3 title, #4 isCD (0/1)
+\newcommand{\panel}[4]{%
+\begin{axis}[edgebox, at={(#1,0)}, anchor=south west, title={#3}]
+
+\drawbox
+\pricerays
+\drawEndowPoint
+
+\node[font=\scriptsize, anchor=south west] at (axis cs:0.01,0.01) {Baker origin};
+\node[font=\scriptsize, anchor=north east] at (axis cs:0.99,0.99) {Winemaker origin};
+
+\addplot[only marks, mark=*, mark size=1.7pt] coordinates {(0.5,0.5)};
+\node[font=\scriptsize, anchor=west] at (axis cs:0.5,0.5) {(1/2,1/2)};
+
+\ifnum#4=1
+  % -------- Cobb-Douglas (sigma=1, a=1/2) --------
+  % Baker offer: xA=1/2, yA=p/2 (clip to 1)
+  \addplot[very thick, blue, samples=\samples, domain=0:1]
+    ({0.5},{min(1, max(0, 0.5*(10^(\Prange*(x-0.5)))) )});
+
+  % Winemaker offer: flip of (xB=1/(2p), yB=1/2) -> (1-xB, 1-yB)
+  \addplot[very thick, orange, samples=\samples, domain=0:1]
+    ({min(1,max(0, 1 - 0.5/(10^(\Prange*(x-0.5))) ))},{0.5});
+
+  % Indifference curves through (1/2,1/2)
+  \addplot[blue, dashed, thick, samples=240, domain=0.01:0.99]
+    ({x},{min(1,max(0, 0.25/x ))});
+
+  \addplot[orange, dashed, thick, samples=240, domain=0.01:0.99]
+    ({x},{min(1,max(0, 1 - 0.25/(1-x) ))});
+
+\else
+  % -------- CES (sigma != 1) --------
+  \pgfmathsetmacro{\sig}{#2}
+  \pgfmathsetmacro{\rho}{(\sig-1)/\sig}
+  \pgfmathsetmacro{\C}{(0.5)^\rho}
+
+  % Baker offer (income mA=p)
+  \addplot[very thick, blue, samples=\samples, domain=0:1]
+  ({ % xA clipped
+     min(1,max(0,
+       ( (10^(\Prange*(x-0.5))) * \a * (10^(\Prange*(x-0.5)))^(-\sig) ) /
+       ( \a*(10^(\Prange*(x-0.5)))^(1-\sig) + (1-\a) )
+     ))
+   },
+   { % yA clipped  (this is the one that can explode ~p, so clip is crucial)
+     min(1,max(0,
+       ( (10^(\Prange*(x-0.5))) * (1-\a) ) /
+       ( \a*(10^(\Prange*(x-0.5)))^(1-\sig) + (1-\a) )
+     ))
+   });
+
+  % Winemaker offer (income mB=1), then flip and clip
+  \addplot[very thick, orange, samples=\samples, domain=0:1]
+  ({
+     min(1,max(0,
+       1 - ( \a * (10^(\Prange*(x-0.5)))^(-\sig) ) /
+       ( \a*(10^(\Prange*(x-0.5)))^(1-\sig) + (1-\a) )
+     ))
+   },
+   {
+     min(1,max(0,
+       1 - ( (1-\a) ) /
+       ( \a*(10^(\Prange*(x-0.5)))^(1-\sig) + (1-\a) )
+     ))
+   });
+
+  % Indifference curves through (1/2,1/2), clipped
+  \addplot[blue, dashed, thick, samples=260, domain=0.01:0.99]
+    ({x},{
+      min(1,max(0,
+        ( max(1e-12, (\C - \a*(x^\rho))/(1-\a)) )^(1/\rho)
+      ))
+    });
+
+  \addplot[orange, dashed, thick, samples=260, domain=0.01:0.99]
+    ({x},{
+      min(1,max(0,
+        1 - ( max(1e-12, (\C - \a*((1-x)^\rho))/(1-\a)) )^(1/\rho)
+      ))
+    });
+
+\fi
+
+\legend{\strut Baker offer,\strut Winemaker offer,\strut Baker indiff,\strut Winemaker indiff}
+
+\end{axis}
+}
+
+% Three panels
+\panel{0cm}{0.5}{\(\sigma=0.5\) (gross complements)}{0}
+\panel{7cm}{1.0}{\(\sigma=1\) (Cobb--Douglas)}{1}
+\panel{14cm}{2.0}{\(\sigma=2\) (gross substitutes)}{0}
+
+\end{tikzpicture}
+```
+
+#       Models
+
+asdf
+
+#           References

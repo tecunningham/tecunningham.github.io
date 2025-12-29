@@ -1079,76 +1079,8 @@ The effect of productivity on factor income depends on substitutability and the 
 
 ##                         Two Sector CES
 
-```{tikz}
-#| column: margin
-#| fig-width: 2
-#| engine-opts: !expr list(extra.preamble=c("\\usepackage{./preamble_quarto}"))
-\begin{tikzpicture}[node distance=-.3cm and .5cm,every path/.style={->},every node/.style={draw, rectangle, inner sep=4pt, outer sep=2pt}]
-   \node[draw] (labor) {labor};
-   \node[draw] (input1) [above right=of labor] {goods};
-   \node[ebox] (output) [below right=of input1] {$\sigma$\nodepart{second}output};
-   \node[draw] (input2) [below left=of output] {services};
-   \draw[draw] (input1) to (output);
-   \draw (input2) to (output);
-   \draw[draw] (labor) to (input1);
-   \draw[draw] (labor) to (input2);
-\end{tikzpicture}
-```
+See `posts/2025-12-26-loaves-and-fishes-model-of-ai.qmd`
 
-We have two sectors, goods and services:
-
-$$\begin{aligned}
-   Y  &=\left((L_G A_G)^\rho + ((1-L_G)A_S)^\rho \right)^{1/\rho} \\
-   L_G &= \text{share of labor in goods sector}\\
-   A_G &= \text{productivity in goods}\\
-   A_S &= \text{productivity in services}\\
-   \rho &= \frac{\sigma-1}{\sigma} \\
-   \sigma &= \text{elasticity of substitution}
-\end{aligned}
-$$
-
-We will normalize $A_G=1$, the optimal labor share in goods:
-$$
-L_G^*(A_S;\rho)
-   = \frac{A_S^{\frac{\rho}{\rho-1}}}{1+A_S^{\frac{\rho}{\rho-1}}}
-   = \frac{A_S^{\,1-\sigma}}{1+A_S^{\,1-\sigma}}.
-$$
-
-For a fixed $L_G$, output will be:
-$$
-Y(L_G;A_S,\rho)
-   =\left(L_G^{\rho}+\left(A_S(1-L_G)\right)^{\rho}\right)^{1/\rho}.
-$$
-
-Plugging in the efficient labor in goods $L_G^*$:
-$$
-Y^*(A_S;\rho)
-   =\left(1 + A_S^{\frac{\rho}{1-\rho}}\right)^{\frac{1-\rho}{\rho}}
-   =\left(1 + A_S^{\sigma-1}\right)^{\frac{1}{\sigma-1}}.
-$$
-
-If we fix $L_G=\tfrac12$ (“no reallocation”),
-$$
-Y^{\text{fixed}}(A_S;\rho)
-   =\frac{1}{2}\left(1 + A_S^{\rho}\right)^{1/\rho}.
-$$
-
-Finally the share of output to $L_G$ (goods' CES share):
-$$
-s_G(L_G;A_S,\rho)=\frac{(L_G)^{\rho}}{(L_G)^{\rho}+\left((1-L_G)A_S\right)^{\rho}}.
-$$
-
-:::{.column-body-outset}
-| change                                                                        | output                        | share of labor in goods            | share of output to goods-producers |
-| ----------------------------------------------------------------------------- | ----------------------------- | ---------------------------------- | ---------------------------------- |
-| baseline<br>($A_S=1, L_G=1/2$)                                                | $Y=1/4$                       | $L_G=1/2$                          | $s_G=1/2$                          |
-| services productivity doubles, no reallocation<br>($A_S=2,L_G=1/2$)           | $Y=\tfrac{1}{3}$              | $L_G=1/2$                          | $s_G=\tfrac{2}{3}$                 |
-| services productivity doubles, reallocation<br>($A_S=2,L_G^*$)                | $Y=\dfrac{2}{(1+\sqrt{2})^2}$ | $L_G=\dfrac{\sqrt{2}}{1+\sqrt{2}}$ | $s_G=\dfrac{\sqrt{2}}{1+\sqrt{2}}$ |
-| services productivity to infinity, no reallocation<br>($A_S=\infty, L_G=1/2$) | $Y= \tfrac{1}{2}$             | $L_G=1/2$                          | $s_G=1$                            |
-| services productivity to infinity, reallocation<br>($A_S=\infty,L_G^*$)       | $Y= 1$                        | $L_G= 1$                           | $s_G=1$                            |
-:::
-
-Note that with $\sigma=1/2$ then an increase in services productivity is *bad* for service workers: aggregate output goes up by $4/3$, but the share of income to service workers is $2/3$ of what it was, so they end up with less. (If $\varepsilon=1$ (Cobb-Douglas) then a productivity improvement will be approximately neutral for a sector, if the sector is sufficiently small share of overall output).
 
 
 ##        A Knowledge-Sharing Model
