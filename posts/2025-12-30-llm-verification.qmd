@@ -1,0 +1,102 @@
+---
+title: LLM verification
+date: today
+author: Tom Cunningham
+---
+
+
+**A prediction: people will move towards producing documents that are machine-verified.** A document will come with a checklist so you can see that it satisfies certain properties, as verified by LLMs:
+
+::: {style="max-width: 400px; margin: auto;"}
+|                             | Claude | Gemini | GPT |
+|-----------------------------|:----:|:------:|:---:|
+| Factual claims are accurate |  ✅   |   ✅    |  ✅  |
+| Logically consistent        |  ✅   |   ✅    |  ✅  |
+| Central idea is novel       |  ✅   |   ✅    |  ✅  |
+| The writing is readable     |  ✅   |   ✅    |  ✅  |
+:::
+
+**If your blog post starts with this checklist I'll be more likely to read it.**
+
+This is already happening for mathematicians and programmers: they verify LLM-produced proofs with a formal verification tool (e.g. Lean), and LLM-produced code with unit tests. I'm predicting that this pattern will spread to all other areas of knowledge work, as LLMs get better at verifying correctness.
+
+#        Notes
+
+A corollary: there's a magic prompt.
+: Instead of saying *"answer question Q"*, it's better to say *"answer question Q, and give me a way of verifying that the answer is correct."*
+
+      You want the LLM to give you a checklist like the one above, decomposing the verification into many subproblems. Programmers have learnt to prompt *"write a program to do P, and a set of tests to verify that it does P."*
+
+Examples of criteria you want to check:
+:     - An infection prevention plan: verify that the plan is consistent with the relevant protocols.
+      - A tax return: verify that each of the IRS rules are satisfied.
+      - A legal memo: verify that citations are accurate.
+      - An insurance claim: verify that the claim answers all relevant questions.
+      - An insurance decision: verify that the decision is consistent with close precedents.
+
+
+An analogy with two friends.
+: You have one friend who is full of new ideas, you have another friend who can tell whether an idea is good or bad. Each friend is somewhat useful, but when you combine them they're amazing. (I think this is the case for mathematicians: LLMs will produce a fountain of proofs, and Lean can distinguish which are sound or unsound).
+
+
+Implication: credentials become less important.
+:  Many people are saying that LLMs will make credentials more important, because they make it harder to superficially distinguish high-quality and low-quality work. [Ryan Briggs](https://x.com/ryancbriggs/status/2004928726153527776) says:
+   
+    > *"Prediction: in the short-to-medium term LLMs will make the reputation of the researcher matter more for whether or not we view results as credible because it will become too hard to read everything and people will want shortcuts for filtering. Again, this hits juniors hardest."*
+
+    It's possible this is true but there's a countervailing force: LLMs are better paper-writers, but also better referees. In fact they may be relatively better referees than they are authors, which would shift balance in favor of the less-credentialed. If we had a perfect test for the quality of work, we wouldn't need to rely on reputation at all.
+    
+    If someone entirely unqualified makes a breakthrough in ML or mathematics they can verify it. Historically this has been much harder in soft disciplines like economics, but if the cost of verification falls to zero.
+
+    A related point: in an old [post on AI and communication](https://tecunningham.github.io/posts/2023-06-06-effect-of-ai-on-communication.html) I argued that with LLMs reputation will become less important for internal properties (where the ground truth is human judgment, i.e. verification is cheap), more important for external properties (where the ground truth is in the world, i.e. verification is expensive).
+
+
+#        Formal Models
+
+A couple of very hasty models to sketch how to formalize this.
+
+Model 1: quality vs polish.
+: Suppose you care just about intrinsic quality $q$, but your signal is 
+      $$s=q+p$$
+   where $p$ is polish. You know that $q$ and $p$ are positively correlated (better books have better covers), so $s$ is a highly reliable signa of quality.
+
+    Suppose LLMs lower the cost of polish, so now everyone has high $p$. This makes the signal-extraction problem worse, and you'll rely relatively more on another signal, e.g. the  author's reputation (assuming it's another signal correlated with $q$).
+
+    Suppose instead that LLMs lower the cost of directly observing quality $q$. This will then imply putting relatively less weight on the author's reputation.
+
+    **Implications:**
+
+    1. LLMs lowering the cost of polish will cause more weight to be put on reputation.
+    2. LLMs lowering the cost of verification will cause less weight to be put on reputation. 
+
+Model 2: search.
+
+: You have $N$ ideas with unobserved iid payoffs, and you can pay cost $c$ to find the true payoff (AKA Weitzmann's Pandora's box problem).
+
+    Claim: there's a complementarity between the number of ideas you have ($N$) and the cheapness of verification (inverse of $c$). Formally:
+
+    $$\begin{aligned}
+      V_n(c)   & =\int_{0}^{\sigma(c)} \big(1-F(t)^n\big)dt,
+         && \text{(expected value from optimal strategy)}\\
+      E[(X-\sigma)^+] &= c && \text{(implicit definition of $\sigma(c)$)}
+    \end{aligned}$$
+
+    From inspection we can see that the expression has a complementarity between $c$ and $n$.
+
+    
+
+
+
+<!-- 
+1. A simple model: verifying is easier than generating. Humans cannot verify for free.
+
+
+6. 1. A problem with LLM-produced text is that it's costly to verify. I can ask complicated questions, but it takes a long time.
+
+When we deal with documents some trust is involved. We don't check every reference, and verify every logical step. Peer review tells you that some knowledgeable people read the paper closely, & didn't find any critical mistakes.
+
+
+2. (images are easily verified). -->
+
+
+

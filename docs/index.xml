@@ -10,7 +10,123 @@
 <atom:link href="tecunningham.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>{{&lt; meta description-meta &gt;}}</description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Thu, 06 Nov 2025 08:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 30 Dec 2025 08:00:00 GMT</lastBuildDate>
+<item>
+  <title>LLM verification</title>
+  <dc:creator>Tom Cunningham</dc:creator>
+  <link>tecunningham.github.io/posts/2025-12-30-llm-verification.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p><strong>A prediction: people will move towards producing documents that are machine-verified.</strong> A document will come with a checklist so you can see that it satisfies certain properties, as verified by LLMs:</p>
+<div style="max-width: 400px; margin: auto;">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;">Claude</th>
+<th style="text-align: center;">Gemini</th>
+<th style="text-align: center;">GPT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Factual claims are accurate</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr class="even">
+<td>Logically consistent</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr class="odd">
+<td>Central idea is novel</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr class="even">
+<td>The writing is readable</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>If your blog post starts with this checklist I’ll be more likely to read it.</strong></p>
+<p>This is already happening for mathematicians and programmers: they verify LLM-produced proofs with a formal verification tool (e.g.&nbsp;Lean), and LLM-produced code with unit tests. I’m predicting that this pattern will spread to all other areas of knowledge work, as LLMs get better at verifying correctness.</p>
+<section id="notes" class="level1">
+<h1>Notes</h1>
+<dl>
+<dt>A corollary: there’s a magic prompt.</dt>
+<dd>
+<p>Instead of saying <em>“answer question Q”</em>, it’s better to say <em>“answer question Q, and give me a way of verifying that the answer is correct.”</em></p>
+<p>You want the LLM to give you a checklist like the one above, decomposing the verification into many subproblems. Programmers have learnt to prompt <em>“write a program to do P, and a set of tests to verify that it does P.”</em></p>
+</dd>
+<dt>Examples of criteria you want to check:</dt>
+<dd>
+<ul>
+<li>An infection prevention plan: verify that the plan is consistent with the relevant protocols.</li>
+<li>A tax return: verify that each of the IRS rules are satisfied.</li>
+<li>A legal memo: verify that citations are accurate.</li>
+<li>An insurance claim: verify that the claim answers all relevant questions.</li>
+<li>An insurance decision: verify that the decision is consistent with close precedents.</li>
+</ul>
+</dd>
+<dt>An analogy with two friends.</dt>
+<dd>
+You have one friend who is full of new ideas, you have another friend who can tell whether an idea is good or bad. Each friend is somewhat useful, but when you combine them they’re amazing. (I think this is the case for mathematicians: LLMs will produce a fountain of proofs, and Lean can distinguish which are sound or unsound).
+</dd>
+<dt>Implication: credentials become less important.</dt>
+<dd>
+<p>Many people are saying that LLMs will make credentials more important, because they make it harder to superficially distinguish high-quality and low-quality work. <a href="https://x.com/ryancbriggs/status/2004928726153527776">Ryan Briggs</a> says:</p>
+<blockquote class="blockquote">
+<p><em>“Prediction: in the short-to-medium term LLMs will make the reputation of the researcher matter more for whether or not we view results as credible because it will become too hard to read everything and people will want shortcuts for filtering. Again, this hits juniors hardest.”</em></p>
+</blockquote>
+<p>It’s possible this is true but there’s a countervailing force: LLMs are better paper-writers, but also better referees. In fact they may be relatively better referees than they are authors, which would shift balance in favor of the less-credentialed. If we had a perfect test for the quality of work, we wouldn’t need to rely on reputation at all.</p>
+<p>If someone entirely unqualified makes a breakthrough in ML or mathematics they can verify it. Historically this has been much harder in soft disciplines like economics, but if the cost of verification falls to zero.</p>
+<p>A related point: in an old <a href="https://tecunningham.github.io/posts/2023-06-06-effect-of-ai-on-communication.html">post on AI and communication</a> I argued that with LLMs reputation will become less important for internal properties (where the ground truth is human judgment, i.e.&nbsp;verification is cheap), more important for external properties (where the ground truth is in the world, i.e.&nbsp;verification is expensive).</p>
+</dd>
+</dl>
+</section>
+<section id="formal-models" class="level1">
+<h1>Formal Models</h1>
+<p>A couple of very hasty models to sketch how to formalize this.</p>
+<dl>
+<dt>Model 1: quality vs polish.</dt>
+<dd>
+<p>Suppose you care just about intrinsic quality <img src="https://latex.codecogs.com/png.latex?q">, but your signal is <img src="https://latex.codecogs.com/png.latex?s=q+p"> where <img src="https://latex.codecogs.com/png.latex?p"> is polish. You know that <img src="https://latex.codecogs.com/png.latex?q"> and <img src="https://latex.codecogs.com/png.latex?p"> are positively correlated (better books have better covers), so <img src="https://latex.codecogs.com/png.latex?s"> is a highly reliable signa of quality.</p>
+<p>Suppose LLMs lower the cost of polish, so now everyone has high <img src="https://latex.codecogs.com/png.latex?p">. This makes the signal-extraction problem worse, and you’ll rely relatively more on another signal, e.g.&nbsp;the author’s reputation (assuming it’s another signal correlated with <img src="https://latex.codecogs.com/png.latex?q">).</p>
+<p>Suppose instead that LLMs lower the cost of directly observing quality <img src="https://latex.codecogs.com/png.latex?q">. This will then imply putting relatively less weight on the author’s reputation.</p>
+<p><strong>Implications:</strong></p>
+<ol type="1">
+<li>LLMs lowering the cost of polish will cause more weight to be put on reputation.</li>
+<li>LLMs lowering the cost of verification will cause less weight to be put on reputation.</li>
+</ol>
+</dd>
+<dt>Model 2: search.</dt>
+<dd>
+<p>You have <img src="https://latex.codecogs.com/png.latex?N"> ideas with unobserved iid payoffs, and you can pay cost <img src="https://latex.codecogs.com/png.latex?c"> to find the true payoff (AKA Weitzmann’s Pandora’s box problem).</p>
+<p>Claim: there’s a complementarity between the number of ideas you have (<img src="https://latex.codecogs.com/png.latex?N">) and the cheapness of verification (inverse of <img src="https://latex.codecogs.com/png.latex?c">). Formally:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20V_n(c)%20%20%20&amp;%20=%5Cint_%7B0%7D%5E%7B%5Csigma(c)%7D%20%5Cbig(1-F(t)%5En%5Cbig)dt,%0A%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(expected%20value%20from%20optimal%20strategy)%7D%5C%5C%0A%20%20E%5B(X-%5Csigma)%5E+%5D%20&amp;=%20c%20&amp;&amp;%20%5Ctext%7B(implicit%20definition%20of%20$%5Csigma(c)$)%7D%0A%5Cend%7Baligned%7D"></p>
+<p>From inspection we can see that the expression has a complementarity between <img src="https://latex.codecogs.com/png.latex?c"> and <img src="https://latex.codecogs.com/png.latex?n">.</p>
+</dd>
+</dl>
+
+
+</section>
+
+ ]]></description>
+  <guid>tecunningham.github.io/posts/2025-12-30-llm-verification.html</guid>
+  <pubDate>Tue, 30 Dec 2025 08:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Forecasts of AI &amp; Economic Growth</title>
   <dc:creator>Tom Cunningham</dc:creator>
@@ -6947,36 +7063,6 @@ Accounts.”</span> January 31, 2023. <a href="https://tecunningham.github.io/po
  ]]></description>
   <guid>tecunningham.github.io/posts/2017-12-10-unconscious-influences.html</guid>
   <pubDate>Fri, 08 Dec 2017 08:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>The Work of Art in the Age of Mechanical Production</title>
-  <link>tecunningham.github.io/posts/2017-09-27-work-of-art-age-mechnical-production.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<section id="aka-machine-learning-aesthetics-the-unconscious" class="level2">
-<h2 class="anchored" data-anchor-id="aka-machine-learning-aesthetics-the-unconscious">AKA machine learning, aesthetics, &amp; the unconscious</h2>
-<ol type="1">
-<li><p>When I heard about the neural nets that copy the styles of famous painters I thought it would be the same old junk.</p></li>
-<li><p>Academics have been saying forever that they were on the verge of discovering the principles of aesthetics, and that they would soon be able to automate the production of beauty – melody, harmony, proportion, plot.</p></li>
-<li><p>When I was a kid I was excited to read about this sort of thing. But they always turn out to be fatuous, catastrophically oversimplified and overconfident, written - I’m guessing - by people who are intimidated &amp; resentful of the culture around them. Our technical understanding of what makes something look good is still weak, and I don’t think it’s improving very fast. I learned to, when I come across an article about art written by a scientist, turn the page.</p></li>
-<li><p>But now I think that maybe the automatic production of beauty will arrive soon. The machine learning algorithms work by extrapolating from existing examples, which means that they can produce new examples that fit some pattern (such as the pattern of beauty) without anyone involved having any explicit understanding of what the pattern is or how it can be defined.</p></li>
-<li><p>This extrapolation without understanding is what happened in the study of visual perception – i.e.&nbsp;making inferences from images. Our understanding of perception is slowly moving forward, as it has been for centuries, but our ability to automate perception has shot ahead. In the 15th century Leonard da Vinci studied how the light reflected by an object is related to its distance – more distant objects tend to be bluer – these are relationships that we all know unconsciously, but which take a lot of work to dig out, such that we consciously understand them. Psychologists and computer scientists are still discovering things about the physics of light which we all know unconsciously. But computer models which incorporate our explicit knowledge of the physics of light are being thrashed by pure machine-learning models, which are fed a huge databases of pictures and simply extrapolate from what they’ve already seen.[2]</p></li>
-<li><p>I think the same basic point is true of aesthetic things. We really struggle trying to explain why we like a picture or dislike a melody, because most of the work is done at an unconscious level. The progress in understanding those principles will probably continue to be slow.</p></li>
-<li><p>But now it seems likely to me that, before long, machines will be able to do all these things on demand – play some brand new Mozart, make elegant little drawings of animals, write a pretty good pop song. And the programmer who implements them could be – probably will be – some bozo who has no clue why it works.</p></li>
-</ol>
-<p>[1] 2017-05: SIGGRAPH video with style transfer - https://www.youtube.com/watch?v=HYhzZ-Abku8</p>
-<p>[2] 2017-05: Michael Elad “Deep, Deep Trouble: Deep Learning’s Impact on Image Processing, Mathematics, and Humanity” https://sinews.siam.org/Details-Page/deep-deep-trouble-4</p>
-
-
-</section>
-
- ]]></description>
-  <guid>tecunningham.github.io/posts/2017-09-27-work-of-art-age-mechnical-production.html</guid>
-  <pubDate>Wed, 27 Sep 2017 07:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
