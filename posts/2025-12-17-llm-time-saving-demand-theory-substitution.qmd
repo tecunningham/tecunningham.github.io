@@ -4,8 +4,11 @@ author: "Tom Cunningham"
 date: "2025-11-19"
 draft: true
 bibliography: ai.bib
-# format: html
-# format: pdf
+format:
+  pdf:
+    fontsize: 10pt
+    geometry:
+      - margin=0.75in
 engine: knitr
 execute:
   echo: false
@@ -13,6 +16,8 @@ execute:
   error: false
   cache: true # caches chunk output
 ---
+
+Many thanks to Elsie Jang for discussion.
 
 ##       Summary
 
@@ -24,24 +29,47 @@ I anticipate that we're going to be arguing a lot about LLM-speedups & task subs
 
 Quick checklist:
 
-:   1. The total efficiency gain will be between $s\beta/(1-s+s/\beta)$ (if perfect complements) and $\beta$ (perfect substitutes).
+:   1. The total **output gain** will be between $\frac{1}{(1-s)+s/\beta}$ (if perfect complements/Amdahl) and $\beta$ (perfect substitutes).
 
-    1. If the time-savings are tiny then Hulten's theorem applies (saving=$s\ln\beta$)
+    2. If the time-savings are tiny then Hulten's theorem applies: $\Delta\ln y \approx s\ln\beta$ (and for tiny changes, time-saved $\approx \Delta\ln y$ too).
     
-    2. If the time-savings are small then you can use elasticity of substitution (there's a closed-form expression but it's ugly)
+    3. If the time-savings are small then you can use elasticity of substitution (there's a closed-form expression but it's ugly).
 
-    3. If the time-savings are large then you should use the entire area under the demand curve (i.e. not reasonable to assume constant elasticity). Though in demand theory this relies on income effects being small, & I think a sufficient condition is that the expenditure share is small. When the expenditure share is large I'm not confident how to think about this.
+    4. If the time-savings are large then you should use the entire area under the demand curve (i.e. not reasonable to assume constant elasticity). Though in demand theory this relies on income effects being small, & I think a sufficient condition is that the expenditure share is small. When the expenditure share is large I'm not confident how to think about this.
    
-    4. Applying Amdahl's law ex-ante will under-estimate productivity improvements, applying it ex-post will over-estimate productivity improvements.
+    5. Applying Amdahl's law ex-ante will under-estimate productivity improvements; applying it ex-post will over-estimate productivity improvements.
 
-Quantitative example.
-: Suppose LLMs double your productivity on tasks that used ot take up 10% of your time. What's the increase in productivity?
+Time savings using *ex-ante* time shares
+:  |                                                 | 10% saving on 50% | 50% saving on 10% | 80% saving on 10% |
+   |-------------------------------------------------|-------------------|-------------------|-------------------|
+   | $\varepsilon=0$ (perfect complements/Amdahl)                | 5.0%              | 5.0%              | 8.0%              |
+   | $\varepsilon=1/2$ (complements)                      | 5.1%              | 5.8%              | 10.7%             |
+   | $\varepsilon=1$ (Cobb-Douglas/Hulten)                       | 5.1%              | 6.7%              | 14.9%             |
+   | $\varepsilon\rightarrow\infty$ (perfect substitutes) | 10%               | 50%               | 80%               |
 
-      1. If perfect complements ($\varepsilon=0$): (...)
-      2. If Cobb-Douglas ($\varepsilon=1$): (...)
-      3. If perfect substitutes ($\varepsilon\rightarrow\infty$): (...)
+Time savings using *ex-post* time shares:
+:  |                                                 | 10% saving on 50% | 50% saving on 10% | 80% saving on 10% |
+   |-------------------------------------------------|-------------------|-------------------|-------------------|
+   | $\varepsilon=0$ (perfect complements/Amdahl)                | 5.3%              | 9.1%              | 28.6%             |
+   | $\varepsilon=1/2$ (complements)                      | 5.2%              | 7.8%              | 20.8%             |
+   | $\varepsilon=1$ (Cobb-Douglas/Hulten)                       | 5.1%              | 6.7%              | 14.9%             |
+   | $\varepsilon\rightarrow\infty$ (perfect substitutes) | N/A               | N/A               | N/A               |
 
-A nice analogy: suppose we discover a trick to turn lead into gold, so the price falls by 99%. How much benefit do I get? 
+How these are calculated:
+:  - **"X% saving"** means task-2 productivity increases so that time-per-unit falls by factor $(1-X)$, i.e., $\beta = 1/(1-X)$. So 10% saving → $\beta = 1.11$; 50% saving → $\beta = 2$; 80% saving → $\beta = 5$.
+   - **"Y% of work"** means the time share on task 2 is $s = Y$.
+   - **Output gain** from the CES formula: 
+$$\frac{y'}{y} = \left((1-s_0) + s_0\,\beta^{\varepsilon-1}\right)^{1/(\varepsilon-1)}$$
+where $s_0$ is the *ex-ante* share.
+   - **Time savings** = $1 - (y'/y)^{-1}$, i.e., the fraction of time saved to produce the same output.
+   - **Table 1:** The column header specifies the ex-ante share $s_0$ directly. Compute the output gain and convert to time savings.
+   - **Table 2:** The column header specifies the ex-post share $s_1$. First back out the implied ex-ante share using: $$\frac{s_0}{1-s_0} = \frac{s_1}{1-s_1} \cdot \beta^{1-\varepsilon}$$ Then compute the true output gain using $s_0$.
+   - **Perfect substitutes (Table 2):** After any productivity improvement, you reallocate entirely to the better task, so the ex-post share is always 100%. Specifying it as 10% or 50% is inconsistent with optimization—hence N/A.
+
+
+
+
+An analogy: if we can turn lead into gold, what benefit do I get?
 :  Using ex ante expenditure: my expenditure share on gold is ~0%, so my benefit is very small. 
 
     Using ex post expenditure: if gold is cheap then I'll start buying gold cutlery. Suppose I spend $1K on gold/year, then it makes it look like I'm getting value worth $100K/year, which is clearly wrong.
@@ -50,6 +78,9 @@ A nice analogy: suppose we discover a trick to turn lead into gold, so the price
 
 There are some nice crisp results from economics that apply here.
 : I discuss some related literature below.
+
+Loose ends:
+: - I give bounds on aggregate time-savings with a CES model below, but I'm not sure whether you might not get wider bounds if you relax the CES assumption, e.g. with non-homotheticities so there are income effects.
 
 #      Model
 
@@ -133,7 +164,7 @@ $$\frac{y^{*'}}{y^*}=\left(t_1^*+(1-t_1^*)\beta^{\varepsilon-1}\right)^{\frac{1}
 #     Example Applications
 
 @anthropic2025estimatingproductivitygains
-: They estimate Claude saves time by 80% on certain tasks, and apply Hulten's theorem. But Hulten's theorem only applies for *small* efficiency chanages, so I believe this effectively assumes Cobb-Douglas substitution (i.e. constant time-shares on these tasks).
+: They estimate Claude saves time by 80% on certain tasks, and apply Hulten's theorem. But Hulten's theorem only applies for *small* efficiency changes, so I believe this effectively assumes Cobb-Douglas substitution (i.e. constant time-shares on these tasks).
 
 @becker2025uplift
 : They estimate time-savings on tasks using LLMs. In this case the subjects mostly were *not* using AI, but in followup studies they *will* be using AI. This makes it hard to think about interpreting uplift studies over time, insofar as AI causes them to change the task distribution. It would be nice to have a good clear language here.
@@ -146,34 +177,34 @@ Index numbers and the “which share do you weight by?” problem
 : - A Paasche-style measure (end-period weights) is biased toward *overstating* gains if you implicitly treat the new bundle as if it had always been purchased at the old relative prices/technologies.
 : - The object you actually want is a path (Divisia) integral of share-weighted growth rates; “superlative” discrete indices (e.g., Fisher/Törnqvist) are designed to approximate that integral well.
 : **Connection to our setup:** our two-task CES makes this completely explicit. Proposition 3 is the Divisia/Hulten-style statement:
-      $$d\ln y^* = t_2^*, d\ln A_2,$$
-   so the “right weight” is the *current* optimal time share (t_2^*), not a fixed pre/post share. For a finite (\beta) shock, the exact change is the integral of that weight along the adjustment path, which collapses to the closed form in Proposition 4. This is exactly the sense in which “ex‑ante Amdahl/Hulten” (freeze (t_2) at baseline) understates and “ex‑post Hulten” (freeze (t_2) at the endpoint) can overstate.
+      $$d\ln y^* = t_2^*\, d\ln A_2,$$
+   so the “right weight” is the *current* optimal time share $t_2^*$, not a fixed pre/post share. For a finite $\beta$ shock, the exact change is the integral of that weight along the adjustment path, which collapses to the closed form in Proposition 4. This is exactly the sense in which “ex‑ante Amdahl/Hulten” (freeze $t_2$ at baseline) understates and “ex‑post Hulten” (freeze $t_2$ at the endpoint) can overstate.
 
 Consumer surplus / welfare for large “price” (time-cost) changes
 : @willig1976consumerssurplus defends using Marshallian consumer surplus as a welfare proxy: the area under the (Marshallian) demand curve is close to the Hicksian objects (EV/CV) when income effects are small, and Willig provides conditions/bounds under which the approximation error is limited.
 : @hausman1981exact shows how to compute exact welfare measures (EV/CV, deadweight loss) from an estimated demand curve by imposing integrability (i.e., that the demand actually comes from some underlying utility/expenditure function).
 : @deaton1980aids provides a workhorse *integrable* demand system (AIDS) that flexibly captures income effects and substitution patterns while keeping welfare calculations coherent.
-: **Connection to our setup:** if you reinterpret the model in dual form, “task outputs” (x_i=A_i t_i) are the “goods,” and the time budget implies prices (p_i = 1/A_i) (time per unit of task output). An LLM that raises (A_2) by (\beta) is literally a price drop for good 2 by a factor (1/\beta). For small task shares (s=t_2^*) (your “gold is tiny in the budget” example), the Willig logic says “income-effect-like problems are muted,” so simple surplus approximations are safer. When the effective budget share is not tiny—or when the shock is huge—the Hausman/Deaton-Muellbauer message is: you want an *integrable system* (or in our case, an explicit aggregator like CES) so that “area under a curve” corresponds to a defensible welfare change.
+: **Connection to our setup:** if you reinterpret the model in dual form, “task outputs” ($x_i=A_i t_i$) are the “goods,” and the time budget implies prices ($p_i = 1/A_i$) (time per unit of task output). An LLM that raises $A_2$ by $\beta$ is literally a price drop for good 2 by a factor $1/\beta$. For small task shares ($s=t_2^*$) (your “gold is tiny in the budget” example), the Willig logic says “income-effect-like problems are muted,” so simple surplus approximations are safer. When the effective budget share is not tiny—or when the shock is huge—the Hausman/Deaton-Muellbauer message is: you want an *integrable system* (or in our case, an explicit aggregator like CES) so that “area under a curve” corresponds to a defensible welfare change.
 
 Economics of time allocation (time is a scarce input with shadow prices)
 : @deserpa1971time treats time as a fundamental scarce resource: activities require time as well as market goods, and constraints on required time generate a shadow value of time. The key conceptual result is that “time-saving” innovations matter because they relax a binding constraint, and the value of that relaxation depends on the shadow price of time and substitution across activities.
-: **Connection to our setup:** we’re essentially running the cleanest possible DeSerpa-style problem: a single time endowment allocated across tasks, where task technologies (A_i) turn time into effective task output. The LLM shock is a direct relaxation of the time requirement for task 2. What DeSerpa adds conceptually is the interpretation: the welfare/productivity effect is not “minutes saved” per se, but “minutes saved *valued at the shadow price of time*,” and that shadow price is determined jointly with substitution across tasks—exactly what (\varepsilon) is doing for us.
+: **Connection to our setup:** we’re essentially running the cleanest possible DeSerpa-style problem: a single time endowment allocated across tasks, where task technologies ($A_i$) turn time into effective task output. The LLM shock is a direct relaxation of the time requirement for task 2. What DeSerpa adds conceptually is the interpretation: the welfare/productivity effect is not “minutes saved” per se, but “minutes saved *valued at the shadow price of time*,” and that shadow price is determined jointly with substitution across tasks—exactly what $\varepsilon$ is doing for us.
 
 Task substitution and computerization as task-specific technology shocks
 : @autor2003skill is the empirical foundation for the modern “tasks” approach: computerization substitutes for routine tasks and complements non-routine tasks, shifting task content within occupations and generating distributional consequences (e.g., polarization). The paper’s core claim is that you cannot summarize tech change as “labor-augmenting” in the aggregate; it’s task-directed, and substitution patterns matter.
 : @acemoglu2011handbook synthesizes and formalizes this task-based view. A central message is that the impact of a task-specific productivity shock depends on: (i) which tasks are affected, (ii) how substitutable tasks are, and (iii) how the economy re-optimizes task assignment across workers/technologies.
-: **Connection to our setup:** our (A_2\mapsto \beta A_2) change is exactly a “task-directed” shock. Your entire “ex‑ante vs ex‑post task share (P)” issue is basically the same point Autor/Acemoglu-Autor emphasize: task shares are endogenous responses to technology, not fixed primitives. In our CES aggregator, that endogeneity is governed by ($\varepsilon$): when ($\varepsilon$) is high, reallocation is large and the “Amdahl intuition” breaks; when ($\varepsilon$) is low, reallocation is small and Amdahl becomes accurate.
+: **Connection to our setup:** our $A_2\mapsto \beta A_2$ change is exactly a “task-directed” shock. Your entire “ex‑ante vs ex‑post task share” issue is basically the same point Autor/Acemoglu-Autor emphasize: task shares are endogenous responses to technology, not fixed primitives. In our CES aggregator, that endogeneity is governed by $\varepsilon$: when $\varepsilon$ is high, reallocation is large and the “Amdahl intuition” breaks; when $\varepsilon$ is low, reallocation is small and Amdahl becomes accurate.
 
 Hulten’s theorem and when first-order share-weighting breaks
 : @hulten1978growth shows (in a competitive, CRS setting with intermediates) that a *small* productivity shock’s effect on aggregate productivity can be summarized by share-weighted sectoral TFP growth (Domar/revenue-share weights). The key takeaway is the legitimacy of first-order share weighting—but only locally.
 : **@baqaee2019macro** pushes beyond that local logic: in production networks, micro shocks can have macro consequences and nonlinearities/higher-order terms matter, especially for large shocks or when substitution patterns interact with network structure.
 : @baqaeeBurstein2021incomeeffects highlights that welfare vs. output can diverge when income effects / demand shifts are important, and that changing expenditure patterns can be central to aggregate responses (so “just Domar weights” can miss key welfare channels).
 : @cominLashkariMestieri2021structuralchange emphasizes that over longer horizons, relative price changes and non-homotheticities induce structural change: shares drift systematically, so you should expect “task/sector shares” to be part of the response to technology, not a nuisance.
-: **Connection to our setup:** Proposition 3 is the Hulten logic in a two-task world (local, share-weighted). Proposition 4 is the “nonlinear / finite change” version where the share itself moves with ($\beta$).
+: **Connection to our setup:** Proposition 3 is the Hulten logic in a two-task world (local, share-weighted). Proposition 4 is the “nonlinear / finite change” version where the share itself moves with $\beta$.
 
 Amdahl’s law as the perfect-complements benchmark
 : Amdahl’s law says the speedup from improving one component is bounded by the unimproved fraction.
-: **Connection to our setup:** that’s precisely the (\varepsilon\to 0) (Leontief / perfect complements) limit in Proposition 5:
+: **Connection to our setup:** that’s precisely the $\varepsilon\to 0$ (Leontief / perfect complements) limit in Proposition 5:
    $$\frac{y^{*'}}{y^*}\rightarrow \frac{1}{(1-s)+s/\beta}.$$
 
 <!-- Reallocation and aggregation across units (Olley–Pakes)
@@ -183,118 +214,6 @@ Amdahl’s law as the perfect-complements benchmark
 
 #      Illustrations
 
-##      Output gains vs. elasticity ($\varepsilon$)
-
-```{tikz}
-#| fig-cap: "A clean view of Proposition 5: for a given time share $s=t_2^*$ and shock $A_2' = \\beta A_2$, the finite output gain $\\Delta\\ln y^*$ lies between the perfect-complements and perfect-substitutes limits; Cobb–Douglas sits in between. (Illustrated at $s=0.1$, $\\beta=2$.)"
-#| fig-align: center
-\begin{tikzpicture}[
-  show background rectangle,
-  background rectangle/.style={fill=white},
-  font=\footnotesize,
-]
-  % Example parameters (just for scale)
-  \def\s{0.10}
-  \def\b{2.0}
-  \pgfmathsetmacro{\lnb}{ln(\b)}
-  \pgfmathsetmacro{\ycomp}{-ln((1-\s)+\s/\b)}
-  \pgfmathsetmacro{\ycobb}{\s*\lnb}
-  \pgfmathsetmacro{\ysub}{\lnb}
-
-  % Give ourselves whitespace for callouts
-  \path[use as bounding box] (-0.55,-0.05) rectangle (5.2,0.82);
-
-  % Axis
-  \draw[->,line width=0.9pt] (0,0) -- (0,0.78) node[above left] {$\Delta\ln y^*$};
-  \foreach \y/\lab in {0/0,0.2/0.2,0.4/0.4,0.6/0.6}{
-    \draw (-0.03,\y) -- (0.03,\y) node[left] {\lab};
-  }
-
-  % Three benchmark points
-  \fill (0,\ycomp) circle[radius=1.1pt];
-  \fill (0,\ycobb) circle[radius=1.1pt];
-  \fill (0,\ysub)  circle[radius=1.1pt];
-
-  \draw[line width=0.6pt] (0,\ycomp) -- (0.18,\ycomp);
-  \draw[line width=0.6pt] (0,\ycobb) -- (0.18,\ycobb);
-  \draw[line width=0.6pt] (0,\ysub)  -- (0.18,\ysub);
-
-  % Labels (staggered, with leader lines)
-  \node[anchor=west] (labSub)  at (0.55,0.62) {substitutes ($\varepsilon\to\infty$):\; $\ln\beta$};
-  \node[anchor=west] (labCd)   at (0.55,0.36) {Cobb--Douglas ($\varepsilon=1$):\; $s\,\ln\beta$};
-  \node[anchor=west] (labComp) at (0.55,0.14) {complements ($\varepsilon\to0$):\; $-\ln((1-s)+s/\beta)$};
-  \draw[black!45] (0.18,\ysub)  -- (labSub.west);
-  \draw[black!45] (0.18,\ycobb) -- (labCd.west);
-  \draw[black!45] (0.18,\ycomp) -- (labComp.west);
-
-  \node[anchor=west,black!65] at (0.55,0.74) {illustrated at $s=0.1$, $\beta=2$};
-\end{tikzpicture}
-```
-
-##      Optimal time share $t_2^*$ vs. relative productivity ($A_2/A_1$)
-
-```{tikz}
-#| fig-cap: "Reallocation goes in opposite directions depending on whether $\\varepsilon$ is above or below 1. With $\\alpha=1/2$, $t_2^* = r^{\\varepsilon-1}/(1+r^{\\varepsilon-1})$ where $r\\equiv A_2/A_1$."
-#| fig-align: center
-\begin{tikzpicture}[
-  show background rectangle,
-  background rectangle/.style={fill=white},
-  font=\footnotesize,
-]
-  \path[use as bounding box] (-0.15,-0.18) rectangle (4.55,1.15);
-  \def\amin{0.30}
-  \def\amax{4.00}
-
-  % Axes (clean)
-  \draw[->,line width=0.8pt] (0,0) -- (4.35,0) node[below] {$r=A_2/A_1$};
-  \draw[->,line width=0.8pt] (0,0) -- (0,1.05) node[left] {$t_2^*$};
-
-  % Reference lines
-  \draw[densely dashed,black!35] (1,0) -- (1,1.02);
-  \draw[densely dashed,black!35] (0,\tfrac12) -- (4.30,\tfrac12);
-  \node[above,black!55] at (1,1.02) {$r=1$};
-
-  % Curves (label directly, no legend)
-  \draw[line width=1.0pt] plot[domain=\amin:\amax,samples=200] (\x,{pow(\x,2)/(1+pow(\x,2))});
-  \node[anchor=west] at (2.85,0.92) {$\varepsilon>1$};
-
-  \draw[line width=0.9pt,black!55] (\amin,0.5) -- (\amax,0.5);
-  \node[anchor=west,black!55] at (2.85,0.52) {$\varepsilon=1$};
-
-  \draw[line width=1.0pt] plot[domain=\amin:\amax,samples=200] (\x,{pow(\x,-0.5)/(1+pow(\x,-0.5))});
-  \node[anchor=west] at (2.85,0.28) {$\varepsilon<1$};
-
-  \node[anchor=west,black!65] at (0.12,-0.10) {illustrated with $\alpha=1/2$};
-\end{tikzpicture}
-```
-
-##      Geometry: a shock $A_2'=\beta A_2$ rotates the feasible frontier
-
-```{tikz}
-#| fig-cap: "Same shock, opposite reallocation. Starting from $A_1=A_2$ and $\\alpha=1/2$, a jump $A_2' = \\beta A_2$ can move the optimal *time share* $t_2^*$ up (high substitutability) or down (complements)."
-#| fig-align: center
-\begin{tikzpicture}[
-  show background rectangle,
-  background rectangle/.style={fill=white},
-  font=\footnotesize,
-]
-  \path[use as bounding box] (-0.05,-0.05) rectangle (1.25,1.35);
-  \draw[->,line width=0.8pt] (0,0) -- (1.15,0) node[below] {$t_1$};
-  \draw[->,line width=0.8pt] (0,0) -- (0,1.15) node[left] {$t_2$};
-  \draw[line width=0.8pt] (1,0) -- (0,1) node[pos=0.55,above right] {$t_1+t_2=1$};
-
-  \fill (0.5,0.5) circle[radius=1.2pt] node[above right] {pre};
-
-  % Two possible post-shock directions (schematic)
-  \draw[->,line width=1.1pt] (0.5,0.5) -- (0.66,0.34);
-  \node[anchor=west] at (0.68,0.34) {$\varepsilon<1$};
-
-  \draw[->,line width=1.1pt] (0.5,0.5) -- (0.34,0.66);
-  \node[anchor=east] at (0.32,0.66) {$\varepsilon>1$};
-
-  \node[anchor=west,black!65] at (0.02,1.25) {$A_2\uparrow$ can imply either $t_2^*\\downarrow$ or $t_2^*\\uparrow$};
-\end{tikzpicture}
-```
 
 ##      Indifference Curve
 
@@ -342,7 +261,7 @@ Amdahl’s law as the perfect-complements benchmark
       plot (\q,{1/(\q*\q)});
     \fill[blue] (\Q0,\P0) circle[radius=1pt];
 
-    \node[above] at (1.5,2.8) {inelastic, $|\varepsilon|<1$};
+    \node[above] at (1.5,2.8) {inelastic, $|\eta|<1$};
   \end{scope}
 
   %%%%%%%%%%%%%%% Panel 2: Unit elastic demand
@@ -360,7 +279,7 @@ Amdahl’s law as the perfect-complements benchmark
       plot (\q,{1/\q});
     \fill[blue] (\Q0,\P0) circle[radius=1pt];
 
-    \node[above] at (1.5,2.8) {unit elastic, $|\varepsilon|=1$};
+    \node[above] at (1.5,2.8) {unit elastic, $|\eta|=1$};
   \end{scope}
 
   %-----------------------------
@@ -380,7 +299,7 @@ Amdahl’s law as the perfect-complements benchmark
       plot (\q,{\q^(-1/4)});
     \fill[blue] (\Q0,\P0) circle[radius=1pt];
 
-    \node[above] at (1.5,2.8) {elastic, $|\varepsilon|>1$};
+    \node[above] at (1.5,2.8) {elastic, $|\eta|>1$};
   \end{scope}
 \end{tikzpicture}
 ```
