@@ -43,6 +43,8 @@ This explains the economic implications of LLMs.
       1. LLMs speeds up common tasks; (2) LLMs are good at tasks that take humans a short time (without context); (3) .
 
 
+(simplest model: just lookup tables).
+: This model already gives you fairly rich predictions.
 
 
 The theory has clear testable implications.
@@ -473,6 +475,68 @@ Some implications:
   \node at ($(T)+(0,\R+0.1)$) {Tom Knowledge with an LLM};
   \node[above] at (-1.4,1) {Facts};
   
+\end{tikzpicture}
+```
+
+
+```{tikz}
+\begin{tikzpicture}[scale=4]
+  \usetikzlibrary{calc}
+  \draw[thick] (-1.5,-1)--(-1.5,1)--(1.5,1)--(1.5,-1)--cycle; 
+
+
+  % Central circle radius (where the centers lie)
+  \def\RR{0.2}
+
+  % Store radii for each circle for reference
+  \def\rone{0.3}
+  \def\rtwo{0.25}
+  \def\rthree{0.2}
+  \def\rfour{0.2}
+  \def\rfive{0.06}
+  \def\rsix{0.15}
+
+  % Define and place each center (for convex hull)
+  \coordinate (C1) at ({\RR*cos(0)}, {\RR*sin(0)});
+  \coordinate (C2) at ({\RR*cos(60)}, {\RR*sin(60)});
+  \coordinate (C3) at ({\RR*cos(120)}, {\RR*sin(120)});
+  \coordinate (C4) at ({\RR*cos(180)}, {\RR*sin(180)});
+  \coordinate (C5) at ({\RR*cos(240)}, {\RR*sin(240)});
+  \coordinate (C6) at ({\RR*cos(300)}, {\RR*sin(300)});
+
+  % Fill and draw interior dotted borders
+  \fill[blue!20, opacity=0.35] (C1) circle (\rone);
+  \fill[blue!20, opacity=0.35] (C2) circle (\rtwo);
+  \fill[blue!20, opacity=0.35] (C3) circle (\rthree);
+  \fill[blue!20, opacity=0.35] (C4) circle (\rfour);
+  \fill[blue!20, opacity=0.35] (C5) circle (\rfive);
+  \fill[blue!20, opacity=0.35] (C6) circle (\rsix);
+
+  \draw[dotted,thick,blue!70] (C1) circle (\rone);
+  \draw[dotted,thick,blue!70] (C2) circle (\rtwo);
+  \draw[dotted,thick,blue!70] (C3) circle (\rthree);
+  \draw[dotted,thick,blue!70] (C4) circle (\rfour);
+  \draw[dotted,thick,blue!70] (C5) circle (\rfive);
+  \draw[dotted,thick,blue!70] (C6) circle (\rsix);
+
+  % Draw the guiding central circle (dashed, light gray)
+  \draw[dashed,gray!60] (0,0) circle (\RR);
+
+  % Draw convex hull using the outermost points of each circle in order
+  % (calculate: point on each circle farthest from the center)
+  \draw[thick,blue!80!black]
+      ($(C1) + ({0}:\rone)$) --
+      ($(C2) + ({60}:\rtwo)$) --
+      ($(C3) + ({120}:\rthree)$) --
+      ($(C4) + ({180}:\rfour)$) --
+      ($(C5) + ({240}:\rfive)$) --
+      ($(C6) + ({300}:\rsix)$) -- cycle;
+
+ \node at (0,.8) {Jagged frontier (union of learned knowledge)};
+  % Optional: label the circles for clarity
+  %\foreach \i in {1,...,6} {
+  %  \node[font=\small] at (C\i) {$\i$};
+  %}
 \end{tikzpicture}
 ```
 
