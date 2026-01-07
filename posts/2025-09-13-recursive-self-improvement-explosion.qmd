@@ -43,7 +43,9 @@ There's good theoretical reason to expect an explosion.
 
 AI usefulness for optimization depends on features of the setup.
 
-: Hassabis says AI will make progress wherever there's (1) combinatorial search space; (2) clear feedback; (3) lots of data or an automatic validator. But there's clearly a fourth condition: that the data has some lower-dimensional latent structure. There are many problems that satisfy the first 3 but where we don't expect substantial progress from autonomous NNs: (A) the telephone book; (B) mapping out stars in the sky; (C) documenting the genome.
+: Hassabis says AI will make progress wherever there's (1) combinatorial search space; (2) clear feedback; (3) lots of data or an automatic validator.
+
+      However there's clearly a fourth condition: that the data has some lower-dimensional latent structure. There are many problems that satisfy the first 3 but where we don't expect substantial progress from autonomous NNs: (A) the telephone book; (B) mapping out stars in the sky; (C) documenting the genome.
 
 
 AI speedups to discovery depends on the shape of the underlying landscape.
@@ -59,6 +61,11 @@ AK model of recursive growth.
 
 : The critical question is whether the returns to R&D effort are sufficiently steep. Some classic papers: Bloom et al. "are we running out of ideas"; and Erdil. 
 
+Landscape model.
+: asdf
+
+
+
 #           Figure / Evals
 
 Q: what evals would be useful? Suppose we can plot the following:
@@ -69,29 +76,37 @@ Q: what evals would be useful? Suppose we can plot the following:
     \draw[->] (0,0) -- (5,0) node[right,align=left] {trainer-model ability\\(time horizon)};
     \draw[->] (0,0) -- (0,5) node[midway,above,rotate=90] {trained-model ability};
     
-    % Map values 2, 8, 16, 32, 64 to positions 0, 1, 2, 3, 4 (equal distances)
-    % For the sqrt curve: if position p corresponds to value v = 2*2^p,
-    % then sqrt(v) = sqrt(2*2^p) = sqrt(2)*2^(p/2)
-    % Using TikZ syntax: 2^(\x/2) for 2^(p/2)
     \draw[thick, blue] (0,0) plot[domain=0:4, samples=100] (\x, {2*sqrt(\x)});
     
-    % Add tick marks at equal distances: positions 0, 1, 2, 3, 4
     \foreach \val/\pos in {2/0, 8/1, 16/2, 32/3, 64/4} {
         \draw (\pos,0) -- (\pos,-0.1);
         \node[below] at (\pos,-0.15) {\val};
     }
-    
-    % Add grid (optional, for better readability)
+   
+    %\draw[red] (0,2)--(4.5,2) node[right]{1 week};
     \draw[gray, very thin, dashed] (0,0) grid (4.5,4.5);
 \end{tikzpicture}
 ```
 
-We could plot data from a variety of differnt experiments on this plot, & ask some interesting questions:
+We could plot data from a variety of different experiments on this plot, & ask some interesting questions:
 
 1. At what time horizon do we forecast models beating human-level ability at training models?
 2. Do we see grokking, i.e. discontinuous jumps in model-training ability?
 3. Are some models better than others at model-training?
 
+
+```{tikz}
+\begin{tikzpicture}[scale=1.2]
+    % Draw axes
+    \draw[->] (0,0) -- (5,0) node[midway,below] {trainer-model ability};
+    \draw[->] (0,0) -- (0,5) node[midway,above,rotate=90] {trained-model ability};
+
+    \draw[thick,red] (0,0) -- (5,5);
+    
+    \draw[thick, blue] (0,0) -- (2,0) -- (5,6);
+    \draw[gray, very thin, dashed] (0,0) grid (4.5,4.5); % grid
+\end{tikzpicture}
+```
 
 
 #           References
