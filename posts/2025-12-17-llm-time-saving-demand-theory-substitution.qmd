@@ -4,8 +4,10 @@ author: "Tom Cunningham"
 date: "2025-11-19"
 draft: true
 bibliography: ai.bib
-format:
-  pdf:
+# format: typst
+format: 
+   pdf:
+    fontfamily: libertinus
     fontsize: 10pt
     geometry:
       - margin=0.75in
@@ -29,31 +31,33 @@ I anticipate that we're going to be arguing a lot about LLM-speedups & task subs
 
 Quick checklist:
 
-:   1. The total **output gain** will be between $\frac{1}{(1-s)+s/\beta}$ (if perfect complements/Amdahl) and $\beta$ (perfect substitutes).
+:   1. The total output gain will be between $\frac{1}{(1-s)+s/\beta}$ (if perfect complements/Amdahl) and $\beta$ (perfect substitutes).
 
-    2. If the time-savings are tiny then Hulten's theorem applies: $\Delta\ln y \approx s\ln\beta$ (and for tiny changes, time-saved $\approx \Delta\ln y$ too).
+    2. If the proportional time-savings are very small then Hulten's theorem applies: $\Delta\ln y \approx s\ln\beta$ (and for tiny changes, time-saved $\approx \Delta\ln y$ too).
     
-    3. If the time-savings are small then you can use elasticity of substitution (there's a closed-form expression but it's ugly).
+    3. If the time-savings are somewhat small then you can use elasticity of substitution (there's a closed-form expression but it's ugly).
 
     4. If the time-savings are large then you should use the entire area under the demand curve (i.e. not reasonable to assume constant elasticity). Though in demand theory this relies on income effects being small, & I think a sufficient condition is that the expenditure share is small. When the expenditure share is large I'm not confident how to think about this.
    
     5. Applying Amdahl's law ex-ante will under-estimate productivity improvements; applying it ex-post will over-estimate productivity improvements.
 
-Time savings using *ex-ante* time shares
-:  |                                                 | 10% saving on 50% | 50% saving on 10% | 80% saving on 10% |
-   |-------------------------------------------------|-------------------|-------------------|-------------------|
-   | $\varepsilon=0$ (perfect complements/Amdahl)                | 5.0%              | 5.0%              | 8.0%              |
-   | $\varepsilon=1/2$ (complements)                      | 5.1%              | 5.8%              | 10.7%             |
-   | $\varepsilon=1$ (Cobb-Douglas/Hulten)                       | 5.1%              | 6.7%              | 14.9%             |
-   | $\varepsilon\rightarrow\infty$ (perfect substitutes) | 10%               | 50%               | 80%               |
+**Time savings using *ex-ante* time shares**
 
-Time savings using *ex-post* time shares:
-:  |                                                 | 10% saving on 50% | 50% saving on 10% | 80% saving on 10% |
-   |-------------------------------------------------|-------------------|-------------------|-------------------|
-   | $\varepsilon=0$ (perfect complements/Amdahl)                | 5.3%              | 9.1%              | 28.6%             |
-   | $\varepsilon=1/2$ (complements)                      | 5.2%              | 7.8%              | 20.8%             |
-   | $\varepsilon=1$ (Cobb-Douglas/Hulten)                       | 5.1%              | 6.7%              | 14.9%             |
-   | $\varepsilon\rightarrow\infty$ (perfect substitutes) | N/A               | N/A               | N/A               |
+|                                                      | 10% saving on 50% | 50% saving on 10% | 80% saving on 10% |
+| ---------------------------------------------------- | ----------------- | ----------------- | ----------------- |
+| $\varepsilon=0$ (perfect complements/Amdahl)         | 5.0%              | 5.0%              | 8.0%              |
+| $\varepsilon=1/2$ (complements)                      | 5.1%              | 5.8%              | 10.7%             |
+| $\varepsilon=1$ (Cobb-Douglas/Hulten)                | 5.1%              | 6.7%              | 14.9%             |
+| $\varepsilon\rightarrow\infty$ (perfect substitutes) | 10%               | 50%               | 80%               |
+
+**Time savings using *ex-post* time shares:**
+
+|                                                 | 10% saving on 50% | 50% saving on 10% | 80% saving on 10% |
+|-------------------------------------------------|-------------------|-------------------|-------------------|
+| $\varepsilon=0$ (perfect complements/Amdahl)                | 5.3%              | 9.1%              | 28.6%             |
+| $\varepsilon=1/2$ (complements)                      | 5.2%              | 7.8%              | 20.8%             |
+| $\varepsilon=1$ (Cobb-Douglas/Hulten)                       | 5.1%              | 6.7%              | 14.9%             |
+| $\varepsilon\rightarrow\infty$ (perfect substitutes) | N/A               | N/A               | N/A               |
 
 How these are calculated:
 :  - **"X% saving"** means task-2 productivity increases so that time-per-unit falls by factor $(1-X)$, i.e., $\beta = 1/(1-X)$. So 10% saving → $\beta = 1.11$; 50% saving → $\beta = 2$; 80% saving → $\beta = 5$.
