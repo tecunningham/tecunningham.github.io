@@ -1,0 +1,144 @@
+---
+title: Diagramming AI's Offense-Defense Balance
+date: 2025-03-01
+draft: true
+bibliography: ai.bib
+execute:
+  echo: false
+  warning: false
+  error: false
+format:
+  html:
+    code-fold: true
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js"
+    include-in-header:
+      - text: |
+          <script>window.MathJax = {
+                   loader: { load: ['[custom]/xypic.js'],
+                               paths: {custom: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/'}},
+                tex: {packages: {'[+]': ['xypic']},
+                   macros: {
+                      bm: ["\\boldsymbol{#1}", 1],
+                      ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+                      utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3]
+                   }}};
+          </script>
+          <style>
+             h1 {  border-bottom: 4px solid black; }
+             h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; color: black; }
+             dl {display: grid;grid-template-columns: max-content auto;}
+             dt {grid-column-start: 1; width: 4cm;}
+             dd {grid-column-start: 2; margin-left: 2em;}
+          </style>
+engine: knitr
+editor:
+  render-on-save: true
+---
+
+*AI-enabled tools* shift contests between offense and defense along multiple channels at once: productivity, precision, speed, and coordination. Each channel can cut in both directions, so I wanted a more diagrammatic way to keep track of the logic and its equilibria. This note extends the qualitative taxonomy I sketched earlier and ties it back to the conflict-economics literature and recent security analyses. [@garfinkel2007economics; @brundage2018malicious]
+
+## Diagrammatic logic map
+
+The first illustration decomposes how AI affects the balance of effort, information, and leverage for the attacker and defender. Boxes correspond to levers; arrows describe reinforcement loops that can flip sign depending on the operational setting.
+
+```{tikz, fig-cap="Logic map linking AI capability gains to offensive and defensive leverage.", out.width="100%"}
+\begin{tikzpicture}[
+  node distance=2.8cm,
+  box/.style={rectangle, rounded corners, draw=black, thick, text width=3.8cm, align=center, fill=gray!10},
+  gain/.style={->, thick, >=latex},
+  balance/.style={rectangle, draw=black, thick, text width=4.1cm, align=center, fill=blue!6}
+]
+\node[box] (capability) {AI capability gains \\ (compute, models, data)};
+\node[box, below left of=capability, xshift=-1cm] (automation) {Automation of search \\ / monitoring tasks};
+\node[box, below right of=capability, xshift=1cm] (generation) {Generation of content \\ / deception artifacts};
+\node[box, below=2.6cm of automation] (defense) {Defensive leverage: \\ coverage, response time, \\ resilience to surprises};
+\node[box, below=2.6cm of generation] (offense) {Offensive leverage: \\ discovery rate, scale, \\ stealth of attacks};
+\node[balance, below=2.7cm of capability] (balance) {Observed balance \textbf{B} \\ (relative payoff of offense vs. defense)};
+
+\draw[gain] (capability) -- node[left, xshift=-0.1cm]{task-specific \newline improvements} (automation);
+\draw[gain] (capability) -- node[right, xshift=0.1cm]{expressive \newline improvements} (generation);
+\draw[gain] (automation) -- node[left]{coverage \newline externality} (defense);
+\draw[gain] (generation) -- node[right]{credibility \newline externality} (offense);
+\draw[gain] (defense) -- node[left]{mitigation loop} (balance);
+\draw[gain] (offense) -- node[right]{escalation loop} (balance);
+\draw[gain, bend left=18] (balance) to node[left]{re-optimization} (automation);
+\draw[gain, bend right=18] (balance) to node[right]{resource shift} (generation);
+\draw[gain, dashed, gray!70, bend left=22] (defense) to node[above, xshift=-0.4cm]{data feedback} (capability);
+\draw[gain, dashed, gray!70, bend right=22] (offense) to node[above, xshift=0.4cm]{adversarial data} (capability);
+\end{tikzpicture}
+```
+
+### Reading the diagram
+
+* The *automation* branch captures AI tools that scour logs, transactions, or terrain for anomalies, effectively expanding the defender's observation surface. When those tools feed back into model improvement, they tighten the loop in favor of the defender.
+* The *generation* branch tracks advances in synthetic media or exploit crafting, which magnify offensive leverage when credibility is scarce. Feedback into training data (especially via red-teaming) can spin the loop in either direction.
+* The balance node \(\mathbf{B}\) closes the system: whichever side is advantaged reallocates attention, further shifting which branch absorbs investment.
+
+## A stylized equilibrium with diminishing returns
+
+To anchor the logic, I model offense and defense as investing continuous effort \(c_A\) and \(c_D\) into discovering vulnerabilities. The win probability for offense is \(p = F(c_A) \left[1 - F(c_D)\right]\), where \(F\) is the cumulative distribution of latent holes; marginal costs are normalized to one. At a mixed equilibrium, attackers randomize so that their marginal gain matches the unit cost, while defenders fix \(c_D\) to keep attackers indifferent. [@garfinkel2007economics]
+
+```{tikz, fig-cap="Offense chooses effort $c_A$ to equalize the marginal gain $f(c_A)$ and cost (blue), while defense chooses $c_D$ so that the net win probability equals the participation constraint (green).", out.width="100%"}
+\begin{tikzpicture}[scale=1.1]
+  \draw[->] (0,0) -- (6.2,0) node[right] {$c_A$ (offense effort)};
+  \draw[->] (0,0) -- (0,4.2) node[above]{};
+  \draw[dotted] (0,1) node[left] {$1$} -- (5.8,1);
+  \draw[dotted] (0,3) node[left] {$p$} -- (5.8,3);
+  \draw[dashed, thick, color=green!70!black] (1.2,0) -- (1.2,4) node[above] {$c_D$};
+  \draw[dashed, thick, color=blue!80!black] (2.4,0) -- (2.4,4) node[above] {$c_A^*$};
+  \draw[thick, color=blue] plot[domain=0:5.8,samples=200] (\x,{2.5*(1-exp(-0.7*\x))});
+  \draw[thick, color=red!70!black] plot[domain=0:5.8,samples=200] (\x,{0.8+0.4*ln(1+\x)});
+  \fill[blue!20, opacity=0.8] (0,0) -- (2.4,0) -- plot[domain=0:2.4,samples=100] (\x,{2.5*(1-exp(-0.7*\x))}) -- cycle;
+  \fill[green!25!black, opacity=0.6] (0,0) -- (1.2,0) -- (1.2,1) -- (0,1) -- cycle;
+  \node[rotate=18, color=blue!70!black] at (3.9,2.5) {$f(c_A)$ marginal gain curve};
+  \node[rotate=12, color=red!70!black] at (4.2,1.4) {$F(c_A)-F(c_D)$ participation gap};
+  \node[color=green!40!black] at (0.7,0.5) {$1$ unit cost};
+  \node[color=blue!40!black] at (1.6,2.2) {marginal gains area};
+\end{tikzpicture}
+```
+
+The blue area shows how quickly marginal returns for offense decay as \(c_A\) rises. A technology shock that shifts the blue curve up (automation or generation) moves the equilibrium \(c_A^*\). When both offense and defense adopt the same tools, the relative movement depends on which branch (search vs. verification) experiences the larger productivity gain.
+
+### Comparative statics encoded visually
+
+```{tikz, fig-cap="Phase diagram: offense prefers the upper-left region (high offensive productivity $\alpha_A$, low defensive productivity $\alpha_D$), whereas defense dominates in the lower-right.", out.width="100%"}
+\begin{tikzpicture}[scale=1.1]
+  \draw[->] (0,0) -- (6.2,0) node[right] {$\alpha_D$ (defensive productivity)};
+  \draw[->] (0,0) -- (0,4.6) node[above] {$\alpha_A$ (offensive productivity)};
+  \draw[thick, color=purple!70!black] plot[domain=0.4:5.6,samples=200] (\x,{3.8/(1+exp(0.9*(\x-3)))});
+  \node[color=purple!90!black, rotate=-18] at (3.9,2.2) {$\alpha_A = h(\alpha_D)$ equilibrium locus};
+  \fill[pink!25, opacity=0.6] (0,0) -- (5.6,0) -- plot[domain=0.4:5.6] (\x,{3.8/(1+exp(0.9*(\x-3)))}) -- (0.4,3.4) -- cycle;
+  \fill[cyan!25, opacity=0.6] (0,0) -- (0,4.6) -- (0.4,3.4) -- plot[domain=0.4:5.6] (\x,{3.8/(1+exp(0.9*(\x-3)))}) -- cycle;
+  \node[color=red!70!black] at (4.6,1.0) {Defense-favored zone};
+  \node[color=blue!70!black] at (1.2,3.5) {Offense-favored zone};
+  \draw[dashed, thick] (2.2,0) -- (2.2,4.6);
+  \draw[dashed, thick] (0,2.6) -- (6.2,2.6);
+  \node[align=left, text width=4.2cm] at (4.8,3.8) {Joint adoption moves diagonally; \newline defensive regulatory \newline boosts push rightward.};
+\end{tikzpicture}
+```
+
+Moving within the cyan region means defense receives the larger productivity gain, nudging \(\mathbf{B}\) toward defenders. Jumps into the pink region correspond to offensive breakthroughs (e.g., high-fidelity deception, rapid exploit synthesis) that automation alone cannot counter.
+
+## Scenario matrix revisited
+
+| Domain                       | AI tilts toward offense                                         | AI tilts toward defense                                           |
+| ---------------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------- |
+| Cyber security               | Low-shot exploit generation; adaptive spear-phishing agents     | Autonomous patch validation; human-on-the-loop anomaly triage     |
+| Information integrity        | Hyper-realistic deepfakes; automated narrative testing          | Provenance tracking; live content authenticity scoring            |
+| Physical security            | Swarming drones; sensor spoofing                                | Autonomous interceptors; multimodal perimeter analytics          |
+| Bureaucratic governance      | Policy gaming via language model simulations                    | Document flow auditing; compliance copilots                       |
+| Education & assessment       | Personalized cheating tutors; voice cloning for proctor evasion | Adaptive testing; semantic plagiarism detection                   |
+
+In each row, the diagrams above help classify whether offensive productivity (\(\alpha_A\)) or defensive productivity (\(\alpha_D\)) is more elastic to AI improvements. The closer the setting is to pure search, the more likely automation pushes outcomes toward the defender. When success relies on persuasion, secrecy, or subtle perception gaps, expressive gains typically dominate.
+
+## Research agenda
+
+Three implications follow from this diagrammatic logic:
+
+1. **Elasticity estimation matters.** Empirical work should estimate how offensive and defensive productivity react to AI tooling, ideally measuring the slope of the purple locus in Figure 3.
+2. **Feedback loops are strategic assets.** Security teams that capture defensive telemetry improve the dashed feedback arcs in Figure 1, blunting malicious use trajectories documented by @brundage2018malicious.
+3. **Mixed equilibria remain fragile.** Even when the baseline is balanced, strategic experimentation (e.g., campaign-specific exploit testing) can push the system into the offense-favored phase. That fragility echoes the canonical conflict models summarized in @garfinkel2007economics.
+
+I'll continue refining these diagrams as I gather better estimates of the productivity parameters and field evidence about how organizations close the loops.
