@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Tom Cunningham">
-<meta name="dcterms.date" content="2025-11-19">
+<meta name="dcterms.date" content="2026-01-13">
 <meta name="description" content="Tom Cunningham blog">
 
 <title>LLM Time-Saving and Demand Theory | Tom Cunningham – Tom Cunningham</title>
@@ -165,7 +165,7 @@ window.Quarto = {
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Draft</div>
@@ -235,7 +235,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">November 19, 2025</p>
+        <p class="date">January 13, 2026</p>
       </div>
     </div>
     
@@ -246,9 +246,7 @@ window.Quarto = {
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="2025-12-17-llm-time-saving-demand-theory-substitution.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+    
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -265,26 +263,33 @@ window.Quarto = {
 <ul>
 <li>Suppose an LLM speeds you up by a factor <span class="math inline">\(\beta\)</span> on tasks that take up share <span class="math inline">\(s\)</span> of your work (pre-LLM), what’s the overall efficiency gain?</li>
 <li>How does the answer change if you measure the time-share <span class="math inline">\(s\)</span>, <em>after</em> you adjust to use LLMs?</li>
+<li>If we can observe the changes in both (1) per-task productivity impacts, and (2) per-task time-spent, can we back out the overall productivity impact?</li>
 </ul>
 </dd>
-<dt>Quick checklist:</dt>
+<dt>Estimating aggregate productivity increase is hard.</dt>
 <dd>
 <ol type="1">
-<li><p>The total <strong>output gain</strong> will be between <span class="math inline">\(\frac{1}{(1-s)+s/\beta}\)</span> (if perfect complements/Amdahl) and <span class="math inline">\(\beta\)</span> (perfect substitutes).</p></li>
-<li><p>If the time-savings are tiny then Hulten’s theorem applies: <span class="math inline">\(\Delta\ln y \approx s\ln\beta\)</span> (and for tiny changes, time-saved <span class="math inline">\(\approx \Delta\ln y\)</span> too).</p></li>
-<li><p>If the time-savings are small then you can use elasticity of substitution (there’s a closed-form expression but it’s ugly).</p></li>
-<li><p>If the time-savings are large then you should use the entire area under the demand curve (i.e.&nbsp;not reasonable to assume constant elasticity). Though in demand theory this relies on income effects being small, &amp; I think a sufficient condition is that the expenditure share is small. When the expenditure share is large I’m not confident how to think about this.</p></li>
-<li><p>Applying Amdahl’s law ex-ante will under-estimate productivity improvements; applying it ex-post will over-estimate productivity improvements.</p></li>
+<li><p><strong>The total output gain will be between <span class="math inline">\(\frac{1}{(1-s)+s/\beta}\)</span> (if perfect complements) and <span class="math inline">\(\beta\)</span> (if perfect substitutes).</strong> These numbers will only be similar only if the time-savings affect most tasks (<span class="math inline">\(s \simeq 1\)</span>), or the productivity effect is small (<span class="math inline">\(\beta\simeq 0\)</span>).</p></li>
+<li><p><strong>If the time-savings are very small then Hulten’s theorem applies.</strong> If <span class="math inline">\(\beta\simeq0\)</span> then <span class="math inline">\(\Delta\ln y \approx s\ln\beta\)</span>, and time saved <span class="math inline">\(\approx \Delta\ln y\)</span>.</p></li>
+<li><p><strong>If the time-savings are somewhat small then you can use elasticity of substitution.</strong> There’s a closed-form expression, given below.</p></li>
+<li><p><strong>If the time-savings are large then you should use the entire area under the demand curve.</strong> If the time-savings are large then it’s no longer reasonable to assume a constant elasticity. However even the demand curve will not be perfect if there are significant income effects. In that case one might need to estimate a more flexible demand system, however I don’t have a good reference here.</p></li>
+<li><p><strong>Using pre-LLM time-shares will under-estimate productivity improvements; using post-LLM time-shares will over-estimate productivity improvements.</strong> This holds strictly if using Amdahl’s law to estimate aggregate productivity improvements, which assumes zero substitability.</p></li>
+<li><p><strong>We can estimate the aggregate productivity impact if we observe time allocation before and after the change.</strong> This holds at least for small changes (where we can assume constant elasticity of substitution). Graphically, if we observe the change in budget constraint, and chagne in consumption point, we can infer substitutability, and therefore aggregate productivity improvement.</p></li>
 </ol>
 </dd>
-<dt>Time savings using <em>ex-ante</em> time shares</dt>
+<dt>Applications to LLMs.</dt>
 <dd>
+<span class="citation" data-cites="anthropic2025estimatingproductivitygains">Anthropic (<a href="#ref-anthropic2025estimatingproductivitygains" role="doc-biblioref">2025</a>)</span> sample a range of tasks from Claude logs, and estimate the time-required with and without AI assistance. They estimate a typical speedup of 80%, but that AI is only used for around 25% of tasks, hence the total time-saving is around 20%. However Hulten’s theorem only applies for <em>small</em> efficiency changes, these are large changes (80%), so the conclusion requires assuming Cobb-Douglas substitution, i.e.&nbsp;that time-shares are constant.
+</dd>
+</dl>
+<p><span class="citation" data-cites="becker2025uplift">Becker et al. (<a href="#ref-becker2025uplift" role="doc-biblioref">2025</a>)</span> estimate time-savings on tasks using LLMs. In this case the subjects mostly were <em>not</em> using AI, but in followup studies they <em>will</em> be using AI. This makes it hard to think about interpreting uplift studies over time, insofar as AI causes them to change the task distribution. It would be nice to have a good clear language here.</p>
+<p><strong>Time savings using <em>ex-ante</em> time shares</strong></p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 46%">
-<col style="width: 17%">
-<col style="width: 17%">
-<col style="width: 17%">
+<col style="width: 50%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -321,15 +326,13 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-</dd>
-<dt>Time savings using <em>ex-post</em> time shares:</dt>
-<dd>
+<p><strong>Time savings using <em>ex-post</em> time shares:</strong></p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 46%">
-<col style="width: 17%">
-<col style="width: 17%">
-<col style="width: 17%">
+<col style="width: 50%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -366,7 +369,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-</dd>
+<dl>
 <dt>How these are calculated:</dt>
 <dd>
 <ul>
@@ -502,25 +505,12 @@ I discuss some related literature below.
 </ul>
 <p><em>Proof sketch</em> For <span class="math inline">\(\varepsilon\rightarrow1\)</span> apply L’Hôpital to the CES form. For <span class="math inline">\(\varepsilon\rightarrow0\)</span> the CES aggregator converges to <span class="math inline">\(\min\{A_1 t_1,A_2 t_2\}\)</span>. For <span class="math inline">\(\varepsilon\rightarrow\infty\)</span> it converges to <span class="math inline">\(\max\{A_1 t_1,A_2 t_2\}\)</span>. Substitute these limits into Proposition 4 and simplify.</p>
 </section>
-<section id="example-applications" class="level1">
-<h1>Example Applications</h1>
-<dl>
-<dt><span class="citation" data-cites="anthropic2025estimatingproductivitygains">Anthropic (<a href="#ref-anthropic2025estimatingproductivitygains" role="doc-biblioref">2025</a>)</span></dt>
-<dd>
-They estimate Claude saves time by 80% on certain tasks, and apply Hulten’s theorem. But Hulten’s theorem only applies for <em>small</em> efficiency changes, so I believe this effectively assumes Cobb-Douglas substitution (i.e.&nbsp;constant time-shares on these tasks).
-</dd>
-<dt><span class="citation" data-cites="becker2025uplift">Becker et al. (<a href="#ref-becker2025uplift" role="doc-biblioref">2025</a>)</span></dt>
-<dd>
-They estimate time-savings on tasks using LLMs. In this case the subjects mostly were <em>not</em> using AI, but in followup studies they <em>will</em> be using AI. This makes it hard to think about interpreting uplift studies over time, insofar as AI causes them to change the task distribution. It would be nice to have a good clear language here.
-</dd>
-</dl>
-</section>
 <section id="related-theory" class="level1">
 <h1>Related Theory</h1>
 <dl>
-<dt>Index numbers and the “which share do you weight by?” problem</dt>
+<dt>The index numbers problem.</dt>
 <dd>
-<span class="citation" data-cites="caves1982indexnumbers">Caves, Christensen, and Diewert (<a href="#ref-caves1982indexnumbers" role="doc-biblioref">1982</a>)</span> formalize why productivity (or “quantity”) measurement becomes an index-number problem as soon as <em>shares move endogenously</em>. Their key point is that fixed-weight indices answer the wrong question when agents substitute:
+<span class="citation" data-cites="caves1982indexnumbers">Caves, Christensen, and Diewert (<a href="#ref-caves1982indexnumbers" role="doc-biblioref">1982</a>)</span> formalize why productivity (or “quantity”) measurement becomes an index-number problem as soon as <em>shares move endogenously</em>:
 </dd>
 <dd>
 <ul>
@@ -537,9 +527,6 @@ They estimate time-savings on tasks using LLMs. In this case the subjects mostly
 <li>The object you actually want is a path (Divisia) integral of share-weighted growth rates; “superlative” discrete indices (e.g., Fisher/Törnqvist) are designed to approximate that integral well.</li>
 </ul>
 </dd>
-<dd>
-<strong>Connection to our setup:</strong> our two-task CES makes this completely explicit. Proposition 3 is the Divisia/Hulten-style statement: <span class="math display">\[d\ln y^* = t_2^*\, d\ln A_2,\]</span> so the “right weight” is the <em>current</em> optimal time share <span class="math inline">\(t_2^*\)</span>, not a fixed pre/post share. For a finite <span class="math inline">\(\beta\)</span> shock, the exact change is the integral of that weight along the adjustment path, which collapses to the closed form in Proposition 4. This is exactly the sense in which “ex‑ante Amdahl/Hulten” (freeze <span class="math inline">\(t_2\)</span> at baseline) understates and “ex‑post Hulten” (freeze <span class="math inline">\(t_2\)</span> at the endpoint) can overstate.
-</dd>
 <dt>Consumer surplus / welfare for large “price” (time-cost) changes</dt>
 <dd>
 <span class="citation" data-cites="willig1976consumerssurplus">Willig (<a href="#ref-willig1976consumerssurplus" role="doc-biblioref">1976</a>)</span> defends using Marshallian consumer surplus as a welfare proxy: the area under the (Marshallian) demand curve is close to the Hicksian objects (EV/CV) when income effects are small, and Willig provides conditions/bounds under which the approximation error is limited.
@@ -551,51 +538,32 @@ They estimate time-savings on tasks using LLMs. In this case the subjects mostly
 <span class="citation" data-cites="deaton1980aids">Deaton and Muellbauer (<a href="#ref-deaton1980aids" role="doc-biblioref">1980</a>)</span> provides a workhorse <em>integrable</em> demand system (AIDS) that flexibly captures income effects and substitution patterns while keeping welfare calculations coherent.
 </dd>
 <dd>
-<strong>Connection to our setup:</strong> if you reinterpret the model in dual form, “task outputs” (<span class="math inline">\(x_i=A_i t_i\)</span>) are the “goods,” and the time budget implies prices (<span class="math inline">\(p_i = 1/A_i\)</span>) (time per unit of task output). An LLM that raises <span class="math inline">\(A_2\)</span> by <span class="math inline">\(\beta\)</span> is literally a price drop for good 2 by a factor <span class="math inline">\(1/\beta\)</span>. For small task shares (<span class="math inline">\(s=t_2^*\)</span>) (your “gold is tiny in the budget” example), the Willig logic says “income-effect-like problems are muted,” so simple surplus approximations are safer. When the effective budget share is not tiny—or when the shock is huge—the Hausman/Deaton-Muellbauer message is: you want an <em>integrable system</em> (or in our case, an explicit aggregator like CES) so that “area under a curve” corresponds to a defensible welfare change.
+In our model you can interpert the task outputs as the goods, and productivities are inverse prices. An LLM that raises <span class="math inline">\(A_2\)</span> by <span class="math inline">\(\beta\)</span> is literally a price drop for good 2 by a factor <span class="math inline">\(1/\beta\)</span>. For small task shares (<span class="math inline">\(s=t_2^*\)</span>), the Willig logic says income effects are small, so the demand curve is OK. When the effective budget share is not small, or when the shock is large, then you want an <em>integrable system</em>.
 </dd>
 <dt>Economics of time allocation (time is a scarce input with shadow prices)</dt>
 <dd>
-<span class="citation" data-cites="deserpa1971time">DeSerpa (<a href="#ref-deserpa1971time" role="doc-biblioref">1971</a>)</span> treats time as a fundamental scarce resource: activities require time as well as market goods, and constraints on required time generate a shadow value of time. The key conceptual result is that “time-saving” innovations matter because they relax a binding constraint, and the value of that relaxation depends on the shadow price of time and substitution across activities.
-</dd>
-<dd>
-<strong>Connection to our setup:</strong> we’re essentially running the cleanest possible DeSerpa-style problem: a single time endowment allocated across tasks, where task technologies (<span class="math inline">\(A_i\)</span>) turn time into effective task output. The LLM shock is a direct relaxation of the time requirement for task 2. What DeSerpa adds conceptually is the interpretation: the welfare/productivity effect is not “minutes saved” per se, but “minutes saved <em>valued at the shadow price of time</em>,” and that shadow price is determined jointly with substitution across tasks—exactly what <span class="math inline">\(\varepsilon\)</span> is doing for us.
+<span class="citation" data-cites="deserpa1971time">DeSerpa (<a href="#ref-deserpa1971time" role="doc-biblioref">1971</a>)</span> is a classic reference on time allocation, and time-saving innovations as relaxing the budget constraint.
 </dd>
 <dt>Task substitution and computerization as task-specific technology shocks</dt>
 <dd>
-<span class="citation" data-cites="autor2003skill">Autor, Levy, and Murnane (<a href="#ref-autor2003skill" role="doc-biblioref">2003</a>)</span> is the empirical foundation for the modern “tasks” approach: computerization substitutes for routine tasks and complements non-routine tasks, shifting task content within occupations and generating distributional consequences (e.g., polarization). The paper’s core claim is that you cannot summarize tech change as “labor-augmenting” in the aggregate; it’s task-directed, and substitution patterns matter.
+<span class="citation" data-cites="autor2003skill">Autor, Levy, and Murnane (<a href="#ref-autor2003skill" role="doc-biblioref">2003</a>)</span> gives the modern “tasks” approach: computerization substitutes for routine tasks and complements non-routine tasks, shifting task content within occupations and generating distributional consequences (e.g., polarization). You cannot summarize tech change as “labor-augmenting” in the aggregate.
 </dd>
 <dd>
 <span class="citation" data-cites="acemoglu2011handbook">Acemoglu and Autor (<a href="#ref-acemoglu2011handbook" role="doc-biblioref">2011</a>)</span> synthesizes and formalizes this task-based view. A central message is that the impact of a task-specific productivity shock depends on: (i) which tasks are affected, (ii) how substitutable tasks are, and (iii) how the economy re-optimizes task assignment across workers/technologies.
-</dd>
-<dd>
-<strong>Connection to our setup:</strong> our <span class="math inline">\(A_2\mapsto \beta A_2\)</span> change is exactly a “task-directed” shock. Your entire “ex‑ante vs ex‑post task share” issue is basically the same point Autor/Acemoglu-Autor emphasize: task shares are endogenous responses to technology, not fixed primitives. In our CES aggregator, that endogeneity is governed by <span class="math inline">\(\varepsilon\)</span>: when <span class="math inline">\(\varepsilon\)</span> is high, reallocation is large and the “Amdahl intuition” breaks; when <span class="math inline">\(\varepsilon\)</span> is low, reallocation is small and Amdahl becomes accurate.
 </dd>
 <dt>Hulten’s theorem and when first-order share-weighting breaks</dt>
 <dd>
 <span class="citation" data-cites="hulten1978growth">Hulten (<a href="#ref-hulten1978growth" role="doc-biblioref">1978</a>)</span> shows (in a competitive, CRS setting with intermediates) that a <em>small</em> productivity shock’s effect on aggregate productivity can be summarized by share-weighted sectoral TFP growth (Domar/revenue-share weights). The key takeaway is the legitimacy of first-order share weighting—but only locally.
 </dd>
 <dd>
-<strong><span class="citation" data-cites="baqaee2019macro">Baqaee and Farhi (<a href="#ref-baqaee2019macro" role="doc-biblioref">2019</a>)</span></strong> pushes beyond that local logic: in production networks, micro shocks can have macro consequences and nonlinearities/higher-order terms matter, especially for large shocks or when substitution patterns interact with network structure.
+<span class="citation" data-cites="baqaee2019macro">Baqaee and Farhi (<a href="#ref-baqaee2019macro" role="doc-biblioref">2019</a>)</span> shows that in production networks, micro shocks can have macro consequences and nonlinearities/higher-order terms matter.
 </dd>
 <dd>
-<span class="citation" data-cites="baqaeeBurstein2021incomeeffects">Baqaee and Burstein (<a href="#ref-baqaeeBurstein2021incomeeffects" role="doc-biblioref">2021</a>)</span> highlights that welfare vs.&nbsp;output can diverge when income effects / demand shifts are important, and that changing expenditure patterns can be central to aggregate responses (so “just Domar weights” can miss key welfare channels).
-</dd>
-<dd>
-<span class="citation" data-cites="cominLashkariMestieri2021structuralchange">Comin, Lashkari, and Mestieri (<a href="#ref-cominLashkariMestieri2021structuralchange" role="doc-biblioref">2021</a>)</span> emphasizes that over longer horizons, relative price changes and non-homotheticities induce structural change: shares drift systematically, so you should expect “task/sector shares” to be part of the response to technology, not a nuisance.
-</dd>
-<dd>
-<strong>Connection to our setup:</strong> Proposition 3 is the Hulten logic in a two-task world (local, share-weighted). Proposition 4 is the “nonlinear / finite change” version where the share itself moves with <span class="math inline">\(\beta\)</span>.
+<span class="citation" data-cites="baqaeeBurstein2021incomeeffects">Baqaee and Burstein (<a href="#ref-baqaeeBurstein2021incomeeffects" role="doc-biblioref">2021</a>)</span> and <span class="citation" data-cites="cominLashkariMestieri2021structuralchange">Comin, Lashkari, and Mestieri (<a href="#ref-cominLashkariMestieri2021structuralchange" role="doc-biblioref">2021</a>)</span> take into account income effects.
 </dd>
 <dt>Amdahl’s law as the perfect-complements benchmark</dt>
 <dd>
-Amdahl’s law says the speedup from improving one component is bounded by the unimproved fraction.
-</dd>
-<dd>
-<strong>Connection to our setup:</strong> that’s precisely the <span class="math inline">\(\varepsilon\to 0\)</span> (Leontief / perfect complements) limit in Proposition 5: <span class="math display">\[\frac{y^{*'}}{y^*}\rightarrow \frac{1}{(1-s)+s/\beta}.\]</span>
-</dd>
-<dt>&lt;!– Reallocation and aggregation across units (Olley–Pakes)</dt>
-<dd>
-<span class="citation" data-cites="olley1996telecom">Olley and Pakes (<a href="#ref-olley1996telecom" role="doc-biblioref">1996</a>)</span> shows that aggregate productivity can be decomposed into: (i) the unweighted mean productivity across firms (“within”), plus (ii) a covariance between productivity and market share (“between” / reallocation). Their empirical contribution is that changes in aggregate productivity can come as much from reallocating activity toward more productive firms as from within-firm improvements.–&gt;
+Amdahl’s law in computer science says the speedup from improving one component is bounded by the unimproved fraction. This corresponds to the perfect-complements case.
 </dd>
 </dl>
 </section>
@@ -668,9 +636,6 @@ Hausman, Jerry A. 1981. <span>“Exact Consumer’s Surplus and Deadweight Loss.
 </div>
 <div id="ref-hulten1978growth" class="csl-entry" role="listitem">
 Hulten, Charles R. 1978. <span>“Growth Accounting with Intermediate Inputs.”</span> <em>The Review of Economic Studies</em> 45 (3): 511–18. <a href="https://doi.org/10.2307/2297252">https://doi.org/10.2307/2297252</a>.
-</div>
-<div id="ref-olley1996telecom" class="csl-entry" role="listitem">
-Olley, G. Steven, and Ariel Pakes. 1996. <span>“The Dynamics of Productivity in the Telecommunications Equipment Industry.”</span> <em>Econometrica</em> 64 (6): 1263–97. <a href="https://doi.org/10.3386/w3977">https://doi.org/10.3386/w3977</a>.
 </div>
 <div id="ref-willig1976consumerssurplus" class="csl-entry" role="listitem">
 Willig, Robert D. 1976. <span>“Consumer’s Surplus Without Apology.”</span> <em>American Economic Review</em> 66 (4): 589–97. <a href="https://www.semanticscholar.org/paper/745fa39279d59c6f6b14dce4a38bcf098774c2ad">https://www.semanticscholar.org/paper/745fa39279d59c6f6b14dce4a38bcf098774c2ad</a>.
