@@ -9,8 +9,8 @@ execute:
   warning: false
   error: false
   cache: true # caches chunk output
-editor:
-  render-on-save: true
+# editor:
+#   render-on-save: true
 ---
 <style>
    h1 {  border-bottom: 4px solid black; }
@@ -120,6 +120,8 @@ Kortum (1997) ["Research, Patenting, and Technological Change"](https://egc.yale
       - Bounded: growth slows as it approaches a ceiling.
       - Exponential (thin tails): $A=\ln n$
       - Pareto (thick tails): $A = n^\gamma$
+
+   Note: (1) I think this will imply lumpy growth; (2) this misses out the Jones shoulders-of-giants effect. 
 
 Erdil, Besiroglu, Ho (2024) ["Estimating Idea Production: A Methodological Survey"](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4814445)
 : They discuss the difficulty of estimating the returns to R&D on productivity across a few different domains. They have nice estimates for chess inputs & outputs. They also estimate algorithmic progress:
@@ -302,4 +304,128 @@ flowchart LR
   intelligence -->|??| RD
 ```
 
+# 2026-01-07 |                      tkwa  model
 
+https://github.com/tkwa/ai-takeoff-model/blob/main/notes.md
+
+$$\begin{aligned}
+   S'(t) &= R(t) S^{1 - \beta} = \left(\frac L {1-f}\right)^\alpha C^\zeta S^{1 - \beta}\\
+   f(t) &= \sigma(v(\log C(t)S(t) - \log E_{hac}))
+\end{aligned}
+$$
+
+My simpler version:
+
+$$\begin{aligned}
+   \dot{S}  &= L^\alpha C^\gamma S^{1-\beta} \\
+\end{aligned}$$
+
+We can show:
+
+$$S^{\beta} = S_0^{\beta} + \frac{\beta\,L_0^\alpha C_0^\gamma}{\alpha g_L+\gamma g_C}\Big(e^{(\alpha g_L+\gamma g_C)t}-1\Big).$$
+
+In the limit we get $g_s=\frac{\alpha g_L+\gamma g_C}{\beta}$
+
+
+--------------------------------------------
+
+```{mermaid}
+flowchart LR
+    subgraph Inputs["Inputs"]
+        L["Labor<br/>(growing 2×)"]
+        C["Compute<br/>(growing 3×)"]
+    end
+    
+    subgraph RnD["AI R&D"]
+        E["Efficiency<br/>(growing 5×)"]
+    end
+    
+    subgraph Capabilities["Capabilities"]
+        EC["Effective<br/>Compute"]
+        TH["Time Horizon"]
+    end
+    
+    subgraph Feedback["Feedback Loop"]
+        A["Automation"]
+    end
+    
+    L -->|"α = 0.25"| E
+    C -->|"ζ = 0.6"| E
+    E -->|"β = 0.5<br/>(self-improving)"| E
+    C --> EC
+    E --> EC
+    EC --> TH
+    TH -->|"ν = 1/3"| A
+    A -->|"augments"| L
+```
+
+
+```{mermaid}
+flowchart LR
+  labor --> algorithms
+  RD_compute["R&D compute"] --> algorithms
+  algorithms --> intelligence
+  compute --> intelligence
+  data --> intelligence
+  intelligence -->|??| economic_value["economic value"]
+  intelligence -->|??| RD
+```
+
+
+
+# 2026-01-13 |                      
+
+
+
+Basic model with accumulating ideas:
+$$\begin{gathered}\dot{A}=R^{\gamma}\\
+   \xymatrix{*++[F]{R\&D} \ar[r] & *++[F]{\Delta algorithms}\ar[r] & *++[F]{algorithms}}
+\end{gathered}$$
+
+Model with shoulders/armpits of giants:
+$$\begin{gathered}\dot{A}=R^{\gamma}A^{1-\beta}\\
+   \xymatrix{*++[F]{R\&D} \ar[r] & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}\ar@/^2em/[l]}
+\end{gathered}$$
+
+Recursive self-improvement, knowledge actually helps R&D:
+$$\begin{gathered}\dot{A}=R^{\gamma}\\
+   \xymatrix{*++[F]{R\&D} \ar[r] & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}\ar@/^2em/[l]\ar@/^3em/[ll]}
+\end{gathered}$$
+
+Extrapolating from these models.
+: It's dangerous to talk about "the elasticity" between A and B: it is meaningful to talk about the elasticity *at a given point* but it's a strong functional-form assumption that it'll have the same elasticity everywhere. 
+
+Mathematical assumptions on intelligence -> R&D:
+:  1. Full automation / perfect substitute. Once you hit a threshold of intelligence. E.g. replacing tollbooth operator with automatic tollbooth.
+   2. Partial automation -> can do some subset of tasks, efficiency gain depends on elasticity of substitution.
+   3. Speedup -> increases efficiency on all tasks.
+
+
+Concrete assumptions.
+:  1. _Autonomous algorithm-search machine._ You spend a lot of tokens, it autonomously learns to navigate the space. Like AlphaZero, trained from scratch.
+   2. _Speeds up routine tasks._ The AI R&D guy can do certain things quicker, e.g. parse logs, write visualization, fix bugs.
+   3. _Shares knowledge._ Can learn tricks. It doesn't affect people at the frontier very much.
+
+Q: what if the capability frontier is the data frontier?
+: - Nice prediction: will not speed up experts, only behind the frontier.
+
+Natural processes often have explosive *regions*.
+: You 
+
+##    metaphors
+
+Drawing balls from an urn.
+: There's some distribution of values, then you get a very nice expression. The expected value of $N$ draws just depends on the distribution of values $v$, & the extreme-value distribution. This is exactly Kortum (1997).
+
+A tool factory makes better tools.
+: I think this is Jones' metaphor. *Distinct* from Kortum, because the returns to search now depends on the stock of ideas.
+
+Lego.
+: Weitzmann's recombinant search is like this: you combine ideas to make new ideas, now you have a larger stock of ideas to combine.
+
+Recipes.
+: You try out recipes, which are combinations of prior recipes. @jones2023recipes
+
+Blacksmith.
+: You have a hammer and you spend time making horseshoes, or working on a new hammer.
+: A harder hammer both (1) makes horseshoes faster, or (2) makes your hammer still harder.

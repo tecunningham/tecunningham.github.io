@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Tom Cunningham">
-<meta name="dcterms.date" content="2026-01-09">
+<meta name="dcterms.date" content="2026-01-13">
 <meta name="description" content="Tom Cunningham blog">
 
 <title>Recursive Self-Improvement | Tom Cunningham – Tom Cunningham</title>
@@ -85,6 +85,9 @@ ga('send', {
   'anonymizeIp': true,
 });
 </script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 <script>window.MathJax = {
    loader: { load: ["https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/xypic.js"]},
    tex: {packages: {'[+]': ['xypic','bm']},
@@ -215,7 +218,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 9, 2026</p>
+        <p class="date">January 13, 2026</p>
       </div>
     </div>
     
@@ -420,7 +423,7 @@ AI treats it as a pure optimization problem, already it’s better at chip desig
 <dd class="page-columns page-full">
 <p>Nathan Lambert recapitulates some discussions from the Curve about recursive self-improvement <a href="https://www.interconnects.ai/p/thoughts-on-the-curve">here</a>.</p>
 <p>This is related to the Bresnahan/systems view of AI. He talks about the first wave of ML models: “The transition to ICT-based production has largely proceeded at the production system level, not the task level.”<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;“My empirical conclusion about these applications is that the lazy idea of AI – that is, of computer systems that are able to perform productive tasks previously done by humans– is irrelevant to understanding how these technologies create value. Here“irrelevant” does not mean that substitution of machine for human tasks is less important than other determinants of the value in use of AITs. It means irrelevant: task-level substitution of machine for human plays no role in these highly valuable systems.”</p></div></div></dd>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;“My empirical conclusion about these applications is that the lazy idea of AI – that is, of computer systems that are able to perform productive tasks previously done by humans– is irrelevant to understanding how these technologies create value. Here “irrelevant” does not mean that substitution of machine for human tasks is less important than other determinants of the value in use of AITs. It means irrelevant: task-level substitution of machine for human plays no role in these highly valuable systems.”</p></div></div></dd>
 </dl>
 </section>
 <section id="overflow-offcuts" class="level1">
@@ -588,16 +591,137 @@ AI treats it as a pure optimization problem, already it’s better at chip desig
   data --&gt; intelligence
   intelligence --&gt;|??| economic_value["economic value"]
   intelligence --&gt;|??| RD</code></pre>
-<pre class="mermaid"><code>flowchart LR
+</section>
+<section id="tkwa-model" class="level1">
+<h1>2026-01-07 | tkwa&nbsp; model</h1>
+<p>https://github.com/tkwa/ai-takeoff-model/blob/main/notes.md</p>
+<p><span class="math display">\[\begin{aligned}
+   S'(t) &amp;= R(t) S^{1 - \beta} = \left(\frac L {1-f}\right)^\alpha C^\zeta S^{1 - \beta}\\
+   f(t) &amp;= \sigma(v(\log C(t)S(t) - \log E_{hac}))
+\end{aligned}
+\]</span></p>
+<p>My simpler version:</p>
+<p><span class="math display">\[\begin{aligned}
+   \dot{S}  &amp;= L^\alpha C^\gamma S^{1-\beta} \\
+\end{aligned}\]</span></p>
+<p>We can show:</p>
+<p><span class="math display">\[S^{\beta} = S_0^{\beta} + \frac{\beta\,L_0^\alpha C_0^\gamma}{\alpha g_L+\gamma g_C}\Big(e^{(\alpha g_L+\gamma g_C)t}-1\Big).\]</span></p>
+<p>In the limit we get <span class="math inline">\(g_s=\frac{\alpha g_L+\gamma g_C}{\beta}\)</span></p>
+<hr>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    subgraph Inputs["Inputs"]
+        L["Labor&lt;br/&gt;(growing 2×)"]
+        C["Compute&lt;br/&gt;(growing 3×)"]
+    end
+    
+    subgraph RnD["AI R&amp;D"]
+        E["Efficiency&lt;br/&gt;(growing 5×)"]
+    end
+    
+    subgraph Capabilities["Capabilities"]
+        EC["Effective&lt;br/&gt;Compute"]
+        TH["Time Horizon"]
+    end
+    
+    subgraph Feedback["Feedback Loop"]
+        A["Automation"]
+    end
+    
+    L --&gt;|"α = 0.25"| E
+    C --&gt;|"ζ = 0.6"| E
+    E --&gt;|"β = 0.5&lt;br/&gt;(self-improving)"| E
+    C --&gt; EC
+    E --&gt; EC
+    EC --&gt; TH
+    TH --&gt;|"ν = 1/3"| A
+    A --&gt;|"augments"| L
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
   labor --&gt; algorithms
   RD_compute["R&amp;D compute"] --&gt; algorithms
   algorithms --&gt; intelligence
   compute --&gt; intelligence
   data --&gt; intelligence
   intelligence --&gt;|??| economic_value["economic value"]
-  intelligence --&gt;|??| RD</code></pre>
+  intelligence --&gt;|??| RD
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="section" class="level1">
+<h1>2026-01-13 |</h1>
+<p>Basic model with accumulating ideas: <span class="math display">\[\begin{gathered}\dot{A}=R^{\gamma}\\
+   \xymatrix{*++[F]{R\&amp;D} \ar[r] &amp; *++[F]{\Delta algorithms}\ar[r] &amp; *++[F]{algorithms}}
+\end{gathered}\]</span></p>
+<p>Model with shoulders/armpits of giants: <span class="math display">\[\begin{gathered}\dot{A}=R^{\gamma}A^{1-\beta}\\
+   \xymatrix{*++[F]{R\&amp;D} \ar[r] &amp; *++[F]{\Delta knowledge}\ar[r] &amp; *++[F]{knowledge}\ar@/^2em/[l]}
+\end{gathered}\]</span></p>
+<p>Recursive self-improvement, knowledge actually helps R&amp;D: <span class="math display">\[\begin{gathered}\dot{A}=R^{\gamma}\\
+   \xymatrix{*++[F]{R\&amp;D} \ar[r] &amp; *++[F]{\Delta knowledge}\ar[r] &amp; *++[F]{knowledge}\ar@/^2em/[l]\ar@/^3em/[ll]}
+\end{gathered}\]</span></p>
+<dl>
+<dt>Simplest model</dt>
+<dd>
+<ul>
+<li>Simplest model: <span class="math display">\[\begin{aligned}
+      \dot{A} &amp;= R^\gamma A^{1-\beta}
+         &amp;&amp; \text{second }\\
+   \end{aligned}\]</span></li>
+</ul>
+</dd>
+<dt>Extrapolating.</dt>
+<dd>
+Dangerous to talk about “the” elasticity from one component to another component. A constant-elasticity relationship isn’t.
+</dd>
+<dt>Calibrating.</dt>
+<dd>
+How do you calibrate the effect of intelligence on R&amp;D? 1. Full automation -&gt; <span class="math display">\[
+   2. Partial automation -&gt; \]</span> 3. Augmentation -&gt; $$
+</dd>
+</dl>
+<section id="metaphors" class="level2">
+<h2 class="anchored" data-anchor-id="metaphors">metaphors</h2>
+<dl>
+<dt>A tool factory makes better tools.</dt>
+<dd>
+<p>I think this is Jones’ metaphor.</p>
+<ol type="1">
+<li><strong>Drawing balls from an urn.</strong> Suppose we simply have</li>
+<li><strong>Blacksmith.</strong> – you have a hammer and you can make horseshoes or hammers. A harder hammer can make horseshoes faster, or it can make a harder-again hammer.</li>
+</ol>
+</dd>
+</dl>
+</section>
+<section id="xymatrix-reference" class="level2">
+<h2 class="anchored" data-anchor-id="xymatrix-reference">xymatrix reference</h2>
+<p><span class="math display">\[\xymatrix{
+      &amp; *++[F:&lt;15pt&gt;]{unobserved}\ar[d]\ar@{.&gt;}[dr]
+      &amp; *++[F:&lt;15pt&gt;]{unobserved}\ar[d]
+      \\*++[F]\txt{experiment}\ar[r]\ar@{.&gt;}@/_1cm/[rr]
+      &amp; *++[F]\txt{Favs}\ar[r]
+      &amp; *++[F]\txt{mDAU}
+   }\]</span></p>
 
 
+</section>
 </section>
 
 
