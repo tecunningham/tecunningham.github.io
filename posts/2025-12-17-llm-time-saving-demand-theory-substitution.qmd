@@ -1,17 +1,19 @@
 ---
 title: "LLM Time-Saving and Demand Theory"
-author: "Tom Cunningham"
+author: "Tom Cunningham (METR)^[with many thanks to Elsie Jang]"
 date: today
+citation: true
+reference-location: document
 draft: true
 bibliography: ai.bib
 # format: typst
-format: html
-# format: 
-#    pdf:
-#     fontfamily: libertinus
-#     fontsize: 10pt
-#     geometry:
-#       - margin=0.75in
+# format: html
+format: 
+   pdf:
+     fontfamily: libertinus
+     fontsize: 10pt
+     geometry:
+       - margin=0.75in
 engine: knitr
 execute:
   echo: false
@@ -20,81 +22,126 @@ execute:
   cache: true # caches chunk output
 ---
 
-Many thanks to Elsie Jang for discussion.
+Suppose an LLM speeds you up by factor $\beta$ on tasks that are a share $s$ of your time.
 
-##       Summary
-
-I anticipate that we're going to be arguing a lot about LLM-speedups & task substitution over the next year.
-
-: 
-    - Suppose an LLM speeds you up by a factor $\beta$ on tasks that take up share $s$ of your work (pre-LLM), what's the overall efficiency gain?
-    - How does the answer change if you measure the time-share $s$, *after* you adjust to use LLMs?
-    - If we can observe the changes in both (1) per-task productivity impacts, and (2) per-task time-spent, can we back out the overall productivity impact?
-
-Estimating aggregate productivity increase is hard.
-
-:   1. **The total output gain will be between $\frac{1}{(1-s)+s/\beta}$ (if perfect complements) and $\beta$ (if perfect substitutes).** These numbers will only be similar only if the time-savings affect most tasks ($s \simeq 1$), or the productivity effect is small ($\beta\simeq 0$).
-
-    2. **If the time-savings are very small then Hulten's theorem applies.** If $\beta\simeq0$ then $\Delta\ln y \approx s\ln\beta$, and time saved $\approx \Delta\ln y$.
-    
-    3. **If the time-savings are somewhat small then you can use elasticity of substitution.** There's a closed-form expression, given below.
-
-    4. **If the time-savings are large then you should use the entire area under the demand curve.** If the time-savings are large then it's no longer reasonable to assume a constant elasticity. However even the demand curve will not be perfect if there are significant income effects. In that case one might need to estimate a more flexible demand system, however I don't have a good reference here.
+:  What is your overall increase in output for a given time? Should we expect it to be $s\times(\beta-1)$, or larger or smaller?
    
-    5. **Using pre-LLM time-shares will under-estimate productivity improvements; using post-LLM time-shares will over-estimate productivity improvements.** This holds strictly if using Amdahl's law to estimate aggregate productivity improvements, which assumes zero substitability.
+    How does the answer change if you measure the time-share $s$ before vs after you start using LLMs?
+    
+    If we can observe the time-shares both before and after LLMs, does that help with estimating the overall efficiency gain?
 
-    6. **We can estimate the aggregate productivity impact if we observe time allocation before and after the change.** This holds at least for small changes (where we can assume constant elasticity of substitution). Graphically, if we observe the change in budget constraint, and chagne in consumption point, we can infer substitutability, and therefore aggregate productivity improvement.
+Economic theory has crisp answers to these questions.
+:  These questions are all equivalent to classic economic questions of how people change expenditure in response to changes in prices. Below I give a cheat sheet, a lookup table, derivations, and some brief survey of different relevant literatures (there are surprisingly many related literatures).
 
-Applications to LLMs.
-: @anthropic2025estimatingproductivitygains sample a range of tasks from Claude logs, and estimate the time-required with and without AI assistance. They estimate a typical speedup of 80%, but that AI is only used for around 25% of tasks, hence the total time-saving is around 20%. However Hulten's theorem only applies for *small* efficiency changes, these are large changes (80%), so the conclusion requires assuming Cobb-Douglas substitution, i.e. that time-shares are constant.
-
-   @becker2025uplift estimate time-savings on tasks using LLMs. In this case the subjects mostly were *not* using AI, but in followup studies they *will* be using AI. This makes it hard to think about interpreting uplift studies over time, insofar as AI causes them to change the task distribution. It would be nice to have a good clear language here.
+My guess is that LLMs are mostly substitutes.
+: LLMs let me complete 16 hours of work in an 8 hour day, but the LLM is mostly accelerating me on things that I wouldn't otherwise spend my time on (e.g. fact checking, literature reviews, visualizations), meaning they are substitutes, and so my effective productivity lift is much lower than a doubling of time.
 
 
-**Time savings using *ex-ante* time shares**
+##       Cheat Sheet
 
-|                                                      | 10% saving on 50% | 50% saving on 10% | 80% saving on 10% |
+Assume people spend their time rationally.
+: We will assume people allocate time between sped-up and non-sped-up tasks rationally, trying to maximize their overall output.
+
+The output gain will be between $\frac{1}{(1-s)+s/\beta}$ and $\beta$.
+: We can put upper and lower bounds on the effect on aggregate output (for a fixed time input):
+      
+      1. If the tasks are perfect substitutes: $\beta$.
+      2. If the tasks are perfect complements: $\frac{1}{(1-s)+s/\beta}$
+      
+The percent gain is simple in two cases.
+: We can apply the small-change approximation $y'/y \approx 1 + s(\beta-1)$ if either of two cases holds:
+
+    1. Most tasks are affected by the speedup ($s\simeq 1$)
+    2. The productivity increase is small ($\beta\simeq 1$) (AKA Hulten's theorem)
+   
+    In these two cases we can estimate the aggregate productivity improvement without knowing the degree of substitutability between tasks.
+    
+If the time-savings are somewhat small then you can use elasticity of substitution.
+: If you know the elasticity of substitution between sped-up tasks and other tasks, $\varepsilon$, then we can write an expression for the aggregate increase:
+   $$\frac{y'}{y} = \left((1-s) + s\,\beta^{\varepsilon-1}\right)^{1/(\varepsilon-1)}$$
+
+If the time-savings are large, use the area under the demand curve.
+: If the time-savings are large then it's more dangerous to assume a constant elasticity. Instead we ideally want to trace out the entire demand curve (i.e. how time-allocated to a task changes as the efficiency increases), and the speed-up will be proportional to the area under the demand curve.
+   
+Using pre-LLM shares will under-estimate value for substitutes (and over-estimate for complements).
+: If using the simple $s\times(\beta-1)$ estimate, then using pre-LLM shares will under-estimate productivity improvements when tasks are substitutes, while using post-LLM time-shares will over-estimate; the direction flips when tasks are complements.
+
+Observing pre-LLM and post-LLM shares helps.
+: If you observe the time-share both pre-LLM and post-LLM then you can back out the elasticity of substitution, and thus the aggregate efficiency improvement. Graphically, if we observe the change in budget constraint, and change in consumption point, we can infer substitutability, and therefore aggregate productivity improvement.
+
+##          Applications
+
+Estimating productivity improvements from query-level time-savings.
+: @anthropic2025estimatingproductivitygains samples a range of tasks from Claude chatbot logs and estimates the time required for each task both with and without AI assistance.
+
+    My understanding of their calculation:
+    
+    1. Claude is used for around 25% of tasks, $s=0.25$ (pre-LLM distribution of tasks).
+    2. When Claude is used, time-required falls by 80%, $\beta=5$.
+    3. Therefore the total time-saving is around 20% (using the fixed-share calculation $s(1-1/\beta)$ with these numbers; this is the small-change/Hulten-style approximation).
+    
+    However as we discussed above, Hulten's theorem only applies for *small* efficiency changes, but these are large changes (80%), so this conclusion requires assuming Cobb-Douglas substitution, i.e. that time-shares are constant.
+
+    **==my guess: people are doing tasks they wouldn't otherwise do.==**
+
+Estimating time-savings in an RCT.
+: @becker2025uplift report an RCT, where software engineers first choose tasks, then get assigned to either with-AI or without-AI conditions. In this case the subjects mostly were *not* using AI, but in follow-up studies they *will* be using AI. This makes it hard to think about interpreting uplift studies over time, insofar as AI causes them to change the task distribution. It would be nice to have a good clear language here.
+
+
+##          Lookup Tables
+
+**Output increase using *ex-ante* time shares**
+
+|                                                      | 1.1X speedup on 50% | 2X speedup on 10% | 5X speedup on 10% |
 | ---------------------------------------------------- | ----------------- | ----------------- | ----------------- |
-| $\varepsilon=0$ (perfect complements/Amdahl)         | 5.0%              | 5.0%              | 8.0%              |
-| $\varepsilon=1/2$ (complements)                      | 5.1%              | 5.8%              | 10.7%             |
-| $\varepsilon=1$ (Cobb-Douglas/Hulten)                | 5.1%              | 6.7%              | 14.9%             |
-| $\varepsilon\rightarrow\infty$ (perfect substitutes) | 10%               | 50%               | 80%               |
+| $\varepsilon=0$ (perfect complements/Amdahl)         | 4.8%              | 5.3%              | 8.7%              |
+| $\varepsilon=1/2$ (complements)                      | 4.8%              | 6.1%              | 12.0%             |
+| $\varepsilon=1$ (Cobb-Douglas/Hulten)                | 4.9%              | 7.2%              | 17.5%             |
+| $\varepsilon=2$ (substitutes)                        | 5.0%              | 10.0%             | 40.0%             |
+| $\varepsilon\rightarrow\infty$ (perfect substitutes) | 10.0%             | 100.0%            | 400.0%            |
 
-**Time savings using *ex-post* time shares:**
+**Output increase using *ex-post* time shares:**
 
-|                                                      | 10% saving on 50% | 50% saving on 10% | 80% saving on 10% |
+|                                                      | 1.1X speedup on 50% | 2X speedup on 10% | 5X speedup on 10% |
 | ---------------------------------------------------- | ----------------- | ----------------- | ----------------- |
-| $\varepsilon=0$ (perfect complements/Amdahl)         | 5.3%              | 9.1%              | 28.6%             |
-| $\varepsilon=1/2$ (complements)                      | 5.2%              | 7.8%              | 20.8%             |
-| $\varepsilon=1$ (Cobb-Douglas/Hulten)                | 5.1%              | 6.7%              | 14.9%             |
+| $\varepsilon=0$ (perfect complements/Amdahl)         | 5.0%              | 10.0%             | 40.0%             |
+| $\varepsilon=1/2$ (complements)                      | 4.9%              | 8.5%              | 26.2%             |
+| $\varepsilon=1$ (Cobb-Douglas/Hulten)                | 4.9%              | 7.2%              | 17.5%             |
+| $\varepsilon=2$ (substitutes)                        | 4.8%              | 5.3%              | 8.7%              |
 | $\varepsilon\rightarrow\infty$ (perfect substitutes) | N/A               | N/A               | N/A               |
 
 How these are calculated:
-:  - **"X% saving"** means task-2 productivity increases so that time-per-unit falls by factor $(1-X)$, i.e., $\beta = 1/(1-X)$. So 10% saving → $\beta = 1.11$; 50% saving → $\beta = 2$; 80% saving → $\beta = 5$.
-   - **"Y% of work"** means the time share on task 2 is $s = Y$.
-   - **Output gain** from the CES formula: 
+:   - **"X% saving"** means task-2 productivity increases so that time-per-unit falls by factor $(1-X)$, i.e., $\beta = 1/(1-X)$. So 10% saving → $\beta = 1.11$; 50% saving → $\beta = 2$; 80% saving → $\beta = 5$.
+    - **"Y% of work"** means the time share on task 2 is $s = Y$.
+    - **Output gain** from the CES formula: 
 $$\frac{y'}{y} = \left((1-s_0) + s_0\,\beta^{\varepsilon-1}\right)^{1/(\varepsilon-1)}$$
-where $s_0$ is the *ex-ante* share.
-   - **Time savings** = $1 - (y'/y)^{-1}$, i.e., the fraction of time saved to produce the same output.
-   - **Table 1:** The column header specifies the ex-ante share $s_0$ directly. Compute the output gain and convert to time savings.
-   - **Table 2:** The column header specifies the ex-post share $s_1$. First back out the implied ex-ante share using: $$\frac{s_0}{1-s_0} = \frac{s_1}{1-s_1} \cdot \beta^{1-\varepsilon}$$ Then compute the true output gain using $s_0$.
-   - **Perfect substitutes (Table 2):** After any productivity improvement, you reallocate entirely to the better task, so the ex-post share is always 100%. Specifying it as 10% or 50% is inconsistent with optimization—hence N/A.
+where $s_0$ is the *ex-ante* share. The reported numbers are $(y'/y-1)\times 100\%$.
+    - **Table 1:** The column header specifies the ex-ante share $s_0$ directly. Compute the output gain and report the percent increase.
+    - **Table 2:** The column header specifies the ex-post share $s_1$. First back out the implied ex-ante share using: $$\frac{s_0}{1-s_0} = \frac{s_1}{1-s_1} \cdot \beta^{1-\varepsilon}$$ Then compute the true output gain using $s_0$.
+    - **Perfect substitutes (Table 2):** After any productivity improvement, you reallocate entirely to the better task, so the ex-post share is always 100%. Specifying it as 10% or 50% is inconsistent with optimization—hence N/A.
+
+##          Other Points
 
 
+An analogy: we're turning lead into gold.
+: Suppose I invent a technology to turn lead into gold, so that the price of gold falls by 99%. I'd like to quantify my welfare increase in terms of equivalent income. I could apply a simple share-weighted price-change rule in two ways:
+
+    1. If I use *ex ante* expenditure the effect looks small: my expenditure share on gold is ~0%, so even a 100% price decrease has a negligible effect on my effective income.
+
+    2. If I use *ex post* expenditure the effect looks large: if gold is sufficiently cheap then I'll start buying many things which are made of gold. Suppose I now spend 1% of my income on gold, then it looks like the price reduction has doubled my effective income, because at the original price of gold I would've had to have twice as much income to afford my new basket.
+
+    This discrepancy between *ex ante* and *ex post* values arises because of the high substituability between gold and other materials (steel, bronze). However I'm not confident that we would see that elasticity at *current* prices, it would only occur when gold's price gets sufficiently low, meaning that estimating a CES function wouldn't be sufficient to give a good estimate of the value. To get a realistic estimate we need to map elasticities at different prices, i.e. draw the entire demand function.
+
+Sensitivity to CES.
+: I give bounds on aggregate time-savings with a CES model below, but I'm not sure whether you'd get wider bounds if you relax the CES assumption, e.g. account for second-order effects.
+
+Non-homotheticities.
+: In demand theory there can be significant effects from non-homotheticities.
+
+Tasks are fake.
+: (...)
 
 
-An analogy: if we can turn lead into gold, what benefit do I get?
-:  Using ex ante expenditure: my expenditure share on gold is ~0%, so my benefit is very small. 
-
-    Using ex post expenditure: if gold is cheap then I'll start buying gold cutlery. Suppose I spend $1K on gold/year, then it makes it look like I'm getting value worth $100K/year, which is clearly wrong.
-
-    I think the resolution is that gold has high substitutability with other goods (steel, bronze), and so demand is highly elastic. But that substitutability only appears when prices are low, so just estimating a CES function I think would get this wrong.
-
-There are some nice crisp results from economics that apply here.
-: I discuss some related literature below.
-
-Loose ends:
-: - I give bounds on aggregate time-savings with a CES model below, but I'm not sure whether you might not get wider bounds if you relax the CES assumption, e.g. with non-homotheticities so there are income effects.
 
 #      Model
 
@@ -177,17 +224,18 @@ $$\frac{y^{*'}}{y^*}=\left(t_1^*+(1-t_1^*)\beta^{\varepsilon-1}\right)^{\frac{1}
 
 #     Related Theory
 
+I don't consider myself an expert on these literatures, take this survey at your own risk.
+
 The index numbers problem.
-: @caves1982indexnumbers formalize why productivity (or “quantity”) measurement becomes an index-number problem as soon as *shares move endogenously*:
-: - A Laspeyres-style measure (base-period weights) is biased toward *understating* gains when a shock makes you reallocate toward the improved input/task, because it freezes the old bundle.
-: - A Paasche-style measure (end-period weights) is biased toward *overstating* gains if you implicitly treat the new bundle as if it had always been purchased at the old relative prices/technologies.
-: - The object you actually want is a path (Divisia) integral of share-weighted growth rates; “superlative” discrete indices (e.g., Fisher/Törnqvist) are designed to approximate that integral well.
+: There's a very old literature on calculating an aggregate price index in a way that accounts for substitutability between different goods. The same theory can be applied to change in goods-prices or task-productivities, see @caves1982indexnumbers.
+: - The Laspeyres index uses base-period weights, and will understate gains when a shock makes you reallocate toward the lower-price good.
+: - The Paasche index uses end-period weights, and will overstate gains when a shock makes you reallocate toward the lower-price good.
+: - A Divisia index is a path integral of share-weighted growth rates. Discrete indices (e.g., Fisher/Törnqvist) are designed to approximate that integral.
 
 Consumer surplus / welfare for large “price” (time-cost) changes
-: @willig1976consumerssurplus defends using Marshallian consumer surplus as a welfare proxy: the area under the (Marshallian) demand curve is close to the Hicksian objects (EV/CV) when income effects are small, and Willig provides conditions/bounds under which the approximation error is limited.
-: @hausman1981exact shows how to compute exact welfare measures (EV/CV, deadweight loss) from an estimated demand curve by imposing integrability (i.e., that the demand actually comes from some underlying utility/expenditure function).
-: @deaton1980aids provides a workhorse *integrable* demand system (AIDS) that flexibly captures income effects and substitution patterns while keeping welfare calculations coherent.
-: In our model you can interpert the task outputs as the goods, and productivities are inverse prices. An LLM that raises $A_2$ by $\beta$ is literally a price drop for good 2 by a factor $1/\beta$. For small task shares ($s=t_2^*$), the Willig logic says income effects are small, so the demand curve is OK. When the effective budget share is not small, or when the shock is large, then you want an *integrable system*.
+: The classic consumer surplus measure from a price change is the area under the demand curve, however this measures the Marshallian consumer surplus, which will approximate the welfare-relevant Hicksian surplus only when there are negligible income effects. @willig1976consumerssurplus gives approximation bounds.
+: This literature distinguishes between Equivalent Variation (EV), the change in income that would have the same welfare effect as the price change, and Compensating Variation (CV), the change in income which could *accompany* the price change and restore your utility.
+: @hausman1981exact shows how to compute exact welfare measures (EV/CV, deadweight loss) from an estimated demand curve by imposing integrability (i.e., that the demand actually comes from some underlying utility/expenditure function). @deaton1980aids provides a standard integrable demand system (AIDS) that flexibly captures income and substitution patterns.
 
 Economics of time allocation (time is a scarce input with shadow prices)
 : @deserpa1971time is a classic reference on time allocation, and time-saving innovations as relaxing the budget constraint.
@@ -260,7 +308,7 @@ Amdahl’s law as the perfect-complements benchmark
       plot (\q,{1/(\q*\q)});
     \fill[blue] (\Q0,\P0) circle[radius=1pt];
 
-    \node[above] at (1.5,2.8) {inelastic, $|\eta|<1$};
+    \node[above] at (1.5,2.8) {inelastic, $|\varepsilon|<1$};
   \end{scope}
 
   %%%%%%%%%%%%%%% Panel 2: Unit elastic demand
@@ -278,7 +326,7 @@ Amdahl’s law as the perfect-complements benchmark
       plot (\q,{1/\q});
     \fill[blue] (\Q0,\P0) circle[radius=1pt];
 
-    \node[above] at (1.5,2.8) {unit elastic, $|\eta|=1$};
+    \node[above] at (1.5,2.8) {unit elastic, $|\varepsilon|=1$};
   \end{scope}
 
   %-----------------------------
@@ -298,7 +346,7 @@ Amdahl’s law as the perfect-complements benchmark
       plot (\q,{\q^(-1/4)});
     \fill[blue] (\Q0,\P0) circle[radius=1pt];
 
-    \node[above] at (1.5,2.8) {elastic, $|\eta|>1$};
+    \node[above] at (1.5,2.8) {elastic, $|\varepsilon|>1$};
   \end{scope}
 \end{tikzpicture}
 ```
