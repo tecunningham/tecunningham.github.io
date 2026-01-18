@@ -7,13 +7,13 @@ reference-location: document
 draft: true
 bibliography: ai.bib
 # format: typst
-# format: html
-format: 
-   pdf:
-     fontfamily: libertinus
-     fontsize: 10pt
-     geometry:
-       - margin=0.75in
+format: html
+# format: 
+#    pdf:
+#      fontfamily: libertinus
+#      fontsize: 10pt
+#      geometry:
+#        - margin=0.75in
 engine: knitr
 execute:
   echo: false
@@ -350,4 +350,50 @@ Amdahl’s law as the perfect-complements benchmark
   \end{scope}
 \end{tikzpicture}
 ```
+
+
+# 2026-01-17 |                      AI & substitution
+
+**Puzzle:**
+
+   1. **Task speedups bigger than aggregate speedups.** LLMs seem to be having large speedups for tasks that make up a large share of peoples' time, yet this doesn't seem to reflect actual productivity.
+   2. **Resolution:** LLMs are mostly making new tasks affordable, rather than lowering the cost of existing tasks. It's like making a Cadillac the same cost as a Toyota, instead of lowering the cost of all cars uniformly.
+   3. **How to test this.** We want to know the effects of LLMs on both (A) task speed; (B) task selection.
+      - **Ask people which tasks they would select with & without AI.**
+      - **Add a time cost to tasks.** See how task selection will change if you add artificial time costs, e.g. you have to do CAPTCHA for 1 minute.
+      - **Observe effect of latency.**
+   4. **Note: elasticity of substitution not useful.**
+
+**Mathematically:**
+
+1. **Unit demand.** There are $n$ different tasks, each has payoff $u_i$ and time-cost $p_i$.
+   $$\begin{aligned}
+      U &= \sum_{i=1}^n u_i \times \mathbb{1}\{t_i\geq p_i\} \\
+      \sum_i^n t_i &= 1
+   \end{aligned}
+   $$
+   If the time-cost of *existing* tasks falls by $1/\beta$ then utility increases by $\beta$. But if the time-cost of *new* tasks (that you're not already doing) falls then the utility increase is much less than $1/\beta$. This is especially true if there's a minimum time-cost to doing a task, e.g. every task takes at least 15 minutes.
+
+2. **Two quality levels.** There $n$ different activities, and two qualities, $L$ and $H$. The two quality-levels are perfect substitutes:
+   $$\begin{aligned}
+      U &= \sum_{i=1}^n\left( (x_{i,L}+x_{i,H})^\eta \right)^{1/\eta} \\
+   \end{aligned}
+   $$
+
+**How to test:**
+
+1. **SWE tasks.**
+   - Write out all tasks, check which ones you would do with Human vs Augmented.
+   - Add a time cost to each task -- you have to fill out CAPTCHA for 5 minutes.
+
+2. **Chatbot.**
+   - Add a latency cost.
+
+
+##          concrete examples
+
+1. **Tom doing literature reviews.** Suppose I spend 5 minutes each day using ChatGPT to do literature reviews, & the reviews would've taken me 8 hours to do without ChatGPT's help, meaning this is a roughly 100X speedup. On the surface this seems to be doubling my aggregate productivity, i.e. I'm now doing 16 hours work in an 8 hour day.
+
+   To get the true time-saving we need to know how substitutable these tasks (literature reviews) are for other tasks. Suppose for argument that ChatGPT hasn't changed the share of my time I'm spending on literature reviews, it's just made me far more productive. This implies an elasticity of substitution of 1. It also implies that 
+
 
