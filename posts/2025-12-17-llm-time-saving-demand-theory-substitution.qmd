@@ -7,13 +7,13 @@ reference-location: document
 draft: true
 bibliography: ai.bib
 # format: typst
-format: html
-# format: 
-#    pdf:
-#      fontfamily: libertinus
-#      fontsize: 10pt
-#      geometry:
-#        - margin=0.75in
+# format: html
+format: 
+   pdf:
+     fontfamily: libertinus
+     fontsize: 10pt
+     geometry:
+       - margin=0.75in
 engine: knitr
 execute:
   echo: false
@@ -226,15 +226,20 @@ $$\frac{y^{*'}}{y^*}=\left(t_1^*+(1-t_1^*)\beta^{\varepsilon-1}\right)^{\frac{1}
 
 I don't consider myself an expert on these literatures, take this survey at your own risk.
 
-The index numbers problem.
-: There's a very old literature on calculating an aggregate price index in a way that accounts for substitutability between different goods. The same theory can be applied to change in goods-prices or task-productivities, see @caves1982indexnumbers.
+The index number problem.
+: There's an old literature on calculating an aggregate price index in a way that accounts for substitutability between different goods. The same theory can be applied to change in goods-prices or task-productivities, see @caves1982indexnumbers.
 : - The Laspeyres index uses base-period weights, and will understate gains when a shock makes you reallocate toward the lower-price good.
 : - The Paasche index uses end-period weights, and will overstate gains when a shock makes you reallocate toward the lower-price good.
 : - A Divisia index is a path integral of share-weighted growth rates. Discrete indices (e.g., Fisher/Törnqvist) are designed to approximate that integral.
 
-Consumer surplus / welfare for large “price” (time-cost) changes
+Consumer surplus / welfare for large price changes.
 : The classic consumer surplus measure from a price change is the area under the demand curve, however this measures the Marshallian consumer surplus, which will approximate the welfare-relevant Hicksian surplus only when there are negligible income effects. @willig1976consumerssurplus gives approximation bounds.
-: This literature distinguishes between Equivalent Variation (EV), the change in income that would have the same welfare effect as the price change, and Compensating Variation (CV), the change in income which could *accompany* the price change and restore your utility.
+: - EV = Equivalent Variation, the change in income that would have the same welfare effect as the price change.
+: - CV = Compensating Variation,  the change in income which could *accompany* the price change and restore your utility.
+: - P = Cost of the new bundle at old prices 
+: - L = Cost of the old bundle at new prices
+: For a price increase we can show that $$P\leq EV \leq CV \leq L.$$
+: If utility is homothetic then you can summarize the entire price vector with a single price index, and the ratio of EV to CV is the ratio of price indices.
 : @hausman1981exact shows how to compute exact welfare measures (EV/CV, deadweight loss) from an estimated demand curve by imposing integrability (i.e., that the demand actually comes from some underlying utility/expenditure function). @deaton1980aids provides a standard integrable demand system (AIDS) that flexibly captures income and substitution patterns.
 
 Economics of time allocation (time is a scarce input with shadow prices)
@@ -402,3 +407,57 @@ Amdahl’s law as the perfect-complements benchmark
    To get the true time-saving we need to know how substitutable these tasks (literature reviews) are for other tasks. Suppose for argument that ChatGPT hasn't changed the share of my time I'm spending on literature reviews, it's just made me far more productive. This implies an elasticity of substitution of 1. It also implies that 
 
 
+#           Cadillac theory
+
+[tweets](https://x.com/testingham/status/2014363253871403267)
+
+Cadillac tasks: I believe many estimates of LLM productivity boosts are over-estimates because people are using them for cadillac tasks: things that would take you a long time unaided, but have only marginal additional value.
+
+- "identify this species of finch"
+- "write me a literature review on this topic I'm marginally interested in"
+- "write tests for this whole codebase"
+- "proof read and spell check this long document"
+
+LLms let me do 80 hours an 8-hour workday, but this doesn't represent a true 10X of my productivity.
+
+Two basic ways of estimating productivity impacts: (1) estimate time-savings at a task level; (2) self-reports of time-savings.
+
+If we estimate task-level time savings it's important whether you're selecting tasks from the pre-LLM world or post-LLM world: they will give lower and upper bounds on the true productivity improvement. (additionally, if you just choose tasks from chatbot logs then you're disproportinately getting things where the difference is large).
+
+Alternatively we can ask people "how much time are you saving?" It's a hard question to answer partly because it has three different interpretations with very different answers: new time with old tasks, old time with new tasks, or new time with new tasks (technically Laspeyres, Paasche, and Compensating Variation). Ideally we want to say "how much more overall work are you getting done in a workday?"
+
+--------------------------------------------
+
+Cadillac tasks: I think many estimates of LLM productivity boosts from task-level time-savings typically overestimate the true impact because LLMs cause substitution towards "cadillac" tasks: things that would take a long time unaided, but have only marginal additional value.
+
+A common way of estimating LLM productivity effects is to multiply (1) the share of tasks LLMs are used for; (2) the task-level speedup. This typically implies a large aggregate impact. You can also adjust for elasticity of substitution but this doesn't make a huge difference (Hulten's theorem says it's 2nd-order).
+
+However this can be misleading if using coarse task categories, e.g. "programming", "research". This is a problem because LLMs can change the specific mix within these categories, and people will substitute towards tasks that are relatively cheaper with LLMs.
+
+An analogy: suppose a Cadillac is 10% better than a regular car, but costs 10X as much. You move to a country where everything is the same except here Cadillacs are the same price as Chevys. Superficially it looks like your standard of living has rocketed: when evaluated at the old prices your car expenditure has gone up by 10X. But in reality your welfare is only marginally higher. The welfare calculation can be fixed by dividing expenditure shares more finely: i.e. looking at specific products, rather than just cars in general.
+
+In the same way, we see people sending queries to LLMs that would've taken them hours to do themselves, but a large share are arguably Cadillac queries, things they would not have thought worth doing without the LLM:
+
+- "identify this species of finch"
+- "proof read and spell check this long document"
+- "write me a literature review on this topic I'm marginally interested in"
+
+This will be a problem when LLMs disproportionately lower the time-cost of tasks that you don't otherwise do. This will be a problem if your pool of tasks comes from logs of a chatbot, because they are *selected* on tasks that people expect LLMs to help with. Additionally a general theory of LLMs is that they share knowledge, and so they'll be used far more for *new* tasks, than for existing tasks.
+
+
+# 2026-01-23 |                      learning from randomization
+
+1. If AI causes people to change their selection of tasks then we can only get lower and upper bounds on the time-saving, even if we observe the time required for every task, both with AI and without AI.
+
+2. However if we observe choices when you randomize AI-allowed vs AI-disallowed, that allows you to better approximate the true value.
+
+3. A worked example:
+   - Suppose task A takes 1 hour, and task B takes 2 hours, and you choose to do task A.
+   - Suppose LLMs let you do do task B in 1 hour, and now you switch to doing task B.
+   - How much time have you saved?
+      - Upper bound 1 hour (if B is twice as valuable as A)
+      - Lower bound zero hours (if B has same value as A)
+   - Now we say you're randomized, so you first have to choose task A or B, and you only later find out whether B will take 1 or 2 hours.
+   - You will choose task B if-and-only-if the expected benefit is greater than the expected cost (0.5) hours. You've therefore tightened your bounds on the efficiency benefit.
+
+4. Intuition: suppose people in the uplift don't choose any AI-heavy tasks, compared to people outside the uplift study. Then the value of AI must be less than half the nominal time-savings from switching to AI-heavy tasks.
