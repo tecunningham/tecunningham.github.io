@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Tom Cunningham">
-<meta name="dcterms.date" content="2026-01-20">
+<meta name="dcterms.date" content="2026-01-24">
 <meta name="description" content="Tom Cunningham blog">
 
 <title>LLM Time-Saving and Demand Theory | Tom Cunningham – Tom Cunningham</title>
@@ -165,7 +165,7 @@ window.Quarto = {
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Draft</div>
@@ -235,7 +235,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 20, 2026</p>
+        <p class="date">January 24, 2026</p>
       </div>
     </div>
     
@@ -246,7 +246,9 @@ window.Quarto = {
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="2025-12-17-llm-time-saving-demand-theory-substitution.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -580,9 +582,9 @@ In demand theory there can be significant effects from non-homotheticities.
 <h1>Related Theory</h1>
 <p>I don’t consider myself an expert on these literatures, take this survey at your own risk.</p>
 <dl>
-<dt>The index numbers problem.</dt>
+<dt>The index number problem.</dt>
 <dd>
-There’s a very old literature on calculating an aggregate price index in a way that accounts for substitutability between different goods. The same theory can be applied to change in goods-prices or task-productivities, see <span class="citation" data-cites="caves1982indexnumbers">Caves, Christensen, and Diewert (<a href="#ref-caves1982indexnumbers" role="doc-biblioref">1982</a>)</span>.
+There’s an old literature on calculating an aggregate price index in a way that accounts for substitutability between different goods. The same theory can be applied to change in goods-prices or task-productivities, see <span class="citation" data-cites="caves1982indexnumbers">Caves, Christensen, and Diewert (<a href="#ref-caves1982indexnumbers" role="doc-biblioref">1982</a>)</span>.
 </dd>
 <dd>
 <ul>
@@ -599,12 +601,22 @@ There’s a very old literature on calculating an aggregate price index in a way
 <li>A Divisia index is a path integral of share-weighted growth rates. Discrete indices (e.g., Fisher/Törnqvist) are designed to approximate that integral.</li>
 </ul>
 </dd>
-<dt>Consumer surplus / welfare for large “price” (time-cost) changes</dt>
+<dt>Consumer surplus / welfare for large price changes.</dt>
 <dd>
 The classic consumer surplus measure from a price change is the area under the demand curve, however this measures the Marshallian consumer surplus, which will approximate the welfare-relevant Hicksian surplus only when there are negligible income effects. <span class="citation" data-cites="willig1976consumerssurplus">Willig (<a href="#ref-willig1976consumerssurplus" role="doc-biblioref">1976</a>)</span> gives approximation bounds.
 </dd>
 <dd>
-This literature distinguishes between Equivalent Variation (EV), the change in income that would have the same welfare effect as the price change, and Compensating Variation (CV), the change in income which could <em>accompany</em> the price change and restore your utility.
+<ul>
+<li>Equivalent Variation (EV): the change in income that would have the same welfare effect as the price change.</li>
+</ul>
+</dd>
+<dd>
+<ul>
+<li>Compensating Variation (CV): the change in income which could <em>accompany</em> the price change and restore your utility.</li>
+</ul>
+</dd>
+<dd>
+If utility is homothetic then you can summarize the entire price vector with a single price index, and the ratio of EV to CV is the ratio of price indices.
 </dd>
 <dd>
 <span class="citation" data-cites="hausman1981exact">Hausman (<a href="#ref-hausman1981exact" role="doc-biblioref">1981</a>)</span> shows how to compute exact welfare measures (EV/CV, deadweight loss) from an estimated demand curve by imposing integrability (i.e., that the demand actually comes from some underlying utility/expenditure function). <span class="citation" data-cites="deaton1980aids">Deaton and Muellbauer (<a href="#ref-deaton1980aids" role="doc-biblioref">1980</a>)</span> provides a standard integrable demand system (AIDS) that flexibly captures income and substitution patterns.
@@ -685,7 +697,12 @@ Amdahl’s law in computer science says the speedup from improving one component
    U &amp;= \sum_{i=1}^n u_i \times \mathbb{1}\{t_i\geq p_i\} \\
    \sum_i^n t_i &amp;= 1
 \end{aligned}
-\]</span> If the time-cost of <em>existing</em> tasks falls by <span class="math inline">\(1/\beta\)</span> then utility increases by <span class="math inline">\(\beta\)</span>. But if the time-cost of <em>new</em> tasks (that you’re not already doing) falls then the utility increase is much less than <span class="math inline">\(1/\beta\)</span>. This is especially true if there’s a minimum time-cost to doing a task, e.g.&nbsp;every task takes at least 15 minutes.</p></li>
+\]</span> If the time-cost of <em>existing</em> tasks falls by <span class="math inline">\(1/\beta\)</span> then utility increases by <span class="math inline">\(\beta\)</span>. But if the time-cost of <em>new</em> tasks (that you’re not already doing) falls then the utility increase is much less than <span class="math inline">\(1/\beta\)</span>. This is especially true if there’s a minimum time-cost to doing a task, e.g.&nbsp;every task takes at least 15 minutes.</p>
+<p>claims:</p>
+<ol type="1">
+<li>The relative time-cost of the old tasks at the new prices will be a lower-bound on the effective time increase.</li>
+<li>The relative time-cost of the new tasks at the old prices will be an upper-bound on the effective time-increase.</li>
+</ol></li>
 <li><p><strong>Two quality levels.</strong> There <span class="math inline">\(n\)</span> different activities, and two qualities, <span class="math inline">\(L\)</span> and <span class="math inline">\(H\)</span>. The two quality-levels are perfect substitutes: <span class="math display">\[\begin{aligned}
    U &amp;= \sum_{i=1}^n\left( (x_{i,L}+x_{i,H})^\eta \right)^{1/\eta} \\
 \end{aligned}
@@ -709,10 +726,24 @@ Amdahl’s law in computer science says the speedup from improving one component
 <li><p><strong>Tom doing literature reviews.</strong> Suppose I spend 5 minutes each day using ChatGPT to do literature reviews, &amp; the reviews would’ve taken me 8 hours to do without ChatGPT’s help, meaning this is a roughly 100X speedup. On the surface this seems to be doubling my aggregate productivity, i.e.&nbsp;I’m now doing 16 hours work in an 8 hour day.</p>
 <p>To get the true time-saving we need to know how substitutable these tasks (literature reviews) are for other tasks. Suppose for argument that ChatGPT hasn’t changed the share of my time I’m spending on literature reviews, it’s just made me far more productive. This implies an elasticity of substitution of 1. It also implies that</p></li>
 </ol>
-
-
-
 </section>
+</section>
+<section id="cadillac-theory" class="level1">
+<h1>Cadillac theory</h1>
+<p>A quick “Cadillac” theory of LLM time-savings: estimates of LLM productivity from task-level time-savings sometimes overestimate the true impact because LLMs cause substitution towards “cadillac” tasks, things that would take a long time unaided, but have only marginal additional value.</p>
+<p>A common way of estimating LLM productivity effects is to multiply (1) the share of tasks LLMs are used for; (2) the task-level speedup. This typically implies a large aggregate impact. You can also adjust for elasticity of substitution but this doesn’t make a huge difference (Hulten’s theorem says it’s 2nd-order).</p>
+<p>However this can be misleading if using coarse task categories, e.g.&nbsp;“programming”, “research”. This is a problem because LLMs can change the specific mix within these categories, and people will substitute towards tasks that are relatively cheaper with LLMs.</p>
+<p>An analogy: suppose a Cadillac is 10% better than a regular car, but costs 10X as much. You move to a country where everything is the same except here Cadillacs are the same price as Chevys. Superficially it looks like your standard of living has rocketed: when evaluated at the old prices your car expenditure has gone up by 10X. But in reality your welfare is only marginally higher. The welfare calculation can be fixed by dividing expenditure shares more finely: i.e.&nbsp;looking at specific products, rather than just cars in general.</p>
+<p>In the same way, we see people sending queries to LLMs that would’ve taken them hours to do themselves, but a large share are arguably Cadillac queries, things they would not have thought worth doing without the LLM:</p>
+<ul>
+<li>“identify this species of finch”</li>
+<li>“proof read and spell check this long document”</li>
+<li>“write me a literature review on this topic I’m marginally interested in”</li>
+</ul>
+<p>This will be a problem when LLMs disproportionately lower the time-cost of tasks that you don’t otherwise do. This will be a problem if your pool of tasks comes from logs of a chatbot, because they are <em>selected</em> on tasks that people expect LLMs to help with. Additionally a general theory of LLMs is that they share knowledge, and so they’ll be used far more for <em>new</em> tasks, than for existing tasks.</p>
+
+
+
 </section>
 
 
@@ -767,13 +798,13 @@ Willig, Robert D. 1976. <span>“Consumer’s Surplus Without Apology.”</span>
   author = {Cunningham (METR)\^{}{[}with many thanks to Elsie Jang{]},
     Tom},
   title = {LLM {Time-Saving} and {Demand} {Theory}},
-  date = {2026-01-20},
+  date = {2026-01-24},
   url = {tecunningham.github.io/posts/2025-12-17-llm-time-saving-demand-theory-substitution.html},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-cunningham_(metr)^[with_many_thanks_to_elsie_jang]2026" class="csl-entry quarto-appendix-citeas" role="listitem">
 Cunningham (METR)^[with many thanks to Elsie Jang], Tom. 2026.
-<span>“LLM Time-Saving and Demand Theory.”</span> January 20, 2026. <a href="https://tecunningham.github.io/posts/2025-12-17-llm-time-saving-demand-theory-substitution.html">tecunningham.github.io/posts/2025-12-17-llm-time-saving-demand-theory-substitution.html</a>.
+<span>“LLM Time-Saving and Demand Theory.”</span> January 24, 2026. <a href="https://tecunningham.github.io/posts/2025-12-17-llm-time-saving-demand-theory-substitution.html">tecunningham.github.io/posts/2025-12-17-llm-time-saving-demand-theory-substitution.html</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

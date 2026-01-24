@@ -19,47 +19,56 @@ reference-location: section
 </style>
 
 <!-- TODO: ADD ALL CURVE OPINIONS -->
+<!-- TODO: ADD AI-BIG-PICTURE OPINIONS -->
 
-I do my best to give reasons, but some have just bubbled up from my unconscious & now I can't find reasons to dislodge them. I have tried to write not about the discourse but about the world. It's always tempting to complain about other peoples' mistakes, I've given in to that temptation in the last section.
+I will do my best to give reasons.
+: However some of these opionions have just bubbled up from my unconscious & now I can't find reasons to dislodge them.
+
+I will try to write about the world, not about the discourse.
+: It's always tempting to complain about other peoples' mistakes. I'll do my best to play the ball.
 
 ##    Today's impact of AI
 
-The welfare impact in 2025 is around 1% of GDP.
+The welfare impact in 2025 was around 1% of GDP.
 : The impact is through (A) using chatbots to solve everyday problems (home production); (B) increased productivity at work.
 
       The former doesn't show up in measured GDP at all, the latter will only partly be reflected in GDP because it primarily increases productivity in services, and much of the GDP of services is imputed from the input costs (i.e. wages paid to service-providers).
 
+      <!-- link to my survey of growth numbers -->
+
 The welfare impact has been increasing at around 4X/year.
 : Adoption has been growing around 2X/year, and the value/user has been growing around 2X/year. This growth can be decomposed into growth in capabilities and diffusion, I'd say it's been roughly 50-50.
+
+Task-level time-saving calculations overestimate the impact.
+: You can compare how long it takes to do specific tasks with AI and without AI, to estimate the productivity impact. However AI causes people to change the set of tasks they do then it's harder to estimate the impact. You can get a lower bound from estimating time-savings on pre-LLM tasks, and an upper bound from estimating time-savings on post-LLM tasks. Many estimates of time-savings are over-estimates either because (1) they're on a subset of tasks that are highly amenable to AI use; (2) they use the post-LLM distribution of tasks (@anthropic2025estimatingproductivitygains); (3) they specifically use chatbot transcripts to select tasks.^[You could estimate elasticity of substitution across types of task, but this assumes LLM time-savings are uniform within each type, but that seems unlikely, LLMs cause substitution within task-types.]
+
 
 ##    What LLMs do
 
 Neural nets extract the low-dimensional structure of the world.
-: Our pre-conscious brains extract low-dimensional representations from high-dimensional inputs. We have finally we've taught computers to do the same thing (AKA the manifold hypothesis, @bengio2013representation).
+: A large part of what our brains do is to extract low-dimensional representations from high-dimensional inputs. This has been the basic handicap of computers: they can process low-dimensional data much better than humans, but they couldn't extract low-dimensional signals from high-dimensional inputs. This changed with neural nets and large training sets (AKA the manifold hypothesis, @bengio2013representation).
 
 LLMs imitate human answers to questions.
-: A simple model of LLMs is that they provide answers to questions, based on a large training set of questions & answers. This has a number of implications:
+: A simple but useful model of LLMs is that they are lookup tables, providing answers to questions from a training set of questions & answers.^[Of course when LLMs were invented the first striking thing was the degree to which they were *not* lookup tables, i.e. they were able to generalize well. However we can say that they recover a mapping from high-dimensional language to low-dimensional facts, but still the set of facts they learn is those which are contained in their training data.] This has a number of implications:
 
       1. LLMs will be used for *new-to-you* questions, i.e. questions that you have not encountered before, but someone else has.
 
-      2. LLMs will be used for tasks which are *routine* in the sense that there's relatively little variation, and input space is relatively low-dimensional.
+      2. LLMs will be used for tasks which are *routine* in the sense that there's relatively little variation, and the input space is relatively low-dimensional.
 
-      3. The performance of an LLM on a task depends not on the intrinsic properties of that task, but just on the density of similar tasks in the training data (@vonwerra2025jaggeddata).
+      3. The performance of an LLM on a task depends not on the intrinsic properties of that task, but just on the density of similar tasks in the training data (@vonwerra2025jaggeddata). LLMs don't struggle with *difficult* questions, they struggle with *rare* questions (though there's a correlation).
 
       4. LLMs exhibit superhuman performance ("transcendence") when the task requires combining the answers to two questions (@cunningham2023imitation, @abreu2025taxonomytranscendence).
 
 LLMs are worse at generalization than humans.
 : The model above treated knowledge as binary: either you know the answer or you don't. We can extend this to extrapolation, and it seems clear that
 
-      1. LLMs are less sample-efficient learners than humans
+      1. LLMs are less sample-efficient learners than humans.
       2. LLMs are relatively worse at questions that are farther from their training data (compared to humans).
 
-We are moving from human-supervised to world-supervised AI.
-: LLMs very quickly caught up with human abilities because they're trained on human judgments (human generated text, paid rater judgment, LLM user preferences). This led to a plateau around expert-human level.
+We are moving from human-supervised AI to world-supervised AI.
+: LLMs quickly caught up with human abilities because they're trained on human judgments (human generated text, paid rater judgment, LLM user preferences). This led to a plateau around expert-human level ability at answering questions.
 
       However we can hook them up directly to the real world & they can learn from that, & so we are starting to see them break out of that plateau. (A nice analogy: suppose you play chess by looking up each position in the history of recorded games, and otherwise playing randomly; then you will rapidly become a competent player, but then hit a ceiling).
-
-      The properties you need to make progress on world-supervised problems: (1) cheap real-world feedback; (2) .
 
 Unlike humans, computers can use their representations to synthesize new artefacts.
 : Human judgment has a notable asymmetry between recognition and production. There are many properties of objects which we can immediately recognize, but it's far more difficult to synthesize a new object that has that property. We can judge whether a joke is funny, or a poem rhymes, or a picture looks realistic, but we find it far harder to create a funny joke, a rhyming poem, or a realistic picture. This is sometimes attributed to the hierarchical and feed-foward nature of how the brain processes information.
@@ -67,21 +76,23 @@ Unlike humans, computers can use their representations to synthesize new artefac
       Artificial neural nets do not suffer from the same degree of asymmetry. They can be reversed to synthesize new objects that satisfy a given property. This means computers will be able to do qualitatively different things that humans cannot do, even with the same amount of knowledge.
 
 LLM capabilities are highly correlated.
-: Many studies find that benchmark scores are highly correlated across LLMs. This could be due for *supply* reasons or *demand* reasons.
+: Many studies find that benchmark scores are highly correlated across LLMs. This is likely because training data sets are highly correlated, i.e. labs are accumulating very similar training sets.
 
 LLM capabilities are qualitatively different from human capabilities.
-: The crispest representation is that LLMs can pass all exams, and pass all interview questions, but they cannot do the associated jobs. There is still a substantial bottleneck. Loosely I would characterize the bottleneck as failure to generalize, difficulty with off-distribution tasks. Concretely this manifests in weakness in unusual situations, interactive decision-making, or continual learning.
+: The crispest illustration of this is that LLMs can pass all exams, and pass all interview questions, but they cannot do the associated jobs. There is still a substantial bottleneck. Loosely I would characterize the bottleneck as failure to generalize, i.e. difficulty with off-distribution tasks. Concretely this manifests in weakness in unusual situations, interactive decision-making, or continual learning.
+
+<!-- SHOVEL THEORY -->
 
 ##    Economic Effects of AI
 
 LLMs make private knowledge public.
-: We can apply the question-answering model of LLMs described above to economic equilibrium. Suppose each person has a set of questions which they know the answer to, & this determines their economic capabilities (i.e. they earn rents off their private knowledge). If we treat LLMs as pooling all that private knowledge to make it public, this has clear implications: (A) greater welfare; (B) lower inequality; (C) less trade (i.e. lower GDP).
+: We can apply the question-answering model of LLMs described above to economic equilibrium. Suppose each person has a set of questions which they know the answer to, & this set determines their comparative advantage, i.e. they earn rents off their private knowledge. If we treat LLMs as pooling everyone's private knowledge, and making it public, this has clear implications: (A) greater welfare; (B) lower inequality; (C) less trade (i.e. lower GDP).
 
 Market power is not a big deal.
-: I think you could get a good approximation of the static economic effect of AI assuming that the market is competitive, i.e. the competition questions are second-order. The market today is highly competitive: there's a small gap in capabilities among the frontier labs, and open models are, at worst, 12 months behind. It's possible that one lab will jump ahead, but it seems reasonable to treat the market as competitive as an approximation. 
+: I believe you could get a good approximation of the static economic effect of AI assuming that the market is competitive, i.e. that competition questions are second-order. The market today is highly competitive: there's a small gap in capabilities among the frontier labs, and open models are, at worst, 12 months behind. It's possible that one lab will jump ahead, but it seems reasonable to treat the market as competitive as an approximation. 
 
 AI companies will capture a small share of the surplus.
-: This follows from the above. It's easy to fall into the trap of thinking "a lot of value is being created, so the AI companies must be getting that value."
+: This follows from the above. Sometimes people argue that "a lot of value is being created, so the AI companies must be getting that value." But the historical norm is that only a small share of value created is appropriated by the innovator.
 
 Baumol effects are not a big deal.
 : ABC
@@ -89,10 +100,11 @@ Baumol effects are not a big deal.
 We cannot direct technical change.
 : .
 
-Jobs don't decompose tasks with observable outputs.
-: It's notable that the vast majority of labor is paid by *inputs* by *outputs*. I.e. work is mostly paid by the hour, or by the month, not paid by output (performance pay, piece rate). This implies that observing peoples' output is difficult, and so it's likely that .
+Jobs don't decompose into tasks with observable outputs.
 
-: Why is observing output difficult? (...)
+: It's notable that the vast majority of labor is paid by *inputs* by *outputs*. I.e. work is mostly paid by the hour, or by the month, instead of paid according to some metric of output. I.e. performance pay is a relatively small share of compensation in modern economies. This implies that observing peoples' output is difficult.
+
+: It's also notable that most jobs involve doing many different tasks, which implies there must be nonseparabilities between those tasks, i.e. they're really *subtasks* of some overarching task. If the tasks were truly independent (inputs and outputs are separable) then there would be a strong economic force to push them to be done by different employees.
 
 Demand will shift towards intelligence over knowledge.
 : LLMs make knowledge cheap.
@@ -202,18 +214,16 @@ We should have some common theory.
 
 ##    On the Discourse
 
-
-
-Discourse is tangled because we don't have a theory of capabilities.
+The discourse is tangled because we don't have a theory of capabilities.
 : Many disagreements .
 
-Most disagreement about economic growth is really about capabilities growth.
-: 
+Most disagreement about economic growth are really about capabilities growth.
+: Argued [here](https://tecunningham.github.io/posts/2025-10-19-forecasts-of-AI-growth.html).
 
 We have no canonical model of AI's impact on the economy.
 : 
 
-LLMs expose some holes in classical economics.
+AI exposes holes in classical economics.
 : We can only explain the success of NNs & LLMs by talking about the low-dimensional and high-dimensional structure of the world.
 
 Knife-edge explosion conditions are bogus.
@@ -227,4 +237,3 @@ Having explicit forecasts would be very useful.
       - Incomes across different countries.
 
       I feel it's like early 2020 and COVID: if we're trying to make a decision about whether to announce a lock-down it should be based on a clear idea about the counterfactual, which includes a lot of equilibrium effects.
-
