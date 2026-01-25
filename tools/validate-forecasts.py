@@ -1,0 +1,297 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import re
+import unicodedata
+from pathlib import Path
+
+
+def read_text(path: Path) -> str:
+    return path.read_text(encoding="utf-8")
+
+
+def strip_code_blocks(text: str) -> str:
+    lines = text.splitlines()
+    out = []
+    in_code = False
+    for line in lines:
+        if line.strip().startswith("```"):
+            in_code = not in_code
+            continue
+        if not in_code:
+            out.append(line)
+    return "\n".join(out)
+
+
+def normalize_text(text: str) -> str:
+    text = unicodedata.normalize("NFKD", text)
+    text = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)
+    text = (
+        text.replace("\u201c", '"')
+        .replace("\u201d", '"')
+        .replace("\u2019", "'")
+        .replace("\u2013", "-")
+        .replace("\u2014", "-")
+    )
+    text = re.sub(r"<br\s*/?>", " ", text, flags=re.IGNORECASE)
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = text.replace("*", "").replace("_", "")
+    text = re.sub(r"\s+", " ", text).strip()
+    if len(text) >= 2 and text[0] == '"' and text[-1] == '"':
+        text = text[1:-1].strip()
+    return text.lower()
+
+
+def extract_citekeys(text: str) -> set[str]:
+    keys = set(re.findall(r"@([A-Za-z0-9][A-Za-z0-9:_-]*)", text))
+    ignore = {"media", "font-face", "keyframes", "supports"}
+    return {key for key in keys if key not in ignore}
+
+
+def parse_bib(text: str) -> dict[str, dict[str, str]]:
+    entries: dict[str, dict[str, str]] = {}
+    current_key: str | None = None
+    for line in text.splitlines():
+        start = re.match(r"@\w+\{([^,]+),", line)
+        if start:
+            current_key = start.group(1).strip()
+            entries[current_key] = {}
+            continue
+        if current_key is None:
+            continue
+        if line.strip().startswith("}"):
+            current_key = None
+            continue
+        field = re.match(r"\s*([A-Za-z_]+)\s*=\s*\{(.*)\},?\s*$", line)
+        if field:
+            entries[current_key][field.group(1)] = field.group(2)
+    return entries
+
+
+def iter_tables(text: str) -> list[list[str]]:
+    lines = text.splitlines()
+    tables: list[list[str]] = []
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        if line.strip().startswith("|"):
+            table_lines: list[str] = []
+            while i < len(lines) and lines[i].strip().startswith("|"):
+                table_lines.append(lines[i])
+                i += 1
+            tables.append(table_lines)
+            continue
+        i += 1
+    return tables
+
+
+def split_row(row: str) -> list[str]:
+    row = re.sub(r"^\s*\||\|\s*$", "", row)
+    return [cell.strip() for cell in row.split("|")]
+
+
+def parse_table(table_lines: list[str]) -> tuple[list[str], list[list[str]]]:
+    header = split_row(table_lines[0])
+    rows: list[list[str]] = []
+    for row in table_lines[1:]:
+        if re.match(r"^\s*\|\s*[-:]", row):
+            continue
+        rows.append(split_row(row))
+    return header, rows
+
+
+def extract_table_checks(text: str) -> list[dict[str, str]]:
+    checks: list[dict[str, str]] = []
+    for table_lines in iter_tables(text):
+        header, rows = parse_table(table_lines)
+        header_norm = [re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", h)).strip().lower() for h in header]
+        if "author" not in header_norm or "quote" not in header_norm:
+            continue
+        author_idx = header_norm.index("author")
+        quote_idx = header_norm.index("quote")
+        growth_idx = None
+        if "annual excess growth, 2025-2035" in header_norm:
+            growth_idx = header_norm.index("annual excess growth, 2025-2035")
+        elif "growth 2025-2035" in header_norm:
+            growth_idx = header_norm.index("growth 2025-2035")
+        for row in rows:
+            if author_idx >= len(row):
+                continue
+            author_cell = row[author_idx]
+            quote_cell = row[quote_idx] if quote_idx < len(row) else ""
+            growth_cell = row[growth_idx] if growth_idx is not None and growth_idx < len(row) else ""
+            citekeys = re.findall(r"@([A-Za-z0-9][A-Za-z0-9:_-]*)", author_cell)
+            if not citekeys:
+                continue
+            for citekey in citekeys:
+                checks.append(
+                    {
+                        "citekey": citekey,
+                        "quote": quote_cell,
+                        "growth": growth_cell,
+                    }
+                )
+    return checks
+
+
+def build_checklist(status: dict[str, str], last_checked: str) -> str:
+    lines = [
+        "<details open>",
+        "<summary>Validation Checks</summary>",
+        "",
+        f"**Overall:** {status['overall']}",
+        "",
+        f"- {status['citations']} Cited sources exist in `posts/ai.bib` (programmatic)",
+        f"- {status['tables']} Table rows have required fields (programmatic)",
+        f"- {status['quotes_match']} QMD quotes match `posts/ai.bib` (programmatic)",
+        f"- {status['growth_match']} QMD growth values match `posts/ai.bib` (programmatic)",
+        f"- {status['abstracts']} Abstracts present for all cited sources (programmatic)",
+        "- ⏳ Bib quotes verified against sources (LLM-assisted, test not implemented)",
+        "- ⏳ Growth values consistent with quoted text (LLM-assisted, test not implemented)",
+        "- ⏳ Coverage check against recent sources (manual + web search, test not implemented)",
+        "",
+        f"Last checked: {last_checked}",
+        "</details>",
+    ]
+    return "\n".join(lines)
+
+
+def build_report(
+    missing_citekeys: list[str],
+    table_issues: list[int],
+    quote_missing: list[str],
+    quote_mismatches: list[str],
+    growth_missing: list[str],
+    growth_mismatches: list[str],
+    missing_abstracts: list[str],
+) -> str:
+    lines = ["Validation report", "-----------------"]
+
+    def add_list(label: str, items: list[str]) -> None:
+        if items:
+            lines.append(f"{label} ({len(items)}):")
+            lines.extend([f"  - {item}" for item in sorted(items)])
+        else:
+            lines.append(f"{label}: none")
+
+    def add_count(label: str, count: int) -> None:
+        lines.append(f"{label}: {count}")
+
+    add_list("Missing citekeys in bib", missing_citekeys)
+    add_count("Table column mismatches", len(table_issues))
+    add_list("Missing bib quotes", quote_missing)
+    add_list("Quote mismatches", quote_mismatches)
+    add_list("Missing bib growth values", growth_missing)
+    add_list("Growth mismatches", growth_mismatches)
+    add_list("Missing abstracts", missing_abstracts)
+    return "\n".join(lines)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--qmd", required=True)
+    parser.add_argument("--bib", required=True)
+    parser.add_argument(
+        "--report",
+        action="store_true",
+        help="Print a detailed validation report after the checklist.",
+    )
+    parser.add_argument(
+        "--report-path",
+        help="Write the detailed validation report to a file path.",
+    )
+    args = parser.parse_args()
+
+    qmd_path = Path(args.qmd)
+    bib_path = Path(args.bib)
+
+    qmd_text = read_text(qmd_path)
+    qmd_clean = strip_code_blocks(qmd_text)
+    bib_text = read_text(bib_path)
+
+    citekeys = extract_citekeys(qmd_clean)
+    bib_entries = parse_bib(bib_text)
+    bib_keys = set(bib_entries.keys())
+    missing_citekeys = sorted(citekeys - bib_keys)
+
+    table_issues = []
+    for table_lines in iter_tables(qmd_clean):
+        header_cols = len(split_row(table_lines[0]))
+        for row in table_lines[1:]:
+            if re.match(r"^\s*\|\s*[-:]", row):
+                continue
+            cols = len(split_row(row))
+            if cols != header_cols:
+                table_issues.append(cols)
+
+    table_checks = extract_table_checks(qmd_clean)
+    quote_mismatches = []
+    quote_missing = []
+    growth_mismatches = []
+    growth_missing = []
+    for check in table_checks:
+        key = check["citekey"]
+        entry = bib_entries.get(key, {})
+        bib_quote = normalize_text(entry.get("quote", ""))
+        bib_growth = normalize_text(entry.get("growth_annual_excess", ""))
+        qmd_quote = normalize_text(check["quote"])
+        qmd_growth = normalize_text(check["growth"])
+        if not bib_quote and key not in quote_missing:
+            quote_missing.append(key)
+        elif bib_quote and bib_quote != qmd_quote:
+            quote_mismatches.append(key)
+        if not bib_growth and key not in growth_missing:
+            growth_missing.append(key)
+        elif bib_growth and bib_growth != qmd_growth:
+            growth_mismatches.append(key)
+
+    missing_abstracts = []
+    for key in citekeys:
+        entry = bib_entries.get(key, {})
+        abstract = entry.get("abstract", "").strip()
+        if not abstract or abstract.lower().startswith("abstract unavailable"):
+            missing_abstracts.append(key)
+
+    status = {
+        "citations": "✅" if not missing_citekeys else "❌",
+        "tables": "✅" if not table_issues else "❌",
+        "quotes_match": "✅" if not quote_mismatches and not quote_missing else "⚠️"
+        if not quote_mismatches
+        else "❌",
+        "growth_match": "✅" if not growth_mismatches and not growth_missing else "⚠️"
+        if not growth_mismatches
+        else "❌",
+        "quotes_verified": "⚠️",
+        "growth_consistency": "⚠️",
+        "abstracts": "✅" if not missing_abstracts else "⚠️",
+        "coverage": "⚠️",
+    }
+
+    hard_fail = any(
+        status[key] == "❌" for key in ("citations", "tables", "quotes_match", "growth_match")
+    )
+    any_warn = any(value == "⚠️" for value in status.values())
+    status["overall"] = "❌ Fail" if hard_fail else "⚠️ Warning" if any_warn else "✅ Pass"
+
+    print(build_checklist(status, dt.date.today().isoformat()))
+    report = build_report(
+        missing_citekeys,
+        table_issues,
+        quote_missing,
+        quote_mismatches,
+        growth_missing,
+        growth_mismatches,
+        missing_abstracts,
+    )
+    if args.report:
+        print()
+        print(report)
+    if args.report_path:
+        Path(args.report_path).write_text(report + "\n", encoding="utf-8")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
