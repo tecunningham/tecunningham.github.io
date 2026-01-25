@@ -6,7 +6,7 @@ reference-location: document
 citation-location: document
 date: 2025-11-06
 author: Tom Cunningham
-engine: knitr
+engine: python
 format:
   html:
     other-formats: false
@@ -14,6 +14,242 @@ format:
 ---
 
 <!-- https://tecunningham.github.io/posts/2025-10-19-forecasts-of-AI-growth.html -->
+
+```{python}
+#| echo: false
+#| results: asis
+from __future__ import annotations
+
+import datetime as dt
+import re
+import unicodedata
+from pathlib import Path
+
+qmd_path = Path("posts/2025-10-19-forecasts-of-AI-growth.qmd")
+bib_path = Path("posts/ai.bib")
+if not qmd_path.exists():
+    qmd_path = Path("2025-10-19-forecasts-of-AI-growth.qmd")
+if not bib_path.exists():
+    bib_path = Path("ai.bib")
+
+
+def read_text(path: Path) -> str:
+    return path.read_text(encoding="utf-8")
+
+
+def strip_code_blocks(text: str) -> str:
+    lines = text.splitlines()
+    out = []
+    in_code = False
+    for line in lines:
+        if line.strip().startswith("```"):
+            in_code = not in_code
+            continue
+        if not in_code:
+            out.append(line)
+    return "\n".join(out)
+
+
+def normalize_text(text: str) -> str:
+    text = unicodedata.normalize("NFKD", text)
+    text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)
+    text = (
+        text.replace("\u201c", '"')
+        .replace("\u201d", '"')
+        .replace("\u2019", "'")
+        .replace("\u2013", "-")
+        .replace("\u2014", "-")
+    )
+    text = re.sub(r'<br\s*/?>', ' ', text, flags=re.IGNORECASE)
+    text = re.sub(r'<[^>]+>', ' ', text)
+    text = text.replace("*", "").replace("_", "")
+    text = re.sub(r'\s+', ' ', text).strip()
+    if len(text) >= 2 and text[0] == '"' and text[-1] == '"':
+        text = text[1:-1].strip()
+    return text.lower()
+
+
+def extract_citekeys(text: str) -> set[str]:
+    keys = set(re.findall(r'@([A-Za-z0-9][A-Za-z0-9:_-]*)', text))
+    ignore = {"media", "font-face", "keyframes", "supports"}
+    return {key for key in keys if key not in ignore}
+
+
+def parse_bib(text: str) -> dict[str, dict[str, str]]:
+    entries: dict[str, dict[str, str]] = {}
+    current_key: str | None = None
+    for line in text.splitlines():
+        start = re.match(r'@\w+\{([^,]+),', line)
+        if start:
+            current_key = start.group(1).strip()
+            entries[current_key] = {}
+            continue
+        if current_key is None:
+            continue
+        if line.strip().startswith("}"):
+            current_key = None
+            continue
+        field = re.match(r'\s*([A-Za-z_]+)\s*=\s*\{(.*)\},?\s*$', line)
+        if field:
+            entries[current_key][field.group(1)] = field.group(2)
+    return entries
+
+
+def iter_tables(text: str) -> list[list[str]]:
+    lines = text.splitlines()
+    tables: list[list[str]] = []
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        if line.strip().startswith("|"):
+            table_lines: list[str] = []
+            while i < len(lines) and lines[i].strip().startswith("|"):
+                table_lines.append(lines[i])
+                i += 1
+            tables.append(table_lines)
+            continue
+        i += 1
+    return tables
+
+
+def split_row(row: str) -> list[str]:
+    row = re.sub(r'^\s*\||\|\s*$', '', row)
+    return [cell.strip() for cell in row.split("|")]
+
+
+def parse_table(table_lines: list[str]) -> tuple[list[str], list[list[str]]]:
+    header = split_row(table_lines[0])
+    rows: list[list[str]] = []
+    for row in table_lines[1:]:
+        if re.match(r'^\s*\|\s*[-:]', row):
+            continue
+        rows.append(split_row(row))
+    return header, rows
+
+
+def extract_table_checks(text: str) -> list[dict[str, str]]:
+    checks: list[dict[str, str]] = []
+    for table_lines in iter_tables(text):
+        header, rows = parse_table(table_lines)
+        header_norm = [re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', ' ', h)).strip().lower() for h in header]
+        if "author" not in header_norm or "quote" not in header_norm:
+            continue
+        author_idx = header_norm.index("author")
+        quote_idx = header_norm.index("quote")
+        growth_idx = None
+        if "annual excess growth, 2025-2035" in header_norm:
+            growth_idx = header_norm.index("annual excess growth, 2025-2035")
+        elif "growth 2025-2035" in header_norm:
+            growth_idx = header_norm.index("growth 2025-2035")
+        for row in rows:
+            if author_idx >= len(row):
+                continue
+            author_cell = row[author_idx]
+            quote_cell = row[quote_idx] if quote_idx < len(row) else ""
+            growth_cell = row[growth_idx] if growth_idx is not None and growth_idx < len(row) else ""
+            citekeys = re.findall(r'@([A-Za-z0-9][A-Za-z0-9:_-]*)', author_cell)
+            if not citekeys:
+                continue
+            for citekey in citekeys:
+                checks.append(
+                    {
+                        "citekey": citekey,
+                        "quote": quote_cell,
+                        "growth": growth_cell,
+                    }
+                )
+    return checks
+
+
+qmd_text = read_text(qmd_path)
+qmd_clean = strip_code_blocks(qmd_text)
+bib_text = read_text(bib_path)
+
+citekeys = extract_citekeys(qmd_clean)
+bib_entries = parse_bib(bib_text)
+bib_keys = set(bib_entries.keys())
+missing_citekeys = sorted(citekeys - bib_keys)
+
+table_issues = []
+for table_lines in iter_tables(qmd_clean):
+    header_cols = len(split_row(table_lines[0]))
+    for row in table_lines[1:]:
+        if re.match(r'^\s*\|\s*[-:]', row):
+            continue
+        cols = len(split_row(row))
+        if cols != header_cols:
+            table_issues.append(cols)
+
+table_checks = extract_table_checks(qmd_clean)
+quote_mismatches = []
+quote_missing = []
+growth_mismatches = []
+growth_missing = []
+for check in table_checks:
+    key = check["citekey"]
+    entry = bib_entries.get(key, {})
+    bib_quote = normalize_text(entry.get("quote", ""))
+    bib_growth = normalize_text(entry.get("growth_annual_excess", ""))
+    qmd_quote = normalize_text(check["quote"])
+    qmd_growth = normalize_text(check["growth"])
+    if not bib_quote and key not in quote_missing:
+        quote_missing.append(key)
+    elif bib_quote and bib_quote != qmd_quote:
+        quote_mismatches.append(key)
+    if not bib_growth and key not in growth_missing:
+        growth_missing.append(key)
+    elif bib_growth and bib_growth != qmd_growth:
+        growth_mismatches.append(key)
+
+missing_abstracts = []
+for key in citekeys:
+    entry = bib_entries.get(key, {})
+    abstract = entry.get("abstract", "").strip()
+    if not abstract or abstract.lower().startswith("abstract unavailable"):
+        missing_abstracts.append(key)
+
+status = {
+    "citations": "✅" if not missing_citekeys else "❌",
+    "tables": "✅" if not table_issues else "❌",
+    "quotes_match": "✅" if not quote_mismatches and not quote_missing else "⚠️"
+    if not quote_mismatches
+    else "❌",
+    "growth_match": "✅" if not growth_mismatches and not growth_missing else "⚠️"
+    if not growth_mismatches
+    else "❌",
+    "quotes_verified": "⚠️",
+    "growth_consistency": "⚠️",
+    "abstracts": "✅" if not missing_abstracts else "⚠️",
+    "coverage": "⚠️",
+}
+
+hard_fail = any(
+    status[key] == "❌" for key in ("citations", "tables", "quotes_match", "growth_match")
+)
+any_warn = any(value == "⚠️" for value in status.values())
+overall = "❌ Fail" if hard_fail else "⚠️ Warning" if any_warn else "✅ Pass"
+
+lines = [
+    "<details open>",
+    "<summary>Validation Checks</summary>",
+    "",
+    f"**Overall:** {overall}",
+    "",
+    f"- {status['citations']} Cited sources exist in `posts/ai.bib` (programmatic)",
+    f"- {status['tables']} Table rows have required fields (programmatic)",
+    f"- {status['quotes_match']} QMD quotes match `posts/ai.bib` (programmatic)",
+    f"- {status['growth_match']} QMD growth values match `posts/ai.bib` (programmatic)",
+    f"- {status['quotes_verified']} Bib quotes verified against sources (LLM-assisted)",
+    f"- {status['growth_consistency']} Growth values consistent with quoted text (LLM-assisted)",
+    f"- {status['abstracts']} Abstracts present for all cited sources (warning if missing)",
+    f"- {status['coverage']} Coverage check against recent sources (manual + web search)",
+    "",
+    f"Last checked: {dt.date.today().isoformat()}",
+    "</details>",
+]
+
+print("\n".join(lines))
+```
 
 <style>
    dl {display: grid;}
@@ -59,19 +295,19 @@ More observations below.
 | March 2023       | @briggs2023potentially (Goldman Sachs)                                                                                                                   |                 +1.5%                 | *"We estimate that widespread adoption of generative AI could raise overall labor productivity growth by around 1.5pp/year (vs. a recent 1.5% average growth pace), roughly the same-sized boost that followed the emergence of prior transformative technologies like the electric motor and personal computer.”*                                                                                                                                                                                  |
 | May 2023         | @baily2023machines                                                                                                                                 |                 +2.8%                 | *"The projection labeled “Level” assumes that generative AI raises the level of productivity and output by an additional 18% over ten years, as suggested by the illustrative numbers we discussed for the first channel. After ten years, growth reverts to the baseline rate. The third projection labeled “Level+Growth” additionally includes a one percentage point boost in the rate of growth over the baseline rate, resulting from the additional innovation triggered by generative AI."* |
 | June 2023        | @mckinsey2023genai                                                                                                                                 |               +0.1-0.6%               | *"genAI alone: +0.1-0.6 pp/yr labor productivity through ~2040; combined with other tech/automation: +0.5-3.4 pp/yr."*                                                                                                                                                                                                                                                                                                                                                                            |
-| August 2023      | [Tyler Cowen](https://www.bloomberg.com/opinion/articles/2023-08-16/ai-won-t-supercharge-the-us-economy)                                           |              +0.25%-0.5%              | *"My best guess, and I do stress that word guess, is that advanced artificial intelligence will boost the annual US growth rate by one-quarter to one-half of a percentage point."*                                                                                                                                                                                                                                                                                                                 |
+| August 2023      | @cowen2023bloomberg (Tyler Cowen)                                                                                                           |              +0.25%-0.5%              | *"My best guess, and I do stress that word guess, is that advanced artificial intelligence will boost the annual US growth rate by one-quarter to one-half of a percentage point."*                                                                                                                                                                                                                                                                                                                 |
 | March 2024       | @korinek2024scenarios                                                                                                                              |                 +18%                  | *"In the baseline AGI scenario ... steady-state growth of 18% per year."*                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| April 2024       | @acemoglu2024simple                                                                                                                                |                +0.07%                 | "Using existing estimates on exposure to AI and productivity improvements at the task level, these macroeconomic eﬀects appear nontrivial but modest—no more than a 0.71% increase in total factor productivity over 10 years."                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| April 2024       | @acemoglu2024simple                                                                                                                                |                +0.07%                 | "Using existing estimates on exposure to AI and productivity improvements at the task level, these macroeconomic effects appear nontrivial but modest -- no more than a 0.71% increase in total factor productivity over 10 years."                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | May 2024         | @bis2024impact (BIS)                                                                                                                                    |               +2.5%               | They assume a 1.5% growth in productivity but then predict that equilibrium output will increase at a higher rate. *"we assume that AI raises annual productivity growth by 1.5 percentage points for the next decade, in line with plausible estimates in the literature ... Growth is fastest in the first 10 years – i.e. the period in which AI directly raises industry-level TFP – at which point GDP is almost 30% higher than it would have been without"*                                                                                                                                                                                                                                                                                                                                          |
 | June 2024        | @aghion2024ai                                                                                                                                      |                  +0.68-1.3%                  | *"Based on the first approach, we estimate that the AI revolution should increase aggregate productivity growth by between 0.8 and 1.3pp per year over the next decade. Using the second approach but with our own reading of the recent empirical literature on the various components of the task-based formula, we obtain a median estimate of 0.68pp additional annual total factor productivity (TFP) growth."*                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | July 2024 | @tytell2024aixfactor | 0.2-0.9% | Exhibit 1 shows a range of estimates for increases to productivity growth rates, between 0.2% and 0.9%.
 | Dec 2024         | @filippucci2024miracle (OECD)                                                                                                                      |              +0.25-0.6%               | *"main estimates for annual aggregate total-factor productivity growth due to AI range between 0.25-0.6 percentage points (0.4-0.9 pp. for labour productivity)."*                                                                                                                                                                                                                                                                                                                                                                            |
-| Jan 2025 | [Wiseman and McClements](https://inferencemagazine.substack.com/p/how-much-economic-growth-from-ai) | 3-9% | *"We expect AI will provide a 3%-9% increase to economic growth per year in the near future"*
-| Feb 2025         | [Tyler Cowen](https://marginalrevolution.com/marginalrevolution/2025/02/why-i-think-ai-take-off-is-relatively-slow.html)                           |                 +0.5%                 | *"I’ve gone on record as suggesting that AI will boost economic growth rates by half a percentage point a year."*                                                                                                                                                                                                                                                                                                                                                                                  |
+| Jan 2025 | @wiseman2025growth (Wiseman and McClements) | 3-9% | *"We expect AI will provide a 3%-9% increase to economic growth per year in the near future"*
+| Feb 2025         | @cowen2025slowtakeoff (Tyler Cowen)                           |                 +0.5%                 | *"I’ve gone on record as suggesting that AI will boost economic growth rates by half a percentage point a year."*                                                                                                                                                                                                                                                                                                                                                                                  |
 | March 2025       | @ecb2025bergeaud (ECB)                                                                                                                                   |                +0.29%                 | *"We predict TFP gains of 2.9% in the medium run (say in the next ten years) in the euro area, equivalent to an additional 0.29 percentage points per year."*                                                                                                                                                                                                                                                                                                                                  |
 | March 2025       | @erdil2025gate (Epoch GATE model)                                                                                                                                    |                 +30%                  | The website [figure](https://epoch.ai/blog/announcing-gate) showing Gross World Product shows that in 2035 "default" path hits approximately a 30% annualized growth rate. <br /><br />However Ege Erdil [says](https://x.com/EgeErdil2/status/1986500128954536246) *"i don't personally predict 30% mean annual gdp growth in the US over the next 10 years ... the model does with some reasonable parameter values, but my timelines for that kind of growth are longer, and there's model uncertainty and so on".*                                                                                                                                                                                                                                                                                                                                                        |
 | April 2025       | @imf2025misch (IMF)                                                                                                                                |                 +0.2%                 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  *"We find that the medium-term productivity gains for Europe as a whole are likely to be modest, at around 1 percent cumulatively over five years."* |
-| May 2025         | [Jack Clark](https://conversationswithtyler.com/episodes/jack-clark/) (Anthropic)                                                                             |           +3-5%           | *"I think my bear case on all of this is 3 percent, and my bull case is something like 5 percent."*                                                                                                                                                                                                                                                                                                                                                                                               |
+| May 2025         | @clark2025anthropic (Jack Clark) (Anthropic)                                                                             |           +3-5%           | *"I think my bear case on all of this is 3 percent, and my bull case is something like 5 percent."*                                                                                                                                                                                                                                                                                                                                                                                               |
 | June 2025        | @oecd2025filippucci (OECD)                                                                                                                               |         +0.4-1.3%          | *"annual aggregate labour productivity growth due to AI range between 0.4-1.3 percentage points in countries with high AI exposure ... In contrast, the estimated range is 0.2 to 0.8 percentage points in countries where these determinants of AI gains are less favourable (e.g. Italy, Japan)."*                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | Sept 2025        | @arnon2025projected (Penn Wharton Budget Model) |                +0.15%                 | *"Compounded, TFP and GDP levels are 1.5% higher by 2035."*                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 
@@ -81,9 +317,9 @@ More observations below.
 
 | date of forecast | author                                                                                                         | growth 2025-2035 | quote |
 | ---------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------- | ----- |
-| March 2023       | [Paul Krugman](https://www.nytimes.com/2023/03/31/opinion/ai-chatgpt-jobs-economy.html?searchResultPosition=2) | small                 |     *"history suggests that large economic effects from A.I. will take longer to materialize than many people currently seem to expect ... ChatGPT and whatever follows are probably an economic story for the 2030s, not for the next few years."*  |
-| July 2024        | [Josh Gans](https://x.com/joshgans/status/1812492809326276786)                                                 | small                    | *"I don’t think it will boost growth appreciably ... over the next 10 years"*      |
-| Oct 2025         | [Andrej Karpathy](https://www.dwarkesh.com/p/andrej-karpathy)                                                                                      |     no change in trend     | Dwarkesh: *"Just to clarify, you're saying that the rate of growth will not change."* ... Karpathy: *"Yes, my expectation is that it stays in the same pattern."* <br /><br />This doesn't pin down the *incremental* effect of AI on growth, but it's presumably between 0% and 2%.                                                                                                                                                                                                                          |
+| March 2023       | @krugman2023ai (Paul Krugman) | small                 |     *"history suggests that large economic effects from A.I. will take longer to materialize than many people currently seem to expect ... ChatGPT and whatever follows are probably an economic story for the 2030s, not for the next few years."*  |
+| July 2024        | @gans2024tweet (Josh Gans)                                                 | small                    | *"I don’t think it will boost growth appreciably ... over the next 10 years"*      |
+| Oct 2025         | @karpathy2025dwarkesh (Andrej Karpathy)                                                                                      |     no change in trend     | Dwarkesh: *"Just to clarify, you're saying that the rate of growth will not change."* ... Karpathy: *"Yes, my expectation is that it stays in the same pattern."* <br /><br />This doesn't pin down the *incremental* effect of AI on growth, but it's presumably between 0% and 2%.                                                                                                                                                                                                                          |
 
 #           Observations
 
