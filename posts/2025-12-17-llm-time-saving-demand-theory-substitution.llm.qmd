@@ -19,10 +19,69 @@ execute:
 
 <!-- https://tecunningham.github.io/posts/2025-12-17-llm-time-saving-demand-theory-substitution.llm.html -->
 
+<!-- Author note: review tools/test_llm_time_saving_qmd.py for tests and run it after edits. -->
+
+```{python}
+#| echo: false
+#| results: asis
+from __future__ import annotations
+
+import subprocess
+import sys
+from pathlib import Path
+
+from IPython.display import Markdown, display
+
+# Quarto executes notebooks with a CWD that can differ from the repo root.
+# Find the repo root by walking upward until we see both `tools/` and `posts/`.
+repo_root: Path | None = None
+for candidate in [Path.cwd(), *Path.cwd().parents]:
+    if (candidate / "tools").is_dir() and (candidate / "posts").is_dir():
+        repo_root = candidate
+        break
+if repo_root is None:
+    repo_root = Path.cwd()
+
+script_path = repo_root / "tools/test_llm_time_saving_qmd.py"
+
+proc = subprocess.run(
+    [sys.executable, str(script_path), "--no-llm"],
+    capture_output=True,
+    text=True,
+    cwd=str(repo_root),
+)
+out = (proc.stdout or "").rstrip()
+err = (proc.stderr or "").rstrip()
+if not out and err:
+    out = f"(stderr)\n{err}"
+if proc.returncode != 0:
+    out = f"[exit {proc.returncode}]\n{out}"
+
+md = (
+    '<details class="validation-checklist">\n'
+    "<summary>Validation Checks</summary>\n\n"
+    "```text\n"
+    f"{out}\n"
+    "```\n"
+    "</details>\n"
+)
+display(Markdown(md))
+```
+
 <style>
   dl {display: grid;}
   dt {grid-column-start: 1; width: 18em;}
   dd {grid-column-start: 2; margin-left: 1.25em;}
+  details.validation-checklist {
+    background: #f5f5f5;
+    border: 1px solid #777;
+    border-radius: 6px;
+    padding: 0.5em 0.75em;
+    margin-bottom: 1em;
+  }
+  details.validation-checklist > summary {
+    cursor: pointer;
+  }
 </style>
 
 <!--
