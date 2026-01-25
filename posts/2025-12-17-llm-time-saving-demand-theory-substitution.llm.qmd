@@ -57,6 +57,20 @@ if not out and err:
 if proc.returncode != 0:
     out = f"[exit {proc.returncode}]\n{out}"
 
+hide_lines = [
+    "Programmatic: required sections present",
+    "Programmatic: estimation flowchart present",
+    "Programmatic: applications present",
+    "Programmatic: experimental design present",
+    "Programmatic: Mermaid renders via mermaid.ink (optional)",
+]
+filtered_lines: list[str] = []
+for line in out.splitlines():
+    if any(needle in line for needle in hide_lines):
+        continue
+    filtered_lines.append(line)
+out = "\n".join(filtered_lines).strip()
+
 md = (
     '<details class="validation-checklist">\n'
     "<summary>Validation Checks</summary>\n\n"
