@@ -244,16 +244,6 @@ class TestQmdStructure(unittest.TestCase):
                     f"Mermaid block {idx} has parentheses in an edge label: {label!r}.",
                 )
 
-    def test_diagrams_present(self) -> None:
-        self.assertIn("```{mermaid}", self.qmd_text)
-        # Second diagram used to be TikZ; it's now a Python-rendered figure
-        # (more robust for HTML output).
-        self.assertTrue(
-            ("```{tikz}" in self.qmd_text)
-            or ("Discrete activation: speedups switch on tasks" in self.qmd_text),
-            "Missing threshold diagram (expected tikz block or the discrete-activation figure).",
-        )
-
     def test_applications_present(self) -> None:
         self.assertIn("## Applications", self.qmd_text)
         self.assertIn("@anthropic2025estimatingproductivitygains", self.qmd_text)
@@ -264,8 +254,8 @@ class TestQmdStructure(unittest.TestCase):
     def test_experimental_design_present(self) -> None:
         self.assertIn("## Experimental design", self.qmd_text)
         # Light-touch guardrail: ensure there is a concrete, numbered protocol list.
-        self.assertRegex(self.qmd_text, r"\n1\. \*\*Decide the estimand up front\.\*\*")
-        self.assertRegex(self.qmd_text, r"\n4\. \*\*Trace a demand curve")
+        self.assertRegex(self.qmd_text, r"\n1\. Decide the estimand up front\.")
+        self.assertRegex(self.qmd_text, r"\n4\. Trace a demand curve")
 
     def test_citations_resolve(self) -> None:
         citations = extract_citations(self.qmd_text)
@@ -391,13 +381,6 @@ def print_validation_report(run_llm_if_configured: bool = True) -> int:
                 print(f"{_symbol(mermaid_ok)} Programmatic: Mermaid renders via mermaid.ink")
                 overall_ok = overall_ok and mermaid_ok
 
-    # Diagrams
-    ok = ("```{mermaid}" in qmd_text) and (
-        ("```{tikz}" in qmd_text) or ("Discrete activation: speedups switch on tasks" in qmd_text)
-    )
-    print(f"{_symbol(ok)} Programmatic: diagrams present")
-    overall_ok = overall_ok and ok
-
     # Applications
     ok = (
         ("## Applications" in qmd_text)
@@ -411,7 +394,7 @@ def print_validation_report(run_llm_if_configured: bool = True) -> int:
 
     # Experimental design
     ok = ("## Experimental design" in qmd_text) and (
-        re.search(r"\n1\. \*\*Decide the estimand up front\.\*\*", qmd_text) is not None
+        re.search(r"\n1\. Decide the estimand up front\.", qmd_text) is not None
     )
     print(f"{_symbol(ok)} Programmatic: experimental design present")
     overall_ok = overall_ok and ok
@@ -586,12 +569,6 @@ def build_json_report(run_llm_if_configured: bool = True) -> Dict[str, object]:
             if mermaid_ok is not None:
                 overall_ok = overall_ok and mermaid_ok
 
-    ok = ("```{mermaid}" in qmd_text) and (
-        ("```{tikz}" in qmd_text) or ("Discrete activation: speedups switch on tasks" in qmd_text)
-    )
-    items.append({"name": "diagrams present", "category": "programmatic", "ok": ok})
-    overall_ok = overall_ok and ok
-
     ok = (
         ("## Applications" in qmd_text)
         and ("@anthropic2025estimatingproductivitygains" in qmd_text)
@@ -603,7 +580,7 @@ def build_json_report(run_llm_if_configured: bool = True) -> Dict[str, object]:
     overall_ok = overall_ok and ok
 
     ok = ("## Experimental design" in qmd_text) and (
-        re.search(r"\n1\. \*\*Decide the estimand up front\.\*\*", qmd_text) is not None
+        re.search(r"\n1\. Decide the estimand up front\.", qmd_text) is not None
     )
     items.append({"name": "experimental design present", "category": "programmatic", "ok": ok})
     overall_ok = overall_ok and ok
