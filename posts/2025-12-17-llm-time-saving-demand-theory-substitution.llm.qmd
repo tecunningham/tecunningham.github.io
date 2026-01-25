@@ -155,6 +155,8 @@ checks = [
     ("Programmatic: required sections present", "TestQmdStructure.test_required_sections_present"),
     ("Programmatic: proof structure (collapsed)", "TestQmdStructure.test_structured_proof_collapsed"),
     ("Programmatic: estimation flowchart present", "TestQmdStructure.test_estimation_flowchart_present"),
+    ("Programmatic: Mermaid syntax lint (offline)", "TestQmdStructure.test_mermaid_syntax_lint"),
+    ("Programmatic: Mermaid renders via mermaid.ink (optional)", "TestQmdStructure.test_mermaid_syntax_valid"),
     ("Programmatic: diagrams present", "TestQmdStructure.test_diagrams_present"),
     ("Programmatic: applications present", "TestQmdStructure.test_applications_present"),
     ("Programmatic: experimental design present", "TestQmdStructure.test_experimental_design_present"),
@@ -297,16 +299,16 @@ This is often the cleanest way to use both pre and post shares: estimate $\varep
 
 ```{mermaid}
 flowchart TD
-  A[Goal: estimate productivity lift v(p')/v(p)\nfor fixed time endowment] --> B{Are tasks mostly divisible\nat the relevant margin?}
+  A["Goal: estimate productivity lift<br/>v(p_new)/v(p_old)<br/>for fixed time endowment"] --> B{"Are tasks mostly divisible<br/>at the relevant margin?"}
 
-  B -->|Yes (continuous)| C{Are speedups small\nor broad-based?}
-  C -->|Yes| D[Use share-weighted log changes:\nΔ ln v ≈ Σ s_i Δ ln β_i\n(Tornqvist/Divisia)]
-  C -->|No| E{Do you have enough data to pin down substitution?\n(e.g. CES elasticity, demand system)}
-  E -->|Yes| F[Compute an exact/parametric index:\nP(p)=e(p,1), v=1/P\n(CES closed form when applicable)]
-  E -->|No| G[Trace a demand curve:\nvary effective AI cost/strength;\nestimate compensated shares; integrate]
+  B -->|Yes: continuous| C{"Are speedups small<br/>or broad-based?"}
+  C -->|Yes| D["Use share-weighted log changes:<br/>d ln v ~= sum_i s_i d ln beta_i<br/>(Tornqvist/Divisia)"]
+  C -->|No| E{"Do you have enough data to pin down substitution?<br/>e.g. CES elasticity, demand system"}
+  E -->|Yes| F["Compute an exact/parametric index:<br/>P(p)=e(p,1), v=1/P<br/>CES closed form when applicable"]
+  E -->|No| G["Trace a demand curve:<br/>vary effective AI cost/strength;<br/>estimate compensated shares; integrate"]
 
-  B -->|No (setup costs / unit demand)| H[Model extensive margin:\nwhich tasks get activated?]
-  H --> I[Report both:\n(i) intensive effect on existing tasks,\n(ii) activation/selection effect]
+  B -->|No: setup or unit-demand| H["Model extensive margin:<br/>which tasks get activated?"]
+  H --> I["Report both:<br/>(i) intensive effect on existing tasks,<br/>(ii) activation/selection effect"]
 ```
 
 ### What you can estimate with what data

@@ -7,10 +7,13 @@ Optional LLM-based checks validate narrative criteria and citation plausibility.
 from __future__ import annotations
 
 import argparse
+import base64
 import importlib.util
 import json
 import os
 import re
+import shutil
+import subprocess
 import sys
 import unittest
 from functools import lru_cache
@@ -40,6 +43,12 @@ def read_text(path: Path) -> str:
 
 def extract_citations(text: str) -> List[str]:
     return re.findall(r"@([A-Za-z0-9:_-]+)", text)
+
+
+def extract_mermaid_blocks(text: str) -> List[str]:
+    """Extract Mermaid fenced code blocks from a QMD/Markdown document."""
+    pattern = re.compile(r"```\{mermaid\}\s*\n(.*?)\n```", re.DOTALL)
+    return [m.group(1).strip() for m in pattern.finditer(text)]
 
 
 @lru_cache(maxsize=1)
@@ -164,6 +173,77 @@ class TestQmdStructure(unittest.TestCase):
         self.assertIn("```{mermaid}", self.qmd_text)
         self.assertRegex(self.qmd_text, r"\nflowchart TD")
 
+    def test_mermaid_syntax_valid(self) -> None:
+        """Validate Mermaid code blocks by round-tripping through mermaid.ink.
+
+        This catches cases where Quarto will emit a <pre class="mermaid"> block,
+        but the diagram won't render client-side due to a Mermaid parse error.
+        """
+        if not os.getenv("MERMAID_INK_CHECK"):
+            raise unittest.SkipTest("Set MERMAID_INK_CHECK=1 to validate Mermaid syntax via mermaid.ink.")
+
+        blocks = extract_mermaid_blocks(self.qmd_text)
+        self.assertGreater(len(blocks), 0, "No Mermaid blocks found to validate.")
+
+        curl = shutil.which("curl")
+        if not curl:
+            raise unittest.SkipTest("curl not found; skipping Mermaid syntax validation.")
+
+        base_url = os.getenv("MERMAID_INK_BASE_URL", "https://mermaid.ink/svg/")
+
+        for idx, code in enumerate(blocks, start=1):
+            payload = json.dumps({"code": code, "mermaid": {"theme": "default"}})
+            b64 = base64.urlsafe_b64encode(payload.encode("utf-8")).decode("ascii").rstrip("=")
+            url = f"{base_url}{b64}"
+
+            # Fast path: only fetch HTTP status code (discard SVG).
+            proc = subprocess.run(
+                [curl, "-sS", "--max-time", "10", "-o", "/dev/null", "-w", "%{http_code}", url],
+                capture_output=True,
+                text=True,
+            )
+            if proc.returncode != 0:
+                raise unittest.SkipTest(
+                    f"curl failed while validating Mermaid block {idx} (network?): {proc.stderr.strip()}"
+                )
+            http_code = (proc.stdout or "").strip()
+            if http_code == "200":
+                continue
+
+            # On failure, fetch the error body for a readable assertion message.
+            proc_body = subprocess.run(
+                [curl, "-sS", "--max-time", "10", url],
+                capture_output=True,
+                text=True,
+            )
+            body = (proc_body.stdout or proc_body.stderr or "").strip()
+            snippet = body[:600] + ("..." if len(body) > 600 else "")
+            self.fail(f"Mermaid block {idx} failed to render (HTTP {http_code}): {snippet}")
+
+    def test_mermaid_syntax_lint(self) -> None:
+        """Offline lint for common Mermaid gotchas.
+
+        We keep this lightweight and deterministic (no network). The goal is to
+        prevent patterns that routinely cause Mermaid parse failures in Quarto.
+        """
+        blocks = extract_mermaid_blocks(self.qmd_text)
+        self.assertGreater(len(blocks), 0, "No Mermaid blocks found to lint.")
+
+        for idx, code in enumerate(blocks, start=1):
+            # Mermaid does not accept literal backslash-newline escapes in labels.
+            self.assertNotIn(
+                "\\n",
+                code,
+                f"Mermaid block {idx} contains literal \\\\n escapes; use <br/> for line breaks.",
+            )
+            # Parentheses in edge labels are easy to trip Mermaid's tokenizer.
+            for label in re.findall(r"\|([^|]*)\|", code):
+                self.assertNotRegex(
+                    label,
+                    r"[()]",
+                    f"Mermaid block {idx} has parentheses in an edge label: {label!r}.",
+                )
+
     def test_diagrams_present(self) -> None:
         self.assertIn("```{mermaid}", self.qmd_text)
         # Second diagram used to be TikZ; it's now a Python-rendered figure
@@ -264,6 +344,52 @@ def print_validation_report(run_llm_if_configured: bool = True) -> int:
     )
     print(f"{_symbol(ok)} Programmatic: estimation flowchart present")
     overall_ok = overall_ok and ok
+
+    # Mermaid syntax lint (offline)
+    mermaid_blocks = extract_mermaid_blocks(qmd_text)
+    lint_errors: list[str] = []
+    for i, code in enumerate(mermaid_blocks, start=1):
+        if "\\n" in code:
+            lint_errors.append(f"block {i}: contains literal \\\\n escapes")
+        for label in re.findall(r"\|([^|]*)\|", code):
+            if "(" in label or ")" in label:
+                lint_errors.append(f"block {i}: parentheses in edge label {label!r}")
+    ok = (len(mermaid_blocks) > 0) and (not lint_errors)
+    print(f"{_symbol(ok)} Programmatic: Mermaid syntax lint (offline)")
+    if lint_errors:
+        print(f"  ❌ {lint_errors[0]}{' ...' if len(lint_errors) > 1 else ''}")
+    overall_ok = overall_ok and ok
+
+    # Mermaid render check (optional, uses network)
+    if not os.getenv("MERMAID_INK_CHECK"):
+        print("⏳ Programmatic: Mermaid renders via mermaid.ink (optional)")
+    else:
+        curl = shutil.which("curl")
+        if not curl:
+            print("⏳ Programmatic: Mermaid renders via mermaid.ink (optional; curl not found)")
+        else:
+            base_url = os.getenv("MERMAID_INK_BASE_URL", "https://mermaid.ink/svg/")
+            mermaid_ok: bool | None = True
+            for i, code in enumerate(mermaid_blocks, start=1):
+                payload = json.dumps({"code": code, "mermaid": {"theme": "default"}})
+                b64 = base64.urlsafe_b64encode(payload.encode("utf-8")).decode("ascii").rstrip("=")
+                url = f"{base_url}{b64}"
+                proc = subprocess.run(
+                    [curl, "-sS", "--max-time", "10", "-o", "/dev/null", "-w", "%{http_code}", url],
+                    capture_output=True,
+                    text=True,
+                )
+                if proc.returncode != 0:
+                    mermaid_ok = None
+                    break
+                if (proc.stdout or "").strip() != "200":
+                    mermaid_ok = False
+                    break
+            if mermaid_ok is None:
+                print("⏳ Programmatic: Mermaid renders via mermaid.ink (network error)")
+            else:
+                print(f"{_symbol(mermaid_ok)} Programmatic: Mermaid renders via mermaid.ink")
+                overall_ok = overall_ok and mermaid_ok
 
     # Diagrams
     ok = ("```{mermaid}" in qmd_text) and (
@@ -382,6 +508,83 @@ def build_json_report(run_llm_if_configured: bool = True) -> Dict[str, object]:
     ok = ("Estimation flowchart" in qmd_text) and ("```{mermaid}" in qmd_text) and (re.search(r"\nflowchart TD", qmd_text) is not None)
     items.append({"name": "estimation flowchart present", "category": "programmatic", "ok": ok})
     overall_ok = overall_ok and ok
+
+    mermaid_blocks = extract_mermaid_blocks(qmd_text)
+    lint_errors: list[str] = []
+    for i, code in enumerate(mermaid_blocks, start=1):
+        if "\\n" in code:
+            lint_errors.append(f"block {i}: contains literal \\\\n escapes")
+        for label in re.findall(r"\|([^|]*)\|", code):
+            if "(" in label or ")" in label:
+                lint_errors.append(f"block {i}: parentheses in edge label {label!r}")
+    ok = (len(mermaid_blocks) > 0) and (not lint_errors)
+    items.append(
+        {
+            "name": "Mermaid syntax lint (offline)",
+            "category": "programmatic",
+            "ok": ok,
+            "counts": {"blocks": len(mermaid_blocks), "errors": len(lint_errors)},
+            "errors": lint_errors[:5],
+        }
+    )
+    overall_ok = overall_ok and ok
+
+    if not os.getenv("MERMAID_INK_CHECK"):
+        items.append(
+            {
+                "name": "Mermaid renders via mermaid.ink",
+                "category": "programmatic",
+                "ok": None,
+                "skipped": True,
+                "reason": "Set MERMAID_INK_CHECK=1 to enable",
+            }
+        )
+    else:
+        curl = shutil.which("curl")
+        if not curl:
+            items.append(
+                {
+                    "name": "Mermaid renders via mermaid.ink",
+                    "category": "programmatic",
+                    "ok": None,
+                    "skipped": True,
+                    "reason": "curl not found",
+                }
+            )
+        else:
+            base_url = os.getenv("MERMAID_INK_BASE_URL", "https://mermaid.ink/svg/")
+            mermaid_ok: bool | None = True
+            failure_detail: dict[str, object] | None = None
+            for i, code in enumerate(mermaid_blocks, start=1):
+                payload = json.dumps({"code": code, "mermaid": {"theme": "default"}})
+                b64 = base64.urlsafe_b64encode(payload.encode("utf-8")).decode("ascii").rstrip("=")
+                url = f"{base_url}{b64}"
+                proc = subprocess.run(
+                    [curl, "-sS", "--max-time", "10", "-o", "/dev/null", "-w", "%{http_code}", url],
+                    capture_output=True,
+                    text=True,
+                )
+                if proc.returncode != 0:
+                    mermaid_ok = None
+                    failure_detail = {"block": i, "error": (proc.stderr or "").strip()}
+                    break
+                http_code = (proc.stdout or "").strip()
+                if http_code != "200":
+                    mermaid_ok = False
+                    failure_detail = {"block": i, "http_code": http_code}
+                    break
+            items.append(
+                {
+                    "name": "Mermaid renders via mermaid.ink",
+                    "category": "programmatic",
+                    "ok": mermaid_ok,
+                    "checked_blocks": len(mermaid_blocks),
+                    "base_url": base_url,
+                    "failure": failure_detail,
+                }
+            )
+            if mermaid_ok is not None:
+                overall_ok = overall_ok and mermaid_ok
 
     ok = ("```{mermaid}" in qmd_text) and (
         ("```{tikz}" in qmd_text) or ("Discrete activation: speedups switch on tasks" in qmd_text)
