@@ -40,3 +40,23 @@ Claim (short sentence)
 
   A second paragraph is ok if it stays indented.
 ```
+
+## Post Validation Checks
+
+This repo supports per-post "Validation Checks" blocks powered by shared code.
+
+- Shared runner: `tools/qmd_validate.py`
+  - Validate one post: `python tools/qmd_validate.py --qmd posts/<post>.qmd`
+  - Validate all registered posts: `python tools/qmd_validate.py --all`
+- Post-specific plugins live in `tools/qmd_validate/posts/` and are named after the
+  source post file, with an added `.py` suffix.
+  - Example: `posts/2025-10-19-forecasts-of-AI-growth.qmd`
+    -> `tools/qmd_validate/posts/2025-10-19-forecasts-of-AI-growth.qmd.py`
+
+### Nightly GitHub Action Email
+
+There is a scheduled workflow `.github/workflows/nightly-post-validation.yml`.
+To enable email-on-failure, set these repository secrets:
+
+- `SMTP_SERVER`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`
+- `VALIDATION_EMAIL_TO`, `VALIDATION_EMAIL_FROM`

@@ -1,0 +1,60 @@
+name: Nightly Post Validation
+
+on:
+  schedule:
+    # Daily at 07:00 UTC (adjust as desired).
+    - cron: "0 7 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run post validators
+        id: validate
+        continue-on-error: true
+        env:
+          MERMAID_INK_CHECK: "1"
+        run: |
+          set -euo pipefail
+          set +e
+          python tools/qmd_validate.py --all --json | tee validate.json
+          code=${PIPESTATUS[0]}
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Email on failure
+        if: steps.validate.outputs.exit_code != '0' && secrets.SMTP_SERVER != ''
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: "Nightly post validation failed: ${{ github.repository }}"
+          to: ${{ secrets.VALIDATION_EMAIL_TO }}
+          from: ${{ secrets.VALIDATION_EMAIL_FROM }}
+          body: |
+            Nightly post validation failed.
+
+            Repo: ${{ github.repository }}
+            Workflow: ${{ github.workflow }}
+            Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            Output (JSON):
+            ${{ github.workspace }}/validate.json
+          attachments: validate.json
+
+      - name: Fail if validators failed
+        if: steps.validate.outputs.exit_code != '0'
+        run: |
+          echo "Post validation failed (exit_code=${{ steps.validate.outputs.exit_code }})"
+          exit 1
