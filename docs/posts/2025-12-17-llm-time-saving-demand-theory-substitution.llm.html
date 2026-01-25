@@ -248,7 +248,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#results-first-summary" id="toc-results-first-summary" class="nav-link active" data-scroll-target="#results-first-summary">Results-first summary</a></li>
-  <li><a href="#setup-time-prices-and-speedups" id="toc-setup-time-prices-and-speedups" class="nav-link" data-scroll-target="#setup-time-prices-and-speedups">Setup: time prices and speedups</a></li>
+  <li><a href="#setup-time-allocation-and-task-productivity" id="toc-setup-time-allocation-and-task-productivity" class="nav-link" data-scroll-target="#setup-time-allocation-and-task-productivity">Setup: time allocation and task productivity</a></li>
   <li><a href="#estimation-cheat-sheet" id="toc-estimation-cheat-sheet" class="nav-link" data-scroll-target="#estimation-cheat-sheet">Estimation cheat sheet</a>
   <ul class="collapse">
   <li><a href="#two-good-reduction-ai-affected-bundle-vs-the-rest" id="toc-two-good-reduction-ai-affected-bundle-vs-the-rest" class="nav-link" data-scroll-target="#two-good-reduction-ai-affected-bundle-vs-the-rest">Two-good reduction (AI-affected bundle vs the rest)</a></li>
@@ -302,11 +302,13 @@ window.Quarto = {
 <dd>
 If tasks that get sped up initially take share <span class="math inline">\(s\)</span> of time and get speedup factor <span class="math inline">\(A\)</span> when you do them, then an arithmetic share calculation gives <span class="math inline">\(1+s(A-1)\)</span>. That expression is correct only for a knife-edge estimand where you hold the task mix fixed. If you let the person reoptimize, <span class="math inline">\(s\)</span> is endogenous and the total lift depends on substitution.
 </dd>
-<dt>Allowing reallocation makes the estimand a demand-theory object</dt>
+<dt>Allowing reallocation makes the estimand a time-allocation object</dt>
 <dd>
-The object of interest is the best attainable output index under a unit time endowment, <span class="math display">\[
-  v(p)\;=\;\max_{x\ge 0} u(x)\quad\text{s.t.}\quad \sum_i p_i x_i\le 1,
-  \]</span> where <span class="math inline">\(p_i\)</span> is time per unit of task output and <span class="math inline">\(u(x)\)</span> aggregates task outputs into an overall notion of productivity. LLM speedups <span class="math inline">\(\beta_i\)</span> shift time prices to <span class="math inline">\(p_i'=p_i/\beta_i\)</span>, and the productivity gain is <span class="math inline">\(v(p')/v(p)\)</span>.
+Let <span class="math inline">\(t=(t_1,\dots,t_n)\)</span> be time allocated across tasks with <span class="math inline">\(\sum_i t_i=1\)</span>. Let <span class="math inline">\(A=(A_1,\dots,A_n)\)</span> be task-specific productivity (effective output per unit time on each task). Let the output index be <span class="math display">\[
+  y(A_1 t_1,\dots,A_n t_n),
+  \]</span> where <span class="math inline">\(y(\cdot)\)</span> is increasing in each argument. The substitution-adjusted productivity level is <span class="math display">\[
+  V(A)\equiv \max_{t\ge 0}\; y(A_1 t_1,\dots,A_n t_n)\quad\text{s.t.}\quad \sum_i t_i\le 1.
+  \]</span> An LLM changes productivity from <span class="math inline">\(A^0\)</span> to <span class="math inline">\(A^1\)</span>, and the lift is <span class="math inline">\(V(A^1)/V(A^0)\)</span>.
 </dd>
 <dt>Substitutability governs how much time share moves when a task becomes cheap</dt>
 <dd>
@@ -322,24 +324,24 @@ If tasks are lumpy and you either do a task or not, and you observe the time req
 </dd>
 </dl>
 </section>
-<section id="setup-time-prices-and-speedups" class="level2">
-<h2 class="anchored" data-anchor-id="setup-time-prices-and-speedups">Setup: time prices and speedups</h2>
+<section id="setup-time-allocation-and-task-productivity" class="level2">
+<h2 class="anchored" data-anchor-id="setup-time-allocation-and-task-productivity">Setup: time allocation and task productivity</h2>
 <dl>
-<dt>Setup in time-allocation form</dt>
+<dt>The canonical setup is time allocation with task productivity</dt>
 <dd>
-Let <span class="math inline">\(t=(t_1,\dots,t_n)\)</span> be time allocated to tasks with <span class="math inline">\(\sum_i t_i=1\)</span>. Let <span class="math inline">\(A=(A_1,\dots,A_n)\)</span> be task-specific productivity, so that the effective inputs to production are <span class="math inline">\((A_1 t_1,\dots,A_n t_n)\)</span>. Let the output index be <span class="math inline">\(y(A_1 t_1,\dots,A_n t_n)\)</span>, where <span class="math inline">\(y\)</span> is increasing in each argument.
+You choose time shares <span class="math inline">\(t=(t_1,\dots,t_n)\)</span> with <span class="math inline">\(\sum_i t_i=1\)</span>, and productivity enters as the vector <span class="math inline">\(A=(A_1,\dots,A_n)\)</span> in the output index <span class="math inline">\(y(A_1 t_1,\dots,A_n t_n)\)</span>.
 </dd>
-<dt>Equivalent time-price form</dt>
+<dt>Index-number results can be imported by reinterpreting productivity as inverse prices</dt>
 <dd>
-Define task outputs as <span class="math inline">\(x_i=A_i t_i\)</span>. Then the time constraint becomes <span class="math inline">\(\sum_i (1/A_i)x_i\le 1\)</span>, so <span class="math inline">\(p_i\equiv 1/A_i\)</span> is time per unit of task output. An LLM that multiplies productivity on task <span class="math inline">\(i\)</span> by <span class="math inline">\(\beta_i\)</span> maps to <span class="math inline">\(A_i'=\beta_i A_i\)</span> and <span class="math inline">\(p_i'=p_i/\beta_i\)</span>. In what follows I use the time-price notation because it lines up directly with expenditure functions and price-index results.
+If you define a time price <span class="math inline">\(p_i\equiv 1/A_i\)</span> for an efficiency unit of task <span class="math inline">\(i\)</span>, then changes in <span class="math inline">\(A\)</span> can be analyzed with standard expenditure-function and price-index tools. I use that equivalence in the continuous section because it is the cleanest way to import known results about exact indices, Tornqvist approximations, and compensated-demand integrals.
 </dd>
 <dt>Two margins matter</dt>
 <dd>
-The continuous model treats <span class="math inline">\(x\)</span> as divisible and focuses on intensive reallocation. The discrete model treats the task set as lumpy (setup time or unit demand) and focuses on which tasks get activated.
+The continuous model treats tasks as divisible and focuses on intensive reallocation. The discrete model treats the task set as lumpy (setup time or unit demand) and focuses on which tasks get activated.
 </dd>
 <dt>Continuous intensive margin means smooth substitution</dt>
 <dd>
-Choose continuous <span class="math inline">\(x_i\)</span> and allow interior reallocation.
+Choose time shares <span class="math inline">\(t_i\)</span> and allow interior reallocation.
 </dd>
 <dt>Discrete extensive margin means task activation and selection</dt>
 <dd>
@@ -350,15 +352,15 @@ Choose which tasks to do at all (unit demand or setup costs).
 </section>
 <section id="estimation-cheat-sheet" class="level2">
 <h2 class="anchored" data-anchor-id="estimation-cheat-sheet">Estimation cheat sheet</h2>
-<p>This section is a “lookup table” for turning <em>measured</em> speedups into a productivity lift <span class="math inline">\(v(p')/v(p)\)</span> under common assumptions.</p>
+<p>This section is a lookup table for turning measured productivity changes into a lift <span class="math inline">\(V(A^1)/V(A^0)\)</span> under common assumptions.</p>
 <section id="two-good-reduction-ai-affected-bundle-vs-the-rest" class="level3">
 <h3 class="anchored" data-anchor-id="two-good-reduction-ai-affected-bundle-vs-the-rest">Two-good reduction (AI-affected bundle vs the rest)</h3>
 <p>For many back-of-envelope calculations, you can collapse tasks into:</p>
 <ul>
-<li>good 2: the set of tasks whose time cost drops by <span class="math inline">\(\beta\)</span> when AI is allowed,</li>
+<li>good 2: the set of tasks whose productivity rises by a factor <span class="math inline">\(A\)</span> when AI is allowed,</li>
 <li>good 1: everything else (normalized).</li>
 </ul>
-<p>Let <span class="math inline">\(s_0\)</span> be the pre-AI time share on good 2 (i.e.&nbsp;<span class="math inline">\(s_0 \equiv p_2 x_2 / (p_1 x_1+p_2 x_2)\)</span> evaluated at baseline prices), and suppose only <span class="math inline">\(p_2\)</span> changes to <span class="math inline">\(p_2' = p_2/\beta\)</span>.</p>
+<p>Let <span class="math inline">\(s_0\)</span> be the pre-AI time share on good 2, and suppose only good 2 gets a productivity multiplier <span class="math inline">\(A&gt;1\)</span>.</p>
 <p>Then common benchmarks are:</p>
 <table class="caption-top table">
 <colgroup>
@@ -369,40 +371,40 @@ Choose which tasks to do at all (unit demand or setup costs).
 <thead>
 <tr class="header">
 <th>Assumption about substitution</th>
-<th>Implied output gain <span class="math inline">\(v(p')/v(p)\)</span></th>
+<th>Implied output gain <span class="math inline">\(V(A^1)/V(A^0)\)</span></th>
 <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>Perfect complements (Amdahl-style)</td>
-<td><span class="math inline">\(\dfrac{1}{(1-s_0)+s_0/\beta}\)</span></td>
+<td><span class="math inline">\(\dfrac{1}{(1-s_0)+s_0/A}\)</span></td>
 <td>Fixed proportions; AI only relaxes the bottleneck</td>
 </tr>
 <tr class="even">
 <td>Cobb-Douglas (<span class="math inline">\(\varepsilon=1\)</span>)</td>
-<td><span class="math inline">\(\beta^{s_0}\)</span></td>
-<td>Share is constant; log change is <span class="math inline">\(s_0\ln\beta\)</span></td>
+<td><span class="math inline">\(A^{s_0}\)</span></td>
+<td>Share is constant; log change is <span class="math inline">\(s_0\ln A\)</span></td>
 </tr>
 <tr class="odd">
 <td>CES elasticity <span class="math inline">\(\varepsilon\)</span></td>
-<td><span class="math inline">\(\left((1-s_0)+s_0\,\beta^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}}\)</span></td>
+<td><span class="math inline">\(\left((1-s_0)+s_0\,A^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}}\)</span></td>
 <td>Requires <span class="math inline">\(\varepsilon\)</span> (or enough data to infer it)</td>
 </tr>
 <tr class="even">
 <td>Perfect substitutes</td>
-<td><span class="math inline">\(\beta\)</span></td>
+<td><span class="math inline">\(A\)</span></td>
 <td>You can reallocate everything to the sped-up bundle</td>
 </tr>
 </tbody>
 </table>
 <p>In the multi-task case, a common log-index approximation is the Tornqvist/Divisia form <span class="math display">\[
-\Delta\ln v \;\approx\; \sum_i \bar s_i\,\ln \beta_i,\qquad \bar s_i \equiv \tfrac12(s_i^0+s_i^1),
+\Delta\ln V \;\approx\; \sum_i \bar t_i\,\ln\left(\frac{A_i^1}{A_i^0}\right),\qquad \bar t_i \equiv \tfrac12(t_i^0+t_i^1),
 \]</span> which uses average (pre/post) time shares. <span class="citation" data-cites="caves1982indexnumbers">Caves, Christensen, and Diewert (<a href="#ref-caves1982indexnumbers" role="doc-biblioref">1982</a>)</span></p>
 <dl>
 <dt>Anthropic-style numbers as a sanity check</dt>
 <dd>
-If <span class="math inline">\(s_0=0.10\)</span> and <span class="math inline">\(\beta=5\)</span> (80% time reduction when AI is used), the implied gain ranges from:
+If <span class="math inline">\(s_0=0.10\)</span> and <span class="math inline">\(A=5\)</span> (a 5x productivity multiplier when AI is used), the implied gain ranges from:
 </dd>
 </dl>
 <ul>
@@ -416,9 +418,9 @@ If <span class="math inline">\(s_0=0.10\)</span> and <span class="math inline">\
 <section id="if-you-observe-pre-and-post-time-shares-you-can-infer-an-elasticity-in-ces" class="level3">
 <h3 class="anchored" data-anchor-id="if-you-observe-pre-and-post-time-shares-you-can-infer-an-elasticity-in-ces">If you observe pre and post time shares, you can infer an elasticity (in CES)</h3>
 <p>In the same two-good CES setting, let <span class="math inline">\(s_1\)</span> be the post-AI time share on good 2. Then <span class="math display">\[
-\operatorname{logit}(s_1)-\operatorname{logit}(s_0)=(\varepsilon-1)\ln \beta,
+\operatorname{logit}(s_1)-\operatorname{logit}(s_0)=(\varepsilon-1)\ln A,
 \]</span> so <span class="math display">\[
-\varepsilon \;=\; 1 + \frac{\operatorname{logit}(s_1)-\operatorname{logit}(s_0)}{\ln\beta}.
+\varepsilon \;=\; 1 + \frac{\operatorname{logit}(s_1)-\operatorname{logit}(s_0)}{\ln A}.
 \]</span></p>
 <p>Here <span class="math inline">\(\operatorname{logit}(s)\equiv \ln\!\left(\frac{s}{1-s}\right)\)</span>.</p>
 <p>This is often the cleanest way to use both pre and post shares: estimate <span class="math inline">\(\varepsilon\)</span>, then plug into the CES gain formula. (And if you do <em>not</em> believe CES globally, you should treat this as local-to-the-observed price change.)</p>
@@ -431,12 +433,12 @@ If <span class="math inline">\(s_0=0.10\)</span> and <span class="math inline">\
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart TD
-  A["Goal: estimate productivity lift&lt;br/&gt;v(p_new)/v(p_old)&lt;br/&gt;for fixed time endowment"] --&gt; B{"Are tasks mostly divisible&lt;br/&gt;at the relevant margin?"}
+  A["Goal: estimate productivity lift&lt;br/&gt;V(A_new)/V(A_old)&lt;br/&gt;for fixed time endowment"] --&gt; B{"Are tasks mostly divisible&lt;br/&gt;at the relevant margin?"}
 
   B --&gt;|Yes: continuous| C{"Are speedups small&lt;br/&gt;or broad-based?"}
-  C --&gt;|Yes| D["Use share-weighted log changes:&lt;br/&gt;d ln v ~= sum_i s_i d ln beta_i&lt;br/&gt;(Tornqvist/Divisia)"]
+  C --&gt;|Yes| D["Use share-weighted log changes:&lt;br/&gt;d ln V ~= sum_i t_i d ln A_i&lt;br/&gt;(Tornqvist/Divisia)"]
   C --&gt;|No| E{"Do you have enough data to pin down substitution?&lt;br/&gt;e.g. CES elasticity, demand system"}
-  E --&gt;|Yes| F["Compute an exact/parametric index:&lt;br/&gt;P(p)=e(p,1), v=1/P&lt;br/&gt;CES closed form when applicable"]
+  E --&gt;|Yes| F["Compute an exact/parametric index:&lt;br/&gt;map p_i=1/A_i; use e(p,1)&lt;br/&gt;CES closed form when applicable"]
   E --&gt;|No| G["Trace a demand curve:&lt;br/&gt;vary effective AI cost/strength;&lt;br/&gt;estimate compensated shares; integrate"]
 
   B --&gt;|No: setup or unit-demand| H["Model extensive margin:&lt;br/&gt;which tasks get activated?"]
@@ -465,18 +467,18 @@ If <span class="math inline">\(s_0=0.10\)</span> and <span class="math inline">\
 </thead>
 <tbody>
 <tr class="odd">
-<td>One big conditional speedup <span class="math inline">\(\beta\)</span> + a baseline share <span class="math inline">\(s_0\)</span></td>
+<td>One big conditional multiplier <span class="math inline">\(A\)</span> + a baseline share <span class="math inline">\(s_0\)</span></td>
 <td>Report complements/substitutes bounds; add CES sensitivity</td>
-<td>A wide interval for <span class="math inline">\(v(p')/v(p)\)</span> unless you assume <span class="math inline">\(\varepsilon\)</span></td>
+<td>A wide interval for <span class="math inline">\(V(A^1)/V(A^0)\)</span> unless you assume <span class="math inline">\(\varepsilon\)</span></td>
 </tr>
 <tr class="even">
-<td>Pre and post shares <span class="math inline">\((s_0,s_1)\)</span> for an AI bundle + a speedup <span class="math inline">\(\beta\)</span></td>
+<td>Pre and post shares <span class="math inline">\((s_0,s_1)\)</span> for an AI bundle + a multiplier <span class="math inline">\(A\)</span></td>
 <td>Use the logit formula to estimate <span class="math inline">\(\varepsilon\)</span>; plug into CES gain</td>
 <td>A model-based point estimate (local to the observed change)</td>
 </tr>
 <tr class="odd">
 <td>Multiple randomized “AI price/quality” arms + observed shares</td>
-<td>Estimate share response vs <span class="math inline">\(\ln\beta\)</span>; integrate shares over the change</td>
+<td>Estimate share response vs <span class="math inline">\(\ln A\)</span>; integrate shares over the change</td>
 <td>An “area under the (compensated) demand curve” estimate for large changes</td>
 </tr>
 <tr class="even">
@@ -491,145 +493,60 @@ If <span class="math inline">\(s_0=0.10\)</span> and <span class="math inline">\
 <section id="continuous-intensive-margin-model" class="level2">
 <h2 class="anchored" data-anchor-id="continuous-intensive-margin-model">Continuous (intensive-margin) model</h2>
 <dl>
-<dt>Homotheticity makes the lift the inverse of a time price index</dt>
+<dt>Homotheticity lets you treat productivity changes as inverse price changes</dt>
 <dd>
-The primal problem is
+Write effective task output as <span class="math inline">\(z_i\equiv A_i t_i\)</span>. Then <span class="math display">\[
+  V(A)=\max_{z\ge 0}\; y(z)\quad\text{s.t.}\quad \sum_i \frac{z_i}{A_i}\le 1.
+  \]</span> Define time prices <span class="math inline">\(p_i\equiv 1/A_i\)</span>. This turns the constraint into <span class="math inline">\(\sum_i p_i z_i\le 1\)</span>, so standard expenditure-function and index-number results apply. In particular, define the unit-expenditure function <span class="math inline">\(P(p)\equiv e(p,1)\)</span>. Under homotheticity, the productivity level is <span class="math display">\[
+  V(A)=\frac{1}{P(1/A)}.
+  \]</span> This is the classic index-number framing applied to time prices (Caves, Christensen, and Diewert, <span class="citation" data-cites="caves1982indexnumbers">Caves, Christensen, and Diewert (<a href="#ref-caves1982indexnumbers" role="doc-biblioref">1982</a>)</span>).
 </dd>
+<dt>EV and CV translate productivity changes into welfare changes in time units</dt>
 <dd>
-$$
-</dd>
-<dd>
-v(p);=;_{x} u(x) _i p_i x_i.
-</dd>
-<dd>
-$$
-</dd>
-<dd>
-Define the expenditure function
-</dd>
-<dd>
-$$
-</dd>
-<dd>
-e(p,u)=_{x} {_i p_i x_i: u(x)u}.
-</dd>
-<dd>
-$$
-</dd>
-<dd>
-If <span class="math inline">\(u(\cdot)\)</span> is homothetic and degree-1 homogeneous, then <span class="math inline">\(e(p,\bar u)=\bar u\,e(p,1)\)</span>. Define the unit time price index
-</dd>
-<dd>
-$$
-</dd>
-<dd>
-P(p)e(p,1)v(p)=.
-</dd>
-<dd>
-$$
-</dd>
-<dd>
-This is the classic index-number framing applied to time prices (Caves, Christensen, and Diewert, <span class="citation" data-cites="caves1982indexnumbers">Caves, Christensen, and Diewert (<a href="#ref-caves1982indexnumbers" role="doc-biblioref">1982</a>)</span>).
-</dd>
-<dt>EV and CV translate time-price changes into welfare changes in time units</dt>
-<dd>
-Let <span class="math inline">\(p^0\to p^1\)</span> and <span class="math inline">\(u^k=v(p^k)\)</span>. Equivalent and compensating variation (measured in time) are
-</dd>
-<dd>
-$$
-</dd>
-<dd>
-EV=e(p<sup>0,u</sup>1)-1,CV=e(p<sup>1,u</sup>0)-1.
-</dd>
-<dd>
-$$
-</dd>
-<dd>
-Under homotheticity,
-</dd>
-<dd>
-$$
-</dd>
-<dd>
-EV=-1,CV=-1.
-</dd>
-<dd>
-$$
-</dd>
-<dd>
-This is a clean way to translate LLM time savings into a welfare measure (Hausman, <span class="citation" data-cites="hausman1981exact">Hausman (<a href="#ref-hausman1981exact" role="doc-biblioref">1981</a>)</span>).
+Let <span class="math inline">\(A^0\to A^1\)</span> and define <span class="math inline">\(p^k\equiv 1/A^k\)</span>. Equivalent and compensating variation (measured in time) are <span class="math display">\[
+  EV=e(p^0, V(A^1))-1,\qquad CV=e(p^1, V(A^0))-1.
+  \]</span> Under homotheticity, <span class="math display">\[
+  EV=\frac{P(p^0)}{P(p^1)}-1,\qquad CV=\frac{P(p^1)}{P(p^0)}-1,
+  \]</span> which is a clean way to translate time-saving into a welfare measure (Hausman, <span class="citation" data-cites="hausman1981exact">Hausman (<a href="#ref-hausman1981exact" role="doc-biblioref">1981</a>)</span>).
 </dd>
 <dt>Small changes admit a share-weighted approximation</dt>
 <dd>
-Let <span class="math inline">\(t_i(p)\equiv p_i x_i^*(p)\)</span> be optimal time shares. For small changes in time prices,
-</dd>
-<dd>
-$$
-</dd>
-<dd>
-dv;=;-dP;;_i t_i,d_i.
-</dd>
-<dd>
-$$
-</dd>
-<dd>
-This is the time-allocation analog of share-weighted Hulten-style logic (Hulten, <span class="citation" data-cites="hulten1978growth">Hulten (<a href="#ref-hulten1978growth" role="doc-biblioref">1978</a>)</span>).
+Let <span class="math inline">\(t_i(A)\)</span> denote optimal time shares. For small changes, <span class="math display">\[
+  d\ln V \;\approx\;\sum_i t_i(A)\,d\ln A_i.
+  \]</span> This is the time-allocation analog of share-weighted Hulten-style logic (Hulten, <span class="citation" data-cites="hulten1978growth">Hulten (<a href="#ref-hulten1978growth" role="doc-biblioref">1978</a>)</span>).
 </dd>
 <dt>Large changes require integrating compensated shares</dt>
 <dd>
-When LLM gains are large, constant-elasticity approximations are dangerous. Using Hicksian (compensated) shares <span class="math inline">\(s_i^H(p)\)</span>,
+When gains are large, constant-elasticity shortcuts are dangerous. Using Hicksian (compensated) shares <span class="math inline">\(s_i^H(p)\)</span>, <span class="math display">\[
+  d\ln P(p)=\sum_i s_i^H(p)\,d\ln p_i.
+  \]</span> For a single changing price (equivalently, a single changing productivity component), <span class="math display">\[
+  \ln\frac{P(p^1)}{P(p^0)}=\int s_2^H(p_2)\,d\ln p_2,
+  \]</span> i.e., exact welfare is an area-under-the-compensated-demand-curve object (Willig, <span class="citation" data-cites="willig1976consumerssurplus">Willig (<a href="#ref-willig1976consumerssurplus" role="doc-biblioref">1976</a>)</span>).
 </dd>
+<dt>CES yields closed-form formulas useful for back-of-envelope work</dt>
 <dd>
-$$
-</dd>
-<dd>
-dP(p)=_i s_i^H(p),dp_i.
-</dd>
-<dd>
-$$
-</dd>
-<dd>
-For a single changing price <span class="math inline">\(p_2\)</span>,
-</dd>
-<dd>
-$$
-</dd>
-<dd>
-=s_2^H(p_2),dp_2,
-</dd>
-<dd>
-$$
-</dd>
-<dd>
-i.e., exact welfare is the area under the compensated demand curve (Willig, <span class="citation" data-cites="willig1976consumerssurplus">Willig (<a href="#ref-willig1976consumerssurplus" role="doc-biblioref">1976</a>)</span>).
-</dd>
-<dt>CES yields closed-form formulas that are useful for back-of-envelope work</dt>
-<dd>
-For a CES aggregator <span class="math display">\[
-  u(x)=\left(\sum_i \alpha_i x_i^{\frac{\sigma-1}{\sigma}}\right)^{\frac{\sigma}{\sigma-1}},\quad\sigma&gt;0,
-  \]</span> the price index and time shares are <span class="math display">\[
-  P(p)=\left(\sum_i \alpha_i^{\sigma}p_i^{1-\sigma}\right)^{\frac{1}{1-\sigma}},\qquad
-   t_i(p)=\frac{\alpha_i^{\sigma}p_i^{1-\sigma}}{\sum_j \alpha_j^{\sigma}p_j^{1-\sigma}}.
-  \]</span> In the two-task case, if task 2 speeds up by <span class="math inline">\(\beta\)</span> and its ex-ante share is <span class="math inline">\(s_0\)</span>, then <span class="math display">\[
-  \frac{y'}{y}=\left((1-s_0)+s_0\,\beta^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}},\qquad \varepsilon\equiv\sigma.
+For a CES aggregator in <span class="math inline">\(z\)</span>, <span class="math display">\[
+  y(z)=\left(\sum_i \alpha_i z_i^{\frac{\sigma-1}{\sigma}}\right)^{\frac{\sigma}{\sigma-1}},\quad\sigma&gt;0,
+  \]</span> the associated price index and (compensated) shares have closed form. In a two-good reduction where only good 2 gets a productivity multiplier <span class="math inline">\(A\)</span> and its ex-ante time share is <span class="math inline">\(s_0\)</span>, <span class="math display">\[
+  \frac{V(A^1)}{V(A^0)}=\left((1-s_0)+s_0\,A^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}},\qquad \varepsilon\equiv\sigma.
   \]</span> This is the clean continuous benchmark (Caves, Christensen, and Diewert, <span class="citation" data-cites="caves1982indexnumbers">Caves, Christensen, and Diewert (<a href="#ref-caves1982indexnumbers" role="doc-biblioref">1982</a>)</span>).
 </dd>
 </dl>
 <section id="two-good-ces-yields-closed-form-gain-and-share-shift" class="level4">
 <h4 class="anchored" data-anchor-id="two-good-ces-yields-closed-form-gain-and-share-shift">Two-good CES yields closed-form gain and share shift</h4>
 <dl>
-<dt>The output gain has a closed form in terms of <span class="math inline">\(s_0,\beta,\varepsilon\)</span></dt>
+<dt>The output gain has a closed form in terms of <span class="math inline">\(s_0,A,\varepsilon\)</span></dt>
 <dd>
-In a two-good CES benchmark where only good 2 speeds up by <span class="math inline">\(\beta\)</span> (so <span class="math inline">\(p_2'=p_2/\beta\)</span>), <span class="math display">\[
-  \frac{v(p')}{v(p)}=\left((1-s_0)+s_0\,\beta^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}}.
+In a two-good CES benchmark where only good 2 gets a multiplier <span class="math inline">\(A\)</span> (so <span class="math inline">\(p_2'=p_2/A\)</span>), <span class="math display">\[
+  \frac{V(A^1)}{V(A^0)}=\left((1-s_0)+s_0\,A^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}}.
   \]</span>
 </dd>
 <dt>The post-AI share shift pins down <span class="math inline">\(\varepsilon\)</span> when <span class="math inline">\(s_1\)</span> is observed</dt>
 <dd>
 The post-AI time share is <span class="math display">\[
-  s_1=\frac{s_0\,\beta^{\varepsilon-1}}{(1-s_0)+s_0\,\beta^{\varepsilon-1}}
+  s_1=\frac{s_0\,A^{\varepsilon-1}}{(1-s_0)+s_0\,A^{\varepsilon-1}}
   \quad\Leftrightarrow\quad
-  \operatorname{logit}(s_1)-\operatorname{logit}(s_0)=(\varepsilon-1)\ln\beta.
+  \operatorname{logit}(s_1)-\operatorname{logit}(s_0)=(\varepsilon-1)\ln A.
   \]</span>
 </dd>
 </dl>
@@ -648,13 +565,13 @@ Proof (structured)
 <ol type="1">
 <li><em>Given</em> CES unit-expenditure (time price) index <span class="math display">\[
 P(p)=\left(\alpha_1^{\varepsilon}p_1^{1-\varepsilon}+\alpha_2^{\varepsilon}p_2^{1-\varepsilon}\right)^{\frac{1}{1-\varepsilon}},
-\qquad v(p)=\frac{1}{P(p)}.
+\qquad V(A)=\frac{1}{P(1/A)}.
 \]</span></li>
-<li><em>Let</em> <span class="math inline">\(p_2' = p_2/\beta\)</span> with <span class="math inline">\(p_1\)</span> fixed. Then <span class="math display">\[
-\frac{v(p')}{v(p)}=\frac{P(p)}{P(p')}=
+<li><em>Let</em> <span class="math inline">\(p_2' = p_2/A\)</span> with <span class="math inline">\(p_1\)</span> fixed. Then <span class="math display">\[
+\frac{V(A^1)}{V(A^0)}=\frac{P(p)}{P(p')}=
 \left(
   \frac{\alpha_1^{\varepsilon}p_1^{1-\varepsilon}+\alpha_2^{\varepsilon}p_2^{1-\varepsilon}}
-       {\alpha_1^{\varepsilon}p_1^{1-\varepsilon}+\alpha_2^{\varepsilon}(p_2/\beta)^{1-\varepsilon}}
+       {\alpha_1^{\varepsilon}p_1^{1-\varepsilon}+\alpha_2^{\varepsilon}(p_2/A)^{1-\varepsilon}}
 \right)^{\frac{1}{\varepsilon-1}}.
 \]</span></li>
 <li><em>Define</em> the ex-ante share <span class="math display">\[
@@ -668,9 +585,9 @@ s_0\equiv\frac{\alpha_2^{\varepsilon}p_2^{1-\varepsilon}}
 =
 \frac{(p_2')^{1-\varepsilon}}{p_2^{1-\varepsilon}}
 =
-\left(\frac{p_2/\beta}{p_2}\right)^{1-\varepsilon}
+\left(\frac{p_2/A}{p_2}\right)^{1-\varepsilon}
 =
-\beta^{\varepsilon-1},
+A^{\varepsilon-1},
 \]</span> which rearranges to the stated closed form for <span class="math inline">\(s_1\)</span> and the logit identity.</li>
 <li>QED.</li>
 </ol>
@@ -689,62 +606,42 @@ The continuous model assumes you always do some of each task. That is wrong when
 </dl>
 <section id="unit-demand-formulation" class="level3">
 <h3 class="anchored" data-anchor-id="unit-demand-formulation">Unit-demand formulation</h3>
-<p>Let each task have payoff <span class="math inline">\(u_i\)</span> and required time <span class="math inline">\(w_i(p)\)</span>, with decision <span class="math inline">\(q_i\in\{0,1\}\)</span>. Then <span class="math display">\[
-\max_{q\in\{0,1\}^n}\sum_i u_i q_i\quad\text{s.t.}\quad \sum_i w_i(p) q_i\le 1.
+<p>Let each task have payoff <span class="math inline">\(u_i\)</span> and required time <span class="math inline">\(w_i\)</span>, with decision <span class="math inline">\(q_i\in\{0,1\}\)</span>. Then <span class="math display">\[
+\max_{q\in\{0,1\}^n}\sum_i u_i q_i\quad\text{s.t.}\quad \sum_i w_i q_i\le 1.
 \]</span></p>
 <dl>
 <dt>Speedups can turn tasks on at extensive-margin thresholds</dt>
 <dd>
-Speedups change <span class="math inline">\(w_i\)</span> by <span class="math inline">\(\beta_i\)</span>, which can turn tasks on once a threshold is crossed. This is the basic lumpy-choice phenomenon: tasks that were too time-expensive become attractive after the LLM. A CES elasticity is not a good summary statistic in this regime.
+If AI multiplies productivity for task <span class="math inline">\(i\)</span> by <span class="math inline">\(A_i\)</span>, and time required is inversely proportional to productivity, then <span class="math inline">\(w_i\)</span> falls to <span class="math inline">\(w_i/A_i\)</span>. That change can turn tasks on once a threshold is crossed. This is the basic lumpy-choice phenomenon: tasks that were too time-expensive become attractive after AI. A CES elasticity is not a good summary statistic in this regime.
 </dd>
 <dt>Pre and post task baskets give Laspeyres and Paasche bounds on the lift</dt>
 <dd>
-Suppose you observe (i) the pre-AI chosen task vector <span class="math inline">\(q^0\)</span> and the post-AI chosen task vector <span class="math inline">\(q^1\)</span>, and (ii) the per-task time requirements before and after AI, denoted <span class="math inline">\(w_i^0\)</span> and <span class="math inline">\(w_i^1\)</span>. Define the time cost of a basket as <span class="math inline">\(T^k(q)\equiv \sum_i w_i^k q_i\)</span>. :
-</dd>
-<dd>
-Consider the fixed-basket lifts
-</dd>
-<dd>
-$$
-</dd>
-<dd>
-G_L
-</dd>
-<dd>
-G_P .
-</dd>
-<dd>
-$$
-</dd>
-<dd>
-Under standard revealed-preference logic for a cost-of-living index (with time as the numeraire), the true time-price index lies between Paasche and Laspeyres, so the productivity lift lies between their inverses:
-</dd>
-<dd>
-$$
-</dd>
-<dd>
-G_L ;; ;; G_P.
-</dd>
-<dd>
-$$
-</dd>
-<dd>
-Intuitively, <span class="math inline">\(G_L\)</span> is a conservative “hold the old basket fixed” estimate (lower bound), while <span class="math inline">\(G_P\)</span> allows both the basket and prices to shift (upper bound).
+Suppose you observe (i) the pre-AI chosen task vector <span class="math inline">\(q^0\)</span> and the post-AI chosen task vector <span class="math inline">\(q^1\)</span>, and (ii) the per-task time requirements before and after AI, denoted <span class="math inline">\(w_i^0\)</span> and <span class="math inline">\(w_i^1\)</span>. Define the time cost of a basket as <span class="math inline">\(T^k(q)\equiv \sum_i w_i^k q_i\)</span>. Consider the fixed-basket lifts <span class="math display">\[
+  G_L \equiv \frac{T^0(q^0)}{T^1(q^0)} \qquad\text{and}\qquad
+  G_P \equiv \frac{T^0(q^1)}{T^1(q^1)}.
+  \]</span> Under standard revealed-preference logic for a cost-of-living index (with time as the numeraire), the true time-price index lies between Paasche and Laspeyres, so the productivity lift lies between their inverses: <span class="math display">\[
+  G_L \;\le\; \frac{V(A^1)}{V(A^0)} \;\le\; G_P.
+  \]</span> Intuitively, <span class="math inline">\(G_L\)</span> is a conservative hold-the-old-basket-fixed estimate (lower bound), while <span class="math inline">\(G_P\)</span> allows both the basket and effective prices to shift (upper bound).
 </dd>
 </dl>
 <p>One useful empirical way to think about the “tasks you previously avoided” condition is to decompose time cost into a baseline component plus an “overhead” component (search, reading, drafting, refactoring). For example, write <span class="math display">\[
 w_i=a_i+b_i,
-\]</span> and suppose AI primarily reduces overhead, <span class="math inline">\(b_i' = b_i/\beta^{O}\)</span> while <span class="math inline">\(a_i\)</span> is unchanged. Then <span class="math display">\[
-w_i' = a_i + \frac{b_i}{\beta^{O}},\qquad
-\beta_i \equiv \frac{w_i}{w_i'} = \frac{a_i+b_i}{a_i+b_i/\beta^{O}},
-\]</span> so <span class="math inline">\(\beta_i\)</span> is increasing in the overhead share <span class="math inline">\(b_i/(a_i+b_i)\)</span>. Tasks you previously avoided plausibly have high overhead shares, so they get larger effective speedups and are more likely to cross activation thresholds.</p>
+\]</span> and suppose AI primarily reduces overhead, <span class="math inline">\(b_i' = b_i/A^{O}\)</span> while <span class="math inline">\(a_i\)</span> is unchanged. Then <span class="math display">\[
+w_i' = a_i + \frac{b_i}{A^{O}},\qquad
+A_i \equiv \frac{w_i}{w_i'} = \frac{a_i+b_i}{a_i+b_i/A^{O}},
+\]</span> so <span class="math inline">\(A_i\)</span> is increasing in the overhead share <span class="math inline">\(b_i/(a_i+b_i)\)</span>. Tasks you previously avoided plausibly have high overhead shares, so they get larger effective multipliers and are more likely to cross activation thresholds.</p>
 </section>
 <section id="setup-cost-variant-bridging-discrete-and-continuous" class="level3">
 <h3 class="anchored" data-anchor-id="setup-cost-variant-bridging-discrete-and-continuous">Setup-cost variant (bridging discrete and continuous)</h3>
-<p>Add a fixed setup time <span class="math inline">\(\phi_i\)</span> and a continuous intensity <span class="math inline">\(x_i\)</span>: <span class="math display">\[
-\max_{q,x}\;u(x)\quad\text{s.t.}\quad \sum_i \phi_i q_i + \sum_i p_i x_i \le 1,\; x_i=0\;\text{if }q_i=0.
-\]</span></p>
-<p>If <span class="math inline">\(\phi_i=0\)</span>, we recover the continuous model. If <span class="math inline">\(\phi_i&gt;0\)</span>, large LLM speedups mostly expand the active set <span class="math inline">\(\{i:q_i=1\}\)</span>, not the intensive shares.</p>
+<dl>
+<dt>Setup costs create lumpy activation even when within-task intensity is divisible</dt>
+<dd>
+Add a fixed setup time <span class="math inline">\(\phi_i\)</span> and allow continuous within-task time allocations: <span class="math display">\[
+\max_{q,t}\; y(A_1 t_1,\dots,A_n t_n)\quad\text{s.t.}\quad \sum_i \phi_i q_i + \sum_i t_i \le 1,\; t_i=0\;\text{if }q_i=0.
+\]</span>
+</dd>
+</dl>
+<p>If <span class="math inline">\(\phi_i=0\)</span>, we recover the continuous model. If <span class="math inline">\(\phi_i&gt;0\)</span>, large productivity changes mostly expand the active set <span class="math inline">\(\{i:q_i=1\}\)</span>, not the intensive shares.</p>
 </section>
 <section id="worked-example-discrete-not-continuous" class="level3">
 <h3 class="anchored" data-anchor-id="worked-example-discrete-not-continuous">Worked example (discrete, not continuous)</h3>
@@ -772,7 +669,7 @@ Call a task newly activated if you would not do it at baseline time prices but y
 <dl>
 <dt>These show up as extensive-margin choices, not smooth intensities</dt>
 <dd>
-In a unit-demand or setup-cost model, these tasks show up as newly activated <span class="math inline">\(q_i=1\)</span> choices, not as marginal increases in <span class="math inline">\(x_i\)</span>. This is why AI share of time can jump even if underlying preferences are stable: the feasible set changed.
+In a unit-demand or setup-cost model, these tasks show up as newly activated <span class="math inline">\(q_i=1\)</span> choices, not as marginal changes in time allocations. This is why AI share of time can jump even if underlying preferences are stable: the feasible set changed.
 </dd>
 </dl>
 </section>
@@ -785,7 +682,7 @@ In a unit-demand or setup-cost model, these tasks show up as newly activated <sp
 <p>Suppose the headline inputs (illustrative, in the spirit of the writeup) are:</p>
 <ul>
 <li>Claude is used for <span class="math inline">\(s_0=10\%\)</span> of baseline work (measured pre-AI / from logs),</li>
-<li>conditional time reduction is 80%, i.e.&nbsp;speedup <span class="math inline">\(\beta=5\)</span> when AI is used.</li>
+<li>conditional time reduction is 80%, i.e.&nbsp;a productivity multiplier <span class="math inline">\(A=5\)</span> when AI is used.</li>
 </ul>
 <p>Then even in a two-good continuous approximation, the implied aggregate lift depends sharply on substitution.</p>
 <table class="caption-top table">
@@ -800,7 +697,7 @@ In a unit-demand or setup-cost model, these tasks show up as newly activated <sp
 <th>Assumption about substitution</th>
 <th>What it means in this note</th>
 <th>Assumption on <span class="math inline">\(\varepsilon\)</span></th>
-<th>Implied lift when <span class="math inline">\(s_0=10\%\)</span> and <span class="math inline">\(\beta=5\)</span></th>
+<th>Implied lift when <span class="math inline">\(s_0=10\%\)</span> and <span class="math inline">\(A=5\)</span></th>
 </tr>
 </thead>
 <tbody>
@@ -824,11 +721,11 @@ In a unit-demand or setup-cost model, these tasks show up as newly activated <sp
 </tr>
 </tbody>
 </table>
-<p>The empirical question is therefore not only how big <span class="math inline">\(\beta\)</span> is when AI is used, but how time shares respond to the relative time-price change. In the CES benchmark that response is summarized by <span class="math inline">\(\varepsilon\)</span>; outside CES, it is a demand-curve object.</p>
+<p>The empirical question is therefore not only how big <span class="math inline">\(A\)</span> is when AI is used, but how time shares respond to the relative time-price change. In the CES benchmark that response is summarized by <span class="math inline">\(\varepsilon\)</span>; outside CES, it is a demand-curve object.</p>
 <p>Two concrete complications show up immediately in a log-based setting:</p>
 <ol type="1">
 <li>Endogenous task mix (extensive margin). If AI reduces time costs more for tasks you previously avoided (high search/reading/writing overhead), then the pre-AI share <span class="math inline">\(s_0\)</span> understates the mass of tasks that become attractive post-AI.</li>
-<li>Quality-adjusted output. Some measured time savings are quality improvements (or vice versa). If your output index treats quality as part of output, you need a quality measure to map time changes into <span class="math inline">\(u(x)\)</span>.</li>
+<li>Quality-adjusted output. Some measured time savings are quality improvements (or vice versa). If your output index treats quality as part of output, you need a quality measure to map time changes into the output index <span class="math inline">\(y(\cdot)\)</span>.</li>
 </ol>
 </section>
 <section id="application-2-interpreting-uplift-rcts-metr-open-source-dev" class="level3">
@@ -836,8 +733,8 @@ In a unit-demand or setup-cost model, these tasks show up as newly activated <sp
 <p>Becker et al.&nbsp;(<span class="citation" data-cites="becker2025uplift">J. Becker et al. (<a href="#ref-becker2025uplift" role="doc-biblioref">2025</a>)</span>) is an RCT where tasks are assigned to allow vs disallow AI tools, and the outcome is completion time (with additional self-reports and robustness checks). The headline is that AI access increases completion time on average in their setting.</p>
 <p>From the demand-theory perspective:</p>
 <ul>
-<li>A simple back-of-envelope translation: if allowing AI increases completion time by 19%, then the implied “speedup” is <span class="math inline">\(\beta \approx 1/1.19 \approx 0.84\)</span> (a slowdown). Holding output constant, that’s about a 16% productivity hit on that task population.</li>
-<li>With a fixed task set (as in many RCTs), the main object you learn is a task-level time-price change <span class="math inline">\(p_i\to p_i'\)</span> (a <span class="math inline">\(\beta_i\)</span> distribution), holding task composition fixed.</li>
+<li>A simple back-of-envelope translation: if allowing AI increases completion time by 19%, then the implied productivity multiplier is <span class="math inline">\(A \approx 1/1.19 \approx 0.84\)</span> (a slowdown). Holding output constant, that is about a 16% productivity hit on that task population.</li>
+<li>With a fixed task set (as in many RCTs), the main object you learn is a task-level time change (an <span class="math inline">\(A_i\)</span> distribution if you convert time changes into productivity multipliers), holding task composition fixed.</li>
 <li>Translating that into an aggregate productivity index still requires an output/quality index: are we holding output constant (pure time saved), holding time constant (more output), or letting both adjust? In practice you often want quality-adjusted output per unit time.</li>
 <li>If, in future settings, AI access changes <em>which</em> tasks are attempted, then the design has to either (i) fix tasks (to isolate intensive effects) or (ii) explicitly allow selection and measure it (to capture the extensive margin).</li>
 </ul>
@@ -845,15 +742,15 @@ In a unit-demand or setup-cost model, these tasks show up as newly activated <sp
 </section>
 <section id="experimental-design" class="level2">
 <h2 class="anchored" data-anchor-id="experimental-design">Experimental design</h2>
-<p>Designing studies that map <span class="math inline">\(\{\beta_i\}\)</span> into an aggregate lift <span class="math inline">\(v(p')/v(p)\)</span> is mostly about (a) measuring substitution, and (b) separating intensive vs extensive margins.</p>
+<p>Designing studies that map <span class="math inline">\(\{A_i\}\)</span> into an aggregate lift <span class="math inline">\(V(A^1)/V(A^0)\)</span> is mostly about (a) measuring substitution, and (b) separating intensive vs extensive margins.</p>
 <ol type="1">
-<li>Decide the estimand up front. Same tasks, faster (hold <span class="math inline">\(x\)</span> fixed) is different from best use of a fixed time budget (maximize <span class="math inline">\(u(x)\)</span>). The latter matches the substitution estimand in this note.</li>
+<li>Decide the estimand up front. Same tasks, faster (hold task outputs fixed) is different from best use of a fixed time budget (maximize <span class="math inline">\(y(A_1 t_1,\dots,A_n t_n)\)</span>). The latter matches the substitution estimand in this note.</li>
 <li>Run two complementary protocols.
 <ul>
 <li>Fixed-task protocol (intensive margin): randomize AI availability within a pre-specified task list; measure time and quality on each task.</li>
 <li>Time-budget protocol (substitution/selection): give participants a fixed time budget and a menu (or open-ended objective); randomize AI availability; measure the output index achieved under each condition.</li>
 </ul></li>
-<li>Measure quality explicitly. Use blinded human evaluation, unit tests, or objective metrics; pre-register how quality enters <span class="math inline">\(u(x)\)</span> (e.g.&nbsp;threshold vs continuous scoring).</li>
+<li>Measure quality explicitly. Use blinded human evaluation, unit tests, or objective metrics; pre-register how quality enters the output index <span class="math inline">\(y(\cdot)\)</span> (e.g.&nbsp;threshold vs continuous scoring).</li>
 <li>Trace a demand curve by varying effective AI price. Randomize not only AI allowed, but the effective cost of using AI (token budgets, latency, model quality tiers, usage quotas). This gives variation to estimate how shares move with relative time prices (the object behind <span class="math inline">\(\varepsilon\)</span> or, more generally, Hicksian shares).</li>
 <li>Handle learning and spillovers. Use cross-over designs, washout periods, or between-subject randomization where appropriate; measure experience and allow for dynamic treatment effects.</li>
 </ol>
@@ -866,7 +763,7 @@ In a unit-demand or setup-cost model, these tasks show up as newly activated <sp
 <dl>
 <dt>Konus-style “true” cost-of-living indices are expenditure-function objects</dt>
 <dd>
-Konus (<span class="citation" data-cites="konus1939trueindex">Konus (<a href="#ref-konus1939trueindex" role="doc-biblioref">1939</a>)</span>) defines a cost-of-living index as the ratio of minimum expenditures needed to reach a fixed utility level at two price vectors. This is exactly the object <span class="math inline">\(P(p)=e(p,1)\)</span> (with time prices instead of money prices) that makes <span class="math inline">\(v(p)=1/P(p)\)</span> under homotheticity.
+Konus (<span class="citation" data-cites="konus1939trueindex">Konus (<a href="#ref-konus1939trueindex" role="doc-biblioref">1939</a>)</span>) defines a cost-of-living index as the ratio of minimum expenditures needed to reach a fixed utility level at two price vectors. This is exactly the object <span class="math inline">\(P(p)=e(p,1)\)</span> (with time prices instead of money prices) that corresponds here to <span class="math inline">\(V(A)=1/P(1/A)\)</span> under homotheticity.
 </dd>
 <dt>Exact/superlative indices justify share-weighted log changes as local approximations</dt>
 <dd>

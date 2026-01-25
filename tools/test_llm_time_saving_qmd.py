@@ -27,7 +27,7 @@ BIB_TESTS_PATH = Path("tools/ai.bib.tests.py")
 
 REQUIRED_HEADINGS = [
     "## Results-first summary",
-    "## Setup: time prices and speedups",
+    "## Setup: time allocation and task productivity",
     "## Estimation cheat sheet",
     "## Continuous (intensive-margin) model",
     "## Discrete (extensive-margin) model",
@@ -248,7 +248,7 @@ class TestQmdStructure(unittest.TestCase):
         self.assertIn("## Applications", self.qmd_text)
         self.assertIn("@anthropic2025estimatingproductivitygains", self.qmd_text)
         self.assertIn("s_0=10\\%", self.qmd_text)
-        self.assertIn("\\beta=5", self.qmd_text)
+        self.assertIn("A=5", self.qmd_text)
         self.assertIn("@becker2025uplift", self.qmd_text)
 
     def test_experimental_design_present(self) -> None:
@@ -386,7 +386,7 @@ def print_validation_report(run_llm_if_configured: bool = True) -> int:
         ("## Applications" in qmd_text)
         and ("@anthropic2025estimatingproductivitygains" in qmd_text)
         and ("s_0=10\\%" in qmd_text)
-        and ("\\beta=5" in qmd_text)
+        and ("A=5" in qmd_text)
         and ("@becker2025uplift" in qmd_text)
     )
     print(f"{_symbol(ok)} Programmatic: applications present")
@@ -573,7 +573,7 @@ def build_json_report(run_llm_if_configured: bool = True) -> Dict[str, object]:
         ("## Applications" in qmd_text)
         and ("@anthropic2025estimatingproductivitygains" in qmd_text)
         and ("s_0=10\\%" in qmd_text)
-        and ("\\beta=5" in qmd_text)
+        and ("A=5" in qmd_text)
         and ("@becker2025uplift" in qmd_text)
     )
     items.append({"name": "applications present", "category": "programmatic", "ok": ok})
