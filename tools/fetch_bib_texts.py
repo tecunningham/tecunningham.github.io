@@ -10,7 +10,10 @@ import argparse
 import importlib.util
 import json
 import re
+import shutil
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 import requests
@@ -44,6 +47,18 @@ def is_pdf_url(url: str) -> bool:
     return ".pdf" in lower
 
 
+def is_unusable_fulltext(text: str) -> bool:
+    lower = text.lower()
+    markers = [
+        "verifying you are human",
+        "needs to review the security of your connection before proceeding",
+        "don't have permission to access",
+        "errors.edgesuite.net",
+        "bloomberg the company & its products",
+    ]
+    return any(marker in lower for marker in markers)
+
+
 def extract_markdown_content(text: str) -> str:
     marker = "Markdown Content:"
     if marker in text:
@@ -60,6 +75,32 @@ def sanitize_markdown(text: str) -> str:
             continue
         cleaned.append(line)
     return "\n".join(cleaned).strip()
+
+
+def arxiv_id_from_pdf_url(url: str) -> str | None:
+    m = re.search(r"arxiv\\.org/pdf/([^?#/]+)\\.pdf", url)
+    if not m:
+        return None
+    return m.group(1)
+
+
+def pdf_to_text(pdf_bytes: bytes) -> str:
+    pdftotext = shutil.which("pdftotext")
+    if not pdftotext:
+        raise RuntimeError("pdftotext not found; install poppler to enable PDF extraction.")
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        pdf_path = Path(tmpdir) / "doc.pdf"
+        txt_path = Path(tmpdir) / "doc.txt"
+        pdf_path.write_bytes(pdf_bytes)
+        proc = subprocess.run(
+            [pdftotext, str(pdf_path), str(txt_path)],
+            capture_output=True,
+            text=True,
+        )
+        if proc.returncode != 0:
+            raise RuntimeError((proc.stderr or proc.stdout or "pdftotext failed").strip())
+        return txt_path.read_text(encoding="utf-8", errors="replace")
 
 
 def extract_citekeys_from_qmd(qmd_path: Path) -> set[str]:
@@ -110,6 +151,16 @@ def main() -> int:
     parser.add_argument("--update-bib", action="store_true", help="Insert text_url into ai.bib for successful fetches.")
     parser.add_argument("--timeout", type=int, default=20, help="Per-request timeout in seconds.")
     parser.add_argument("--max", type=int, help="Maximum number of entries to attempt.")
+    parser.add_argument(
+        "--pdf",
+        action="store_true",
+        help="If the source is a PDF, download it and extract text via pdftotext.",
+    )
+    parser.add_argument(
+        "--skip-existing",
+        action="store_true",
+        help="Skip citekeys that already have references/text/<citekey>.txt.",
+    )
     parser.add_argument("--json", action="store_true", help="Emit JSON summary.")
     args = parser.parse_args()
 
@@ -137,14 +188,61 @@ def main() -> int:
     for key in sorted(target_keys):
         if args.max is not None and attempted >= args.max:
             break
+        if args.skip_existing:
+            existing_path = out_dir / f"{key}.txt"
+            if existing_path.exists() and existing_path.stat().st_size > 200:
+                results.append({"key": key, "status": "skipped", "reason": "already_exists"})
+                continue
         attempted += 1
         fields = entry_map.get(key, {})
         source_url = fields.get("text_url") or fields.get("url")
         if not source_url:
             results.append({"key": key, "status": "skipped", "reason": "no_url"})
             continue
-        if is_pdf_url(source_url):
+        if is_pdf_url(source_url) and not args.pdf:
             results.append({"key": key, "status": "skipped", "reason": "pdf"})
+            continue
+
+        if is_pdf_url(source_url):
+            arxiv_id = arxiv_id_from_pdf_url(source_url)
+            if arxiv_id is not None:
+                ar5iv_url = f"https://ar5iv.labs.arxiv.org/html/{arxiv_id}"
+                try:
+                    resp = requests.get(build_jina_url(ar5iv_url), timeout=args.timeout)
+                except Exception as exc:
+                    results.append({"key": key, "status": "error", "reason": str(exc)})
+                    continue
+                if resp.status_code == 200:
+                    content = sanitize_markdown(extract_markdown_content(resp.text))
+                    if len(content.strip()) >= 200 and not is_unusable_fulltext(content):
+                        out_path = out_dir / f"{key}.txt"
+                        out_path.write_text(content.strip() + "\n", encoding="utf-8")
+                        if args.update_bib and not fields.get("text_url"):
+                            updated_bib = insert_text_url(updated_bib, key, ar5iv_url)
+                        results.append({"key": key, "status": "ok", "bytes": len(content), "source": "ar5iv"})
+                        continue
+            try:
+                resp = requests.get(source_url, timeout=args.timeout)
+            except Exception as exc:
+                results.append({"key": key, "status": "error", "reason": str(exc)})
+                continue
+            if resp.status_code != 200:
+                results.append({"key": key, "status": "error", "reason": f"status {resp.status_code}"})
+                continue
+            try:
+                content = pdf_to_text(resp.content)
+            except Exception as exc:
+                results.append({"key": key, "status": "error", "reason": f"pdf_extract_failed:{exc}"})
+                continue
+            content = content.strip()
+            if len(content) < 200:
+                results.append({"key": key, "status": "error", "reason": "content_too_short"})
+                continue
+            out_path = out_dir / f"{key}.txt"
+            out_path.write_text(content + "\n", encoding="utf-8")
+            if args.update_bib and not fields.get("text_url"):
+                updated_bib = insert_text_url(updated_bib, key, source_url)
+            results.append({"key": key, "status": "ok", "bytes": len(content), "source": "pdf"})
             continue
 
         jina_url = build_jina_url(source_url)
@@ -159,6 +257,9 @@ def main() -> int:
 
         content = extract_markdown_content(resp.text)
         content = sanitize_markdown(content)
+        if is_unusable_fulltext(content):
+            results.append({"key": key, "status": "error", "reason": "blocked_or_placeholder"})
+            continue
         if len(content.strip()) < 200:
             results.append({"key": key, "status": "error", "reason": "content_too_short"})
             continue

@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -161,8 +195,33 @@ ga('send', {
 <ul>
 <li>Files named <code>XXX.llm.qmd</code> indicate documents written by an LLM.</li>
 </ul>
+</section>
+<section id="quarto-markdown-notes" class="level2">
+<h2 class="anchored" data-anchor-id="quarto-markdown-notes">Quarto Markdown Notes</h2>
+<section id="definition-lists-pandocquarto" class="level3">
+<h3 class="anchored" data-anchor-id="definition-lists-pandocquarto">Definition Lists (Pandoc/Quarto)</h3>
+<p>Quarto uses Pandoc’s definition-list parsing, which is sensitive to whitespace.</p>
+<p>Rules of thumb:</p>
+<ul>
+<li>A definition list item is <code>Term</code> followed immediately by a line starting with a single <code>:</code>. Do not put a blank line between the term and the <code>:</code> line.</li>
+<li>The <code>:</code> must start at the beginning of the line (column 1). If it is indented, Pandoc may treat it as a code block or part of a different list.</li>
+<li>Continuation lines in the definition must be indented (e.g.&nbsp;two spaces). Do not start continuation lines with additional <code>:</code> characters unless you intend to add a second definition for the same term.</li>
+<li>For multi-paragraph definitions, keep subsequent paragraphs indented to stay inside the same <code>&lt;dd&gt;</code>.</li>
+<li>For display math inside a definition, do not prefix every math line with <code>:</code>. Use exactly one <code>:</code> line to start the definition, then indent the <code>$$...$$</code> block normally. If each line of a <code>$$</code> block begins with <code>:</code>, math rendering can break.</li>
+</ul>
+<p>Template:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Claim (short sentence)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>: First paragraph of the definition.</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  Second line of the same paragraph (indented).</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  $$</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  Display math can be multiline.</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  $$</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  A second paragraph is ok if it stays indented.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

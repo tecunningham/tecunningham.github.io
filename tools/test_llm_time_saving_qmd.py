@@ -405,7 +405,7 @@ def print_validation_report(run_llm_if_configured: bool = True) -> int:
         passed = sum(1 for r in bib_results if r.ok)
         total = len(bib_results)
         bib_ok = all(r.ok for r in bib_results)
-        print(f"{_symbol(bib_ok)} Programmatic: bibliography tests ({passed}/{total})")
+        print(f"{_symbol(bib_ok)} [{passed}/{total}] Programmatic: bibliography tests")
         for r in bib_results:
             detail = getattr(r, "detail", "") or ""
             print(f"  {_symbol(bool(r.ok))} {r.name}{detail}")

@@ -10,6 +10,8 @@ import sys
 import unicodedata
 from pathlib import Path
 
+TEXT_ARCHIVE_DIR = Path(__file__).resolve().parents[1] / "references" / "text"
+
 
 def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
@@ -65,6 +67,8 @@ def normalize_text(text: str) -> str:
         .replace("\u2013", "-")
         .replace("\u2014", "-")
     )
+    text = text.replace("&#64;", "@").replace("&commat;", "@")
+    text = text.replace("\\@", "@")
     text = re.sub(r"<br\s*/?>", " ", text, flags=re.IGNORECASE)
     text = re.sub(r"<[^>]+>", " ", text)
     text = text.replace("*", "").replace("_", "")
@@ -74,10 +78,72 @@ def normalize_text(text: str) -> str:
     return text.lower()
 
 
+def normalize_for_search(text: str) -> str:
+    text = unicodedata.normalize("NFKD", text)
+    text = text.replace("&#64;", "@").replace("&commat;", "@")
+    text = (
+        text.replace("\u201c", '"')
+        .replace("\u201d", '"')
+        .replace("\u2019", "'")
+        .replace("\u2013", "-")
+        .replace("\u2014", "-")
+        .replace("\u2026", "...")
+    )
+    text = re.sub(r"\s+", " ", text)
+    text = re.sub(r"[^0-9a-zA-Z]+", " ", text).strip().lower()
+    return re.sub(r"\s+", " ", text)
+
+
+def quote_in_fulltext(quote: str, fulltext: str) -> tuple[bool, str]:
+    quote = quote.strip()
+    if not quote:
+        return False, "empty_quote"
+
+    haystack = normalize_for_search(fulltext)
+    if not haystack:
+        return False, "empty_fulltext"
+
+    quote_norm = (
+        unicodedata.normalize("NFKD", quote)
+        .replace("\u201c", '"')
+        .replace("\u201d", '"')
+        .replace("\u2026", "...")
+    )
+    quoted_fragments = re.findall(r"\"([^\"]+)\"", quote_norm)
+    raw_segments = quoted_fragments if quoted_fragments else re.split(r"\.\.\.|…", quote_norm)
+    segments = [normalize_for_search(seg) for seg in raw_segments]
+    segments = [seg for seg in segments if seg]
+    if not segments:
+        return False, "empty_quote_after_normalization"
+
+    idx = 0
+    for seg in segments:
+        found = haystack.find(seg, idx)
+        if found < 0:
+            return False, f"segment_not_found:{seg[:80]}"
+        idx = found + len(seg)
+    return True, ""
+
+
+def fulltext_is_usable(fulltext: str) -> bool:
+    haystack = normalize_for_search(fulltext)
+    if len(haystack) < 200:
+        return False
+    unusable_markers = [
+        "verifying you are human",
+        "needs to review the security of your connection",
+        "dont have permission to access",
+        "errors edgesuite net",
+        "bloomberg the company its products",
+        "bloomberg terminal demo request",
+    ]
+    return not any(marker in haystack for marker in unusable_markers)
+
+
 def extract_citekeys(text: str) -> set[str]:
     keys = set(re.findall(r"@([A-Za-z0-9][A-Za-z0-9:_-]*)", text))
     ignore = {"media", "font-face", "keyframes", "supports"}
-    return {key for key in keys if key not in ignore}
+    return {key for key in keys if key not in ignore and any(ch.isdigit() for ch in key)}
 
 
 def iter_tables(text: str) -> list[list[str]]:
@@ -151,11 +217,11 @@ def build_checklist(
     last_checked: str,
     counts: dict[str, tuple[int, int]],
 ) -> str:
-    def with_count(label: str, key: str) -> str:
-        if key not in counts:
-            return label
+    def item_line(symbol: str, label: str, key: str | None = None) -> str:
+        if key is None or key not in counts:
+            return f"- {symbol} {label}"
         passed, total = counts[key]
-        return f"{label} ({passed}/{total})"
+        return f"- {symbol} [{passed}/{total}] {label}"
 
     lines = [
         "<details>",
@@ -163,12 +229,16 @@ def build_checklist(
         "",
         f"**Overall:** {status['overall']}",
         "",
-        f"- {status['citations']} {with_count('Cited sources exist in `posts/ai.bib` (programmatic)', 'citations')}",
-        f"- {status['tables']} {with_count('Table rows have required fields (programmatic)', 'tables')}",
-        f"- {status['quotes_match']} {with_count('QMD quotes match `posts/ai.bib` (programmatic)', 'quotes_match')}",
-        f"- {status['growth_match']} {with_count('QMD growth values match `posts/ai.bib` (programmatic)', 'growth_match')}",
-        f"- {status['abstracts']} {with_count('Abstracts present for all cited sources (programmatic)', 'abstracts')}",
-        "- ⏳ Bib quotes verified against sources (LLM-assisted, test not implemented)",
+        item_line(status["citations"], "Cited sources exist in `posts/ai.bib` (programmatic)", "citations"),
+        item_line(status["tables"], "Table rows have required fields (programmatic)", "tables"),
+        item_line(status["quotes_match"], "QMD quotes match `posts/ai.bib` (programmatic)", "quotes_match"),
+        item_line(status["growth_match"], "QMD growth values match `posts/ai.bib` (programmatic)", "growth_match"),
+        item_line(status["abstracts"], "Abstracts present for all cited sources (programmatic)", "abstracts"),
+        item_line(
+            status["quotes_verified"],
+            "Bib quotes present in local fulltext version (programmatic)",
+            "quotes_verified",
+        ),
         "- ⏳ Growth values consistent with quoted text (LLM-assisted, test not implemented)",
         "- ⏳ Coverage check against recent sources (manual + web search, test not implemented)",
         "",
@@ -186,6 +256,8 @@ def build_report(
     growth_missing: list[str],
     growth_mismatches: list[str],
     missing_abstracts: list[str],
+    missing_text_archives: list[str],
+    quotes_not_found: list[str],
     parse_errors: list[str],
 ) -> str:
     lines = ["Validation report", "-----------------"]
@@ -208,6 +280,8 @@ def build_report(
     add_list("Missing bib growth values", growth_missing)
     add_list("Growth mismatches", growth_mismatches)
     add_list("Missing abstracts", missing_abstracts)
+    add_list("Missing local text archives", missing_text_archives)
+    add_list("Quotes not found in local fulltext", quotes_not_found)
     return "\n".join(lines)
 
 
@@ -260,11 +334,17 @@ def main() -> int:
     quote_missing = []
     growth_mismatches = []
     growth_missing = []
+    missing_text_archives: list[str] = []
+    quotes_not_found: list[str] = []
+    quotes_verified_pass = 0
+    quotes_verified_total = 0
     for check in table_checks:
         key = check["citekey"]
         entry = bib_entries.get(key, {})
-        bib_quote = normalize_text(entry.get("quote", ""))
+        bib_quote_raw = entry.get("quote", "")
+        bib_quote = normalize_text(bib_quote_raw)
         bib_growth = normalize_text(entry.get("growth_annual_excess", ""))
+        qmd_quote_raw = check["quote"]
         qmd_quote = normalize_text(check["quote"])
         qmd_growth = normalize_text(check["growth"])
         if not bib_quote and key not in quote_missing:
@@ -275,6 +355,29 @@ def main() -> int:
             growth_missing.append(key)
         elif bib_growth and bib_growth != qmd_growth:
             growth_mismatches.append(key)
+
+        if bib_quote_raw.strip():
+            text_path = TEXT_ARCHIVE_DIR / f"{key}.txt"
+            if not text_path.exists():
+                if key not in missing_text_archives:
+                    missing_text_archives.append(key)
+            else:
+                try:
+                    fulltext = read_text(text_path)
+                except Exception:
+                    if key not in missing_text_archives:
+                        missing_text_archives.append(key)
+                else:
+                    if not fulltext_is_usable(fulltext):
+                        if key not in missing_text_archives:
+                            missing_text_archives.append(key)
+                        continue
+                    quotes_verified_total += 1
+                    ok, _reason = quote_in_fulltext(bib_quote_raw, fulltext)
+                    if not ok and key not in quotes_not_found:
+                        quotes_not_found.append(key)
+                    if ok:
+                        quotes_verified_pass += 1
 
     missing_abstracts = []
     for key in citekeys:
@@ -292,7 +395,11 @@ def main() -> int:
         "growth_match": "✅" if not growth_mismatches and not growth_missing else "⚠️"
         if not growth_mismatches
         else "❌",
-        "quotes_verified": "⚠️",
+        "quotes_verified": "✅"
+        if not quotes_not_found and not missing_text_archives and not quote_missing
+        else "❌"
+        if quotes_not_found
+        else "⚠️",
         "growth_consistency": "⚠️",
         "abstracts": "✅" if not missing_abstracts else "⚠️",
         "coverage": "⚠️",
@@ -320,6 +427,8 @@ def main() -> int:
         ),
         "abstracts": (total_citations - len(missing_abstracts), total_citations),
     }
+    if quotes_verified_total:
+        counts["quotes_verified"] = (quotes_verified_pass, quotes_verified_total)
 
     checklist = build_checklist(status, dt.date.today().isoformat(), counts)
     report = build_report(
@@ -330,6 +439,8 @@ def main() -> int:
         growth_missing,
         growth_mismatches,
         missing_abstracts,
+        missing_text_archives,
+        quotes_not_found,
         parse_errors,
     )
     if args.json:
