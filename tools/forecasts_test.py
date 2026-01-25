@@ -4,12 +4,42 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import re
+import importlib.util
+import json
+import sys
 import unicodedata
 from pathlib import Path
 
 
 def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
+
+
+BIB_TESTS_PATH = Path(__file__).resolve().parent / "ai.bib.tests.py"
+
+
+def load_ai_bib_tests_module():
+    if not BIB_TESTS_PATH.exists():
+        raise FileNotFoundError(
+            f"Missing bibliography test file: {BIB_TESTS_PATH}. "
+            "Expected to reuse ai.bib parsing from this file."
+        )
+
+    spec = importlib.util.spec_from_file_location("ai_bib_tests", BIB_TESTS_PATH)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"Unable to load module spec for {BIB_TESTS_PATH}.")
+
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+def parse_bib_entries(text: str) -> tuple[dict[str, dict[str, str]], list[str]]:
+    ai_bib_tests = load_ai_bib_tests_module()
+    entries, parse_errors = ai_bib_tests.parse_entries(text.splitlines())
+    entry_map = {entry.key: entry.fields for entry in entries}
+    return entry_map, parse_errors
 
 
 def strip_code_blocks(text: str) -> str:
@@ -48,26 +78,6 @@ def extract_citekeys(text: str) -> set[str]:
     keys = set(re.findall(r"@([A-Za-z0-9][A-Za-z0-9:_-]*)", text))
     ignore = {"media", "font-face", "keyframes", "supports"}
     return {key for key in keys if key not in ignore}
-
-
-def parse_bib(text: str) -> dict[str, dict[str, str]]:
-    entries: dict[str, dict[str, str]] = {}
-    current_key: str | None = None
-    for line in text.splitlines():
-        start = re.match(r"@\w+\{([^,]+),", line)
-        if start:
-            current_key = start.group(1).strip()
-            entries[current_key] = {}
-            continue
-        if current_key is None:
-            continue
-        if line.strip().startswith("}"):
-            current_key = None
-            continue
-        field = re.match(r"\s*([A-Za-z_]+)\s*=\s*\{(.*)\},?\s*$", line)
-        if field:
-            entries[current_key][field.group(1)] = field.group(2)
-    return entries
 
 
 def iter_tables(text: str) -> list[list[str]]:
@@ -176,6 +186,7 @@ def build_report(
     growth_missing: list[str],
     growth_mismatches: list[str],
     missing_abstracts: list[str],
+    parse_errors: list[str],
 ) -> str:
     lines = ["Validation report", "-----------------"]
 
@@ -189,6 +200,7 @@ def build_report(
     def add_count(label: str, count: int) -> None:
         lines.append(f"{label}: {count}")
 
+    add_list("BibTeX parse errors", parse_errors)
     add_list("Missing citekeys in bib", missing_citekeys)
     add_count("Table column mismatches", len(table_issues))
     add_list("Missing bib quotes", quote_missing)
@@ -212,6 +224,11 @@ def main() -> int:
         "--report-path",
         help="Write the detailed validation report to a file path.",
     )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Emit JSON output (checklist + report + counts).",
+    )
     args = parser.parse_args()
 
     qmd_path = Path(args.qmd)
@@ -222,7 +239,7 @@ def main() -> int:
     bib_text = read_text(bib_path)
 
     citekeys = extract_citekeys(qmd_clean)
-    bib_entries = parse_bib(bib_text)
+    bib_entries, parse_errors = parse_bib_entries(bib_text)
     bib_keys = set(bib_entries.keys())
     missing_citekeys = sorted(citekeys - bib_keys)
 
@@ -280,6 +297,8 @@ def main() -> int:
         "abstracts": "✅" if not missing_abstracts else "⚠️",
         "coverage": "⚠️",
     }
+    if parse_errors:
+        status["citations"] = "❌"
 
     hard_fail = any(
         status[key] == "❌" for key in ("citations", "tables", "quotes_match", "growth_match")
@@ -302,7 +321,7 @@ def main() -> int:
         "abstracts": (total_citations - len(missing_abstracts), total_citations),
     }
 
-    print(build_checklist(status, dt.date.today().isoformat(), counts))
+    checklist = build_checklist(status, dt.date.today().isoformat(), counts)
     report = build_report(
         missing_citekeys,
         table_issues,
@@ -311,7 +330,19 @@ def main() -> int:
         growth_missing,
         growth_mismatches,
         missing_abstracts,
+        parse_errors,
     )
+    if args.json:
+        payload = {
+            "status": status,
+            "counts": counts,
+            "checklist": checklist,
+            "report": report,
+        }
+        print(json.dumps(payload, indent=2))
+        return 0
+
+    print(checklist)
     if args.report:
         print()
         print(report)

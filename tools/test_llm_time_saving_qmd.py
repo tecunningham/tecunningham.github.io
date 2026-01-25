@@ -6,16 +6,29 @@ Optional LLM-based checks validate narrative criteria and citation plausibility.
 
 from __future__ import annotations
 
+import argparse
+import importlib.util
 import json
 import os
 import re
+import sys
 import unittest
+from functools import lru_cache
 from pathlib import Path
 from typing import Dict, List, Tuple
 from urllib import request
 
 QMD_PATH = Path("posts/2025-12-17-llm-time-saving-demand-theory-substitution.llm.qmd")
 BIB_PATH = Path("posts/ai.bib")
+BIB_TESTS_PATH = Path("tools/ai.bib.tests.py")
+
+REQUIRED_HEADINGS = [
+    "## Results-first summary",
+    "## Continuous (intensive-margin) model",
+    "## Discrete (extensive-margin) model",
+    "### Worked example (discrete, not continuous)",
+    "## Practical examples",
+]
 
 
 def read_text(path: Path) -> str:
@@ -26,38 +39,58 @@ def extract_citations(text: str) -> List[str]:
     return re.findall(r"@([A-Za-z0-9:_-]+)", text)
 
 
-def parse_bib_entries(text: str) -> List[Tuple[str, str]]:
-    entries: List[Tuple[str, str]] = []
-    current_key = None
-    current_lines: List[str] = []
-    brace_balance = 0
+@lru_cache(maxsize=1)
+def load_ai_bib_tests_module():
+    if not BIB_TESTS_PATH.exists():
+        raise FileNotFoundError(
+            f"Missing bibliography test file: {BIB_TESTS_PATH}. "
+            "Expected to subcontract ai.bib checks to this file."
+        )
 
-    for line in text.splitlines():
-        if line.strip().startswith("@"):
-            if current_key is not None and current_lines:
-                entries.append((current_key, "\n".join(current_lines)))
-            match = re.match(r"@\w+\{([^,]+),", line.strip())
-            current_key = match.group(1) if match else None
-            current_lines = [line]
-            brace_balance = line.count("{") - line.count("}")
-            if brace_balance == 0 and current_key is not None:
-                entries.append((current_key, "\n".join(current_lines)))
-                current_key = None
-                current_lines = []
-            continue
+    spec = importlib.util.spec_from_file_location("ai_bib_tests", BIB_TESTS_PATH)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"Unable to load module spec for {BIB_TESTS_PATH}.")
 
-        if current_key is not None:
-            current_lines.append(line)
-            brace_balance += line.count("{") - line.count("}")
-            if brace_balance == 0:
-                entries.append((current_key, "\n".join(current_lines)))
-                current_key = None
-                current_lines = []
+    module = importlib.util.module_from_spec(spec)
+    # dataclasses (and other libs) expect the module to be present in sys.modules
+    # while the module body executes.
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
 
-    if current_key is not None and current_lines:
-        entries.append((current_key, "\n".join(current_lines)))
 
-    return entries
+def ai_bib_keys() -> set[str]:
+    ai_bib_tests = load_ai_bib_tests_module()
+    text = read_text(BIB_PATH)
+    entries, parse_errors = ai_bib_tests.parse_entries(text.splitlines())
+    if parse_errors:
+        # If ai.bib doesn't parse, citation resolution is meaningless.
+        raise AssertionError(f"ai.bib parse errors: {parse_errors}")
+    return {entry.key for entry in entries}
+
+
+def run_ai_bib_tests_report() -> List[object]:
+    ai_bib_tests = load_ai_bib_tests_module()
+
+    text = read_text(BIB_PATH)
+    entries, parse_errors = ai_bib_tests.parse_entries(text.splitlines())
+    results = ai_bib_tests.run_tests(entries)
+
+    bibclean_result = ai_bib_tests.run_bibclean(BIB_PATH)
+    if bibclean_result is not None:
+        results.append(bibclean_result)
+
+    if parse_errors:
+        results.insert(
+            0,
+            ai_bib_tests.TestResult(
+                name="BibTeX parse errors",
+                ok=False,
+                detail=f" ({ai_bib_tests.summarize_keys(parse_errors)})",
+            ),
+        )
+
+    return results
 
 
 def call_llm(prompt: str) -> Dict[str, str]:
@@ -105,19 +138,12 @@ def call_llm(prompt: str) -> Dict[str, str]:
 class TestQmdStructure(unittest.TestCase):
     def setUp(self) -> None:
         self.qmd_text = read_text(QMD_PATH)
-        self.bib_text = read_text(BIB_PATH)
 
     def test_qmd_exists(self) -> None:
         self.assertTrue(QMD_PATH.exists(), "QMD file is missing.")
 
     def test_required_sections_present(self) -> None:
-        for heading in [
-            "## Results-first summary",
-            "## Continuous (intensive-margin) model",
-            "## Discrete (extensive-margin) model",
-            "### Worked example (discrete, not continuous)",
-            "## Practical examples",
-        ]:
+        for heading in REQUIRED_HEADINGS:
             with self.subTest(heading=heading):
                 self.assertIn(heading, self.qmd_text)
 
@@ -128,26 +154,34 @@ class TestQmdStructure(unittest.TestCase):
 
     def test_diagrams_present(self) -> None:
         self.assertIn("```{mermaid}", self.qmd_text)
-        self.assertIn("```{tikz}", self.qmd_text)
+        # Second diagram used to be TikZ; it's now a Python-rendered figure
+        # (more robust for HTML output).
+        self.assertTrue(
+            ("```{tikz}" in self.qmd_text)
+            or ("Discrete activation: speedups switch on tasks" in self.qmd_text),
+            "Missing threshold diagram (expected tikz block or the discrete-activation figure).",
+        )
 
     def test_practical_examples_present(self) -> None:
         self.assertIn("Practical examples", self.qmd_text)
         self.assertRegex(self.qmd_text, r"- \*\*Query-level time savings:\*\*")
 
-    def test_bibliography_entries_parse(self) -> None:
-        entries = parse_bib_entries(self.bib_text)
-        self.assertGreater(len(entries), 0, "No bibliography entries found.")
-        for key, entry in entries:
-            with self.subTest(key=key):
-                balance = entry.count("{") - entry.count("}")
-                self.assertEqual(balance, 0, f"Unbalanced braces in {key}.")
-
     def test_citations_resolve(self) -> None:
         citations = extract_citations(self.qmd_text)
         self.assertGreater(len(citations), 0, "No citations found in QMD.")
-        bib_keys = {key for key, _ in parse_bib_entries(self.bib_text)}
-        missing = sorted(set(citations) - bib_keys)
+        bib_keys = ai_bib_keys()
+        missing = sorted(set(citations) - bib_keys)  # type: ignore[arg-type]
         self.assertEqual(missing, [], f"Missing citations in ai.bib: {missing}")
+
+
+class TestBibliography(unittest.TestCase):
+    def test_ai_bib_conventions(self) -> None:
+        results = run_ai_bib_tests_report()
+
+        failures = [result for result in results if not result.ok]
+        if failures:
+            summary = ", ".join(result.name for result in failures)
+            self.fail(f"Bibliography tests failed: {summary}")
 
 
 @unittest.skipUnless(
@@ -175,5 +209,268 @@ class TestLLMBasedChecks(unittest.TestCase):
         self.assertTrue(result["pass"], result.get("notes", "LLM failed quality gate."))
 
 
+def _symbol(ok: bool) -> str:
+    return "✅" if ok else "❌"
+
+
+def print_validation_report(run_llm_if_configured: bool = True) -> int:
+    qmd_text = read_text(QMD_PATH)
+
+    print("Validation Checks")
+
+    # Required headings
+    present = sum(1 for h in REQUIRED_HEADINGS if h in qmd_text)
+    ok = present == len(REQUIRED_HEADINGS)
+    print(f"{_symbol(ok)} Programmatic: required sections present ({present}/{len(REQUIRED_HEADINGS)})")
+    overall_ok = ok
+
+    # Lamport proof structure
+    ok = (
+        "Proof (Lamport style)." in qmd_text
+        and "QED" in qmd_text
+        and re.search(r"\n1\. \*Given\*", qmd_text) is not None
+    )
+    print(f"{_symbol(ok)} Programmatic: Lamport-style proof structure")
+    overall_ok = overall_ok and ok
+
+    # Diagrams
+    ok = ("```{mermaid}" in qmd_text) and (
+        ("```{tikz}" in qmd_text) or ("Discrete activation: speedups switch on tasks" in qmd_text)
+    )
+    print(f"{_symbol(ok)} Programmatic: diagrams present")
+    overall_ok = overall_ok and ok
+
+    # Practical examples
+    ok = ("Practical examples" in qmd_text) and (re.search(r"- \*\*Query-level time savings:\*\*", qmd_text) is not None)
+    print(f"{_symbol(ok)} Programmatic: practical examples present")
+    overall_ok = overall_ok and ok
+
+    # Bibliography tests (subcontracted)
+    try:
+        bib_results = run_ai_bib_tests_report()
+        passed = sum(1 for r in bib_results if r.ok)
+        total = len(bib_results)
+        bib_ok = all(r.ok for r in bib_results)
+        print(f"{_symbol(bib_ok)} Programmatic: bibliography tests ({passed}/{total})")
+        for r in bib_results:
+            detail = getattr(r, "detail", "") or ""
+            print(f"  {_symbol(bool(r.ok))} {r.name}{detail}")
+        overall_ok = overall_ok and bib_ok
+    except Exception as exc:
+        print(f"{_symbol(False)} Programmatic: bibliography tests (error: {exc})")
+        overall_ok = False
+
+    # Citekeys resolve
+    try:
+        citations = extract_citations(qmd_text)
+        bib_keys = ai_bib_keys()
+        missing = sorted(set(citations) - bib_keys)  # type: ignore[arg-type]
+        ok = (len(citations) > 0) and (missing == [])
+        print(f"{_symbol(ok)} Programmatic: citekeys resolve in {BIB_PATH}")
+        if missing:
+            print(f"  ❌ Missing citekeys: {missing[:10]}{' ...' if len(missing) > 10 else ''}")
+        overall_ok = overall_ok and ok
+    except Exception as exc:
+        print(f"{_symbol(False)} Programmatic: citekeys resolve in {BIB_PATH} (error: {exc})")
+        overall_ok = False
+
+    # Optional LLM gate
+    has_llm_key = bool(os.getenv("LLM_API_KEY") or os.getenv("OPENAI_API_KEY"))
+    if not run_llm_if_configured or not has_llm_key:
+        print("⏳ LLM-assisted: quality + citation plausibility gate (optional)")
+    else:
+        prompt = (
+            "Review the following QMD content. Verify these criteria: "
+            "(1) Continuous vs discrete cases are explicitly separated; "
+            "(2) Cadillac tasks are discussed in the discrete context; "
+            "(3) The worked example is discrete (unit-demand or setup-cost), not continuous; "
+            "(4) Proofs are structured in Lamport style with numbered steps; "
+            "(5) Diagrams are present and likely legible; "
+            "(6) Practical examples are included; "
+            "(7) Claims with citations look plausible and not obviously mismatched. "
+            "Return JSON: {\"pass\": true/false, \"notes\": \"...\"}.\n\n"
+            f"QMD:\n{qmd_text}"
+        )
+        try:
+            result = call_llm(prompt)
+            ok = bool(result.get("pass", False))
+            print(f"{_symbol(ok)} LLM-assisted: quality + citation plausibility gate")
+            if not ok:
+                notes = (result.get("notes") or "").strip()
+                if notes:
+                    print(f"  ❌ Notes: {notes}")
+            overall_ok = overall_ok and ok
+        except Exception as exc:
+            print(f"{_symbol(False)} LLM-assisted: quality + citation plausibility gate (error: {exc})")
+            overall_ok = False
+
+    return 0 if overall_ok else 1
+
+
+def build_json_report(run_llm_if_configured: bool = True) -> Dict[str, object]:
+    qmd_text = read_text(QMD_PATH)
+    items: List[Dict[str, object]] = []
+    overall_ok = True
+
+    present = sum(1 for h in REQUIRED_HEADINGS if h in qmd_text)
+    ok = present == len(REQUIRED_HEADINGS)
+    items.append(
+        {
+            "name": "required sections present",
+            "category": "programmatic",
+            "ok": ok,
+            "counts": {"present": present, "total": len(REQUIRED_HEADINGS)},
+        }
+    )
+    overall_ok = overall_ok and ok
+
+    ok = (
+        "Proof (Lamport style)." in qmd_text
+        and "QED" in qmd_text
+        and re.search(r"\n1\. \*Given\*", qmd_text) is not None
+    )
+    items.append({"name": "Lamport-style proof structure", "category": "programmatic", "ok": ok})
+    overall_ok = overall_ok and ok
+
+    ok = ("```{mermaid}" in qmd_text) and ("```{tikz}" in qmd_text)
+    items.append({"name": "diagrams present", "category": "programmatic", "ok": ok})
+    overall_ok = overall_ok and ok
+
+    ok = ("Practical examples" in qmd_text) and (re.search(r"- \*\*Query-level time savings:\*\*", qmd_text) is not None)
+    items.append({"name": "practical examples present", "category": "programmatic", "ok": ok})
+    overall_ok = overall_ok and ok
+
+    try:
+        bib_results = run_ai_bib_tests_report()
+        bib_ok = all(r.ok for r in bib_results)
+        items.append(
+            {
+                "name": "bibliography tests",
+                "category": "programmatic",
+                "ok": bib_ok,
+                "detail": [
+                    {
+                        "name": r.name,
+                        "ok": bool(r.ok),
+                        "detail": r.detail,
+                    }
+                    for r in bib_results
+                ],
+            }
+        )
+        overall_ok = overall_ok and bib_ok
+    except Exception as exc:
+        items.append(
+            {
+                "name": "bibliography tests",
+                "category": "programmatic",
+                "ok": False,
+                "error": str(exc),
+            }
+        )
+        overall_ok = False
+
+    try:
+        citations = extract_citations(qmd_text)
+        bib_keys = ai_bib_keys()
+        missing = sorted(set(citations) - bib_keys)  # type: ignore[arg-type]
+        ok = (len(citations) > 0) and (missing == [])
+        items.append(
+            {
+                "name": "citekeys resolve in ai.bib",
+                "category": "programmatic",
+                "ok": ok,
+                "missing": missing,
+            }
+        )
+        overall_ok = overall_ok and ok
+    except Exception as exc:
+        items.append(
+            {
+                "name": "citekeys resolve in ai.bib",
+                "category": "programmatic",
+                "ok": False,
+                "error": str(exc),
+            }
+        )
+        overall_ok = False
+
+    has_llm_key = bool(os.getenv("LLM_API_KEY") or os.getenv("OPENAI_API_KEY"))
+    if not run_llm_if_configured or not has_llm_key:
+        items.append(
+            {
+                "name": "quality + citation plausibility gate",
+                "category": "llm-assisted",
+                "ok": None,
+                "skipped": True,
+            }
+        )
+    else:
+        prompt = (
+            "Review the following QMD content. Verify these criteria: "
+            "(1) Continuous vs discrete cases are explicitly separated; "
+            "(2) Cadillac tasks are discussed in the discrete context; "
+            "(3) The worked example is discrete (unit-demand or setup-cost), not continuous; "
+            "(4) Proofs are structured in Lamport style with numbered steps; "
+            "(5) Diagrams are present and likely legible; "
+            "(6) Practical examples are included; "
+            "(7) Claims with citations look plausible and not obviously mismatched. "
+            "Return JSON: {\"pass\": true/false, \"notes\": \"...\"}.\n\n"
+            f"QMD:\n{qmd_text}"
+        )
+        try:
+            result = call_llm(prompt)
+            ok = bool(result.get("pass", False))
+            items.append(
+                {
+                    "name": "quality + citation plausibility gate",
+                    "category": "llm-assisted",
+                    "ok": ok,
+                    "notes": result.get("notes", ""),
+                }
+            )
+            overall_ok = overall_ok and ok
+        except Exception as exc:
+            items.append(
+                {
+                    "name": "quality + citation plausibility gate",
+                    "category": "llm-assisted",
+                    "ok": False,
+                    "error": str(exc),
+                }
+            )
+            overall_ok = False
+
+    return {
+        "overall_ok": overall_ok,
+        "items": items,
+    }
+
+
 if __name__ == "__main__":
-    unittest.main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--unittest",
+        action="store_true",
+        help="Run via unittest (dot-style output) instead of the checklist report.",
+    )
+    parser.add_argument(
+        "--no-llm",
+        action="store_true",
+        help="Do not run the optional LLM gate (even if API key is configured).",
+    )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Emit JSON output instead of formatted report.",
+    )
+    args = parser.parse_args()
+
+    if args.unittest:
+        unittest.main()
+    else:
+        if args.json:
+            report = build_json_report(run_llm_if_configured=not args.no_llm)
+            print(json.dumps(report, indent=2))
+            raise SystemExit(0 if report["overall_ok"] else 1)
+        raise SystemExit(print_validation_report(run_llm_if_configured=not args.no_llm))

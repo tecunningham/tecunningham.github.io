@@ -15,7 +15,7 @@ format:
 
 <!-- https://tecunningham.github.io/posts/2025-10-19-forecasts-of-AI-growth.html -->
 
-<!-- LLM note: review tools/validate-forecasts.py for tests and run it after edits. -->
+<!-- LLM note: review tools/forecasts_test.py for tests and run it after edits. -->
 
 ```{python}
 #| echo: false
@@ -34,9 +34,9 @@ if not qmd_path.exists():
 if not bib_path.exists():
     bib_path = Path("ai.bib")
 
-script_path = Path("tools/validate-forecasts.py")
+script_path = Path("tools/forecasts_test.py")
 if not script_path.exists():
-    script_path = Path("../tools/validate-forecasts.py")
+    script_path = Path("../tools/forecasts_test.py")
 
 result = subprocess.run(
     [sys.executable, str(script_path), "--qmd", str(qmd_path), "--bib", str(bib_path)],
@@ -54,7 +54,7 @@ display(Markdown(checklist))
 LLM update protocol (author workflow):
 1) Add new sources to posts/ai.bib with fields: quote, growth_annual_excess, quote_status=llm.
 2) Add a row in the table with the citekey and matching quote/growth text.
-3) Run tools/validate-forecasts.py --qmd posts/2025-10-19-forecasts-of-AI-growth.qmd --bib posts/ai.bib --report.
+3) Run tools/forecasts_test.py --qmd posts/2025-10-19-forecasts-of-AI-growth.qmd --bib posts/ai.bib --report.
 4) Resolve any mismatches; upgrade quote_status to manual after spot-checking sources.
 -->
 

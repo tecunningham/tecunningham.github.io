@@ -2,8 +2,24 @@
 % - URL preference order: (1) full-text PDF, (2) abstract-only page, (3) official journal landing page, (4) most recent stable URL.
 % - Use arXiv PDF links (https://arxiv.org/pdf/<id>.pdf) when an arXiv eprint is available.
 % - If no official URL is available, fall back to a Semantic Scholar search URL.
+% - For sources without a formal abstract, use abstract as a verbatim quote (tweet text or first paragraph); keep it under ~500 words.
 % - Include abstract_source when an abstract was fetched programmatically.
+% - Add text_url for a plaintext/HTML/Markdown version of the source; cached text lives in references/text/<citekey>.txt.
 % - Keep one field per line with trailing commas for consistent parsing.
+% - Tests: run `python3 tools/ai.bib.tests.py` after edits; it updates the machine-generated block below.
+% - LLMs: follow the rules above and run the tests before finalizing edits.
+
+% BEGIN AI.BIB TESTS (machine-generated)
+% Last run: 2026-01-25T15:24:40Z
+% Status: PASS
+% - [PASS] Duplicate citekeys
+% - [PASS] One field per line + trailing comma
+% - [PASS] Source locator present (url/doi/eprint) (218/218)
+% - [PASS] Abstract length <= 500 words
+% - [PASS] abstract_source only when abstract is present
+% - [PASS] arXiv eprints use arxiv.org/pdf/<id>.pdf URLs
+% - [PASS] bibclean lint
+% END AI.BIB TESTS
 
 @online{cowen2023bloomberg,
   author               = {Tyler Cowen},
@@ -14,7 +30,8 @@
   note                 = {Bloomberg Opinion},
   quote                = {My best guess, and I do stress that word guess, is that advanced artificial intelligence will boost the annual US growth rate by one-quarter to one-half of a percentage point.},
   growth_annual_excess = {+0.25%-0.5%},
-  abstract             = {Abstract unavailable.}
+  abstract        = {AI Won't Supercharge the US Economy - Bloomberg},
+  abstract_source = {https://www.bloomberg.com/opinion/articles/2023-08-16/ai-won-t-supercharge-the-us-economy},
 }
 @online{wiseman2025growth,
   author               = {Wiseman and McClements},
@@ -25,7 +42,8 @@
   note                 = {Inference Magazine},
   quote                = {We expect AI will provide a 3%-9% increase to economic growth per year in the near future},
   growth_annual_excess = {3-9%},
-  abstract             = {Abstract unavailable.}
+  abstract        = {General-purpose technology revolutions have been the fundamental driver of human prosperity in the last 300 years.[1](https://inferencemagazine.substack.com/p/how-much-economic-growth-from-ai#footnote-1-155018281) That these revolutions have raised the living standards of billions of people would surely indicate that, on the arrival of a new general-purpose technology, the forces for adoption must cause the world to change very quickly. But this could not be further from the truth!},
+  abstract_source = {https://inferencemagazine.substack.com/p/how-much-economic-growth-from-ai},
 }
 @online{cowen2025slowtakeoff,
   author               = {Tyler Cowen},
@@ -36,7 +54,8 @@
   note                 = {Marginal Revolution},
   quote                = {I've gone on record as suggesting that AI will boost economic growth rates by half a percentage point a year.},
   growth_annual_excess = {+0.5%},
-  abstract             = {Abstract unavailable.}
+  abstract        = {Why I think AI take-off is relatively slow - Marginal REVOLUTION},
+  abstract_source = {https://marginalrevolution.com/marginalrevolution/2025/02/why-i-think-ai-take-off-is-relatively-slow.html},
 }
 @online{clark2025anthropic,
   author               = {Jack Clark},
@@ -47,7 +66,8 @@
   note                 = {Conversations with Tyler interview},
   quote                = {I think my bear case on all of this is 3 percent, and my bull case is something like 5 percent.},
   growth_annual_excess = {+3-5%},
-  abstract             = {Abstract unavailable.}
+  abstract        = {Few understand both the promise and limitations of artificial general intelligence better than Jack Clark, co-founder of Anthropic. With a background in journalism and the humanities that sets him apart in Silicon Valley, Clark offers a refreshingly sober assessment of AI's economic impact-predicting growth of 3-5% rather than the 20-30% touted by techno-optimists-based on his firsthand experience of repeatedly underestimating AI progress while still recognizing the physical world's resistance to digital transformation.},
+  abstract_source = {https://conversationswithtyler.com/episodes/jack-clark/},
 }
 @online{krugman2023ai,
   author               = {Paul Krugman},
@@ -58,7 +78,8 @@
   note                 = {New York Times Opinion},
   quote                = {History suggests that large economic effects from A.I. will take longer to materialize than many people currently seem to expect ... ChatGPT and whatever follows are probably an economic story for the 2030s, not for the next few years.},
   growth_annual_excess = {small},
-  abstract             = {Abstract unavailable.}
+  abstract        = {History suggests that large economic effects from A.I. will take longer to materialize than many people currently seem to expect ... ChatGPT and whatever follows are probably an economic story for the 2030s, not for the next few years.},
+  abstract_source = {https://www.nytimes.com/2023/03/31/opinion/ai-chatgpt-jobs-economy.html},
 }
 @online{gans2024tweet,
   author               = {Joshua Gans},
@@ -69,7 +90,8 @@
   note                 = {X post},
   quote                = {I don't think it will boost growth appreciably ... over the next 10 years},
   growth_annual_excess = {small},
-  abstract             = {Abstract unavailable.}
+  abstract        = {I don't think it will boost growth appreciably ... over the next 10 years},
+  abstract_source = {https://x.com/joshgans/status/1812492809326276786},
 }
 @online{karpathy2025dwarkesh,
   author               = {Andrej Karpathy},
@@ -80,7 +102,8 @@
   note                 = {Dwarkesh Podcast interview},
   quote                = {Dwarkesh: "Just to clarify, you're saying that the rate of growth will not change." ... Karpathy: "Yes, my expectation is that it stays in the same pattern." This doesn't pin down the incremental effect of AI on growth, but it's presumably between 0% and 2%.},
   growth_annual_excess = {no change in trend},
-  abstract             = {Abstract unavailable.}
+  abstract        = {The [Andrej Karpathy](https://x.com/karpathy) episode.},
+  abstract_source = {https://www.dwarkesh.com/p/andrej-karpathy},
 }
 @online{wynne2025dallasfed,
   author               = {Mark A. Wynne and Lillian Derr},
@@ -92,7 +115,7 @@
   note                 = {Dallas Fed Economics},
   quote                = {A more reasonable scenario might be one in which AI boosts annual productivity growth by 0.3 percentage points for the next decade.},
   growth_annual_excess = {+0.3%},
-  abstract             = {Artificial intelligence offers the potential to improve living standards, which the authors approximate using GDP per capita. They discuss plausible scenarios in which AI enhances or accelerates productivity growth over time, and summarize survey evidence on AI adoption in firms.}
+  abstract             = {Artificial intelligence offers the potential to improve living standards, which the authors approximate using GDP per capita. They discuss plausible scenarios in which AI enhances or accelerates productivity growth over time, and summarize survey evidence on AI adoption in firms.},
 }
 @techreport{filippucci2025opportunities,
   title                = {Opportunities and Risks of Artificial Intelligence for Productivity},
@@ -103,7 +126,7 @@
   url                  = {https://www.csls.ca/ipm/48/OECD_Final.pdf},
   quote                = {AI could raise annual total factor productivity (TFP) growth by around 0.3-0.7 percentage points in the United States over the next decade.},
   growth_annual_excess = {+0.3-0.7%},
-  abstract             = {This article reviews recent evidence and projections on AI's impact on productivity growth in G7 economies. It synthesizes estimates suggesting AI could raise annual TFP growth by around 0.3-0.7 percentage points in the United States over the next decade, with smaller gains elsewhere, and discusses modeling approaches, mechanisms, and risks.}
+  abstract             = {This article reviews recent evidence and projections on AI's impact on productivity growth in G7 economies. It synthesizes estimates suggesting AI could raise annual TFP growth by around 0.3-0.7 percentage points in the United States over the next decade, with smaller gains elsewhere, and discusses modeling approaches, mechanisms, and risks.},
 }
 @online{vonwerra2025jaggeddata,
   author   = {Leandro von Werra},
@@ -111,7 +134,7 @@
   year     = {2025},
   url      = {https://huggingface.co/spaces/lvwerra/jagged-data-frontier},
   note     = {Hugging Face Space by lvwerra; analysis of how AI performance relates to data quality and quantity},
-  abstract = {Abstract unavailable.}
+  abstract = {Abstract unavailable.},
 }
 @misc{abreu2025taxonomytranscendence,
   title           = {A Taxonomy of Transcendence},
@@ -122,7 +145,7 @@
   primaryclass    = {cs.AI},
   url             = {https://arxiv.org/pdf/2508.17669.pdf},
   abstract        = {Although language models are trained to mimic humans, the resulting systems display capabilities beyond the scope of any one person. To understand this phenomenon, we use a controlled setting to identify properties of the training data that lead a model to transcend the performance of its data sources. We build on previous work to outline three modes of transcendence, which we call skill denoising, skill selection, and skill generalization. We then introduce a knowledge graph-based setting in which simulated experts generate data based on their individual expertise. We highlight several aspects of data diversity that help to enable the model's transcendent capabilities. Additionally, our data generation setting offers a controlled testbed that we hope is valuable for future research in the area.},
-  abstract_source = {http://export.arxiv.org/api/query?id_list=2508.17669}
+  abstract_source = {http://export.arxiv.org/api/query?id_list=2508.17669},
 }
 @article{garfinkel2007economics,
   title     = {Economics of conflict: An overview},
@@ -133,7 +156,7 @@
   year      = {2007},
   publisher = {Elsevier},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.2139/ssrn.895307}
+  url       = {https://doi.org/10.2139/ssrn.895307},
 }
 @techreport{tytell2024aixfactor,
   author      = {Tytell, Irina},
@@ -144,7 +167,8 @@
   url         = {https://institutional.fidelity.com/app/literature/view?itemCode=9916288\&renditionType=PDF},
   quote       = {Exhibit 1 shows a range of estimates for increases to productivity growth rates, between 0.2% and 0.9%.},
   growth_annual_excess = {0.2-0.9%},
-  abstract    = {Abstract unavailable.}
+  abstract        = {The AART team studied the potential for AI to increase economic productivity using three different methods: by studying the historical productivity increases of past technologies; extrapolating adoption patters by sector, and deriving an estimate from capital spending. Each method presented slightly different estimates. That said, each similarly concluded that the productivity increase derived from AI would likely be fairly slow in the early going, as the adoption rate improved over a period of roughly 15 years. It would, however, increase as AI technologies became widely adopted. Exhibit 1 shows the summary results of the research.},
+  abstract_source = {https://institutional.fidelity.com/app/proxy/content?literatureURL=/9916288.PDF},
 }
 @misc{poggio2017deepshallow,
   title           = {Why and When Can Deep -- but Not Shallow -- Networks Avoid the Curse of Dimensionality: a Review},
@@ -155,7 +179,7 @@
   primaryclass    = {cs.LG},
   url             = {https://arxiv.org/pdf/1611.00740.pdf},
   abstract        = {The paper characterizes classes of functions for which deep learning can be exponentially better than shallow learning. Deep convolutional networks are a special case of these conditions, though weight sharing is not the main reason for their exponential advantage.},
-  abstract_source = {http://export.arxiv.org/api/query?id_list=1611.00740}
+  abstract_source = {http://export.arxiv.org/api/query?id_list=1611.00740},
 }
 @incollection{comin2014technologydiffusion,
   author    = {Diego Comin and Mart{\'\i}n Mestieri},
@@ -169,7 +193,8 @@
   address   = {Amsterdam},
   doi       = {10.1016/B978-0-444-53540-5.00002-1},
   url       = {https://doi.org/10.1016/B978-0-444-53540-5.00002-1},
-  abstract  = {Abstract unavailable.}
+  abstract        = {This chapter discusses different approaches pursued to explore three broad questions related to technology diffusion: what general patterns characterize the diffusion of technologies, and how have they changed over time?; what are the key drivers of technology?; and what are the macroeconomic consequences of technology? We prioritize in our discussion unified approaches to these three questions that are based on direct measures of technology.},
+  abstract_source = {https://crei.cat/wp-content/uploads/2022/01/TDMCC-1.pdf},
 }
 @techreport{andrews2025markets,
   title       = {Do Markets Believe in Transformative AI?},
@@ -177,7 +202,7 @@
   year        = {2025},
   institution = {National Bureau of Economic Research},
   url         = {https://www.nber.org/papers/w34243},
-  abstract    = {Abstract unavailable.}
+  abstract    = {Abstract unavailable.},
 }
 @techreport{arnon2025projected,
   author      = {Alex Arnon},
@@ -206,7 +231,7 @@
   doi       = {https://doi.org/10.1016/S0169-7218(11)02410-5},
   url       = {https://doi.org/10.1016/S0169-7218(11)02410-5},
   author    = {Daron Acemoglu and David Autor},
-  abstract  = {A central organizing framework of the voluminous recent literature studying changes in the returns to skills and the evolution of earnings inequality is what we refer to as the canonical model, which elegantly and powerfully operationalizes the supply and demand for skills by assuming two distinct skill groups that perform two different and imperfectly substitutable tasks or produce two imperfectly substitutable goods. Technology is assumed to take a factor-augmenting form, which, by complementing either high or low skill workers, can generate skill biased demand shifts. In this paper, we argue that despite its notable successes, the canonical model is largely silent on a number of central empirical developments of the last three decades, including: (1) significant declines in real wages of low skill workers, particularly low skill males; (2) non-monotone changes in wages at different parts of the earnings distribution during different decades; (3) broad-based increases in employment in high skill and low skill occupations relative to middle skilled occupations (i.e., job "polarization"); (4) rapid diffusion of new technologies that directly substitute capital for labor in tasks previously performed by moderately skilled workers; and (5) expanding offshoring in opportunities, enabled by technology, which allow foreign labor to substitute for domestic workers specific tasks. Motivated by these patterns, we argue that it is valuable to consider a richer framework for analyzing how recent changes in the earnings and employment distribution in the United States and other advanced economies are shaped by the interactions among worker skills, job tasks, evolving technologies, and shifting trading opportunities. We propose a tractable task-based model in which the assignment of skills to tasks is endogenous and technical change may involve the substitution of machines for certain tasks previously performed by labor. We further consider how the evolution of technology in this task-based setting may be endogenized. We show how such a framework can be used to interpret several central recent trends, and we also suggest further directions for empirical exploration.}
+  abstract  = {A central organizing framework of the voluminous recent literature studying changes in the returns to skills and the evolution of earnings inequality is what we refer to as the canonical model, which elegantly and powerfully operationalizes the supply and demand for skills by assuming two distinct skill groups that perform two different and imperfectly substitutable tasks or produce two imperfectly substitutable goods. Technology is assumed to take a factor-augmenting form, which, by complementing either high or low skill workers, can generate skill biased demand shifts. In this paper, we argue that despite its notable successes, the canonical model is largely silent on a number of central empirical developments of the last three decades, including: (1) significant declines in real wages of low skill workers, particularly low skill males; (2) non-monotone changes in wages at different parts of the earnings distribution during different decades; (3) broad-based increases in employment in high skill and low skill occupations relative to middle skilled occupations (i.e., job "polarization"); (4) rapid diffusion of new technologies that directly substitute capital for labor in tasks previously performed by moderately skilled workers; and (5) expanding offshoring in opportunities, enabled by technology, which allow foreign labor to substitute for domestic workers specific tasks. Motivated by these patterns, we argue that it is valuable to consider a richer framework for analyzing how recent changes in the earnings and employment distribution in the United States and other advanced economies are shaped by the interactions among worker skills, job tasks, evolving technologies, and shifting trading opportunities. We propose a tractable task-based model in which the assignment of skills to tasks is endogenous and technical change may involve the substitution of machines for certain tasks previously performed by labor. We further consider how the evolution of technology in this task-based setting may be endogenized. We show how such a framework can be used to interpret several central recent trends, and we also suggest further directions for empirical exploration.},
 }
 @article{acemoglu2018race,
   title     = {The race between man and machine: Implications of technology for growth, factor shares, and employment},
@@ -218,7 +243,7 @@
   year      = {2018},
   publisher = {American Economic Association 2014 Broadway, Suite 305, Nashville, TN 37203},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.3386/w22252}
+  url       = {https://doi.org/10.3386/w22252},
 }
 @techreport{acemoglu2020unpacking,
   title       = {Unpacking Skill Bias: Automation and New Tasks},
@@ -227,7 +252,7 @@
   institution = {National Bureau of Economic Research},
   number      = {w26681},
   abstract    = {Abstract unavailable.},
-  url         = {https://doi.org/10.2139/ssrn.3522330}
+  url         = {https://doi.org/10.2139/ssrn.3522330},
 }
 @article{acemoglu2022tasks,
   title     = {Tasks, automation, and the rise in US wage inequality},
@@ -239,7 +264,7 @@
   year      = {2022},
   publisher = {Wiley Online Library},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.3386/w28920}
+  url       = {https://doi.org/10.3386/w28920},
 }
 @techreport{acemoglu2024simple,
   title       = {The Simple Macroeconomics of AI},
@@ -262,7 +287,7 @@
   year      = {2024},
   publisher = {The University of Chicago Press Chicago, IL},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1086/723205}
+  url       = {https://doi.org/10.1086/723205},
 }
 @inbook{aghion2019artificial,
   url         = {https://doi.org/10.7208/9780226613475-011},
@@ -277,7 +302,8 @@
   isbn        = {9780226613475},
   year        = {2019},
   lastchecked = {2024-10-08},
-  abstract    = {Abstract unavailable.}
+  abstract        = {This paper examines the potential impact of artificial intelligence (A.I.) on economic growth. We model A.I. as the latest form of automation, a broader process dating back more than 200 years. Electricity, internal combustion engines, and semiconductors facilitated automation in the last century, but A.I. now seems poised to automate many tasks once thought to be out of reach, from driving cars to making medical recommendations and beyond. How will this affect economic growth and the division of income between labor and capital? What about the potential emergence of "singularities" and "superintelligence," concepts that animate many discussions in the machine intelligence community? How will the linkages between A.I. and growth be mediated by firm-level considerations, including organization and market structure? The goal throughout is to refine a set of critical questions about A.I. and economic growth and to contribute to shaping an agenda for the field. One theme that emerges is based on Baumol's "cost disease" insight: growth may be constrained not by what we are good at but rather by what is essential and yet hard to improve.},
+  abstract_source = {https://www.nber.org/system/files/working_papers/w23928/w23928.pdf},
 }
 @techreport{aghion2024ai,
   title    = {AI and Growth: where do we stand},
@@ -301,7 +327,7 @@
   pages     = {149--174},
   doi       = {10.7208/9780226613475-007},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.7208/9780226613475-007}
+  url       = {https://doi.org/10.7208/9780226613475-007},
 }
 @incollection{agrawal2019predictionjudgmentcomplexity,
   author    = {Ajay Agrawal and Joshua Gans and Avi Goldfarb},
@@ -313,7 +339,7 @@
   year      = {2019},
   pages     = {89--110},
   abstract  = {Abstract unavailable.},
-  url       = {http://www.nber.org/chapters/c14010.pdf}
+  url       = {http://www.nber.org/chapters/c14010.pdf},
 }
 @article{agrawal2023automation,
   title     = {Do we want less automation?},
@@ -325,7 +351,7 @@
   year      = {2023},
   publisher = {American Association for the Advancement of Science},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1126/science.adh9429}
+  url       = {https://doi.org/10.1126/science.adh9429},
 }
 @techreport{agrawal2023turing,
   title       = {The Turing Transformation: Artificial intelligence, intelligence augmentation, and skill premiums},
@@ -334,18 +360,19 @@
   institution = {National Bureau of Economic Research},
   href        = {https://www.brookings.edu/wp-content/uploads/2023/06/20230612_CRM_Agrawaletal_TuringTransformation_FINAL.pdf},
   abstract    = {Abstract unavailable.},
-  url         = {https://www.brookings.edu/wp-content/uploads/2023/06/20230612_CRM_Agrawaletal_TuringTransformation_FINAL.pdf}
+  url         = {https://www.brookings.edu/wp-content/uploads/2023/06/20230612_CRM_Agrawaletal_TuringTransformation_FINAL.pdf},
 }
 @misc{armengolestape2021multilingual,
   title           = {On the Multilingual Capabilities of Very Large-Scale English Language Models},
   author          = {Jordi Armengol-Estapé and Ona de Gibert Bonet and Maite Melero},
   year            = {2021},
   eprint          = {2108.13349},
+  url             = {https://arxiv.org/pdf/2108.13349.pdf},
   archiveprefix   = {arXiv},
   primaryclass    = {cs.CL},
   abstract        = {Generative Pre-trained Transformers (GPTs) have recently been scaled to unprecedented sizes in the history of machine learning. These models, solely trained on the language modeling objective, have been shown to exhibit outstanding few-shot learning capabilities in a number of different tasks. Nevertheless, aside from anecdotal experiences, little is known regarding their multilingual capabilities, given the fact that the pre-training corpus is almost entirely composed of English text. In this work, we investigate the multilingual skills of GPT-3, focusing on one language that barely appears in the pre-training corpus, Catalan, which makes the results especially meaningful; we assume that our results may be relevant for other languages as well. We find that the model shows an outstanding performance, particularly in generative tasks, with predictable limitations mostly in language understanding tasks but still with remarkable results given the zero-shot scenario. We investigate its potential and limits in extractive question-answering and natural language generation, as well as the effect of scale in terms of model size.},
   abstract_source = {http://export.arxiv.org/api/query?id_list=2108.13349},
-  url             = {https://arxiv.org/pdf/2108.13349.pdf}
+  url             = {https://arxiv.org/pdf/2108.13349.pdf},
 }
 @article{autor2003skill,
   title     = {The skill content of recent technological change: An empirical exploration},
@@ -357,7 +384,7 @@
   year      = {2003},
   publisher = {MIT Press},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.3386/w8337}
+  url       = {https://doi.org/10.3386/w8337},
 }
 @article{autor2020fall,
   author   = {Autor, David and Dorn, David and Katz, Lawrence F and Patterson, Christina and Van Reenen, John},
@@ -372,7 +399,7 @@
   issn     = {0033-5533},
   doi      = {10.1093/qje/qjaa004},
   url      = {https://academic.oup.com/qje/article-pdf/135/2/645/32994954/qjaa004.pdf},
-  eprint   = {https://academic.oup.com/qje/article-pdf/135/2/645/32994954/qjaa004.pdf}
+  eprint   = {https://academic.oup.com/qje/article-pdf/135/2/645/32994954/qjaa004.pdf},
 }
 
 @techreport{autor2021persistence,
@@ -381,7 +408,7 @@
   year        = {2021},
   institution = {National Bureau of Economic Research},
   abstract    = {Abstract unavailable.},
-  url         = {https://doi.org/10.3386/w29401}
+  url         = {https://doi.org/10.3386/w29401},
 }
 @techreport{autor2024applying,
   title       = {Applying AI to rebuild middle class jobs},
@@ -389,7 +416,7 @@
   year        = {2024},
   institution = {National Bureau of Economic Research},
   abstract    = {Abstract unavailable.},
-  url         = {https://doi.org/10.2139/ssrn.4722981}
+  url         = {https://doi.org/10.2139/ssrn.4722981},
 }
 @article{autor2024new,
   title     = {New frontiers: The origins and content of new work, 1940--2018},
@@ -399,7 +426,7 @@
   year      = {2024},
   publisher = {Oxford University Press},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1093/qje/qjae008}
+  url       = {https://doi.org/10.1093/qje/qjae008},
 }
 @article{autor2025expertise,
   title     = {Expertise},
@@ -409,7 +436,7 @@
   year      = {2025},
   publisher = {Oxford University Press},
   abstract  = {Abstract unavailable.},
-  url       = {https://www.semanticscholar.org/search?q=Expertise}
+  url       = {https://www.semanticscholar.org/search?q=Expertise},
 }
 @article{bai2022constitutional,
   title    = {Constitutional ai: Harmlessness from ai feedback},
@@ -417,7 +444,7 @@
   journal  = {arXiv preprint arXiv:2212.08073},
   year     = {2022},
   abstract = {Abstract unavailable.},
-  url      = {https://arxiv.org/pdf/2212.08073.pdf}
+  url      = {https://arxiv.org/pdf/2212.08073.pdf},
 }
 @misc{bai2023persuade,
   title           = {Artificial Intelligence Can Persuade Humans on Political Issues},
@@ -428,7 +455,7 @@
   year            = {2023},
   month           = {Feb},
   abstract        = {The emergence of transformer models that leverage deep learning and web-scale corpora has made it possible for artificial intelligence (AI) to tackle many higher-order cognitive tasks, with critical implications for industry, government, and labor markets in the US and globally. Here, we investigate whether the currently most powerful, openly-available AI model – GPT-3 – is capable of influencing the beliefs of humans, a social behavior recently seen as a unique purview of other humans. Across three preregistered experiments featuring diverse samples of Americans (total N=4,836), we find consistent evidence that messages generated by AI are persuasive across a number of policy issues, including an assault weapon ban, a carbon tax, and a paid parental-leave program. Further, AI-generated messages were as persuasive as messages crafted by lay humans. Compared to the human authors, participants rated the author of AI messages as being more factual and logical, but less angry, unique, and less likely to use story-telling. Our results show the current generation of large language models can persuade humans, even on polarized policy issues. This work raises important implications for regulating AI applications in political contexts, to counter its potential use in misinformation campaigns and other deceptive political activities.},
-  abstract_source = {https://api.crossref.org/works/10.31219/osf.io/stakv}
+  abstract_source = {https://api.crossref.org/works/10.31219/osf.io/stakv},
 }
 @article{baily2023machines,
   author   = {Baily, Martin\,Neil and Brynjolfsson, Erik and Korinek, Anton},
@@ -451,7 +478,7 @@
   pages    = {072515},
   year     = {2026},
   abstract = {Abstract unavailable.},
-  url      = {https://www.semanticscholar.org/search?q=Learning%20in%20a%20Correlated%20World.}
+  url      = {https://www.semanticscholar.org/search?q=Learning%20in%20a%20Correlated%20World.},
 }
 @misc{barnett2025consequences,
   author       = {Matthew Barnett},
@@ -460,7 +487,7 @@
   howpublished = {\url{https://epoch.ai/gradient-updates/consequences-of-automating-remote-work}},
   note         = {Accessed: 2025-01-19},
   abstract     = {Abstract unavailable.},
-  url          = {https://epoch.ai/gradient-updates/consequences-of-automating-remote-work}
+  url          = {https://epoch.ai/gradient-updates/consequences-of-automating-remote-work},
 }
 @article{baumol1965performing,
   issn      = {00028282},
@@ -474,7 +501,7 @@
   urldate   = {2024-10-09},
   volume    = {55},
   year      = {1965},
-  abstract  = {Abstract unavailable.}
+  abstract  = {Abstract unavailable.},
 }
 @article{becker1962investment,
   title     = {Investment in human capital: A theoretical analysis},
@@ -486,7 +513,7 @@
   year      = {1962},
   publisher = {The University of Chicago Press},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1086/258724}
+  url       = {https://doi.org/10.1086/258724},
 }
 @article{becker1992division,
   title     = {The division of labor, coordination costs, and knowledge},
@@ -498,7 +525,7 @@
   year      = {1992},
   publisher = {MIT Press},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.2307/2118383}
+  url       = {https://doi.org/10.2307/2118383},
 }
 @misc{becker2025uplift,
   title           = {Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity},
@@ -509,7 +536,7 @@
   primaryclass    = {cs.AI},
   url             = {https://arxiv.org/pdf/2507.09089.pdf},
   abstract        = {Despite widespread adoption, the impact of AI tools on software development in the wild remains understudied. We conduct a randomized controlled trial (RCT) to understand how AI tools at the February-June 2025 frontier affect the productivity of experienced open-source developers. 16 developers with moderate AI experience complete 246 tasks in mature projects on which they have an average of 5 years of prior experience. Each task is randomly assigned to allow or disallow usage of early 2025 AI tools. When AI tools are allowed, developers primarily use Cursor Pro, a popular code editor, and Claude 3.5/3.7 Sonnet. Before starting tasks, developers forecast that allowing AI will reduce completion time by 24%. After completing the study, developers estimate that allowing AI reduced completion time by 20%. Surprisingly, we find that allowing AI actually increases completion time by 19%--AI tooling slowed developers down. This slowdown also contradicts predictions from experts in economics (39% shorter) and ML (38% shorter). To understand this result, we collect and evaluate evidence for 20 properties of our setting that a priori could contribute to the observed slowdown effect--for example, the size and quality standards of projects, or prior developer experience with AI tooling. Although the influence of experimental artifacts cannot be entirely ruled out, the robustness of the slowdown effect across our analyses suggests it is unlikely to primarily be a function of our experimental design.},
-  abstract_source = {http://export.arxiv.org/api/query?id_list=2507.09089}
+  abstract_source = {http://export.arxiv.org/api/query?id_list=2507.09089},
 }
 @article{bengio2013representation,
   title     = {Representation learning: A review and new perspectives},
@@ -521,14 +548,14 @@
   year      = {2013},
   publisher = {IEEE},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1109/tpami.2013.50}
+  url       = {https://doi.org/10.1109/tpami.2013.50},
 }
 @article{benzell2022digital,
   title    = {Digital Abundance Meets Scarce Architects: Implications for Wages, Interest Rates, and Growth},
   author   = {Benzell, Seth G and Brynjolfsson, Erik and Saint-Jacques, Guillaume},
   year     = {2022},
   abstract = {Abstract unavailable.},
-  url      = {https://www.semanticscholar.org/search?q=Digital%20Abundance%20Meets%20Scarce%20Architects%3A%20Implications%20for%20Wages%2C%20Interest%20Rates%2C%20and%20Growth}
+  url      = {https://www.semanticscholar.org/search?q=Digital%20Abundance%20Meets%20Scarce%20Architects%3A%20Implications%20for%20Wages%2C%20Interest%20Rates%2C%20and%20Growth},
 }
 @techreport{beraja2022inefficient,
   title       = {Inefficient automation},
@@ -536,7 +563,7 @@
   year        = {2022},
   institution = {National Bureau of Economic Research},
   abstract    = {Abstract unavailable.},
-  url         = {https://doi.org/10.3386/w30154}
+  url         = {https://doi.org/10.3386/w30154},
 }
 @article{bessen2016computer,
   title    = {How computer automation affects occupations: Technology, jobs, and skills},
@@ -545,7 +572,7 @@
   number   = {15-49},
   year     = {2016},
   abstract = {Abstract unavailable.},
-  url      = {https://doi.org/10.2139/ssrn.2690435}
+  url      = {https://doi.org/10.2139/ssrn.2690435},
 }
 @article{bessen2023automatic,
   title     = {Automatic reaction-what happens to workers at firms that automate?},
@@ -555,7 +582,7 @@
   year      = {2023},
   publisher = {MIT Press},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.2139/ssrn.3328877}
+  url       = {https://doi.org/10.2139/ssrn.3328877},
 }
 @techreport{bick2025rapid,
   title       = {The rapid adoption of generative AI},
@@ -590,7 +617,7 @@
   year      = {2020},
   publisher = {American Economic Association 2014 Broadway, Suite 305, Nashville, TN 37203},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1257/aer.20180338}
+  url       = {https://doi.org/10.1257/aer.20180338},
 }
 @article{bond2023income,
   title    = {Income and inequality under asymptotically full automation},
@@ -598,7 +625,7 @@
   journal  = {Available at SSRN 4466558},
   year     = {2023},
   abstract = {Abstract unavailable.},
-  url      = {https://doi.org/10.2139/ssrn.4466558}
+  url      = {https://doi.org/10.2139/ssrn.4466558},
 }
 @article{boppart2020labor,
   title     = {Labor supply in the past, present, and future: a balanced-growth perspective},
@@ -610,7 +637,7 @@
   year      = {2020},
   publisher = {The University of Chicago Press Chicago, IL},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.3386/w22215}
+  url       = {https://doi.org/10.3386/w22215},
 }
 @article{bowman2023eight,
   title    = {Eight things to know about large language models},
@@ -618,7 +645,7 @@
   journal  = {arXiv preprint arXiv:2304.00612},
   year     = {2023},
   abstract = {Abstract unavailable.},
-  url      = {https://arxiv.org/pdf/2304.00612.pdf}
+  url      = {https://arxiv.org/pdf/2304.00612.pdf},
 }
 @techreport{briggs2023potentially,
   author      = {Briggs, Joseph and Kodnani, Devesh},
@@ -630,18 +657,20 @@
   url         = {https://www.gspublishing.com/content/research/en/reports/2023/03/27/d64e052b-0f6e-45d7-967b-d7be35fabd16.html},
   quote       = {We estimate that widespread adoption of generative AI could raise overall labor productivity growth by around 1.5pp/year (vs. a recent 1.5% average growth pace), roughly the same-sized boost that followed the emergence of prior transformative technologies like the electric motor and personal computer.},
   growth_annual_excess = {+1.5%},
-  abstract    = {Abstract unavailable.}
+  abstract        = {The Potentially Large Effects of Artificial Intelligence on Economic Growth (Briggs/Kodnani)},
+  abstract_source = {https://www.gspublishing.com/content/research/en/reports/2023/03/27/d64e052b-0f6e-45d7-967b-d7be35fabd16.html},
 }
 @misc{brown2020language,
   title           = {Language Models are Few-Shot Learners},
   author          = {Tom B. Brown and Benjamin Mann and Nick Ryder and Melanie Subbiah and Jared Kaplan and Prafulla Dhariwal and Arvind Neelakantan and Pranav Shyam and Girish Sastry and Amanda Askell and Sandhini Agarwal and Ariel Herbert-Voss and Gretchen Krueger and Tom Henighan and Rewon Child and Aditya Ramesh and Daniel M. Ziegler and Jeffrey Wu and Clemens Winter and Christopher Hesse and Mark Chen and Eric Sigler and Mateusz Litwin and Scott Gray and Benjamin Chess and Jack Clark and Christopher Berner and Sam McCandlish and Alec Radford and Ilya Sutskever and Dario Amodei},
   year            = {2020},
   eprint          = {2005.14165},
+  url             = {https://arxiv.org/pdf/2005.14165.pdf},
   archiveprefix   = {arXiv},
   primaryclass    = {cs.CL},
   abstract        = {Recent work has demonstrated substantial gains on many NLP tasks and benchmarks by pre-training on a large corpus of text followed by fine-tuning on a specific task. While typically task-agnostic in architecture, this method still requires task-specific fine-tuning datasets of thousands or tens of thousands of examples. By contrast, humans can generally perform a new language task from only a few examples or from simple instructions - something which current NLP systems still largely struggle to do. Here we show that scaling up language models greatly improves task-agnostic, few-shot performance, sometimes even reaching competitiveness with prior state-of-the-art fine-tuning approaches. Specifically, we train GPT-3, an autoregressive language model with 175 billion parameters, 10x more than any previous non-sparse language model, and test its performance in the few-shot setting. For all tasks, GPT-3 is applied without any gradient updates or fine-tuning, with tasks and few-shot demonstrations specified purely via text interaction with the model. GPT-3 achieves strong performance on many NLP datasets, including translation, question-answering, and cloze tasks, as well as several tasks that require on-the-fly reasoning or domain adaptation, such as unscrambling words, using a novel word in a sentence, or performing 3-digit arithmetic. At the same time, we also identify some datasets where GPT-3's few-shot learning still struggles, as well as some datasets where GPT-3 faces methodological issues related to training on large web corpora. Finally, we find that GPT-3 can generate samples of news articles which human evaluators have difficulty distinguishing from articles written by humans. We discuss broader societal impacts of this finding and of GPT-3 in general.},
   abstract_source = {http://export.arxiv.org/api/query?id_list=2005.14165},
-  url             = {https://arxiv.org/pdf/2005.14165.pdf}
+  url             = {https://arxiv.org/pdf/2005.14165.pdf},
 }
 @inproceedings{brynjolfsson2018can,
   title        = {What can machines learn and what does it mean for occupations and the economy?},
@@ -652,7 +681,7 @@
   year         = {2018},
   organization = {American Economic Association 2014 Broadway, Suite 305, Nashville, TN 37203},
   abstract     = {Abstract unavailable.},
-  url          = {https://doi.org/10.1257/pandp.20181019}
+  url          = {https://doi.org/10.1257/pandp.20181019},
 }
 @incollection{brynjolfsson2023turing,
   title     = {The turing trap: The promise \& peril of human-like artificial intelligence},
@@ -662,7 +691,7 @@
   year      = {2023},
   publisher = {Routledge},
   abstract  = {Abstract unavailable.},
-  url       = {https://direct.mit.edu/daed/article-pdf/151/2/272/2060604/daed_a_01915.pdf}
+  url       = {https://direct.mit.edu/daed/article-pdf/151/2/272/2060604/daed_a_01915.pdf},
 }
 @techreport{brynjolfsson2025agenda,
   title       = {A Research Agenda for the Economics of Transformative AI},
@@ -674,7 +703,7 @@
   month       = {September},
   doi         = {10.3386/w34256},
   url         = {https://doi.org/10.3386/w34256},
-  abstract    = {Abstract unavailable.}
+  abstract    = {Abstract unavailable.},
 }
 @techreport{brynjolfsson2025canaries,
   title       = {Canaries in the Coal Mine? Six Facts about the Recent Employment Effects of Artificial Intelligence},
@@ -683,7 +712,7 @@
   institution = {Stanford Digital Economy Lab},
   url         = {https://digitaleconomy.stanford.edu/wp-content/uploads/2025/08/Canaries_BrynjolfssonChandarChen.pdf},
   note        = {Working Paper},
-  abstract    = {Abstract unavailable.}
+  abstract    = {Abstract unavailable.},
 }
 @book{buchanan2025learning,
   author   = {Sam Buchanan and Druv Pai and Peng Wang and Yi Ma},
@@ -691,18 +720,19 @@
   year     = {2025},
   note     = {Open-source textbook, available online},
   url      = {https://ma‐lab‐berkeley.github.io/deep-representation-learning-book/},
-  abstract = {Abstract unavailable.}
+  abstract = {Abstract unavailable.},
 }
 @misc{bursztein2023retvec,
   title           = {RETVec: Resilient and Efficient Text Vectorizer},
   author          = {Elie Bursztein and Marina Zhang and Owen Vallis and Xinyu Jia and Alexey Kurakin},
   year            = {2023},
   eprint          = {2302.09207},
+  url             = {https://arxiv.org/pdf/2302.09207.pdf},
   archiveprefix   = {arXiv},
   primaryclass    = {cs.CL},
   abstract        = {This paper describes RETVec, an efficient, resilient, and multilingual text vectorizer designed for neural-based text processing. RETVec combines a novel character encoding with an optional small embedding model to embed words into a 256-dimensional vector space. The RETVec embedding model is pre-trained using pair-wise metric learning to be robust against typos and character-level adversarial attacks. In this paper, we evaluate and compare RETVec to state-of-the-art vectorizers and word embeddings on popular model architectures and datasets. These comparisons demonstrate that RETVec leads to competitive, multilingual models that are significantly more resilient to typos and adversarial text attacks. RETVec is available under the Apache 2 license at https://github.com/google-research/retvec.},
   abstract_source = {http://export.arxiv.org/api/query?id_list=2302.09207},
-  url             = {https://arxiv.org/pdf/2302.09207.pdf}
+  url             = {https://arxiv.org/pdf/2302.09207.pdf},
 }
 @article{Callander2011,
   author          = {Callander, Steven},
@@ -715,14 +745,14 @@
   doi             = {10.1257/aer.101.6.2277},
   abstract        = {I study a dynamic model of trial-and-error search in which agents do not have complete knowledge of how choices are mapped into outcomes. Agents learn about the mapping by observing the choices of earlier agents and the outcomes that are realized. The key novelty is that the mapping is represented as the realized path of a Brownian motion. I characterize for this environment the optimal behavior each period as well as the trajectory of experimentation and learning through time. Applied to new product development, the model shares features of the data with the well-known Product Life Cycle. (JEL D81, D83, D92, L26)},
   abstract_source = {https://api.crossref.org/works/10.1257/aer.101.6.2277},
-  url             = {https://doi.org/10.1257/aer.101.6.2277}
+  url             = {https://doi.org/10.1257/aer.101.6.2277},
 }
 @inproceedings{camerer1991processperformance,
   title    = {The process-performance paradox in expert judgment - How can experts know so much and predict so badly?},
   author   = {Colin Camerer and Eric J. Johnson},
   year     = {1991},
   url      = {https://api.semanticscholar.org/CorpusID:67971809},
-  abstract = {Abstract unavailable.}
+  abstract = {Abstract unavailable.},
 }
 @article{CarnehlSchneider2025,
   author          = {Carnehl, Christoph and Schneider, Johannes},
@@ -735,7 +765,7 @@
   doi             = {10.3982/ECTA22144},
   abstract        = {Is more novel research always desirable? We develop a model in which knowledge shapes society's policies and guides the search for discoveries. Researchers select a question and how intensely to study it. The novelty of a question determines both the value and difficulty of discovering its answer. We show that the benefits of discoveries are nonmonotone in novelty. Knowledge expands endogenously step‐by‐step over time. Through a dynamic externality, moonshots—research on questions more novel than what is myopically optimal—can improve the evolution of knowledge. Moonshots induce research cycles in which subsequent researchers connect the moonshot to previous knowledge.},
   abstract_source = {https://api.crossref.org/works/10.3982/ECTA22144},
-  url             = {https://doi.org/10.3982/ECTA22144}
+  url             = {https://doi.org/10.3982/ECTA22144},
 }
 @article{caselli2019robot,
   title     = {Robot arithmetic: new technology and wages},
@@ -747,7 +777,7 @@
   year      = {2019},
   publisher = {American Economic Association 2014 Broadway, Suite 305, Nashville, TN 37203},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1257/aeri.20170036}
+  url       = {https://doi.org/10.1257/aeri.20170036},
 }
 @article{cawley2001three,
   title     = {Three observations on wages and measured cognitive ability},
@@ -759,7 +789,7 @@
   year      = {2001},
   publisher = {Elsevier},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1016/s0927-5371(01)00039-2}
+  url       = {https://doi.org/10.1016/s0927-5371(01)00039-2},
 }
 @techreport{chatterji2025chatgpt,
   title       = {How People Use ChatGPT},
@@ -770,7 +800,8 @@
   number      = {34255},
   doi         = {10.3386/w34255},
   url         = {https://doi.org/10.3386/w34255},
-  abstract    = {Abstract unavailable.}
+  abstract        = {Despite the rapid adoption of LLM chatbots, little is known about how they are used. We document the growth of ChatGPT's consumer product from its launch in November 2022 through July 2025, when it had been adopted by around 10% of the world's adult population. Early adopters were disproportionately male but the gender gap has narrowed dramatically, and we find higher growth rates in lower-income countries. Using a privacy-preserving automated pipeline, we classify usage patterns within a representative sample of ChatGPT conversations. We find steady growth in work-related messages but even faster growth in non-work-related messages, which have grown from 53% to more than 70% of all usage. Work usage is more common for educated users in highly-paid professional occupations. We classify messages by conversation topic and find that "Practical Guidance," "Seeking Information," and "Writing" are the three most common topics and collectively account for nearly 80% of all conversations. Writing dominates work-related tasks, highlighting chatbots' unique ability to generate digital outputs compared to traditional search engines. Computer programming and self-expression both represent relatively small shares of use. Overall, we find that ChatGPT provides economic value through decision support, which is especially important in knowledge-intensive jobs.},
+  abstract_source = {https://www.nber.org/system/files/working_papers/w34255/w34255.pdf},
 }
 @article{chen2014day,
   title     = {A day without a search engine: An experimental study of online and offline searches},
@@ -782,14 +813,14 @@
   year      = {2014},
   publisher = {Cambridge University Press \& Assessment},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1007/s10683-013-9381-9}
+  url       = {https://doi.org/10.1007/s10683-013-9381-9},
 }
 @misc{chen2022profanity,
   title    = {Holy $#!t: Are popular toxicity models simply profanity detectors?},
   author   = {Edwin Chen},
   year     = {2022},
   url      = {https://www.surgehq.ai/blog/are-popular-toxicity-models-simply-profanity-detectors},
-  abstract = {Abstract unavailable.}
+  abstract = {Abstract unavailable.},
 }
 @techreport{chow2023transformative,
   title       = {Transformative AI, existential risk, and asset pricing},
@@ -797,7 +828,7 @@
   year        = {2023},
   institution = {Working Paper},
   abstract    = {Abstract unavailable.},
-  url         = {https://www.semanticscholar.org/paper/2638140868591361598cb00cf40d7899e9f5fd47}
+  url         = {https://www.semanticscholar.org/paper/2638140868591361598cb00cf40d7899e9f5fd47},
 }
 @techreport{chow2024transformative,
   title       = {Transformative AI, existential risk, and real interest rates},
@@ -805,7 +836,8 @@
   year        = {2024},
   institution = {Working Paper},
   url         = {https://www.semanticscholar.org/search?q=Transformative%20AI%2C%20existential%20risk%2C%20and%20real%20interest%20rates},
-  abstract    = {Abstract unavailable.}
+  abstract        = {Transformative AI, existential risk, and real interest rates | Semantic Scholar},
+  abstract_source = {https://www.semanticscholar.org/search?q=Transformative%20AI%2C%20existential%20risk%2C%20and%20real%20interest%20rates},
 }
 @article{collis2025welfare,
   author   = {Collis, Avinash and Brynjolfsson, Erik},
@@ -815,7 +847,8 @@
   month    = aug,
   note     = {Published August 2025},
   url      = {https://www.wsj.com/opinion/ais-overlooked-97-billion-contribution-to-the-economy-users-service-da6e8f55},
-  abstract = {Abstract unavailable.}
+  abstract        = {AI's Overlooked \$97 Billion Contribution to the Economy},
+  abstract_source = {https://www.wsj.com/opinion/ais-overlooked-97-billion-contribution-to-the-economy-users-service-da6e8f55},
 }
 @article{costinot2023robots,
   title     = {Robots, trade, and luddism: A sufficient statistic approach to optimal technology regulation},
@@ -827,7 +860,7 @@
   year      = {2023},
   publisher = {Oxford University Press US},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.3386/w25103}
+  url       = {https://doi.org/10.3386/w25103},
 }
 @techreport{coyle2025measurement,
   author      = {Diane Coyle and John Lourenze Poquiz},
@@ -838,7 +871,7 @@
   month       = {August},
   note        = {Revised August 2025. Available as PDF at \url{https://conference.nber.org/conf_papers/f227496.pdf}},
   abstract    = {Abstract unavailable.},
-  url         = {https://conference.nber.org/conf_papers/f227496.pdf}
+  url         = {https://conference.nber.org/conf_papers/f227496.pdf},
 }
 @article{cundy2023sequencematch,
   title    = {SequenceMatch: Imitation Learning for Autoregressive Sequence Modelling with Backtracking},
@@ -846,7 +879,7 @@
   journal  = {arXiv preprint arXiv:2306.05426},
   year     = {2023},
   abstract = {Abstract unavailable.},
-  url      = {https://arxiv.org/pdf/2306.05426.pdf}
+  url      = {https://arxiv.org/pdf/2306.05426.pdf},
 }
 @article{cunningham2015hierarchical,
   title    = {Hierarchical aggregation of information and decision-making},
@@ -854,7 +887,7 @@
   journal  = {Unpublished Manuscript, Columbia University},
   year     = {2015},
   abstract = {Abstract unavailable.},
-  url      = {https://www.semanticscholar.org/search?q=Hierarchical%20aggregation%20of%20information%20and%20decision-making}
+  url      = {https://www.semanticscholar.org/search?q=Hierarchical%20aggregation%20of%20information%20and%20decision-making},
 }
 @article{cunningham2022implicit,
   title     = {Implicit preferences},
@@ -862,7 +895,7 @@
   year      = {2022},
   publisher = {CEPR Discussion Paper No. DP17343},
   url       = {http://jondequidt.com/pdfs/paper_implicit.pdf},
-  abstract  = {Abstract unavailable.}
+  abstract  = {Abstract unavailable.},
 }
 @online{cunningham2023imitation,
   author   = {Cunningham, Tom},
@@ -871,14 +904,14 @@
   year     = {2023},
   url      = {tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html},
   langid   = {en},
-  abstract = {Abstract unavailable.}
+  abstract = {Abstract unavailable.},
 }
 @misc{cunningham2023ranking,
   year     = {2023},
   author   = {Tom Cunningham},
   title    = {Ranking by Engagement},
   url      = {http://tecunningham.github.io/2023-04-28-ranking-by-engagement.html},
-  abstract = {Abstract unavailable.}
+  abstract = {Abstract unavailable.},
 }
 @article{davidson2021could,
   title    = {Could advanced AI drive explosive economic growth},
@@ -887,7 +920,7 @@
   volume   = {25},
   year     = {2021},
   abstract = {Abstract unavailable.},
-  url      = {https://www.semanticscholar.org/search?q=Could%20advanced%20AI%20drive%20explosive%20economic%20growth}
+  url      = {https://www.semanticscholar.org/search?q=Could%20advanced%20AI%20drive%20explosive%20economic%20growth},
 }
 @article{deming2017growing,
   title     = {The growing importance of social skills in the labor market},
@@ -899,7 +932,7 @@
   year      = {2017},
   publisher = {Oxford University Press},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.3386/w21473}
+  url       = {https://doi.org/10.3386/w21473},
 }
 @techreport{deming2021growing,
   title       = {The growing importance of decision-making on the job},
@@ -907,7 +940,7 @@
   year        = {2021},
   institution = {National Bureau of Economic Research},
   abstract    = {Abstract unavailable.},
-  url         = {https://doi.org/10.2139/ssrn.3838499}
+  url         = {https://doi.org/10.2139/ssrn.3838499},
 }
 @techreport{deming2024skills,
   title       = {Skills and Human Capital in the Labor Market},
@@ -915,7 +948,7 @@
   year        = {2024},
   institution = {National Bureau of Economic Research},
   abstract    = {Abstract unavailable.},
-  url         = {https://doi.org/10.3386/w32908}
+  url         = {https://doi.org/10.3386/w32908},
 }
 @article{devlin2018bert,
   title    = {Bert: Pre-training of deep bidirectional transformers for language understanding},
@@ -923,7 +956,7 @@
   journal  = {arXiv preprint arXiv:1810.04805},
   year     = {2018},
   abstract = {Abstract unavailable.},
-  url      = {https://arxiv.org/pdf/1810.04805.pdf}
+  url      = {https://arxiv.org/pdf/1810.04805.pdf},
 }
 @article{dijkstra2005foolishness,
   title     = {On the foolishness of “natural language programming”},
@@ -933,7 +966,7 @@
   year      = {2005},
   publisher = {Springer},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1007/bfb0014656}
+  url       = {https://doi.org/10.1007/bfb0014656},
 }
 @article{dixit1977monopolistic,
   title     = {Monopolistic competition and optimum product diversity},
@@ -945,7 +978,7 @@
   year      = {1977},
   publisher = {JSTOR},
   abstract  = {Abstract unavailable.},
-  url       = {https://www.semanticscholar.org/search?q=Monopolistic%20competition%20and%20optimum%20product%20diversity}
+  url       = {https://www.semanticscholar.org/search?q=Monopolistic%20competition%20and%20optimum%20product%20diversity},
 }
 @article{dornbusch1977comparative,
   title     = {Comparative advantage, trade, and payments in a Ricardian model with a continuum of goods},
@@ -957,7 +990,7 @@
   year      = {1977},
   publisher = {JSTOR},
   abstract  = {Abstract unavailable.},
-  url       = {https://www.semanticscholar.org/paper/8d18235b9606a7e8f64036ab0b50aa7b6d0a3ed8}
+  url       = {https://www.semanticscholar.org/paper/8d18235b9606a7e8f64036ab0b50aa7b6d0a3ed8},
 }
 @misc{dreyfuss2025learning,
   title           = {Learning about AI},
@@ -968,7 +1001,7 @@
   primaryclass    = {econ.GN},
   url             = {https://arxiv.org/pdf/2406.05408.pdf},
   abstract        = {We study how people form expectations about the performance of artificial intelligence (AI) and consequences for AI adoption. Our main hypothesis is that people rely on human-relevant task features when evaluating AI, treating AI failures on human-easy tasks, and successes on human-difficult tasks, as highly informative of its overall performance. In lab experiments, we show that projection of human difficulty onto AI predictably distorts subjects' beliefs and can lead to suboptimal adoption, as failing human-easy tasks need not imply poor overall performance for AI. We find evidence for projection in a field experiment with an AI giving parenting advice. Potential users strongly infer from answers that are equally uninformative but less humanly-similar to expected answers, significantly reducing trust and future engagement. Our results suggest AI "anthropomorphism" can backfire by increasing projection and de-aligning people's expectations and AI performance.},
-  abstract_source = {http://export.arxiv.org/api/query?id_list=2406.05408}
+  abstract_source = {http://export.arxiv.org/api/query?id_list=2406.05408},
 }
 @misc{ecb2025bergeaud,
   title        = {The Past, Present and Future of European Productivity},
@@ -989,7 +1022,7 @@
   journal  = {Available at SSRN 4436627},
   year     = {2023},
   abstract = {Abstract unavailable.},
-  url      = {https://www.semanticscholar.org/search?q=The%20Labor%20Impact%20of%20Generative%20AI%20on%20Firm%20Values}
+  url      = {https://www.semanticscholar.org/search?q=The%20Labor%20Impact%20of%20Generative%20AI%20on%20Firm%20Values},
 }
 @article{eloundou2023gpts,
   title    = {Gpts are gpts: An early look at the labor market impact potential of large language models},
@@ -1006,7 +1039,7 @@
   journal  = {arXiv preprint arXiv:2309.11690},
   year     = {2023},
   abstract = {Abstract unavailable.},
-  url      = {https://arxiv.org/pdf/2309.11690.pdf}
+  url      = {https://arxiv.org/pdf/2309.11690.pdf},
 }
 @article{erdil2025gate,
   title           = {GATE: An Integrated Assessment Model for AI Automation},
@@ -1017,13 +1050,13 @@
   quote           = {The website figure showing Gross World Product shows that in 2035 "default" path hits approximately a 30% annualized growth rate. However Ege Erdil says "I don't personally predict 30% mean annual GDP growth in the US over the next 10 years ... the model does with some reasonable parameter values, but my timelines for that kind of growth are longer, and there's model uncertainty and so on".},
   growth_annual_excess = {+30%},
   abstract        = {Assessing the economic impacts of artificial intelligence requires integrating insights from both computer science and economics. We present the Growth and AI Transition Endogenous model (GATE), a dynamic integrated assessment model that simulates the economic effects of AI automation. GATE combines three key ingredients that have not been brought together in previous work: (1) a compute-based model of AI development, (2) an AI automation framework, and (3) a semi-endogenous growth model featuring endogenous investment and adjustment costs. The model allows users to simulate the economic effects of the transition to advanced AI across a range of potential scenarios. GATE captures the interactions between economic variables, including investment, automation, innovation, and growth, as well as AI-related inputs such as compute and algorithms. This paper explains the model's structure and functionality, emphasizing AI development for economists and economic modeling for the AI community. The model is implemented in an interactive sandbox, enabling users to explore the impact of AI under different parameter choices and policy interventions. The modeling sandbox is available at: www.epoch.ai/GATE.},
-  abstract_source = {http://export.arxiv.org/api/query?id_list=2503.04941}
+  abstract_source = {http://export.arxiv.org/api/query?id_list=2503.04941},
 }
 @misc{evgeniou2023navigating,
   url      = {https://knowledge.insead.edu/operations/navigating-trust-and-safety-world-generative-ai},
   author   = {Theodoros Evgeniou, Jeff Dunn and Alice Hunsberger},
   title    = {Navigating Trust and Safety in the World of Generative AI},
-  abstract = {Abstract unavailable.}
+  abstract = {Abstract unavailable.},
 }
 @article{farmer2016predictable,
   title     = {How predictable is technological progress?},
@@ -1035,7 +1068,7 @@
   year      = {2016},
   publisher = {Elsevier},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.2139/ssrn.2566810}
+  url       = {https://doi.org/10.2139/ssrn.2566810},
 }
 @inproceedings{felten2018method,
   title        = {A method to link advances in artificial intelligence to occupational abilities},
@@ -1046,7 +1079,7 @@
   year         = {2018},
   organization = {American Economic Association 2014 Broadway, Suite 305, Nashville, TN 37203},
   abstract     = {Abstract unavailable.},
-  url          = {https://doi.org/10.1257/pandp.20181021}
+  url          = {https://doi.org/10.1257/pandp.20181021},
 }
 @techreport{filippucci2024miracle,
   title       = {Miracle or Myth? Assessing the macroeconomic productivity gains from Artificial Intelligence},
@@ -1067,7 +1100,7 @@
   day         = {13},
   institution = {République Française},
   url         = {https://www.gouvernement.fr/upload/media/content/0001/07/c2b1a73c5372df279e58f91042cb91de7e03b507.pdf},
-  abstract    = {Abstract unavailable.}
+  abstract    = {Abstract unavailable.},
 }
 @article{frey2013future,
   title     = {The future of employment},
@@ -1075,7 +1108,7 @@
   year      = {2013},
   publisher = {Oxford},
   abstract  = {Abstract unavailable.},
-  url       = {https://www.semanticscholar.org/search?q=The%20future%20of%20employment}
+  url       = {https://www.semanticscholar.org/search?q=The%20future%20of%20employment},
 }
 @article{garfinkel2019offensedefense,
   author    = {Ben Garfinkel and Allan Dafoe},
@@ -1088,7 +1121,7 @@
   publisher = {Routledge},
   doi       = {10.1080/01402390.2019.1631810},
   url       = {https://doi.org/10.1080/01402390.2019.1631810},
-  abstract  = {Abstract unavailable.}
+  abstract  = {Abstract unavailable.},
 }
 @article{garicano2006organization,
   title     = {Organization and inequality in a knowledge economy},
@@ -1100,7 +1133,7 @@
   year      = {2006},
   publisher = {MIT Press},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1162/qjec.121.4.1383}
+  url       = {https://doi.org/10.1162/qjec.121.4.1383},
 }
 @article{gechert2022measuring,
   title     = {Measuring capital-labor substitution: The importance of method choices and publication bias},
@@ -1111,7 +1144,7 @@
   year      = {2022},
   publisher = {Elsevier},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1016/j.red.2021.05.003}
+  url       = {https://doi.org/10.1016/j.red.2021.05.003},
 }
 @techreport{giuntella2022workers,
   title       = {How do workers and households adjust to robots? Evidence from China},
@@ -1119,7 +1152,7 @@
   year        = {2022},
   institution = {National Bureau of Economic Research},
   abstract    = {Abstract unavailable.},
-  url         = {https://doi.org/10.2139/ssrn.4293620}
+  url         = {https://doi.org/10.2139/ssrn.4293620},
 }
 @misc{goldin2007race,
   title     = {The race between education and technology: the evolution of US educational wage differentials, 1890 to 2005},
@@ -1127,7 +1160,7 @@
   year      = {2007},
   publisher = {National Bureau of Economic Research Cambridge, Mass., USA},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.3386/w12984}
+  url       = {https://doi.org/10.3386/w12984},
 }
 @misc{goldstein2023persuasive,
   title           = {Can AI  Write Persuasive Propaganda?},
@@ -1138,18 +1171,19 @@
   year            = {2023},
   month           = {Apr},
   abstract        = {Can large language models, a form of artificial intelligence, write persuasive propaganda? We conducted a pre-registered survey experiment to investigate the persuasiveness of news articles written by foreign propagandists compared to content written by GPT-3 davinci (a large language model). We found that GPT-3 can write highly persuasive text. We investigated whether a person fluent in English could improve propaganda persuasiveness: editing the prompt fed to GPT-3 or curating GPT-3's output made GPT-3 even more persuasive, and, under certain conditions, as persuasive as the original propaganda. Our findings suggest that if propagandists get access to GPT-3-like models, they could create convincing content with limited effort.},
-  abstract_source = {https://api.crossref.org/works/10.31235/osf.io/fp87b}
+  abstract_source = {https://api.crossref.org/works/10.31235/osf.io/fp87b},
 }
 @misc{grondahl2018need,
   title           = {All You Need is "Love": Evading Hate-speech Detection},
   author          = {Tommi Gröndahl and Luca Pajola and Mika Juuti and Mauro Conti and N. Asokan},
   year            = {2018},
   eprint          = {1808.09115},
+  url             = {https://arxiv.org/pdf/1808.09115.pdf},
   archiveprefix   = {arXiv},
   primaryclass    = {cs.CL},
   abstract        = {With the spread of social networks and their unfortunate use for hate speech, automatic detection of the latter has become a pressing problem. In this paper, we reproduce seven state-of-the-art hate speech detection models from prior work, and show that they perform well only when tested on the same type of data they were trained on. Based on these results, we argue that for successful hate speech detection, model architecture is less important than the type of data and labeling criteria. We further show that all proposed detection techniques are brittle against adversaries who can (automatically) insert typos, change word boundaries or add innocuous words to the original hate speech. A combination of these methods is also effective against Google Perspective -- a cutting-edge solution from industry. Our experiments demonstrate that adversarial training does not completely mitigate the attacks, and using character-level features makes the models systematically more attack-resistant than using word-level features.},
   abstract_source = {http://export.arxiv.org/api/query?id_list=1808.09115},
-  url             = {https://arxiv.org/pdf/1808.09115.pdf}
+  url             = {https://arxiv.org/pdf/1808.09115.pdf},
 }
 @misc{hackenburg2023persuasive,
   title           = {Evaluating the persuasive influence of political microtargeting with large language models},
@@ -1160,12 +1194,11 @@
   year            = {2023},
   month           = {Aug},
   abstract        = {Recent advancements in large language models (LLMs) have raised the prospect of scalable, automated, and fine-grained political microtargeting on a scale previously unseen; however, the persuasive influence of microtargeting with LLMs remains unclear. Here, we build a custom web application capable of integrating self-reported demographic and political data into GPT-4 prompts in real-time, facilitating the live creation of unique messages tailored to persuade individual users on four political issues. We then deploy this application in a pre-registered randomized control experiment (n = 8,587) to investigate the extent to which access to individual-level data increases the persuasive influence of GPT-4. Our approach yields two key findings. First, messages generated by GPT-4 were broadly persuasive, in some cases increasing levels of support for an issue stance by nearly 50%. Second, in aggregate, the persuasive impact of microtargeted messages was not statistically different from that of non-microtargeted messages (5.68% vs 7.32%, respec- tively, P = 0.082). These trends hold even when manipulating the type and number of attributes used to tailor the message. Taken together, these findings suggest — contrary to widespread speculation — that the influence of current LLMs may reside not in their ability to tailor messages to individuals, but rather in the persuasiveness of their generic, non-targeted messages. This work secondarily contributes by offering a robust and replicable approach – through a custom web-based pipeline – to integrating LLMs into experimental designs, and a novel dataset, GPTarget2023, containing metadata for thousands of tailored AI-generated messages.},
-  abstract_source = {https://api.crossref.org/works/10.31219/osf.io/wnt8b}
+  abstract_source = {https://api.crossref.org/works/10.31219/osf.io/wnt8b},
 }
 @inproceedings{han2020fortifying,
   title     = {Fortifying Toxic Speech Detectors Against Veiled Toxicity},
-  author    = {Han, Xiaochuang  and
-               Tsvetkov, Yulia},
+  author    = {Han, Xiaochuang and Tsvetkov, Yulia},
   booktitle = {Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
   month     = nov,
   year      = {2020},
@@ -1174,7 +1207,7 @@
   url       = {https://doi.org/10.18653/v1/2020.emnlp-main.622},
   doi       = {10.18653/v1/2020.emnlp-main.622},
   pages     = {7732--7739},
-  abstract  = {Modern toxic speech detectors are incompetent in recognizing disguised offensive language, such as adversarial attacks that deliberately avoid known toxic lexicons, or manifestations of implicit bias. Building a large annotated dataset for such veiled toxicity can be very expensive. In this work, we propose a framework aimed at fortifying existing toxic speech detectors without a large labeled corpus of veiled toxicity. Just a handful of probing examples are used to surface orders of magnitude more disguised offenses. We augment the toxic speech detector{'}s training data with these discovered offensive examples, thereby making it more robust to veiled toxicity while preserving its utility in detecting overt toxicity.}
+  abstract  = {Modern toxic speech detectors are incompetent in recognizing disguised offensive language, such as adversarial attacks that deliberately avoid known toxic lexicons, or manifestations of implicit bias. Building a large annotated dataset for such veiled toxicity can be very expensive. In this work, we propose a framework aimed at fortifying existing toxic speech detectors without a large labeled corpus of veiled toxicity. Just a handful of probing examples are used to surface orders of magnitude more disguised offenses. We augment the toxic speech detector{'}s training data with these discovered offensive examples, thereby making it more robust to veiled toxicity while preserving its utility in detecting overt toxicity.},
 }
 
 @misc{handa2025economicindex,
@@ -1186,7 +1219,7 @@
   primaryclass    = {cs.CY},
   url             = {https://arxiv.org/pdf/2503.04761.pdf},
   abstract        = {Despite widespread speculation about artificial intelligence's impact on the future of work, we lack systematic empirical evidence about how these systems are actually being used for different tasks. Here, we present a novel framework for measuring AI usage patterns across the economy. We leverage a recent privacy-preserving system to analyze over four million Claude.ai conversations through the lens of tasks and occupations in the U.S. Department of Labor's O*NET Database. Our analysis reveals that AI usage primarily concentrates in software development and writing tasks, which together account for nearly half of all total usage. However, usage of AI extends more broadly across the economy, with approximately 36% of occupations using AI for at least a quarter of their associated tasks. We also analyze how AI is being used for tasks, finding 57% of usage suggests augmentation of human capabilities (e.g., learning or iterating on an output) while 43% suggests automation (e.g., fulfilling a request with minimal human involvement). While our data and methods face important limitations and only paint a picture of AI usage on a single platform, they provide an automated, granular approach for tracking AI's evolving role in the economy and identifying leading indicators of future impact as these technologies continue to advance.},
-  abstract_source = {http://export.arxiv.org/api/query?id_list=2503.04761}
+  abstract_source = {http://export.arxiv.org/api/query?id_list=2503.04761},
 }
 @article{heckman2006effects,
   title     = {The effects of cognitive and noncognitive abilities on labor market outcomes and social behavior},
@@ -1198,14 +1231,14 @@
   year      = {2006},
   publisher = {The University of Chicago Press},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.3386/w12006}
+  url       = {https://doi.org/10.3386/w12006},
 }
 @misc{heiner2022toxic,
   url      = {https://www.surgehq.ai/blog/25-examples-of-twitters-content-moderation-failures},
   year     = {2022},
   author   = {Scott Heiner},
   title    = {Real-World ML Failures: The Violence, Racism, and Sexism Uncaught by Twitter's Content Moderation Systems},
-  abstract = {Abstract unavailable.}
+  abstract = {Abstract unavailable.},
 }
 @article{hemous2022rise,
   title     = {The rise of the machines: Automation, horizontal innovation, and income inequality},
@@ -1217,7 +1250,7 @@
   year      = {2022},
   publisher = {American Economic Association 2014 Broadway, Suite 305, Nashville, TN 37203-2425},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1257/mac.20160164}
+  url       = {https://doi.org/10.1257/mac.20160164},
 }
 @article{hendrycks2021measuring,
   title    = {Measuring mathematical problem solving with the math dataset},
@@ -1225,7 +1258,7 @@
   journal  = {arXiv preprint arXiv:2103.03874},
   year     = {2021},
   abstract = {Abstract unavailable.},
-  url      = {https://arxiv.org/pdf/2103.03874.pdf}
+  url      = {https://arxiv.org/pdf/2103.03874.pdf},
 }
 @article{hoffmann2022training,
   title    = {Training compute-optimal large language models},
@@ -1233,7 +1266,7 @@
   journal  = {arXiv preprint arXiv:2203.15556},
   year     = {2022},
   abstract = {Abstract unavailable.},
-  url      = {https://arxiv.org/pdf/2203.15556.pdf}
+  url      = {https://arxiv.org/pdf/2203.15556.pdf},
 }
 @article{hotte2023technology,
   title     = {Technology and jobs: A systematic literature review},
@@ -1244,7 +1277,7 @@
   year      = {2023},
   publisher = {Elsevier},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1016/j.techfore.2023.122750}
+  url       = {https://doi.org/10.1016/j.techfore.2023.122750},
 }
 @article{humlum2019robot,
   title    = {Robot adoption and labor market dynamics},
@@ -1252,15 +1285,16 @@
   journal  = {Princeton University},
   year     = {2019},
   url      = {https://www.nber.org/papers/w33777},
-  abstract = {Abstract unavailable.}
+  abstract = {Abstract unavailable.},
 }
 @techreport{humlum2025large,
   title       = {Large language models, small labor market effects},
   author      = {Humlum, Anders and Vestergaard, Emilie},
   year        = {2025},
   institution = {National Bureau of Economic Research},
-  abstract    = {Abstract unavailable.},
-  url         = {https://doi.org/10.3386/w33777}
+  url         = {https://doi.org/10.3386/w33777},
+  abstract        = {We examine the early labor market impacts of AI chatbots by linking large-scale, representative adoption surveys to administrative labor records in Denmark. Using difference-in-differences, we estimate precise null effects on earnings and recorded hours at both the worker and workplace levels, ruling out effects larger than 2% two years after. These null results hold for intensive users, early adopters, workplaces with substantial investments, workers reporting large gains, flexible-pay occupations, and early-career jobs. Adoption is linked to occupational switching and task restructuring, but without net changes in hours or earnings. Our findings challenge narratives of imminent disruption from Generative AI.},
+  abstract_source = {https://www.nber.org/system/files/working_papers/w33777/w33777.pdf},
 }
 @misc{ide2024artificialintelligenceknowledgeeconomy,
   title           = {Artificial Intelligence in the Knowledge Economy},
@@ -1272,7 +1306,7 @@
   url             = {https://arxiv.org/pdf/2312.05481.pdf},
   doi             = {10.1086/737233},
   abstract        = {Artificial Intelligence (AI) can transform the knowledge economy by automating non-codifiable work. To analyze this transformation, we incorporate AI into an economy where humans form hierarchical organizations: Less knowledgeable individuals become "workers" doing routine work, while others become "solvers" handling exceptions. We model AI as a technology that converts computational resources into "AI agents" that operate autonomously (as co-workers and solvers/co-pilots) or non-autonomously (solely as co-pilots). Autonomous AI primarily benefits the most knowledgeable individuals; non-autonomous AI benefits the least knowledgeable. However, output is higher with autonomous AI. These findings reconcile contradictory empirical evidence and reveal tradeoffs when regulating AI autonomy.},
-  abstract_source = {http://export.arxiv.org/api/query?id_list=2312.05481}
+  abstract_source = {http://export.arxiv.org/api/query?id_list=2312.05481},
 }
 @misc{ide2024turingvalleyaicapabilities,
   title           = {The Turing Valley: How AI Capabilities Shape Labor Income},
@@ -1283,7 +1317,7 @@
   primaryclass    = {econ.GN},
   url             = {https://arxiv.org/pdf/2408.16443.pdf},
   abstract        = {Do improvements in Artificial Intelligence (AI) benefit workers? We study how AI capabilities influence labor income in a competitive economy where production requires multidimensional knowledge, and firms organize production by matching humans and AI-powered machines in hierarchies designed to use knowledge efficiently. We show that advancements in AI in dimensions where machines underperform humans decrease total labor income, while advancements in dimensions where machines outperform humans increase it. Hence, if AI initially underperforms humans in all dimensions and improves gradually, total labor income initially declines before rising. We also characterize the AI that maximizes labor income. When humans are sufficiently weak in all knowledge dimensions, labor income is maximized when AI is as good as possible in all dimensions. Otherwise, labor income is maximized when AI simultaneously performs as poorly as possible in the dimensions where humans are relatively strong and as well as possible in the dimensions where humans are relatively weak. Our results suggest that choosing the direction of AI development can create significant divisions between the interests of labor and capital.},
-  abstract_source = {http://export.arxiv.org/api/query?id_list=2408.16443}
+  abstract_source = {http://export.arxiv.org/api/query?id_list=2408.16443},
 }
 @misc{ide2025transmission,
   title           = {Automation, AI, and the Intergenerational Transmission of Knowledge},
@@ -1294,7 +1328,7 @@
   primaryclass    = {econ.GN},
   url             = {https://arxiv.org/pdf/2507.16078.pdf},
   abstract        = {Recent advances in Artificial Intelligence (AI) have sparked expectations of unprecedented economic growth. Yet, by enabling senior workers to accomplish more tasks independently, AI may reduce entry-level opportunities, raising concerns about how future generations will acquire expertise. This paper develops a model to examine how automation and AI affect the intergenerational transmission of tacit knowledge -- practical, hard-to-codify skills critical to workplace success. I show that the competitive equilibrium features socially excessive automation of early-career tasks, and that improvements in such automation generate an intergenerational trade-off: they raise short-run productivity but weaken the skills of future generations, slowing long-run growth -- sometimes enough to reduce welfare. Back-of-the-envelope calculations suggest that AI-driven entry-level automation could reduce the long-run annual growth rate of U.S. per-capita output by 0.05 to 0.35 percentage points, depending on its scale. I further show that AI co-pilots can partially offset lost learning by assisting individuals who fail to acquire skills early in their careers. However, they may also weaken juniors' incentives to develop such skills. These findings highlight the importance of preserving and expanding early-career learning opportunities to fully realize AI's potential.},
-  abstract_source = {http://export.arxiv.org/api/query?id_list=2507.16078}
+  abstract_source = {http://export.arxiv.org/api/query?id_list=2507.16078},
 }
 @article{ilic2024evidence,
   title     = {Evidence of interrelated cognitive-like capabilities in large language models: Indications of artificial general intelligence or achievement?},
@@ -1305,7 +1339,7 @@
   year      = {2024},
   publisher = {Elsevier},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1016/j.intell.2024.101858}
+  url       = {https://doi.org/10.1016/j.intell.2024.101858},
 }
 @techreport{ilo2015income,
   title    = {Income inequality and labour income share in G20 countries: Trends, impacts and causes},
@@ -1313,7 +1347,7 @@
   year     = {2015},
   href     = {https://www.ilo.org/publications/income-inequality-and-labour-income-share-g20-countries-trends-impacts-and},
   abstract = {Abstract unavailable.},
-  url      = {https://doi.org/10.1163/2210-7975_hrd-4022-2015046}
+  url      = {https://doi.org/10.1163/2210-7975_hrd-4022-2015046},
 }
 @techreport{imf2025misch,
   title       = {Artificial Intelligence and Productivity in Europe},
@@ -1325,7 +1359,8 @@
   url         = {https://www.imf.org/en/Publications/WP/Issues/2025/04/04/AI-and-Productivity-in-Europe-565924},
   quote       = {We find that the medium-term productivity gains for Europe as a whole are likely to be modest, at around 1 percent cumulatively over five years.},
   growth_annual_excess = {+0.2%},
-  abstract    = {Abstract unavailable.}
+  abstract        = {We find that the medium-term productivity gains for Europe as a whole are likely to be modest, at around 1 percent cumulatively over five years.},
+  abstract_source = {https://www.imf.org/en/Publications/WP/Issues/2025/04/04/AI-and-Productivity-in-Europe-565924},
 }
 @misc{jahani2024generative,
   title           = {As Generative Models Improve, We Must Adapt Our Prompts},
@@ -1336,7 +1371,7 @@
   primaryclass    = {cs.HC},
   url             = {https://arxiv.org/pdf/2407.14333.pdf},
   abstract        = {As generative AI systems rapidly improve, a key question emerges: how do users adapt to these changes, and when does such adaptation matter for realizing performance gains? Drawing on theories of dynamic capabilities and IT complements, we study prompt adaptation--how users adjust their inputs in response to evolving model behavior--using a common experimental design applied to two preregistered tasks with 3,750 total participants who submitted nearly 37,000 prompts. We show that the importance of prompt adaptation depends critically on task structure. In a task with fixed evaluation criteria and an unambiguous goal, user prompt adaptation accounts for roughly half of the performance gains from a model upgrade. In contrast, in an open-ended creative task where the space of acceptable outputs is effectively unbounded and quality is subjective, performance improvements are driven primarily by model capability; prompt adaptation plays a limited role. We further show that automated prompt rewriting cannot generally substitute for human adaptation: when aligned with task objectives, it can modestly improve performance, but when misaligned, it can actively undermine the gains from model improvements. Together, these findings position prompt adaptation as a dynamic complement whose importance depends on task structure and system design, and suggest that without it, a substantial share of the economic value created by advances in generative models may go unrealized.},
-  abstract_source = {http://export.arxiv.org/api/query?id_list=2407.14333}
+  abstract_source = {http://export.arxiv.org/api/query?id_list=2407.14333},
 }
 @article{jia2023embedding,
   title    = {Embedding democratic values into social media AIs via societal objective functions},
@@ -1344,7 +1379,7 @@
   journal  = {arXiv preprint arXiv:2307.13912},
   year     = {2023},
   abstract = {Abstract unavailable.},
-  url      = {https://arxiv.org/pdf/2307.13912.pdf}
+  url      = {https://arxiv.org/pdf/2307.13912.pdf},
 }
 @techreport{jones2023ai,
   title       = {The AI dilemma: Growth versus existential risk},
@@ -1352,7 +1387,7 @@
   year        = {2023},
   institution = {National Bureau of Economic Research},
   abstract    = {Abstract unavailable.},
-  url         = {https://doi.org/10.1257/aeri.20230570}
+  url         = {https://doi.org/10.1257/aeri.20230570},
 }
 @article{jones2023recipes,
   title     = {Recipes and economic growth: A combinatorial march down an exponential tail},
@@ -1364,18 +1399,19 @@
   year      = {2023},
   publisher = {The University of Chicago Press Chicago, IL},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1086/723631}
+  url       = {https://doi.org/10.1086/723631},
 }
 @misc{joulin2016bag,
   title           = {Bag of Tricks for Efficient Text Classification},
   author          = {Armand Joulin and Edouard Grave and Piotr Bojanowski and Tomas Mikolov},
   year            = {2016},
   eprint          = {1607.01759},
+  url             = {https://arxiv.org/pdf/1607.01759.pdf},
   archiveprefix   = {arXiv},
   primaryclass    = {cs.CL},
   abstract        = {This paper explores a simple and efficient baseline for text classification. Our experiments show that our fast text classifier fastText is often on par with deep learning classifiers in terms of accuracy, and many orders of magnitude faster for training and evaluation. We can train fastText on more than one billion words in less than ten minutes using a standard multicore~CPU, and classify half a million sentences among~312K classes in less than a minute.},
   abstract_source = {http://export.arxiv.org/api/query?id_list=1607.01759},
-  url             = {https://arxiv.org/pdf/1607.01759.pdf}
+  url             = {https://arxiv.org/pdf/1607.01759.pdf},
 }
 @article{Jungherr2023artificial,
   author   = {Jungherr, Andreas and Schroeder, Ralph},
@@ -1390,7 +1426,7 @@
   issn     = {1468-2885},
   doi      = {10.1093/ct/qtad006},
   url      = {https://academic.oup.com/ct/article-pdf/33/2-3/164/50997940/qtad006.pdf},
-  eprint   = {https://academic.oup.com/ct/article-pdf/33/2-3/164/50997940/qtad006.pdf}
+  eprint   = {https://academic.oup.com/ct/article-pdf/33/2-3/164/50997940/qtad006.pdf},
 }
 
 @misc{kaplan2020scalinglawsneurallanguage,
@@ -1402,7 +1438,7 @@
   primaryclass    = {cs.LG},
   url             = {https://arxiv.org/pdf/2001.08361.pdf},
   abstract        = {We study empirical scaling laws for language model performance on the cross-entropy loss. The loss scales as a power-law with model size, dataset size, and the amount of compute used for training, with some trends spanning more than seven orders of magnitude. Other architectural details such as network width or depth have minimal effects within a wide range. Simple equations govern the dependence of overfitting on model/dataset size and the dependence of training speed on model size. These relationships allow us to determine the optimal allocation of a fixed compute budget. Larger models are significantly more sample-efficient, such that optimally compute-efficient training involves training very large models on a relatively modest amount of data and stopping significantly before convergence.},
-  abstract_source = {http://export.arxiv.org/api/query?id_list=2001.08361}
+  abstract_source = {http://export.arxiv.org/api/query?id_list=2001.08361},
 }
 @misc{kapoor2023prepare,
   url      = {https://knightcolumbia.org/content/how-to-prepare-for-the-deluge-of-generative-ai-on-social-media},
@@ -1410,7 +1446,7 @@
   title    = {How to Prepare for the Deluge of Generative AI on Social Media},
   year     = {2023},
   month    = {06},
-  abstract = {Abstract unavailable.}
+  abstract = {Abstract unavailable.},
 }
 @article{katz1992changes,
   title     = {Changes in relative wages, 1963--1987: supply and demand factors},
@@ -1422,7 +1458,7 @@
   year      = {1992},
   publisher = {MIT Press},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.3386/w3927}
+  url       = {https://doi.org/10.3386/w3927},
 }
 @article{kiela2021dynabench,
   title    = {Dynabench: Rethinking benchmarking in NLP},
@@ -1430,7 +1466,7 @@
   journal  = {arXiv preprint arXiv:2104.14337},
   year     = {2021},
   abstract = {Abstract unavailable.},
-  url      = {https://arxiv.org/pdf/2104.14337.pdf}
+  url      = {https://arxiv.org/pdf/2104.14337.pdf},
 }
 @article{kiela2023plottingprogress,
   author   = {Kiela, Douwe and Thrush, Tristan and Ethayarajh, Kawin and Singh, Amanpreet},
@@ -1439,7 +1475,7 @@
   year     = {2023},
   note     = {https://contextual.ai/blog/plotting-progress},
   abstract = {Abstract unavailable.},
-  url      = {https://contextual.ai/blog/plotting-progress}
+  url      = {https://contextual.ai/blog/plotting-progress},
 }
 @article{koivisto2023creativity,
   abstract      = {Creativity has traditionally been considered an ability exclusive to human beings. However, the rapid development of artificial intelligence (AI) has resulted in generative AI chatbots that can produce high-quality artworks, raising questions about the differences between human and machine creativity. In this study, we compared the creativity of humans (n = 256) with that of three current AI chatbots using the alternate uses task (AUT), which is the most used divergent thinking task. Participants were asked to generate uncommon and creative uses for everyday objects. On average, the AI chatbots outperformed human participants. While human responses included poor-quality ideas, the chatbots generally produced more creative responses. However, the best human ideas still matched or exceed those of the chatbots. While this study highlights the potential of AI as a tool to enhance creativity, it also underscores the unique and complex nature of human creativity that may be difficult to fully replicate or surpass with AI technology. The study provides insights into the relationship between human and machine creativity, which is related to important questions about the future of creative work in the age of AI.},
@@ -1457,7 +1493,7 @@
   url           = {https://doi.org/10.1038/s41598-023-40858-3},
   volume        = {13},
   year          = {2023},
-  bdsk-url-1    = {https://doi.org/10.1038/s41598-023-40858-3}
+  bdsk-url-1    = {https://doi.org/10.1038/s41598-023-40858-3},
 }
 
 @incollection{korinek2019artificial,
@@ -1470,7 +1506,7 @@
   pages     = {349--390},
   isbn      = {978-0-226-61333-8},
   url       = {https://www.nber.org/chapters/c14018},
-  abstract  = {Abstract unavailable.}
+  abstract  = {Abstract unavailable.},
 }
 @techreport{korinek2024scenarios,
   title           = {Scenarios for the Transition to AGI},
@@ -1481,7 +1517,7 @@
   quote           = {In the baseline AGI scenario ... steady-state growth of 18% per year.},
   growth_annual_excess = {+18%},
   abstract        = {We analyze how output and wages behave under different scenarios for technological progress that may culminate in Artificial General Intelligence (AGI), defined as the ability of AI systems to perform all tasks that humans can perform. We assume that human work can be decomposed into atomistic tasks that differ in their complexity. Advances in technology make ever more complex tasks amenable to automation. The effects on wages depend on a race between automation and capital accumulation. If the distribution of task complexity exhibits a sufficiently thick infinite tail, then there is always enough work for humans, and wages may rise forever. By contrast, if the complexity of tasks that humans can perform is bounded and full automation is reached, then wages collapse. But declines may occur even before if large-scale automation outpaces capital accumulation and makes labor too abundant. Automating productivity growth may lead to broad-based gains in the returns to all factors. By contrast, bottlenecks to growth from irreproducible scarce factors may exacerbate the decline in wages.},
-  abstract_source = {http://export.arxiv.org/api/query?id_list=2403.12107}
+  abstract_source = {http://export.arxiv.org/api/query?id_list=2403.12107},
 }
 @article{kortum1997research,
   author   = {Kortum, Samuel},
@@ -1493,7 +1529,7 @@
   year     = {1997},
   doi      = {10.2307/2171741},
   abstract = {Abstract unavailable.},
-  url      = {https://doi.org/10.2307/2171741}
+  url      = {https://doi.org/10.2307/2171741},
 }
 @article{krusell2000capital,
   title     = {Capital-skill complementarity and inequality: A macroeconomic analysis},
@@ -1505,7 +1541,7 @@
   year      = {2000},
   publisher = {Wiley Online Library},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1111/1468-0262.00150}
+  url       = {https://doi.org/10.1111/1468-0262.00150},
 }
 @article{kwa2025longtasks,
   title           = {Measuring AI Ability to Complete Long Tasks},
@@ -1516,7 +1552,7 @@
   url             = {https://arxiv.org/pdf/2503.14499.pdf},
   doi             = {10.48550/arXiv.2503.14499},
   abstract        = {Despite rapid progress on AI benchmarks, the real-world meaning of benchmark performance remains unclear. To quantify the capabilities of AI systems in terms of human capabilities, we propose a new metric: 50%-task-completion time horizon. This is the time humans typically take to complete tasks that AI models can complete with 50% success rate. We first timed humans with relevant domain expertise on a combination of RE-Bench, HCAST, and 66 novel shorter tasks. On these tasks, current frontier AI models such as Claude 3.7 Sonnet have a 50% time horizon of around 50 minutes. Furthermore, frontier AI time horizon has been doubling approximately every seven months since 2019, though the trend may have accelerated in 2024. The increase in AI models' time horizons seems to be primarily driven by greater reliability and ability to adapt to mistakes, combined with better logical reasoning and tool use capabilities. We discuss the limitations of our results -- including their degree of external validity -- and the implications of increased autonomy for dangerous capabilities. If these results generalize to real-world software tasks, extrapolation of this trend predicts that within 5 years, AI systems will be capable of automating many software tasks that currently take humans a month.},
-  abstract_source = {http://export.arxiv.org/api/query?id_list=2503.14499}
+  abstract_source = {http://export.arxiv.org/api/query?id_list=2503.14499},
 }
 @article{lazear2009firm,
   title     = {Firm-specific human capital: A skill-weights approach},
@@ -1528,7 +1564,7 @@
   year      = {2009},
   publisher = {The University of Chicago Press},
   abstract  = {Abstract unavailable.},
-  url       = {http://papers.nber.org/papers/w9679.pdf}
+  url       = {http://papers.nber.org/papers/w9679.pdf},
 }
 @article{lee2023rlaif,
   title    = {RLAIF: Scaling Reinforcement Learning from Human Feedback with AI Feedback},
@@ -1536,15 +1572,11 @@
   journal  = {arXiv preprint arXiv:2309.00267},
   year     = {2023},
   abstract = {Abstract unavailable.},
-  url      = {https://arxiv.org/pdf/2309.00267.pdf}
+  url      = {https://arxiv.org/pdf/2309.00267.pdf},
 }
 @inproceedings{lees2021capturing,
   title     = {Capturing Covertly Toxic Speech via Crowdsourcing},
-  author    = {Lees, Alyssa  and
-               Borkan, Daniel  and
-               Kivlichan, Ian  and
-               Nario, Jorge  and
-               Goyal, Tesh},
+  author    = {Lees, Alyssa and Borkan, Daniel and Kivlichan, Ian and Nario, Jorge and Goyal, Tesh},
   booktitle = {Proceedings of the First Workshop on Bridging Human{--}Computer Interaction and Natural Language Processing},
   month     = apr,
   year      = {2021},
@@ -1552,7 +1584,7 @@
   publisher = {Association for Computational Linguistics},
   url       = {https://aclanthology.org/2021.hcinlp-1.3},
   pages     = {14--20},
-  abstract  = {We study the task of labeling covert or veiled toxicity in online conversations. Prior research has highlighted the difficulty in creating language models that recognize nuanced toxicity such as microaggressions. Our investigations further underscore the difficulty in parsing such labels reliably from raters via crowdsourcing. We introduce an initial dataset, COVERTTOXICITY, which aims to identify and categorize such comments from a refined rater template. Finally, we fine-tune a comment-domain BERT model to classify covertly offensive comments and compare against existing baselines.}
+  abstract  = {We study the task of labeling covert or veiled toxicity in online conversations. Prior research has highlighted the difficulty in creating language models that recognize nuanced toxicity such as microaggressions. Our investigations further underscore the difficulty in parsing such labels reliably from raters via crowdsourcing. We introduce an initial dataset, COVERTTOXICITY, which aims to identify and categorize such comments from a refined rater template. Finally, we fine-tune a comment-domain BERT model to classify covertly offensive comments and compare against existing baselines.},
 }
 
 @techreport{lehr2022optimal,
@@ -1561,7 +1593,7 @@
   year        = {2022},
   institution = {National Bureau of Economic Research},
   abstract    = {Abstract unavailable.},
-  url         = {https://doi.org/10.3386/w30755}
+  url         = {https://doi.org/10.3386/w30755},
 }
 @article{lise2020multidimensional,
   title     = {Multidimensional skills, sorting, and human capital accumulation},
@@ -1573,7 +1605,7 @@
   year      = {2020},
   publisher = {American Economic Association 2014 Broadway, Suite 305, Nashville, TN 37203},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1257/aer.20162002}
+  url       = {https://doi.org/10.1257/aer.20162002},
 }
 @article{lu2021review,
   title     = {A review on the economics of artificial intelligence},
@@ -1585,7 +1617,7 @@
   year      = {2021},
   publisher = {Wiley Online Library},
   abstract  = {Abstract unavailable.},
-  url       = {https://www.semanticscholar.org/search?q=A%20review%20on%20the%20economics%20of%20artificial%20intelligence}
+  url       = {https://www.semanticscholar.org/search?q=A%20review%20on%20the%20economics%20of%20artificial%20intelligence},
 }
 @article{macdougall1904recognition,
   title    = {Recognition and recall},
@@ -1596,7 +1628,7 @@
   pages    = {229--233},
   year     = {1904},
   abstract = {Abstract unavailable.},
-  url      = {https://doi.org/10.2307/2010991}
+  url      = {https://doi.org/10.2307/2010991},
 }
 @misc{matz2023personalized,
   title           = {The Potential of Generative AI for Personalized Persuasion at Scale},
@@ -1607,7 +1639,7 @@
   year            = {2023},
   month           = {Apr},
   abstract        = {Matching the language or content of a message to the psychological profile of its recipient (known as “personalized persuasion”) is widely considered to be one of the most effective messaging strategies. We demonstrate that the rapid advances in large language models (LLMs), like ChatGPT, could accelerate this influence by making personalized persuasion scalable. Across four studies (consisting of seven sub-studies; total N = 1,788), we show that personalized messages crafted by ChatGPT exhibit significantly more influence than non-personalized messages. This was true across different domains of persuasion (e.g., marketing of consumer products, political appeals for climate action), psychological profiles (e.g., personality traits, political ideology, moral foundations), and when only providing the LLM with a single, short prompt naming or describing the targeted psychological dimension. Thus, our findings are among the first to demonstrate the potential for LLMs to automate, and thereby scale, the use of personalized persuasion in ways that enhance its effectiveness and efficiency. We discuss the implications for researchers, practitioners, and the general public.},
-  abstract_source = {https://api.crossref.org/works/10.31234/osf.io/rn97c}
+  abstract_source = {https://api.crossref.org/works/10.31234/osf.io/rn97c},
 }
 @techreport{mckinsey2023genai,
   title       = {The economic potential of generative AI: The next productivity frontier},
@@ -1618,18 +1650,20 @@
   url         = {https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/the-economic-potential-of-generative-ai-the-next-productivity-frontier},
   quote       = {genAI alone: +0.1-0.6 pp/yr labor productivity through ~2040; combined with other tech/automation: +0.5-3.4 pp/yr.},
   growth_annual_excess = {+0.1-0.6%},
-  abstract    = {Abstract unavailable.}
+  abstract        = {AI has permeated our lives incrementally, through everything from the tech powering our smartphones to autonomous-driving features on cars to the tools retailers use to surprise and delight consumers. As a result, its progress has been almost imperceptible. Clear milestones, such as when AlphaGo, an AI-based program developed by DeepMind, defeated a world champion Go player in 2016, were celebrated but then quickly faded from the public's consciousness.},
+  abstract_source = {https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/the-economic-potential-of-generative-ai-the-next-productivity-frontier},
 }
 @misc{mikolov2013efficient,
   title           = {Efficient Estimation of Word Representations in Vector Space},
   author          = {Tomas Mikolov and Kai Chen and Greg Corrado and Jeffrey Dean},
   year            = {2013},
   eprint          = {1301.3781},
+  url             = {https://arxiv.org/pdf/1301.3781.pdf},
   archiveprefix   = {arXiv},
   primaryclass    = {cs.CL},
   abstract        = {We propose two novel model architectures for computing continuous vector representations of words from very large data sets. The quality of these representations is measured in a word similarity task, and the results are compared to the previously best performing techniques based on different types of neural networks. We observe large improvements in accuracy at much lower computational cost, i.e. it takes less than a day to learn high quality word vectors from a 1.6 billion words data set. Furthermore, we show that these vectors provide state-of-the-art performance on our test set for measuring syntactic and semantic word similarities.},
   abstract_source = {http://export.arxiv.org/api/query?id_list=1301.3781},
-  url             = {https://arxiv.org/pdf/1301.3781.pdf}
+  url             = {https://arxiv.org/pdf/1301.3781.pdf},
 }
 @misc{morris2023textembeddingsrevealalmost,
   title           = {Text Embeddings Reveal (Almost) As Much As Text},
@@ -1640,7 +1674,7 @@
   primaryclass    = {cs.CL},
   url             = {https://arxiv.org/pdf/2310.06816.pdf},
   abstract        = {How much private information do text embeddings reveal about the original text? We investigate the problem of embedding \textit{inversion}, reconstructing the full text represented in dense text embeddings. We frame the problem as controlled generation: generating text that, when reembedded, is close to a fixed point in latent space. We find that although a naïve model conditioned on the embedding performs poorly, a multi-step method that iteratively corrects and re-embeds text is able to recover $92\%$ of $32\text{-token}$ text inputs exactly. We train our model to decode text embeddings from two state-of-the-art embedding models, and also show that our model can recover important personal information (full names) from a dataset of clinical notes. Our code is available on Github: \href{https://github.com/jxmorris12/vec2text}{github.com/jxmorris12/vec2text}.},
-  abstract_source = {http://export.arxiv.org/api/query?id_list=2310.06816}
+  abstract_source = {http://export.arxiv.org/api/query?id_list=2310.06816},
 }
 @book{muth1986search,
   author    = {Muth, John F.},
@@ -1649,7 +1683,7 @@
   publisher = {Columbus: Ohio State University},
   note      = {Monograph, unpublished widely; circulated in draft},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1287/mnsc.32.8.948}
+  url       = {https://doi.org/10.1287/mnsc.32.8.948},
 }
 @inproceedings{narayanan2010manifoldhypothesis,
   author    = {Hariharan Narayanan and Sanjoy Mitter},
@@ -1658,7 +1692,7 @@
   year      = {2010},
   volume    = {23},
   url       = {https://papers.neurips.cc/paper/3958-sample-complexity-of-testing-the-manifold-hypothesis.pdf},
-  abstract  = {Abstract unavailable.}
+  abstract  = {Abstract unavailable.},
 }
 @article{ngai2007structural,
   title     = {Structural change in a multisector model of growth},
@@ -1670,7 +1704,7 @@
   year      = {2007},
   publisher = {American Economic Association},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1257/000282807780323460}
+  url       = {https://doi.org/10.1257/000282807780323460},
 }
 @inbook{nordhaus1997,
   url         = {https://doi.org/10.7208/9780226074184-003},
@@ -1685,7 +1719,7 @@
   isbn        = {9780226074184},
   year        = {1997},
   lastchecked = {2024-11-09},
-  abstract    = {Abstract unavailable.}
+  abstract    = {Abstract unavailable.},
 }
 @article{nordhaus2021singularity,
   title     = {Are we approaching an economic singularity? information technology and the future of economic growth},
@@ -1697,7 +1731,7 @@
   year      = {2021},
   publisher = {American Economic Association 2014 Broadway, Suite 305, Nashville, TN 37203-2425},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.2139/ssrn.2658259}
+  url       = {https://doi.org/10.2139/ssrn.2658259},
 }
 @techreport{obr2025efo,
   title       = {Economic and fiscal outlook},
@@ -1707,7 +1741,7 @@
   institution = {UK Office for Budget Responsibility},
   note        = {Box: Alternative scenarios for trend productivity},
   url         = {https://obr.uk/efo/economic-and-fiscal-outlook-march-2025/},
-  abstract    = {Abstract unavailable.}
+  abstract    = {Abstract unavailable.},
 }
 @techreport{oecd2025compendium,
   title       = {OECD Compendium of Productivity Indicators 2025},
@@ -1717,7 +1751,7 @@
   institution = {OECD Publishing},
   address     = {Paris},
   url         = {https://www.oecd.org/publications/oecd-compendium-of-productivity-indicators-22252126.htm},
-  abstract    = {Abstract unavailable.}
+  abstract    = {Abstract unavailable.},
 }
 @techreport{oecd2025filippucci,
   title       = {Macroeconomic productivity gains from AI in G7 economies},
@@ -1729,7 +1763,8 @@
   url         = {https://www.oecd.org/en/publications/macroeconomic-productivity-gains-from-artificial-intelligence-in-g7-economies_a5319ab5-en.html},
   quote       = {Annual aggregate labour productivity growth due to AI range between 0.4-1.3 percentage points in countries with high AI exposure ... In contrast, the estimated range is 0.2 to 0.8 percentage points in countries where these determinants of AI gains are less favourable (e.g. Italy, Japan).},
   growth_annual_excess = {+0.4-1.3%},
-  abstract    = {Abstract unavailable.}
+  abstract        = {Annual aggregate labour productivity growth due to AI range between 0.4-1.3 percentage points in countries with high AI exposure ... In contrast, the estimated range is 0.2 to 0.8 percentage points in countries where these determinants of AI gains are less favourable (e.g. Italy, Japan).},
+  abstract_source = {https://www.oecd.org/en/publications/macroeconomic-productivity-gains-from-artificial-intelligence-in-g7-economies_a5319ab5-en.html},
 }
 @article{ouyang2022training,
   title    = {Training language models to follow instructions with human feedback},
@@ -1739,18 +1774,19 @@
   pages    = {27730--27744},
   year     = {2022},
   abstract = {Abstract unavailable.},
-  url      = {https://www.semanticscholar.org/paper/d766bffc357127e0dc86dd69561d5aeb520d6f4c}
+  url      = {https://www.semanticscholar.org/paper/d766bffc357127e0dc86dd69561d5aeb520d6f4c},
 }
 @misc{owen2024predictable,
   title           = {How predictable is language model benchmark performance?},
   author          = {David Owen},
   year            = {2024},
   eprint          = {2401.04757},
+  url             = {https://arxiv.org/pdf/2401.04757.pdf},
   archiveprefix   = {arXiv},
   primaryclass    = {cs.LG},
   abstract        = {We investigate large language model performance across five orders of magnitude of compute scaling in eleven recent model architectures. We show that average benchmark performance, aggregating over many individual tasks and evaluations as in the commonly-used BIG-Bench dataset, is decently predictable as a function of training compute scale. Specifically, when extrapolating BIG-Bench Hard performance across one order of magnitude in compute, we observe average absolute errors of 6 percentage points (pp). By contrast, extrapolation for individual BIG-Bench tasks across an order of magnitude in compute yields higher average errors of 18pp. Nonetheless, individual task performance remains significantly more predictable than chance. Overall, our work suggests compute scaling provides a promising basis to forecast AI capabilities in diverse benchmarks, though predicting performance in specific tasks poses challenges.},
   abstract_source = {http://export.arxiv.org/api/query?id_list=2401.04757},
-  url             = {https://arxiv.org/pdf/2401.04757.pdf}
+  url             = {https://arxiv.org/pdf/2401.04757.pdf},
 }
 @techreport{palmer2023large,
   title       = {Large Language Models Can Argue in Convincing and Novel Ways About Politics: Evidence from Experiments and Human Judgement},
@@ -1758,7 +1794,7 @@
   year        = {2023},
   institution = {Working paper), Technical report},
   abstract    = {Abstract unavailable.},
-  url         = {https://www.semanticscholar.org/paper/9000acdfc1ba46ff93ceb9f601ca7234f32d0f8b}
+  url         = {https://www.semanticscholar.org/paper/9000acdfc1ba46ff93ceb9f601ca7234f32d0f8b},
 }
 @article{patwardhan2025gdpval,
   title    = {GDPval: Evaluating AI Model Performance on Real-World Economically Valuable Tasks},
@@ -1766,7 +1802,7 @@
   journal  = {arXiv preprint arXiv:2510.04374},
   year     = {2025},
   abstract = {Abstract unavailable.},
-  url      = {https://arxiv.org/pdf/2510.04374.pdf}
+  url      = {https://arxiv.org/pdf/2510.04374.pdf},
 }
 @inproceedings{pennington2014glove,
   author    = {Jeffrey Pennington and Richard Socher and Christopher D. Manning},
@@ -1775,18 +1811,19 @@
   year      = {2014},
   pages     = {1532--1543},
   url       = {http://www.aclweb.org/anthology/D14-1162},
-  abstract  = {Abstract unavailable.}
+  abstract  = {Abstract unavailable.},
 }
 @misc{qin2023large,
   title           = {Large Language Models are Effective Text Rankers with Pairwise Ranking Prompting},
   author          = {Zhen Qin and Rolf Jagerman and Kai Hui and Honglei Zhuang and Junru Wu and Jiaming Shen and Tianqi Liu and Jialu Liu and Donald Metzler and Xuanhui Wang and Michael Bendersky},
   year            = {2023},
   eprint          = {2306.17563},
+  url             = {https://arxiv.org/pdf/2306.17563.pdf},
   archiveprefix   = {arXiv},
   primaryclass    = {cs.IR},
   abstract        = {Ranking documents using Large Language Models (LLMs) by directly feeding the query and candidate documents into the prompt is an interesting and practical problem. However, researchers have found it difficult to outperform fine-tuned baseline rankers on benchmark datasets. We analyze pointwise and listwise ranking prompts used by existing methods and argue that off-the-shelf LLMs do not fully understand these challenging ranking formulations. In this paper, we propose to significantly reduce the burden on LLMs by using a new technique called Pairwise Ranking Prompting (PRP). Our results are the first in the literature to achieve state-of-the-art ranking performance on standard benchmarks using moderate-sized open-sourced LLMs. On TREC-DL 2019&2020, PRP based on the Flan-UL2 model with 20B parameters performs favorably with the previous best approach in the literature, which is based on the blackbox commercial GPT-4 that has 50x (estimated) model size, while outperforming other LLM-based solutions, such as InstructGPT which has 175B parameters, by over 10% for all ranking metrics. By using the same prompt template on seven BEIR tasks, PRP outperforms supervised baselines and outperforms the blackbox commercial ChatGPT solution by 4.2% and pointwise LLM-based solutions by more than 10% on average NDCG@10. Furthermore, we propose several variants of PRP to improve efficiency and show that it is possible to achieve competitive results even with linear complexity.},
   abstract_source = {http://export.arxiv.org/api/query?id_list=2306.17563},
-  url             = {https://arxiv.org/pdf/2306.17563.pdf}
+  url             = {https://arxiv.org/pdf/2306.17563.pdf},
 }
 @article{restrepo2025missed,
   title     = {We Won't Be Missed: Work and Growth in the Era of AGI},
@@ -1795,7 +1832,8 @@
   year      = {2025},
   publisher = {National Bureau of Economic Research, Inc},
   url       = {https://www.semanticscholar.org/search?q=We%20Won%27t%20Be%20Missed%3A%20Work%20and%20Growth%20in%20the%20Era%20of%20AGI},
-  abstract  = {Abstract unavailable.}
+  abstract        = {This chapter explores the long-run implications of Artificial General Intelligence (AGI) for economic growth and labor markets. AGI makes it feasible to perform all economically valuable work using compute. I distinguish between bottleneck and supplementary work—tasks that are essential versus non-essential for unhindered growth. As computational resources expand: (i) the economy automates all bottleneck work, (ii) some supplementary work may be left exclusively to humans, (iii) output becomes linear in compute and labor and its growth is driven by the expansion of compute, (iv) wages converge to the opportunity cost of computational resources required to reproduce human work, and (v) the share of labor income in GDP converges to zero.},
+  abstract_source = {https://www.nber.org/system/files/working_papers/w34423/w34423.pdf},
 }
 @book{ricardo1821principles,
   title     = {On the principles of political economy},
@@ -1803,7 +1841,7 @@
   year      = {1821},
   publisher = {J. Murray London},
   abstract  = {Abstract unavailable.},
-  url       = {https://www.semanticscholar.org/search?q=On%20the%20principles%20of%20political%20economy}
+  url       = {https://www.semanticscholar.org/search?q=On%20the%20principles%20of%20political%20economy},
 }
 @misc{ruan2024observationalscaling,
   title           = {Observational Scaling Laws and the Predictability of Language Model Performance},
@@ -1814,7 +1852,7 @@
   primaryclass    = {cs.LG},
   url             = {https://arxiv.org/pdf/2405.10938.pdf},
   abstract        = {Understanding how language model performance varies with scale is critical to benchmark and algorithm development. Scaling laws are one approach to building this understanding, but the requirement of training models across many different scales has limited their use. We propose an alternative, observational approach that bypasses model training and instead builds scaling laws from ~100 publically available models. Building a single scaling law from multiple model families is challenging due to large variations in their training compute efficiencies and capabilities. However, we show that these variations are consistent with a simple, generalized scaling law where language model performance is a function of a low-dimensional capability space, and model families only vary in their efficiency in converting training compute to capabilities. Using this approach, we show the surprising predictability of complex scaling phenomena: we show that several emergent phenomena follow a smooth, sigmoidal behavior and are predictable from small models; we show that the agent performance of models such as GPT-4 can be precisely predicted from simpler non-agentic benchmarks; and we show how to predict the impact of post-training interventions like Chain-of-Thought and Self-Consistency as language model capabilities continue to improve.},
-  abstract_source = {http://export.arxiv.org/api/query?id_list=2405.10938}
+  abstract_source = {http://export.arxiv.org/api/query?id_list=2405.10938},
 }
 @techreport{sachs2012smart,
   title       = {Smart machines and long-term misery},
@@ -1822,7 +1860,7 @@
   year        = {2012},
   institution = {National Bureau of economic research},
   abstract    = {Abstract unavailable.},
-  url         = {https://doi.org/10.3386/w18629}
+  url         = {https://doi.org/10.3386/w18629},
 }
 @article{sanders2012life,
   title     = {Life-cycle wage growth and heterogeneous human capital},
@@ -1834,18 +1872,19 @@
   year      = {2012},
   publisher = {Annual Reviews},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1146/annurev-economics-080511-111011}
+  url       = {https://doi.org/10.1146/annurev-economics-080511-111011},
 }
 @misc{searles2023empirical,
   title           = {An Empirical Study & Evaluation of Modern CAPTCHAs},
   author          = {Andrew Searles and Yoshimichi Nakatsuka and Ercan Ozturk and Andrew Paverd and Gene Tsudik and Ai Enkoji},
   year            = {2023},
   eprint          = {2307.12108},
+  url             = {https://arxiv.org/pdf/2307.12108.pdf},
   archiveprefix   = {arXiv},
   primaryclass    = {cs.CR},
   abstract        = {For nearly two decades, CAPTCHAs have been widely used as a means of protection against bots. Throughout the years, as their use grew, techniques to defeat or bypass CAPTCHAs have continued to improve. Meanwhile, CAPTCHAs have also evolved in terms of sophistication and diversity, becoming increasingly difficult to solve for both bots (machines) and humans. Given this long-standing and still-ongoing arms race, it is critical to investigate how long it takes legitimate users to solve modern CAPTCHAs, and how they are perceived by those users. In this work, we explore CAPTCHAs in the wild by evaluating users' solving performance and perceptions of unmodified currently-deployed CAPTCHAs. We obtain this data through manual inspection of popular websites and user studies in which 1,400 participants collectively solved 14,000 CAPTCHAs. Results show significant differences between the most popular types of CAPTCHAs: surprisingly, solving time and user perception are not always correlated. We performed a comparative study to investigate the effect of experimental context -- specifically the difference between solving CAPTCHAs directly versus solving them as part of a more natural task, such as account creation. Whilst there were several potential confounding factors, our results show that experimental context could have an impact on this task, and must be taken into account in future CAPTCHA studies. Finally, we investigate CAPTCHA-induced user task abandonment by analyzing participants who start and do not complete the task.},
   abstract_source = {http://export.arxiv.org/api/query?id_list=2307.12108},
-  url             = {https://arxiv.org/pdf/2307.12108.pdf}
+  url             = {https://arxiv.org/pdf/2307.12108.pdf},
 }
 @article{sherry2021fast,
   title     = {How fast do algorithms improve?[point of view]},
@@ -1857,7 +1896,7 @@
   year      = {2021},
   publisher = {IEEE},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1109/JPROC.2021.3107219}
+  url       = {https://doi.org/10.1109/JPROC.2021.3107219},
 }
 
 %  NOTE: pdflatex didn't like this: {Krusell, Per and Ohanian, Lee E and R{\'\i}os-Rull, Jos{\'e}-V{\'\i}ctor and Violante, Giovanni L}
@@ -1867,7 +1906,7 @@
   journal  = {Harvard Kennedy School Misinformation Review},
   year     = {2023},
   abstract = {Abstract unavailable.},
-  url      = {https://doi.org/10.37016/mr-2020-127}
+  url      = {https://doi.org/10.37016/mr-2020-127},
 }
 @misc{smith2024,
   author   = {Noah Smith},
@@ -1875,7 +1914,7 @@
   year     = {2024},
   url      = {https://www.noahpinion.blog/p/plentiful-high-paying-jobs-in-the},
   note     = {Accessed: 2024-10-09},
-  abstract = {Abstract unavailable.}
+  abstract = {Abstract unavailable.},
 }
 @article{stayton2020s,
   title     = {It's time to rethink levels of automation for self-driving vehicles [opinion]},
@@ -1887,7 +1926,7 @@
   year      = {2020},
   publisher = {IEEE},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1109/mts.2020.3012315}
+  url       = {https://doi.org/10.1109/mts.2020.3012315},
 }
 @article{steyvers2025knowledge,
   title           = {What large language models know and what people think they know},
@@ -1903,18 +1942,19 @@
   month           = jan,
   pages           = {221-231},
   abstract        = {Abstract As artificial intelligence systems, particularly large language models (LLMs), become increasingly integrated into decision-making processes, the ability to trust their outputs is crucial. To earn human trust, LLMs must be well calibrated such that they can accurately assess and communicate the likelihood of their predictions being correct. Whereas recent work has focused on LLMs’ internal confidence, less is understood about how effectively they convey uncertainty to users. Here we explore the calibration gap, which refers to the difference between human confidence in LLM-generated answers and the models’ actual confidence, and the discrimination gap, which reflects how well humans and models can distinguish between correct and incorrect answers. Our experiments with multiple-choice and short-answer questions reveal that users tend to overestimate the accuracy of LLM responses when provided with default explanations. Moreover, longer explanations increased user confidence, even when the extra length did not improve answer accuracy. By adjusting LLM explanations to better reflect the models’ internal confidence, both the calibration gap and the discrimination gap narrowed, significantly improving user perception of LLM accuracy. These findings underscore the importance of accurate uncertainty communication and highlight the effect of explanation length in influencing user trust in artificial-intelligence-assisted decision-making environments.},
-  abstract_source = {https://api.crossref.org/works/10.1038/s42256-024-00976-7}
+  abstract_source = {https://api.crossref.org/works/10.1038/s42256-024-00976-7},
 }
 @misc{stiennon2022learning,
   title           = {Learning to summarize from human feedback},
   author          = {Nisan Stiennon and Long Ouyang and Jeff Wu and Daniel M. Ziegler and Ryan Lowe and Chelsea Voss and Alec Radford and Dario Amodei and Paul Christiano},
   year            = {2022},
   eprint          = {2009.01325},
+  url             = {https://arxiv.org/pdf/2009.01325.pdf},
   archiveprefix   = {arXiv},
   primaryclass    = {cs.CL},
   abstract        = {As language models become more powerful, training and evaluation are increasingly bottlenecked by the data and metrics used for a particular task. For example, summarization models are often trained to predict human reference summaries and evaluated using ROUGE, but both of these metrics are rough proxies for what we really care about -- summary quality. In this work, we show that it is possible to significantly improve summary quality by training a model to optimize for human preferences. We collect a large, high-quality dataset of human comparisons between summaries, train a model to predict the human-preferred summary, and use that model as a reward function to fine-tune a summarization policy using reinforcement learning. We apply our method to a version of the TL;DR dataset of Reddit posts and find that our models significantly outperform both human reference summaries and much larger models fine-tuned with supervised learning alone. Our models also transfer to CNN/DM news articles, producing summaries nearly as good as the human reference without any news-specific fine-tuning. We conduct extensive analyses to understand our human feedback dataset and fine-tuned models We establish that our reward model generalizes to new datasets, and that optimizing our reward model results in better summaries than optimizing ROUGE according to humans. We hope the evidence from our paper motivates machine learning researchers to pay closer attention to how their training loss affects the model behavior they actually want.},
   abstract_source = {http://export.arxiv.org/api/query?id_list=2009.01325},
-  url             = {https://arxiv.org/pdf/2009.01325.pdf}
+  url             = {https://arxiv.org/pdf/2009.01325.pdf},
 }
 @book{sutton1991sunk,
   title     = {Sunk costs and market structure: Price competition, advertising, and the evolution of concentration},
@@ -1922,7 +1962,7 @@
   year      = {1991},
   publisher = {MIT press},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.5860/choice.29-1627}
+  url       = {https://doi.org/10.5860/choice.29-1627},
 }
 @article{svanberg2024beyond,
   title    = {Beyond AI Exposure: Which Tasks are Cost-Effective to Automate with Computer Vision?},
@@ -1930,7 +1970,7 @@
   journal  = {Available at SSRN 4700751},
   year     = {2024},
   abstract = {Abstract unavailable.},
-  url      = {https://doi.org/10.2139/ssrn.5233833}
+  url      = {https://doi.org/10.2139/ssrn.5233833},
 }
 @article{tedeschi2023s,
   title    = {What's the Meaning of Superhuman Performance in Today's NLU?},
@@ -1938,14 +1978,14 @@
   journal  = {arXiv preprint arXiv:2305.08414},
   year     = {2023},
   abstract = {Abstract unavailable.},
-  url      = {https://arxiv.org/pdf/2305.08414.pdf}
+  url      = {https://arxiv.org/pdf/2305.08414.pdf},
 }
 @article{thiel2023generative,
   title    = {Generative ML and CSAM: Implications and Mitigations},
   author   = {Thiel, David and Stroebel, Melissa and Portnoff, Rebecca},
   year     = {2023},
   abstract = {Abstract unavailable.},
-  url      = {https://www.semanticscholar.org/paper/bbcbaedfe893f9cd5d6390adf616cecdabfc651d}
+  url      = {https://www.semanticscholar.org/paper/bbcbaedfe893f9cd5d6390adf616cecdabfc651d},
 }
 @article{towler2023facial,
   abstract      = {Facial recognition errors can jeopardize national security, criminal justice, public safety and civil rights. Here, we compare the most accurate humans and facial recognition technology in a detailed lab-based evaluation and international proficiency test for forensic scientists involving 27 forensic departments from 14 countries. We find striking cognitive and perceptual diversity between naturally skilled super-recognizers, trained forensic examiners and deep neural networks, despite them achieving equivalent accuracy. Clear differences emerged in super-recognizers'and forensic examiners'perceptual processing, errors, and response patterns: super-recognizers were fast, biased to respond `same person'and misidentified people with extreme confidence, whereas forensic examiners were slow, unbiased and strategically avoided misidentification errors. Further, these human experts and deep neural networks disagreed on the similarity of faces, pointing to differences in their representations of faces. Our findings therefore reveal multiple types of facial recognition expertise, with each type lending itself to particular facial recognition roles in operational settings. Finally, we show that harnessing the diversity between individual experts provides a robust method of maximizing facial recognition accuracy. This can be achieved either via collaboration between experts in forensic laboratories, or most promisingly, by statistical fusion of match scores provided by different types of expert.},
@@ -1963,7 +2003,7 @@
   url           = {https://doi.org/10.1038/s41598-023-28632-x},
   volume        = {13},
   year          = {2023},
-  bdsk-url-1    = {https://doi.org/10.1038/s41598-023-28632-x}
+  bdsk-url-1    = {https://doi.org/10.1038/s41598-023-28632-x},
 }
 
 @article{trammell2023new,
@@ -1972,7 +2012,7 @@
   journal  = {Unpublished manuscript},
   year     = {2023},
   abstract = {Abstract unavailable.},
-  url      = {https://philiptrammell.com/static/New_Products_and_Long_term_Welfare.pdf}
+  url      = {https://philiptrammell.com/static/New_Products_and_Long_term_Welfare.pdf},
 }
 @techreport{trammell2025workflows,
   author      = {Philip Trammell},
@@ -1984,7 +2024,8 @@
   type        = {Working Paper},
   url         = {https://philiptrammell.com/static/Workflows_and_Automation.pdf},
   note        = {Accessed: 2025-10-23},
-  abstract    = {Abstract unavailable.}
+  abstract        = {tivity not only at the task itself but at related tasks. I show that these learning spillovers can introduce a convexity to the relationship between automation and output. Automating the first few tasks in a cluster with high spillovers (a "work- flow") has little or no effect on output, since workers still perform some automat-},
+  abstract_source = {https://philiptrammell.com/static/Workflows_and_Automation.pdf},
 }
 @article{udell2016generalized,
   title     = {Generalized low rank models},
@@ -1996,7 +2037,7 @@
   year      = {2016},
   publisher = {Now Publishers, Inc.},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1561/2200000055}
+  url       = {https://doi.org/10.1561/2200000055},
 }
 @misc{vafa2024perform,
   title           = {Do Large Language Models Perform the Way People Expect? Measuring the Human Generalization Function},
@@ -2007,7 +2048,7 @@
   primaryclass    = {cs.CL},
   url             = {https://arxiv.org/pdf/2406.01382.pdf},
   abstract        = {What makes large language models (LLMs) impressive is also what makes them hard to evaluate: their diversity of uses. To evaluate these models, we must understand the purposes they will be used for. We consider a setting where these deployment decisions are made by people, and in particular, people's beliefs about where an LLM will perform well. We model such beliefs as the consequence of a human generalization function: having seen what an LLM gets right or wrong, people generalize to where else it might succeed. We collect a dataset of 19K examples of how humans make generalizations across 79 tasks from the MMLU and BIG-Bench benchmarks. We show that the human generalization function can be predicted using NLP methods: people have consistent structured ways to generalize. We then evaluate LLM alignment with the human generalization function. Our results show that -- especially for cases where the cost of mistakes is high -- more capable models (e.g. GPT-4) can do worse on the instances people choose to use them for, exactly because they are not aligned with the human generalization function.},
-  abstract_source = {http://export.arxiv.org/api/query?id_list=2406.01382}
+  abstract_source = {http://export.arxiv.org/api/query?id_list=2406.01382},
 }
 @misc{vafa2025producible,
   title           = {What's Producible May Not Be Reachable: Measuring the Steerability of Generative Models},
@@ -2018,7 +2059,7 @@
   primaryclass    = {cs.LG},
   url             = {https://arxiv.org/pdf/2503.17482.pdf},
   abstract        = {How should we evaluate the quality of generative models? Many existing metrics focus on a model's producibility, i.e. the quality and breadth of outputs it can generate. However, the actual value from using a generative model stems not just from what it can produce but whether a user with a specific goal can produce an output that satisfies that goal. We refer to this property as steerability. In this paper, we first introduce a mathematical decomposition for quantifying steerability independently from producibility. Steerability is more challenging to evaluate than producibility because it requires knowing a user's goals. We address this issue by creating a benchmark task that relies on one key idea: sample an output from a generative model and ask users to reproduce it. We implement this benchmark in user studies of text-to-image and large language models. Despite the ability of these models to produce high-quality outputs, they all perform poorly on steerability. These results suggest that we need to focus on improving the steerability of generative models. We show such improvements are indeed possible: simple image-based steering mechanisms achieve more than 2x improvement on this benchmark.},
-  abstract_source = {http://export.arxiv.org/api/query?id_list=2503.17482}
+  abstract_source = {http://export.arxiv.org/api/query?id_list=2503.17482},
 }
 @misc{varian2011economic,
   author   = {Hal Varian},
@@ -2027,7 +2068,7 @@
   note     = {Presentation slides, Web 2.0 Conference, San Francisco},
   url      = {https://dl.icdst.org/pdfs/files1/f87de5ba3c43760ebcbc2a1d90950dbc.pdf},
   urldate  = {2025-10-02},
-  abstract = {Abstract unavailable.}
+  abstract = {Abstract unavailable.},
 }
 @article{vaswani2017attention,
   title    = {Attention is all you need},
@@ -2036,7 +2077,7 @@
   volume   = {30},
   year     = {2017},
   abstract = {Abstract unavailable.},
-  url      = {https://www.semanticscholar.org/paper/204e3073870fae3d05bcbc2f6a8e263d9b72e776}
+  url      = {https://www.semanticscholar.org/paper/204e3073870fae3d05bcbc2f6a8e263d9b72e776},
 }
 @article{webb2019impact,
   title    = {The impact of artificial intelligence on the labor market},
@@ -2044,7 +2085,7 @@
   journal  = {Available at SSRN 3482150},
   year     = {2019},
   abstract = {Abstract unavailable.},
-  url      = {https://www.semanticscholar.org/search?q=The%20impact%20of%20artificial%20intelligence%20on%20the%20labor%20market}
+  url      = {https://www.semanticscholar.org/search?q=The%20impact%20of%20artificial%20intelligence%20on%20the%20labor%20market},
 }
 @article{weitzman1998recombinant,
   title     = {Recombinant growth},
@@ -2056,21 +2097,21 @@
   year      = {1998},
   publisher = {MIT Press},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1162/003355398555595}
+  url       = {https://doi.org/10.1162/003355398555595},
 }
 @misc{weng2023gpt4moderation,
   title    = {Using GPT-4 for content moderation},
   author   = {Lilian Weng and Vik Goel and Andrea Vallone},
   year     = {2023},
   url      = {https://openai.com/blog/using-gpt-4-for-content-moderation},
-  abstract = {Abstract unavailable.}
+  abstract = {Abstract unavailable.},
 }
 @inproceedings{whitlocklees2022perspective,
   title    = {A New Generation of Perspective API: Efficient Multilingual Character-level Transformers},
   author   = {Alyssa Whitlock Lees and Vinh Q. Tran and Yi Tay and Jeffrey Scott Sorensen and Jai Gupta and Donald Metzler and Lucy Vasserman},
   year     = {2022},
   url      = {https://dl.acm.org/doi/10.1145/3534678.3539147},
-  abstract = {Abstract unavailable.}
+  abstract = {Abstract unavailable.},
 }
 @article{wilson1980general,
   title     = {On the general structure of Ricardian models with a continuum of goods: applications to growth, tariff theory, and technical change},
@@ -2080,7 +2121,7 @@
   year      = {1980},
   publisher = {JSTOR},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.2307/1911928}
+  url       = {https://doi.org/10.2307/1911928},
 }
 @article{zeira1998workers,
   title     = {Workers, machines, and economic growth},
@@ -2092,7 +2133,7 @@
   year      = {1998},
   publisher = {MIT Press},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.1162/003355398555847}
+  url       = {https://doi.org/10.1162/003355398555847},
 }
 @article{zhang2023multimodal,
   title    = {Multimodal chain-of-thought reasoning in language models},
@@ -2100,7 +2141,7 @@
   journal  = {arXiv preprint arXiv:2302.00923},
   year     = {2023},
   abstract = {Abstract unavailable.},
-  url      = {https://arxiv.org/pdf/2302.00923.pdf}
+  url      = {https://arxiv.org/pdf/2302.00923.pdf},
 }
 @article{zhang2024transcendence,
   title    = {Transcendence: Generative Models Can Outperform The Experts That Train Them},
@@ -2108,7 +2149,7 @@
   journal  = {arXiv preprint arXiv:2406.11741},
   year     = {2024},
   abstract = {Abstract unavailable.},
-  url      = {https://arxiv.org/pdf/2406.11741.pdf}
+  url      = {https://arxiv.org/pdf/2406.11741.pdf},
 }
 @article{zilibotti2007economic,
   title    = {Economic Possibilities for Our Grandchildren-75 Years After: A Global Perspective},
@@ -2117,7 +2158,7 @@
   number   = {344},
   year     = {2007},
   abstract = {Abstract unavailable.},
-  url      = {https://doi.org/10.7551/mitpress/9780262162494.003.0003}
+  url      = {https://doi.org/10.7551/mitpress/9780262162494.003.0003},
 }
 @article{baqaee2019macro,
   title     = {The Macroeconomic Impact of Microeconomic Shocks: Beyond Hulten's Theorem},
@@ -2129,7 +2170,7 @@
   year      = {2019},
   publisher = {Wiley Online Library},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.3982/ecta15202}
+  url       = {https://doi.org/10.3982/ecta15202},
 }
 @article{brynjolfsson2023generative,
   title    = {Generative AI at Work},
@@ -2137,7 +2178,7 @@
   journal  = {Available at SSRN 4573321},
   year     = {2023},
   abstract = {Abstract unavailable.},
-  url      = {https://doi.org/10.1093/qje/qjae044}
+  url      = {https://doi.org/10.1093/qje/qjae044},
 }
 @article{buera2015skill,
   title    = {Skill-biased structural change},
@@ -2148,7 +2189,7 @@
   pages    = {95--150},
   year     = {2015},
   abstract = {Abstract unavailable.},
-  url      = {https://doi.org/10.3386/w21165}
+  url      = {https://doi.org/10.3386/w21165},
 }
 @article{hulten1978growth,
   title     = {Growth accounting with intermediate inputs},
@@ -2160,7 +2201,7 @@
   year      = {1978},
   publisher = {Oxford University Press},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.2307/2297252}
+  url       = {https://doi.org/10.2307/2297252},
 }
 @article{karabarbounis2014global,
   title     = {The global decline of the labor share},
@@ -2172,7 +2213,7 @@
   year      = {2014},
   publisher = {Oxford University Press},
   abstract  = {Abstract unavailable.},
-  url       = {http://www.nber.org/papers/w19136.pdf}
+  url       = {http://www.nber.org/papers/w19136.pdf},
 }
 @article{noy2023generative,
   title    = {Experimental evidence on the productivity effects of generative AI},
@@ -2180,7 +2221,7 @@
   journal  = {arXiv preprint arXiv:2304.02313},
   year     = {2023},
   abstract = {Abstract unavailable.},
-  url      = {https://arxiv.org/pdf/2304.02313.pdf}
+  url      = {https://arxiv.org/pdf/2304.02313.pdf},
 }
 @article{oberfield2021micro,
   title     = {Micro data and macro technology},
@@ -2192,7 +2233,7 @@
   year      = {2021},
   publisher = {Wiley Online Library},
   abstract  = {Abstract unavailable.},
-  url       = {https://doi.org/10.2139/ssrn.2188988}
+  url       = {https://doi.org/10.2139/ssrn.2188988},
 }
 @techreport{trammell2023economic,
   title       = {Economic growth under transformative AI},
@@ -2200,7 +2241,7 @@
   year        = {2023},
   institution = {National Bureau of Economic Research},
   abstract    = {Abstract unavailable.},
-  url         = {https://doi.org/10.3386/w31815}
+  url         = {https://doi.org/10.3386/w31815},
 }
 @online{anthropic2025estimatingproductivitygains,
   author   = {{Anthropic}},
@@ -2209,7 +2250,7 @@
   url      = {https://www.anthropic.com/research/estimating-productivity-gains},
   urldate  = {2026-01-05},
   note     = {Research post},
-  abstract = {Abstract unavailable.}
+  abstract = {Abstract unavailable.},
 }
 @article{caves1982indexnumbers,
   title     = {The Economic Theory of Index Numbers and the Measurement of Input, Output, and Productivity},
@@ -2221,7 +2262,7 @@
   pages     = {1393--1414},
   publisher = {The Econometric Society},
   url       = {https://www.jstor.org/stable/1913382},
-  abstract  = {Abstract unavailable.}
+  abstract  = {Abstract unavailable.},
 }
 @article{willig1976consumerssurplus,
   title    = {Consumer's Surplus without Apology},
@@ -2232,7 +2273,7 @@
   number   = {4},
   pages    = {589--597},
   abstract = {Abstract unavailable.},
-  url      = {https://www.semanticscholar.org/paper/745fa39279d59c6f6b14dce4a38bcf098774c2ad}
+  url      = {https://www.semanticscholar.org/paper/745fa39279d59c6f6b14dce4a38bcf098774c2ad},
 }
 @article{hausman1981exact,
   title    = {Exact Consumer's Surplus and Deadweight Loss},
@@ -2243,7 +2284,7 @@
   number   = {4},
   pages    = {662--676},
   abstract = {Abstract unavailable.},
-  url      = {https://www.semanticscholar.org/search?q=Exact%20Consumer%27s%20Surplus%20and%20Deadweight%20Loss}
+  url      = {https://www.semanticscholar.org/search?q=Exact%20Consumer%27s%20Surplus%20and%20Deadweight%20Loss},
 }
 @article{deaton1980aids,
   title    = {An Almost Ideal Demand System},
@@ -2254,7 +2295,7 @@
   number   = {3},
   pages    = {312--326},
   abstract = {Abstract unavailable.},
-  url      = {https://www.semanticscholar.org/search?q=An%20Almost%20Ideal%20Demand%20System}
+  url      = {https://www.semanticscholar.org/search?q=An%20Almost%20Ideal%20Demand%20System},
 }
 @article{deserpa1971time,
   title    = {A Theory of the Economics of Time},
@@ -2265,7 +2306,7 @@
   number   = {324},
   pages    = {828--846},
   abstract = {Abstract unavailable.},
-  url      = {https://doi.org/10.2307/2230320}
+  url      = {https://doi.org/10.2307/2230320},
 }
 @techreport{baqaeeBurstein2021incomeeffects,
   title       = {Welfare and Output with Income Effects and Demand Instability},
@@ -2274,7 +2315,7 @@
   institution = {Working Paper},
   note        = {Working paper},
   abstract    = {Abstract unavailable.},
-  url         = {https://www.semanticscholar.org/search?q=Welfare%20and%20Output%20with%20Income%20Effects%20and%20Demand%20Instability}
+  url         = {https://www.semanticscholar.org/search?q=Welfare%20and%20Output%20with%20Income%20Effects%20and%20Demand%20Instability},
 }
 @techreport{cominLashkariMestieri2021structuralchange,
   title       = {Structural Change with Long-Run Income and Price Effects},
@@ -2283,7 +2324,7 @@
   institution = {Working Paper},
   note        = {Working paper},
   abstract    = {Abstract unavailable.},
-  url         = {https://doi.org/10.3982/ecta16317}
+  url         = {https://doi.org/10.3982/ecta16317},
 }
 @article{olley1996telecom,
   title    = {The Dynamics of Productivity in the Telecommunications Equipment Industry},
@@ -2294,5 +2335,5 @@
   number   = {6},
   pages    = {1263--1297},
   abstract = {Abstract unavailable.},
-  url      = {https://doi.org/10.3386/w3977}
+  url      = {https://doi.org/10.3386/w3977},
 }

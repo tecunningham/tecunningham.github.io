@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Tom Cunningham">
+<meta name="dcterms.date" content="2026-01-25">
+<meta name="description" content="Tom Cunningham blog">
+
+<title>LLM Time-Saving, Demand Theory, and the Cadillac Tasks | Tom Cunningham – Tom Cunningham</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-12027453-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+<script>window.MathJax = {
+   loader: { load: ["https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/xypic.js"]},
+   tex: {packages: {'[+]': ['xypic','bm']},
+         macros: {  bm: ["\\boldsymbol{#1}", 1],
+                    ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+                    utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3] }
+   }
+};
+</script>
+<style>
+   h1 {  border-bottom: 8px solid #557;}
+   h2 {  border-bottom: 1px solid #ccc;}
+   .greyproof {
+      background-color: #f5f5f5;
+      padding: 1em;
+      margin: 1em 0;
+      border-radius: 4px;
+   }
+</style>
+<meta name="quarto:status" content="draft">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+<meta name="twitter:title" content="LLM Time-Saving, Demand Theory, and the Cadillac Tasks | Tom Cunningham">
+<meta name="twitter:description" content="Tom Cunningham blog">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Draft</div>
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Tom Cunningham</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href=".././about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/testingham"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/tom-cunningham-a9433/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://tecunningham.github.io/index.xml"> <i class="bi bi-rss-fill" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://scholar.google.com/citations?user=MDB_DgkAAAAJ"> 
+<span class="menu-text">scholar</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">LLM Time-Saving, Demand Theory, and the Cadillac Tasks</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Tom Cunningham (METR) </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 25, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#results-first-summary" id="toc-results-first-summary" class="nav-link active" data-scroll-target="#results-first-summary">Results-first summary</a></li>
+  <li><a href="#setup-time-prices-and-speedups" id="toc-setup-time-prices-and-speedups" class="nav-link" data-scroll-target="#setup-time-prices-and-speedups">Setup: time prices and speedups</a></li>
+  <li><a href="#continuous-intensive-margin-model" id="toc-continuous-intensive-margin-model" class="nav-link" data-scroll-target="#continuous-intensive-margin-model">Continuous (intensive-margin) model</a>
+  <ul class="collapse">
+  <li><a href="#primal-dual-and-the-time-price-index" id="toc-primal-dual-and-the-time-price-index" class="nav-link" data-scroll-target="#primal-dual-and-the-time-price-index">Primal, dual, and the time price index</a></li>
+  <li><a href="#evcv-in-time-units" id="toc-evcv-in-time-units" class="nav-link" data-scroll-target="#evcv-in-time-units">EV/CV in time units</a></li>
+  <li><a href="#small-changes-share-weighted" id="toc-small-changes-share-weighted" class="nav-link" data-scroll-target="#small-changes-share-weighted">Small changes (share-weighted)</a></li>
+  <li><a href="#large-changes-area-under-compensated-demand" id="toc-large-changes-area-under-compensated-demand" class="nav-link" data-scroll-target="#large-changes-area-under-compensated-demand">Large changes (area under compensated demand)</a></li>
+  <li><a href="#ces-specialization-closed-form" id="toc-ces-specialization-closed-form" class="nav-link" data-scroll-target="#ces-specialization-closed-form">CES specialization (closed-form)</a></li>
+  </ul></li>
+  <li><a href="#discrete-extensive-margin-model-cadillac-tasks-live-here" id="toc-discrete-extensive-margin-model-cadillac-tasks-live-here" class="nav-link" data-scroll-target="#discrete-extensive-margin-model-cadillac-tasks-live-here">Discrete (extensive-margin) model: Cadillac tasks live here</a>
+  <ul class="collapse">
+  <li><a href="#unit-demand-formulation" id="toc-unit-demand-formulation" class="nav-link" data-scroll-target="#unit-demand-formulation">Unit-demand formulation</a></li>
+  <li><a href="#setup-cost-variant-bridging-discrete-and-continuous" id="toc-setup-cost-variant-bridging-discrete-and-continuous" class="nav-link" data-scroll-target="#setup-cost-variant-bridging-discrete-and-continuous">Setup-cost variant (bridging discrete and continuous)</a></li>
+  <li><a href="#worked-example-discrete-not-continuous" id="toc-worked-example-discrete-not-continuous" class="nav-link" data-scroll-target="#worked-example-discrete-not-continuous">Worked example (discrete, not continuous)</a></li>
+  <li><a href="#cadillac-tasks-discrete-interpretation" id="toc-cadillac-tasks-discrete-interpretation" class="nav-link" data-scroll-target="#cadillac-tasks-discrete-interpretation">Cadillac tasks (discrete interpretation)</a></li>
+  </ul></li>
+  <li><a href="#practical-examples-grounding" id="toc-practical-examples-grounding" class="nav-link" data-scroll-target="#practical-examples-grounding">Practical examples (grounding)</a></li>
+  <li><a href="#diagrams" id="toc-diagrams" class="nav-link" data-scroll-target="#diagrams">Diagrams</a>
+  <ul class="collapse">
+  <li><a href="#unified-map-assumptions-objects-results" id="toc-unified-map-assumptions-objects-results" class="nav-link" data-scroll-target="#unified-map-assumptions-objects-results">Unified map (assumptions → objects → results)</a></li>
+  <li><a href="#threshold-diagram-discrete-activation" id="toc-threshold-diagram-discrete-activation" class="nav-link" data-scroll-target="#threshold-diagram-discrete-activation">Threshold diagram (discrete activation)</a></li>
+  </ul></li>
+  <li><a href="#checklist-for-the-desiderata" id="toc-checklist-for-the-desiderata" class="nav-link" data-scroll-target="#checklist-for-the-desiderata">Checklist for the desiderata</a></li>
+  <li><a href="#related-literature-short-pointers" id="toc-related-literature-short-pointers" class="nav-link" data-scroll-target="#related-literature-short-pointers">Related literature (short pointers)</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<div id="878fafa5" class="cell" data-results="asis" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<details class="validation-checklist">
+<summary>
+Validation Checks
+</summary>
+<ul>
+<li>✅&nbsp;Programmatic: required sections present (5/5)</li>
+<li>✅&nbsp;Programmatic: Lamport-style proof structure</li>
+<li>✅&nbsp;Programmatic: diagrams present</li>
+<li>✅&nbsp;Programmatic: practical examples present</li>
+<li>✅&nbsp;Programmatic: bibliography tests
+<ul>
+<li>✅&nbsp;Duplicate citekeys</li>
+<li>✅&nbsp;One field per line + trailing comma</li>
+<li>✅&nbsp;Source locator present (url/doi/eprint) (218/218)</li>
+<li>✅&nbsp;Abstract length &lt;= 500 words</li>
+<li>✅&nbsp;abstract_source only when abstract is present</li>
+<li>✅&nbsp;arXiv eprints use arxiv.org/pdf/&lt;id&gt;.pdf URLs</li>
+<li>✅&nbsp;bibclean lint</li>
+</ul></li>
+<li>✅&nbsp;Programmatic: citekeys resolve in <code>posts/ai.bib</code></li>
+<li>⏳&nbsp;LLM-assisted: quality + citation plausibility gate (optional)</li>
+</ul>
+</details>
+</div>
+</div>
+<style>
+   details.validation-checklist {
+      background: #f5f5f5;
+      border: 1px solid #777;
+      border-radius: 6px;
+      padding: 0.5em 0.75em;
+      margin-bottom: 1em;
+   }
+   details.validation-checklist > summary {
+      cursor: pointer;
+   }
+   dl {display: grid;}
+   dt {grid-column-start: 1; width: 10em;}
+   dd {grid-column-start: 2; margin-left: 2em;}
+</style>
+<section id="results-first-summary" class="level2">
+<h2 class="anchored" data-anchor-id="results-first-summary">Results-first summary</h2>
+<p>This note reframes LLM time-saving as a <em>price index</em> problem in a time-allocation model, then adds a discrete extensive margin for “Cadillac tasks.” The continuous and discrete cases behave very differently, so I keep them separate.</p>
+<p><strong>Continuous (intensive-margin) case:</strong> treat each task’s time requirement as a price <span class="math inline">\(p_i\)</span>, with LLM speedup <span class="math inline">\(\beta_i\)</span> implying <span class="math inline">\(p_i' = p_i/\beta_i\)</span>. Under homothetic preferences, the output index is <span class="math inline">\(v(p)=1/P(p)\)</span> where <span class="math inline">\(P(p)=e(p,1)\)</span> is the unit time-expenditure function. Equivalent/compensating variation become time-index ratios, and small changes are share-weighted. Large changes require the <em>area under the compensated demand curve</em>. (Citations: <span class="citation" data-cites="caves1982indexnumbers">Caves, Christensen, and Diewert (<a href="#ref-caves1982indexnumbers" role="doc-biblioref">1982</a>)</span>; <span class="citation" data-cites="hausman1981exact">Hausman (<a href="#ref-hausman1981exact" role="doc-biblioref">1981</a>)</span>; <span class="citation" data-cites="willig1976consumerssurplus">Willig (<a href="#ref-willig1976consumerssurplus" role="doc-biblioref">1976</a>)</span>.)</p>
+<p><strong>Discrete (extensive-margin) case:</strong> tasks can require setup time or be unit-demand. Then LLM speedups change <em>which</em> tasks are done, not just <em>how much</em> of each task. This is the home of “Cadillac tasks” (tasks you’d never do absent the LLM) and the <em>worked example</em> below. Constant-elasticity formulas can fail here.</p>
+</section>
+<section id="setup-time-prices-and-speedups" class="level2">
+<h2 class="anchored" data-anchor-id="setup-time-prices-and-speedups">Setup: time prices and speedups</h2>
+<p><strong>Objects.</strong> Tasks <span class="math inline">\(i=1,\dots,n\)</span>, outputs <span class="math inline">\(x_i\ge 0\)</span>, time endowment normalized to <span class="math inline">\(1\)</span>, time prices <span class="math inline">\(p_i&gt;0\)</span> (time per unit of task output), and LLM speedups <span class="math inline">\(\beta_i&gt;0\)</span> so <span class="math inline">\(p_i' = p_i/\beta_i\)</span>.</p>
+<p>We interpret <span class="math inline">\(u(x)\)</span> as an <em>output index</em> or “effective work accomplished,” with time prices defining the budget: <span class="math display">\[
+\sum_i p_i x_i \le 1.
+\]</span></p>
+<p>The important split is:</p>
+<ol type="1">
+<li><strong>Continuous intensive margin:</strong> choose continuous <span class="math inline">\(x_i\)</span> (smooth substitution).</li>
+<li><strong>Discrete extensive margin:</strong> choose which tasks to activate (unit demand or setup costs).</li>
+</ol>
+<p>I treat these separately because the logic, formulas, and data requirements diverge.</p>
+</section>
+<section id="continuous-intensive-margin-model" class="level2">
+<h2 class="anchored" data-anchor-id="continuous-intensive-margin-model">Continuous (intensive-margin) model</h2>
+<section id="primal-dual-and-the-time-price-index" class="level3">
+<h3 class="anchored" data-anchor-id="primal-dual-and-the-time-price-index">Primal, dual, and the time price index</h3>
+<p>The primal problem is <span class="math display">\[
+v(p)\;=\;\max_{x\ge 0} u(x) \quad\text{s.t.}\quad \sum_i p_i x_i\le 1.
+\]</span></p>
+<p>Define the expenditure function <span class="math display">\[
+e(p,\bar u)=\min_{x\ge 0} \Big\{\sum_i p_i x_i: u(x)\ge \bar u\Big\}.
+\]</span></p>
+<p>If <span class="math inline">\(u(\cdot)\)</span> is homothetic and degree-1 homogeneous, then <span class="math inline">\(e(p,\bar u)=\bar u\,e(p,1)\)</span>. Define the <strong>unit time price index</strong> <span class="math display">\[
+P(p)\equiv e(p,1)\quad\Rightarrow\quad v(p)=\frac{1}{P(p)}.
+\]</span></p>
+<p>This is the classic index-number framing applied to time prices. <span class="citation" data-cites="caves1982indexnumbers">Caves, Christensen, and Diewert (<a href="#ref-caves1982indexnumbers" role="doc-biblioref">1982</a>)</span></p>
+</section>
+<section id="evcv-in-time-units" class="level3">
+<h3 class="anchored" data-anchor-id="evcv-in-time-units">EV/CV in time units</h3>
+<p>Let <span class="math inline">\(p^0\to p^1\)</span> and <span class="math inline">\(u^k=v(p^k)\)</span>. Equivalent and compensating variation (measured in <em>time</em>) are <span class="math display">\[
+EV=e(p^0,u^1)-1,\qquad CV=e(p^1,u^0)-1.
+\]</span></p>
+<p>Under homotheticity, <span class="math display">\[
+EV=\frac{P(p^0)}{P(p^1)}-1,\qquad CV=\frac{P(p^1)}{P(p^0)}-1.
+\]</span></p>
+<p>This is the cleanest way to translate LLM time savings into a welfare measure. <span class="citation" data-cites="hausman1981exact">Hausman (<a href="#ref-hausman1981exact" role="doc-biblioref">1981</a>)</span></p>
+</section>
+<section id="small-changes-share-weighted" class="level3">
+<h3 class="anchored" data-anchor-id="small-changes-share-weighted">Small changes (share-weighted)</h3>
+<p>Let <span class="math inline">\(t_i(p)\equiv p_i x_i^*(p)\)</span> be optimal time shares. For small changes in time prices, <span class="math display">\[
+d\ln v\;=\;-d\ln P\;\approx\;\sum_i t_i\,d\ln \beta_i.
+\]</span></p>
+<p>This is the time-allocation analog of share-weighted Hulten-style approximations. <span class="citation" data-cites="hulten1978growth">Hulten (<a href="#ref-hulten1978growth" role="doc-biblioref">1978</a>)</span></p>
+</section>
+<section id="large-changes-area-under-compensated-demand" class="level3">
+<h3 class="anchored" data-anchor-id="large-changes-area-under-compensated-demand">Large changes (area under compensated demand)</h3>
+<p>When LLM gains are large, constant-elasticity approximations are dangerous. Using Hicksian (compensated) shares <span class="math inline">\(s_i^H(p)\)</span>, <span class="math display">\[
+d\ln P(p)=\sum_i s_i^H(p)\,d\ln p_i.
+\]</span></p>
+<p>For a single changing price <span class="math inline">\(p_2\)</span>, <span class="math display">\[
+\ln\frac{P(p^1)}{P(p^0)}=\int s_2^H(p_2)\,d\ln p_2,
+\]</span></p>
+<p>i.e., exact welfare is the <strong>area under the compensated demand curve</strong>. <span class="citation" data-cites="willig1976consumerssurplus">Willig (<a href="#ref-willig1976consumerssurplus" role="doc-biblioref">1976</a>)</span></p>
+</section>
+<section id="ces-specialization-closed-form" class="level3">
+<h3 class="anchored" data-anchor-id="ces-specialization-closed-form">CES specialization (closed-form)</h3>
+<p>For a CES aggregator <span class="math display">\[
+u(x)=\left(\sum_i \alpha_i x_i^{\frac{\sigma-1}{\sigma}}\right)^{\frac{\sigma}{\sigma-1}},\quad\sigma&gt;0,
+\]</span></p>
+<p>the price index and time shares are <span class="math display">\[
+P(p)=\left(\sum_i \alpha_i^{\sigma}p_i^{1-\sigma}\right)^{\frac{1}{1-\sigma}},\qquad
+t_i(p)=\frac{\alpha_i^{\sigma}p_i^{1-\sigma}}{\sum_j \alpha_j^{\sigma}p_j^{1-\sigma}}.
+\]</span></p>
+<p>In the two-task case, if task 2 speeds up by <span class="math inline">\(\beta\)</span> and its ex-ante share is <span class="math inline">\(s_0\)</span>, then <span class="math display">\[
+\frac{y'}{y}=\left((1-s_0)+s_0\,\beta^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}},\qquad \varepsilon\equiv\sigma.
+\]</span></p>
+<p>This is the continuous benchmark; I will <strong>not</strong> use it for Cadillac tasks, which are discrete. <span class="citation" data-cites="caves1982indexnumbers">Caves, Christensen, and Diewert (<a href="#ref-caves1982indexnumbers" role="doc-biblioref">1982</a>)</span></p>
+<section id="proposition-lamport-style-ces-output-response" class="level4">
+<h4 class="anchored" data-anchor-id="proposition-lamport-style-ces-output-response">Proposition (Lamport-style): CES output response</h4>
+<p><strong>Claim.</strong> For two-task CES with ex-ante share <span class="math inline">\(s_0\)</span> on task 2 and speedup <span class="math inline">\(\beta\)</span>, the optimized output ratio is <span class="math display">\[
+\frac{y'}{y}=\left((1-s_0)+s_0\,\beta^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}}.
+\]</span></p>
+<p><strong>Proof (Lamport style).</strong></p>
+<ol type="1">
+<li><em>Given</em> CES price index <span class="math inline">\(P(p)=\left(\alpha_1^{\varepsilon}p_1^{1-\varepsilon}+\alpha_2^{\varepsilon}p_2^{1-\varepsilon}\right)^{\frac{1}{1-\varepsilon}}\)</span> and output <span class="math inline">\(v(p)=1/P(p)\)</span>.</li>
+<li><em>Let</em> <span class="math inline">\(p_2' = p_2/\beta\)</span> while <span class="math inline">\(p_1\)</span> is fixed.</li>
+<li><em>Then</em> the output ratio is <span class="math display">\[
+\frac{y'}{y}=\frac{P(p^0)}{P(p^1)}=
+\left(\frac{\alpha_1^{\varepsilon}p_1^{1-\varepsilon}+\alpha_2^{\varepsilon}p_2^{1-\varepsilon}}{\alpha_1^{\varepsilon}p_1^{1-\varepsilon}+\alpha_2^{\varepsilon}(p_2/\beta)^{1-\varepsilon}}\right)^{\frac{1}{\varepsilon-1}}.
+\]</span></li>
+<li><em>Define</em> the ex-ante share <span class="math display">\[
+s_0\equiv\frac{\alpha_2^{\varepsilon}p_2^{1-\varepsilon}}{\alpha_1^{\varepsilon}p_1^{1-\varepsilon}+\alpha_2^{\varepsilon}p_2^{1-\varepsilon}}.
+\]</span></li>
+<li><em>Substitute</em> into Step 3 to obtain <span class="math display">\[
+\frac{y'}{y}=\left((1-s_0)+s_0\,\beta^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}}.
+\]</span></li>
+<li><strong>QED.</strong></li>
+</ol>
+</section>
+</section>
+</section>
+<section id="discrete-extensive-margin-model-cadillac-tasks-live-here" class="level2">
+<h2 class="anchored" data-anchor-id="discrete-extensive-margin-model-cadillac-tasks-live-here">Discrete (extensive-margin) model: Cadillac tasks live here</h2>
+<p>The continuous model assumes you always do <em>some</em> of each task. That is wrong when tasks are lumpy, have setup costs, or are unit-demand. In those cases, LLMs can create <strong>newly affordable tasks</strong>, meaning the major effect is <em>selection</em>, not <em>intensive</em> time reallocation.</p>
+<section id="unit-demand-formulation" class="level3">
+<h3 class="anchored" data-anchor-id="unit-demand-formulation">Unit-demand formulation</h3>
+<p>Let each task have payoff <span class="math inline">\(u_i\)</span> and required time <span class="math inline">\(w_i(p)\)</span>, with decision <span class="math inline">\(q_i\in\{0,1\}\)</span>. Then <span class="math display">\[
+\max_{q\in\{0,1\}^n}\sum_i u_i q_i\quad\text{s.t.}\quad \sum_i w_i(p) q_i\le 1.
+\]</span></p>
+<p>Speedups change <span class="math inline">\(w_i\)</span> by <span class="math inline">\(\beta_i\)</span>, which can <strong>turn tasks on</strong> once a threshold is crossed. This is exactly the “Cadillac tasks” phenomenon: tasks that were too time-expensive become attractive after the LLM. The usual CES elasticity is not a good summary in this regime.</p>
+</section>
+<section id="setup-cost-variant-bridging-discrete-and-continuous" class="level3">
+<h3 class="anchored" data-anchor-id="setup-cost-variant-bridging-discrete-and-continuous">Setup-cost variant (bridging discrete and continuous)</h3>
+<p>Add a fixed setup time <span class="math inline">\(\phi_i\)</span> and a continuous intensity <span class="math inline">\(x_i\)</span>: <span class="math display">\[
+\max_{q,x}\;u(x)\quad\text{s.t.}\quad \sum_i \phi_i q_i + \sum_i p_i x_i \le 1,\; x_i=0\;\text{if }q_i=0.
+\]</span></p>
+<p>If <span class="math inline">\(\phi_i=0\)</span>, we recover the continuous model. If <span class="math inline">\(\phi_i&gt;0\)</span>, large LLM speedups mostly expand the active set <span class="math inline">\(\{i:q_i=1\}\)</span>, not the intensive shares.</p>
+</section>
+<section id="worked-example-discrete-not-continuous" class="level3">
+<h3 class="anchored" data-anchor-id="worked-example-discrete-not-continuous">Worked example (discrete, not continuous)</h3>
+<p><strong>Example.</strong> Suppose you can pick <em>one</em> task (unit-demand). Task A yields value <span class="math inline">\(u_A=10\)</span> and takes 1 hour. Task B yields <span class="math inline">\(u_B=12\)</span> and takes 2 hours. Without LLMs you choose A. Now an LLM speeds up task B so it takes 1 hour. You switch to B.</p>
+<ul>
+<li><strong>Upper bound on time-equivalent gain:</strong> 1 hour (if the extra value <span class="math inline">\(u_B-u_A\)</span> is “worth” a full hour).</li>
+<li><strong>Lower bound:</strong> 0 hours (if the extra value is just a small quality bump).</li>
+</ul>
+<p>So the <em>observed</em> reallocation does not identify a precise time-savings without modeling discrete choice. This is why elasticity-of-substitution estimates are weak in the Cadillac regime.</p>
+</section>
+<section id="cadillac-tasks-discrete-interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="cadillac-tasks-discrete-interpretation">Cadillac tasks (discrete interpretation)</h3>
+<p>Cadillac tasks are those you would not do <em>at all</em> without the LLM, but you do once their time cost drops. Examples:</p>
+<ul>
+<li>literature reviews you previously would not attempt,</li>
+<li>custom data visualizations,</li>
+<li>long-form proofreading or refactoring.</li>
+</ul>
+<p>In a unit-demand or setup-cost model, these tasks appear as <strong>newly activated <span class="math inline">\(q_i=1\)</span> choices</strong>, not as marginal increases in <span class="math inline">\(x_i\)</span>. This is a discrete effect, so apply discrete logic—not the continuous CES approximation.</p>
+</section>
+</section>
+<section id="practical-examples-grounding" class="level2">
+<h2 class="anchored" data-anchor-id="practical-examples-grounding">Practical examples (grounding)</h2>
+<ul>
+<li><strong>Query-level time savings:</strong> If a chatbot is used for 10% of tasks and yields 5x speedups, naive share-weighted estimates imply large gains. But if those tasks are Cadillac tasks (discrete selection), the aggregate gain is much smaller. <span class="citation" data-cites="anthropic2025estimatingproductivitygains">Anthropic (<a href="#ref-anthropic2025estimatingproductivitygains" role="doc-biblioref">2025</a>)</span></li>
+<li><strong>RCTs with task selection:</strong> In uplift experiments, participants may choose different tasks once AI is available. That makes comparisons tricky unless you model the discrete choice margin. <span class="citation" data-cites="becker2025uplift">Becker et al. (<a href="#ref-becker2025uplift" role="doc-biblioref">2025</a>)</span></li>
+<li><strong>Time allocation as a resource constraint:</strong> Classic time-allocation models already interpret time as a shadow price. <span class="citation" data-cites="deserpa1971time">DeSerpa (<a href="#ref-deserpa1971time" role="doc-biblioref">1971</a>)</span></li>
+</ul>
+</section>
+<section id="diagrams" class="level2">
+<h2 class="anchored" data-anchor-id="diagrams">Diagrams</h2>
+<section id="unified-map-assumptions-objects-results" class="level3">
+<h3 class="anchored" data-anchor-id="unified-map-assumptions-objects-results">Unified map (assumptions → objects → results)</h3>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TD
+  A[Primitives: tasks i=1..n, time endowment=1] --&gt; B[Technology: time prices p_i; AI =&gt; p_i_new = p_i / beta_i]
+  B --&gt; C[Choice: allocate time/output s.t. sum_i p_i x_i &lt;= 1]
+
+  C --&gt; D{Preference/output aggregator u(x)}
+  D --&gt; D1[Homothetic (continuous)]
+  D --&gt; D2[CES]
+  D --&gt; D3[Discrete or setup-cost tasks]
+
+  D1 --&gt; E[Price index P(p)=e(p,1)]
+  E --&gt; F[Indirect output v(p)=1/P(p)]
+  F --&gt; G[EV/CV = ratios of P(p)]
+  F --&gt; H[Local: d ln v = sum_i t_i d ln beta_i]
+
+  D2 --&gt; I[Closed forms for P(p), shares]
+  I --&gt; J[Two-task formula]
+
+  D3 --&gt; K[Activation/threshold effects]
+  K --&gt; L[Cadillac tasks, discrete selection]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="threshold-diagram-discrete-activation" class="level3">
+<h3 class="anchored" data-anchor-id="threshold-diagram-discrete-activation">Threshold diagram (discrete activation)</h3>
+<div id="c1dc702d" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-12-17-llm-time-saving-demand-theory-substitution.llm_files/figure-html/cell-3-output-1.png" width="471" height="336" class="figure-img"></p>
+<figcaption>Discrete activation: speedups switch on tasks</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="checklist-for-the-desiderata" class="level2">
+<h2 class="anchored" data-anchor-id="checklist-for-the-desiderata">Checklist for the desiderata</h2>
+<ul>
+<li><strong>Bibliography validity:</strong> citations are included and checked against <code>ai.bib</code>. See the validation checklist at the top.</li>
+<li><strong>Citation faithfulness:</strong> the optional LLM-assisted check flags suspicious claim-to-citation mismatches (also in the checklist).</li>
+<li><strong>Lamport-style proofs:</strong> proofs are structured with numbered steps and a QED marker.</li>
+<li><strong>Legible diagrams:</strong> one Mermaid flowchart + one TikZ threshold figure.</li>
+<li><strong>Practical examples:</strong> see the query-level and RCT examples above.</li>
+</ul>
+</section>
+<section id="related-literature-short-pointers" class="level2">
+<h2 class="anchored" data-anchor-id="related-literature-short-pointers">Related literature (short pointers)</h2>
+<ul>
+<li>Index-number theory for price changes and substitution. <span class="citation" data-cites="caves1982indexnumbers">Caves, Christensen, and Diewert (<a href="#ref-caves1982indexnumbers" role="doc-biblioref">1982</a>)</span></li>
+<li>Exact welfare measures and integrable demand systems. <span class="citation" data-cites="hausman1981exact">Hausman (<a href="#ref-hausman1981exact" role="doc-biblioref">1981</a>)</span>; <span class="citation" data-cites="deaton1980aids">Deaton and Muellbauer (<a href="#ref-deaton1980aids" role="doc-biblioref">1980</a>)</span></li>
+<li>Time allocation and shadow pricing. <span class="citation" data-cites="deserpa1971time">DeSerpa (<a href="#ref-deserpa1971time" role="doc-biblioref">1971</a>)</span></li>
+<li>Task-based technological change. <span class="citation" data-cites="autor2003skill">Autor, Levy, and Murnane (<a href="#ref-autor2003skill" role="doc-biblioref">2003</a>)</span>; <span class="citation" data-cites="acemoglu2011handbook">Acemoglu and Autor (<a href="#ref-acemoglu2011handbook" role="doc-biblioref">2011</a>)</span></li>
+</ul>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-acemoglu2011handbook" class="csl-entry" role="listitem">
+Acemoglu, Daron, and David Autor. 2011. <span>“Skills, Tasks and Technologies: Implications for Employment and Earnings.”</span> In, edited by David Card and Orley Ashenfelter, 4:1043–1171. Handbook of Labor Economics. Elsevier. https://doi.org/<a href="https://doi.org/10.1016/S0169-7218(11)02410-5">https://doi.org/10.1016/S0169-7218(11)02410-5</a>.
+</div>
+<div id="ref-anthropic2025estimatingproductivitygains" class="csl-entry" role="listitem">
+Anthropic. 2025. <span>“Estimating AI Productivity Gains from Claude Conversations.”</span> 2025. <a href="https://www.anthropic.com/research/estimating-productivity-gains">https://www.anthropic.com/research/estimating-productivity-gains</a>.
+</div>
+<div id="ref-autor2003skill" class="csl-entry" role="listitem">
+Autor, David, Frank Levy, and Richard J Murnane. 2003. <span>“The Skill Content of Recent Technological Change: An Empirical Exploration.”</span> <em>The Quarterly Journal of Economics</em> 118 (4): 1279–1333. <a href="https://doi.org/10.3386/w8337">https://doi.org/10.3386/w8337</a>.
+</div>
+<div id="ref-becker2025uplift" class="csl-entry" role="listitem">
+Becker, Joel, Nate Rush, Elizabeth Barnes, and David Rein. 2025. <span>“Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity.”</span> <a href="https://arxiv.org/pdf/2507.09089.pdf">https://arxiv.org/pdf/2507.09089.pdf</a>.
+</div>
+<div id="ref-caves1982indexnumbers" class="csl-entry" role="listitem">
+Caves, Douglas W., Laurits R. Christensen, and W. Erwin Diewert. 1982. <span>“The Economic Theory of Index Numbers and the Measurement of Input, Output, and Productivity.”</span> <em>Econometrica</em> 50 (6): 1393–1414. <a href="https://www.jstor.org/stable/1913382">https://www.jstor.org/stable/1913382</a>.
+</div>
+<div id="ref-deaton1980aids" class="csl-entry" role="listitem">
+Deaton, Angus, and John Muellbauer. 1980. <span>“An Almost Ideal Demand System.”</span> <em>American Economic Review</em> 70 (3): 312–26. <a href="https://www.semanticscholar.org/search?q=An%20Almost%20Ideal%20Demand%20System">https://www.semanticscholar.org/search?q=An%20Almost%20Ideal%20Demand%20System</a>.
+</div>
+<div id="ref-deserpa1971time" class="csl-entry" role="listitem">
+DeSerpa, Allan C. 1971. <span>“A Theory of the Economics of Time.”</span> <em>The Economic Journal</em> 81 (324): 828–46. <a href="https://doi.org/10.2307/2230320">https://doi.org/10.2307/2230320</a>.
+</div>
+<div id="ref-hausman1981exact" class="csl-entry" role="listitem">
+Hausman, Jerry A. 1981. <span>“Exact Consumer’s Surplus and Deadweight Loss.”</span> <em>American Economic Review</em> 71 (4): 662–76. <a href="https://www.semanticscholar.org/search?q=Exact%20Consumer%27s%20Surplus%20and%20Deadweight%20Loss">https://www.semanticscholar.org/search?q=Exact%20Consumer%27s%20Surplus%20and%20Deadweight%20Loss</a>.
+</div>
+<div id="ref-hulten1978growth" class="csl-entry" role="listitem">
+Hulten, Charles R. 1978. <span>“Growth Accounting with Intermediate Inputs.”</span> <em>The Review of Economic Studies</em> 45 (3): 511–18. <a href="https://doi.org/10.2307/2297252">https://doi.org/10.2307/2297252</a>.
+</div>
+<div id="ref-willig1976consumerssurplus" class="csl-entry" role="listitem">
+Willig, Robert D. 1976. <span>“Consumer’s Surplus Without Apology.”</span> <em>American Economic Review</em> 66 (4): 589–97. <a href="https://www.semanticscholar.org/paper/745fa39279d59c6f6b14dce4a38bcf098774c2ad">https://www.semanticscholar.org/paper/745fa39279d59c6f6b14dce4a38bcf098774c2ad</a>.
+</div>
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{cunningham_(metr)2026,
+  author = {Cunningham (METR), Tom},
+  title = {LLM {Time-Saving,} {Demand} {Theory,} and the {Cadillac}
+    {Tasks}},
+  date = {2026-01-25},
+  url = {tecunningham.github.io/posts/2025-12-17-llm-time-saving-demand-theory-substitution.llm.html},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-cunningham_(metr)2026" class="csl-entry quarto-appendix-citeas" role="listitem">
+Cunningham (METR), Tom. 2026. <span>“LLM Time-Saving, Demand Theory, and
+the Cadillac Tasks.”</span> January 25, 2026. <a href="https://tecunningham.github.io/posts/2025-12-17-llm-time-saving-demand-theory-substitution.llm.html">tecunningham.github.io/posts/2025-12-17-llm-time-saving-demand-theory-substitution.llm.html</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("tecunningham\.github\.io");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
