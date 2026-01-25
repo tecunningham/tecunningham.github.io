@@ -45,7 +45,9 @@ result = subprocess.run(
     text=True,
 )
 
-display(Markdown(result.stdout))
+checklist = result.stdout
+checklist = checklist.replace("<details>", "<details class=\"validation-checklist\">")
+display(Markdown(checklist))
 ```
 
 <!--
@@ -57,6 +59,16 @@ LLM update protocol (author workflow):
 -->
 
 <style>
+   details.validation-checklist {
+      background: #f5f5f5;
+      border: 1px solid #777;
+      border-radius: 6px;
+      padding: 0.5em 0.75em;
+      margin-bottom: 1em;
+   }
+   details.validation-checklist > summary {
+      cursor: pointer;
+   }
    dl {display: grid;}
    dt {grid-column-start: 1; width: 10em;}
    @media (min-width: 768px) { dt { width: 15em; } }

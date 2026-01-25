@@ -136,18 +136,28 @@ def extract_table_checks(text: str) -> list[dict[str, str]]:
     return checks
 
 
-def build_checklist(status: dict[str, str], last_checked: str) -> str:
+def build_checklist(
+    status: dict[str, str],
+    last_checked: str,
+    counts: dict[str, tuple[int, int]],
+) -> str:
+    def with_count(label: str, key: str) -> str:
+        if key not in counts:
+            return label
+        passed, total = counts[key]
+        return f"{label} ({passed}/{total})"
+
     lines = [
-        "<details open>",
+        "<details>",
         "<summary>Validation Checks</summary>",
         "",
         f"**Overall:** {status['overall']}",
         "",
-        f"- {status['citations']} Cited sources exist in `posts/ai.bib` (programmatic)",
-        f"- {status['tables']} Table rows have required fields (programmatic)",
-        f"- {status['quotes_match']} QMD quotes match `posts/ai.bib` (programmatic)",
-        f"- {status['growth_match']} QMD growth values match `posts/ai.bib` (programmatic)",
-        f"- {status['abstracts']} Abstracts present for all cited sources (programmatic)",
+        f"- {status['citations']} {with_count('Cited sources exist in `posts/ai.bib` (programmatic)', 'citations')}",
+        f"- {status['tables']} {with_count('Table rows have required fields (programmatic)', 'tables')}",
+        f"- {status['quotes_match']} {with_count('QMD quotes match `posts/ai.bib` (programmatic)', 'quotes_match')}",
+        f"- {status['growth_match']} {with_count('QMD growth values match `posts/ai.bib` (programmatic)', 'growth_match')}",
+        f"- {status['abstracts']} {with_count('Abstracts present for all cited sources (programmatic)', 'abstracts')}",
         "- ⏳ Bib quotes verified against sources (LLM-assisted, test not implemented)",
         "- ⏳ Growth values consistent with quoted text (LLM-assisted, test not implemented)",
         "- ⏳ Coverage check against recent sources (manual + web search, test not implemented)",
@@ -217,11 +227,13 @@ def main() -> int:
     missing_citekeys = sorted(citekeys - bib_keys)
 
     table_issues = []
+    total_table_rows = 0
     for table_lines in iter_tables(qmd_clean):
         header_cols = len(split_row(table_lines[0]))
         for row in table_lines[1:]:
             if re.match(r"^\s*\|\s*[-:]", row):
                 continue
+            total_table_rows += 1
             cols = len(split_row(row))
             if cols != header_cols:
                 table_issues.append(cols)
@@ -275,7 +287,22 @@ def main() -> int:
     any_warn = any(value == "⚠️" for value in status.values())
     status["overall"] = "❌ Fail" if hard_fail else "⚠️ Warning" if any_warn else "✅ Pass"
 
-    print(build_checklist(status, dt.date.today().isoformat()))
+    total_citations = len(citekeys)
+    counts = {
+        "citations": (total_citations - len(missing_citekeys), total_citations),
+        "tables": (total_table_rows - len(table_issues), total_table_rows),
+        "quotes_match": (
+            len(table_checks) - len(quote_missing) - len(quote_mismatches),
+            len(table_checks),
+        ),
+        "growth_match": (
+            len(table_checks) - len(growth_missing) - len(growth_mismatches),
+            len(table_checks),
+        ),
+        "abstracts": (total_citations - len(missing_abstracts), total_citations),
+    }
+
+    print(build_checklist(status, dt.date.today().isoformat(), counts))
     report = build_report(
         missing_citekeys,
         table_issues,
