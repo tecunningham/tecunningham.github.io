@@ -24,10 +24,13 @@ BIB_TESTS_PATH = Path("tools/ai.bib.tests.py")
 
 REQUIRED_HEADINGS = [
     "## Results-first summary",
+    "## Setup: time prices and speedups",
+    "## Estimation cheat sheet",
     "## Continuous (intensive-margin) model",
     "## Discrete (extensive-margin) model",
     "### Worked example (discrete, not continuous)",
-    "## Practical examples",
+    "## Applications",
+    "## Experimental design",
 ]
 
 
@@ -147,10 +150,19 @@ class TestQmdStructure(unittest.TestCase):
             with self.subTest(heading=heading):
                 self.assertIn(heading, self.qmd_text)
 
-    def test_lamport_style_proof(self) -> None:
-        self.assertIn("Proof (Lamport style).", self.qmd_text)
+    def test_structured_proof_collapsed(self) -> None:
+        # Proofs should be collapsed by default in HTML output; in QMD that is
+        # implemented via a collapsible callout.
+        self.assertNotIn("Lamport", self.qmd_text)
+        self.assertIn('collapse="true"', self.qmd_text)
+        self.assertIn("Proof (structured)", self.qmd_text)
         self.assertIn("QED", self.qmd_text)
         self.assertRegex(self.qmd_text, r"\n1\. \*Given\*")
+
+    def test_estimation_flowchart_present(self) -> None:
+        self.assertIn("Estimation flowchart", self.qmd_text)
+        self.assertIn("```{mermaid}", self.qmd_text)
+        self.assertRegex(self.qmd_text, r"\nflowchart TD")
 
     def test_diagrams_present(self) -> None:
         self.assertIn("```{mermaid}", self.qmd_text)
@@ -162,9 +174,18 @@ class TestQmdStructure(unittest.TestCase):
             "Missing threshold diagram (expected tikz block or the discrete-activation figure).",
         )
 
-    def test_practical_examples_present(self) -> None:
-        self.assertIn("Practical examples", self.qmd_text)
-        self.assertRegex(self.qmd_text, r"- \*\*Query-level time savings:\*\*")
+    def test_applications_present(self) -> None:
+        self.assertIn("## Applications", self.qmd_text)
+        self.assertIn("@anthropic2025estimatingproductivitygains", self.qmd_text)
+        self.assertIn("s_0=10\\%", self.qmd_text)
+        self.assertIn("\\beta=5", self.qmd_text)
+        self.assertIn("@becker2025uplift", self.qmd_text)
+
+    def test_experimental_design_present(self) -> None:
+        self.assertIn("## Experimental design", self.qmd_text)
+        # Light-touch guardrail: ensure there is a concrete, numbered protocol list.
+        self.assertRegex(self.qmd_text, r"\n1\. \*\*Decide the estimand up front\.\*\*")
+        self.assertRegex(self.qmd_text, r"\n4\. \*\*Trace a demand curve")
 
     def test_citations_resolve(self) -> None:
         citations = extract_citations(self.qmd_text)
@@ -194,11 +215,11 @@ class TestLLMBasedChecks(unittest.TestCase):
         prompt = (
             "Review the following QMD content. Verify these criteria: "
             "(1) Continuous vs discrete cases are explicitly separated; "
-            "(2) Cadillac tasks are discussed in the discrete context; "
-            "(3) The worked example is discrete (unit-demand or setup-cost), not continuous; "
-            "(4) Proofs are structured in Lamport style with numbered steps; "
-            "(5) Diagrams are present and likely legible; "
-            "(6) Practical examples are included; "
+            "(2) The worked example is discrete (unit-demand or setup-cost), not continuous; "
+            "(3) There is an estimation cheat sheet with a flowchart; "
+            "(4) Applications discuss both the Anthropic and METR uplift papers and include concrete back-of-envelope numbers; "
+            "(5) Experimental design guidance is included; "
+            "(6) Proofs are structured, collapsed by default, and include numbered steps plus a QED marker; "
             "(7) Claims with citations look plausible and not obviously mismatched. "
             "Return JSON: {\"pass\": true/false, \"notes\": "
             "\"...\"}. If any criterion is missing or dubious, set pass=false and explain.\n\n"
@@ -224,13 +245,24 @@ def print_validation_report(run_llm_if_configured: bool = True) -> int:
     print(f"{_symbol(ok)} Programmatic: required sections present ({present}/{len(REQUIRED_HEADINGS)})")
     overall_ok = ok
 
-    # Lamport proof structure
+    # Proof structure (collapsed)
     ok = (
-        "Proof (Lamport style)." in qmd_text
-        and "QED" in qmd_text
+        ("Lamport" not in qmd_text)
+        and ('collapse="true"' in qmd_text)
+        and ("Proof (structured)" in qmd_text)
+        and ("QED" in qmd_text)
         and re.search(r"\n1\. \*Given\*", qmd_text) is not None
     )
-    print(f"{_symbol(ok)} Programmatic: Lamport-style proof structure")
+    print(f"{_symbol(ok)} Programmatic: proof structure (collapsed)")
+    overall_ok = overall_ok and ok
+
+    # Estimation flowchart
+    ok = (
+        ("Estimation flowchart" in qmd_text)
+        and ("```{mermaid}" in qmd_text)
+        and re.search(r"\nflowchart TD", qmd_text) is not None
+    )
+    print(f"{_symbol(ok)} Programmatic: estimation flowchart present")
     overall_ok = overall_ok and ok
 
     # Diagrams
@@ -240,9 +272,22 @@ def print_validation_report(run_llm_if_configured: bool = True) -> int:
     print(f"{_symbol(ok)} Programmatic: diagrams present")
     overall_ok = overall_ok and ok
 
-    # Practical examples
-    ok = ("Practical examples" in qmd_text) and (re.search(r"- \*\*Query-level time savings:\*\*", qmd_text) is not None)
-    print(f"{_symbol(ok)} Programmatic: practical examples present")
+    # Applications
+    ok = (
+        ("## Applications" in qmd_text)
+        and ("@anthropic2025estimatingproductivitygains" in qmd_text)
+        and ("s_0=10\\%" in qmd_text)
+        and ("\\beta=5" in qmd_text)
+        and ("@becker2025uplift" in qmd_text)
+    )
+    print(f"{_symbol(ok)} Programmatic: applications present")
+    overall_ok = overall_ok and ok
+
+    # Experimental design
+    ok = ("## Experimental design" in qmd_text) and (
+        re.search(r"\n1\. \*\*Decide the estimand up front\.\*\*", qmd_text) is not None
+    )
+    print(f"{_symbol(ok)} Programmatic: experimental design present")
     overall_ok = overall_ok and ok
 
     # Bibliography tests (subcontracted)
@@ -282,11 +327,11 @@ def print_validation_report(run_llm_if_configured: bool = True) -> int:
         prompt = (
             "Review the following QMD content. Verify these criteria: "
             "(1) Continuous vs discrete cases are explicitly separated; "
-            "(2) Cadillac tasks are discussed in the discrete context; "
-            "(3) The worked example is discrete (unit-demand or setup-cost), not continuous; "
-            "(4) Proofs are structured in Lamport style with numbered steps; "
-            "(5) Diagrams are present and likely legible; "
-            "(6) Practical examples are included; "
+            "(2) The worked example is discrete (unit-demand or setup-cost), not continuous; "
+            "(3) There is an estimation cheat sheet with a flowchart; "
+            "(4) Applications discuss both the Anthropic and METR uplift papers and include concrete back-of-envelope numbers; "
+            "(5) Experimental design guidance is included; "
+            "(6) Proofs are structured, collapsed by default, and include numbered steps plus a QED marker; "
             "(7) Claims with citations look plausible and not obviously mismatched. "
             "Return JSON: {\"pass\": true/false, \"notes\": \"...\"}.\n\n"
             f"QMD:\n{qmd_text}"
@@ -325,19 +370,39 @@ def build_json_report(run_llm_if_configured: bool = True) -> Dict[str, object]:
     overall_ok = overall_ok and ok
 
     ok = (
-        "Proof (Lamport style)." in qmd_text
-        and "QED" in qmd_text
+        ("Lamport" not in qmd_text)
+        and ('collapse="true"' in qmd_text)
+        and ("Proof (structured)" in qmd_text)
+        and ("QED" in qmd_text)
         and re.search(r"\n1\. \*Given\*", qmd_text) is not None
     )
-    items.append({"name": "Lamport-style proof structure", "category": "programmatic", "ok": ok})
+    items.append({"name": "proof structure (collapsed)", "category": "programmatic", "ok": ok})
     overall_ok = overall_ok and ok
 
-    ok = ("```{mermaid}" in qmd_text) and ("```{tikz}" in qmd_text)
+    ok = ("Estimation flowchart" in qmd_text) and ("```{mermaid}" in qmd_text) and (re.search(r"\nflowchart TD", qmd_text) is not None)
+    items.append({"name": "estimation flowchart present", "category": "programmatic", "ok": ok})
+    overall_ok = overall_ok and ok
+
+    ok = ("```{mermaid}" in qmd_text) and (
+        ("```{tikz}" in qmd_text) or ("Discrete activation: speedups switch on tasks" in qmd_text)
+    )
     items.append({"name": "diagrams present", "category": "programmatic", "ok": ok})
     overall_ok = overall_ok and ok
 
-    ok = ("Practical examples" in qmd_text) and (re.search(r"- \*\*Query-level time savings:\*\*", qmd_text) is not None)
-    items.append({"name": "practical examples present", "category": "programmatic", "ok": ok})
+    ok = (
+        ("## Applications" in qmd_text)
+        and ("@anthropic2025estimatingproductivitygains" in qmd_text)
+        and ("s_0=10\\%" in qmd_text)
+        and ("\\beta=5" in qmd_text)
+        and ("@becker2025uplift" in qmd_text)
+    )
+    items.append({"name": "applications present", "category": "programmatic", "ok": ok})
+    overall_ok = overall_ok and ok
+
+    ok = ("## Experimental design" in qmd_text) and (
+        re.search(r"\n1\. \*\*Decide the estimand up front\.\*\*", qmd_text) is not None
+    )
+    items.append({"name": "experimental design present", "category": "programmatic", "ok": ok})
     overall_ok = overall_ok and ok
 
     try:
@@ -409,11 +474,11 @@ def build_json_report(run_llm_if_configured: bool = True) -> Dict[str, object]:
         prompt = (
             "Review the following QMD content. Verify these criteria: "
             "(1) Continuous vs discrete cases are explicitly separated; "
-            "(2) Cadillac tasks are discussed in the discrete context; "
-            "(3) The worked example is discrete (unit-demand or setup-cost), not continuous; "
-            "(4) Proofs are structured in Lamport style with numbered steps; "
-            "(5) Diagrams are present and likely legible; "
-            "(6) Practical examples are included; "
+            "(2) The worked example is discrete (unit-demand or setup-cost), not continuous; "
+            "(3) There is an estimation cheat sheet with a flowchart; "
+            "(4) Applications discuss both the Anthropic and METR uplift papers and include concrete back-of-envelope numbers; "
+            "(5) Experimental design guidance is included; "
+            "(6) Proofs are structured, collapsed by default, and include numbered steps plus a QED marker; "
             "(7) Claims with citations look plausible and not obviously mismatched. "
             "Return JSON: {\"pass\": true/false, \"notes\": \"...\"}.\n\n"
             f"QMD:\n{qmd_text}"
@@ -464,11 +529,15 @@ if __name__ == "__main__":
         action="store_true",
         help="Emit JSON output instead of formatted report.",
     )
-    args = parser.parse_args()
+    # When running via `unittest`, we want to forward any additional CLI flags
+    # (e.g. `-v`, `-k`) to unittest's own argument parser.
+    args, remaining = parser.parse_known_args()
 
     if args.unittest:
-        unittest.main()
+        unittest.main(argv=[sys.argv[0], *remaining])
     else:
+        if remaining:
+            parser.error(f"unrecognized arguments: {' '.join(remaining)}")
         if args.json:
             report = build_json_report(run_llm_if_configured=not args.no_llm)
             print(json.dumps(report, indent=2))

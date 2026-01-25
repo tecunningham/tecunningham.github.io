@@ -108,6 +108,8 @@ def main() -> int:
     parser.add_argument("--qmd", default=str(DEFAULT_QMD))
     parser.add_argument("--all", action="store_true", help="Fetch for all bib entries, not just citekeys in --qmd.")
     parser.add_argument("--update-bib", action="store_true", help="Insert text_url into ai.bib for successful fetches.")
+    parser.add_argument("--timeout", type=int, default=20, help="Per-request timeout in seconds.")
+    parser.add_argument("--max", type=int, help="Maximum number of entries to attempt.")
     parser.add_argument("--json", action="store_true", help="Emit JSON summary.")
     args = parser.parse_args()
 
@@ -131,7 +133,11 @@ def main() -> int:
 
     results = []
     updated_bib = bib_text
+    attempted = 0
     for key in sorted(target_keys):
+        if args.max is not None and attempted >= args.max:
+            break
+        attempted += 1
         fields = entry_map.get(key, {})
         source_url = fields.get("text_url") or fields.get("url")
         if not source_url:
@@ -143,7 +149,7 @@ def main() -> int:
 
         jina_url = build_jina_url(source_url)
         try:
-            resp = requests.get(jina_url, timeout=45)
+            resp = requests.get(jina_url, timeout=args.timeout)
         except Exception as exc:
             results.append({"key": key, "status": "error", "reason": str(exc)})
             continue

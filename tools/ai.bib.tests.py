@@ -126,70 +126,92 @@ def run_tests(entries: list[Entry]) -> list[TestResult]:
             if not any(field in entry.fields for field in ("url", "doi", "eprint"))
         ]
     )
+    locator_total = len(entries)
+    locator_pass = locator_total - len(missing_locator)
     results.append(
         TestResult(
             name="Source locator present (url/doi/eprint)",
             ok=not missing_locator,
             detail=(
-                f" ({summarize_keys(missing_locator)})"
-                if missing_locator
-                else f" ({len(entries)}/{len(entries)})"
+                f" ({locator_pass}/{locator_total})"
+                + (f" {summarize_keys(missing_locator)}" if missing_locator else "")
             ),
         )
     )
 
     abstract_too_long: list[str] = []
+    abstract_checked = 0
     for entry in entries:
         abstract = entry.fields.get("abstract", "").strip()
         if not abstract or abstract.lower().startswith("abstract unavailable"):
             continue
+        abstract_checked += 1
         if word_count(abstract) > MAX_ABSTRACT_WORDS:
             abstract_too_long.append(entry.key)
+    abstract_pass = abstract_checked - len(abstract_too_long)
     results.append(
         TestResult(
             name=f"Abstract length <= {MAX_ABSTRACT_WORDS} words",
             ok=not abstract_too_long,
-            detail=f" ({summarize_keys(abstract_too_long)})" if abstract_too_long else "",
+            detail=(
+                f" ({abstract_pass}/{abstract_checked})"
+                + (f" {summarize_keys(abstract_too_long)}" if abstract_too_long else "")
+            ),
         )
     )
 
     abstract_source_mismatch: list[str] = []
+    abstract_source_total = 0
     for entry in entries:
         abstract = entry.fields.get("abstract", "").strip()
         abstract_source = entry.fields.get("abstract_source", "").strip()
+        if abstract_source:
+            abstract_source_total += 1
         if abstract_source and (not abstract or abstract.lower().startswith("abstract unavailable")):
             abstract_source_mismatch.append(entry.key)
+    abstract_source_pass = abstract_source_total - len(abstract_source_mismatch)
     results.append(
         TestResult(
             name="abstract_source only when abstract is present",
             ok=not abstract_source_mismatch,
-            detail=f" ({summarize_keys(abstract_source_mismatch)})" if abstract_source_mismatch else "",
+            detail=(
+                f" ({abstract_source_pass}/{abstract_source_total})"
+                + (f" {summarize_keys(abstract_source_mismatch)}" if abstract_source_mismatch else "")
+            ),
         )
     )
 
     arxiv_mismatches: list[str] = []
+    arxiv_total = 0
     for entry in entries:
         eprint = entry.fields.get("eprint", "").strip()
         archiveprefix = entry.fields.get("archiveprefix", "").strip().lower()
         if not eprint or archiveprefix != "arxiv":
             continue
+        arxiv_total += 1
         url = entry.fields.get("url", "")
         expected = f"arxiv.org/pdf/{eprint}.pdf"
         if expected not in url:
             arxiv_mismatches.append(entry.key)
+    arxiv_pass = arxiv_total - len(arxiv_mismatches)
     results.append(
         TestResult(
             name="arXiv eprints use arxiv.org/pdf/<id>.pdf URLs",
             ok=not arxiv_mismatches,
-            detail=f" ({summarize_keys(arxiv_mismatches)})" if arxiv_mismatches else "",
+            detail=(
+                f" ({arxiv_pass}/{arxiv_total})"
+                + (f" {summarize_keys(arxiv_mismatches)}" if arxiv_mismatches else "")
+            ),
         )
     )
 
     text_missing: list[str] = []
+    text_total = 0
     for entry in entries:
         text_url = entry.fields.get("text_url", "").strip()
         if not text_url:
             continue
+        text_total += 1
         text_path = TEXT_ARCHIVE_DIR / f"{entry.key}.txt"
         if not text_path.exists():
             text_missing.append(entry.key)
@@ -202,11 +224,15 @@ def run_tests(entries: list[Entry]) -> list[TestResult]:
         if len(content.strip()) < 200:
             text_missing.append(entry.key)
 
+    text_pass = text_total - len(text_missing)
     results.append(
         TestResult(
             name="text_url has local text archive",
             ok=not text_missing,
-            detail=f" ({summarize_keys(text_missing)})" if text_missing else "",
+            detail=(
+                f" ({text_pass}/{text_total})"
+                + (f" {summarize_keys(text_missing)}" if text_missing else "")
+            ),
         )
     )
 
@@ -256,7 +282,13 @@ def format_block(results: list[TestResult], timestamp: str) -> str:
     for result in results:
         status = "PASS" if result.ok else "FAIL"
         detail = result.detail or ""
-        lines.append(f"% - [{status}] {result.name}{detail}")
+        counts = ""
+        if detail.startswith(" (") and "/" in detail:
+            counts = detail.split(")", 1)[0].strip(" (")
+            detail = detail.split(")", 1)[1].strip()
+        prefix = f"[{status} {counts}]".strip() if counts else f"[{status}]"
+        suffix = f" {detail}" if detail else ""
+        lines.append(f"% - {prefix} {result.name}{suffix}")
     lines.append(END_MARKER)
     return "\n".join(lines)
 
