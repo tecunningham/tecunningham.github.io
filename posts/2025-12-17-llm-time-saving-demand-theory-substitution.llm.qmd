@@ -139,12 +139,15 @@ Do NOT prefix continuation lines with additional ':' characters; that often brea
 : In a two-good CES setting, observing both pre and post time shares for an AI-affected bundle, together with the relevant speedup, identifies the substitution elasticity via a logit-share formula. This makes post-LLM shares especially informative when you want a point estimate.
 
 **With unit-demand task choice, you can bound the lift using pre and post task baskets.**
-: If tasks are lumpy and you either do a task or not, and you observe the time required for each task pre and post AI, then you can bound the aggregate lift by evaluating the pre-AI chosen basket at post-AI time prices (a Laspeyres-style bound) and the post-AI chosen basket at post-AI time prices (a Paasche-style bound). The discrete section formalizes this.
+: If tasks are lumpy and you either do a task or not, and you observe the time required for each task pre and post AI, then you can bound the aggregate lift by evaluating the pre-AI chosen basket at pre vs post time prices (a Laspeyres-style bound) and the post-AI chosen basket at pre vs post time prices (a Paasche-style bound). The discrete section formalizes this.
 
 ## Setup: time allocation and task productivity
 
 **The canonical setup is time allocation with task productivity.**
 : You choose time shares $t=(t_1,\dots,t_n)$ with $\sum_i t_i=1$, and productivity enters as the vector $A=(A_1,\dots,A_n)$ in the output index $y(A_1 t_1,\dots,A_n t_n)$.
+
+**Notation for time shares.**
+: I use $t_i$ for task-level time shares and superscripts for timing, e.g. $t_i^{0}$ (pre) and $t_i^{1}$ (post). In the two-good reduction, $s^{0}$ and $s^{1}$ denote the aggregate share of the AI-affected bundle (e.g., $s^{k}=\sum_{i\in\text{AI}} t_i^{k}$).
 
 **Index-number results can be imported by reinterpreting productivity as inverse prices.**
 : If you define a time price $p_i\equiv 1/A_i$ for an efficiency unit of task $i$, then changes in $A$ can be analyzed with standard expenditure-function and price-index tools. I use that equivalence in the continuous section because it is the cleanest way to import known results about exact indices, Tornqvist approximations, and compensated-demand integrals.
@@ -169,30 +172,30 @@ Do NOT prefix continuation lines with additional ':' characters; that often brea
 ### Two-good reduction (AI-affected bundle vs the rest)
 
 **A two-good reduction collapses tasks into an AI-affected bundle and the rest.**
-: For back-of-envelope calculations, define two bundles: good 2 is the set of tasks whose productivity rises by a factor $A$ when AI is allowed, and good 1 is everything else (normalized). Let $s_0$ be the pre-AI time share on good 2, and suppose only good 2 gets the productivity multiplier $A>1$. Common benchmarks are:
+: For back-of-the-envelope calculations, define two bundles: good 2 is the set of tasks whose productivity rises by a factor $A$ when AI is allowed, and good 1 is everything else (normalized). Let $s^{0}$ be the pre-AI time share on good 2, and suppose only good 2 gets the productivity multiplier $A>1$. Common benchmarks are:
 
 | Assumption about substitution | Implied output gain $V(A^1)/V(A^0)$ | Notes |
 |---|---|---|
-| Perfect complements (Amdahl-style) | $\dfrac{1}{(1-s_0)+s_0/A}$ | Fixed proportions; AI only relaxes the bottleneck |
-| Cobb-Douglas ($\varepsilon=1$) | $A^{s_0}$ | Share is constant; log change is $s_0\ln A$ |
-| CES elasticity $\varepsilon$ | $\left((1-s_0)+s_0\,A^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}}$ | Requires $\varepsilon$ (or enough data to infer it) |
-| Perfect substitutes | $A$ | You can reallocate everything to the sped-up bundle |
+| Perfect complements (Amdahl-style) | $\dfrac{1}{(1-s^{0})+s^{0}/A}$ | Fixed proportions; $s^{0}$ is the fixed-proportion share |
+| Cobb-Douglas ($\varepsilon=1$) | $A^{s^{0}}$ | Share is constant; log change is $s^{0}\ln A$ |
+| CES elasticity $\varepsilon$ | $\left((1-s^{0})+s^{0}\,A^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}}$ | Requires $\varepsilon$ (or enough data to infer it) |
+| Perfect substitutes | $A$ | Assumes the other bundle is not required for output |
 
 **In the multi-task case, a Tornqvist/Divisia log-index is a convenient approximation.**
-: A common approximation is
+: A common approximation (using optimal time shares) is
   $$
-  \Delta\ln V \;\approx\; \sum_i \bar t_i\,\ln\left(\frac{A_i^1}{A_i^0}\right),\qquad \bar t_i \equiv \tfrac12(t_{i,0}+t_{i,1}),
+  \Delta\ln V \;\approx\; \sum_i \bar t_i\,\ln\left(\frac{A_i^1}{A_i^0}\right),\qquad \bar t_i \equiv \tfrac12(t_i^{0}+t_i^{1}),
   $$
   which uses average (pre/post) time shares (see @caves1982indexnumbers).
 
 **Anthropic-style numbers span a wide range under different substitution assumptions.**
-: If $s_0=0.10$ and $A=5$ (a 5x multiplier when AI is used), the implied gain depends heavily on the benchmark.
+: If $s^{0}=0.10$ and $A=5$ (a 5x multiplier when AI is used), the implied gain depends heavily on the benchmark.
 
 | Benchmark | Gain factor | Percent |
 |---|---:|---:|
-| Complements bound | $1/(0.9+0.02)\approx 1.087$ | $+8.7\\%$ |
-| Cobb-Douglas | $5^{0.1}\approx 1.174$ | $+17.4\\%$ |
-| CES, $\varepsilon=2$ | $0.9+0.1\\cdot 5 = 1.4$ | $+40\\%$ |
+| Complements bound | $1/(0.9+0.02)\approx 1.087$ | $+8.7\%$ |
+| Cobb-Douglas | $5^{0.1}\approx 1.174$ | $+17.4\%$ |
+| CES, $\varepsilon=2$ | $0.9+0.1\cdot 5 = 1.4$ | $+40\%$ |
 | Substitutes bound | $5$ | $+400\\%$ |
 
 **The spread is the point.**
@@ -201,16 +204,16 @@ Do NOT prefix continuation lines with additional ':' characters; that often brea
 ### If you observe pre and post time shares, you can infer an elasticity (in CES)
 
 **In a two-good CES benchmark, post-AI shares identify the elasticity.**
-: In the same two-good CES setting, let $s_1$ be the post-AI time share on good 2. Then
+: In the same two-good CES setting, let $s^{1}$ be the post-AI time share on good 2. Then
   $$
-  \operatorname{logit}(s_1)-\operatorname{logit}(s_0)=(\varepsilon-1)\ln A,
+  \operatorname{logit}(s^{1})-\operatorname{logit}(s^{0})=(\varepsilon-1)\ln A,
   $$
   so
   $$
-  \varepsilon \;=\; 1 + \frac{\operatorname{logit}(s_1)-\operatorname{logit}(s_0)}{\ln A}.
+  \varepsilon \;=\; 1 + \frac{\operatorname{logit}(s^{1})-\operatorname{logit}(s^{0})}{\ln A}.
   $$
   Here $\operatorname{logit}(s)\equiv \ln\!\left(\frac{s}{1-s}\right)$.
-  This is often the cleanest way to use both pre and post shares: estimate $\varepsilon$, then plug into the CES gain formula. If you do not believe CES globally, treat this as local to the observed price change.
+  This is often the cleanest way to use both pre and post shares: estimate $\varepsilon$, then plug into the CES gain formula. This uses Hicksian shares (or Marshallian shares under homotheticity and a fixed time endowment). If you do not believe CES globally, treat this as local to the observed price change.
 
 ### Estimation flowchart (what to do with your data)
 
@@ -225,15 +228,15 @@ flowchart TD
   E -->|No| G["Trace a demand curve:<br/>vary effective AI cost/strength;<br/>estimate compensated shares; integrate"]
 
   B -->|No: setup or unit-demand| H["Model extensive margin:<br/>which tasks get activated?"]
-  H --> I["Unit-demand tasks: bound the lift<br/>Laspeyres lower bound: pre-AI basket at post-AI time prices<br/>Paasche upper bound: post-AI basket at post-AI time prices"]
+  H --> I["Unit-demand tasks: bound the lift<br/>Laspeyres lower bound: pre-AI basket at pre vs post time prices<br/>Paasche upper bound: post-AI basket at pre vs post time prices"]
 ```
 
 ### What you can estimate with what data
 
 | What you can measure | Recommended move | What you can credibly report |
 |---|---|---|
-| One big conditional multiplier $A$ + a baseline share $s_0$ | Report complements/substitutes bounds; add CES sensitivity | A wide interval for $V(A^1)/V(A^0)$ unless you assume $\varepsilon$ |
-| Pre and post shares $(s_0,s_1)$ for an AI bundle + a multiplier $A$ | Use the logit formula to estimate $\varepsilon$; plug into CES gain | A model-based point estimate (local to the observed change) |
+| One big conditional multiplier $A$ + a baseline share $s^{0}$ | Report complements/substitutes bounds; add CES sensitivity | A wide interval for $V(A^1)/V(A^0)$ unless you assume $\varepsilon$ |
+| Pre and post shares $(s^{0},s^{1})$ for an AI bundle + a multiplier $A$ | Use the logit formula to estimate $\varepsilon$; plug into CES gain | A model-based point estimate (local to the observed change) |
 | Multiple randomized “AI price/quality” arms + observed shares | Estimate share response vs $\ln A$; integrate shares over the change | An “area under the (compensated) demand curve” estimate for large changes |
 | Choice/activation data (tasks attempted) under multiple AI prices | Model activation thresholds / setup costs explicitly | Decomposition into intensive and extensive margins |
 
@@ -244,7 +247,7 @@ flowchart TD
   $$
   V(A)=\max_{z\ge 0}\; y(z)\quad\text{s.t.}\quad \sum_i \frac{z_i}{A_i}\le 1.
   $$
-  Define time prices $p_i\equiv 1/A_i$. This turns the constraint into $\sum_i p_i z_i\le 1$, so standard expenditure-function and index-number results apply.
+  Define time prices $p_i\equiv 1/A_i$. This turns the constraint into $\sum_i p_i z_i\le 1$, so standard expenditure-function and index-number results apply. I assume well-behaved, homothetic preferences here so Hicksian and Marshallian shares line up under a fixed time endowment.
   In particular, define the unit-expenditure function $P(p)\equiv e(p,1)$. Under homotheticity, the productivity level is
   $$
   V(A)=\frac{1}{P(1/A)}.
@@ -270,7 +273,7 @@ flowchart TD
   This is the time-allocation analog of share-weighted Hulten-style logic (see @hulten1978growth).
 
 **Large changes require integrating compensated shares.**
-: When gains are large, constant-elasticity shortcuts are dangerous. Using Hicksian (compensated) shares $s_i^H(p)$,
+: When gains are large, constant-elasticity shortcuts are dangerous. Using Hicksian (compensated) shares $s_i^H(p)$ at fixed output,
   $$
   d\ln P(p)=\sum_i s_i^H(p)\,d\ln p_i.
   $$
@@ -280,31 +283,31 @@ flowchart TD
   $$
   i.e., exact welfare is an area-under-the-compensated-demand-curve object (see @willig1976consumerssurplus).
 
-**CES yields closed-form formulas useful for back-of-envelope work.**
+**CES yields closed-form formulas useful for back-of-the-envelope work.**
 : For a CES aggregator in $z$,
   $$
   y(z)=\left(\sum_i \alpha_i z_i^{\frac{\sigma-1}{\sigma}}\right)^{\frac{\sigma}{\sigma-1}},\quad\sigma>0,
   $$
-  the associated price index and (compensated) shares have closed form. In a two-good reduction where only good 2 gets a productivity multiplier $A$ and its ex-ante time share is $s_0$,
+  the associated price index and (compensated) shares have closed form. In a two-good reduction where only good 2 gets a productivity multiplier $A$ and its ex-ante time share is $s^{0}$,
   $$
-  \frac{V(A^1)}{V(A^0)}=\left((1-s_0)+s_0\,A^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}},\qquad \varepsilon\equiv\sigma.
+  \frac{V(A^1)}{V(A^0)}=\left((1-s^{0})+s^{0}\,A^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}},\qquad \varepsilon\equiv\sigma.
   $$
   This is the clean continuous benchmark (see @caves1982indexnumbers).
 
 #### Two-good CES yields closed-form gain and share shift
 
-**The output gain has a closed form in terms of $s_0,A,\varepsilon$.**
+**The output gain has a closed form in terms of $s^{0},A,\varepsilon$.**
 : In a two-good CES benchmark where only good 2 gets a multiplier $A$ (so $p_2'=p_2/A$),
   $$
-  \frac{V(A^1)}{V(A^0)}=\left((1-s_0)+s_0\,A^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}}.
+  \frac{V(A^1)}{V(A^0)}=\left((1-s^{0})+s^{0}\,A^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}}.
   $$
 
-**The post-AI share shift pins down $\varepsilon$ when $s_1$ is observed.**
+**The post-AI share shift pins down $\varepsilon$ when $s^{1}$ is observed.**
 : The post-AI time share is
   $$
-  s_1=\frac{s_0\,A^{\varepsilon-1}}{(1-s_0)+s_0\,A^{\varepsilon-1}}
+  s^{1}=\frac{s^{0}\,A^{\varepsilon-1}}{(1-s^{0})+s^{0}\,A^{\varepsilon-1}}
   \quad\Leftrightarrow\quad
-  \operatorname{logit}(s_1)-\operatorname{logit}(s_0)=(\varepsilon-1)\ln A.
+  \operatorname{logit}(s^{1})-\operatorname{logit}(s^{0})=(\varepsilon-1)\ln A.
   $$
 
 ::: {.callout-note collapse="true"}
@@ -325,7 +328,7 @@ flowchart TD
    $$
 3. *Define* the ex-ante share
    $$
-   s_0\equiv\frac{\alpha_2^{\varepsilon}p_2^{1-\varepsilon}}
+   s^{0}\equiv\frac{\alpha_2^{\varepsilon}p_2^{1-\varepsilon}}
                   {\alpha_1^{\varepsilon}p_1^{1-\varepsilon}+\alpha_2^{\varepsilon}p_2^{1-\varepsilon}}.
    $$
    Substituting into Step 2 yields the claimed gain formula.
@@ -335,7 +338,7 @@ flowchart TD
    $$
    Therefore,
    $$
-   \frac{s_1/(1-s_1)}{s_0/(1-s_0)}
+   \frac{s^{1}/(1-s^{1})}{s^{0}/(1-s^{0})}
    =
    \frac{(p_2')^{1-\varepsilon}}{p_2^{1-\varepsilon}}
    =
@@ -343,7 +346,7 @@ flowchart TD
    =
    A^{\varepsilon-1},
    $$
-   which rearranges to the stated closed form for $s_1$ and the logit identity.
+   which rearranges to the stated closed form for $s^{1}$ and the logit identity.
 5. QED.
 :::
 
@@ -364,7 +367,7 @@ flowchart TD
 : If AI multiplies productivity for task $i$ by $A_i$, and time required is inversely proportional to productivity, then $w_i$ falls to $w_i/A_i$. That change can turn tasks on once a threshold is crossed. This is the basic lumpy-choice phenomenon: tasks that were too time-expensive become attractive after AI. A CES elasticity is not a good summary statistic in this regime.
 
 **Pre and post task baskets give Laspeyres and Paasche bounds on the lift.**
-: Suppose you observe (i) the pre-AI chosen task vector $q^0$ and the post-AI chosen task vector $q^1$, and (ii) the per-task time requirements before and after AI, denoted $w_i^0$ and $w_i^1$. Define the time cost of a basket as $T^k(q)\equiv \sum_i w_i^k q_i$.
+: Suppose you observe (i) the pre-AI chosen task vector $q^0$ and the post-AI chosen task vector $q^1$, and (ii) the per-task time requirements before and after AI, denoted $w_i^0$ and $w_i^1$. Define the time cost of a basket as $T^k(q)\equiv \sum_i w_i^k q_i$. These bounds assume well-behaved preferences so the time cost-of-living index is bounded by Laspeyres and Paasche.
   Consider the fixed-basket lifts
   $$
   G_L \equiv \frac{T^0(q^0)}{T^1(q^0)} \qquad\text{and}\qquad
@@ -401,7 +404,7 @@ $$
 
 ### Worked example (discrete, not continuous)
 
-**Discrete choice does not identify a single time-savings without more structure.**
+**Discrete choice does not identify a single time savings without more structure.**
 : Suppose you can pick one task (unit demand). Task A yields value $u_A=10$ and takes 1 hour. Task B yields $u_B=12$ and takes 2 hours. Without LLMs you choose A. Now an LLM speeds up task B so it takes 1 hour, and you switch to B. The observed switch is consistent with a wide range of time-equivalent gains:
 
 | Bound interpretation | Time-equivalent gain |
@@ -410,7 +413,7 @@ $$
 | Lower bound (extra value is only a small quality bump) | 0 hours |
 
 **Selection effects require a model or bounds, not just observed switching.**
-: The observed reallocation does not identify a precise time-savings without modeling discrete choice. This is why constant-elasticity summaries can be weak in the activation regime.
+: The observed reallocation does not identify a precise time savings without modeling discrete choice. This is why constant-elasticity summaries can be weak in the activation regime.
 
 ### Newly activated tasks
 
@@ -428,18 +431,18 @@ $$
 **Anthropic-style log studies estimate conditional time savings on observed AI conversations.**
 : @anthropic2025estimatingproductivitygains estimates time savings from Claude conversations by comparing time required with vs without AI for a sample of tasks drawn from usage logs.
 
-**Back-of-envelope inputs can be summarized as a baseline share and a productivity multiplier.**
+**Back-of-the-envelope inputs can be summarized as a baseline share and a productivity multiplier.**
 : Illustratively, the inputs are:
 
 | Quantity | Symbol | Value |
 |---|---:|---:|
-| Baseline time share on the AI-affected bundle | $s_0$ | $10\\%$ |
+| Baseline time share on the AI-affected bundle | $s^{0}$ | $10\%$ |
 | Productivity multiplier when AI is used | $A$ | $5$ |
 
 **Even in a two-good continuous approximation, the implied lift depends sharply on substitution.**
 : The table below shows how different assumptions about substitutability map the same inputs into very different lifts.
 
-| Assumption about substitution | What it means in this note | Assumption on $\varepsilon$ | Implied lift when $s_0=10\%$ and $A=5$ |
+| Assumption about substitution | What it means in this note | Assumption on $\varepsilon$ | Implied lift when $s^{0}=10\%$ and $A=5$ |
 |---|---|---|---|
 | Strong complements (Amdahl/Leontief-style) | Time shares do not move much when a subset of tasks speeds up | effectively $\varepsilon\to 0$ | about $+8.7\%$ |
 | Cobb-Douglas benchmark | Unit elasticity, moderate reallocation | $\varepsilon=1$ | about $+17.4\%$ |
@@ -449,7 +452,7 @@ $$
 : The identification problem is not only how big $A$ is when AI is used, but how time shares respond when relative time prices change. In the CES benchmark that response is summarized by $\varepsilon$; outside CES, it is a demand-curve object.
 
 **Endogenous task mix can make pre-AI shares a poor guide.**
-: If AI reduces time costs more for tasks you previously avoided (high search/reading/writing overhead), then the pre-AI share $s_0$ understates the mass of tasks that become attractive post-AI.
+: If AI reduces time costs more for tasks you previously avoided (high search/reading/writing overhead), then the pre-AI share $s^{0}$ understates the mass of tasks that become attractive post-AI.
 
 **Quality adjustment matters whenever "time saved" is partly quality.**
 : Some measured time savings are quality improvements (or vice versa). If your output index treats quality as part of output, you need a quality measure to map time changes into the output index $y(\cdot)$.
@@ -459,7 +462,7 @@ $$
 **Uplift RCTs often identify intensive effects on a fixed task set.**
 : @becker2025uplift is an RCT where tasks are assigned to allow vs disallow AI tools, and the outcome is completion time (with additional self-reports and robustness checks). The headline is that AI access increases completion time on average in their setting.
 
-**A simple back-of-envelope converts time changes into a productivity multiplier.**
+**A simple back-of-the-envelope converts time changes into a productivity multiplier.**
 : If allowing AI increases completion time by 19%, then the implied productivity multiplier is $A \approx 1/1.19 \approx 0.84$ (a slowdown). Holding output constant, that is about a 16% productivity hit on that task population.
 
 **Fixed-task designs identify an $A_i$ distribution but not substitution.**
