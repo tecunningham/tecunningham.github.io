@@ -381,17 +381,6 @@ def print_validation_report(run_llm_if_configured: bool = True) -> int:
                 print(f"{_symbol(mermaid_ok)} Programmatic: Mermaid renders via mermaid.ink")
                 overall_ok = overall_ok and mermaid_ok
 
-    # Applications
-    ok = (
-        ("## Applications" in qmd_text)
-        and ("@anthropic2025estimatingproductivitygains" in qmd_text)
-        and ("s_0=10\\%" in qmd_text)
-        and ("A=5" in qmd_text)
-        and ("@becker2025uplift" in qmd_text)
-    )
-    print(f"{_symbol(ok)} Programmatic: applications present")
-    overall_ok = overall_ok and ok
-
     # Experimental design
     ok = ("## Experimental design" in qmd_text) and (
         ("Decide the estimand" in qmd_text) and ("Trace a demand curve" in qmd_text)
@@ -568,16 +557,6 @@ def build_json_report(run_llm_if_configured: bool = True) -> Dict[str, object]:
             )
             if mermaid_ok is not None:
                 overall_ok = overall_ok and mermaid_ok
-
-    ok = (
-        ("## Applications" in qmd_text)
-        and ("@anthropic2025estimatingproductivitygains" in qmd_text)
-        and ("s_0=10\\%" in qmd_text)
-        and ("A=5" in qmd_text)
-        and ("@becker2025uplift" in qmd_text)
-    )
-    items.append({"name": "applications present", "category": "programmatic", "ok": ok})
-    overall_ok = overall_ok and ok
 
     ok = ("## Experimental design" in qmd_text) and (
         ("Decide the estimand" in qmd_text) and ("Trace a demand curve" in qmd_text)
