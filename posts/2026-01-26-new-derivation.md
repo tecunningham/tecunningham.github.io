@@ -1,3 +1,6 @@
+---
+draft: true
+---
 # Formal derivations
 
 ## Assumptions
@@ -117,6 +120,22 @@ $$\frac{V(A')}{V(A)} = \frac{P(p)}{P(p')}.$$
 2. Therefore,
 $$\frac{V(A')}{V(A)}=\frac{1/P(p')}{1/P(p)}=\frac{P(p)}{P(p')}.$$
 $\square$
+</details>
+
+**Proposition 3.1 (Effect of productivity multipliers holding time allocation fixed).** Let $A,A'\in\mathbb{R}^n_{++}$ and define multipliers $m_i\equiv A_i'/A_i$. Fix any feasible time allocation $t\in\mathbb{R}^n_+$ with $\sum_i t_i\le 1$ and define realized output
+$$Y(A;t)\equiv y(A_1 t_1,\dots,A_n t_n).$$
+Let $m_{\min}\equiv \min_i m_i$ and $m_{\max}\equiv \max_i m_i$. Under Assumption A3,
+$$m_{\min}\le \frac{Y(A';t)}{Y(A;t)}\le m_{\max}.$$
+
+<details><summary>Proof</summary>
+
+1. Let $z\equiv A\circ t\in\mathbb{R}^n_+$ denote the effective-output vector under $(A,t)$, so $Y(A;t)=y(z)$.
+2. Since $A'=m\circ A$, we have $A'\circ t = (m\circ A)\circ t = m\circ(A\circ t)=m\circ z$. Hence $Y(A';t)=y(m\circ z)$.
+3. By definition of $m_{\min},m_{\max}$, we have the coordinatewise bounds $m_{\min} z \le m\circ z \le m_{\max} z$.
+4. By weak monotonicity of $y$ (A3), $y(m_{\min} z)\le y(m\circ z)\le y(m_{\max} z)$.
+5. By linear homogeneity of $y$ (A3), $y(m_{\min} z)=m_{\min} y(z)$ and $y(m_{\max} z)=m_{\max} y(z)$.
+6. Substitute 1–5 and divide by $y(z)=Y(A;t)$ to obtain $m_{\min}\le Y(A';t)/Y(A;t)\le m_{\max}$. $\square$
+
 </details>
 
 **Proposition 4 (Laspeyres–Paasche bounds from observing baseline and/or post allocations).** Let $A,A'\in\mathbb{R}^n_{++}$ with $p=1/A$, $p'=1/A'$. Assume A3. Let ($t(A)$) and ($t(A')$) denote optimal time shares in Definition D1. Define multipliers
@@ -617,3 +636,21 @@ If you want welfare analogues, under linear homogeneity the equivalent/compensat
 ### Caveat: activation/discrete choice can break the smooth formulas
 
 If tasks have fixed activation costs (Assumption T1), the value function need not be differentiable and share-based differential/path formulas can fail at points where the set of active tasks changes (Proposition 13). In that setting, revealed-preference bounds (like Proposition 4) are typically more robust than differential approximations.
+
+### Summary table (what you can say about $\Gamma\equiv V(A')/V(A)$)
+
+Let $m_i\equiv A_i'/A_i$, $m_{\min}\equiv \min_i m_i$, $m_{\max}\equiv \max_i m_i$, and $t_i\equiv t_i(A)$, $t_i'\equiv t_i(A')$.
+
+| What you observe / assume | Statement about $\Gamma$ | Reference |
+|---|---|---|
+| Full model ($y$ known; can solve D1 at $A$ and $A'$) | Exact $\Gamma=V(A')/V(A)$ by definition | Definition D1 |
+| Unit-expenditure indices $P(p),P(p')$ (equivalently can compute them from $y$) | Exact $\Gamma=\frac{P(p)}{P(p')}$ with $p=1/A$, $p'=1/A'$ | Proposition 3 |
+| A fixed time allocation $t$ (not necessarily optimal), and multipliers $m$ | Bounds $m_{\min}\le \frac{y(A'\circ t)}{y(A\circ t)}\le m_{\max}$ | Proposition 3.1 |
+| Only multipliers $m$ (no shares) | Bounds $m_{\min}\le \Gamma \le m_{\max}$ | Corollary 4.1 (part 3) |
+| Baseline shares $t$ and multipliers $m$ (but not $t'$) | Bounds $\Bigl(\sum_i \frac{t_i}{m_i}\Bigr)^{-1}\le \Gamma \le m_{\max}$ | Corollary 4.1 (part 1) |
+| Post shares $t'$ and multipliers $m$ (but not $t$) | Bounds $m_{\min}\le \Gamma \le \sum_i t_i' m_i$ | Corollary 4.1 (part 2) |
+| Both $t$ and $t'$ plus multipliers $m$ | Bounds $\Bigl(\sum_i \frac{t_i}{m_i}\Bigr)^{-1}\le \Gamma \le \sum_i t_i' m_i$ | Proposition 4 |
+| Small changes, know baseline shares $t$ | Approx $\ln\Gamma \approx \sum_i t_i \ln m_i$ | Corollary 7.1 |
+| Large changes, know a path $A(\tau)$ and shares along it | Exact $\ln\Gamma = \int_0^1 \sum_i t_i(A(\tau))\,\frac{d}{d\tau}\ln A_i(\tau)\,d\tau$ | Proposition 8 |
+| CES (Assumption C1), $n=2$, only task 2 multiplied by $A_2^{(m)}$, know baseline $t_2$ | Exact $\Gamma=\left((1-t_2)+t_2 (A_2^{(m)})^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}}$ | Proposition 11 |
+| CES (Assumption C1), $n=2$, observe $t_2,t_2',A_2^{(m)}$ | Identify $\varepsilon=1+\frac{\operatorname{logit}(t_2')-\operatorname{logit}(t_2)}{\ln A_2^{(m)}}$ (then use Prop 11 for $\Gamma$) | Proposition 12 (+ Proposition 11) |
