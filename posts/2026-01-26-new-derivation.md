@@ -1,6 +1,15 @@
 ---
-draft: true
+format:
+  pdf:
+    geometry:
+      - left=0.8in
+      - right=0.8in
+      - top=0.9in
+      - bottom=0.9in
 ---
+
+- TODO: Discuss the *separable* case.
+
 # Formal derivations
 
 ## Assumptions
@@ -656,9 +665,9 @@ Let $m_i\equiv A_i'/A_i$, $m_{\min}\equiv \min_i m_i$, $m_{\max}\equiv \max_i m_
 | CES (Assumption C1), $n=2$, observe $t_2,t_2',A_2^{(m)}$                               | Identify $\varepsilon=1+\frac{\operatorname{logit}(t_2')-\operatorname{logit}(t_2)}{\ln A_2^{(m)}}$ (then use Prop 11 for $\frac{V'}{V}$) | Proposition 12 (+ Proposition 11) |
 
 
-Applied:
+\newpage
 
-Setup:
+#              Summary
 
 $$\begin{aligned}
    y(A_1t_1,\ldots,A_nt_n) &&& \text{(output)}\\
@@ -670,8 +679,8 @@ $$\begin{aligned}
 
 
 | What you observe / assume                                                              |                                                What we know about uplift ($\frac{V'}{V}$)                                                 | Reference                         |
-| -------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------: | --------------------------------- |
-| If you know $y(t_1,\ldots,t_n)$         |                                          Exact $V'/V=\frac{P(p)}{P(p')}$ with $p=1/A$, $p'=1/A'$                                          | Proposition 3                     |
+|----------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------:|-----------------------------------|
+| If you know $y(t_1,\ldots,t_n)$                                                        |                                          Exact $V'/V=\frac{P(p)}{P(p')}$ with $p=1/A$, $p'=1/A'$                                          | Proposition 3                     |
 | A fixed time allocation $t$ (not necessarily optimal), and multipliers $m$             |                                        $m_{\min}\le \frac{y(A'\circ t)}{y(A\circ t)}\le m_{\max}$                                         | Proposition 3.1                   |
 | Only multipliers $m$ (no shares)                                                       |                                                      $m_{\min}\le V'/V \le m_{\max}$                                                      | Corollary 4.1 (part 3)            |
 | Baseline shares $t$ and multipliers $m$ (but not $t'$)                                 |                                  $\Bigl(\sum_i \frac{t_i}{m_i}\Bigr)^{-1}\le \frac{V'}{V} \le m_{\max}$                                   | Corollary 4.1 (part 1)            |

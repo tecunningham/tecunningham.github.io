@@ -1,24 +1,161 @@
 ---
 title: Knowledge-Creating LLMs
-author: Tom Cunningham
+author: Tom Cunningham, METR
 engine: knitr
 bibliography: ai.bib
 draft: true
+# execute:
+#   keep-md: true
 ---
 
 <!-- https://tecunningham.github.io/posts/2026-01-29-knowledge-creating-llms.html -->
 
+<!-- TODO:
+1. ~~Add references to my own work~~
+2. Better graph with fewer humans
+3. ~~Acknowledgements, thanks to Zoe, Parker~~
+4. Parker point: compare with existing research labs, but much more on fixed costs.
+5. Zoe point: "ie i’m not sure about this distinction : “Thus labs will prefer to restrict output, e.g. by selling the knowledge to just one firm, instead of selling the ability to generate knowledge.”"
+6. Zoe point distillation:
+7. Trade costs imply some home production just behind the frontier
+8. Differences in benchmarks between old & new LLMs
+ -->
+
+*Thanks to Zoë Hitzig & Parker Whitfill for helpful comments.*
+
 Knowledge-creating LLMs have distinct economic implications.
 : There has recently been a burst of excitement about LLMs which are advancing the frontiers of human knowledge. I think there are some distinct economic implications of knowledge-creation LLMs that I haven't seen described elsewhere:
 :   1. **Knowledge-sharing LLMs will be used by *non-experts*,** and will be widely available.
-    1. **Knowledge-creating LLMs will will be used by *experts*,** and will be closely held by the labs, or sold with exclusive licenses.
+    1. **Knowledge-creating LLMs will be used by *experts*,** and will be closely held by the labs, or sold with exclusive licenses.
 
       Below I give a general argument, then a very simple formal model.
 
-Sarah Friar, Jan 2026, ["A business that scales with the value of intelligence"](https://openai.com/index/a-business-that-scales-with-the-value-of-intelligence/)
+      A notable implication for AI safety: labs may stop releasing their frontier models publicly, as the economic incentive to sell access diminishes.
+
+**[Sarah Friar, OpenAI's CFO, January 2026.](https://openai.com/index/a-business-that-scales-with-the-value-of-intelligence/)**
 
 : > *"As intelligence moves into scientific research, drug discovery, energy systems, and financial modeling, new economic models will emerge. Licensing, IP-based agreements, and outcome-based pricing will share in the value created."*
 
+A visual explanation.
+: Below we illustrate a set of humans, and their cost to do different tasks. Here each human has a speciality, i.e. a set of tasks at which they have the lowest cost. We can visualize a knowledge-sharing LLM as having the minimum-cost across all humans, while a knowledge-creating LLM achieves even lower costs.
+
+```{tikz}
+#| fig-align: center
+\begin{tikzpicture}[x=10cm,y=6cm]
+  % Dip shape parameters
+  % - \w controls dip width: larger => broader specializations / flatter envelope
+  % - all human curves share the same minimum value \mmin at their dip
+  \def\w{0.012}
+  \def\mmin{0.34}
+
+  % Per-human baseline levels (far from each dip) and implied dip depths.
+  % Setting depth_i = baseline_i - \mmin forces all minima to equal \mmin,
+  % while keeping the baselines separated to reduce overlap.
+  \def\bAaron{0.86}
+  \def\bBeatrice{0.88}
+  \def\bCarlos{0.90}
+  \def\bDiana{0.92}
+  \def\bEthan{0.94}
+  \def\bFatima{0.96}
+  \pgfmathsetmacro{\aAaron}{\bAaron-\mmin}
+  \pgfmathsetmacro{\aBeatrice}{\bBeatrice-\mmin}
+  \pgfmathsetmacro{\aCarlos}{\bCarlos-\mmin}
+  \pgfmathsetmacro{\aDiana}{\bDiana-\mmin}
+  \pgfmathsetmacro{\aEthan}{\bEthan-\mmin}
+  \pgfmathsetmacro{\aFatima}{\bFatima-\mmin}
+  % Axes
+  \draw[->, line width=0.8pt] (0,0) -- node[midway,below] {task type} (1.0,0);
+  \draw[->, line width=0.8pt] (0,0) -- (0,1.18) node[midway,above,rotate=90] {cost (lower is better)};
+  % Second y-axis at x=1 (no labels, just a guide)
+  \draw[->, gray!60, line width=0.8pt] (1,0) -- (1,1.18);
+
+  % Ticks
+  % \foreach \x/\lab in {0/0, 0.5/0.5, 1/1} {
+  %  \draw[line width=0.8pt] (\x,0) -- (\x,-0.02) node[below] {\lab};
+  % }
+
+  % Individual agent cost curves (mostly flat with a narrow dip).
+  % The dip minima are equally spaced along x.
+  % (The denominator \w controls dip width; larger => broader, more overlap.)
+  \draw[blue!70!black, line width=1.6pt]
+    plot[domain=0:1, samples=350] (\x,{\bAaron - \aAaron*exp(-((\x-0.10)^2)/\w)});
+
+  \draw[red!70!black, line width=1.6pt]
+    plot[domain=0:1, samples=350] (\x,{\bBeatrice - \aBeatrice*exp(-((\x-0.26)^2)/\w)});
+
+  \draw[green!50!black, line width=1.6pt]
+    plot[domain=0:1, samples=350] (\x,{\bCarlos - \aCarlos*exp(-((\x-0.42)^2)/\w)});
+
+  \draw[purple!70!black, line width=1.6pt]
+    plot[domain=0:1, samples=350] (\x,{\bDiana - \aDiana*exp(-((\x-0.58)^2)/\w)});
+
+  \draw[orange!80!black, line width=1.6pt]
+    plot[domain=0:1, samples=350] (\x,{\bEthan - \aEthan*exp(-((\x-0.74)^2)/\w)});
+
+  \draw[teal!70!black, line width=1.6pt]
+    plot[domain=0:1, samples=350] (\x,{\bFatima - \aFatima*exp(-((\x-0.90)^2)/\w)});
+
+  % old LLM curve: lower envelope of the agent curves
+  \draw[black, dotted, opacity=0.65, line width=3.2pt]
+    plot[domain=0:1, samples=350] (\x,{
+      min(
+        min(
+          min(
+            \bAaron - \aAaron*exp(-((\x-0.10)^2)/\w),
+            \bBeatrice - \aBeatrice*exp(-((\x-0.26)^2)/\w)
+          ),
+          min(
+            \bCarlos - \aCarlos*exp(-((\x-0.42)^2)/\w),
+            \bDiana - \aDiana*exp(-((\x-0.58)^2)/\w)
+          )
+        ),
+        min(
+          \bEthan - \aEthan*exp(-((\x-0.74)^2)/\w),
+          \bFatima - \aFatima*exp(-((\x-0.90)^2)/\w)
+        )
+      )
+    });
+
+   % new LLM curve: old LLM curve shifted down
+  \draw[black, dotted, opacity=0.65, line width=3.2pt]
+    plot[domain=0:1, samples=350] (\x,{
+      min(
+        min(
+          min(
+            \bAaron - \aAaron*exp(-((\x-0.10)^2)/\w),
+            \bBeatrice - \aBeatrice*exp(-((\x-0.26)^2)/\w)
+          ),
+          min(
+            \bCarlos - \aCarlos*exp(-((\x-0.42)^2)/\w),
+            \bDiana - \aDiana*exp(-((\x-0.58)^2)/\w)
+          )
+        ),
+        min(
+          \bEthan - \aEthan*exp(-((\x-0.74)^2)/\w),
+          \bFatima - \aFatima*exp(-((\x-0.90)^2)/\w)
+        )
+      )-0.1
+    });
+
+  % RHS labels (x=1): keep only the envelope labels
+  \pgfmathsetmacro{\yAaron}{\bAaron - \aAaron*exp(-((1-0.10)^2)/\w)}
+  \pgfmathsetmacro{\yBeatrice}{\bBeatrice - \aBeatrice*exp(-((1-0.26)^2)/\w)}
+  \pgfmathsetmacro{\yCarlos}{\bCarlos - \aCarlos*exp(-((1-0.42)^2)/\w)}
+  \pgfmathsetmacro{\yDiana}{\bDiana - \aDiana*exp(-((1-0.58)^2)/\w)}
+  \pgfmathsetmacro{\yEthan}{\bEthan - \aEthan*exp(-((1-0.74)^2)/\w)}
+  \pgfmathsetmacro{\yFatima}{\bFatima - \aFatima*exp(-((1-0.90)^2)/\w)}
+  \pgfmathsetmacro{\yOldLLM}{min(min(min(\yAaron,\yBeatrice),min(\yCarlos,\yDiana)),min(\yEthan,\yFatima))}
+  \pgfmathsetmacro{\yNewLLM}{\yOldLLM - 0.1}
+
+  \node[anchor=west] at (1.012,0.98) {human cost curves};
+
+  \draw[black!55, line width=0.6pt]           (1,{\yOldLLM})   -- (1.010,0.74);
+  \node[anchor=west]                         at (1.012,0.74) {old LLM\\(minimum across humans)};
+
+  \draw[black!55, line width=0.6pt]           (1,{\yNewLLM})   -- (1.010,0.66);
+  \node[anchor=west]                         at (1.012,0.66) {new LLM\\(superhuman)};
+\end{tikzpicture}
+```
 
 
 ##       Model of LLMs for Discovery
@@ -29,6 +166,8 @@ It's useful to distinguish between two types of LLMs:
 
 Old LLMs share existing knowledge.
 :     Traditionally LLMs are trained with human judgment as the ground truth, using labels from paid raters, or from LLM users. As a consequence they can answer questions and solve problems up to the limits of human expertise but rarely beyond.
+
+      I have elsewhere argued that it's useful to think of LLMs as sharing existing knowledge ([one](https://tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html), [two](https://tecunningham.github.io/posts/2025-09-19-transformative-AI-notes.html)).
 
       An implication: they will be used by people outside their areas of expertise, and by firms that are followers, to catch up to the frontier.
       
@@ -43,12 +182,12 @@ Old LLMs share existing knowledge.
       
 <!-- (more speculative) they decrease firm size, because you don't need an in-house specialist anymore. -->
 
-New LLMs discover new knowldge.
+New LLMs discover new knowledge.
 :     Over the past year there have been various announcements of LLMs used to advance the state-of-the-art on various specific problems, i.e. creating new knowledge. 
 
-      They will be mostly used by *leader* firms instead of followers, and will be used *inside* their area of expertise instead of at the fringers.
+      They will be mostly used by *leader* firms instead of followers, and will be used *inside* their area of expertise instead of at the fringes.
       
-      We should expect much higher variable costs, i.e. expenditure on advance the state of konwledge on a single problem.
+      We should expect much higher variable costs, i.e. expenditure on advancing the state of konwledge on a single problem.
       
       The demand for new knowledge is much less elastic than the demand for existing knowledge. Selling knowledge to one person is much more valuable than selling to two people. Thus labs will prefer to restrict output, e.g. by selling the knowledge to just one firm, instead of selling the ability to generate knowledge.
       
@@ -70,73 +209,13 @@ A simple model with recipes:
 
 
 The model can be extended to multiple goods. 
-: If people have Cobb-Douglas preferences across goods then they will spend a fixed fraction of labor on each good, and so each goods market can be treated as independent.
+: If people have Cobb-Douglas preferences across goods then they will spend a fixed fraction of labor on each good, and so each good's market can be treated as independent.
 
       You can visualize the distribution of costs as follows:
 
       - Old LLMs are the minimum cost among existing humans.
       - New LLMs *lower* the cost.
 
-
-```{tikz}
-\begin{tikzpicture}[x=10cm,y=6cm]
-  % Axes
-  \draw[->, line width=0.8pt] (0,0) -- node[midway,below] {task type $x$} (1.0,0);
-  \draw[->, line width=0.8pt] (0,0) -- (0,1.18) node[midway,above,rotate=90] {cost};
-  % Second y-axis at x=1 (no labels, just a guide)
-  \draw[->, gray!60, line width=0.8pt] (1,0) -- (1,1.18);
-
-  % Ticks
-  % \foreach \x/\lab in {0/0, 0.5/0.5, 1/1} {
-  %  \draw[line width=0.8pt] (\x,0) -- (\x,-0.02) node[below] {\lab};
-  % }
-
-  % Individual agent cost curves (U-shaped, different minima)
-  \draw[blue!70!black, line width=1.6pt]
-    plot[domain=0:1, samples=250] (\x,{1.2*(\x-0.20)^2 + 0.35});
-
-  \draw[red!70!black, line width=1.6pt]
-    plot[domain=0:1, samples=250] (\x,{1.0*(\x-0.55)^2 + 0.28});
-
-  \draw[green!50!black, line width=1.6pt]
-    plot[domain=0:1, samples=250] (\x,{1.1*(\x-0.85)^2 + 0.33});
-
-  % LLM curve: lower envelope of the three agent curves
-  \draw[black, dotted, opacity=0.65, line width=3.2pt]
-    plot[domain=0:1, samples=350] (\x,{
-      min(
-        min(1.2*(\x-0.20)^2 + 0.35, 1.0*(\x-0.55)^2 + 0.28),
-        1.1*(\x-0.85)^2 + 0.33
-      )
-    });
-
-   % new LLM curve: lower envelope of the three agent curves
-  \draw[black, dotted, opacity=0.65, line width=3.2pt]
-    plot[domain=0:1, samples=350] (\x,{
-      min(
-        min(1.2*(\x-0.20)^2 + 0.35, 1.0*(\x-0.55)^2 + 0.28),
-        1.1*(\x-0.85)^2 + 0.33
-      )-0.1
-    });
-
-  % Labels on RHS (x=1)
-  \node[anchor=west, blue!70!black]  at (1.00,{1.2*(1-0.20)^2 + 0.35}) {Aaron};
-  \node[anchor=west, red!70!black]   at (1.00,{1.0*(1-0.55)^2 + 0.28}) {Beatrice};
-  \node[anchor=west, green!50!black, yshift=6pt] at (1,{1.1*(1-0.85)^2 + 0.33}) {Carlos};
-  \node[anchor=west, yshift=-6pt] at (1.00,{
-    min(
-      min(1.2*(1-0.20)^2 + 0.35, 1.0*(1-0.55)^2 + 0.28),
-      1.1*(1-0.85)^2 + 0.33
-    )
-  }) {old LLM};
-  \node[anchor=west] at (1.00,{
-    min(
-      min(1.2*(1-0.20)^2 + 0.35, 1.0*(1-0.55)^2 + 0.28),
-      1.1*(1-0.85)^2 + 0.33
-    )-0.1
-  }) {new LLM};
-\end{tikzpicture}
-```
 
 
 <!-- 
@@ -148,6 +227,54 @@ The model can be extended to multiple goods.
 | What types of use?      | Specializations           | Non-specializations    |
 |                         |                           |                        | 
 -->
+
+# Literature Review: Economic Models
+
+This post is trying to separate two economic objects that are often conflated:
+: (i) *diffusing existing knowledge* vs (ii) *creating new knowledge*. There are several modeling traditions that map naturally onto this distinction.
+
+## Knowledge diffusion and catch-up
+
+Lucas & Moll (2014) treat knowledge growth as a time-allocation problem.
+: > "Agents divide their time between two activities: producing goods and interacting with others in search of new, productivity-increasing ideas." [@lucas2014knowledge]
+
+Benhabib--Perla--Tonetti (2014) generate growth with an endogenous split between frontier innovation and imitation/catch-up.
+: > "The resulting equilibrium is an endogenous segmentation between innovators and imitators." [@benhabib2014catchup]
+
+Connection to "knowledge-sharing LLMs":
+: These models make it natural to interpret "old LLMs" as reducing the effective costs/frictions of searching, matching, and imitating (and therefore compressing knowledge rents).
+
+## Endogenous growth: ideas as (partly) nonrival inputs
+
+Romer (1990) frames technology as a special kind of input.
+: > "The distinguishing feature of the technology as an input is that it is a nonrival, partially excludable good." [@romer1990endogenous]
+
+Jones (1995) emphasizes that many R\&D-based models predict strong scale effects that are not borne out empirically.
+: > "This paper argues that the "scale effects" prediction of many recent R\&D-based models of growth is inconsistent with the time-series evidence from industrialized economies." [@jones1995rd]
+
+Bloom--Jones--Van Reenen--Webb (2020) document declining research productivity ("ideas getting harder to find").
+: > "More generally, everywhere we look we find that ideas, and the exponential growth they imply, are getting harder to find." [@bloom2020ideas]
+
+Connection to "knowledge-creating LLMs":
+: In this language, "new LLMs" plausibly shift the idea production function itself (not just the diffusion of existing ideas), which re-raises the standard questions of appropriability and market structure.
+
+## Appropriability, IP, and licensing
+
+Arrow (1962) is a canonical statement of why private incentives and social value can diverge for invention/knowledge.
+: > "INVENTION is here interpreted broadly as the production of knowledge." [@arrow1962welfare]
+
+Katz \& Shapiro (1985) analyze when a patent holder chooses to license versus exclude.
+: > "We find that major innovations will not be licensed, but that equally efficient firms will tend to license minor innovations." [@katz1985licensing]
+
+Arora--Fosfuri--Gambardella (2001) describe how a market for technology changes firms' strategic choices.
+: > "Markets for technology increase the strategy space: firms can choose to license in the technology instead of developing it in-house." [@arora2001markets]
+
+Kamien--Oren--Tauman (1992) compare licensing mechanisms (e.g. auctions vs uniform royalties).
+: > "Proposition 6 asserts that for both the patentee and consumers a uniform royalty is inferior to an auction." [@kamien1992licensing]
+
+Connection to this post's core claim:
+: If "new LLMs" reliably generate *valuable, appropriable* new recipes, then the equilibrium object may be closer to exclusive licensing / restricted access (or secrecy) than to wide diffusion of a general-purpose tool.
+
 
 #           More to Do
 
@@ -165,9 +292,6 @@ It would be more satisfying to have a generative model.
 
 #           Related Notes
 
-Sarah Friar, Jan 2026, ["A business that scales with the value of intelligence"](https://openai.com/index/a-business-that-scales-with-the-value-of-intelligence/)
-
-: > "As intelligence moves into scientific research, drug discovery, energy systems, and financial modeling, new economic models will emerge. Licensing, IP-based agreements, and outcome-based pricing will share in the value created. That is how the internet evolved. Intelligence will follow the same path."
 
 @yuksekgonul2026learning, "Learning to Discover at Test Time"
 : > "We report results for every problem we attempted, across mathematics, GPU kernel engineering, algorithm design, and biology. TTT-Discover sets the new state of the art in almost all of them: (i) Erdős’ minimum overlap problem and an autocorrelation inequality; (ii) a GPUMode kernel competition (up to 2×faster than prior art); (iii) past AtCoder algorithm competitions; and (iv) denoising problem in single-cell analysis. Our solutions are reviewed by experts or the organizers."
