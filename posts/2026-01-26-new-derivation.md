@@ -637,20 +637,48 @@ If you want welfare analogues, under linear homogeneity the equivalent/compensat
 
 If tasks have fixed activation costs (Assumption T1), the value function need not be differentiable and share-based differential/path formulas can fail at points where the set of active tasks changes (Proposition 13). In that setting, revealed-preference bounds (like Proposition 4) are typically more robust than differential approximations.
 
-### Summary table (what you can say about $\Gamma\equiv V(A')/V(A)$)
+### Summary table (what you can say about $V(A')/V(A)$)
 
 Let $m_i\equiv A_i'/A_i$, $m_{\min}\equiv \min_i m_i$, $m_{\max}\equiv \max_i m_i$, and $t_i\equiv t_i(A)$, $t_i'\equiv t_i(A')$.
 
-| What you observe / assume | Statement about $\Gamma$ | Reference |
-|---|---|---|
-| Full model ($y$ known; can solve D1 at $A$ and $A'$) | Exact $\Gamma=V(A')/V(A)$ by definition | Definition D1 |
-| Unit-expenditure indices $P(p),P(p')$ (equivalently can compute them from $y$) | Exact $\Gamma=\frac{P(p)}{P(p')}$ with $p=1/A$, $p'=1/A'$ | Proposition 3 |
-| A fixed time allocation $t$ (not necessarily optimal), and multipliers $m$ | Bounds $m_{\min}\le \frac{y(A'\circ t)}{y(A\circ t)}\le m_{\max}$ | Proposition 3.1 |
-| Only multipliers $m$ (no shares) | Bounds $m_{\min}\le \Gamma \le m_{\max}$ | Corollary 4.1 (part 3) |
-| Baseline shares $t$ and multipliers $m$ (but not $t'$) | Bounds $\Bigl(\sum_i \frac{t_i}{m_i}\Bigr)^{-1}\le \Gamma \le m_{\max}$ | Corollary 4.1 (part 1) |
-| Post shares $t'$ and multipliers $m$ (but not $t$) | Bounds $m_{\min}\le \Gamma \le \sum_i t_i' m_i$ | Corollary 4.1 (part 2) |
-| Both $t$ and $t'$ plus multipliers $m$ | Bounds $\Bigl(\sum_i \frac{t_i}{m_i}\Bigr)^{-1}\le \Gamma \le \sum_i t_i' m_i$ | Proposition 4 |
-| Small changes, know baseline shares $t$ | Approx $\ln\Gamma \approx \sum_i t_i \ln m_i$ | Corollary 7.1 |
-| Large changes, know a path $A(\tau)$ and shares along it | Exact $\ln\Gamma = \int_0^1 \sum_i t_i(A(\tau))\,\frac{d}{d\tau}\ln A_i(\tau)\,d\tau$ | Proposition 8 |
-| CES (Assumption C1), $n=2$, only task 2 multiplied by $A_2^{(m)}$, know baseline $t_2$ | Exact $\Gamma=\left((1-t_2)+t_2 (A_2^{(m)})^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}}$ | Proposition 11 |
-| CES (Assumption C1), $n=2$, observe $t_2,t_2',A_2^{(m)}$ | Identify $\varepsilon=1+\frac{\operatorname{logit}(t_2')-\operatorname{logit}(t_2)}{\ln A_2^{(m)}}$ (then use Prop 11 for $\Gamma$) | Proposition 12 (+ Proposition 11) |
+| What you observe / assume                                                              |                                                      Statement about $\frac{V'}{V}$                                                       | Reference                         |
+|----------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------:|-----------------------------------|
+| Full model ($y$ known; can solve D1 at $A$ and $A'$)                                   |                                                        Exact $V'/V$ by definition                                                         | Definition D1                     |
+| Unit-expenditure indices $P(p),P(p')$ (equivalently can compute them from $y$)         |                                          Exact $V'/V=\frac{P(p)}{P(p')}$ with $p=1/A$, $p'=1/A'$                                          | Proposition 3                     |
+| A fixed time allocation $t$ (not necessarily optimal), and multipliers $m$             |                                        $m_{\min}\le \frac{y(A'\circ t)}{y(A\circ t)}\le m_{\max}$                                         | Proposition 3.1                   |
+| Only multipliers $m$ (no shares)                                                       |                                                      $m_{\min}\le V'/V \le m_{\max}$                                                      | Corollary 4.1 (part 3)            |
+| Baseline shares $t$ and multipliers $m$ (but not $t'$)                                 |                                  $\Bigl(\sum_i \frac{t_i}{m_i}\Bigr)^{-1}\le \frac{V'}{V} \le m_{\max}$                                   | Corollary 4.1 (part 1)            |
+| Post shares $t'$ and multipliers $m$ (but not $t$)                                     |                                              $m_{\min}\le \frac{V'}{V} \le \sum_i t_i' m_i$                                               | Corollary 4.1 (part 2)            |
+| Both $t$ and $t'$ plus multipliers $m$                                                 |                               $\Bigl(\sum_i \frac{t_i}{m_i}\Bigr)^{-1}\le \frac{V'}{V} \le \sum_i t_i' m_i$                               | Proposition 4                     |
+| Small changes, know baseline shares $t$                                                |                                            Approx $\ln\frac{V'}{V} \approx \sum_i t_i \ln m_i$                                            | Corollary 7.1                     |
+| Large changes, know a path $A(\tau)$ and shares along it                               |                        Exact $\ln\frac{V'}{V} = \int_0^1 \sum_i t_i(A(\tau))\,\frac{d}{d\tau}\ln A_i(\tau)\,d\tau$                        | Proposition 8                     |
+| CES (Assumption C1), $n=2$, only task 2 multiplied by $A_2^{(m)}$, know baseline $t_2$ |                    Exact $\frac{V'}{V}=\left((1-t_2)+t_2 (A_2^{(m)})^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}}$                    | Proposition 11                    |
+| CES (Assumption C1), $n=2$, observe $t_2,t_2',A_2^{(m)}$                               | Identify $\varepsilon=1+\frac{\operatorname{logit}(t_2')-\operatorname{logit}(t_2)}{\ln A_2^{(m)}}$ (then use Prop 11 for $\frac{V'}{V}$) | Proposition 12 (+ Proposition 11) |
+
+
+Applied:
+
+Setup:
+
+$$\begin{aligned}
+   y(A_1t_1,\ldots,A_nt_n) &&& \text{(output)}\\
+   V(A)\equiv\max_{t\in\mathbb{R}^n_+} y(A_1 t_1,\dots,A_n t_n) &&& \text{(value)} \\
+      \sum_{i=1}^n t_i =1  &&& \text{(time allocation before AI)}\\
+      \sum_{i=1}^n t'_i =1 &&& \text{(time allocation after AI)}\\
+      m_i \equiv \frac{A_i'}{A_i} &&& \text{(productivity changes)} \\
+\end{aligned}$$
+
+
+| What you observe / assume                                                              |                                                What we know about uplift ($\frac{V'}{V}$)                                                 | Reference                         |
+| -------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------: | --------------------------------- |
+| If you know $y(t_1,\ldots,t_n)$         |                                          Exact $V'/V=\frac{P(p)}{P(p')}$ with $p=1/A$, $p'=1/A'$                                          | Proposition 3                     |
+| A fixed time allocation $t$ (not necessarily optimal), and multipliers $m$             |                                        $m_{\min}\le \frac{y(A'\circ t)}{y(A\circ t)}\le m_{\max}$                                         | Proposition 3.1                   |
+| Only multipliers $m$ (no shares)                                                       |                                                      $m_{\min}\le V'/V \le m_{\max}$                                                      | Corollary 4.1 (part 3)            |
+| Baseline shares $t$ and multipliers $m$ (but not $t'$)                                 |                                  $\Bigl(\sum_i \frac{t_i}{m_i}\Bigr)^{-1}\le \frac{V'}{V} \le m_{\max}$                                   | Corollary 4.1 (part 1)            |
+| Post shares $t'$ and multipliers $m$ (but not $t$)                                     |                                              $m_{\min}\le \frac{V'}{V} \le \sum_i t_i' m_i$                                               | Corollary 4.1 (part 2)            |
+| Both $t$ and $t'$ plus multipliers $m$                                                 |                               $\Bigl(\sum_i \frac{t_i}{m_i}\Bigr)^{-1}\le \frac{V'}{V} \le \sum_i t_i' m_i$                               | Proposition 4                     |
+| Small changes, know baseline shares $t$                                                |                                            Approx $\ln\frac{V'}{V} \approx \sum_i t_i \ln m_i$                                            | Corollary 7.1                     |
+| Large changes, know a path $A(\tau)$ and shares along it                               |                        Exact $\ln\frac{V'}{V} = \int_0^1 \sum_i t_i(A(\tau))\,\frac{d}{d\tau}\ln A_i(\tau)\,d\tau$                        | Proposition 8                     |
+| CES (Assumption C1), $n=2$, only task 2 multiplied by $A_2^{(m)}$, know baseline $t_2$ |                    Exact $\frac{V'}{V}=\left((1-t_2)+t_2 (A_2^{(m)})^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}}$                    | Proposition 11                    |
+| CES (Assumption C1), $n=2$, observe $t_2,t_2',A_2^{(m)}$                               | Identify $\varepsilon=1+\frac{\operatorname{logit}(t_2')-\operatorname{logit}(t_2)}{\ln A_2^{(m)}}$ (then use Prop 11 for $\frac{V'}{V}$) | Proposition 12 (+ Proposition 11) |
+
