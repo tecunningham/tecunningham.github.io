@@ -6,40 +6,42 @@ format:
       - right=0.8in
       - top=0.9in
       - bottom=0.9in
+    fontfamily: libertinus
+    include-in-header:
+       - text: |
+          \usepackage{bm}
 ---
 
-- TODO: Discuss the *separable* case.
-- TODO: add discussion of bottlenecks, & decreasing returns to scale.
-- TODO: mention Amdahl's law.
-- TODO: what if you know t and t', and know a single m changed.
+**Suppose we make people more productive at a subset of tasks, and we see how they reallocate their time, what can we infer about their *overall* productivity?**
 
-#              Summary
+We're going to assume (1) they are optimizing some unobserved objective functionm $y(\cdot)$; (2) that function has constant returns to scale (if they doubled their time on every task, they'd double output).
 
-**In short:** suppose we make someone more productive at *one* task, and we see how they reallocate their time. What can we infer about their overall productivity, assuming that they are reallocating their time efficiently to produce an objective
+The following results are all adaptions of very old standard economic theory about inferring the effects of a *price* change on economic welfare.
 
-Suppose someone is allocating their time across $N$ different tasks, $t_1,\ldots,t_N$, in order to maximize some function $y(A_1t_1,\ldots,A_Nt_N)$. Each 
+**Formally:** suppose someone is allocating their time across $N$ different tasks, $t_1,\ldots,t_N$, in order to maximize some function $y(A_1t_1,\ldots,A_Nt_N)$. Each 
 
 $$\begin{aligned}
    y(A_1t_1,\ldots,A_nt_n) &&& \text{(output)}\\
    V(A)\equiv\max_{t\in\mathbb{R}^n_+} y(A_1 t_1,\dots,A_n t_n) &&& \text{(value)} \\
       \sum_{i=1}^N t_i =1  &&& \text{(time allocation before AI)}\\
       \sum_{i=1}^N t'_i =1 &&& \text{(time allocation after AI)}\\
-      m_i \equiv \frac{A_i'}{A_i} &&& \text{(productivity changes)} \\
-\end{aligned}$$
+      m_i \equiv \frac{A_i'}{A_i} &&& \text{(productivity changes due to AI)} \\
+\end{aligned}
+$$
 
 
-| What you observe / assume                                                              |                                                What we know about uplift ($\frac{V'}{V}$)                                                 | Reference                         |
-|----------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------:|-----------------------------------|
-| If you know $y(t_1,\ldots,t_n)$                                                        |                                          Exact $V'/V=\frac{P(p)}{P(p')}$ with $p=1/A$, $p'=1/A'$                                          | Proposition 3                     |
-| A fixed time allocation $t$ (not necessarily optimal), and multipliers $m$             |                                        $m_{\min}\le \frac{y(A'\circ t)}{y(A\circ t)}\le m_{\max}$                                         | Proposition 3.1                   |
-| Only multipliers $m$ (no shares)                                                       |                                                      $m_{\min}\le V'/V \le m_{\max}$                                                      | Corollary 4.1 (part 3)            |
-| Baseline shares $t$ and multipliers $m$ (but not $t'$)                                 |                                  $\Bigl(\sum_i \frac{t_i}{m_i}\Bigr)^{-1}\le \frac{V'}{V} \le m_{\max}$                                   | Corollary 4.1 (part 1)            |
-| Post shares $t'$ and multipliers $m$ (but not $t$)                                     |                                              $m_{\min}\le \frac{V'}{V} \le \sum_i t_i' m_i$                                               | Corollary 4.1 (part 2)            |
-| Both $t$ and $t'$ plus multipliers $m$                                                 |                               $\Bigl(\sum_i \frac{t_i}{m_i}\Bigr)^{-1}\le \frac{V'}{V} \le \sum_i t_i' m_i$                               | Proposition 4                     |
-| Small changes, know baseline shares $t$                                                |                                            Approx $\ln\frac{V'}{V} \approx \sum_i t_i \ln m_i$                                            | Corollary 7.1                     |
-| Large changes, know a path $A(\tau)$ and shares along it                               |                        Exact $\ln\frac{V'}{V} = \int_0^1 \sum_i t_i(A(\tau))\,\frac{d}{d\tau}\ln A_i(\tau)\,d\tau$                        | Proposition 8                     |
-| CES (Assumption C1), $n=2$, only task 2 multiplied by $A_2^{(m)}$, know baseline $t_2$ |                    Exact $\frac{V'}{V}=\left((1-t_2)+t_2 (A_2^{(m)})^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}}$                    | Proposition 11                    |
-| CES (Assumption C1), $n=2$, observe $t_2,t_2',A_2^{(m)}$                               | Identify $\varepsilon=1+\frac{\operatorname{logit}(t_2')-\operatorname{logit}(t_2)}{\ln A_2^{(m)}}$ (then use Prop 11 for $\frac{V'}{V}$) | Proposition 12 (+ Proposition 11) |
+| What you observe / assume                                                                       |                                          What we know about uplift ($\frac{V'}{V}$)                                           | Reference                   |
+|-------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------:|-----------------------------|
+| You know $y(\cdot)$, $\bm{m}$ and $\bm{t}$                                                      |                                                         Exact $V'/V$                                                          | Prop. 3                     |
+| You know $m$ and $t$, and the person cannot adjust their time allocations (so $\bm{t}'=\bm{t}$) |                                  $m_{\min}\le \frac{y(A'\circ t)}{y(A\circ t)}\le m_{\max}$                                   | Prop. 3.1                   |
+| You know $\bm{m}$ but not $\bm{t}$ or $\bm{t}'$                                                 |                                                $m_{\min}\le V'/V \le m_{\max}$                                                | Cor. 4.1 (part 3)           |
+| You know $t$ and multipliers $m$ (but not $t'$)                                                 |                            $\Bigl(\sum_i \frac{t_i}{m_i}\Bigr)^{-1}\le \frac{V'}{V} \le m_{\max}$                             | Cor. 4.1 (part 1)           |
+| You know $t'$ and multipliers $m$ (but not $t$)                                                 |                                        $m_{\min}\le \frac{V'}{V} \le \sum_i t_i' m_i$                                         | Cor. 4.1 (part 2)           |
+| You know $t$ and $t'$ and $m$                                                                   |                         $\Bigl(\sum_i \frac{t_i}{m_i}\Bigr)^{-1}\le \frac{V'}{V} \le \sum_i t_i' m_i$                         | Prop. 4                     |
+| You know $t$ and $m$, and $\bm{m}\simeq 1$                                                      |                                         $\ln\frac{V'}{V} \approx \sum_i t_i \ln m_i$                                          | Cor. 7.1                    |
+| Large changes, know a path $A(\tau)$ and shares along it                                        |                     $\ln\frac{V'}{V} = \int_0^1 \sum_i t_i(A(\tau))\,\frac{d}{d\tau}\ln A_i(\tau)\,d\tau$                     | Prop. 8                     |
+| You assume $y(\cdot)$ is CES, $n=2$, only task 2 multiplied by $A_2^{(m)}$, know baseline $t_2$ |                 $\frac{V'}{V}=\left((1-t_2)+t_2 (A_2^{(m)})^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}}$                 | Prop. 11                    |
+| You assume $y(\cdot)$ is CES, $n=2$, observe $t_2,t_2',A_2^{(m)}$                               | $\varepsilon=1+\frac{\operatorname{logit}(t_2')-\operatorname{logit}(t_2)}{\ln A_2^{(m)}}$(\& use Prop 11 for $\frac{V'}{V}$) | Prop. 12 (+ Proposition 11) |
 
 
 
