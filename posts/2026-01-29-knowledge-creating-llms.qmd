@@ -1,18 +1,18 @@
 ---
 title: Knowledge-Creating LLMs
-author: Tom Cunningham, METR
+date: today
+author:
+  - name: Tom Cunningham
+    affiliation: METR
+    affiliation-url: https://metr.org/
+citation: true
 engine: knitr
 bibliography: ai.bib
 draft: true
-# execute:
-#   keep-md: true
 ---
-
-<!-- https://tecunningham.github.io/posts/2026-01-29-knowledge-creating-llms.html -->
-
 <!-- TODO:
 1. ~~Add references to my own work~~
-2. Better graph with fewer humans
+2. Better graph, fewer humans
 3. ~~Acknowledgements, thanks to Zoe, Parker~~
 4. Parker point: compare with existing research labs, but much more on fixed costs.
 5. Zoe point: "ie i’m not sure about this distinction : “Thus labs will prefer to restrict output, e.g. by selling the knowledge to just one firm, instead of selling the ability to generate knowledge.”"
@@ -22,151 +22,26 @@ draft: true
 9.  Quotes about how LLMs are now creating new knowledge
 10. Send to: Eddie ; 
  -->
-
-*Thanks to Zoë Hitzig & Parker Whitfill for helpful comments.*
+::: {.column-margin}
+   Thanks to Zoë Hitzig & Parker Whitfill for helpful comments.
+:::
+We are moving from knowledge-sharing LLMs to knowledge-creating LLMs.
+: Until recently LLMs have been primarily *sharing* existing knowledge, and have only approached human expert-level performance, rarely surpassing it.
+: But new ways of training models show signs of advancing the frontiers of human knowledge - e.g. proving new theorems, improving on existing algorithms, discovering new scientific theories.
 
 Knowledge-creating LLMs have distinct economic implications.
-: There has recently been a burst of excitement about LLMs which are advancing the frontiers of human knowledge. I think there are some distinct economic implications of knowledge-creation LLMs that I haven't seen described elsewhere:
-:   1. **Knowledge-sharing LLMs will be used by *non-experts*,** and will be widely available.
-    1. **Knowledge-creating LLMs will be used by *experts*,** and will be closely held by the labs, or sold with exclusive licenses.
+: An LLM that shares existing knowledge will be adopted by people outside their area of expertise, and LLM-developers will want to sell access at a low cost. In contrast an LLM that can discover new knowledge will be adopted by experts, and LLM-developers will wish to strictly limit access.
 
-      Below I give a general argument, then a very simple formal model.
+      Below I give some general observations about the implications, then a simple economic model comparing the two types of LLMs.
 
-      A notable implication for AI safety: labs may stop releasing their frontier models publicly, as the economic incentive to sell access diminishes.
-
-**[Sarah Friar, OpenAI's CFO, January 2026.](https://openai.com/index/a-business-that-scales-with-the-value-of-intelligence/)**
-
-: > *"As intelligence moves into scientific research, drug discovery, energy systems, and financial modeling, new economic models will emerge. Licensing, IP-based agreements, and outcome-based pricing will share in the value created."*
-
-A visual explanation.
-: Below we illustrate a set of humans, and their cost to do different tasks. Here each human has a speciality, i.e. a set of tasks at which they have the lowest cost.
-
-      We can visualize a knowledge-sharing LLM assistant as equalizing knowledge, and therefore achieving the minimum-cost across all humans. However a knowledge-creating LLM achieves even lower costs.
-
-```{tikz}
-#| fig-align: center
-\begin{tikzpicture}[x=10cm,y=6cm]
-  % Dip shape parameters
-  % - \w controls dip width: larger => broader specializations / flatter envelope
-  % - all human curves share the same minimum value \mmin at their dip
-  \def\w{0.012}
-  \def\mmin{0.34}
-
-  % Per-human baseline levels (far from each dip) and implied dip depths.
-  % Setting depth_i = baseline_i - \mmin forces all minima to equal \mmin,
-  % while keeping the baselines separated to reduce overlap.
-  \def\bAaron{0.86}
-  \def\bBeatrice{0.88}
-  \def\bCarlos{0.90}
-  \def\bDiana{0.92}
-  \def\bEthan{0.94}
-  \def\bFatima{0.96}
-  \pgfmathsetmacro{\aAaron}{\bAaron-\mmin}
-  \pgfmathsetmacro{\aBeatrice}{\bBeatrice-\mmin}
-  \pgfmathsetmacro{\aCarlos}{\bCarlos-\mmin}
-  \pgfmathsetmacro{\aDiana}{\bDiana-\mmin}
-  \pgfmathsetmacro{\aEthan}{\bEthan-\mmin}
-  \pgfmathsetmacro{\aFatima}{\bFatima-\mmin}
-  % Axes
-  \draw[->, line width=0.8pt] (0,0) -- node[midway,below] {task type} (1.0,0);
-  \draw[->, line width=0.8pt] (0,0) -- (0,1.18) node[midway,above,rotate=90] {cost (lower is better)};
-  % Second y-axis at x=1 (no labels, just a guide)
-  \draw[->, gray!60, line width=0.8pt] (1,0) -- (1,1.18);
-
-  % Ticks
-  % \foreach \x/\lab in {0/0, 0.5/0.5, 1/1} {
-  %  \draw[line width=0.8pt] (\x,0) -- (\x,-0.02) node[below] {\lab};
-  % }
-
-  % Individual agent cost curves (mostly flat with a narrow dip).
-  % The dip minima are equally spaced along x.
-  % (The denominator \w controls dip width; larger => broader, more overlap.)
-  \draw[blue!70!black, line width=1.6pt]
-    plot[domain=0:1, samples=350] (\x,{\bAaron - \aAaron*exp(-((\x-0.10)^2)/\w)});
-
-  \draw[red!70!black, line width=1.6pt]
-    plot[domain=0:1, samples=350] (\x,{\bBeatrice - \aBeatrice*exp(-((\x-0.26)^2)/\w)});
-
-  \draw[green!50!black, line width=1.6pt]
-    plot[domain=0:1, samples=350] (\x,{\bCarlos - \aCarlos*exp(-((\x-0.42)^2)/\w)});
-
-  \draw[purple!70!black, line width=1.6pt]
-    plot[domain=0:1, samples=350] (\x,{\bDiana - \aDiana*exp(-((\x-0.58)^2)/\w)});
-
-  \draw[orange!80!black, line width=1.6pt]
-    plot[domain=0:1, samples=350] (\x,{\bEthan - \aEthan*exp(-((\x-0.74)^2)/\w)});
-
-  \draw[teal!70!black, line width=1.6pt]
-    plot[domain=0:1, samples=350] (\x,{\bFatima - \aFatima*exp(-((\x-0.90)^2)/\w)});
-
-  % old LLM curve: lower envelope of the agent curves
-  \draw[black, dotted, opacity=0.65, line width=3.2pt]
-    plot[domain=0:1, samples=350] (\x,{
-      min(
-        min(
-          min(
-            \bAaron - \aAaron*exp(-((\x-0.10)^2)/\w),
-            \bBeatrice - \aBeatrice*exp(-((\x-0.26)^2)/\w)
-          ),
-          min(
-            \bCarlos - \aCarlos*exp(-((\x-0.42)^2)/\w),
-            \bDiana - \aDiana*exp(-((\x-0.58)^2)/\w)
-          )
-        ),
-        min(
-          \bEthan - \aEthan*exp(-((\x-0.74)^2)/\w),
-          \bFatima - \aFatima*exp(-((\x-0.90)^2)/\w)
-        )
-      )
-    });
-
-   % new LLM curve: old LLM curve shifted down
-  \draw[black, dotted, opacity=0.65, line width=3.2pt]
-    plot[domain=0:1, samples=350] (\x,{
-      min(
-        min(
-          min(
-            \bAaron - \aAaron*exp(-((\x-0.10)^2)/\w),
-            \bBeatrice - \aBeatrice*exp(-((\x-0.26)^2)/\w)
-          ),
-          min(
-            \bCarlos - \aCarlos*exp(-((\x-0.42)^2)/\w),
-            \bDiana - \aDiana*exp(-((\x-0.58)^2)/\w)
-          )
-        ),
-        min(
-          \bEthan - \aEthan*exp(-((\x-0.74)^2)/\w),
-          \bFatima - \aFatima*exp(-((\x-0.90)^2)/\w)
-        )
-      )-0.1
-    });
-
-  % RHS labels (x=1): keep only the envelope labels
-  \pgfmathsetmacro{\yAaron}{\bAaron - \aAaron*exp(-((1-0.10)^2)/\w)}
-  \pgfmathsetmacro{\yBeatrice}{\bBeatrice - \aBeatrice*exp(-((1-0.26)^2)/\w)}
-  \pgfmathsetmacro{\yCarlos}{\bCarlos - \aCarlos*exp(-((1-0.42)^2)/\w)}
-  \pgfmathsetmacro{\yDiana}{\bDiana - \aDiana*exp(-((1-0.58)^2)/\w)}
-  \pgfmathsetmacro{\yEthan}{\bEthan - \aEthan*exp(-((1-0.74)^2)/\w)}
-  \pgfmathsetmacro{\yFatima}{\bFatima - \aFatima*exp(-((1-0.90)^2)/\w)}
-  \pgfmathsetmacro{\yOldLLM}{min(min(min(\yAaron,\yBeatrice),min(\yCarlos,\yDiana)),min(\yEthan,\yFatima))}
-  \pgfmathsetmacro{\yNewLLM}{\yOldLLM - 0.1}
-
-  \node[anchor=west] at (1.012,0.98) {human cost curves};
-
-  \draw[black!55, line width=0.6pt]           (1,{\yOldLLM})   -- (1.010,0.74);
-  \node[anchor=west]                         at (1.012,0.74) {old LLM\\(minimum across humans)};
-
-  \draw[black!55, line width=0.6pt]           (1,{\yNewLLM})   -- (1.010,0.66);
-  \node[anchor=west]                         at (1.012,0.66) {new LLM\\(superhuman)};
-\end{tikzpicture}
-```
+      A notable implication for AI safety is that AI labs will have less incentive to release knowledge-creating models publicly, and so we may have less visibility into frontier progress.
 
 
 ##       Model of LLMs for Discovery
 
 It's useful to distinguish between two types of LLMs:
-:   1. **LLMs that share existing knowledge (old LLMs)**-- they are trained on human-produced and human-judged data.
-    1. **LLMs that discover new knowledge (new LLMs)** -- they are trained against new data directly from the real world, e.g. math, verifiable problems, computer use, actions in the world.
+:   1. **Knowledge-sharing LLMs.**-- they are trained on human-produced and human-judged data.
+    1. **Knowledge-creating LLMs.** -- they are trained against new data directly from the real world, e.g. math, verifiable problems, computer use, actions in the world.
 
 Knowledge-sharing LLMs.
 :     Traditionally LLMs are trained with human judgment as the ground truth, using labels from paid raters, or from LLM users. As a consequence they can answer questions and solve problems up to the limits of human expertise but rarely beyond.
@@ -197,6 +72,12 @@ Knowledge-creating LLMs.
       
       Our benchmarks for new LLMs will be qualitatively different. Instead of seeing if they can answer questions which we already know the answer to, we want them to answer *new* questions, e.g. Erdos problems, or setting records on optimization benchmarks.
 
+      **[Sarah Friar, OpenAI's CFO, January 2026.](https://openai.com/index/a-business-that-scales-with-the-value-of-intelligence/)** 
+
+      > *"As intelligence moves into scientific research, drug discovery, energy systems, and financial modeling, new economic models will emerge. Licensing, IP-based agreements, and outcome-based pricing will share in the value created."*
+
+
+
       Examples of knowledge-creating LLM applications:
 
       - Predict stock prices
@@ -204,6 +85,118 @@ Knowledge-creating LLMs.
       - Optimize technology
       - Solve scientific problems
       - Create a movie
+
+A visual explanation.
+: Below we illustrate a set of humans, and their cost to do different tasks. Here each human has a speciality, i.e. a set of tasks at which they have the lowest cost.
+
+      We can visualize a knowledge-sharing LLM assistant as equalizing knowledge, and therefore achieving the minimum-cost across all humans. However a knowledge-creating LLM achieves even lower costs.
+
+```{tikz}
+#| fig-align: center
+\begin{tikzpicture}[x=10cm,y=6cm]
+  % Dip shape parameters
+  % - \w controls dip width: larger => broader specializations / flatter envelope
+  % - all human curves share the same minimum value \mmin at their dip
+  \def\w{0.012}
+  \def\mmin{0.34}
+
+  % Per-human baseline levels (far from each dip) and implied dip depths.
+  % Setting depth_i = baseline_i - \mmin forces all minima to equal \mmin,
+  % while keeping the baselines separated to reduce overlap.
+  \def\bAaron{0.86}
+  \def\bCarlos{0.90}
+  \def\bEthan{0.94}
+  \pgfmathsetmacro{\aAaron}{\bAaron-\mmin}
+  \pgfmathsetmacro{\aCarlos}{\bCarlos-\mmin}
+  \pgfmathsetmacro{\aEthan}{\bEthan-\mmin}
+  % Axes
+  \draw[->, line width=0.8pt] (0,0) -- node[midway,below] {task type} (1.0,0);
+  \draw[->, line width=0.8pt] (0,0) -- (0,1.18) node[midway,above,rotate=90] {cost (lower is better)};
+  % Second y-axis at x=1 (no labels, just a guide)
+  \draw[->, gray!60, line width=0.8pt] (1,0) -- (1,1.18);
+
+  % Ticks
+  % \foreach \x/\lab in {0/0, 0.5/0.5, 1/1} {
+  %  \draw[line width=0.8pt] (\x,0) -- (\x,-0.02) node[below] {\lab};
+  % }
+
+  % Individual agent cost curves (mostly flat with a narrow dip).
+  % The dip minima are equally spaced along x.
+  % (The denominator \w controls dip width; larger => broader, more overlap.)
+  \draw[blue!70!black, line width=1.6pt]
+    plot[domain=0:1, samples=350] (\x,{\bAaron - \aAaron*exp(-((\x-0.10)^2)/\w)});
+
+  \draw[green!50!black, line width=1.6pt]
+    plot[domain=0:1, samples=350] (\x,{\bCarlos - \aCarlos*exp(-((\x-0.42)^2)/\w)});
+
+  \draw[orange!80!black, line width=1.6pt]
+    plot[domain=0:1, samples=350] (\x,{\bEthan - \aEthan*exp(-((\x-0.74)^2)/\w)});
+
+  % old LLM curve: lower envelope of the agent curves
+  \draw[black, dotted, opacity=0.65, line width=3.2pt]
+    plot[domain=0:1, samples=350] (\x,{
+      min(
+        min(
+          \bAaron - \aAaron*exp(-((\x-0.10)^2)/\w),
+          \bCarlos - \aCarlos*exp(-((\x-0.42)^2)/\w)
+        ),
+        \bEthan - \aEthan*exp(-((\x-0.74)^2)/\w)
+      )
+    });
+
+   % new LLM curve: old LLM curve shifted down
+  \draw[black, dotted, opacity=0.65, line width=3.2pt]
+    plot[domain=0:1, samples=350] (\x,{
+      min(
+        min(
+          \bAaron - \aAaron*exp(-((\x-0.10)^2)/\w),
+          \bCarlos - \aCarlos*exp(-((\x-0.42)^2)/\w)
+        ),
+        \bEthan - \aEthan*exp(-((\x-0.74)^2)/\w)
+      )-0.1
+    });
+
+  % RHS labels (x=1): keep only the envelope labels
+  \pgfmathsetmacro{\yAaron}{\bAaron - \aAaron*exp(-((1-0.10)^2)/\w)}
+  \pgfmathsetmacro{\yCarlos}{\bCarlos - \aCarlos*exp(-((1-0.42)^2)/\w)}
+  \pgfmathsetmacro{\yEthan}{\bEthan - \aEthan*exp(-((1-0.74)^2)/\w)}
+  \pgfmathsetmacro{\yOldLLM}{min(min(\yAaron,\yCarlos),\yEthan)}
+  \pgfmathsetmacro{\yNewLLM}{\yOldLLM - 0.1}
+
+  \node[anchor=west] at (1.012,0.98) {human cost curves};
+
+  \draw[black!55, line width=0.6pt]           (1,{\yOldLLM})   -- (1.010,0.74);
+  \node[anchor=west]                         at (1.012,0.74) {old LLM\\(minimum across humans)};
+
+  \draw[black!55, line width=0.6pt]           (1,{\yNewLLM})   -- (1.010,0.66);
+  \node[anchor=west]                         at (1.012,0.66) {new LLM\\(superhuman)};
+\end{tikzpicture}
+```
+
+
+#           Economic Model, Part 2
+
+Simplified version:
+
+<table>
+  <tr>
+  <td>
+   Assumptions
+  </td>
+  <td>
+   Implications
+  </td>
+ </tr>
+ <tr>
+  <td>
+   - $N$ agents, each has 1 unit of labor
+   - Each agent has a labor cost of producing the good $c$
+  </td>
+  <td>
+   - The person with the lowest-cost 
+  </td>
+ </tr>
+</table>
 
 #           An Economic Model
 

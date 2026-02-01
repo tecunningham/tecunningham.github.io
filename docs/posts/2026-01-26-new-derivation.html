@@ -202,12 +202,84 @@ window.Quarto = {
 
 
 
-<ul>
-<li>TODO: Discuss the <em>separable</em> case.</li>
-<li>TODO: add discussion of bottlenecks, &amp; decreasing returns to scale.</li>
-<li>TODO: mention Amdahl’s law.</li>
-<li>TODO: what if you know t and t’, and know a single m changed.</li>
-</ul>
+<p><strong>Suppose we make people more productive at a subset of tasks, and we see how they reallocate their time, what can we infer about their <em>overall</em> productivity?</strong></p>
+<p>We’re going to assume (1) they are optimizing some unobserved objective functionm <span class="math inline">\(y(\cdot)\)</span>; (2) that function has constant returns to scale (if they doubled their time on every task, they’d double output).</p>
+<p>The following results are all adaptions of very old standard economic theory about inferring the effects of a <em>price</em> change on economic welfare.</p>
+<p><strong>Formally:</strong> suppose someone is allocating their time across <span class="math inline">\(N\)</span> different tasks, <span class="math inline">\(t_1,\ldots,t_N\)</span>, in order to maximize some function <span class="math inline">\(y(A_1t_1,\ldots,A_Nt_N)\)</span>. Each</p>
+<p><span class="math display">\[\begin{aligned}
+   y(A_1t_1,\ldots,A_nt_n) &amp;&amp;&amp; \text{(output)}\\
+   V(A)\equiv\max_{t\in\mathbb{R}^n_+} y(A_1 t_1,\dots,A_n t_n) &amp;&amp;&amp; \text{(value)} \\
+      \sum_{i=1}^N t_i =1  &amp;&amp;&amp; \text{(time allocation before AI)}\\
+      \sum_{i=1}^N t'_i =1 &amp;&amp;&amp; \text{(time allocation after AI)}\\
+      m_i \equiv \frac{A_i'}{A_i} &amp;&amp;&amp; \text{(productivity changes due to AI)} \\
+\end{aligned}
+\]</span></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 38%">
+<col style="width: 50%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>What you observe / assume</th>
+<th style="text-align: center;">What we know about uplift (<span class="math inline">\(\frac{V'}{V}\)</span>)</th>
+<th>Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>You know <span class="math inline">\(y(\cdot)\)</span>, <span class="math inline">\(\bm{m}\)</span> and <span class="math inline">\(\bm{t}\)</span></td>
+<td style="text-align: center;">Exact <span class="math inline">\(V'/V\)</span></td>
+<td>Prop. 3</td>
+</tr>
+<tr class="even">
+<td>You know <span class="math inline">\(m\)</span> and <span class="math inline">\(t\)</span>, and the person cannot adjust their time allocations (so <span class="math inline">\(\bm{t}'=\bm{t}\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(m_{\min}\le \frac{y(A'\circ t)}{y(A\circ t)}\le m_{\max}\)</span></td>
+<td>Prop. 3.1</td>
+</tr>
+<tr class="odd">
+<td>You know <span class="math inline">\(\bm{m}\)</span> but not <span class="math inline">\(\bm{t}\)</span> or <span class="math inline">\(\bm{t}'\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(m_{\min}\le V'/V \le m_{\max}\)</span></td>
+<td>Cor. 4.1 (part 3)</td>
+</tr>
+<tr class="even">
+<td>You know <span class="math inline">\(t\)</span> and multipliers <span class="math inline">\(m\)</span> (but not <span class="math inline">\(t'\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(\Bigl(\sum_i \frac{t_i}{m_i}\Bigr)^{-1}\le \frac{V'}{V} \le m_{\max}\)</span></td>
+<td>Cor. 4.1 (part 1)</td>
+</tr>
+<tr class="odd">
+<td>You know <span class="math inline">\(t'\)</span> and multipliers <span class="math inline">\(m\)</span> (but not <span class="math inline">\(t\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(m_{\min}\le \frac{V'}{V} \le \sum_i t_i' m_i\)</span></td>
+<td>Cor. 4.1 (part 2)</td>
+</tr>
+<tr class="even">
+<td>You know <span class="math inline">\(t\)</span> and <span class="math inline">\(t'\)</span> and <span class="math inline">\(m\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\Bigl(\sum_i \frac{t_i}{m_i}\Bigr)^{-1}\le \frac{V'}{V} \le \sum_i t_i' m_i\)</span></td>
+<td>Prop. 4</td>
+</tr>
+<tr class="odd">
+<td>You know <span class="math inline">\(t\)</span> and <span class="math inline">\(m\)</span>, and <span class="math inline">\(\bm{m}\simeq 1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\ln\frac{V'}{V} \approx \sum_i t_i \ln m_i\)</span></td>
+<td>Cor. 7.1</td>
+</tr>
+<tr class="even">
+<td>Large changes, know a path <span class="math inline">\(A(\tau)\)</span> and shares along it</td>
+<td style="text-align: center;"><span class="math inline">\(\ln\frac{V'}{V} = \int_0^1 \sum_i t_i(A(\tau))\,\frac{d}{d\tau}\ln A_i(\tau)\,d\tau\)</span></td>
+<td>Prop. 8</td>
+</tr>
+<tr class="odd">
+<td>You assume <span class="math inline">\(y(\cdot)\)</span> is CES, <span class="math inline">\(n=2\)</span>, only task 2 multiplied by <span class="math inline">\(A_2^{(m)}\)</span>, know baseline <span class="math inline">\(t_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{V'}{V}=\left((1-t_2)+t_2 (A_2^{(m)})^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}}\)</span></td>
+<td>Prop. 11</td>
+</tr>
+<tr class="even">
+<td>You assume <span class="math inline">\(y(\cdot)\)</span> is CES, <span class="math inline">\(n=2\)</span>, observe <span class="math inline">\(t_2,t_2',A_2^{(m)}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\varepsilon=1+\frac{\operatorname{logit}(t_2')-\operatorname{logit}(t_2)}{\ln A_2^{(m)}}\)</span>(&amp; use Prop 11 for <span class="math inline">\(\frac{V'}{V}\)</span>)</td>
+<td>Prop. 12 (+ Proposition 11)</td>
+</tr>
+</tbody>
+</table>
 <section id="formal-derivations" class="level1">
 <h1>Formal derivations</h1>
 <section id="assumptions" class="level2">
@@ -765,86 +837,10 @@ Proof
 </tr>
 </tbody>
 </table>
-</section>
-</section>
-</section>
-<section id="summary" class="level1">
-<h1>Summary</h1>
-<p><span class="math display">\[\begin{aligned}
-   y(A_1t_1,\ldots,A_nt_n) &amp;&amp;&amp; \text{(output)}\\
-   V(A)\equiv\max_{t\in\mathbb{R}^n_+} y(A_1 t_1,\dots,A_n t_n) &amp;&amp;&amp; \text{(value)} \\
-      \sum_{i=1}^n t_i =1  &amp;&amp;&amp; \text{(time allocation before AI)}\\
-      \sum_{i=1}^n t'_i =1 &amp;&amp;&amp; \text{(time allocation after AI)}\\
-      m_i \equiv \frac{A_i'}{A_i} &amp;&amp;&amp; \text{(productivity changes)} \\
-\end{aligned}\]</span></p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 53%">
-<col style="width: 13%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>What you observe / assume</th>
-<th style="text-align: center;">What we know about uplift (<span class="math inline">\(\frac{V'}{V}\)</span>)</th>
-<th>Reference</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>If you know <span class="math inline">\(y(t_1,\ldots,t_n)\)</span></td>
-<td style="text-align: center;">Exact <span class="math inline">\(V'/V=\frac{P(p)}{P(p')}\)</span> with <span class="math inline">\(p=1/A\)</span>, <span class="math inline">\(p'=1/A'\)</span></td>
-<td>Proposition 3</td>
-</tr>
-<tr class="even">
-<td>A fixed time allocation <span class="math inline">\(t\)</span> (not necessarily optimal), and multipliers <span class="math inline">\(m\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(m_{\min}\le \frac{y(A'\circ t)}{y(A\circ t)}\le m_{\max}\)</span></td>
-<td>Proposition 3.1</td>
-</tr>
-<tr class="odd">
-<td>Only multipliers <span class="math inline">\(m\)</span> (no shares)</td>
-<td style="text-align: center;"><span class="math inline">\(m_{\min}\le V'/V \le m_{\max}\)</span></td>
-<td>Corollary 4.1 (part 3)</td>
-</tr>
-<tr class="even">
-<td>Baseline shares <span class="math inline">\(t\)</span> and multipliers <span class="math inline">\(m\)</span> (but not <span class="math inline">\(t'\)</span>)</td>
-<td style="text-align: center;"><span class="math inline">\(\Bigl(\sum_i \frac{t_i}{m_i}\Bigr)^{-1}\le \frac{V'}{V} \le m_{\max}\)</span></td>
-<td>Corollary 4.1 (part 1)</td>
-</tr>
-<tr class="odd">
-<td>Post shares <span class="math inline">\(t'\)</span> and multipliers <span class="math inline">\(m\)</span> (but not <span class="math inline">\(t\)</span>)</td>
-<td style="text-align: center;"><span class="math inline">\(m_{\min}\le \frac{V'}{V} \le \sum_i t_i' m_i\)</span></td>
-<td>Corollary 4.1 (part 2)</td>
-</tr>
-<tr class="even">
-<td>Both <span class="math inline">\(t\)</span> and <span class="math inline">\(t'\)</span> plus multipliers <span class="math inline">\(m\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\Bigl(\sum_i \frac{t_i}{m_i}\Bigr)^{-1}\le \frac{V'}{V} \le \sum_i t_i' m_i\)</span></td>
-<td>Proposition 4</td>
-</tr>
-<tr class="odd">
-<td>Small changes, know baseline shares <span class="math inline">\(t\)</span></td>
-<td style="text-align: center;">Approx <span class="math inline">\(\ln\frac{V'}{V} \approx \sum_i t_i \ln m_i\)</span></td>
-<td>Corollary 7.1</td>
-</tr>
-<tr class="even">
-<td>Large changes, know a path <span class="math inline">\(A(\tau)\)</span> and shares along it</td>
-<td style="text-align: center;">Exact <span class="math inline">\(\ln\frac{V'}{V} = \int_0^1 \sum_i t_i(A(\tau))\,\frac{d}{d\tau}\ln A_i(\tau)\,d\tau\)</span></td>
-<td>Proposition 8</td>
-</tr>
-<tr class="odd">
-<td>CES (Assumption C1), <span class="math inline">\(n=2\)</span>, only task 2 multiplied by <span class="math inline">\(A_2^{(m)}\)</span>, know baseline <span class="math inline">\(t_2\)</span></td>
-<td style="text-align: center;">Exact <span class="math inline">\(\frac{V'}{V}=\left((1-t_2)+t_2 (A_2^{(m)})^{\varepsilon-1}\right)^{\frac{1}{\varepsilon-1}}\)</span></td>
-<td>Proposition 11</td>
-</tr>
-<tr class="even">
-<td>CES (Assumption C1), <span class="math inline">\(n=2\)</span>, observe <span class="math inline">\(t_2,t_2',A_2^{(m)}\)</span></td>
-<td style="text-align: center;">Identify <span class="math inline">\(\varepsilon=1+\frac{\operatorname{logit}(t_2')-\operatorname{logit}(t_2)}{\ln A_2^{(m)}}\)</span> (then use Prop 11 for <span class="math inline">\(\frac{V'}{V}\)</span>)</td>
-<td>Proposition 12 (+ Proposition 11)</td>
-</tr>
-</tbody>
-</table>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->
