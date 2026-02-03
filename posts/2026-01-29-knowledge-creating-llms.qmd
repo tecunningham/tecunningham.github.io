@@ -5,232 +5,268 @@ author:
   - name: Tom Cunningham
     affiliation: METR
     affiliation-url: https://metr.org/
+reference-location: document
 citation: true
 engine: knitr
 bibliography: ai.bib
 draft: true
 ---
-<!-- TODO:
-1. ~~Add references to my own work~~
-2. Better graph, fewer humans
-3. ~~Acknowledgements, thanks to Zoe, Parker~~
-4. Parker point: compare with existing research labs, but much more on fixed costs.
-5. Zoe point: "ie i’m not sure about this distinction : “Thus labs will prefer to restrict output, e.g. by selling the knowledge to just one firm, instead of selling the ability to generate knowledge.”"
-6. Zoe point distillation:
-7. Trade costs imply some home production just behind the frontier
-8. Differences in benchmarks between old & new LLMs
-9.  Quotes about how LLMs are now creating new knowledge
-10. Send to: Eddie ; 
- -->
+<!-- see also - 2026-01-31-knowledge-creating-model.md -->
+
 ::: {.column-margin}
    Thanks to Zoë Hitzig & Parker Whitfill for helpful comments.
 :::
-We are moving from knowledge-sharing LLMs to knowledge-creating LLMs.
-: Until recently LLMs have been primarily *sharing* existing knowledge, and have only approached human expert-level performance, rarely surpassing it.
-: But new ways of training models show signs of advancing the frontiers of human knowledge - e.g. proving new theorems, improving on existing algorithms, discovering new scientific theories.
 
-Knowledge-creating LLMs have distinct economic implications.
-: An LLM that shares existing knowledge will be adopted by people outside their area of expertise, and LLM-developers will want to sell access at a low cost. In contrast an LLM that can discover new knowledge will be adopted by experts, and LLM-developers will wish to strictly limit access.
+It's useful to make a distinction between two types of LLMs:
+: 1. **Knowledge-sharing LLMs:** they are trained with human judgment as the ground truth. As such they rarely exhibit superhuman performance, their economic value mainly comes from sharing knowledge, and LLM-creators will sell access broadly.
+  1. **Knowledge-creating LLMs:** they are trained against the real world, and so can extend the limits of human knowledge. They expand the world's economic abilities, and LLM-creators will prefer to sell access *exclusively*.
 
-      Below I give some general observations about the implications, then a simple economic model comparing the two types of LLMs.
+    Below I give a longer discussion of this distinction, and a simple economic model comparing the two types of LLMs.
 
-      A notable implication for AI safety is that AI labs will have less incentive to release knowledge-creating models publicly, and so we may have less visibility into frontier progress.
+
+What will happen when LLMs create new knowledge?
+: It seems likely that in 2026 LLMs will start creating substantial amounts of new knowledge, & we will enter a new phase of the economics of AI. 
+
+<!-- An LLM that shares existing knowledge will be adopted by people outside their area of expertise, and LLM-developers will want to sell access at a low cost. In contrast an LLM that can discover new knowledge will be adopted by experts, and LLM-developers will wish to strictly limit access. -->
+
+To add:
+:     1. Better graph
+      2. Add some predictions about 2026
+      1. Parker point: compare with existing research labs, but much more on fixed costs.
+      2. Zoe point: "ie i’m not sure about this distinction : “Thus labs will prefer to restrict output, e.g. by selling the knowledge to just one firm, instead of selling the ability to generate knowledge.”"
+      3. Zoe point distillation:
+      4. Trade costs imply some home production just behind the frontier
+      5. Differences in benchmarks between old & new LLMs
+      6.  Quotes about how LLMs are now creating new knowledge
+      7.  Send to: Eddie, Erik B, Josh Gans.
 
 
 ##       Model of LLMs for Discovery
 
-It's useful to distinguish between two types of LLMs:
+<!-- It's useful to distinguish between two types of LLMs:
 :   1. **Knowledge-sharing LLMs.**-- they are trained on human-produced and human-judged data.
-    1. **Knowledge-creating LLMs.** -- they are trained against new data directly from the real world, e.g. math, verifiable problems, computer use, actions in the world.
+    1. **Knowledge-creating LLMs.** -- they are trained against new data directly from the real world, e.g. math, verifiable problems, computer use, actions in the world. -->
+
 
 Knowledge-sharing LLMs.
-:     Traditionally LLMs are trained with human judgment as the ground truth, using labels from paid raters, or from LLM users. As a consequence they can answer questions and solve problems up to the limits of human expertise but rarely beyond.
+:     Traditionally LLMs have been trained with human judgment as the ground truth, using labels from paid raters or from customers. As a consequence they can answer questions and solve problems up to the limits of human expertise but rarely beyond (with some exceptions, see the literature on LLM "Transcendence", @abreu2025taxonomytranscendence).
 
-      I have elsewhere argued that it's useful to think of LLMs as sharing existing knowledge ([one](https://tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html), [two](https://tecunningham.github.io/posts/2025-09-19-transformative-AI-notes.html)).
+      If we model the economic effects of LLMs as coming from sharing existing knowledge this has a number of implications that seem to fit the data.[^sharing] (See also some of my previous writing on this: [AI & Imitation](https://tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html), [a pocket model of AI](https://tecunningham.github.io/posts/2025-09-19-transformative-AI-notes.html)).
 
-      An implication: they will be used by people outside their areas of expertise, and by firms that are followers, to catch up to the frontier.
-      
-      As a consequence they decrease knowledge rents -- people and firms whose value is from their existing knowledge.
-      
-      They increase home production (you can solve problems yourself instead of paying for it), and so decrease GDP.
-      
-      They decrease the returns to innovation (and news-gathering), insofar as they cause new knowledge to diffuse more quickly.
+      - LLMs use will be higher among those junior in their careers, facing problems that are new to them.
+      - LLMs will be dispropportionately used by people outside their area of expertise, e.g. lawyers will use them for medical questions, doctors will use them for legal questions.
+      - LLMs will be disproportionately used in well-documented domains, e.g. for popular programming languages, which appear more in the training data.
+      - LLMs will decrease knowledge rents -- the premium earned by people and firms whose value comes from knowledge.
+      - LLMs will increase home production -- you can solve problems yourself instead of paying for it, and so potentially decrease GDP.
+      - LLMs decrease the returns to innovation and news-gathering, because they increase the speed of knowledge diffusion and thus diminish the rents that can earned from new knowledge.
+      - LLM use has high fixed costs (collecting the knowledge) and low marginal costs in sharing the knowledge. The returns to LLM-use on an individual problem rapidly diminish when you hit the frontier of existing knowledge.
 
-      This business has high fixed costs -- collecting all the knowledge to train the model -- and relatively low marginal costs in sharing that knowledge.
+
+[^sharing]: Many other technologies share knowledge -- speaking, writing, printing, the internet -- LLMs just continue this progression but further lower the costs of sharing.
 
       
 <!-- (more speculative) they decrease firm size, because you don't need an in-house specialist anymore. -->
 
 Knowledge-creating LLMs.
-:     Over the past year there have been various announcements of LLMs used to advance the state-of-the-art on various specific problems, i.e. creating new knowledge. 
+:     Over the past 18 months it has become much more popular to train LLMs directly against a source of ground truth, e.g. Reinforcement Learning against Verifiable Rewards (RLVR). Accompanying this there has been a steadily increasing stream of announcements of new discoveries by LLMs.
 
-      They will be mostly used by *leader* firms instead of followers, and will be used *inside* their area of expertise instead of at the fringes.
+     Knowledge-creating LLMs are distinct from prior AI discovery applications (e.g. AlphaFold, AlphaTensor) in that they are *general* methods. E.g. @yuksekgonul2026learning describes a setup in which a general-purpose LLM iteratively explores any arbitrary optimization landscape, using a combination of weight-updates and an explicit scratchpad state.
+
+     Knowledge-creating LLMs will differ from knowledge-sharing LLMs in a number of ways:
+
+     - Knowledge-creating LLMs will have qualitatively different benchmarks: instead of seeing if they can answer questions which we already know the answer to (most existing benchmarks), we want them to answer *new* questions, e.g. solve an Erdős problem or set a new record on an optimization problem.
+
+     - Knowledge-creating LLMs have high returns to compute expenditure on individual problems, unlike knowledge-sharing LLMs for which returns asymptote quickly.
+
+     - Knowledge-creating LLMs will be adopted by leader firms more than followers.
       
-      We should expect much higher variable costs, i.e. expenditure on advancing the state of konwledge on a single problem.
+     - The demand for new knowledge is much less elastic than the demand for existing knowledge, i.e. there are high returns to *exclusivity* of new knowledge. Thus LLM-providers are likely to license their technology exclusively rather than expose them through a general-purpose API.
       
-      The demand for new knowledge is much less elastic than the demand for existing knowledge. Selling knowledge to one person is much more valuable than selling to two people. Thus labs will prefer to restrict output, e.g. by selling the knowledge to just one firm, instead of selling the ability to generate knowledge.
       
-      Our benchmarks for new LLMs will be qualitatively different. Instead of seeing if they can answer questions which we already know the answer to, we want them to answer *new* questions, e.g. Erdos problems, or setting records on optimization benchmarks.
 
       **[Sarah Friar, OpenAI's CFO, January 2026.](https://openai.com/index/a-business-that-scales-with-the-value-of-intelligence/)** 
 
       > *"As intelligence moves into scientific research, drug discovery, energy systems, and financial modeling, new economic models will emerge. Licensing, IP-based agreements, and outcome-based pricing will share in the value created."*
 
+Applications for knowledge-creating LLMs:
+
+:    - Drug discovery.
+     - Optimizing algorithms.
+     - AI R&D.
+     - Predict stock prices.
+     <!-- - Create a movie. -->
+
+#           A Visual Explanation
 
 
-      Examples of knowledge-creating LLM applications:
-
-      - Predict stock prices
-      - Optimize algorithms
-      - Optimize technology
-      - Solve scientific problems
-      - Create a movie
-
-A visual explanation.
-: Below we illustrate a set of humans, and their cost to do different tasks. Here each human has a speciality, i.e. a set of tasks at which they have the lowest cost.
-
-      We can visualize a knowledge-sharing LLM assistant as equalizing knowledge, and therefore achieving the minimum-cost across all humans. However a knowledge-creating LLM achieves even lower costs.
+Here we draw the cost for a set of 3 humans across a range of tasks, assuming each has a specialty area where they have the lowest labor-cost. The knowledge-sharing LLM aggregates knowledge, and so is the lower bound across all three agents.
 
 ```{tikz}
 #| fig-align: center
 \begin{tikzpicture}[x=10cm,y=6cm]
-  % Dip shape parameters
-  % - \w controls dip width: larger => broader specializations / flatter envelope
-  % - all human curves share the same minimum value \mmin at their dip
-  \def\w{0.012}
-  \def\mmin{0.34}
+  \def\w{0.042}      % dip width
+  \def\mmin{0.34}    % dip depth
 
-  % Per-human baseline levels (far from each dip) and implied dip depths.
-  % Setting depth_i = baseline_i - \mmin forces all minima to equal \mmin,
-  % while keeping the baselines separated to reduce overlap.
   \def\bAaron{0.86}
   \def\bCarlos{0.90}
   \def\bEthan{0.94}
   \pgfmathsetmacro{\aAaron}{\bAaron-\mmin}
   \pgfmathsetmacro{\aCarlos}{\bCarlos-\mmin}
   \pgfmathsetmacro{\aEthan}{\bEthan-\mmin}
+
+  % Helper functions
+  \pgfmathdeclarefunction{costAaron}{1}{\pgfmathparse{\bAaron - \aAaron*exp(-((#1-0.10)^2)/\w)}}
+  \pgfmathdeclarefunction{costCarlos}{1}{\pgfmathparse{\bCarlos - \aCarlos*exp(-((#1-0.42)^2)/\w)}}
+  \pgfmathdeclarefunction{costEthan}{1}{\pgfmathparse{\bEthan - \aEthan*exp(-((#1-0.74)^2)/\w)}}
+  \pgfmathdeclarefunction{oldllm}{1}{\pgfmathparse{min(min(costAaron(#1),costCarlos(#1)),costEthan(#1))}}
+  % New LLM: only improves the "Ethan/rightmost" domain (where Ethan is the envelope)
+  \pgfmathdeclarefunction{newllm}{1}{\pgfmathparse{
+    ifthenelse(
+      costEthan(#1) <= min(costAaron(#1),costCarlos(#1)),
+      oldllm(#1)-0.1,
+      oldllm(#1)
+    )
+  }}
+
   % Axes
   \draw[->, line width=0.8pt] (0,0) -- node[midway,below] {task type} (1.0,0);
   \draw[->, line width=0.8pt] (0,0) -- (0,1.18) node[midway,above,rotate=90] {cost (lower is better)};
-  % Second y-axis at x=1 (no labels, just a guide)
+
   \draw[->, gray!60, line width=0.8pt] (1,0) -- (1,1.18);
 
-  % Ticks
-  % \foreach \x/\lab in {0/0, 0.5/0.5, 1/1} {
-  %  \draw[line width=0.8pt] (\x,0) -- (\x,-0.02) node[below] {\lab};
-  % }
-
   % Individual agent cost curves (mostly flat with a narrow dip).
-  % The dip minima are equally spaced along x.
-  % (The denominator \w controls dip width; larger => broader, more overlap.)
   \draw[blue!70!black, line width=1.6pt]
-    plot[domain=0:1, samples=350] (\x,{\bAaron - \aAaron*exp(-((\x-0.10)^2)/\w)});
+    plot[domain=0:1, samples=350] (\x,{costAaron(\x)});
 
   \draw[green!50!black, line width=1.6pt]
-    plot[domain=0:1, samples=350] (\x,{\bCarlos - \aCarlos*exp(-((\x-0.42)^2)/\w)});
+    plot[domain=0:1, samples=350] (\x,{costCarlos(\x)});
 
   \draw[orange!80!black, line width=1.6pt]
-    plot[domain=0:1, samples=350] (\x,{\bEthan - \aEthan*exp(-((\x-0.74)^2)/\w)});
+    plot[domain=0:1, samples=350] (\x,{costEthan(\x)});
 
   % old LLM curve: lower envelope of the agent curves
   \draw[black, dotted, opacity=0.65, line width=3.2pt]
-    plot[domain=0:1, samples=350] (\x,{
-      min(
-        min(
-          \bAaron - \aAaron*exp(-((\x-0.10)^2)/\w),
-          \bCarlos - \aCarlos*exp(-((\x-0.42)^2)/\w)
-        ),
-        \bEthan - \aEthan*exp(-((\x-0.74)^2)/\w)
-      )
-    });
-
-   % new LLM curve: old LLM curve shifted down
-  \draw[black, dotted, opacity=0.65, line width=3.2pt]
-    plot[domain=0:1, samples=350] (\x,{
-      min(
-        min(
-          \bAaron - \aAaron*exp(-((\x-0.10)^2)/\w),
-          \bCarlos - \aCarlos*exp(-((\x-0.42)^2)/\w)
-        ),
-        \bEthan - \aEthan*exp(-((\x-0.74)^2)/\w)
-      )-0.1
-    });
+    plot[domain=0:1, samples=350] (\x,{oldllm(\x)});
 
   % RHS labels (x=1): keep only the envelope labels
-  \pgfmathsetmacro{\yAaron}{\bAaron - \aAaron*exp(-((1-0.10)^2)/\w)}
-  \pgfmathsetmacro{\yCarlos}{\bCarlos - \aCarlos*exp(-((1-0.42)^2)/\w)}
-  \pgfmathsetmacro{\yEthan}{\bEthan - \aEthan*exp(-((1-0.74)^2)/\w)}
-  \pgfmathsetmacro{\yOldLLM}{min(min(\yAaron,\yCarlos),\yEthan)}
-  \pgfmathsetmacro{\yNewLLM}{\yOldLLM - 0.1}
+  \pgfmathsetmacro{\yOldLLM}{oldllm(1)}
+
 
   \node[anchor=west] at (1.012,0.98) {human cost curves};
 
-  \draw[black!55, line width=0.6pt]           (1,{\yOldLLM})   -- (1.010,0.74);
-  \node[anchor=west]                         at (1.012,0.74) {old LLM\\(minimum across humans)};
+  %\draw[black!55, line width=0.6pt]           (1,{\yOldLLM})   -- (1.010,0.74);
+  \node[anchor=west,align=left]                         at (1.012,0.8) {knowledge-sharing LLM\\(minimum across humans)};
+\end{tikzpicture}
+```
 
-  \draw[black!55, line width=0.6pt]           (1,{\yNewLLM})   -- (1.010,0.66);
-  \node[anchor=west]                         at (1.012,0.66) {new LLM\\(superhuman)};
+We can then illustrate a knowledge-creating LLM as pushing below the human frontier at some set of tasks:
+
+```{tikz}
+#| fig-align: center
+\begin{tikzpicture}[x=10cm,y=6cm]
+  \def\w{0.042}      % dip width
+  \def\mmin{0.34}    % dip depth
+
+  \def\bAaron{0.86}
+  \def\bCarlos{0.90}
+  \def\bEthan{0.94}
+  \pgfmathsetmacro{\aAaron}{\bAaron-\mmin}
+  \pgfmathsetmacro{\aCarlos}{\bCarlos-\mmin}
+  \pgfmathsetmacro{\aEthan}{\bEthan-\mmin}
+
+  % Helper functions
+  \pgfmathdeclarefunction{costAaron}{1}{\pgfmathparse{\bAaron - \aAaron*exp(-((#1-0.10)^2)/\w)}}
+  \pgfmathdeclarefunction{costCarlos}{1}{\pgfmathparse{\bCarlos - \aCarlos*exp(-((#1-0.42)^2)/\w)}}
+  \pgfmathdeclarefunction{costEthan}{1}{\pgfmathparse{\bEthan - \aEthan*exp(-((#1-0.74)^2)/\w)}}
+  \pgfmathdeclarefunction{costSuperEthan}{1}{\pgfmathparse{\bEthan - 0.8*exp(-((#1-0.74)^2)/\w)}}
+  \pgfmathdeclarefunction{oldllm}{1}{\pgfmathparse{min(min(costAaron(#1),costCarlos(#1)),costEthan(#1))}}
+  \pgfmathdeclarefunction{newllm}{1}{\pgfmathparse{min(min(costAaron(#1),costCarlos(#1)),costSuperEthan(#1))}}
+
+  % Axes
+  \draw[->, line width=0.8pt] (0,0) -- node[midway,below] {task type} (1.0,0);
+  \draw[->, line width=0.8pt] (0,0) -- (0,1.18) node[midway,above,rotate=90] {cost (lower is better)};
+
+  \draw[->, gray!60, line width=0.8pt] (1,0) -- (1,1.18);
+
+  % Individual agent cost curves (mostly flat with a narrow dip).
+  \draw[blue!70!black, line width=1.6pt]
+    plot[domain=0:1, samples=350] (\x,{costAaron(\x)});
+
+  \draw[green!50!black, line width=1.6pt]
+    plot[domain=0:1, samples=350] (\x,{costCarlos(\x)});
+
+  \draw[orange!80!black, line width=1.6pt]
+    plot[domain=0:1, samples=350] (\x,{costEthan(\x)});
+
+   % new LLM curve: old LLM curve shifted down
+  \draw[black, dotted, opacity=0.65, line width=3.2pt]
+    plot[domain=0:1, samples=350] (\x,{newllm(\x)});
+
+  % RHS labels (x=1): keep only the envelope labels
+  \pgfmathsetmacro{\yOldLLM}{oldllm(1)}
+  \pgfmathsetmacro{\yNewLLM}{newllm(1)}
+
+  \node[anchor=west] at (1.012,0.98) {human cost curves};
+
+  %\draw[black!55, line width=0.6pt]           (1,{\yOldLLM})   -- (1.010,0.74);
+  %\node[anchor=west]                         at (1.012,0.74) {old LLM\\(minimum across humans)};
+
+  %\draw[black!55, line width=0.6pt]           (1,{\yNewLLM})   -- (1.010,0.66);
+  \node[anchor=west,align=left]                         at (1.012,0.7) {knowledge-creating LLM\\(lower cost than best human)};
 \end{tikzpicture}
 ```
 
 
-#           Economic Model, Part 2
-
-Simplified version:
-
-<table>
-  <tr>
-  <td>
-   Assumptions
-  </td>
-  <td>
-   Implications
-  </td>
- </tr>
- <tr>
-  <td>
-   - $N$ agents, each has 1 unit of labor
-   - Each agent has a labor cost of producing the good $c$
-  </td>
-  <td>
-   - The person with the lowest-cost 
-  </td>
- </tr>
-</table>
+<!-- |                                 | Knowledge-Sharing LLM          | Knowledge-Creating LLM        |
+| ------------------------------- | ------------------------------ | ----------------------------- |
+| Who uses it                     | Inexperienced                  | Experienced                   |
+| Types of use                    | Outside your area of expertise | Inside your area of expertise |
+| Effect on output                | Redistributes surplus          | Creates new surplus           |
+| Effect on inequality            | Decreases inequality           | Increases inequality          |
+| Value of exclusivity            | Low                            | High                          |
+| Cost structure                  | Low marginal costs             | High marginal costs           |
+| Effect on home production       | Increase                       | Decrease                      |
+| Effect on returns to innovation | Decrease                       | Increase                      |
+|                                 |                                |                               |
+ -->
 
 #           An Economic Model
 
-<!-- notes on models: https://chatgpt.com/share/697cd5b5-74f4-8013-a58d-e41dc7f3a319 -->
+A basic model of knowledge and output.
+: In a very simple model we have:
 
-Baseline: everyone buys from the person who knows the best recipe.
-: Everyone has a unit of labor. There's one consumption good, but various recipes for producing it, $r\in R$, which determine the labor-cost of producing the good, $c(r)$. In equilibrium the person who knows the lowest-cost recipe ($c_1$) will sell the good in return for others' labor. Their margins are equal to the difference to the next-lowest-cost recipe, $c_2-c_1$ (assume Bertrand competition).
+      1. Aggregate output is determined by the best knowledge.
+      2. Aggregate profit is determined by the distance between the best and second-best knowledge.
 
-Knowledge-sharing LLMs eliminate rents.
-: Now you invent a knowledge-sharing LLM, which can reveal the lowest-cost known recipe, $c_1$. You cannot make substantial profits from this knowledge: once two producers have the same cost then margins will be driven to zero. Assuming the recipe does diffuse, total output remains the same but the surplus is now distributed equally. If we additionally assumed some trade cost $\delta$ then the knowledge will have value equal to $\delta$, but notably there's no value to *exclusively* license your LLM. Also notably the returns to innovation fall: there's much less incentive to discover a new low-cost recipe if that knowledge will be immediately shared.
+      Suppose there are $L$ people, each has 1 unit of labor, and there is just one good. Each person knows some subset of recipes $R_i\subseteq R$, and each recipe yields some cost of producing the good from labor, $c(r)$. Then person $i$'s effective cost $c_i$ is the lowest cost among the recipes that they know. Each person can rent labor from others to produce the consumption good, and we assume labor is allocated via Bertrand wage competition among recipe-holders; workers are price-takers and work for the highest wage.
 
-Knowledge-creating LLMs generate additional surplus.
-: Next we introduce a knowledge-creating LLM, which generates a new recipe $c_0<c_1$. The inventor can monetize this either by producing the good themselves or licensing the recipe to a single producer. Now exclusivity is important: if they sold the recipe to *two* producers then profits will be driven to zero, and the value of the recipe will be zero. In equilibrium total output increases, the extra surplus is split between consumers and the owner of the new recipe.
+      We can order the costs from lowest to highest, $c_{(1)}\leq \cdots \leq c_{(L)}$. In equilibrium the lowest-cost agent will rent the labor of all others, produce the good at the lowest cost $c_{(1)}$, and then sell the good back at a price equal to the second-lowest cost ($1/c_{(2)}$), and keep the remainder as profit:
+: $$\begin{aligned}
+      \text{output} &= \frac{1}{c_{(1)}}L  && \text{(the best recipe)}\\
+      \text{profit} &= \left(\frac{1}{c_{(1)}}-\frac{1}{c_{(2)}}\right)(L-1) 
+         && \text{(diff bw 1st and 2nd-best recipe)}
+   \end{aligned}
+   $$
 
 
-The model can be extended to multiple goods. 
-: If people have Cobb-Douglas preferences across goods then they will spend a fixed fraction of labor on each good, and so each good's market can be treated as independent.
+Knowledge-sharing spreads output.
+:  Suppose we share the best recipe among the whole population, so now $c'_{(2)}=c'_{(1)}=c_{(1)}$. Now total output is unchanged, but profit is eliminated, and the output is spread equally among all actors.
 
-      You can visualize the distribution of costs as follows:
+Knowledge-creation increases output.
+: Suppose we can improve the best recipe, $c'_{(1)}<c_{(1)}$. Total output will increase. The effect on profit will depend on (1) whether the identity of the lowest-cost producer changes; and (2) the degree of improvement.
 
-      - Old LLMs are the minimum cost among existing humans.
-      - New LLMs *lower* the cost.
+The market for knowledge.
+: We now should turn to how knowledge-sharing and knowledge-creation is used. The answers are somewhat sensitive to the specifics of the market.
 
-<!-- Q: does this hold with exchange? -->
+      [XXXX]
 
-<!-- 
-|                         | LLM that shares knowledge | LLM creates knowledge  |
-| ----------------------- | ------------------------- | ---------------------- |
-|                         |                           |                        |
-| Superhuman performance? | Only in special cases     | Often                  |
-| Who uses it?            | Followers in an industry  | Leaders in an industry |
-| What types of use?      | Specializations           | Non-specializations    |
-|                         |                           |                        | 
--->
+##          Additional Notes
+
+Additional notes.
+: asdf
+
+<!-- notes on models: 2026-01-31-knowledge-creating-model.md -->
+
 
 
 #           More to Do
@@ -245,56 +281,9 @@ It would be more satisfying to have a generative model.
 
 
 
-#           Recent Examples of Knowledge-Advancing AI [UNFINISHED]
+#           Miscellaneous
 
 
 @yuksekgonul2026learning, "Learning to Discover at Test Time"
 : > "We report results for every problem we attempted, across mathematics, GPU kernel engineering, algorithm design, and biology. TTT-Discover sets the new state of the art in almost all of them: (i) Erdős’ minimum overlap problem and an autocorrelation inequality; (ii) a GPUMode kernel competition (up to 2×faster than prior art); (iii) past AtCoder algorithm competitions; and (iv) denoising problem in single-cell analysis. Our solutions are reviewed by experts or the organizers."
 
-
-# Literature Review: Economic Models
-
-This post is trying to separate two economic objects that are often conflated:
-: (i) *diffusing existing knowledge* vs (ii) *creating new knowledge*. There are several modeling traditions that map naturally onto this distinction.
-
-## Knowledge diffusion and catch-up
-
-Lucas & Moll (2014) treat knowledge growth as a time-allocation problem.
-: > "Agents divide their time between two activities: producing goods and interacting with others in search of new, productivity-increasing ideas." [@lucas2014knowledge]
-
-Benhabib--Perla--Tonetti (2014) generate growth with an endogenous split between frontier innovation and imitation/catch-up.
-: > "The resulting equilibrium is an endogenous segmentation between innovators and imitators." [@benhabib2014catchup]
-
-Connection to "knowledge-sharing LLMs":
-: These models make it natural to interpret "old LLMs" as reducing the effective costs/frictions of searching, matching, and imitating (and therefore compressing knowledge rents).
-
-## Endogenous growth: ideas as (partly) nonrival inputs
-
-Romer (1990) frames technology as a special kind of input.
-: > "The distinguishing feature of the technology as an input is that it is a nonrival, partially excludable good." [@romer1990endogenous]
-
-Jones (1995) emphasizes that many R\&D-based models predict strong scale effects that are not borne out empirically.
-: > "This paper argues that the "scale effects" prediction of many recent R\&D-based models of growth is inconsistent with the time-series evidence from industrialized economies." [@jones1995rd]
-
-Bloom--Jones--Van Reenen--Webb (2020) document declining research productivity ("ideas getting harder to find").
-: > "More generally, everywhere we look we find that ideas, and the exponential growth they imply, are getting harder to find." [@bloom2020ideas]
-
-Connection to "knowledge-creating LLMs":
-: In this language, "new LLMs" plausibly shift the idea production function itself (not just the diffusion of existing ideas), which re-raises the standard questions of appropriability and market structure.
-
-## Appropriability, IP, and licensing
-
-Arrow (1962) is a canonical statement of why private incentives and social value can diverge for invention/knowledge.
-: > "INVENTION is here interpreted broadly as the production of knowledge." [@arrow1962welfare]
-
-Katz \& Shapiro (1985) analyze when a patent holder chooses to license versus exclude.
-: > "We find that major innovations will not be licensed, but that equally efficient firms will tend to license minor innovations." [@katz1985licensing]
-
-Arora--Fosfuri--Gambardella (2001) describe how a market for technology changes firms' strategic choices.
-: > "Markets for technology increase the strategy space: firms can choose to license in the technology instead of developing it in-house." [@arora2001markets]
-
-Kamien--Oren--Tauman (1992) compare licensing mechanisms (e.g. auctions vs uniform royalties).
-: > "Proposition 6 asserts that for both the patentee and consumers a uniform royalty is inferior to an auction." [@kamien1992licensing]
-
-Connection to this post's core claim:
-: If "new LLMs" reliably generate *valuable, appropriable* new recipes, then the equilibrium object may be closer to exclusive licensing / restricted access (or secrecy) than to wide diffusion of a general-purpose tool.
