@@ -11,7 +11,10 @@ engine: knitr
 bibliography: ai.bib
 draft: true
 ---
-<!-- see also - 2026-01-31-knowledge-creating-model.md -->
+<!-- 
+https://tecunningham.github.io/posts/2026-01-29-knowledge-creating-llms.html
+see also - 2026-01-31-knowledge-creating-model.md 
+-->
 
 ::: {.column-margin}
    Thanks to Zoë Hitzig & Parker Whitfill for helpful comments.
@@ -52,7 +55,7 @@ To add:
 
 
 Knowledge-sharing LLMs.
-:     I find it is useful to think of LLMs as lowering the price of sharing existing human knowledge (see some of my previous writing on this: [AI & Imitation](https://tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html), [a pocket model of AI](https://tecunningham.github.io/posts/2025-09-19-transformative-AI-notes.html)).
+:     I find it is useful to think of LLMs as lowering the price of sharing existing human knowledge (see some of my previous writing on this: [AI & Imitation](https://tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html), [a pocket model of AI][transformative]).
 
       Traditionally LLMs have been trained with human judgment as the ground truth, using labels from paid raters or from customers. As a consequence they can answer questions and solve problems up to the limits of human expertise but rarely beyond (with some exceptions, see the literature on LLM "Transcendence", @abreu2025taxonomytranscendence).
 
@@ -95,6 +98,10 @@ Knowledge-creating LLMs.
      - The demand for new knowledge is much less elastic than the demand for existing knowledge because there are high returns to *exclusivity* of new knowledge. Thus LLM-providers are likely to license their technology exclusively rather than expose them through a general-purpose API. Sarah Friar, OpenAI's CFO, said in [January 2026](https://openai.com/index/a-business-that-scales-with-the-value-of-intelligence/):
 
       > *"As intelligence moves into scientific research, drug discovery, energy systems, and financial modeling, new economic models will emerge. Licensing, IP-based agreements, and outcome-based pricing will share in the value created."*
+
+Will knowledge-creation be bottlenecked on data?
+: 
+    A common claim is that AI knowledge-creation will be bottlenecked on the ability to run new experiments. E.g. an automated biologist still needs a lab (@amodei2024machines), and an automated AI researcher will still need a lot of GPUs to do experiments. Whether this is true depends on the shape of the optimization landscape. If the world is intrinsically high-dimensional, then there is no substitute for collecting data. But if there exists a low-dimensional structure then there are high returns to just thinking harder (more discussion in an [earlier post][transformative]). We have found many domains which appeared to be high-dimensional, but turned out to be intrinsically low-dimensional.
 
 <!--
 Applications for knowledge-creating LLMs:
@@ -240,7 +247,7 @@ We can then illustrate a knowledge-creating LLM as pushing below the human front
  -->
 
 
-#           There are Only a Dozen Deep Problems
+#           There are Only a Dozen Deep Problems (Galaxy Brain)
 
 If you squint, a billion problems resolve into just a dozen common problems.
 :  
@@ -248,17 +255,22 @@ If you squint, a billion problems resolve into just a dozen common problems.
     
     Consider three types of problems which LLMs are often asked to solve:
 
-Constraint-satisfaction problems.
+(1) Constraint-satisfaction problems.
 : 
     Optimization theory textbooks will often have two types of results (1) proofs on the optimality of certain algorithms; (2) proofs that one type of problem is logically equivalent to another type of problem (e.g. a very large class of problems are equivalent to  [3SAT][3SAT], or can be reduced to 3SAT in polynomial time). Some algorithms are known to be optimal but many others are being continually improved.
 
-Factual problems.
+(2) Factual problems.
 : 
     We can reduce a factual question into (1) find the documented facts that are relevant to this question; (2) infer the answer from those facts. Once you have collected the existing documented facts you hit a ceiling, which can only be advanced by collecting more facts.
 
-Statistical inference problems.
+(3) Statistical inference problems.
 : 
     For many classes of supervised learning problems there exists an existing "best practice", e.g. a [recent article][nvidia] says *"Over hundreds of Kaggle competitions, we’ve refined a playbook that consistently lands us near the top of the leaderboard"*. Thus if you ask an LLM to do statistical inference, it can relatively easily find the existing best-practice, but then it is much harder to advance on that (and if it does, then the solution would be very generally applicable).
+
+This is a difficulty for LLM benchmarking.
+: 
+
+    The mapping between idiosyncratic and canonical problems is a difficulty for LLM benchmarking. If each problem can be mapped to a canonical problem, and there exists a best-known-algorithm for each of those canonical problems, then it's difficult to test the model's intelligence. A reasonably smart LLM will know how to map a new problem into a canonical problem, and will know the textbook best-practice for that canonical problem (XGboost, ARIMA, gaussian process, branch-and-cut, PPO, etc.).
 
 Labs will spend a lot on fixed inference, a little on variable inference.
 : 
@@ -320,3 +332,5 @@ The market for knowledge.
 [3SAT]: https://en.wikipedia.org/wiki/Boolean_satisfiability_problem
 
 [nvidia]: https://developer.nvidia.com/blog/the-kaggle-grandmasters-playbook-7-battle-tested-modeling-techniques-for-tabular-data/
+
+[transformative]: https://tecunningham.github.io/posts/2025-09-19-transformative-AI-notes.html

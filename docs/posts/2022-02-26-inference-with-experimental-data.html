@@ -167,9 +167,9 @@ window.Quarto = {
 <link rel="stylesheet" href="../styles.css">
 <meta name="twitter:title" content="Inference on Experiments | Tom Cunningham">
 <meta name="twitter:description" content="Tom Cunningham blog">
-<meta name="twitter:image" content="tecunningham.github.io/posts/images/2022-04-08-09-34-41.png">
-<meta name="twitter:image-height" content="1386">
-<meta name="twitter:image-width" content="1800">
+<meta name="twitter:image" content="tecunningham.github.io/posts/2022-02-26-inference-with-experimental-data_files/figure-html/unnamed-chunk-1-1.png">
+<meta name="twitter:image-height" content="787">
+<meta name="twitter:image-width" content="989">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -386,10 +386,16 @@ window.Quarto = {
 </section>
 <section id="setup" class="level1 page-columns page-full">
 <h1>Setup</h1>
+<div class="cell page-columns page-full">
 
-<div class="no-row-height column-margin column-container"><div class="cell">
-
-</div></div><p><strong>A single metric.</strong> We observe <span class="math inline">\(\hat{t}\)</span> which is the true treatment effect plus noise, <span class="math inline">\(\hat{t}=t+e\)</span>. Then for any given <span class="math inline">\(t\)</span> our posterior probability will be:</p>
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2022-02-26-inference-with-experimental-data_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="288"></p>
+</figure>
+</div>
+</div></div></div>
+<p><strong>A single metric.</strong> We observe <span class="math inline">\(\hat{t}\)</span> which is the true treatment effect plus noise, <span class="math inline">\(\hat{t}=t+e\)</span>. Then for any given <span class="math inline">\(t\)</span> our posterior probability will be:</p>
 <p><span class="math display">\[\begin{aligned}
    \ut{f(t|\hat{t})}{posterior}=\ut{f(t)}{prior}\times \ut{f(\hat{t}|t)}{likelihood}
 \end{aligned}
@@ -402,33 +408,75 @@ window.Quarto = {
 <div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;Throughout we assume that the treatments change only the mean, not the variance, of outcomes.</p></div></div><p>The variances and covariances of <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> represent the experimenter’s priors, and so are often difficult to quantify. If we are willing to identify priors with some set of previously-run experiments, i.e.&nbsp;an “empirical-Bayes” technique, we can recover them from the data using this relationship between covariance matrices:</p>
 <p><span class="math display">\[\Sigma_{\hat{t}}= \Sigma_t + \frac{2}{N}\Sigma_u,\]</span></p>
 <p>where <span class="math inline">\(\Sigma_u\)</span> is the unit-level covariance matrix. The following graph illustrates a case with negatively-correlated treatment effects, positively correlated noise, and uncorrelated outcomes.</p>
+<div class="cell page-columns page-full">
 
-<div class="no-row-height column-margin column-container"><div class="cell">
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2022-02-26-inference-with-experimental-data_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="192"></p>
+</figure>
+</div>
+</div></div></div>
+<div class="cell page-columns page-full">
 
-</div><div class="cell">
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2022-02-26-inference-with-experimental-data_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="192"></p>
+</figure>
+</div>
+</div></div></div>
+<div class="cell page-columns page-full">
 
-</div><div class="cell">
-
-</div></div>
-
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2022-02-26-inference-with-experimental-data_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="192"></p>
+</figure>
+</div>
+</div></div></div>
 <p><strong>Many metrics.</strong> If we assume that everything has a normal distribution, we have a crisp expression for how the posterior expectations depend on the observed outcomes. For an arbitrary number of outcomes we can write this as:</p>
 <p><span class="math display">\[\mathbb{E}[t|y]=\mu_t+\Sigma_t(\Sigma_t+\frac{1}{N}\Sigma_u)^{-1}(y-\mu_t).\]</span></p>
 </section>
 <section id="univariate-shrinkage-estimators" class="level1 page-columns page-full">
 <h1>Univariate Shrinkage Estimators</h1>
 <p>See survey of methods in <span class="citation" data-cites="montiel2019">Azevedo et al. (<a href="#ref-montiel2019" role="doc-biblioref">2019</a>)</span>. They also document the fat tailed distribution of effect-sizes.</p>
+<div class="cell page-columns page-full">
 
-<div class="no-row-height column-margin column-container"><div class="cell">
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2022-02-26-inference-with-experimental-data_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="288"></p>
+</figure>
+</div>
+</div></div></div>
+<div class="cell page-columns page-full">
 
-</div><div class="cell">
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2022-02-26-inference-with-experimental-data_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="288"></p>
+</figure>
+</div>
+</div></div></div>
+<div class="cell page-columns page-full">
 
-</div><div class="cell">
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2022-02-26-inference-with-experimental-data_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="288"></p>
+</figure>
+</div>
+</div></div></div>
+<div class="cell page-columns page-full">
 
-</div><div class="cell">
-
-</div></div>
-
-
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2022-02-26-inference-with-experimental-data_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="288"></p>
+</figure>
+</div>
+</div></div></div>
 <ol type="1">
 <li><p><strong>James-Stein.</strong> With a Normal prior, <span class="math inline">\(t\sim N(\mu_t,\sigma_t^2)\)</span>, we get: <span class="math display">\[\mathbb{E}[t|y]=\mu_t+\utt{\frac{\sigma_t^2}{\sigma_t^2+\sigma_e^2}}{shrinkage}{factor}(y-\mu_t).\]</span> We can also use the share of experiments that are significant, <span class="math inline">\(p\)</span>: <span class="math display">\[\begin{aligned}
       E[t|y]=&amp; [ 1-(\frac{1}{1.96}\Phi^{-1}(\frac{p}{2}))^2 ]y.
@@ -727,22 +775,43 @@ window.Quarto = {
 </ol>
 <div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;Precisely: if the distribution of effect-sizes is Normal with zero mean then having a statistically-significant effect in 50% of your experiments implies a shrinkage rate of just 10%.</p></div></div><section id="comparing-launch-rules" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="comparing-launch-rules">Comparing Launch Rules</h2>
+<div class="cell page-columns page-full">
 
-<div class="no-row-height column-margin column-container"><div class="cell">
-
-</div></div><p>Suppose we have two metrics, 1 and 2, and we care about them equally much: <span class="math display">\[U(t_1,t_2)=t_1+t_2.\]</span></p>
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2022-02-26-inference-with-experimental-data_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="288"></p>
+<figcaption>Ship if either stat-sig positive and neither stat-sig negative.</figcaption>
+</figure>
+</div>
+</div></div></div>
+<p>Suppose we have two metrics, 1 and 2, and we care about them equally much: <span class="math display">\[U(t_1,t_2)=t_1+t_2.\]</span></p>
 <p>But we only observe noisy estimates <span class="math inline">\(\hat{t}_1,\hat{t}_2\)</span>.</p>
 <p>A stat-sig shipping rule (either stat-sig positive, neither stat-sig negative) has some strange consequences: it will recommend shipping things even with <em>negative</em> face-value utility (<span class="math inline">\(U(\hat{t}_1,\hat{t}_2)&lt;0\)</span>), when there’s a negative outcome on the relatively noisier metric. This will still hold if we evaluate utility with shrunk estimates, when there’s equal proportional shrinkage on the two metrics, but if there’s greater shrinkage on the noisier metric it will not hold.</p>
 <p>Kohavi, Tang &amp; Xu (2020) <em>Trustworthy Online Controlled Experiments</em> recommends a stat-sig shipping rule (p105): “(1) If no metrics are positive-significant then do not ship; (2) if some are positive-significant and none are negative-significant then ship; (3) if some are positive-significant and some are negative-significant then”decide based on the tradeoffs.” I think this is bad advice: the statistical significance of an estimate is only loosely related to the informativeness of that estimate. The decision should be made based on your best estimates of the impact on the overall goal metrics.</p>
 <p><br><br><br><br></p>
+<div class="cell page-columns page-full">
 
-<div class="no-row-height column-margin column-container"><div class="cell">
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2022-02-26-inference-with-experimental-data_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="288"></p>
+<figcaption>Ship if sum is positive</figcaption>
+</figure>
+</div>
+</div></div></div>
+<p><br><br><br><br></p>
+<div class="cell page-columns page-full">
 
-</div></div><p><br><br><br><br></p>
-
-<div class="no-row-height column-margin column-container"><div class="cell">
-
-</div></div></section>
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2022-02-26-inference-with-experimental-data_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="288"></p>
+<figcaption>Ship if sum stat-sig positive. I have drawn it assuming that <span class="math inline">\(cov(\hat{t}_1,\hat{t}_2)=0\)</span>. With a positive covariance the threshold would be higher.</figcaption>
+</figure>
+</div>
+</div></div></div>
+</section>
 </section>
 <section id="network-and-dynamic-effects" class="level1">
 <h1>Network and Dynamic Effects</h1>

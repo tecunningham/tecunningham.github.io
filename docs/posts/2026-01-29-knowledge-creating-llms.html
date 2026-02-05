@@ -311,6 +311,10 @@ window.Quarto = {
 <p><em>“As intelligence moves into scientific research, drug discovery, energy systems, and financial modeling, new economic models will emerge. Licensing, IP-based agreements, and outcome-based pricing will share in the value created.”</em></p>
 </blockquote>
 </dd>
+<dt>Will knowledge-creation be bottlenecked on data?</dt>
+<dd>
+A common claim is that AI knowledge-creation will be bottlenecked on the ability to run new experiments. E.g. an automated biologist still needs a lab (<span class="citation" data-cites="amodei2024machines">Amodei (<a href="#ref-amodei2024machines" role="doc-biblioref">2024</a>)</span>), and an automated AI researcher will still need a lot of GPUs to do experiments. Whether this is true depends on the shape of the optimization landscape. If the world is intrinsically high-dimensional, then there is no substitute for collecting data. But if there exists a low-dimensional structure then there are high returns to just thinking harder (more discussion in an <a href="https://tecunningham.github.io/posts/2025-09-19-transformative-AI-notes.html">earlier post</a>). We have found many domains which appeared to be high-dimensional, but turned out to be intrinsically low-dimensional.
+</dd>
 </dl>
 </section>
 <section id="a-visual-illustration" class="level1">
@@ -336,25 +340,29 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="there-are-only-a-dozen-deep-problems" class="level1">
-<h1>There are Only a Dozen Deep Problems</h1>
+<section id="there-are-only-a-dozen-deep-problems-galaxy-brain" class="level1">
+<h1>There are Only a Dozen Deep Problems (Galaxy Brain)</h1>
 <dl>
 <dt>If you squint, a billion problems resolve into just a dozen common problems.</dt>
 <dd>
 <p>In many domains we can reduce the set of problems down to a much smaller set of equivalence-classes or canonical problems. We can then consider problem-solving as having two parts: (1) map to a canonical problem; (2) make progress on that canonical problem.</p>
 <p>Consider three types of problems which LLMs are often asked to solve:</p>
 </dd>
-<dt>Constraint-satisfaction problems.</dt>
+<dt>(1) Constraint-satisfaction problems.</dt>
 <dd>
 Optimization theory textbooks will often have two types of results (1) proofs on the optimality of certain algorithms; (2) proofs that one type of problem is logically equivalent to another type of problem (e.g.&nbsp;a very large class of problems are equivalent to <a href="https://en.wikipedia.org/wiki/Boolean_satisfiability_problem">3SAT</a>, or can be reduced to 3SAT in polynomial time). Some algorithms are known to be optimal but many others are being continually improved.
 </dd>
-<dt>Factual problems.</dt>
+<dt>(2) Factual problems.</dt>
 <dd>
 We can reduce a factual question into (1) find the documented facts that are relevant to this question; (2) infer the answer from those facts. Once you have collected the existing documented facts you hit a ceiling, which can only be advanced by collecting more facts.
 </dd>
-<dt>Statistical inference problems.</dt>
+<dt>(3) Statistical inference problems.</dt>
 <dd>
 For many classes of supervised learning problems there exists an existing “best practice”, e.g.&nbsp;a <a href="https://developer.nvidia.com/blog/the-kaggle-grandmasters-playbook-7-battle-tested-modeling-techniques-for-tabular-data/">recent article</a> says <em>“Over hundreds of Kaggle competitions, we’ve refined a playbook that consistently lands us near the top of the leaderboard”</em>. Thus if you ask an LLM to do statistical inference, it can relatively easily find the existing best-practice, but then it is much harder to advance on that (and if it does, then the solution would be very generally applicable).
+</dd>
+<dt>This is a difficulty for LLM benchmarking.</dt>
+<dd>
+<p>The mapping between idiosyncratic and canonical problems is a difficulty for LLM benchmarking. If each problem can be mapped to a canonical problem, and there exists a best-known-algorithm for each of those canonical problems, then it’s difficult to test the model’s intelligence. A reasonably smart LLM will know how to map a new problem into a canonical problem, and will know the textbook best-practice for that canonical problem (XGboost, ARIMA, gaussian process, branch-and-cut, PPO, etc.).</p>
 </dd>
 <dt>Labs will spend a lot on fixed inference, a little on variable inference.</dt>
 <dd>
@@ -421,6 +429,9 @@ Suppose we can improve the best recipe, <span class="math inline">\(c'_{(1)}&lt;
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-abreu2025taxonomytranscendence" class="csl-entry" role="listitem">
 Abreu, Natalie, Edwin Zhang, Eran Malach, and Naomi Saphra. 2025. <span>“A Taxonomy of Transcendence.”</span> <a href="https://arxiv.org/pdf/2508.17669.pdf">https://arxiv.org/pdf/2508.17669.pdf</a>.
+</div>
+<div id="ref-amodei2024machines" class="csl-entry" role="listitem">
+Amodei, Dario. 2024. <span>“Machines of Loving Grace: How AI Could Transform the World for the Better.”</span> October 2024. <a href="https://www.darioamodei.com/essay/machines-of-loving-grace">https://www.darioamodei.com/essay/machines-of-loving-grace</a>.
 </div>
 <div id="ref-chatterji2025chatgpt" class="csl-entry" role="listitem">
 Chatterji, Aaron, Thomas Cunningham, David J. Deming, Zoe Hitzig, Christopher Ong, Carl Yan Shan, and Kevin Wadman. 2025. <span>“How People Use ChatGPT.”</span> Working Paper 34255. National Bureau of Economic Research. <a href="https://doi.org/10.3386/w34255">https://doi.org/10.3386/w34255</a>.

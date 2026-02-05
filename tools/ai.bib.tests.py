@@ -20,7 +20,10 @@ END_MARKER = "% END AI.BIB TESTS"
 MAX_ABSTRACT_WORDS = 500
 TEXT_ARCHIVE_DIR = Path(__file__).resolve().parents[1] / "references" / "text"
 
-FIELD_RE = re.compile(r"^\s*([A-Za-z][\w-]*)\s*=\s*(\{.*\}|\".*\"|[^,]+)\s*,\s*$")
+# Accept both styles:
+# - trailing comma after the field (preferred)
+# - no trailing comma on the final field in an entry (common in many .bib files)
+FIELD_RE = re.compile(r"^\s*([A-Za-z][\w-]*)\s*=\s*(\{.*\}|\".*\"|[^,]+)\s*,?\s*$")
 ENTRY_START_RE = re.compile(r"^\s*@([A-Za-z]+)\s*\{\s*([^,]+)\s*,\s*$")
 ENTRY_END_RE = re.compile(r"^\s*}\s*$")
 
@@ -113,7 +116,7 @@ def run_tests(entries: list[Entry]) -> list[TestResult]:
             formatting_errors.append(f"L{line_no}:{entry.key}")
     results.append(
         TestResult(
-            name="One field per line + trailing comma",
+            name="One field per line",
             ok=not formatting_errors,
             detail=f" ({summarize_keys(formatting_errors)})" if formatting_errors else "",
         )
