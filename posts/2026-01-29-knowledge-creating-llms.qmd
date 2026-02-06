@@ -15,8 +15,14 @@ https://tecunningham.github.io/posts/2026-01-29-knowledge-creating-llms.html
 see also - 2026-01-31-knowledge-creating-model.md 
 -->
 
+<!-- 
+New post: knowledge-sharing LLMs vs knowledge-creating LLMs. 
+
+The economics of the two cases are qualitatively different, & it seems plausible that labs will start to restrict access to knowledge-creating LLMs so they can use the fruits themselves.
+ -->
+
 ::: {.column-margin}
-   Thanks to Zoë Hitzig & Parker Whitfill for helpful comments.
+   Thanks to Zoë Hitzig & Parker Whitfill, among others, for helpful comments.
 :::
 
 It's useful to make a distinction between two types of LLMs:
@@ -25,7 +31,9 @@ It's useful to make a distinction between two types of LLMs:
   
     **Knowledge-creating LLMs.** Recently LLMs have been trained against the real world, as a consequence they can extend the limits of human knowledge. The demand for new knowledge is different from the demand for old knowledge, and there's reason to expect LLM-creators to sell access *exclusively*.
 
-    Obviously it's a continuum but we're clearly setting out on the trajectory from the first to the second, and I haven't seen much discussion of the implications. Below I give a longer discussion of this distinction, implications for IP, and a galaxy-brain theory that there are only a few dozen deep problems in the world. I'm working on a more formal economic model.
+    Obviously it's a continuum but we're clearly setting out on the trajectory from the first to the second, and I haven't seen much discussion of the implications. I expect that the 2026 impacts of AI will be dominated by these considerations.
+    
+    Below I give a longer discussion of this distinction, implications for IP, and a galaxy-brain theory that there are only a few dozen deep problems in the world. I sketch some considerations for a more formal economic model.
 
 
 <!-- An LLM that shares existing knowledge will be adopted by people outside their area of expertise, and LLM-developers will want to sell access at a low cost. In contrast an LLM that can discover new knowledge will be adopted by experts, and LLM-developers will wish to strictly limit access. -->
@@ -43,7 +51,7 @@ To add:
       7. ~~Quotes about how LLMs are now creating new knowledge~~
       8.  Send to: Eddie, Erik B, Josh Gans. 
       9.  It would be more satisfying to have a generative model. I'd really like to sketch out a very simple model in which both humans and LLMs learn recipes from experimenting against the real world.
-      10. Daniel Rock: Sherwin Rosen superstart-style production.
+      10. Daniel Rock: Sherwin Rosen superstar-style production.
 -->
 
 
@@ -147,6 +155,9 @@ Here we draw the cost for a set of 3 humans across a range of tasks, assuming ea
     )
   }}
 
+  % Title
+  \node[anchor=south, font=\bfseries\large,align=center] at (0.5,1.22) {Knowledge-sharing LLMs\\bring everyone to the knowledge frontier};
+
   % Axes
   \draw[->, line width=0.8pt] (0,0) -- node[midway,below] {task type} (1.0,0);
   \draw[->, line width=0.8pt] (0,0) -- (0,1.18) node[midway,above,rotate=90] {cost (lower is better)};
@@ -163,6 +174,11 @@ Here we draw the cost for a set of 3 humans across a range of tasks, assuming ea
   \draw[orange!80!black, line width=1.6pt]
     plot[domain=0:1, samples=350] (\x,{costEthan(\x)});
 
+  % Labels below each curve's dip
+  \node[blue!70!black, anchor=north, font=\small\bfseries] at (0.10,{\mmin-0.04}) {Alice};
+  \node[green!50!black, anchor=north, font=\small\bfseries] at (0.42,{\mmin-0.04}) {Barry};
+  \node[orange!80!black, anchor=north, font=\small\bfseries] at (0.74,{\mmin-0.04}) {Claudia};
+
   % old LLM curve: lower envelope of the agent curves
   \draw[black, dotted, opacity=0.65, line width=3.2pt]
     plot[domain=0:1, samples=350] (\x,{oldllm(\x)});
@@ -174,7 +190,7 @@ Here we draw the cost for a set of 3 humans across a range of tasks, assuming ea
   \node[anchor=west] at (1.012,0.98) {human cost curves};
 
   %\draw[black!55, line width=0.6pt]           (1,{\yOldLLM})   -- (1.010,0.74);
-  \node[anchor=west,align=left]                         at (1.012,0.8) {knowledge-sharing LLM\\(minimum across humans)};
+  \node[anchor=west,align=left]                         at (1.012,0.8) {knowledge-sharing LLM};
 \end{tikzpicture}
 ```
 
@@ -185,6 +201,8 @@ We can then illustrate a knowledge-creating LLM as pushing below the human front
 \begin{tikzpicture}[x=10cm,y=6cm]
   \def\w{0.042}      % dip width
   \def\mmin{0.34}    % dip depth
+
+  \node[anchor=south, font=\bfseries\large,align=center] at (0.5,1.22) {Knowledge-creating LLMs\\extend the frontier};
 
   \def\bAaron{0.86}
   \def\bCarlos{0.90}
@@ -231,7 +249,7 @@ We can then illustrate a knowledge-creating LLM as pushing below the human front
   %\node[anchor=west]                         at (1.012,0.74) {old LLM\\(minimum across humans)};
 
   %\draw[black!55, line width=0.6pt]           (1,{\yNewLLM})   -- (1.010,0.66);
-  \node[anchor=west,align=left]                         at (1.012,0.7) {knowledge-creating LLM\\(lower cost than best human)};
+  \node[anchor=west,align=left]                         at (1.012,0.7) {knowledge-creating LLM};
 \end{tikzpicture}
 ```
 
