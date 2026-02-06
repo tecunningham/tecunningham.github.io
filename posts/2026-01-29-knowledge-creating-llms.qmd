@@ -9,7 +9,6 @@ reference-location: document
 citation: true
 engine: knitr
 bibliography: ai.bib
-draft: true
 ---
 <!-- 
 https://tecunningham.github.io/posts/2026-01-29-knowledge-creating-llms.html
@@ -26,7 +25,7 @@ It's useful to make a distinction between two types of LLMs:
   
     **Knowledge-creating LLMs.** Recently LLMs have been trained against the real world, as a consequence they can extend the limits of human knowledge. The demand for new knowledge is different from the demand for old knowledge, and there's reason to expect LLM-creators to sell access *exclusively*.
 
-    Below I give a longer discussion of this distinction, a simple economic model, implications for IP, and a galaxy-brain theory that there are only a few dozen deep problems in the world.
+    Obviously it's a continuum but we're clearly setting out on the trajectory from the first to the second, and I haven't seen much discussion of the implications. Below I give a longer discussion of this distinction, implications for IP, and a galaxy-brain theory that there are only a few dozen deep problems in the world. I'm working on a more formal economic model.
 
 
 <!-- An LLM that shares existing knowledge will be adopted by people outside their area of expertise, and LLM-developers will want to sell access at a low cost. In contrast an LLM that can discover new knowledge will be adopted by experts, and LLM-developers will wish to strictly limit access. -->
@@ -44,6 +43,7 @@ To add:
       7. ~~Quotes about how LLMs are now creating new knowledge~~
       8.  Send to: Eddie, Erik B, Josh Gans. 
       9.  It would be more satisfying to have a generative model. I'd really like to sketch out a very simple model in which both humans and LLMs learn recipes from experimenting against the real world.
+      10. Daniel Rock: Sherwin Rosen superstart-style production.
 -->
 
 
@@ -55,25 +55,26 @@ To add:
 
 
 Knowledge-sharing LLMs.
-:     I find it is useful to think of LLMs as lowering the price of sharing existing human knowledge (see some of my previous writing on this: [AI & Imitation](https://tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html), [a pocket model of AI][transformative]).
+:     
+    I find it is useful to think of LLMs as lowering the price of sharing existing human knowledge (see some of my previous writing on this: [AI & Imitation](https://tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html), [a pocket model of AI][transformative]).
 
-      Traditionally LLMs have been trained with human judgment as the ground truth, using labels from paid raters or from customers. As a consequence they can answer questions and solve problems up to the limits of human expertise but rarely beyond (with some exceptions, see the literature on LLM "Transcendence", @abreu2025taxonomytranscendence).
+    Traditionally LLMs have been trained with human judgment as the ground truth, using labels from paid raters or from customers. As a consequence they can answer questions and solve problems up to the limits of human expertise but rarely beyond (with some exceptions, see the literature on LLM Transcendence, @abreu2025taxonomytranscendence).
 
-      If we model the economic effects of LLMs as coming from sharing existing knowledge this has a number of implications that seem to fit the data.[^sharing]
+    If we model the economic effects of LLMs as coming from sharing existing knowledge, recorded in the training data, this has a number of implications that seem to fit the data.[^sharing]
 
-      - LLMs use will be higher among those junior in their careers, facing problems that are new to them.
-      
-      - LLMs will be dispropportionately used by people outside their area of expertise, e.g. lawyers will use them relatively more for medical questions, doctors will use them relatively more for legal questions.
-      
-      - LLMs will be disproportionately used in well-documented domains, e.g. relatively more for popular programming languages than for proprietary programming languages.
-      
-      - LLMs will decrease knowledge rents -- the premium earned by people and firms whose value comes from knowledge.
-      
-      - LLMs will increase home production -- LLMs let you solve problems yourself (see my ChatGPT paper, @chatterji2025chatgpt), insofar as this substitutes for market-provided knowledge this can decrease measured GDP.
+    - LLM use will be higher among those junior in their careers, facing problems that are new to them.
+    
+    - LLMs will be disproportionately used by people outside their area of expertise, e.g. lawyers will use them relatively more for medical questions, doctors will use them relatively more for legal questions.
+    
+    - LLMs will be disproportionately used in well-documented domains, e.g. relatively more for popular programming languages than for proprietary programming languages.
+    
+    - LLMs will decrease knowledge rents -- the premium earned by people and firms whose value comes from knowledge.
+    
+    - LLMs will increase home production -- LLMs let you solve problems yourself (see our ChatGPT paper, @chatterji2025chatgpt), insofar as this substitutes for market-provided knowledge this can decrease measured GDP.
 
-      - LLMs decrease the returns to innovation and news-gathering, because they increase the speed of knowledge diffusion and thus diminish the rents that can earned from new knowledge.
-      
-      - LLM use has high fixed costs (collecting the knowledge) and low marginal costs (sharing the knowledge). The returns to tokens on an individual problem rapidly diminish when you hit the frontier of existing knowledge. One ChatGPT query can tell me what an expert would think about my problem, additional ChatGPT queries have much less use.
+    - LLMs decrease the returns to innovation and news-gathering, because they increase the speed of knowledge diffusion and thus diminish the rents that can be earned from new knowledge.
+    
+    - LLM use has high fixed costs (collecting the knowledge) and low marginal costs (sharing the knowledge). The returns to tokens on an individual problem rapidly diminish when you hit the frontier of existing knowledge. One ChatGPT query can tell me what an expert would think about my problem, additional ChatGPT queries have much less use.
 
 
 [^sharing]: Many other technologies share knowledge -- speaking, writing, printing, the internet -- LLMs just continue this progression but further lower the costs of sharing.
@@ -87,17 +88,19 @@ Knowledge-creating LLMs.
 
     New LLM-based discovery techniques (e.g. AlphaEvolve (@novikov2025alphaevolve), TTT-Discover (@yuksekgonul2026learning)) are distinct from prior AI discovery applications (e.g. AlphaFold, AlphaTensor) in that they are *general* methods, they can relatively quickly be adapted to any arbitrary optimization problem.
 
-     Knowledge-creating LLMs will differ from knowledge-sharing LLMs in a number of ways:
+    Some potential applications for knowledge-generating inference: (1) optimize every part of the AI R&D and serving stack; (2) do drug discovery; (3) discover new algorithms which can be used in new software (e.g. new codecs, new scheduling algorithms); (4) build better trading algorithms; (5) if you have a sufficiently high-quality verifier to human preferences, then build very high-quality cultural products, e.g. movies.
 
-     - Knowledge-creating LLMs will have qualitatively different benchmarks: instead of seeing if they can answer questions which we already know the answer to (most existing benchmarks), we want them to answer *new* questions, e.g. solve an unsolved mathematical problem ([FrontierMath Open Problems](https://epoch.ai/frontiermath/open-problems)) or set a new record on an optimization problem (e.g. GSO-bench, @shetty2025gso). We can use these new frontier benchmarks are indices for capability, but they are more challenging to interpret because the frontier is always moving.
+    Knowledge-creating LLMs will differ from knowledge-sharing LLMs in a number of ways:
 
-     - Knowledge-creating LLMs have high returns to compute on individual problems, unlike knowledge-sharing LLMs for which returns asymptote quickly. It can be worth spending billions of tokens to solve a single problem if the solution is generally applicable.
+    - Knowledge-creating LLMs will have qualitatively different benchmarks: instead of seeing if they can answer questions which we already know the answer to (most existing benchmarks), we want them to answer *new* questions, e.g. solve an unsolved mathematical problem ([FrontierMath Open Problems](https://epoch.ai/frontiermath/open-problems)) or set a new record on an optimization problem (e.g. GSO-bench, @shetty2025gso). We can use these new frontier benchmarks are indices for capability, but they are more challenging to interpret because the frontier is always moving.
 
-     - Knowledge-creating LLMs will be adopted by leader firms more than followers.
-      
-     - The demand for new knowledge is much less elastic than the demand for existing knowledge because there are high returns to *exclusivity* of new knowledge. Thus LLM-providers are likely to license their technology exclusively rather than expose them through a general-purpose API. Sarah Friar, OpenAI's CFO, said in [January 2026](https://openai.com/index/a-business-that-scales-with-the-value-of-intelligence/):
+    - Knowledge-creating LLMs have high returns to compute on individual problems, unlike knowledge-sharing LLMs for which returns asymptote quickly. It can be worth spending billions of tokens to solve a single problem if the solution is generally applicable.
 
-      > *"As intelligence moves into scientific research, drug discovery, energy systems, and financial modeling, new economic models will emerge. Licensing, IP-based agreements, and outcome-based pricing will share in the value created."*
+    <!-- - Knowledge-creating LLMs will be adopted by leader firms more than followers. -->
+    
+    - The demand for new knowledge is much less elastic than the demand for existing knowledge because there are high returns to *exclusivity* of new knowledge. Thus LLM-providers are likely to either (1) use the knowledge themselves; or (2) license the new knowledge to partners, rather than expose the knowledge-generation technology through a general-purpose API. Sarah Friar, OpenAI's CFO, said in [January 2026](https://openai.com/index/a-business-that-scales-with-the-value-of-intelligence/):
+
+    > *"As intelligence moves into scientific research, drug discovery, energy systems, and financial modeling, new economic models will emerge. Licensing, IP-based agreements, and outcome-based pricing will share in the value created."*
 
 Will knowledge-creation be bottlenecked on data?
 : 
@@ -272,6 +275,8 @@ This is a difficulty for LLM benchmarking.
 
     The mapping between idiosyncratic and canonical problems is a difficulty for LLM benchmarking. If each problem can be mapped to a canonical problem, and there exists a best-known-algorithm for each of those canonical problems, then it's difficult to test the model's intelligence. A reasonably smart LLM will know how to map a new problem into a canonical problem, and will know the textbook best-practice for that canonical problem (XGboost, ARIMA, gaussian process, branch-and-cut, PPO, etc.). Thus we either have to devise problems sufficiently weird that it's difficult to map them to textbook problems, or instead ask LLMs to advance the knowledge frontier on one of the existing canonical problems.
 
+    The remaining good domains for LLM benchmarking are tasks that are an *emulsion* of data and logic. They're neither pure statistical inference nor pure deductive reasoning, but require both. Complex video games with a rich state-space are a good example ([VideoGameBench](https://arxiv.org/pdf/2505.18134) appears to be far from saturated), also rich simulated real-world environments like [VendingBench](https://andonlabs.com/evals/vending-bench-2).
+
 Labs will spend a lot on fixed inference, a little on variable inference.
 : 
     If this perspective is accurate then it has deep implications for the economics of AI: the marginal cost of solving an idiosyncratic problem is small (you just need to map it to one of the canonical problems, and apply that solution), but there's very high value in making progress on the canonical problems. So we would expect AI labs to be spending huge amounts of compute on advancing the SoTA on the few deep problems of the world, and providing a service that solves idiosyncratic problems very cheaply.
@@ -284,9 +289,11 @@ There will be a land-grab in intellectual property.
 
 #           Appendix
 
-Examples of knowledge-creating LLMs.
+Recent examples of LLM optimization ability:
 :  
-   @novikov2025alphaevolve (Alpha-Evolve):
+    Recent examples of 
+
+    @novikov2025alphaevolve (Alpha-Evolve):
 
       > "AlphaEvolve orchestrates an autonomous pipeline of LLMs, whose task is to improve an algorithm by making direct changes to the code. ... When applied to optimizing critical components of large-scale computational stacks at Google, AlphaEvolve developed a more efficient scheduling algorithm for data centers, found a functionally equivalent simplification in the circuit design of hardware accelerators, and accelerated the training of the LLM underpinning AlphaEvolve itself. Furthermore, AlphaEvolve discovered novel, provably correct algorithms that surpass state-of-the-art solutions on a spectrum of problems in mathematics and computer science, significantly expanding the scope of prior automated discovery methods (Romera-Paredes et al., 2023)."
 
@@ -294,19 +301,32 @@ Examples of knowledge-creating LLMs.
 
       > "We report results for every problem we attempted, across mathematics, GPU kernel engineering, algorithm design, and biology. TTT-Discover sets the new state of the art in almost all of them: (i) Erdős’ minimum overlap problem and an autocorrelation inequality; (ii) a GPUMode kernel competition (up to 2×faster than prior art); (iii) past AtCoder algorithm competitions; and (iv) denoising problem in single-cell analysis. Our solutions are reviewed by experts or the organizers."
 
+    The Opus 4.6 [system card](https://www-cdn.anthropic.com/0dd865075ad3132672ee0ab40b05a53f14cf5288.pdf) reports results on a kernel optimization task. It's notable that their internal scaffold shows much higher performance than their public model.
+
+      >  "Claude Opus 4.6 obtained a 427× best speedup using an experimental scaffold and a 190× best speedup using our standard scaffold.
+
    
 
-#           An Economic Model [UNFINISHED]
+#           Economic Model Sketch
 
-A basic model of knowledge and output.
-: In a very simple model we have:
+A promissory note.
+: 
+    I'm working on a more full-specified model, but I wanted to get this blog post out sooner. I feel this area is incredibly ripe for modelling, I'd love to find a theorist collaborator, & it'd make me very happy if someone else writes something about this.
 
-      1. Aggregate output is determined by the best knowledge.
-      2. Aggregate profit is determined by the distance between the best and second-best knowledge.
+Embodied and disembodied knowledge.
+: 
+    I find it useful to distinguish between *embodied* knowledge (the knowledge only applies to my own labor), and *disembodied* knowledge (I can scale my knowledge, e.g. hiring other workers or building machines). Knowledge-sharing seems to mostly apply to embodied knowledge, e.g. I use ChatGPT to learn medical knowledge I can use myself. Knowledge-creation is more applicable to disembodied knowledge, e.g. firms innovate.
 
-      Suppose there are $L$ people, each has 1 unit of labor, and there is just one good. Each person knows some subset of recipes $R_i\subseteq R$, and each recipe yields some cost of producing the good from labor, $c(r)$. Then person $i$'s effective cost $c_i$ is the lowest cost among the recipes that they know. Each person can rent labor from others to produce the consumption good, and we assume labor is allocated via Bertrand wage competition among recipe-holders; workers are price-takers and work for the highest wage.
+A simple model of disembodied knowledge.
+: 
+    In a very simple model we have:
 
-      We can order the costs from lowest to highest, $c_{(1)}\leq \cdots \leq c_{(L)}$. In equilibrium the lowest-cost agent will rent the labor of all others, produce the good at the lowest cost $c_{(1)}$, and then sell the good back at a price equal to the second-lowest cost ($1/c_{(2)}$), and keep the remainder as profit:
+    1. Aggregate output is determined by the best knowledge.
+    2. Aggregate profit is determined by the distance between the best and second-best knowledge.
+
+    Suppose there are $L$ people, each has 1 unit of labor, and there is just one good. Each person knows some subset of recipes $R_i\subseteq R$, and each recipe yields some cost of producing the good from labor, $c(r)$. Then person $i$'s effective cost $c_i$ is the lowest cost among the recipes that they know. Each person can rent labor from others to produce the consumption good, and we assume labor is allocated via Bertrand wage competition among recipe-holders; workers are price-takers and work for the highest wage.
+
+    We can order the costs from lowest to highest, $c_{(1)}\leq \cdots \leq c_{(L)}$. In equilibrium the lowest-cost agent will rent the labor of all others, produce the good at the lowest cost $c_{(1)}$, and then sell the good back at a price equal to the second-lowest cost ($1/c_{(2)}$), and keep the remainder as profit:
 : $$\begin{aligned}
       \text{output} &= \frac{1}{c_{(1)}}L  && \text{(the best recipe)}\\
       \text{profit} &= \left(\frac{1}{c_{(1)}}-\frac{1}{c_{(2)}}\right)(L-1) 
@@ -314,17 +334,13 @@ A basic model of knowledge and output.
    \end{aligned}
    $$
 
+    Two simple implications:
 
-Knowledge-sharing spreads output.
-:  Suppose we share the best recipe among the whole population, so now $c'_{(2)}=c'_{(1)}=c_{(1)}$. Now total output is unchanged, but profit is eliminated, and the output is spread equally among all actors.
+    1. Knowledge-sharing spreads output. If we share the best recipe among the whole population, now $c'_{(2)}=c'_{(1)}=c_{(1)}$. Total output is unchanged, but profit is eliminated, and the output is spread equally among all actors.
+    
+    2. Knowledge-creation increases output. Suppose we can improve the best recipe, $c'_{(1)}<c_{(1)}$. Total output will increase. The effect on profit will depend on (1) whether the identity of the lowest-cost producer changes; and (2) the degree of improvement.
 
-Knowledge-creation increases output.
-: Suppose we can improve the best recipe, $c'_{(1)}<c_{(1)}$. Total output will increase. The effect on profit will depend on (1) whether the identity of the lowest-cost producer changes; and (2) the degree of improvement.
-
-<!-- 
-The market for knowledge.
-: We now should turn to how knowledge-sharing and knowledge-creation is used. The answers are somewhat sensitive to the specifics of the market. 
--->
+    We then wish to turn to the market for knowledge. The answers are somewhat sensitive to the knowledge-seller's ability to commit & exclude knowledge-sharing. But broadly it's clear that the demand for new knowlege is much less elastic than the demand for existing knowledge: it's far more valuable to be the *sole* owner of new knowledge.
 
 
 <!-- notes on models: 2026-01-31-knowledge-creating-model.md -->
