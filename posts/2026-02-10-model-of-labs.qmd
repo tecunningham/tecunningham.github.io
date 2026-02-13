@@ -1,0 +1,117 @@
+---
+math: false
+---
+
+# 2026-02-10 |                      model of labs for tkwa
+
+```{mermaid}
+flowchart LR
+    classDef choice fill:#fff2cc,stroke:#d6b656,stroke-width:2px,color:#000;
+
+    subgraph pretraining["Pretraining (\$11B/year)"]
+        rdsalaries["Pretraining R&D<br>(\$3B/yr)"] --> pretraining_algorithm
+        experiment_compute["Pretraining experimental<br>compute (\$3B/yr)"] --> pretraining_algorithm
+        pretraining_algorithm([pretraining algorithm]) --> prequality((base model<br>quality))
+        pretraining_compute["Pretraining compute<br>(\$4B/yr)"] --> prequality
+        pretraining_data["Data acquisition<br>(\$1B/yr)"] --> prequality
+        model_size["Model size"] --> prequality
+        model_size --> inference_cost
+        prequality --> perplexity([perplexity])
+
+        class model_size,rdsalaries,experiment_compute,pretraining_data,pretraining_compute choice
+    end
+
+    subgraph posttraining["Posttraining (\$4B/year)"]
+        prequality --> quality((final model<br>quality))
+        posttraining_experiments["Post-training experiment<br>compute (\12B/yr)"] --> posttraining_algorithm
+        posttraining_rd["Post-training R&D<br>(\$1B/yr)"] --> posttraining_algorithm
+        posttraining_algorithm(["Post-training algorithm"]) --> quality
+        posttraining_compute["Post-training final run compute<br>(\12B/yr)"] --> quality
+        posttraining_data["Post-training data<br>(\$1B/yr)"] --> quality
+        quality --> benchmark([benchmark<br>scores])
+        quality --> rmscore([reward model score])
+        quality --> abmetrics([AB-test metrics])
+
+        class posttraining_rd,posttraining_compute,posttraining_data,posttraining_experiments choice
+    end
+
+    subgraph market_strategy["Market Strategy"]
+        quality --> demand([demand])
+        price --> demand
+        price --> revenue(["Revenue<br>(\$20B)"])
+        demand --> revenue
+
+        demand --> cost(["Total inference cost<br>(\$13B)"])
+        inference_cost(["Inference cost"]) --> cost
+
+        other_costs["Other operating costs<br>(\$7B/yr)"]
+
+        class price,other_costs choice
+    end
+
+    subgraph LEGEND
+        c[Choice variable]
+        s(["observed outcome"])
+        t(("unobserved outcome"))
+    end
+    class c choice;
+
+    style pretraining fill:#f9f9f9,stroke:#ccc
+    style posttraining fill:#f9f9f9,stroke:#ccc
+    style market_strategy fill:#f9f9f9,stroke:#ccc
+    style LEGEND fill:#f9f9f9,stroke:#ccc
+```
+
+--------------------------------------------
+
+
+All figures are **annualized run-rates as of end-2025**, not full-year totals. This is an **operating-expense view** — it excludes capital investment (data-center buildout, GPU purchases, etc.), which OpenAI currently accesses via cloud contracts rather than owning outright. Large one-off training runs are treated as annualized steady-state spending; in practice they are lumpy and might more properly be amortized over the useful life of the resulting model.
+
+Confidence: 🟢 = reported/leaked figure, 🟡 = triangulated from partial data, 🔴 = rough guess.
+
+| Line item | Estimate | | Source / justification |
+|:---|---:|:---:|:---|
+| **Revenue** (ARR) | **\$20B/yr** | 🟢 | CFO statement, late 2025 ([Reuters][1]). Consistent with H1 revenue of \$4.3B growing to \$13B full-year target ([The Information][6]) |
+| | | | |
+| **Pretraining** | | | |
+| &ensp; R&D staff & overhead | \$3B/yr | 🟡 | ~4,000 employees ([WSJ][7]); H1 R&D was \$6.7B incl. compute ([The Information][6]); \$3B is residual after subtracting compute items below |
+| &ensp; Experimental compute (exploratory runs) | \$3B/yr | 🟡 | In 2024, ~\$5B R&D compute, mostly experiments not final training ([Epoch AI][3]); scaled up for 2025 |
+| &ensp; Frontier pretraining compute | \$4B/yr | 🟡 | Residual so pretraining subtotal = \$11B; consistent with Epoch AI and Fortune magnitudes ([Fortune][5], [Epoch AI][3]) |
+| &ensp; Data acquisition & storage | \$1B/yr | 🟡 | Known deals: News Corp \$250M/5yr, Reddit \$60M, plus AP, FT, Axel Springer ([Reuters][8]); total licensing likely \$200–300M/yr; remainder is scraping, curation, storage |
+| ***Pretraining subtotal*** | ***\$11B/yr*** | | *Sum of above* |
+| | | | |
+| **Post-training** | | | |
+| &ensp; Post-training R&D (algorithms, tooling) | \$1B/yr | 🔴 | No public breakdown; no leaked figures on post-training sub-costs |
+| &ensp; Post-training compute (SFT, RLHF, evals) | \$2B/yr | 🔴 | No direct disclosure; assumed large but smaller than pretraining compute |
+| &ensp; Post-training data (labeling, preference) | \$1B/yr | 🔴 | No public number; consistent with scale of human + synthetic feedback pipelines |
+| ***Post-training subtotal*** | ***\$4B/yr*** | | *Sum of above* |
+| | | | |
+| **Inference / serving** | **\$13B/yr** | 🟡 | \$8.65B Azure payments in first 9 months ([TechCrunch][2]); \$13B extrapolates end-2025 run-rate. *Caveat:* compute margin reached ~70% by Oct 2025 ([CoinCodex][9]), implying lower unit cost; \$13B may overstate Q4 run-rate |
+| **Other opex** (S&M, G&A, rev-share, etc.) | \$7B/yr | 🟡 | H1 S&M alone was \$2B ([The Information][6]) → ~\$5B/yr run-rate; plus G&A, legal, compliance, 20% Microsoft rev-share (~\$4B on \$20B). Total plausibly \$7–9B |
+| | | | |
+| ***Total costs*** | ***\$35B/yr*** | | *11 + 4 + 13 + 7. Cross-check: Fortune reports \$22B full-year spending vs \$13B sales ([Fortune][5]); run-rate > in-period average because costs ramped through the year* |
+| ***Revenue − costs*** | ***–\$15B/yr*** | | *Consistent with projected \$9B net loss for 2025 ([Fortune][5]) scaling to higher end-of-year run-rate* |
+
+
+## Sources
+
+* **[1] Reuters**: CFO says annualized revenue crossed \$20B in late 2025. ([link][1])
+* **[2] TechCrunch**: leaked docs; \$8.65B inference payments to Azure in first 9 months of 2025. ([link][2])
+* **[3] Epoch AI**: 2024 compute breakdown — ~\$7B total (~\$5B R&D, ~\$2B inference); most R&D was experiments, not final training. ([data insight][3], [substack][4])
+* **[5] Fortune**: internal docs shared with investors; \$22B spending vs \$13B sales for full-year 2025; \$9B net loss. ([link][5])
+* **[6] The Information** (via Reuters/ainvest): H1 2025 financials — \$4.3B revenue, \$6.7B R&D, \$2B S&M, \$2.5B SBC, \$2.5B cash burn. ([Reuters][6a], [ainvest][6b])
+* **[7] WSJ**: OpenAI paying employees more than any major tech startup — average SBC ~\$1.5M/employee; ~4,000 headcount. ([link][7])
+* **[8] Reuters/NYT**: data licensing deals — News Corp \$250M/5yr, Reddit \$60M, plus AP, FT, Axel Springer. ([Reuters][8], [NYT][8b])
+* **[9] CoinCodex**: compute margin reached ~70% by Oct 2025 (up from 52% end-2024); overall gross margin ~48%. ([link][9])
+
+[1]: https://www.reuters.com/business/openai-cfo-says-annualized-revenue-crosses-20-billion-2025-2026-01-19/ "OpenAI CFO says annualized revenue crosses $20 billion in 2025"
+[2]: https://techcrunch.com/2025/11/14/leaked-documents-shed-light-into-how-much-openai-pays-microsoft/ "Leaked documents shed light into how much OpenAI pays Microsoft"
+[3]: https://epoch.ai/data-insights/openai-compute-spend "Most of OpenAI's 2024 compute went to experiments"
+[4]: https://epochai.substack.com/p/how-does-openai-allocate-its-compute "How does OpenAI allocate its compute? - Epoch AI"
+[5]: https://fortune.com/2025/11/12/openai-cash-burn-rate-annual-losses-2028-profitable-2030-financial-documents/ "OpenAI says it plans to report stunning annual losses"
+[6a]: https://www.reuters.com/technology/openais-first-half-revenue-rises-16-about-43-billion-information-reports-2025-09-30/ "OpenAI generates $4.3 billion in revenue in first half of 2025"
+[6b]: https://www.ainvest.com/news/openai-prints-4-3b-revenue-torches-billions-cash-era-defining-money-furnace-2509/ "OpenAI Prints $4.3B in Revenue"
+[7]: https://www.wsj.com/tech/ai/openai-is-paying-employees-more-than-any-major-tech-startup-in-history-23472527 "OpenAI Is Paying Employees More Than Any Major Tech Startup"
+[8]: https://www.reuters.com/technology/sam-altmans-openai-signs-content-agreement-with-news-corp-2024-05-22/ "OpenAI signs content agreement with News Corp"
+[8b]: https://www.nytimes.com/2024/05/22/business/media/openai-news-corp-content-deal.html "OpenAI Strikes a Deal to License News Corp Content"
+[9]: https://coincodex.com/article/78968/openai-doubles-margins-in-2025-as-ai-costs-fall-and-revenues-surge/ "OpenAI Doubles Margins in 2025"
