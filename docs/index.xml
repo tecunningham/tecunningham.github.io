@@ -10,137 +10,7 @@
 <atom:link href="tecunningham.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>{{&lt; meta description-meta &gt;}}</description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Tue, 10 Feb 2026 08:00:00 GMT</lastBuildDate>
-<item>
-  <title>LLM verification</title>
-  <dc:creator>Tom Cunningham</dc:creator>
-  <link>tecunningham.github.io/posts/2025-12-30-llm-verification.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<p><strong>A prediction: people will move towards producing documents that are machine-verified.</strong> A document will come with a checklist so you can see that it satisfies certain properties, as verified by LLMs:</p>
-<div style="max-width: 400px; margin: auto;">
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th></th>
-<th style="text-align: center;">Claude</th>
-<th style="text-align: center;">Gemini</th>
-<th style="text-align: center;">GPT</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Factual claims are accurate</td>
-<td style="text-align: center;">✅</td>
-<td style="text-align: center;">✅</td>
-<td style="text-align: center;">✅</td>
-</tr>
-<tr class="even">
-<td>Logically consistent</td>
-<td style="text-align: center;">✅</td>
-<td style="text-align: center;">✅</td>
-<td style="text-align: center;">✅</td>
-</tr>
-<tr class="odd">
-<td>Central idea is novel</td>
-<td style="text-align: center;">✅</td>
-<td style="text-align: center;">✅</td>
-<td style="text-align: center;">✅</td>
-</tr>
-<tr class="even">
-<td>The writing is readable</td>
-<td style="text-align: center;">✅</td>
-<td style="text-align: center;">✅</td>
-<td style="text-align: center;">✅</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p><strong>If your blog post starts with this checklist I’ll be more likely to read it.</strong></p>
-<p>This is already happening for mathematicians and programmers: they verify LLM-produced proofs with a formal verification tool (e.g.&nbsp;Lean), and LLM-produced code with unit tests. I’m predicting that this pattern will spread to all other areas of knowledge work, as LLMs get better at verifying correctness.</p>
-<section id="notes" class="level1">
-<h1>Notes</h1>
-<dl>
-<dt>A corollary: there’s a magic prompt.</dt>
-<dd>
-<p>Instead of saying <em>“answer question Q”</em>, it’s better to say <em>“answer question Q, and give me a way of verifying that the answer is correct.”</em></p>
-<p>You want the LLM to give you a checklist like the one above, decomposing the verification into many subproblems. Programmers have learnt to prompt <em>“write a program to do P, and a set of tests to verify that it does P.”</em></p>
-</dd>
-<dt>Examples of criteria you want to check:</dt>
-<dd>
-<ul>
-<li>An infection prevention plan: verify that the plan is consistent with the relevant protocols.</li>
-<li>A tax return: verify that each of the IRS rules are satisfied.</li>
-<li>A legal memo: verify that citations are accurate.</li>
-<li>An insurance claim: verify that the claim answers all relevant questions.</li>
-<li>An insurance decision: verify that the decision is consistent with close precedents.</li>
-</ul>
-</dd>
-<dt>An analogy with two friends.</dt>
-<dd>
-You have one friend who is full of new ideas, you have another friend who can tell whether an idea is good or bad. Each friend is somewhat useful, but when you combine them they’re amazing. (I think this is the case for mathematicians: LLMs will produce a fountain of proofs, and Lean can distinguish which are sound or unsound).
-</dd>
-<dt>Implication: credentials become less important.</dt>
-<dd>
-<p>Many people are saying that LLMs will make credentials more important, because they make it harder to superficially distinguish high-quality and low-quality work. <a href="https://x.com/ryancbriggs/status/2004928726153527776">Ryan Briggs</a> says:</p>
-<blockquote class="blockquote">
-<p><em>“Prediction: in the short-to-medium term LLMs will make the reputation of the researcher matter more for whether or not we view results as credible because it will become too hard to read everything and people will want shortcuts for filtering. Again, this hits juniors hardest.”</em></p>
-</blockquote>
-<p>It’s possible this is true but there’s a countervailing force: LLMs are better paper-writers, but also better referees. In fact they may be relatively better referees than they are authors, which would shift balance in favor of the less-credentialed. If we had a perfect test for the quality of work, we wouldn’t need to rely on reputation at all.</p>
-<p>If someone entirely unqualified makes a breakthrough in ML or mathematics they can verify it. Historically this has been much harder in soft disciplines like economics, but if the cost of verification falls to zero.</p>
-<p>A related point: in an old <a href="https://tecunningham.github.io/posts/2023-06-06-effect-of-ai-on-communication.html">post on AI and communication</a> I argued that with LLMs reputation will become less important for internal properties (where the ground truth is human judgment, i.e.&nbsp;verification is cheap), more important for external properties (where the ground truth is in the world, i.e.&nbsp;verification is expensive).</p>
-</dd>
-</dl>
-</section>
-<section id="a-more-precise-story" class="level1">
-<h1>A More Precise Story</h1>
-<ol type="1">
-<li><p>Different domains have different costs of verification:</p>
-<ul>
-<li>Cheap to verify: whether an image looks good, whether a joke is funny, whether a sudoku solution is valid, whether a formalized proof is sound, whether code passes a specific test.</li>
-<li>Costly to verify: whether a medical paper works, whether an academic paper is high quality, whether a human-written proof is sound, whether code fulfills a specification.</li>
-</ul></li>
-<li><p>LLM-verification will be a big benefit in domains where it’s costly to verify.</p></li>
-<li><p>There is a complementarity between LLM-generation and LLM-verification, the value of both is more than the sum of the value of each.</p></li>
-<li><p>When doing LLM-generation it’s useful to ask the LLM to self-verify. E.g. by (1) generating a Lean proof and validating it; (2) generating unit tests and running them; (3) generating a checklist and asking an independent LLM to check each box.</p></li>
-<li><p>LLM-generation can <em>hurt</em> communication equilibria where verification is costly, when LLM generation lowers the cost of <em>accidental</em> attributes (not essential attributes). E.g. if LLMs make it cheap to fix spelling errors, or to adopt idioms of the discipline, then there will be less separation in equilibrium.</p></li>
-</ol>
-</section>
-<section id="formal-models" class="level1">
-<h1>Formal Models</h1>
-<p>A couple of very hasty models to sketch how to formalize this. It would be nice to have a single model which incorporates all the mechanisms above.</p>
-<dl>
-<dt>Model 1: quality vs polish.</dt>
-<dd>
-<p>Suppose you care just about intrinsic quality <img src="https://latex.codecogs.com/png.latex?q">, but your signal is <img src="https://latex.codecogs.com/png.latex?s=q+p"> where <img src="https://latex.codecogs.com/png.latex?p"> is polish. You know that <img src="https://latex.codecogs.com/png.latex?q"> and <img src="https://latex.codecogs.com/png.latex?p"> are positively correlated (better books have better covers), so <img src="https://latex.codecogs.com/png.latex?s"> is a highly reliable signa of quality.</p>
-<p>Suppose LLMs lower the cost of polish, so now everyone has high <img src="https://latex.codecogs.com/png.latex?p">. This makes the signal-extraction problem worse, and you’ll rely relatively more on another signal, e.g.&nbsp;the author’s reputation (assuming it’s another signal correlated with <img src="https://latex.codecogs.com/png.latex?q">).</p>
-<p>Suppose instead that LLMs lower the cost of directly observing quality <img src="https://latex.codecogs.com/png.latex?q">. This will then imply putting relatively less weight on the author’s reputation.</p>
-<p><strong>Implications:</strong></p>
-<ol type="1">
-<li>LLMs lowering the cost of polish will cause more weight to be put on reputation.</li>
-<li>LLMs lowering the cost of verification will cause less weight to be put on reputation.</li>
-</ol>
-</dd>
-<dt>Model 2: search.</dt>
-<dd>
-<p>You have <img src="https://latex.codecogs.com/png.latex?N"> ideas with unobserved iid payoffs, and you can pay cost <img src="https://latex.codecogs.com/png.latex?c"> to find the true payoff (AKA Weitzmann’s Pandora’s box problem).</p>
-<p>Claim: there’s a complementarity between the number of ideas you have (<img src="https://latex.codecogs.com/png.latex?N">) and the cheapness of verification (inverse of <img src="https://latex.codecogs.com/png.latex?c">). Formally:</p>
-<p><img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20V_n(c)%20%20%20&amp;%20=%5Cint_%7B0%7D%5E%7B%5Csigma(c)%7D%20%5Cbig(1-F(t)%5En%5Cbig)dt,%0A%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(expected%20value%20from%20optimal%20strategy)%7D%5C%5C%0A%20%20E%5B(X-%5Csigma)%5E+%5D%20&amp;=%20c%20&amp;&amp;%20%5Ctext%7B(implicit%20definition%20of%20$%5Csigma(c)$)%7D%0A%5Cend%7Baligned%7D"></p>
-<p>From inspection we can see that the expression has a complementarity between <img src="https://latex.codecogs.com/png.latex?c"> and <img src="https://latex.codecogs.com/png.latex?n">.</p>
-</dd>
-</dl>
-
-
-</section>
-
- ]]></description>
-  <guid>tecunningham.github.io/posts/2025-12-30-llm-verification.html</guid>
-  <pubDate>Tue, 10 Feb 2026 08:00:00 GMT</pubDate>
-</item>
+<lastBuildDate>Fri, 06 Feb 2026 08:00:00 GMT</lastBuildDate>
 <item>
   <title>Knowledge-Creating LLMs</title>
   <dc:creator>Tom Cunningham</dc:creator>
@@ -359,6 +229,136 @@ Cunningham, Tom. 2026. <span>“Knowledge-Creating LLMs.”</span> February
 </div></div></section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2026-01-29-knowledge-creating-llms.html</guid>
   <pubDate>Fri, 06 Feb 2026 08:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>LLM verification</title>
+  <dc:creator>Tom Cunningham</dc:creator>
+  <link>tecunningham.github.io/posts/2025-12-30-llm-verification.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p><strong>A prediction: people will move towards producing documents that are machine-verified.</strong> A document will come with a checklist so you can see that it satisfies certain properties, as verified by LLMs:</p>
+<div style="max-width: 400px; margin: auto;">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;">Claude</th>
+<th style="text-align: center;">Gemini</th>
+<th style="text-align: center;">GPT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Factual claims are accurate</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr class="even">
+<td>Logically consistent</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr class="odd">
+<td>Central idea is novel</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr class="even">
+<td>The writing is readable</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>If your blog post starts with this checklist I’ll be more likely to read it.</strong></p>
+<p>This is already happening for mathematicians and programmers: they verify LLM-produced proofs with a formal verification tool (e.g.&nbsp;Lean), and LLM-produced code with unit tests. I’m predicting that this pattern will spread to all other areas of knowledge work, as LLMs get better at verifying correctness.</p>
+<section id="notes" class="level1">
+<h1>Notes</h1>
+<dl>
+<dt>A corollary: there’s a magic prompt.</dt>
+<dd>
+<p>Instead of saying <em>“answer question Q”</em>, it’s better to say <em>“answer question Q, and give me a way of verifying that the answer is correct.”</em></p>
+<p>You want the LLM to give you a checklist like the one above, decomposing the verification into many subproblems. Programmers have learnt to prompt <em>“write a program to do P, and a set of tests to verify that it does P.”</em></p>
+</dd>
+<dt>Examples of criteria you want to check:</dt>
+<dd>
+<ul>
+<li>An infection prevention plan: verify that the plan is consistent with the relevant protocols.</li>
+<li>A tax return: verify that each of the IRS rules are satisfied.</li>
+<li>A legal memo: verify that citations are accurate.</li>
+<li>An insurance claim: verify that the claim answers all relevant questions.</li>
+<li>An insurance decision: verify that the decision is consistent with close precedents.</li>
+</ul>
+</dd>
+<dt>An analogy with two friends.</dt>
+<dd>
+You have one friend who is full of new ideas, you have another friend who can tell whether an idea is good or bad. Each friend is somewhat useful, but when you combine them they’re amazing. (I think this is the case for mathematicians: LLMs will produce a fountain of proofs, and Lean can distinguish which are sound or unsound).
+</dd>
+<dt>Implication: credentials become less important.</dt>
+<dd>
+<p>Many people are saying that LLMs will make credentials more important, because they make it harder to superficially distinguish high-quality and low-quality work. <a href="https://x.com/ryancbriggs/status/2004928726153527776">Ryan Briggs</a> says:</p>
+<blockquote class="blockquote">
+<p><em>“Prediction: in the short-to-medium term LLMs will make the reputation of the researcher matter more for whether or not we view results as credible because it will become too hard to read everything and people will want shortcuts for filtering. Again, this hits juniors hardest.”</em></p>
+</blockquote>
+<p>It’s possible this is true but there’s a countervailing force: LLMs are better paper-writers, but also better referees. In fact they may be relatively better referees than they are authors, which would shift balance in favor of the less-credentialed. If we had a perfect test for the quality of work, we wouldn’t need to rely on reputation at all.</p>
+<p>If someone entirely unqualified makes a breakthrough in ML or mathematics they can verify it. Historically this has been much harder in soft disciplines like economics, but if the cost of verification falls to zero.</p>
+<p>A related point: in an old <a href="https://tecunningham.github.io/posts/2023-06-06-effect-of-ai-on-communication.html">post on AI and communication</a> I argued that with LLMs reputation will become less important for internal properties (where the ground truth is human judgment, i.e.&nbsp;verification is cheap), more important for external properties (where the ground truth is in the world, i.e.&nbsp;verification is expensive).</p>
+</dd>
+</dl>
+</section>
+<section id="a-more-precise-story" class="level1">
+<h1>A More Precise Story</h1>
+<ol type="1">
+<li><p>Different domains have different costs of verification:</p>
+<ul>
+<li>Cheap to verify: whether an image looks good, whether a joke is funny, whether a sudoku solution is valid, whether a formalized proof is sound, whether code passes a specific test.</li>
+<li>Costly to verify: whether a medical paper works, whether an academic paper is high quality, whether a human-written proof is sound, whether code fulfills a specification.</li>
+</ul></li>
+<li><p>LLM-verification will be a big benefit in domains where it’s costly to verify.</p></li>
+<li><p>There is a complementarity between LLM-generation and LLM-verification, the value of both is more than the sum of the value of each.</p></li>
+<li><p>When doing LLM-generation it’s useful to ask the LLM to self-verify. E.g. by (1) generating a Lean proof and validating it; (2) generating unit tests and running them; (3) generating a checklist and asking an independent LLM to check each box.</p></li>
+<li><p>LLM-generation can <em>hurt</em> communication equilibria where verification is costly, when LLM generation lowers the cost of <em>accidental</em> attributes (not essential attributes). E.g. if LLMs make it cheap to fix spelling errors, or to adopt idioms of the discipline, then there will be less separation in equilibrium.</p></li>
+</ol>
+</section>
+<section id="formal-models" class="level1">
+<h1>Formal Models</h1>
+<p>A couple of very hasty models to sketch how to formalize this. It would be nice to have a single model which incorporates all the mechanisms above.</p>
+<dl>
+<dt>Model 1: quality vs polish.</dt>
+<dd>
+<p>Suppose you care just about intrinsic quality <img src="https://latex.codecogs.com/png.latex?q">, but your signal is <img src="https://latex.codecogs.com/png.latex?s=q+p"> where <img src="https://latex.codecogs.com/png.latex?p"> is polish. You know that <img src="https://latex.codecogs.com/png.latex?q"> and <img src="https://latex.codecogs.com/png.latex?p"> are positively correlated (better books have better covers), so <img src="https://latex.codecogs.com/png.latex?s"> is a highly reliable signa of quality.</p>
+<p>Suppose LLMs lower the cost of polish, so now everyone has high <img src="https://latex.codecogs.com/png.latex?p">. This makes the signal-extraction problem worse, and you’ll rely relatively more on another signal, e.g.&nbsp;the author’s reputation (assuming it’s another signal correlated with <img src="https://latex.codecogs.com/png.latex?q">).</p>
+<p>Suppose instead that LLMs lower the cost of directly observing quality <img src="https://latex.codecogs.com/png.latex?q">. This will then imply putting relatively less weight on the author’s reputation.</p>
+<p><strong>Implications:</strong></p>
+<ol type="1">
+<li>LLMs lowering the cost of polish will cause more weight to be put on reputation.</li>
+<li>LLMs lowering the cost of verification will cause less weight to be put on reputation.</li>
+</ol>
+</dd>
+<dt>Model 2: search.</dt>
+<dd>
+<p>You have <img src="https://latex.codecogs.com/png.latex?N"> ideas with unobserved iid payoffs, and you can pay cost <img src="https://latex.codecogs.com/png.latex?c"> to find the true payoff (AKA Weitzmann’s Pandora’s box problem).</p>
+<p>Claim: there’s a complementarity between the number of ideas you have (<img src="https://latex.codecogs.com/png.latex?N">) and the cheapness of verification (inverse of <img src="https://latex.codecogs.com/png.latex?c">). Formally:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20V_n(c)%20%20%20&amp;%20=%5Cint_%7B0%7D%5E%7B%5Csigma(c)%7D%20%5Cbig(1-F(t)%5En%5Cbig)dt,%0A%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(expected%20value%20from%20optimal%20strategy)%7D%5C%5C%0A%20%20E%5B(X-%5Csigma)%5E+%5D%20&amp;=%20c%20&amp;&amp;%20%5Ctext%7B(implicit%20definition%20of%20$%5Csigma(c)$)%7D%0A%5Cend%7Baligned%7D"></p>
+<p>From inspection we can see that the expression has a complementarity between <img src="https://latex.codecogs.com/png.latex?c"> and <img src="https://latex.codecogs.com/png.latex?n">.</p>
+</dd>
+</dl>
+
+
+</section>
+
+ ]]></description>
+  <guid>tecunningham.github.io/posts/2025-12-30-llm-verification.html</guid>
+  <pubDate>Tue, 30 Dec 2025 08:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Forecasts of AI &amp; Economic Growth</title>
