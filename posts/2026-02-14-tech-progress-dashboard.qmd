@@ -2,26 +2,9 @@
 title: "MVP: Technical Progress Dashboard for AI Impact Tracking"
 date: 2026-02-14
 draft: true
-format:
-  html:
-    toc: true
-    toc-depth: 2
+format: html
 ---
 
-This MVP is built to support **forecasting and measuring AI's impact on technological progress** using a frontier-first lens.
-
-## Scope choices for MVP
-
-1. Goal: support forecasting and monitoring of AI-driven acceleration in technical efficiency trends.
-2. Included domains: compute hardware, compute storage, energy, energy storage, biotech, agriculture.
-3. Included metric classes: cost efficiency, physical productivity, and energy efficiency.
-4. Frontier rule: include frontier series by default; include average series when they are informative or frontier data is sparse.
-5. Data inclusion threshold: at least 4 time points, direction-of-improvement defined, source URL recorded.
-6. Fitting method: per-series log-linear fit on historical data (`log(value) = a + b * year`).
-7. v1 excludes causal attribution and forecasting beyond observed history.
-8. v1 data are seed-series and should be upgraded to automated ingestion in a follow-up.
-
-## Dashboard
 
 <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 
@@ -73,6 +56,9 @@ This MVP is built to support **forecasting and measuring AI's impact on technolo
   background: #f3f3f3;
 }
 </style>
+
+<div id="tpd-plot"></div>
+<div id="tpd-notes"></div>
 
 <div id="tpd-controls">
 <div class="tpd-control">
@@ -128,9 +114,6 @@ Show log-linear trend fit
 </div>
 </div>
 
-<div id="tpd-notes"></div>
-<div id="tpd-plot"></div>
-
 ## Provenance (visible series)
 
 <table id="tpd-provenance">
@@ -140,7 +123,7 @@ Show log-linear trend fit
 <th>Domain</th>
 <th>Type</th>
 <th>Frontier class</th>
-<th>Direction</th>
+<th>Direction (displayed)</th>
 <th>Points shown</th>
 <th>Source</th>
 <th>Provenance note</th>
@@ -297,12 +280,17 @@ function groupBySeries(rows) {
   return grouped;
 }
 
+function toLowerBetterValue(row) {
+  if (row.value <= 0) return null;
+  return row.direction === "higher_better" ? 1 / row.value : row.value;
+}
+
 function fitLogLinear(points) {
-  const filtered = points.filter((p) => p.value > 0);
+  const filtered = points.filter((p) => p.value_lb > 0);
   if (filtered.length < 2) return null;
 
   const xs = filtered.map((p) => p.year);
-  const ys = filtered.map((p) => Math.log(p.value));
+  const ys = filtered.map((p) => Math.log(p.value_lb));
 
   const n = xs.length;
   const xMean = xs.reduce((a, b) => a + b, 0) / n;
@@ -321,18 +309,15 @@ function fitLogLinear(points) {
   return { a, b };
 }
 
-function annualImprovementPercent(slope, direction) {
-  if (direction === "higher_better") {
-    return (Math.exp(slope) - 1) * 100;
-  }
+function annualImprovementPercent(slope) {
   return (1 - Math.exp(slope)) * 100;
 }
 
 function makeDisplayPoints(points, yMode) {
-  if (yMode === "raw") return points.map((p) => ({ year: p.year, y: p.value }));
-  const base = points[0]?.value;
+  if (yMode === "raw") return points.map((p) => ({ year: p.year, y: p.value_lb }));
+  const base = points[0]?.value_lb;
   if (!base || base <= 0) return [];
-  return points.map((p) => ({ year: p.year, y: p.value / base }));
+  return points.map((p) => ({ year: p.year, y: p.value_lb / base }));
 }
 
 function render() {
@@ -349,17 +334,25 @@ function render() {
   const search = controls.search.value.trim().toLowerCase();
   const showFit = controls.showFit.checked;
 
-  const filteredRows = TPD_DATA.filter((row) => {
-    if (!domainSel.includes(row.domain)) return false;
-    if (!typeSel.includes(row.metric_type)) return false;
-    if (row.year < yearMin || row.year > yearMax) return false;
-    if (search && !row.name.toLowerCase().includes(search)) return false;
+  const filteredRows = TPD_DATA
+    .filter((row) => {
+      if (!domainSel.includes(row.domain)) return false;
+      if (!typeSel.includes(row.metric_type)) return false;
+      if (row.year < yearMin || row.year > yearMax) return false;
+      if (search && !row.name.toLowerCase().includes(search)) return false;
 
-    if (frontierSel === "frontier_only" && row.frontier_class !== "frontier") return false;
-    if (frontierSel === "average_only" && row.frontier_class !== "average") return false;
+      if (frontierSel === "frontier_only" && row.frontier_class !== "frontier") return false;
+      if (frontierSel === "average_only" && row.frontier_class !== "average") return false;
 
-    return true;
-  });
+      return true;
+    })
+    .map((row) => ({
+      ...row,
+      value_lb: toLowerBetterValue(row),
+      unit_lb: row.direction === "higher_better" ? `1 / (${row.unit})` : row.unit,
+      direction_lb: "lower_better"
+    }))
+    .filter((row) => row.value_lb !== null);
 
   const bySeries = groupBySeries(filteredRows);
 
@@ -371,7 +364,12 @@ function render() {
 
   seriesToPlot.forEach((rows) => {
     const first = rows[0];
-    rawUnitSet.add(first.unit);
+    rawUnitSet.add(first.unit_lb);
+    const fit = fitLogLinear(rows);
+    const annualPct = fit ? annualImprovementPercent(fit.b) : null;
+    const seriesLabel = annualPct === null
+      ? first.name
+      : `${first.name} (${annualPct.toFixed(1)}%/yr)`;
 
     const displayPoints = makeDisplayPoints(rows, yMode);
     if (!displayPoints.length) return;
@@ -381,13 +379,12 @@ function render() {
       mode: "lines+markers",
       x: displayPoints.map((d) => d.year),
       y: displayPoints.map((d) => d.y),
-      name: first.name,
+      name: seriesLabel,
       hovertemplate:
         "<b>%{fullData.name}</b><br>Year: %{x}<br>Value: %{y:.4g}<extra></extra>"
     });
 
     if (showFit) {
-      const fit = fitLogLinear(rows);
       if (fit) {
         const xFit = rows.map((p) => p.year);
         const yFitRaw = xFit.map((x) => Math.exp(fit.a + fit.b * x));
@@ -395,13 +392,13 @@ function render() {
           ? yFitRaw
           : yFitRaw.map((v) => v / yFitRaw[0]);
 
-        const annualPct = annualImprovementPercent(fit.b, first.direction);
         traces.push({
           type: "scatter",
           mode: "lines",
           x: xFit,
           y: yFit,
-          name: `${first.name} trend (${annualPct.toFixed(1)}%/yr)`,
+          name: `${seriesLabel} trend`,
+          showlegend: false,
           line: { dash: "dot", width: 2 },
           hovertemplate:
             "<b>%{fullData.name}</b><br>Year: %{x}<br>Fitted: %{y:.4g}<extra></extra>"
@@ -415,10 +412,13 @@ function render() {
       metricType: first.metric_type,
       frontierClass: first.frontier_class,
       direction: first.direction,
+      transformed: first.direction === "higher_better",
       points: rows.length,
       sourceName: first.source_name,
       sourceUrl: first.source_url,
-      note: first.provenance_note
+      note: first.direction === "higher_better"
+        ? `${first.provenance_note} Display transformed as 1/value so lower is better.`
+        : first.provenance_note
     });
   });
 
@@ -426,7 +426,9 @@ function render() {
     title: "Technical Progress Over Time",
     xaxis: { title: "Year" },
     yaxis: {
-      title: yMode === "indexed" ? "Indexed value (first visible year = 1)" : "Raw value",
+      title: yMode === "indexed"
+        ? "Indexed value (first visible year = 1, lower is better)"
+        : "Raw value (lower-is-better transformed)",
       type: yScale
     },
     legend: { orientation: "h", y: -0.25 },
@@ -456,7 +458,7 @@ function render() {
       <td>${row.domain}</td>
       <td>${row.metricType}</td>
       <td>${row.frontierClass}</td>
-      <td>${row.direction}</td>
+      <td>lower_better</td>
       <td>${row.points}</td>
       <td><a href="${row.sourceUrl}" target="_blank" rel="noopener noreferrer">${row.sourceName}</a></td>
       <td>${row.note}</td>
@@ -497,4 +499,19 @@ function render() {
 
 - This is a **seed MVP dataset** intended to validate taxonomy + interaction design.
 - Several series above are marked as seed points from published charts; next step is scripted ingestion from source APIs/files.
+- All displayed series are transformed to **lower-is-better** (`1/value` for originally higher-is-better metrics).
 - Because units differ across technologies, indexed mode is the main comparison mode.
+
+
+This MVP is built to support **forecasting and measuring AI's impact on technological progress** using a frontier-first lens.
+
+## Scope choices for MVP
+
+1. Goal: support forecasting and monitoring of AI-driven acceleration in technical efficiency trends.
+2. Included domains: compute hardware, compute storage, energy, energy storage, biotech, agriculture.
+3. Included metric classes: cost efficiency, physical productivity, and energy efficiency.
+4. Frontier rule: include frontier series by default; include average series when they are informative or frontier data is sparse.
+5. Data inclusion threshold: at least 4 time points, direction-of-improvement defined, source URL recorded.
+6. Fitting method: per-series log-linear fit on historical data (`log(value) = a + b * year`).
+7. v1 excludes causal attribution and forecasting beyond observed history.
+8. v1 data are seed-series and should be upgraded to automated ingestion in a follow-up.
