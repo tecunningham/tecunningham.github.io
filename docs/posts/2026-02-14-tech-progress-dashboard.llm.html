@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2026-02-14">
 <meta name="description" content="Tom Cunningham blog">
 
-<title>MVP: Technical Progress Dashboard for AI Impact Tracking | Tom Cunningham – Tom Cunningham</title>
+<title>Technical Progress Dashboard for AI Impact Tracking | Tom Cunningham – Tom Cunningham</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -85,6 +85,9 @@ ga('send', {
   'anonymizeIp': true,
 });
 </script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 <script>window.MathJax = {
    loader: { load: ["https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/xypic.js"]},
    tex: {packages: {'[+]': ['xypic','bm']},
@@ -108,7 +111,7 @@ ga('send', {
 
 
 <link rel="stylesheet" href="../styles.css">
-<meta name="twitter:title" content="MVP: Technical Progress Dashboard for AI Impact Tracking | Tom Cunningham">
+<meta name="twitter:title" content="Technical Progress Dashboard for AI Impact Tracking | Tom Cunningham">
 <meta name="twitter:description" content="Tom Cunningham blog">
 <meta name="twitter:card" content="summary">
 </head>
@@ -166,7 +169,7 @@ ga('send', {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">MVP: Technical Progress Dashboard for AI Impact Tracking</h1>
+      <h1 class="title">Technical Progress Dashboard for AI Impact Tracking</h1>
                       </div>
   </div>
     
@@ -197,6 +200,33 @@ ga('send', {
 
 
 <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<script src="data/tech-progress-dashboard.llm/tpd-data.llm.js"></script>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This dashboard tracks multi-domain technical progress (with emphasis on AI/ML and optimization) using a unified long-format panel, provenance metadata, and per-series log-linear trend fits. The rendered chart reads <code>window.TPD_DATA</code> from a generated local bundle so updates are reproducible and pipeline-driven.</p>
+</section>
+<section id="data-flow" class="level2">
+<h2 class="anchored" data-anchor-id="data-flow">Data flow</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+  A["seed-series.llm.csv&lt;br/&gt;manual + curated seed rows"] --&gt; B["ingest_tech_progress_dashboard.py"]
+  R["raw/*.csv&lt;br/&gt;downloaded source extracts"] --&gt; B
+  E["derived AI/ML trend indexes&lt;br/&gt;(Epoch growth-rate based)"] --&gt; B
+  B --&gt; C["normalized-series.llm.csv&lt;br/&gt;canonical long-format panel"]
+  B --&gt; D["tpd-data.llm.js&lt;br/&gt;window.TPD_DATA bundle"]
+  B --&gt; L["ingest-log.llm.md"]
+  D --&gt; Q["2026-02-14-tech-progress-dashboard.llm.qmd"]
+  Q --&gt; V["Interactive Plotly dashboard + provenance table"]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 <style>
 #tpd-controls {
   display: grid;
@@ -273,6 +303,7 @@ ga('send', {
 <p><label style="margin-top:10px;"> <input id="tpd-show-fit" type="checkbox" checked=""> Show log-linear trend fit </label></p>
 </div>
 </div>
+</section>
 <section id="provenance-visible-series" class="level2">
 <h2 class="anchored" data-anchor-id="provenance-visible-series">Provenance (visible series)</h2>
 <table id="tpd-provenance">
@@ -308,99 +339,7 @@ Provenance note
 </tbody>
 </table>
 <script>
-const TPD_DATA = [
-  {id:"transistors_per_chip",name:"Transistors per microprocessor (best chip)",domain:"compute-hardware",metric_type:"compute-density",frontier_class:"frontier",direction:"higher_better",unit:"transistors",year:1971,value:2300,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/transistors-per-microprocessor",provenance_note:"OWID series on Moore's law."},
-  {id:"transistors_per_chip",name:"Transistors per microprocessor (best chip)",domain:"compute-hardware",metric_type:"compute-density",frontier_class:"frontier",direction:"higher_better",unit:"transistors",year:1974,value:6000,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/transistors-per-microprocessor",provenance_note:"OWID series on Moore's law."},
-  {id:"transistors_per_chip",name:"Transistors per microprocessor (best chip)",domain:"compute-hardware",metric_type:"compute-density",frontier_class:"frontier",direction:"higher_better",unit:"transistors",year:1978,value:29000,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/transistors-per-microprocessor",provenance_note:"OWID series on Moore's law."},
-  {id:"transistors_per_chip",name:"Transistors per microprocessor (best chip)",domain:"compute-hardware",metric_type:"compute-density",frontier_class:"frontier",direction:"higher_better",unit:"transistors",year:1982,value:134000,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/transistors-per-microprocessor",provenance_note:"OWID series on Moore's law."},
-  {id:"transistors_per_chip",name:"Transistors per microprocessor (best chip)",domain:"compute-hardware",metric_type:"compute-density",frontier_class:"frontier",direction:"higher_better",unit:"transistors",year:1989,value:1200000,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/transistors-per-microprocessor",provenance_note:"OWID series on Moore's law."},
-  {id:"transistors_per_chip",name:"Transistors per microprocessor (best chip)",domain:"compute-hardware",metric_type:"compute-density",frontier_class:"frontier",direction:"higher_better",unit:"transistors",year:1993,value:3100000,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/transistors-per-microprocessor",provenance_note:"OWID series on Moore's law."},
-  {id:"transistors_per_chip",name:"Transistors per microprocessor (best chip)",domain:"compute-hardware",metric_type:"compute-density",frontier_class:"frontier",direction:"higher_better",unit:"transistors",year:2000,value:42000000,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/transistors-per-microprocessor",provenance_note:"OWID series on Moore's law."},
-  {id:"transistors_per_chip",name:"Transistors per microprocessor (best chip)",domain:"compute-hardware",metric_type:"compute-density",frontier_class:"frontier",direction:"higher_better",unit:"transistors",year:2006,value:291000000,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/transistors-per-microprocessor",provenance_note:"OWID series on Moore's law."},
-  {id:"transistors_per_chip",name:"Transistors per microprocessor (best chip)",domain:"compute-hardware",metric_type:"compute-density",frontier_class:"frontier",direction:"higher_better",unit:"transistors",year:2010,value:1170000000,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/transistors-per-microprocessor",provenance_note:"OWID series on Moore's law."},
-  {id:"transistors_per_chip",name:"Transistors per microprocessor (best chip)",domain:"compute-hardware",metric_type:"compute-density",frontier_class:"frontier",direction:"higher_better",unit:"transistors",year:2017,value:19200000000,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/transistors-per-microprocessor",provenance_note:"OWID series on Moore's law."},
-  {id:"transistors_per_chip",name:"Transistors per microprocessor (best chip)",domain:"compute-hardware",metric_type:"compute-density",frontier_class:"frontier",direction:"higher_better",unit:"transistors",year:2020,value:39500000000,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/transistors-per-microprocessor",provenance_note:"OWID series on Moore's law."},
-  {id:"transistors_per_chip",name:"Transistors per microprocessor (best chip)",domain:"compute-hardware",metric_type:"compute-density",frontier_class:"frontier",direction:"higher_better",unit:"transistors",year:2024,value:208000000000,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/transistors-per-microprocessor",provenance_note:"OWID series on Moore's law."},
-
-  {id:"genome_cost",name:"Cost of sequencing a full human genome",domain:"biotech",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"lower_better",unit:"USD per genome",year:2001,value:95263072,source_name:"NHGRI",source_url:"https://www.genome.gov/about-genomics/fact-sheets/DNA-Sequencing-Costs-Data",provenance_note:"NHGRI sequencing cost tracking (seed points)."},
-  {id:"genome_cost",name:"Cost of sequencing a full human genome",domain:"biotech",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"lower_better",unit:"USD per genome",year:2003,value:50500000,source_name:"NHGRI",source_url:"https://www.genome.gov/about-genomics/fact-sheets/DNA-Sequencing-Costs-Data",provenance_note:"NHGRI sequencing cost tracking (seed points)."},
-  {id:"genome_cost",name:"Cost of sequencing a full human genome",domain:"biotech",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"lower_better",unit:"USD per genome",year:2005,value:20000000,source_name:"NHGRI",source_url:"https://www.genome.gov/about-genomics/fact-sheets/DNA-Sequencing-Costs-Data",provenance_note:"NHGRI sequencing cost tracking (seed points)."},
-  {id:"genome_cost",name:"Cost of sequencing a full human genome",domain:"biotech",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"lower_better",unit:"USD per genome",year:2007,value:10000000,source_name:"NHGRI",source_url:"https://www.genome.gov/about-genomics/fact-sheets/DNA-Sequencing-Costs-Data",provenance_note:"NHGRI sequencing cost tracking (seed points)."},
-  {id:"genome_cost",name:"Cost of sequencing a full human genome",domain:"biotech",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"lower_better",unit:"USD per genome",year:2008,value:1400000,source_name:"NHGRI",source_url:"https://www.genome.gov/about-genomics/fact-sheets/DNA-Sequencing-Costs-Data",provenance_note:"NHGRI sequencing cost tracking (seed points)."},
-  {id:"genome_cost",name:"Cost of sequencing a full human genome",domain:"biotech",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"lower_better",unit:"USD per genome",year:2010,value:50000,source_name:"NHGRI",source_url:"https://www.genome.gov/about-genomics/fact-sheets/DNA-Sequencing-Costs-Data",provenance_note:"NHGRI sequencing cost tracking (seed points)."},
-  {id:"genome_cost",name:"Cost of sequencing a full human genome",domain:"biotech",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"lower_better",unit:"USD per genome",year:2012,value:7000,source_name:"NHGRI",source_url:"https://www.genome.gov/about-genomics/fact-sheets/DNA-Sequencing-Costs-Data",provenance_note:"NHGRI sequencing cost tracking (seed points)."},
-  {id:"genome_cost",name:"Cost of sequencing a full human genome",domain:"biotech",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"lower_better",unit:"USD per genome",year:2014,value:1400,source_name:"NHGRI",source_url:"https://www.genome.gov/about-genomics/fact-sheets/DNA-Sequencing-Costs-Data",provenance_note:"NHGRI sequencing cost tracking (seed points)."},
-  {id:"genome_cost",name:"Cost of sequencing a full human genome",domain:"biotech",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"lower_better",unit:"USD per genome",year:2016,value:1000,source_name:"NHGRI",source_url:"https://www.genome.gov/about-genomics/fact-sheets/DNA-Sequencing-Costs-Data",provenance_note:"NHGRI sequencing cost tracking (seed points)."},
-  {id:"genome_cost",name:"Cost of sequencing a full human genome",domain:"biotech",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"lower_better",unit:"USD per genome",year:2018,value:900,source_name:"NHGRI",source_url:"https://www.genome.gov/about-genomics/fact-sheets/DNA-Sequencing-Costs-Data",provenance_note:"NHGRI sequencing cost tracking (seed points)."},
-  {id:"genome_cost",name:"Cost of sequencing a full human genome",domain:"biotech",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"lower_better",unit:"USD per genome",year:2020,value:700,source_name:"NHGRI",source_url:"https://www.genome.gov/about-genomics/fact-sheets/DNA-Sequencing-Costs-Data",provenance_note:"NHGRI sequencing cost tracking (seed points)."},
-  {id:"genome_cost",name:"Cost of sequencing a full human genome",domain:"biotech",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"lower_better",unit:"USD per genome",year:2022,value:600,source_name:"NHGRI",source_url:"https://www.genome.gov/about-genomics/fact-sheets/DNA-Sequencing-Costs-Data",provenance_note:"NHGRI sequencing cost tracking (seed points)."},
-
-  {id:"green500_perf_per_watt",name:"Top supercomputer performance per watt",domain:"compute-hardware",metric_type:"energy-efficiency",frontier_class:"frontier",direction:"higher_better",unit:"GFLOPS per watt",year:2008,value:0.35,source_name:"TOP500 / Green500",source_url:"https://www.top500.org/lists/green500/",provenance_note:"Frontier energy efficiency from Green500 (seed points)."},
-  {id:"green500_perf_per_watt",name:"Top supercomputer performance per watt",domain:"compute-hardware",metric_type:"energy-efficiency",frontier_class:"frontier",direction:"higher_better",unit:"GFLOPS per watt",year:2010,value:0.75,source_name:"TOP500 / Green500",source_url:"https://www.top500.org/lists/green500/",provenance_note:"Frontier energy efficiency from Green500 (seed points)."},
-  {id:"green500_perf_per_watt",name:"Top supercomputer performance per watt",domain:"compute-hardware",metric_type:"energy-efficiency",frontier_class:"frontier",direction:"higher_better",unit:"GFLOPS per watt",year:2012,value:2,source_name:"TOP500 / Green500",source_url:"https://www.top500.org/lists/green500/",provenance_note:"Frontier energy efficiency from Green500 (seed points)."},
-  {id:"green500_perf_per_watt",name:"Top supercomputer performance per watt",domain:"compute-hardware",metric_type:"energy-efficiency",frontier_class:"frontier",direction:"higher_better",unit:"GFLOPS per watt",year:2014,value:4,source_name:"TOP500 / Green500",source_url:"https://www.top500.org/lists/green500/",provenance_note:"Frontier energy efficiency from Green500 (seed points)."},
-  {id:"green500_perf_per_watt",name:"Top supercomputer performance per watt",domain:"compute-hardware",metric_type:"energy-efficiency",frontier_class:"frontier",direction:"higher_better",unit:"GFLOPS per watt",year:2016,value:14,source_name:"TOP500 / Green500",source_url:"https://www.top500.org/lists/green500/",provenance_note:"Frontier energy efficiency from Green500 (seed points)."},
-  {id:"green500_perf_per_watt",name:"Top supercomputer performance per watt",domain:"compute-hardware",metric_type:"energy-efficiency",frontier_class:"frontier",direction:"higher_better",unit:"GFLOPS per watt",year:2018,value:17,source_name:"TOP500 / Green500",source_url:"https://www.top500.org/lists/green500/",provenance_note:"Frontier energy efficiency from Green500 (seed points)."},
-  {id:"green500_perf_per_watt",name:"Top supercomputer performance per watt",domain:"compute-hardware",metric_type:"energy-efficiency",frontier_class:"frontier",direction:"higher_better",unit:"GFLOPS per watt",year:2020,value:26,source_name:"TOP500 / Green500",source_url:"https://www.top500.org/lists/green500/",provenance_note:"Frontier energy efficiency from Green500 (seed points)."},
-  {id:"green500_perf_per_watt",name:"Top supercomputer performance per watt",domain:"compute-hardware",metric_type:"energy-efficiency",frontier_class:"frontier",direction:"higher_better",unit:"GFLOPS per watt",year:2022,value:52,source_name:"TOP500 / Green500",source_url:"https://www.top500.org/lists/green500/",provenance_note:"Frontier energy efficiency from Green500 (seed points)."},
-  {id:"green500_perf_per_watt",name:"Top supercomputer performance per watt",domain:"compute-hardware",metric_type:"energy-efficiency",frontier_class:"frontier",direction:"higher_better",unit:"GFLOPS per watt",year:2024,value:72,source_name:"TOP500 / Green500",source_url:"https://www.top500.org/lists/green500/",provenance_note:"Frontier energy efficiency from Green500 (seed points)."},
-
-  {id:"hdd_cost_per_gb",name:"Hard-drive storage cost",domain:"compute-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per GB",year:1980,value:437500,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/historical-cost-of-computer-memory-and-storage",provenance_note:"Historical storage cost (seed points)."},
-  {id:"hdd_cost_per_gb",name:"Hard-drive storage cost",domain:"compute-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per GB",year:1985,value:105000,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/historical-cost-of-computer-memory-and-storage",provenance_note:"Historical storage cost (seed points)."},
-  {id:"hdd_cost_per_gb",name:"Hard-drive storage cost",domain:"compute-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per GB",year:1990,value:11700,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/historical-cost-of-computer-memory-and-storage",provenance_note:"Historical storage cost (seed points)."},
-  {id:"hdd_cost_per_gb",name:"Hard-drive storage cost",domain:"compute-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per GB",year:1995,value:400,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/historical-cost-of-computer-memory-and-storage",provenance_note:"Historical storage cost (seed points)."},
-  {id:"hdd_cost_per_gb",name:"Hard-drive storage cost",domain:"compute-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per GB",year:2000,value:9.16,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/historical-cost-of-computer-memory-and-storage",provenance_note:"Historical storage cost (seed points)."},
-  {id:"hdd_cost_per_gb",name:"Hard-drive storage cost",domain:"compute-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per GB",year:2005,value:0.57,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/historical-cost-of-computer-memory-and-storage",provenance_note:"Historical storage cost (seed points)."},
-  {id:"hdd_cost_per_gb",name:"Hard-drive storage cost",domain:"compute-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per GB",year:2010,value:0.09,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/historical-cost-of-computer-memory-and-storage",provenance_note:"Historical storage cost (seed points)."},
-  {id:"hdd_cost_per_gb",name:"Hard-drive storage cost",domain:"compute-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per GB",year:2015,value:0.038,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/historical-cost-of-computer-memory-and-storage",provenance_note:"Historical storage cost (seed points)."},
-  {id:"hdd_cost_per_gb",name:"Hard-drive storage cost",domain:"compute-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per GB",year:2020,value:0.018,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/historical-cost-of-computer-memory-and-storage",provenance_note:"Historical storage cost (seed points)."},
-  {id:"hdd_cost_per_gb",name:"Hard-drive storage cost",domain:"compute-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per GB",year:2024,value:0.012,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/historical-cost-of-computer-memory-and-storage",provenance_note:"Historical storage cost (seed points)."},
-
-  {id:"solar_pv_module_price",name:"Solar PV module price",domain:"energy",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"constant 2024 USD per watt",year:1975,value:106,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/solar-pv-prices",provenance_note:"Global PV module price index."},
-  {id:"solar_pv_module_price",name:"Solar PV module price",domain:"energy",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"constant 2024 USD per watt",year:1980,value:32,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/solar-pv-prices",provenance_note:"Global PV module price index."},
-  {id:"solar_pv_module_price",name:"Solar PV module price",domain:"energy",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"constant 2024 USD per watt",year:1985,value:11,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/solar-pv-prices",provenance_note:"Global PV module price index."},
-  {id:"solar_pv_module_price",name:"Solar PV module price",domain:"energy",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"constant 2024 USD per watt",year:1990,value:8,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/solar-pv-prices",provenance_note:"Global PV module price index."},
-  {id:"solar_pv_module_price",name:"Solar PV module price",domain:"energy",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"constant 2024 USD per watt",year:1995,value:6,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/solar-pv-prices",provenance_note:"Global PV module price index."},
-  {id:"solar_pv_module_price",name:"Solar PV module price",domain:"energy",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"constant 2024 USD per watt",year:2000,value:4.8,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/solar-pv-prices",provenance_note:"Global PV module price index."},
-  {id:"solar_pv_module_price",name:"Solar PV module price",domain:"energy",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"constant 2024 USD per watt",year:2005,value:3.2,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/solar-pv-prices",provenance_note:"Global PV module price index."},
-  {id:"solar_pv_module_price",name:"Solar PV module price",domain:"energy",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"constant 2024 USD per watt",year:2010,value:2,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/solar-pv-prices",provenance_note:"Global PV module price index."},
-  {id:"solar_pv_module_price",name:"Solar PV module price",domain:"energy",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"constant 2024 USD per watt",year:2015,value:0.64,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/solar-pv-prices",provenance_note:"Global PV module price index."},
-  {id:"solar_pv_module_price",name:"Solar PV module price",domain:"energy",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"constant 2024 USD per watt",year:2020,value:0.31,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/solar-pv-prices",provenance_note:"Global PV module price index."},
-  {id:"solar_pv_module_price",name:"Solar PV module price",domain:"energy",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"constant 2024 USD per watt",year:2024,value:0.22,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/solar-pv-prices",provenance_note:"Global PV module price index."},
-
-  {id:"li_ion_battery_pack_price",name:"Lithium-ion battery pack price",domain:"energy-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per kWh",year:2013,value:780,source_name:"BloombergNEF",source_url:"https://about.bnef.com/blog/lithium-ion-battery-pack-prices-rise-for-first-time-to-an-average-of-151-kwh/",provenance_note:"BNEF annual battery price survey."},
-  {id:"li_ion_battery_pack_price",name:"Lithium-ion battery pack price",domain:"energy-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per kWh",year:2014,value:692,source_name:"BloombergNEF",source_url:"https://about.bnef.com/blog/lithium-ion-battery-pack-prices-rise-for-first-time-to-an-average-of-151-kwh/",provenance_note:"BNEF annual battery price survey."},
-  {id:"li_ion_battery_pack_price",name:"Lithium-ion battery pack price",domain:"energy-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per kWh",year:2015,value:448,source_name:"BloombergNEF",source_url:"https://about.bnef.com/blog/lithium-ion-battery-pack-prices-rise-for-first-time-to-an-average-of-151-kwh/",provenance_note:"BNEF annual battery price survey."},
-  {id:"li_ion_battery_pack_price",name:"Lithium-ion battery pack price",domain:"energy-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per kWh",year:2016,value:345,source_name:"BloombergNEF",source_url:"https://about.bnef.com/blog/lithium-ion-battery-pack-prices-rise-for-first-time-to-an-average-of-151-kwh/",provenance_note:"BNEF annual battery price survey."},
-  {id:"li_ion_battery_pack_price",name:"Lithium-ion battery pack price",domain:"energy-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per kWh",year:2017,value:258,source_name:"BloombergNEF",source_url:"https://about.bnef.com/blog/lithium-ion-battery-pack-prices-rise-for-first-time-to-an-average-of-151-kwh/",provenance_note:"BNEF annual battery price survey."},
-  {id:"li_ion_battery_pack_price",name:"Lithium-ion battery pack price",domain:"energy-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per kWh",year:2018,value:211,source_name:"BloombergNEF",source_url:"https://about.bnef.com/blog/lithium-ion-battery-pack-prices-rise-for-first-time-to-an-average-of-151-kwh/",provenance_note:"BNEF annual battery price survey."},
-  {id:"li_ion_battery_pack_price",name:"Lithium-ion battery pack price",domain:"energy-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per kWh",year:2019,value:183,source_name:"BloombergNEF",source_url:"https://about.bnef.com/blog/lithium-ion-battery-pack-prices-rise-for-first-time-to-an-average-of-151-kwh/",provenance_note:"BNEF annual battery price survey."},
-  {id:"li_ion_battery_pack_price",name:"Lithium-ion battery pack price",domain:"energy-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per kWh",year:2020,value:160,source_name:"BloombergNEF",source_url:"https://about.bnef.com/blog/lithium-ion-battery-pack-prices-rise-for-first-time-to-an-average-of-151-kwh/",provenance_note:"BNEF annual battery price survey."},
-  {id:"li_ion_battery_pack_price",name:"Lithium-ion battery pack price",domain:"energy-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per kWh",year:2021,value:132,source_name:"BloombergNEF",source_url:"https://about.bnef.com/blog/lithium-ion-battery-pack-prices-rise-for-first-time-to-an-average-of-151-kwh/",provenance_note:"BNEF annual battery price survey."},
-  {id:"li_ion_battery_pack_price",name:"Lithium-ion battery pack price",domain:"energy-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per kWh",year:2022,value:151,source_name:"BloombergNEF",source_url:"https://about.bnef.com/blog/lithium-ion-battery-pack-prices-rise-for-first-time-to-an-average-of-151-kwh/",provenance_note:"BNEF annual battery price survey."},
-  {id:"li_ion_battery_pack_price",name:"Lithium-ion battery pack price",domain:"energy-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per kWh",year:2023,value:139,source_name:"BloombergNEF",source_url:"https://about.bnef.com/blog/lithium-ion-battery-pack-prices-rise-for-first-time-to-an-average-of-151-kwh/",provenance_note:"BNEF annual battery price survey."},
-  {id:"li_ion_battery_pack_price",name:"Lithium-ion battery pack price",domain:"energy-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per kWh",year:2024,value:115,source_name:"BloombergNEF",source_url:"https://about.bnef.com/insights/commodities/lithium-ion-battery-pack-prices-see-largest-drop-since-2017-falling-to-115-per-kilowatt-hour-bloombergnef/",provenance_note:"BNEF annual battery price survey."},
-  {id:"li_ion_battery_pack_price",name:"Lithium-ion battery pack price",domain:"energy-storage",metric_type:"cost-efficiency",frontier_class:"average",direction:"lower_better",unit:"USD per kWh",year:2025,value:108,source_name:"BloombergNEF",source_url:"https://battery-tech.net/battery-markets-news/lithium-ion-battery-pack-prices-hit-record-low-at-108-kwh/",provenance_note:"BNEF annual battery price survey."},
-
-  {id:"us_corn_yield",name:"US corn yield",domain:"agriculture",metric_type:"physical-productivity",frontier_class:"average",direction:"higher_better",unit:"tonnes per hectare",year:1950,value:2.4,source_name:"USDA/FAO via OWID",source_url:"https://ourworldindata.org/grapher/maize-yields",provenance_note:"National average yield, included as informative non-frontier benchmark."},
-  {id:"us_corn_yield",name:"US corn yield",domain:"agriculture",metric_type:"physical-productivity",frontier_class:"average",direction:"higher_better",unit:"tonnes per hectare",year:1960,value:3.5,source_name:"USDA/FAO via OWID",source_url:"https://ourworldindata.org/grapher/maize-yields",provenance_note:"National average yield, included as informative non-frontier benchmark."},
-  {id:"us_corn_yield",name:"US corn yield",domain:"agriculture",metric_type:"physical-productivity",frontier_class:"average",direction:"higher_better",unit:"tonnes per hectare",year:1970,value:4.9,source_name:"USDA/FAO via OWID",source_url:"https://ourworldindata.org/grapher/maize-yields",provenance_note:"National average yield, included as informative non-frontier benchmark."},
-  {id:"us_corn_yield",name:"US corn yield",domain:"agriculture",metric_type:"physical-productivity",frontier_class:"average",direction:"higher_better",unit:"tonnes per hectare",year:1980,value:5.7,source_name:"USDA/FAO via OWID",source_url:"https://ourworldindata.org/grapher/maize-yields",provenance_note:"National average yield, included as informative non-frontier benchmark."},
-  {id:"us_corn_yield",name:"US corn yield",domain:"agriculture",metric_type:"physical-productivity",frontier_class:"average",direction:"higher_better",unit:"tonnes per hectare",year:1990,value:7.0,source_name:"USDA/FAO via OWID",source_url:"https://ourworldindata.org/grapher/maize-yields",provenance_note:"National average yield, included as informative non-frontier benchmark."},
-  {id:"us_corn_yield",name:"US corn yield",domain:"agriculture",metric_type:"physical-productivity",frontier_class:"average",direction:"higher_better",unit:"tonnes per hectare",year:2000,value:8.6,source_name:"USDA/FAO via OWID",source_url:"https://ourworldindata.org/grapher/maize-yields",provenance_note:"National average yield, included as informative non-frontier benchmark."},
-  {id:"us_corn_yield",name:"US corn yield",domain:"agriculture",metric_type:"physical-productivity",frontier_class:"average",direction:"higher_better",unit:"tonnes per hectare",year:2010,value:9.6,source_name:"USDA/FAO via OWID",source_url:"https://ourworldindata.org/grapher/maize-yields",provenance_note:"National average yield, included as informative non-frontier benchmark."},
-  {id:"us_corn_yield",name:"US corn yield",domain:"agriculture",metric_type:"physical-productivity",frontier_class:"average",direction:"higher_better",unit:"tonnes per hectare",year:2020,value:11.1,source_name:"USDA/FAO via OWID",source_url:"https://ourworldindata.org/grapher/maize-yields",provenance_note:"National average yield, included as informative non-frontier benchmark."},
-  {id:"us_corn_yield",name:"US corn yield",domain:"agriculture",metric_type:"physical-productivity",frontier_class:"average",direction:"higher_better",unit:"tonnes per hectare",year:2024,value:11.3,source_name:"USDA/FAO via OWID",source_url:"https://ourworldindata.org/grapher/maize-yields",provenance_note:"National average yield, included as informative non-frontier benchmark."},
-
-  {id:"gpu_perf_per_dollar",name:"GPU computational performance per dollar",domain:"compute-hardware",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"higher_better",unit:"TFLOPS per $1000",year:2010,value:0.4,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/gpu-computational-performance-per-dollar",provenance_note:"Frontier GPU performance-per-dollar (seed points)."},
-  {id:"gpu_perf_per_dollar",name:"GPU computational performance per dollar",domain:"compute-hardware",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"higher_better",unit:"TFLOPS per $1000",year:2012,value:0.9,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/gpu-computational-performance-per-dollar",provenance_note:"Frontier GPU performance-per-dollar (seed points)."},
-  {id:"gpu_perf_per_dollar",name:"GPU computational performance per dollar",domain:"compute-hardware",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"higher_better",unit:"TFLOPS per $1000",year:2014,value:1.8,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/gpu-computational-performance-per-dollar",provenance_note:"Frontier GPU performance-per-dollar (seed points)."},
-  {id:"gpu_perf_per_dollar",name:"GPU computational performance per dollar",domain:"compute-hardware",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"higher_better",unit:"TFLOPS per $1000",year:2016,value:3.4,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/gpu-computational-performance-per-dollar",provenance_note:"Frontier GPU performance-per-dollar (seed points)."},
-  {id:"gpu_perf_per_dollar",name:"GPU computational performance per dollar",domain:"compute-hardware",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"higher_better",unit:"TFLOPS per $1000",year:2018,value:6.8,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/gpu-computational-performance-per-dollar",provenance_note:"Frontier GPU performance-per-dollar (seed points)."},
-  {id:"gpu_perf_per_dollar",name:"GPU computational performance per dollar",domain:"compute-hardware",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"higher_better",unit:"TFLOPS per $1000",year:2020,value:12,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/gpu-computational-performance-per-dollar",provenance_note:"Frontier GPU performance-per-dollar (seed points)."},
-  {id:"gpu_perf_per_dollar",name:"GPU computational performance per dollar",domain:"compute-hardware",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"higher_better",unit:"TFLOPS per $1000",year:2022,value:20,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/gpu-computational-performance-per-dollar",provenance_note:"Frontier GPU performance-per-dollar (seed points)."},
-  {id:"gpu_perf_per_dollar",name:"GPU computational performance per dollar",domain:"compute-hardware",metric_type:"cost-efficiency",frontier_class:"frontier",direction:"higher_better",unit:"TFLOPS per $1000",year:2024,value:28,source_name:"Our World in Data",source_url:"https://ourworldindata.org/grapher/gpu-computational-performance-per-dollar",provenance_note:"Frontier GPU performance-per-dollar (seed points)."}
-];
+const TPD_DATA = Array.isArray(window.TPD_DATA) ? window.TPD_DATA : [];
 
 const controls = {
   domain: document.getElementById("tpd-domain"),
@@ -599,6 +538,7 @@ function render() {
 
   const layout = {
     title: "Technical Progress Over Time",
+    showlegend: false,
     xaxis: { title: "Year" },
     yaxis: {
       title: yMode === "indexed"
@@ -606,7 +546,6 @@ function render() {
         : "Raw value (lower-is-better transformed)",
       type: yScale
     },
-    legend: { orientation: "h", y: -0.25 },
     hovermode: "closest",
     margin: { l: 65, r: 20, t: 60, b: 110 }
   };
@@ -643,6 +582,11 @@ function render() {
 }
 
 (function init() {
+  if (!TPD_DATA.length) {
+    notesEl.textContent = "No dashboard data loaded. Rebuild data bundle with `python tools/ingest_tech_progress_dashboard.py`.";
+    return;
+  }
+
   const domains = uniqueSorted(TPD_DATA.map((d) => d.domain));
   const metricTypes = uniqueSorted(TPD_DATA.map((d) => d.metric_type));
   const years = TPD_DATA.map((d) => d.year);
@@ -673,24 +617,25 @@ function render() {
 <section id="notes-on-data-quality" class="level2">
 <h2 class="anchored" data-anchor-id="notes-on-data-quality">Notes on data quality</h2>
 <ul>
-<li>This is a <strong>seed MVP dataset</strong> intended to validate taxonomy + interaction design.</li>
-<li>Several series above are marked as seed points from published charts; next step is scripted ingestion from source APIs/files.</li>
+<li>Dashboard data is generated via <code>tools/ingest_tech_progress_dashboard.py</code> from canonical seed + derived series.</li>
+<li>AI/ML trend-index series sourced from Epoch growth-rate statements are model-based derived indexes (not raw point extracts).</li>
+<li>Several frontier series remain seed-level and should be replaced with direct machine-readable source pulls over time.</li>
 <li>All displayed series are transformed to <strong>lower-is-better</strong> (<code>1/value</code> for originally higher-is-better metrics).</li>
 <li>Because units differ across technologies, indexed mode is the main comparison mode.</li>
 </ul>
-<p>This MVP is built to support <strong>forecasting and measuring AI’s impact on technological progress</strong> using a frontier-first lens.</p>
+<p>This dashboard is built to support <strong>forecasting and measuring AI’s impact on technological progress</strong> using a frontier-first lens.</p>
 </section>
-<section id="scope-choices-for-mvp" class="level2">
-<h2 class="anchored" data-anchor-id="scope-choices-for-mvp">Scope choices for MVP</h2>
+<section id="scope-choices" class="level2">
+<h2 class="anchored" data-anchor-id="scope-choices">Scope choices</h2>
 <ol type="1">
 <li>Goal: support forecasting and monitoring of AI-driven acceleration in technical efficiency trends.</li>
-<li>Included domains: compute hardware, compute storage, energy, energy storage, biotech, agriculture.</li>
-<li>Included metric classes: cost efficiency, physical productivity, and energy efficiency.</li>
+<li>Included domains: compute hardware, compute storage, energy, energy storage, biotech, agriculture, AI/ML, optimization algorithms, compression, and communications channels.</li>
+<li>Included metric classes: cost efficiency, physical productivity, energy efficiency, training-scale indexes, algorithmic speed, compression efficiency, and channel efficiency.</li>
 <li>Frontier rule: include frontier series by default; include average series when they are informative or frontier data is sparse.</li>
 <li>Data inclusion threshold: at least 4 time points, direction-of-improvement defined, source URL recorded.</li>
 <li>Fitting method: per-series log-linear fit on historical data (<code>log(value) = a + b * year</code>).</li>
 <li>v1 excludes causal attribution and forecasting beyond observed history.</li>
-<li>v1 data are seed-series and should be upgraded to automated ingestion in a follow-up.</li>
+<li>Data refresh path: rerun <code>python tools/ingest_tech_progress_dashboard.py</code> to regenerate normalized CSV, JS bundle, and ingestion log.</li>
 </ol>
 
 

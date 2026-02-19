@@ -239,8 +239,6 @@ def build_checklist(
             "Bib quotes present in local fulltext version (programmatic)",
             "quotes_verified",
         ),
-        "- ⏳ Growth values consistent with quoted text (LLM-assisted, test not implemented)",
-        "- ⏳ Coverage check against recent sources (manual + web search, test not implemented)",
         "",
         f"Last checked: {last_checked}",
         "</details>",
@@ -400,9 +398,7 @@ def main() -> int:
         else "❌"
         if quotes_not_found
         else "⚠️",
-        "growth_consistency": "⚠️",
         "abstracts": "✅" if not missing_abstracts else "⚠️",
-        "coverage": "⚠️",
     }
     if parse_errors:
         status["citations"] = "❌"

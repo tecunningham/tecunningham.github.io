@@ -1,6 +1,25 @@
+---
+draft: true
+---
+
 # Tech Progress Dashboard — Data Source Landscape (Research Log)
 
 _Last updated: 2026-02-14_
+
+## 0) Implementation status update (2026-02-14)
+
+- Canonical dashboard source is now `posts/2026-02-14-tech-progress-dashboard.llm.qmd`.
+- Canonical data seed is `posts/data/tech-progress-dashboard.llm/seed-series.llm.csv`.
+- Generated outputs are:
+  - `posts/data/tech-progress-dashboard.llm/normalized-series.llm.csv`
+  - `posts/data/tech-progress-dashboard.llm/tpd-data.llm.js`
+  - `posts/data/tech-progress-dashboard.llm/ingest-log.llm.md`
+- New optimization-focused series added for this pass:
+  - Matrix multiplication exponent timeline (algorithmic speed proxy)
+  - Hutter Prize compression history (enwik8 and enwik9)
+  - Wi-Fi peak spectral-efficiency proxy from IEEE 802.11 generation specs
+- New AI/ML trend-index series added for this pass:
+  - Training compute index, training cost index, training power index, hardware efficiency index (derived from Epoch growth-rate statements)
 
 ## 1) Scope definition (v1)
 
@@ -56,78 +75,78 @@ Each source is scored on 5 dimensions (1–5):
 
 ## Compute hardware, semiconductors, AI compute
 
-| Source | Example metrics | Coverage | Access | Quality notes | Score | Tier |
-|---|---|---:|---|---|---:|---|
-| Our World in Data (OWID) grapher | Transistors/chip, FLOPS/$, storage price | Varies; many start 1950–1980s | CSV + API-like URL params; open | Strong docs, reproducible, easy extraction; often sourced from underlying institutions | 24 | A |
-| OpenAlex | AI paper counts, citations by field | 1950s+ publication metadata | Open API + snapshots | Massive coverage, good for diffusion proxies; requires careful field classification | 22 | A |
-| Crossref | DOI publication trends, venue metadata | Broad historical coverage | Open API | Good scale; noisier than curated bibliometric sources | 19 | B |
-| arXiv bulk metadata | CS/AI preprint trends | 1991+ | Open bulk + API | Clean for modern AI era, not 1950-complete | 17 | B |
-| TOP500 | Frontier supercomputer LINPACK performance | 1993+ biannual | Public lists/download | Trusted frontier proxy; no 1950s coverage | 18 | B |
-| MLPerf results | Training/inference performance curves | ~2018+ | Public tables | High benchmark quality but short horizon | 14 | C |
-| Epoch AI dataset pages | Frontier model training compute | Mostly 2010+ | Public with mixed machine-readability | Substantive but methodology can evolve; verify each datapoint | 17 | B |
-| SemiAnalysis articles/data snippets | AI hardware economics | Recent | Mostly paywalled | Valuable context but weak reproducible access | 10 | C |
-| Semiconductor Industry Association (SIA) | Industry shipments/sales | Late 20th c.+ | Reports (mixed openness) | Useful aggregate indicators; sometimes paywalled details | 15 | C |
-| FRED (selected semiconductor indexes) | Price indexes, producer prices | Various; often decades | API | Reliable for macro proxies, less direct technical frontier | 20 | B |
+| Source                                   | Example metrics                            |                      Coverage | Access                                | Quality notes                                                                          | Score | Tier |
+|------------------------------------------|--------------------------------------------|------------------------------:|---------------------------------------|----------------------------------------------------------------------------------------|------:|------|
+| Our World in Data (OWID) grapher         | Transistors/chip, FLOPS/$, storage price   | Varies; many start 1950–1980s | CSV + API-like URL params; open       | Strong docs, reproducible, easy extraction; often sourced from underlying institutions |    24 | A    |
+| OpenAlex                                 | AI paper counts, citations by field        |   1950s+ publication metadata | Open API + snapshots                  | Massive coverage, good for diffusion proxies; requires careful field classification    |    22 | A    |
+| Crossref                                 | DOI publication trends, venue metadata     |     Broad historical coverage | Open API                              | Good scale; noisier than curated bibliometric sources                                  |    19 | B    |
+| arXiv bulk metadata                      | CS/AI preprint trends                      |                         1991+ | Open bulk + API                       | Clean for modern AI era, not 1950-complete                                             |    17 | B    |
+| TOP500                                   | Frontier supercomputer LINPACK performance |                1993+ biannual | Public lists/download                 | Trusted frontier proxy; no 1950s coverage                                              |    18 | B    |
+| MLPerf results                           | Training/inference performance curves      |                        ~2018+ | Public tables                         | High benchmark quality but short horizon                                               |    14 | C    |
+| Epoch AI dataset pages                   | Frontier model training compute            |                  Mostly 2010+ | Public with mixed machine-readability | Substantive but methodology can evolve; verify each datapoint                          |    17 | B    |
+| SemiAnalysis articles/data snippets      | AI hardware economics                      |                        Recent | Mostly paywalled                      | Valuable context but weak reproducible access                                          |    10 | C    |
+| Semiconductor Industry Association (SIA) | Industry shipments/sales                   |                 Late 20th c.+ | Reports (mixed openness)              | Useful aggregate indicators; sometimes paywalled details                               |    15 | C    |
+| FRED (selected semiconductor indexes)    | Price indexes, producer prices             |        Various; often decades | API                                   | Reliable for macro proxies, less direct technical frontier                             |    20 | B    |
 
 ## Energy generation, storage, and power systems
 
-| Source | Example metrics | Coverage | Access | Quality notes | Score | Tier |
-|---|---|---:|---|---|---:|---|
-| IEA Data Browser | Electricity generation tech mix, efficiency, prices | Often 1960+ | Mixed: many series free, some restricted | High quality official source; access terms vary | 21 | B |
-| EIA (US Energy Information Administration) | Generation costs, fuel efficiency, capacity | Many series 1949+ | Open API + downloads | Excellent long-run US series, consistent metadata | 24 | A |
-| Lazard LCOE reports | Utility-scale cost benchmarks | ~2009+ | Public PDF | Good for modern cost snapshots; short horizon, methodology changes | 14 | C |
-| NREL ATB | Forward-looking cost/performance assumptions | Mostly 2010+ | Public CSV | Great structure but not long-run historical primary source | 15 | C |
-| BP Statistical Review / Energy Institute | Global energy production/consumption | ~1965+ | Public spreadsheets | Long history, broadly used, transparent revisions | 22 | A |
-| Ember electricity datasets | Power-sector trends | mostly 2000+ | Open downloads | Strong recent coverage, not enough historical depth alone | 16 | C |
-| BNEF battery price announcements | Li-ion pack $/kWh | 2010s+ | Mostly press releases | Important indicator but source data often not fully open | 14 | C |
-| IRENA renewables cost database | Utility-scale technology costs | ~2010+ | Public reports/data | Good methodology, insufficient pre-2000 depth | 16 | C |
+| Source                                     | Example metrics                                     |          Coverage | Access                                   | Quality notes                                                      | Score | Tier |
+|--------------------------------------------|-----------------------------------------------------|------------------:|------------------------------------------|--------------------------------------------------------------------|------:|------|
+| IEA Data Browser                           | Electricity generation tech mix, efficiency, prices |       Often 1960+ | Mixed: many series free, some restricted | High quality official source; access terms vary                    |    21 | B    |
+| EIA (US Energy Information Administration) | Generation costs, fuel efficiency, capacity         | Many series 1949+ | Open API + downloads                     | Excellent long-run US series, consistent metadata                  |    24 | A    |
+| Lazard LCOE reports                        | Utility-scale cost benchmarks                       |            ~2009+ | Public PDF                               | Good for modern cost snapshots; short horizon, methodology changes |    14 | C    |
+| NREL ATB                                   | Forward-looking cost/performance assumptions        |      Mostly 2010+ | Public CSV                               | Great structure but not long-run historical primary source         |    15 | C    |
+| BP Statistical Review / Energy Institute   | Global energy production/consumption                |            ~1965+ | Public spreadsheets                      | Long history, broadly used, transparent revisions                  |    22 | A    |
+| Ember electricity datasets                 | Power-sector trends                                 |      mostly 2000+ | Open downloads                           | Strong recent coverage, not enough historical depth alone          |    16 | C    |
+| BNEF battery price announcements           | Li-ion pack $/kWh                                   |            2010s+ | Mostly press releases                    | Important indicator but source data often not fully open           |    14 | C    |
+| IRENA renewables cost database             | Utility-scale technology costs                      |            ~2010+ | Public reports/data                      | Good methodology, insufficient pre-2000 depth                      |    16 | C    |
 
 ## Communications and digital infrastructure
 
-| Source | Example metrics | Coverage | Access | Quality notes | Score | Tier |
-|---|---|---:|---|---|---:|---|
-| ITU (International Telecommunication Union) | Broadband subscriptions, telecom diffusion | Several series from 1960s/70s | Public tables + API-like access | Canonical global telecom source; some usability friction | 22 | A |
-| OECD broadband portal | Prices, speeds, subscriptions | Mostly 1990s+ | Open tables/API | High trust for OECD countries; narrower geography | 20 | B |
-| World Bank WDI | Internet users, secure servers, telecom variables | Many series 1960+ depending variable | Open API + bulk CSV | Excellent operational access and metadata | 23 | A |
-| FCC data (US) | Broadband deployment/performance | Modern era | Public releases | Good US detail but short horizon | 15 | C |
-| Cisco annual internet reports (archival) | Traffic growth | 2000s+ | Public PDFs | Useful context but report methodology evolved | 13 | C |
+| Source                                      | Example metrics                                   |                             Coverage | Access                          | Quality notes                                            | Score | Tier |
+|---------------------------------------------|---------------------------------------------------|-------------------------------------:|---------------------------------|----------------------------------------------------------|------:|------|
+| ITU (International Telecommunication Union) | Broadband subscriptions, telecom diffusion        |        Several series from 1960s/70s | Public tables + API-like access | Canonical global telecom source; some usability friction |    22 | A    |
+| OECD broadband portal                       | Prices, speeds, subscriptions                     |                        Mostly 1990s+ | Open tables/API                 | High trust for OECD countries; narrower geography        |    20 | B    |
+| World Bank WDI                              | Internet users, secure servers, telecom variables | Many series 1960+ depending variable | Open API + bulk CSV             | Excellent operational access and metadata                |    23 | A    |
+| FCC data (US)                               | Broadband deployment/performance                  |                           Modern era | Public releases                 | Good US detail but short horizon                         |    15 | C    |
+| Cisco annual internet reports (archival)    | Traffic growth                                    |                               2000s+ | Public PDFs                     | Useful context but report methodology evolved            |    13 | C    |
 
 ## Manufacturing, macro productivity, technology diffusion proxies
 
-| Source | Example metrics | Coverage | Access | Quality notes | Score | Tier |
-|---|---|---:|---|---|---:|---|
-| Penn World Table (PWT) | TFP, capital deepening | 1950+ | Open downloads | Standard in growth accounting; model-based estimates need caveats | 22 | A |
-| EU KLEMS / World KLEMS | Sector productivity and ICT capital | Often 1970+ | Open downloads | Great granularity, weaker pre-1970 coverage | 20 | B |
-| Conference Board Total Economy Database | Productivity levels and growth | Mid-20th c.+ | Public downloads | High-quality macro benchmark | 21 | B |
-| UNIDO INDSTAT (where accessible) | Industrial output and intensity | Varies | Mixed access | Valuable, but access constraints in some components | 15 | C |
-| FRED macro series | Price deflators, productivity, industrial production | Many start pre-1950 | Open API | Strong operational backbone for normalization/deflation | 23 | A |
+| Source                                  | Example metrics                                      |            Coverage | Access           | Quality notes                                                     | Score | Tier |
+|-----------------------------------------|------------------------------------------------------|--------------------:|------------------|-------------------------------------------------------------------|------:|------|
+| Penn World Table (PWT)                  | TFP, capital deepening                               |               1950+ | Open downloads   | Standard in growth accounting; model-based estimates need caveats |    22 | A    |
+| EU KLEMS / World KLEMS                  | Sector productivity and ICT capital                  |         Often 1970+ | Open downloads   | Great granularity, weaker pre-1970 coverage                       |    20 | B    |
+| Conference Board Total Economy Database | Productivity levels and growth                       |        Mid-20th c.+ | Public downloads | High-quality macro benchmark                                      |    21 | B    |
+| UNIDO INDSTAT (where accessible)        | Industrial output and intensity                      |              Varies | Mixed access     | Valuable, but access constraints in some components               |    15 | C    |
+| FRED macro series                       | Price deflators, productivity, industrial production | Many start pre-1950 | Open API         | Strong operational backbone for normalization/deflation           |    23 | A    |
 
 ## Agriculture and food technology
 
-| Source | Example metrics | Coverage | Access | Quality notes | Score | Tier |
-|---|---|---:|---|---|---:|---|
-| FAOSTAT | Crop yields, inputs, production | 1961+ | Open API + bulk | Global, consistent, machine-readable | 23 | A |
-| USDA Quick Stats | US yields, adoption, productivity | Many series 1950+ | Open API | Excellent US depth and metadata | 24 | A |
-| Our World in Data agriculture grapher | Harmonized yield/diet/land series | Varies | Open CSV | Great dashboard-ready integration; verify underlying source transformations | 22 | A |
-| ASTI (agricultural R&D indicators) | R&D spending and personnel | Mostly 1980+ | Public tables | Important input proxy, but limited long-run depth | 17 | B |
+| Source                                | Example metrics                   |          Coverage | Access          | Quality notes                                                               | Score | Tier |
+|---------------------------------------|-----------------------------------|------------------:|-----------------|-----------------------------------------------------------------------------|------:|------|
+| FAOSTAT                               | Crop yields, inputs, production   |             1961+ | Open API + bulk | Global, consistent, machine-readable                                        |    23 | A    |
+| USDA Quick Stats                      | US yields, adoption, productivity | Many series 1950+ | Open API        | Excellent US depth and metadata                                             |    24 | A    |
+| Our World in Data agriculture grapher | Harmonized yield/diet/land series |            Varies | Open CSV        | Great dashboard-ready integration; verify underlying source transformations |    22 | A    |
+| ASTI (agricultural R&D indicators)    | R&D spending and personnel        |      Mostly 1980+ | Public tables   | Important input proxy, but limited long-run depth                           |    17 | B    |
 
 ## Biotech and health technology
 
-| Source | Example metrics | Coverage | Access | Quality notes | Score | Tier |
-|---|---|---:|---|---|---:|---|
-| NIH RePORTER / historical NIH funding | Biomedical R&D inputs | Mid-20th c.+ aggregates | API + files | Good funding signals; variable granularity over time | 20 | B |
-| FDA (Drugs@FDA, device approvals) | Approval counts/timelines | Modern electronic era primarily | Public DB | Robust for modern period; weak earlier machine-readable data | 16 | C |
-| CDC/NCHS (selected tech-related outcomes) | Mortality/outcome proxies | Long historical | Open datasets | Useful as outcomes, less direct as technical frontier measure | 18 | B |
-| GenBank growth statistics (NCBI) | Sequence database scale | 1980s+ | Public | Useful diffusion proxy; not direct performance/cost | 17 | B |
+| Source                                    | Example metrics           |                        Coverage | Access        | Quality notes                                                 | Score | Tier |
+|-------------------------------------------|---------------------------|--------------------------------:|---------------|---------------------------------------------------------------|------:|------|
+| NIH RePORTER / historical NIH funding     | Biomedical R&D inputs     |         Mid-20th c.+ aggregates | API + files   | Good funding signals; variable granularity over time          |    20 | B    |
+| FDA (Drugs@FDA, device approvals)         | Approval counts/timelines | Modern electronic era primarily | Public DB     | Robust for modern period; weak earlier machine-readable data  |    16 | C    |
+| CDC/NCHS (selected tech-related outcomes) | Mortality/outcome proxies |                 Long historical | Open datasets | Useful as outcomes, less direct as technical frontier measure |    18 | B    |
+| GenBank growth statistics (NCBI)          | Sequence database scale   |                          1980s+ | Public        | Useful diffusion proxy; not direct performance/cost           |    17 | B    |
 
 ## Patents, innovation intensity, cross-domain
 
-| Source | Example metrics | Coverage | Access | Quality notes | Score | Tier |
-|---|---|---:|---|---|---:|---|
-| USPTO PatentsView | Patent counts, citations, classifications | 1976+ structured modern data; historical text back further | API + bulk | High-quality US patent backbone | 21 | B |
-| EPO PATSTAT (via access agreements) | Global patent panel data | Long historical | Restricted/licensed | Very strong data quality but access barriers | 15 | C |
-| WIPO IP statistics | Patent applications by country/field | Multi-decade | Public downloads | Strong international comparability at aggregate level | 21 | B |
-| OECD STAN / ANBERD / MSTI | R&D, industry innovation stats | Often 1970+ | Mixed (some open, some subscription) | High quality but access friction | 18 | B |
+| Source                              | Example metrics                           |                                                   Coverage | Access                               | Quality notes                                         | Score | Tier |
+|-------------------------------------|-------------------------------------------|-----------------------------------------------------------:|--------------------------------------|-------------------------------------------------------|------:|------|
+| USPTO PatentsView                   | Patent counts, citations, classifications | 1976+ structured modern data; historical text back further | API + bulk                           | High-quality US patent backbone                       |    21 | B    |
+| EPO PATSTAT (via access agreements) | Global patent panel data                  |                                            Long historical | Restricted/licensed                  | Very strong data quality but access barriers          |    15 | C    |
+| WIPO IP statistics                  | Patent applications by country/field      |                                               Multi-decade | Public downloads                     | Strong international comparability at aggregate level |    21 | B    |
+| OECD STAN / ANBERD / MSTI           | R&D, industry innovation stats            |                                                Often 1970+ | Mixed (some open, some subscription) | High quality but access friction                      |    18 | B    |
 
 ---
 
@@ -157,8 +176,10 @@ Secondary additions after MVP:
 
 - `posts/2026-02-14-tech-progress-dashboard.data-sources.llm.md` (this human-readable research log)
 - `posts/2026-02-14-tech-progress-dashboard.source-registry.llm.csv` (machine-readable source registry)
-- Future (optional): `posts/2026-02-14-tech-progress-dashboard.raw/` for fetched raw extracts
-- Future (optional): `posts/2026-02-14-tech-progress-dashboard.processed.csv` for normalized long-format panel
+- `posts/data/tech-progress-dashboard.llm/seed-series.llm.csv` (canonical seed rows)
+- `posts/data/tech-progress-dashboard.llm/normalized-series.llm.csv` (normalized long-format panel)
+- `posts/data/tech-progress-dashboard.llm/tpd-data.llm.js` (browser-ready bundle loaded by dashboard)
+- `posts/data/tech-progress-dashboard.llm/raw/` (fetched raw extracts)
 
 ## B. Source intake workflow
 
@@ -211,12 +232,15 @@ For each final series keep:
 
 ## 7) Next execution step
 
-For the next pass, prioritize building fetch scripts and adding first approved series from:
+For the next pass, prioritize:
+- Replacing formula-derived Epoch trend indexes with direct machine-readable per-model extracts.
+- Extending optimization coverage with additional compression and channel-efficiency benchmarks from primary structured sources.
+- Adding quality metadata fields (`quality_tier`, `last_verified_at`) into the dashboard provenance table.
+
+Priority source integrations:
 - OWID
 - EIA
 - World Bank WDI
 - FAOSTAT
 - USDA Quick Stats
 - FRED
-
-Then rerun dashboard with provenance table showing quality tier and last-verified date.
