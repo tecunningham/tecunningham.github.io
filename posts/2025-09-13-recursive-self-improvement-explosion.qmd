@@ -1,6 +1,7 @@
 ---
 title: Recursive Self-Improvement
 author: Tom Cunningham
+bibliography: ai.bib
 date: today
 draft: true
 engine: knitr
@@ -9,9 +10,8 @@ execute:
   warning: false
   error: false
   cache: true # caches chunk output
-# editor:
-#   render-on-save: true
 ---
+
 <style>
    h1 {  border-bottom: 4px solid black; }
    h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; color: black; }
@@ -32,6 +32,7 @@ Progress in AI is rapid but smooth.
 : We can measure progress in various ways, algorithmic progress has accelerated over the last 10-15 years. Epoch estimate that algorithmic efficiency has been growing at 3X/year between 2012-2024, measured by effective compute.
 
 Forecasters expect an 8-20% chance of an explosion.
+
 : They define an explosion as a 3X speedup in the historical rate of progress by some measure, from the METR/FRI survey.
 
 AI has already been accelerating AI research.
@@ -375,21 +376,19 @@ flowchart LR
 
 
 
-# 2026-01-13 |                      
-
-
+# 2026-01-13 |                      Jones model
 
 Basic model with accumulating ideas:
 $$\begin{gathered}\dot{A}=R^{\gamma}\\
    \xymatrix{*++[F]{R\&D} \ar[r] & *++[F]{\Delta algorithms}\ar[r] & *++[F]{algorithms}}
 \end{gathered}$$
 
-Model with shoulders/armpits of giants:
+Model with shoulders/armpits of giants (Jones model):^[This was introduced by @jones1995rd, where there are diminishing returns to knowledge, whereas Romer (1990) had assumed no diminishing returns to knowledge, $\beta=0$.]
 $$\begin{gathered}\dot{A}=R^{\gamma}A^{1-\beta}\\
    \xymatrix{*++[F]{R\&D} \ar[r] & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}\ar@/^2em/[l]}
 \end{gathered}$$
 
-Recursive self-improvement, knowledge actually helps R&D:
+Recursive self-improvement, where knowledge actually helps R&D:
 $$\begin{gathered}\dot{A}=R^{\gamma}\\
    \xymatrix{*++[F]{R\&D} \ar[r] & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}\ar@/^2em/[l]\ar@/^3em/[ll]}
 \end{gathered}$$
@@ -398,15 +397,16 @@ Extrapolating from these models.
 : It's dangerous to talk about "the elasticity" between A and B: it is meaningful to talk about the elasticity *at a given point* but it's a strong functional-form assumption that it'll have the same elasticity everywhere. 
 
 Mathematical assumptions on intelligence -> R&D:
-:  1. Full automation / perfect substitute. Once you hit a threshold of intelligence. E.g. replacing tollbooth operator with automatic tollbooth.
-   2. Partial automation -> can do some subset of tasks, efficiency gain depends on elasticity of substitution.
-   3. Speedup -> increases efficiency on all tasks.
-
+:  
+    1. _Full automation._ Once you hit a threshold of intelligence then it's worth entirely replacing humans with agents. E.g. replacing tollbooth operator with automatic tollbooth.
+    2. _Partial automation._ There's some subset of tasks, and you replace them one-by-one.
+    3. _Speedup._ -> Humans and agents are complements, an agent increases efficiency on all tasks.
 
 Concrete assumptions.
-:  1. _Autonomous algorithm-search machine._ You spend a lot of tokens, it autonomously learns to navigate the space. Like AlphaZero, trained from scratch.
-   2. _Speeds up routine tasks._ The AI R&D guy can do certain things quicker, e.g. parse logs, write visualization, fix bugs.
-   3. _Shares knowledge._ Can learn tricks. It doesn't affect people at the frontier very much.
+:  
+    1. _Autonomous algorithm-search machine._ You spend a lot of tokens, it autonomously learns to navigate the space. Like AlphaZero, trained from scratch.
+    2. _Speeds up routine tasks._ The AI R&D guy can do certain things quicker, e.g. parse logs, write visualization, fix bugs.
+    3. _Shares knowledge._ Can learn tricks. It doesn't affect people at the frontier very much.
 
 Q: what if the capability frontier is the data frontier?
 : - Nice prediction: will not speed up experts, only behind the frontier.
@@ -417,16 +417,22 @@ Natural processes often have explosive *regions*.
 ##    metaphors
 
 Drawing balls from an urn.
-: There's some distribution of values, then you get a very nice expression. The expected value of $N$ draws just depends on the distribution of values $v$, & the extreme-value distribution. This is exactly Kortum (1997).
+: 
+    There's some distribution of values, then you get a very nice expression. The expected value of $N$ draws just depends on the extreme value distribution of $f(v)$. This is exactly Kortum (1997).
 
 A tool factory makes better tools.
-: I think this is Jones' metaphor. *Distinct* from Kortum, because the returns to search now depends on the stock of ideas.
+: 
+    I think this is Jones' metaphor. *Distinct* from Kortum, because the returns to search now depends on the stock of ideas.
 
-Lego.
-: Weitzmann's recombinant search is like this: you combine ideas to make new ideas, now you have a larger stock of ideas to combine.
+    Could also talk about machine tools: that you need to make machine tools by hand, which then make lower-quality tools. But eventually.
+
+Lego - combining ideas.
+: 
+    Weitzmann's recombinant search is like this: you combine ideas to make new ideas, now you have a larger stock of ideas to combine.
 
 Recipes.
-: You try out recipes, which are combinations of prior recipes. @jones2023recipes
+: 
+    You try out recipes, which are combinations of prior recipes. @jones2023recipes
 
 Blacksmith.
 : You have a hammer and you spend time making horseshoes, or working on a new hammer.
