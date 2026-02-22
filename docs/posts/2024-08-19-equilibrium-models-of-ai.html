@@ -1,0 +1,1928 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="quarto-1.5.57" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+<meta name="author" content="Tom Cunningham" />
+<meta name="dcterms.date" content="2026-02-22" />
+<meta name="description" content="Tom Cunningham blog" />
+
+<title>Models of the Economic Impact of AI | Tom Cunningham – Tom Cunningham</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+<!-- htmldependencies:E3FAD763 -->
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-12027453-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+<script>window.MathJax = {
+   loader: { load: ["https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/xypic.js"]},
+   tex: {packages: {'[+]': ['xypic','bm']},
+         macros: {  bm: ["\\boldsymbol{#1}", 1],
+                    ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+                    utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3] }
+   }
+};
+</script>
+<style>
+   h1 {  border-bottom: 8px solid #557;}
+   h2 {  border-bottom: 1px solid #ccc;}
+   .greyproof {
+      background-color: #f5f5f5;
+      padding: 1em;
+      margin: 1em 0;
+      border-radius: 4px;
+   }
+</style>
+<script>window.MathJax = {
+         loader: { load: ['[custom]/xypic.js'],
+                   paths: {custom: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/'}},
+      tex: {packages: {'[+]': ['xypic']},
+         macros: {
+            bm: ["\\boldsymbol{#1}", 1],
+            ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+            utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3]
+         }}};
+</script>
+<style>
+   h1 {  border-bottom: 4px solid black;}
+   h2 {  border-bottom: 1px solid #ccc;}
+   dl { display: grid; grid-template-columns: 250px auto;}
+   dt { grid-column-start: 1; font-weight: bold; margin-right: 10px;  }
+   dd { grid-column-start: 2; }
+   /* quarto-document-content { width: 500px; } */
+   /* .column-margin { width: 300px; }*/
+</style>
+<meta name="quarto:status" content="draft">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css" />
+</head>
+
+<body>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="/index.html">
+    <span class="navbar-title">Tom Cunningham</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+  aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation"
+  onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="/./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/testingham"> <i 
+  class="bi bi-twitter" 
+  role="img" 
+>
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/tom-cunningham-a9433/"> <i 
+  class="bi bi-linkedin" 
+  role="img" 
+>
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://tecunningham.github.io/index.xml"> <i 
+  class="bi bi-rss-fill" 
+  role="img" 
+>
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://scholar.google.com/citations?user=MDB_DgkAAAAJ"> 
+<span class="menu-text">scholar</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div id="quarto-toc-target"></div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" ></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default toc-left">
+  <div class="quarto-title-banner">
+    <div class="quarto-title column-body">
+      <h1 class="title">Models of the Economic Impact of AI</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Tom Cunningham. </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 22, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header>
+
+
+<dl>
+<dt>This note will discuss models of AI’s <em>equilibrium</em> impact on the economy.</dt>
+<dd>
+<p>In the last 10 years there have been a dozen papers written trying to predict the effects of AI that give a wide range of predictions about the effect on productivity, wages, and inequality. I will discuss these models and try to explain the relationship between assumptions and predictions.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+</dd>
+<dd>
+<p>We mostly doesn’t discuss evidence for the <em>size</em> of the productivity effects from AI or which types of activities it will directly impact. Instead the note focusses on the <em>equilibrium</em> effects - how society will rearrange itself to make room for AI through changes in wages, employment, and distribution of income.</p>
+</dd>
+<dt>Summary of predictions.</dt>
+<dd>
+<p>This is a somewhat opinionated take on the models below:</p>
+</dd>
+<dd>
+<ol type="1">
+<li>AI will increase total goods and services and, to a smaller extent, decrease the amount that people choose to work.</li>
+</ol>
+</dd>
+<dd>
+<ol start="2" type="1">
+<li>The sectors in which AI has the biggest productivity effects will likely come to employ fewer people, and people who have skills which are replaced by AI will have lower wages and employment.</li>
+</ol>
+</dd>
+<dd>
+<ol start="3" type="1">
+<li>AI will increase real wages but it will likely increase the returns to capital more (i.e. reducing the labor share of income).</li>
+</ol>
+</dd>
+<dd>
+<ol start="4" type="1">
+<li>It is unclear whether AI will raise the wages of the more-educated or less-educated more.</li>
+</ol>
+</dd>
+<dd>
+<ol start="5" type="1">
+<li>If AI can outperform most humans at <em>every</em> task (AGI) then it will cause a huge boost in output but decrease wages (the returns to working), because computers compete with humans for land and energy inputs.</li>
+</ol>
+</dd>
+</dl>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="192" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt>Many of the models discussed can be summarized with diagrams.</dt>
+<dd>
+<p>Most of the differences between models comes down to assumptions on the degree of <em>substitutability</em> between different inputs, specifically (1) how substitutable are computers for humans in producing certain goods; and (2) how substitutable is the demand for different types of goods. The key substitutability assumptions of most of these models can be illustrated with a diagram showing networks of inputs and outputs, here <span class="math inline">\(\sigma\)</span> represents the <em>elasticity of substitution</em>: <span class="math inline">\(\sigma=0\)</span> means perfect complements, <span class="math inline">\(\sigma=\infty\)</span> means perfect substitutes. I explain below how to interpret the elasticity of substitution formally.</p>
+</dd>
+<dt>I also list some things I think are missing from the literature.</dt>
+<dd>
+<p>To me the most notable hole in the literature is a theory of what <em>types</em> of tasks AI will be good at. The majority of the papers discussed assume a single dimension of task “difficulty” and represent AI as continuation of progress in capital’s ability to do progressively more difficult tasks. However it seems clear that recent AI models have a distinctively different pattern of capabilities than the distribution across people.</p>
+</dd>
+</dl>
+<section id="models" class="level1">
+<h1>Models</h1>
+<dl>
+<dt>We will build up a series of models of the impact of AI.</dt>
+<dd>
+<p>In this section I start from the simplest model and gradually add complications with references to individual papers. The following section lists each of the papers and describes their assumptions and implications.</p>
+</dd>
+</dl>
+<div class="column-margin">
+<p><img src="images/2024-09-06-10-46-02.png" class="img-fluid" /> In Western countries GDP/capita has increased by about 20 times over 1820-2022 (<a href="https://ourworldindata.org/grapher/gdp-per-capita-maddison?tab=chart">Our World in Data</a>)</p>
+</div>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt>In the simplest model AI increases output.</dt>
+<dd>
+<p>In developed countries the amount of output produced per person has increased by around 20X over the last 200 years. The simplest model of AI is that it continues that growth in productivity.</p>
+</dd>
+<dd>
+At right we illustrate this with the simplest of diagrams: output is a function of labor, and we color the arrow from labor to output blue to represent growth in labor productivity.
+</dd>
+</dl>
+<p><br /><br /><br /><br /></p>
+<div class="column-margin">
+<p><img src="images/2024-08-19-14-36-53.png" class="img-fluid" /> Hours worked per worker fell by about 50% since 1870. In addition people now start work at later ages and spend more years in retirement (<a href="https://ourworldindata.org/grapher/gdp-per-capita-maddison#all-charts">Our World in Data</a>)</p>
+</div>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt>AI will reduce hours worked.</dt>
+<dd>
+<p>Over the last 100 years output/worker has grown by about 10X in developed countries, and hours worked have fallen by about 50%. Thus if AI increases productivity we could expect that it will decrease the total hours worked, although by a much smaller proportional amount than the increase in output.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+</dd>
+<dd>
+We can represent the tradeoff between output and leisure in the diagram at right (leisure is defined as time spent not working). The arrow from time to output is colored blue to represent an increase in productivity. The historical trends imply an elasticity of substitution around 0.7.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>
+</dd>
+</dl>
+<p><br /><br /><br /><br /><br /><br /></p>
+<div class="column-margin">
+<p><img src="images/2024-08-20-12-43-29.png" class="img-fluid" /> US employment shares over time (<a href="https://www.clevelandfed.org/publications/economic-commentary/2019/ec-201909-changes-in-us-occupational-structure">Cleveland Fed</a>)</p>
+</div>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt>Employment will decline in the sectors where productivity increases.</dt>
+<dd>
+<p>AI is likely to increase productivity (output/hour) much more in some sectors. This could cause employment to either increase or decrease in the most-affected sectors. Historically the sectors which have had the highest growth in productivity have tended to shrink in employment. Over the last 150 years employment has shifted from agriculture, to manufacturing, and then to services, roughly in line with productivity growth in each sector. Put another way, people became satiated with cheap agricultural goods, and then satiated with cheap manufactured goods, and so now spend most of their income on services.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+</dd>
+<dd>
+This pattern can be represented by the elasticity of substitution. <span class="citation" data-cites="ngai2007structural">Ngai and Pissarides (<a href="#ref-ngai2007structural" role="doc-biblioref">2007</a>)</span> estimate an elasticity of substitution of of 0.6 between agriculture, manufacturing and services from historical changes.
+</dd>
+<dd>
+Thus if AI dramatically increases productivity in knowledge work but not in-person services then we’d expect a reallocation of labor from the former to the latter.
+</dd>
+</dl>
+<p><br /><br /><br /></p>
+<div class="column-margin">
+<p><span class="citation" data-cites="acemoglu2022tasks">Acemoglu and Restrepo (<a href="#ref-acemoglu2022tasks" role="doc-biblioref">2022</a>)</span> find that industries with high rates of adoption of automation (e.g. car manufacturing, computer services, metals, chemicals, plastics) had much lower wage growth, even controlling for the level of education.</p>
+</div>
+<dl>
+<dt>Workers with skills replaced by AI will suffer extended loss of earnings.</dt>
+<dd>
+<p>Labor does not flow perfectly between occupations. Historically we have seen that people whose skills are replaced by automation have lower incomes: <span class="citation" data-cites="acemoglu2022tasks">Acemoglu and Restrepo (<a href="#ref-acemoglu2022tasks" role="doc-biblioref">2022</a>)</span> estimate that automation had large negative effects on US workers who had skills that were automated, <span class="citation" data-cites="autor2021persistence">Autor, Dorn, and Hanson (<a href="#ref-autor2021persistence" role="doc-biblioref">2021</a>)</span> estimate that competition from China had large persistent declines in employment and income for those who worked in manufacturing.</p>
+</dd>
+<dd>
+<p>However different empirical studies find different results:</p>
+<ul>
+<li><span class="citation" data-cites="giuntella2022workers">Giuntella, Lu, and Wang (<a href="#ref-giuntella2022workers" role="doc-biblioref">2022</a>)</span> finds adoption of robots in China reduced employment and wages.</li>
+<li><span class="citation" data-cites="bessen2023automatic">J. Bessen et al. (<a href="#ref-bessen2023automatic" role="doc-biblioref">2023</a>)</span> finds that automation decreases the employment of incumbent workers in Holland, but they find no effect of computer adoption.</li>
+<li><span class="citation" data-cites="humlum2019robot">Humlum (<a href="#ref-humlum2019robot" role="doc-biblioref">2019</a>)</span> estimates that robot adoption in Denmark increased lowered the wages of production workers by 5% but raised average real wages by 0.8%.</li>
+<li><span class="citation" data-cites="adachi2024robots">Adachi, Kawaguchi, and Saito (<a href="#ref-adachi2024robots" role="doc-biblioref">2024</a>)</span> find that robot adoption in Japan, instrumented with robot prices, caused an increase in employment in the corresponding sector.</li>
+<li><span class="citation" data-cites="hotte2023technology">Hotte, Somers, and Theodorakopoulos (<a href="#ref-hotte2023technology" role="doc-biblioref">2023</a>)</span> reviews 127 studies on technological change and employment.</li>
+</ul>
+</dd>
+<dd>
+A number of recent papers model frictions that prevent efficient adjustment: <span class="citation" data-cites="costinot2023robots">Costinot and Werning (<a href="#ref-costinot2023robots" role="doc-biblioref">2023</a>)</span>, <span class="citation" data-cites="beraja2022inefficient">Beraja and Zorzi (<a href="#ref-beraja2022inefficient" role="doc-biblioref">2022</a>)</span>, <span class="citation" data-cites="lehr2022optimal">Lehr and Restrepo (<a href="#ref-lehr2022optimal" role="doc-biblioref">2022</a>)</span>.
+</dd>
+</dl>
+<div class="column-margin">
+<p>Since 1963 the real hourly wages have grown by 70% for male workers with post-college educations, but have been essentially unchanged for high school dropouts. Note that over the same period there was a large increase in education which normally would be expected to have a counterbalanced effect (i.e. lowering the relative wages of the educated).</p>
+</div>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt>The relative effect of AI on educated or uneducated workers is unclear.</dt>
+<dd>
+<p>It is hard to say whether AI will have a bigger effect on educated or uneducated workers.</p>
+</dd>
+<dd>
+Over 1980-2000 the wages of college graduates increased dramatically relative to non-college graduates in the US, despite a big increase in the number of college graduates over the same period.
+</dd>
+<dd>
+A common explanation is that technology disproprtionately increased the productivity of high-skill labor (people who could use computers), and that the work of low-skill and high-skill labor are relatively substitutable (<span class="math inline">\(\sigma&gt;1\)</span>), thus an educated office worker could now do work that otherwise would be done by a secretary and clerk. Katz and Murphy (1992) estimate an elasticity of substitution between college and high-school labor of 1.4 <span class="citation" data-cites="katz1992changes">(<a href="#ref-katz1992changes" role="doc-biblioref">Katz and Murphy 1992</a>)</span>.
+</dd>
+</dl>
+<p><br /><br /><br /></p>
+<div class="column-margin">
+<p><img src="images/2024-08-20-11-54-54.png" class="img-fluid" alt="Labor share in the US since 1899" /> from <span class="citation" data-cites="ilo2015income">ILO (<a href="#ref-ilo2015income" role="doc-biblioref">2015</a>)</span>.</p>
+</div>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt>The labor share may fall.</dt>
+<dd>
+<p>A lot of the discussion about AI focusses on what share of GDP will be paid to labor (in wages) and what share will be paid to capital. Over the last 100 years the share of income going to labor in Western countries has typically hovered around 2/3, but it has declined somewhat since 1980.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+</dd>
+<dd>
+A simple model of the economy is that output is produced by labor and capital (businesses, land, energy, computers), and each is paid their marginal product. We can model AI as increasing the effective productivity of capital inputs (the blue arrow). This will increase the marginal product of both capital and of labor. If we assume that the elasticity of substitution is 1 (AKA Cobb-Douglas) this would imply that the returns to capital and labor increase by equal amounts, and so the labor share of income remains constant.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>
+</dd>
+<dd>
+The recent decline in the labor share has had a number of explanations, most prominent is <span class="citation" data-cites="autor2020fall">Autor et al. (<a href="#ref-autor2020fall" role="doc-biblioref">2020</a>)</span> who note that it is mostly driven by a reallocation of product market shares towards firms with higher productivity and lower labor costs, &amp; they attribute that to technological changes which have strengthened competition.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>
+</dd>
+</dl>
+<p><br /><br /><br /></p>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt>Wages will depend on the substitutability across goods.</dt>
+<dd>
+<p>We can instead divide the economy into <span class="math inline">\(N\)</span> different tasks (or “intermediate goods”) and model the impact of AI as progressively allowing AI to perform more tasks. The implication for labor income will depend on the substitutability of the different tasks in utility.</p>
+</dd>
+<dd>
+<span class="citation" data-cites="zeira1998workers">Zeira (<a href="#ref-zeira1998workers" role="doc-biblioref">1998</a>)</span> assumes each task can be produced either by labor or capital (i.e. their elasticity of substitution is <span class="math inline">\(\infty\)</span>), and over time we progressively learn how to automate different tasks, illustrated by the blue arrow connecting capital to task <span class="math inline">\(n\)</span>. They also assume that the relative productivity of capital and labor between tasks is the same (we return to this below). If the share of income spent on each task remains constant (<span class="math inline">\(\sigma=1\)</span>) then the capital share will be equal to the fraction of tasks that are automated, and so will steadily increase with automation.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>
+</dd>
+<dd>
+However it is more reasonable to assume that <span class="math inline">\(\sigma&lt;1\)</span>, consistent with the discussion above on structural change. This implies that, as each task is automated, the expenditure on that task will fall. When an additional task is automated there are two effects on labor income: (1) the price of that good falls, increasing the real wage; (2) the demand for labor to produce that good falls, decreasing the real wage.
+</dd>
+<dd>
+In fact the capital share has stayed mostly constant over the last 150 years despite a great deal of automation. <span class="citation" data-cites="aghion2019artificial">Aghion, Jones, and Jones (<a href="#ref-aghion2019artificial" role="doc-biblioref">2019</a>)</span> note that the capital share could be stable if (1) the elasticity of substitution between goods is below 1, i.e. they are gross complements (consistent with the evidence on structural change given above), and (2) the progress of automation is becoming progressively slower, e.g. if a constant fraction of the remaining human tasks are automated each year. <span class="citation" data-cites="korinek2024scenarios">Korinek and Suh (<a href="#ref-korinek2024scenarios" role="doc-biblioref">2024</a>)</span> make a related argument, that labor income will increase if automation is sufficiently slow (there is a “long tail” of tasks).
+</dd>
+</dl>
+<p><br /><br /></p>
+<div class="column-margin">
+<p>In the US the majority of workers in 2018 are in occupations that did not exist in 1940 (red bars), from <span class="citation" data-cites="autor2024new">Autor et al. (<a href="#ref-autor2024new" role="doc-biblioref">2024</a>)</span>.</p>
+</div>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt>AI is likely to create new occupations.</dt>
+<dd>
+<p>In addition to shifting people between occupations, technology has created entirely new occupations: <span class="citation" data-cites="autor2024new">Autor et al. (<a href="#ref-autor2024new" role="doc-biblioref">2024</a>)</span> find that the majority of US workers in 2018 have job titles that did not exist in the Census of 1940. <span class="citation" data-cites="acemoglu2018race">Acemoglu and Restrepo (<a href="#ref-acemoglu2018race" role="doc-biblioref">2018</a>)</span> have a task model in which technological progress extends the abilities of both capital and labor: it allows capital to perform an additional human-only task <span class="math inline">\(K\)</span>, and it allows labor to perform an entirely new task <span class="math inline">\(K\)</span>. This can generate a steady progress of automation while still maintaining a constant labor share of income.</p>
+</dd>
+</dl>
+<p><br /><br /><br /><br /><br /><br /></p>
+<dl>
+<dt>The effect of AGI on wages is likely negative.</dt>
+<dd>
+The following points discuss the implications of computers being able to do all human work, AKA Artificial General Intelligence (AGI). We show that the implications for wages will depend on the degree of comparative advantage, and the relative consumption of inputs like land and energy.
+</dd>
+</dl>
+<p><br /><br /><br /><br /><br /><br /></p>
+<dl>
+<dt>If we have AGI and no comparative advantage then wages will fall.</dt>
+<dd>
+<p>The task-based models discussed so far describe an equilibrium where only some tasks are automated, and the labor share is maintained either because the remaining human-done tasks become more valuable (<span class="citation" data-cites="aghion2019artificial">Aghion, Jones, and Jones (<a href="#ref-aghion2019artificial" role="doc-biblioref">2019</a>)</span>) or technological progress creates new human-only tasks (<span class="citation" data-cites="acemoglu2018race">Acemoglu and Restrepo (<a href="#ref-acemoglu2018race" role="doc-biblioref">2018</a>)</span>). These assumptions are necessary to fit historical data.</p>
+</dd>
+<dd>
+However it is reasonable to ask what would happen if AI can do <em>all</em> the tasks that humans can do. We first assume that humans and computers have the same relative costs of doing each task (assumed in <span class="citation" data-cites="aghion2019artificial">Aghion, Jones, and Jones (<a href="#ref-aghion2019artificial" role="doc-biblioref">2019</a>)</span> and <span class="citation" data-cites="korinek2024scenarios">Korinek and Suh (<a href="#ref-korinek2024scenarios" role="doc-biblioref">2024</a>)</span>). In this case humans and computers are essentially interchangeable, and so the price of computers will rise and the price of humans will fall until they are the same. <span class="citation" data-cites="korinek2024scenarios">Korinek and Suh (<a href="#ref-korinek2024scenarios" role="doc-biblioref">2024</a>)</span> note that this will cause wages to decline in absolute terms: the comparative advantage between humans and machines has disappeared, so the marginal value of human labor is what it would be in a world without capital. This will hold whether capital is fixed or endogenous. However note that despite wages falling total output will be very large, this is primarily a distribution problem.
+</dd>
+</dl>
+<p><br /><br /></p>
+<dl>
+<dt>If humans retain a comparative advantage then wages would remain high.</dt>
+<dd>
+<p>The previous conclusion relied on humans and computers having the same <em>relative</em> costs across tasks. However it’s clear that some human tasks are relatively much easier for a computer, e.g. doing numerical calculation, relative to transcribing a recording. This implies that even if computers can do every task there are differences in comparative advantage, and thus gains from trade. This argument is made by <span class="citation" data-cites="smith2024">Smith (<a href="#ref-smith2024" role="doc-biblioref">2024</a>)</span>: “humans will have plentiful, high-paying jobs in the age of AI dominance.”</p>
+</dd>
+<dd>
+Under this assumption achieving AGI will cause high wages, but further growth in computer capabilities (or further accumulation of capital) will not increase human wages any further, and therefore the labor share of output will fall.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>
+</dd>
+</dl>
+<p><br /><br /></p>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt>If computers and humans compete for other inputs then AGI will lower wages.</dt>
+<dd>
+<p>Suppose as before that computers can do all human tasks, but that they require energy, space, or materials. Then increasing the productivity of computers will cause those other factors of production to be shifted towards computer production, which will lower the marginal product of labor, and thus will lower wages.</p>
+</dd>
+<dd>
+This was essentially the case of horses: they still have a comparative advantage relative to cars but their input and maintenance costs are much higher, and for that reason the economic value of horses has fallen dramatically.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>
+</dd>
+<dd>
+<span class="citation" data-cites="korinek2024scenarios">Korinek and Suh (<a href="#ref-korinek2024scenarios" role="doc-biblioref">2024</a>)</span> briefly discuss competition for fixed factors. A NY Times article reports responses from a few economists (Autor, Acemoglu) to a comparative advantage argument who say that they do not expect computers to be able to do all human tasks, but if they do then they do not think wages will hold up because of the resource costs. Autor: “humans have a real cost of upkeep,… Accordingly, humans might become a noncompetitive factor of production for any activity.”<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>
+</dd>
+</dl>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt>Knowledge sharing: wages will level up.</dt>
+<dd>
+<p>This is a model that I have not seen in the literature but it seems natural way of representing how LLMs are being used in practice.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a>. Suppose each person’s comparative advantage is constituted by their private knowledge, but LLMs make that private knowledge public. Now the doctor can be a proficient lawyer, and vice versa. This has a number of implications:</p>
+</dd>
+<dd>
+<ol type="1">
+<li>Overall output will increase, especially in high-paid professions where knowledge is scarce (medicine, engineering, law), and wages will flatten.</li>
+</ol>
+</dd>
+<dd>
+<ol start="2" type="1">
+<li>Measured GDP is likely to fall because exchange of services will be less necessary, as knowledge is shared.</li>
+</ol>
+</dd>
+<dd>
+<ol start="3" type="1">
+<li>The incentives to discover new information will weaken, because there will be less return from possessing private information.</li>
+</ol>
+</dd>
+<dt>AI contributions to productivity growth.</dt>
+<dd>
+<p>A number of recent papers discuss AI’s ability to directly contribute to innovation: <span class="citation" data-cites="aghion2019artificial">Aghion, Jones, and Jones (<a href="#ref-aghion2019artificial" role="doc-biblioref">2019</a>)</span>, <span class="citation" data-cites="nordhaus2021singularity">Nordhaus (<a href="#ref-nordhaus2021singularity" role="doc-biblioref">2021</a>)</span>, <span class="citation" data-cites="davidson2021could">Davidson (<a href="#ref-davidson2021could" role="doc-biblioref">2021</a>)</span>, <span class="citation" data-cites="erdil2023explosive">Erdil and Besiroglu (<a href="#ref-erdil2023explosive" role="doc-biblioref">2023</a>)</span>, <span class="citation" data-cites="trammell2023economic">Trammell and Korinek (<a href="#ref-trammell2023economic" role="doc-biblioref">2023</a>)</span>.</p>
+</dd>
+<dt>AI and directed technical change.</dt>
+<dd>
+<p>A number of papers discuss the ability to direct technical change, e.g. <span class="citation" data-cites="acemoglu2018race">Acemoglu and Restrepo (<a href="#ref-acemoglu2018race" role="doc-biblioref">2018</a>)</span> have a model in which innovation can either create new tasks for computers or new tasks for humans. <span class="citation" data-cites="brynjolfsson2023turing">Brynjolfsson (<a href="#ref-brynjolfsson2023turing" role="doc-biblioref">2023</a>)</span> and <span class="citation" data-cites="autor2024applying">Autor (<a href="#ref-autor2024applying" role="doc-biblioref">2024</a>)</span> discuss in an informal way the potential for human-augmenting vs human-automating AI innovation.</p>
+</dd>
+<dt>Asset pricing.</dt>
+<dd>
+<p>A number of recent papers discuss how AI will be reflected in asset prices. <span class="citation" data-cites="chow2023transformative">Chow, Halperin, and Mazlish (<a href="#ref-chow2023transformative" role="doc-biblioref">2023</a>)</span> argue that expectations of AI should increase real interest rates through both (1) expectations of higher future consumption, and (2) concerns about existential risk. However they find little evidence that interest rates have increased. <span class="citation" data-cites="eisfeldt2023labor">Eisfeldt et al. (<a href="#ref-eisfeldt2023labor" role="doc-biblioref">2023</a>)</span> find that, on the release of ChatGPT, the value of firms with higher share of workers that are “exposed” to AI relatively increased.</p>
+</dd>
+</dl>
+<p><br /></p>
+</section>
+<section id="models-of-automation-and-ai-chronological" class="level1">
+<h1>Models of Automation and AI (Chronological)</h1>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><span class="citation" data-cites="zeira1998workers">Zeira (<a href="#ref-zeira1998workers" role="doc-biblioref">1998</a>)</span> “Workers, Machines, and Economic Growth”</dt>
+<dd>
+<p><span class="citation" data-cites="zeira1998workers">Zeira (<a href="#ref-zeira1998workers" role="doc-biblioref">1998</a>)</span> divides the economy into <span class="math inline">\(N\)</span> intermediate goods, each of which can be produced by labor, and some can additionally be produced by capital. Assuming that all the goods have elasticity of substitution of 1 means the capital share of the economy will be exactly the share of goods that can be produced by capital.<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a></p>
+</dd>
+</dl>
+<p><br /><br /><br /></p>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><span class="citation" data-cites="krusell2000capital">Krusell et al. (<a href="#ref-krusell2000capital" role="doc-biblioref">2000</a>)</span>, “Capital-skill complementarity and inequality: A macroeconomic analysis”</dt>
+<dd>
+<p>They argue that the rise in the skill premium can mainly be explained by complementarity between capital and skill, rather than by a change in technology that increases the returns to skill.</p>
+</dd>
+<dd>
+They construct a nested production function with four inputs (capital equipment, capital structures, skilled labor, and unskilled labor), and they estimate elasticities of substitution between each of the inputs.
+</dd>
+<dt><span class="citation" data-cites="autor2003skill">Autor, Levy, and Murnane (<a href="#ref-autor2003skill" role="doc-biblioref">2003</a>)</span>, “The Skill Content of Recent Technological Change: An Empirical Exploration”</dt>
+<dd>
+<p>They split labor into routine tasks (operate tabulating machine, pack goods) and non-routine tasks (design a building, navigate a boat), with substitutability index of 1. They assume that computers are perfect substitutes for routine tasks: this will lower the returns to routine labor, and raise the return to non-routine labor. Each person has a certain productivity in routine vs non-routine tasks. As computer capital grows this increases the wages of non-routine workers, and decreases the wages of routine workers. They say <em>“the model can explain 60 percent of the estimated relative demand shift favoring college labor during 1970 to 1998. Task changes within nominally identical occupations account for almost half of this impact.”</em></p>
+</dd>
+<dd>
+Routine: <em>“can be accomplished by following explicit rules”</em>; non-routine: <em>“problem-solving and complex communication activities.”</em> They use various measures from DOT to define routine/nonroutine and analytic/manual (p1293). For routine cognitive: “STS, which measures adaptability to work requiring Set limits, Tolerances, or Standards.”
+</dd>
+<dd>
+Professions that have been mostly eliminated: elevator operator, switchboard operator, typist, assembly line worker, data entry clerk, toll booth operator, film projectionist, mail sorter, meter reader, stock broker, parking attendant, printer, bookkeeper, order clerk.
+</dd>
+<dd>
+<p><span class="math display">\[\begin{aligned}
+  Q &amp;=(L_R+C)^{1-\beta}L_N^\beta\\
+  C &amp;= \text{computer}\\
+  L_R &amp;= \text{routine labor}\\
+  L_N &amp;= \text{non-routine labor}
+   \end{aligned}\]</span></p>
+</dd>
+</dl>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><span class="citation" data-cites="sachs2012smart">Sachs and Kotlikoff (<a href="#ref-sachs2012smart" role="doc-biblioref">2012</a>)</span> “Smart Machines and Long-Term Misery”</dt>
+<dd>
+<p>They assume machines are relatively more substitutable with unskilled than skilled labor, by them both producing intermediate goods. They note that an increase in machine productivity will lower unskilled wages if (1) substitutability of machines and unskilled labor is high (<span class="math inline">\(\varepsilon_{ML}\)</span> large); (2) substitutability of intermediate goods and skilled labor is low (<span class="math inline">\(\varepsilon_{SN}\)</span> small); and (3) the share of skilled labor in final output is high.</p>
+</dd>
+<dd>
+They then build an overlapping generations model, where each agent is unskilled in the first period, and can save to invest in a mixture of machinery and skills. They show that a rise in machine productivity can permanently lower the welfare of all succeeding generations through lowering their ability to save. Sachs has a number of other papers with other coauthors that appear to extend this dynamic framework.
+</dd>
+<dt><span class="citation" data-cites="aghion2019artificial">Aghion, Jones, and Jones (<a href="#ref-aghion2019artificial" role="doc-biblioref">2019</a>)</span> “Artificial Intelligence and Economic Growth”</dt>
+<dd>
+This paper discusses the task-based model of <span class="citation" data-cites="zeira1998workers">Zeira (<a href="#ref-zeira1998workers" role="doc-biblioref">1998</a>)</span>, which implies that automation should cause a progressive increase in the labor share. They show that automation can generate balanced growth (meaning the labor share asymptotes to a constant level) if the elasticity of substitution between capital and labor is below 1, and the automation process is such that constant <em>fraction</em> of the remaining human tasks are automated each year.
+</dd>
+<dd>
+They also discuss a model with both production and research, where both are Cobb-Douglas, in which growth will be hyperbolic.
+</dd>
+</dl>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><span class="citation" data-cites="bessen2016computer">J. E. Bessen (<a href="#ref-bessen2016computer" role="doc-biblioref">2016</a>)</span>, “How computer automation affects occupations: Technology, jobs, and skills”</dt>
+<dd>
+This paper has a model in which there are different types of labor (plumber, lawyer), and each occupation consists of a bundle of tasks. Automation typically automates just one task, which . Bessen gives examples: introduction of the ATM did not lead to fewer bank tellers, introduction of the barcode scanner did not reduce the number of checkout clerks. He says that there are some occupations that have declined due to automation (telephone operators, typesetters), but most occupations that are exposed to automation have increased. He disagrees with <span class="citation" data-cites="autor2003skill">Autor, Levy, and Murnane (<a href="#ref-autor2003skill" role="doc-biblioref">2003</a>)</span>’s interpretation that computers led to a hollowing out.
+</dd>
+<dt><span class="citation" data-cites="acemoglu2018race">Acemoglu and Restrepo (<a href="#ref-acemoglu2018race" role="doc-biblioref">2018</a>)</span> “The Race Between Man and Machine: Implications of Technology for Growth, Factor Shares, and Employment”</dt>
+<dd>
+This model is similar to task models discussed above, but additionally assumes that techincal progress creates new tasks that only humans can do, e.g. “radiology technician” and “management analyst”.
+</dd>
+<dd>
+The model thus generates the observed historical pattern that (a) we are continually automating human tasks, yet (b) the share of labor in output has remained about the same. There’s a continuum of tasks from <span class="math inline">\(N-1\)</span> to <span class="math inline">\(N\)</span>, labor can do all of them but capital can only do some of them, and among those which capital can do, labor has a comparative advantage in tasks with a higher index. Advance of technology means that capital can do some new tasks, but we also create new labor-only tasks (increase <span class="math inline">\(N\)</span>).<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a>
+</dd>
+<dd>
+Note: they discuss a scenario in which there is full automation (Proposition 4 (i) and Proposition 6 (i)), and say that all tasks will be done by capital, and the labor share will go to zero, but it is unclear to me why the comparative advantage between labor and capital does not hold. Also it is notable that they do not discuss competition for fixed factors if there is full automation (land and energy).
+</dd>
+</dl>
+<div class="column-margin">
+<p>Output is a CES aggregate of tasks: <span class="math display">\[Y=\tilde{B} \left[ \int_{N-1}^N y(i)^{\frac{\sigma-1}{\sigma}} \, d\Phi(i) \right]^{\frac{\sigma}{\sigma-1}}\]</span> Each task is a CES aggregate of labor and task-specific technology <span class="math inline">\(q(i)\)</span>: <span class="math display">\[y(i)=\begin{cases}
+      \overline{B}(\zeta) \left[ \eta^{\frac{1}{\zeta}} q(i)^{\frac{\zeta - 1}{\zeta}} + (1-\eta)^{\frac{1}{\zeta}} \left( k(i) + \gamma(i) l(i) \right)^{\frac{\zeta - 1}{\zeta}} \right]^{\frac{\zeta}{\zeta - 1}}
+      &amp;, i\leq I\\
+      \overline{B}(\zeta) \left[ \eta^{\frac{1}{\zeta}} q(i)^{\frac{\zeta - 1}{\zeta}} + (1-\eta)^{\frac{1}{\zeta}} \left( \gamma(i) l(i) \right)^{\frac{\zeta - 1}{\zeta}} \right]^{\frac{\zeta}{\zeta - 1}}
+      &amp;, i&gt;I
+   \end{cases}
+\]</span></p>
+</div>
+<p><br /><br /><br /><br /><br /><br /></p>
+<dl>
+<dt><span class="citation" data-cites="caselli2019robot">Caselli and Manning (<a href="#ref-caselli2019robot" role="doc-biblioref">2019</a>)</span>, “Robot Arithmetic: New Technology and Wages”</dt>
+<dd>
+They say that new technology can decrease wages in the short run, but when capital reaches equilibrium then average wages should increase.
+</dd>
+<dd>
+<p>The conditions: “we assume that labor is the only fixed factor, that the interest rate is unaffected by new technology, that there are constant returns to scale and perfect competition, and that we are comparing economies with different levels of technology in steady state.”</p>
+</dd>
+<dd>
+<p>Any strict improvement to technology will:</p>
+<ol type="1">
+<li>Raise the wage of at least one worker.</li>
+<li>Raise the average wage, if the price of investment goods does not increase relative to the price of consumption goods (&amp; they argue this is typically true).</li>
+<li>Raise all wages if labor is perfectly mobile (labor types are perfectly elastic).</li>
+</ol>
+</dd>
+<dt><span class="citation" data-cites="nordhaus2021singularity">Nordhaus (<a href="#ref-nordhaus2021singularity" role="doc-biblioref">2021</a>)</span>, “Are we Approaching an Economic Singularity? Information Technology and the Future of Economic Growth.”</dt>
+<dd>
+Nordhaus discusses ways in which AI could accelerate economic growth. He says the recent trends in growth do not make it look like it’s imminent. Particular points:
+</dd>
+<dd>
+<ol type="1">
+<li>Historically sectors with higher growth rates have declined as a share of output, implying that acceleration in individual areas will not lead to topline acceleration in output growth.</li>
+</ol>
+</dd>
+<dd>
+<ol start="2" type="1">
+<li>Recent macroeconomic trends imply that capital is only slowly substituting for labor. The singularity would happen when they are perfect substitutes, and extrapolating recent trends does not imply that they are close to becoming perfect substitutes.</li>
+</ol>
+</dd>
+<dt><span class="citation" data-cites="hemous2022rise">Hemous and Olsen (<a href="#ref-hemous2022rise" role="doc-biblioref">2022</a>)</span>, “The Rise of the Machines: Automation, Horizontal Innovation, and Income Inequality”</dt>
+<dd>
+I believe this paper primarily expands previous models by endogenizing the direction of technical change.
+</dd>
+<dd>
+There are a set of <span class="math inline">\(N\)</span> intermediate goods with some elasticity of substitution. Each good is produced from high-skilled and low-skilled labor with Cobb-Douglas production, however some sectors can use machines to substitute for low-skilled labor (p. 183, eq. 2). Over time the set of goods increases (<span class="math inline">\(N\)</span>). There is no capital, instead machines are themselves produced from the final good.
+</dd>
+</dl>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><span class="citation" data-cites="acemoglu2022tasks">Acemoglu and Restrepo (<a href="#ref-acemoglu2022tasks" role="doc-biblioref">2022</a>)</span>, “Tasks, Automation, and the Rise in in US Wage Inequality”</dt>
+<dd>
+Each type of worker does the task in which they have a comparative advantage. Gradually computers get better at different tasks, and then take over that task. Each progression increases overall output but when a group of workers gets displaced then their income declines. They argue that this model is a good fit for overall wage dynamics over 1980-2020, as workers in routine industries have become displaced.
+</dd>
+</dl>
+<div class="column-margin">
+<p>Parameters (p2008):</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 41%" />
+<col style="width: 3%" />
+<col style="width: 8%" />
+<col style="width: 46%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Elasticity of substitution between tasks</td>
+<td>0.5</td>
+<td><span class="math inline">\(\lambda\)</span></td>
+<td><span class="citation" data-cites="humlum2019robot">(<a href="#ref-humlum2019robot" role="doc-biblioref">Humlum 2019</a>)</span></td>
+</tr>
+<tr class="even">
+<td>Elasticity of substitution between labor and capital</td>
+<td>1</td>
+<td><span class="math inline">\(\sigma\)</span></td>
+<td><span class="citation" data-cites="karabarbounis2014global">Karabarbounis and Neiman (<a href="#ref-karabarbounis2014global" role="doc-biblioref">2014</a>)</span>, <span class="citation" data-cites="oberfield2021micro">Oberfield and Raval (<a href="#ref-oberfield2021micro" role="doc-biblioref">2021</a>)</span></td>
+</tr>
+<tr class="odd">
+<td>Elasticity of substitution between industries</td>
+<td>0.2</td>
+<td><span class="math inline">\(\eta\)</span></td>
+<td><span class="citation" data-cites="buera2015skill">Buera, Kaboski, and Rogerson (<a href="#ref-buera2015skill" role="doc-biblioref">2015</a>)</span></td>
+</tr>
+<tr class="even">
+<td>Cost savings from automation</td>
+<td>30%</td>
+<td><span class="math inline">\(\pi\)</span></td>
+<td><span class="citation" data-cites="acemoglu2020unpacking">Acemoglu and Restrepo (<a href="#ref-acemoglu2020unpacking" role="doc-biblioref">2020</a>)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /> <br /><br /><br /><br /><br /><br /><br /></p>
+<dl>
+<dt><span class="citation" data-cites="benzell2022digital">Benzell, Brynjolfsson, and Saint-Jacques (<a href="#ref-benzell2022digital" role="doc-biblioref">2022</a>)</span> “Digital Abundance Meets Scarce Architects” [UNFINISHED]</dt>
+<dd>
+They have three inputs: capital, labor, and architecture (produced by labor). There’s some elasticity of substitution between regular capital-labor production and architecture. They say this generates a decrease in labor share and in interest rates after a technology advance. They say the returns to architecture come through intangibles or executive compensation (I think).
+</dd>
+</dl>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><span class="citation" data-cites="trammell2023economic">Trammell and Korinek (<a href="#ref-trammell2023economic" role="doc-biblioref">2023</a>)</span> “Economic Growth Under Transformative AI” [UNFINISHED]</dt>
+<dd>
+They consider a few mechanisms: (1) AI increases capital’s substitution for labor; (2) AI increases the growth rate of TFP.
+</dd>
+</dl>
+<dl>
+<dt><span class="citation" data-cites="agrawal2023turing">A. K. Agrawal, Gans, and Goldfarb (<a href="#ref-agrawal2023turing" role="doc-biblioref">2023</a>)</span> “The Turing Transformation”</dt>
+<dd>
+<p>They assume that products need a skilled and unskilled input which are perfect complements (<span class="math inline">\(\sigma=0\)</span>). If AI can perfectly replace the skilled labor this will lower the wages of skilled workers but raise the wages of unskilled workers.<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a></p>
+</dd>
+<dd>
+This essay is written in response to Brynjolfsson (“The Turing Trap”) and Acemoglu, who both wrote pieces saying we should avoid building AI which directly replaces human skills. They say “one person’s substitute is another person’s complement”, &amp; this model shows that replacing some human jobs will raise wages of other humans.
+</dd>
+<dd>
+They give some examples: (1) digital maps allow anyone to be a taxi driver; (2) LLMs raise the productivity of untrained call center workers; (3) AI diagnosis would let nurses look after patients; (4) AI translation allows people to transact across borders; (5) LLMs allow people with poor literacy to communicate well.
+</dd>
+</dl>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="column-margin">
+<table class="caption-top">
+<tbody>
+<tr class="odd">
+<td>elasticity of substitution between tasks</td>
+<td><span class="math inline">\(\sigma\)</span></td>
+<td>0.5</td>
+</tr>
+<tr class="even">
+<td>current fraction of automated tasks</td>
+<td><span class="math inline">\(\Phi_0\)</span></td>
+<td>0.6</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="column-margin">
+<p><img src="images/2024-08-20-12-30-22.png" class="img-fluid" /> They predict that the real compensation of labor will increase then decrease as AI advances.</p>
+</div>
+<dl>
+<dt><span class="citation" data-cites="korinek2024scenarios">Korinek and Suh (<a href="#ref-korinek2024scenarios" role="doc-biblioref">2024</a>)</span> “Scenarios for the Transition to AGI”</dt>
+<dd>
+<p>As in <span class="citation" data-cites="zeira1998workers">Zeira (<a href="#ref-zeira1998workers" role="doc-biblioref">1998</a>)</span> there are a fixed set of tasks performed by labor, and as AI progresses it unlocks the ability for capital to perform that task. They assume that the tasks are gross complements (<span class="math inline">\(\sigma&lt;0.5\)</span>), meaning that when a task becomes automatable then its expenditure share will fall.</p>
+</dd>
+<dd>
+Their key finding: <em>“for low levels of automation, advances in automation increase wages as the economy becomes more productive, but for higher levels of automation, wages decline due to the displacement of labor.”</em>
+</dd>
+<dd>
+We can describe the intuition in terms of the gains from <em>trading</em> with another person: the gains are proportional to how different their skills are (comparative advantage). Korinek and Suh assume that AI’s skills start out very different (they can only do a few tasks), and then gradually become more similar to human skills, meaning that the relative productivity across tasks eventually becomes the same.
+</dd>
+<dd>
+<span class="math display">\[\begin{aligned}
+  Y &amp;= A \left[ \int_i y(i)^{\frac{\sigma-1}{\sigma}} \, d\Phi(i) \right]^{\frac{\sigma}{\sigma-1}}
+     &amp;&amp; \text{(output is CES across tasks)}\\
+  y(i) &amp;= a_K(i)k(i) + a_L(i)\ell(i)
+     &amp;&amp; \text{(each task can be performed by capital or labor)}\\
+  a_L(i) &amp;= 1 &amp;&amp; \text{(normalize labor productivity to 1)}\\
+  a_K(i) &amp;= \begin{cases}1&amp;i&lt;I\\0&amp;i\geq I\end{cases} &amp;&amp; \text{(capital gradually catching up)}\\
+   \end{aligned}\]</span>
+</dd>
+<dt><span class="citation" data-cites="autor2024new">Autor et al. (<a href="#ref-autor2024new" role="doc-biblioref">2024</a>)</span>, “New frontiers: The origins and content of new work, 1940–2018”</dt>
+<dd>
+This paper has a model of rolling tasks which extends <span class="citation" data-cites="acemoglu2018race">Acemoglu and Restrepo (<a href="#ref-acemoglu2018race" role="doc-biblioref">2018</a>)</span> to two sectors, high-skilled and low-skilled. The model distinguishes between two types of innovation: augmentation (increases the value of outputs), and automation (substitutes for labor inputs). They collect a data about occupations over time. They estimate the degree of automating vs augmenting innovation by looking at patents which can be matched to occupational titles (from the Labor Dept’s <em>Dictionary of Occupational Titles</em>) vs those that can be matched to names of industries (from the Census Bureau’s <em>Index of Occupations and Industries</em>).
+</dd>
+<dd>
+They find that the majority of current employment is in professions that were only invented since 1940, and they estimate the relative impact of augmenting vs automating innovation.
+</dd>
+<dt><span class="citation" data-cites="acemoglu2024simple">Acemoglu (<a href="#ref-acemoglu2024simple" role="doc-biblioref">2024</a>)</span> “The Simple Macroeconomics of AI”</dt>
+<dd>
+He sets up a standard task-based model then discusses various different ways in which AI can change the parameters. However his primary quantitative prediction over the next decade uses a very simple calculation, using the following calculation:
+</dd>
+</dl>
+<table class="caption-top">
+<colgroup>
+<col style="width: 53%" />
+<col style="width: 4%" />
+<col style="width: 42%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Share of tasks exposed to AI</td>
+<td style="text-align: right;">20%</td>
+<td>Eloundou</td>
+</tr>
+<tr class="even">
+<td>Share of exposed tasks that can profitably be performed by AI</td>
+<td style="text-align: right;">23%</td>
+<td>Svanberg et al.</td>
+</tr>
+<tr class="odd">
+<td>=&gt; GDP share impacted by AI</td>
+<td style="text-align: right;">4.6%</td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td style="text-align: right;"></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Labor cost savings in AI-performed tasks</td>
+<td style="text-align: right;">27%</td>
+<td><span class="citation" data-cites="noy2023generative">Noy and Zhang (<a href="#ref-noy2023generative" role="doc-biblioref">2023</a>)</span> and <span class="citation" data-cites="brynjolfsson2023generative">Brynjolfsson, Li, and Raymond (<a href="#ref-brynjolfsson2023generative" role="doc-biblioref">2023</a>)</span></td>
+</tr>
+<tr class="even">
+<td>Labor share of output</td>
+<td style="text-align: right;">57%</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>=&gt; Avg total cost savings</td>
+<td style="text-align: right;">15.4%</td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td style="text-align: right;"></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>=&gt; Aggregate TFP increase (=GDP share * avg cost savings)</td>
+<td style="text-align: right;">0.71%</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl>
+<dt><span class="citation" data-cites="aghion2024ai">Aghion and Bunel (<a href="#ref-aghion2024ai" role="doc-biblioref">2024</a>)</span>, “AI and Growth: where do we stand”</dt>
+<dd>
+They use two different methods to estimate the productivity impact, both yield roughly 1%/year. Their second method is basically the same as that used in <span class="citation" data-cites="acemoglu2024simple">Acemoglu (<a href="#ref-acemoglu2024simple" role="doc-biblioref">2024</a>)</span>, but paramerized with much higher numbers, that seem more reasonable to me.
+</dd>
+<dt><span class="citation" data-cites="autor2024applying">Autor (<a href="#ref-autor2024applying" role="doc-biblioref">2024</a>)</span> “Applying AI to Rebuild Middle-Class Jobs”</dt>
+<dd>
+<p>This essay argues that expertise is the primary source of labor’s value, and that AI can be a complement to expertise rather than a substitute.</p>
+</dd>
+<dd>
+<blockquote>
+<p>“Expertise is the primary source of labor’s value in the US and other industrialized countries. Jobs that require little training or certification, such as restaurant servers, janitors, manual laborers and (even) childcare workers, are typically found at the bottom of the wage ladder.”</p>
+</blockquote>
+</dd>
+<dd>
+He says computers and the internet increased inequality:
+</dd>
+<dd>
+<blockquote>
+<p>“by making information and calculation cheap and abundant, computerization catalyzed an unprecedented concentration of decision-making power, and accompanying resources, among elite experts.”</p>
+</blockquote>
+</dd>
+</dl>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><span class="citation" data-cites="ide2024artificialintelligenceknowledgeeconomy">Ide and Talamas (<a href="#ref-ide2024artificialintelligenceknowledgeeconomy" role="doc-biblioref">2024a</a>)</span> “Artificial Intelligence in the Knowledge Economy”</dt>
+<dd>
+<p>Each human has a <em>ceiling</em> on their ability (on a continuum of tasks from 0 to 1), but there’s no comparative advantage below that ceiling. Thus there’s assortative matching between skills and tasks.</p>
+</dd>
+<dd>
+The paper has two big predictions:
+</dd>
+<dd>
+<ol type="1">
+<li><em>Non-autonomous AI will benefit the least knowledgeable.</em> For non-autonomous AI you still need a human for every problem, so it effectively extends the range of tasks each person can handle.</li>
+</ol>
+</dd>
+<dd>
+<ol start="2" type="1">
+<li><em>Autonomous AI will benefit the most knowledgeable individuals.</em> Autonomous AI is a substitute for lowexactly like a human, and there’s vertical strafication, so it’ll lower relative returns to low types (but assumption of comparative advantage).</li>
+</ol>
+</dd>
+<dd>
+Additionally there’s friction to trade, so endogenous formation of firms (partnerships between low &amp; high ability).
+</dd>
+<dt><span class="citation" data-cites="ide2024turingvalleyaicapabilities">Ide and Talamas (<a href="#ref-ide2024turingvalleyaicapabilities" role="doc-biblioref">2024b</a>)</span></dt>
+<dd>
+<p>asdf</p>
+</dd>
+</dl>
+<p><br /><br /><br /><br /><br /></p>
+<dl>
+<dt><span class="citation" data-cites="barnett2025consequences">Barnett (<a href="#ref-barnett2025consequences" role="doc-biblioref">2025</a>)</span> “The economic consequences of automating remote work”</dt>
+<dd>
+<p>This blog post estimates that about 1/3 of all labor in the US could be done remotely. He then asks what would happen if we expand the supply of remote labor by 100X through AI. If the elasticity of substitution between remote labor and other labor is 0.5, then output would double. If the elasticity was 10 (his preferred estimate) then output would increase by 50X.</p>
+</dd>
+</dl>
+</section>
+<section id="related-models" class="level1">
+<h1>Related Models</h1>
+<p>These are not models of AI and automation, however they’re useful reference models.</p>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><span class="citation" data-cites="ricardo1821principles">Ricardo (<a href="#ref-ricardo1821principles" role="doc-biblioref">1821</a>)</span> “Principles of Political Economy” [UNFINISHED]</dt>
+<dd>
+<p>This is a famous model of trade: suppose English and Portugese labor can produce cloth and wine with linear production functions, what will happen if Portugese labor becomes better at producing cloth?</p>
+</dd>
+<dd>
+Generally: if your industry becomes more productive, and you are a small share of output, and demand is inelastic (gross complements), this is <em>bad</em> for you.
+</dd>
+<dd>
+If Leontief preferences then prices will be determined by whoever’s budget constraint is the largest, so if you grow productivity then you grow income, but at some point you discretely become price-setter and so lose.
+</dd>
+</dl>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><span class="citation" data-cites="dixit1977monopolistic">Dixit and Stiglitz (<a href="#ref-dixit1977monopolistic" role="doc-biblioref">1977</a>)</span> “Monopolistic Competition and Optimum Product Diversity”</dt>
+<dd>
+In this paper each type of good requires a fixed cost to produce, and then is linear in inputs. Here I’ve put an “F” on the side of each product to indicate a fixed cost. Elasticity of substitution is typically assumed to be above 1 (<span class="math inline">\(\sigma&gt;1\)</span>). The important implication is that as market size gets larger then the number of products offered will be larger. The model is widely used in macro and trade.
+</dd>
+</dl>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt>Capital Accumulation: if <span class="math inline">\(\sigma=1\)</span> then no change.</dt>
+<dd>
+<p>We can also model the choice of capital, assuming that labor can be split between output and maintaining capital goods, and we assume that the total stock of capital is proportional to the time spent maintaining capital goods. We can ask what happens when capital productivity increases:</p>
+</dd>
+<dd>
+<ul>
+<li><u>If capital and labor have substitutability of 1 (<span class="math inline">\(\sigma=1\)</span>) then capital stock will not change.</u> increases in capital productivity will increase output and will increase the returns to both factors, but will not change the quantity of capital accumulated, because the relative returns to capital and labor do not change (the value of capital measured in output will increase, but the physical quantity will not change).</li>
+</ul>
+</dd>
+<dd>
+<ul>
+<li><u>If capital and labor are gross substitutes (<span class="math inline">\(\sigma&gt;1\)</span>) then capital will increase.</u> The effective price of capital decreases, and so the share of output spent on capital will increase, and so the share of time allocated to capital maintenance will increase, and so the physical quantity of capital will increase.</li>
+</ul>
+</dd>
+<dd>
+<ul>
+<li><u>If capital and labor are gross complements (<span class="math inline">\(\sigma&lt;1\)</span>) then capital will decrease.</u></li>
+</ul>
+</dd>
+<dd>
+An analogy: imagine crop yield depends on harvesting and on scythes, and that time can be spent on either harvesting or scythe production. If time and scythes are complements then an increase in scythe productivity will cause a decrease in the quantity of scythes produced. If time and scythes are substitutes then more productive scythes will cause an increase in the quantity produced.
+</dd>
+<dt><span class="citation" data-cites="autor2020fall">Autor et al. (<a href="#ref-autor2020fall" role="doc-biblioref">2020</a>)</span> “The Fall of the Labor Share and the Rise of Superstar Firms”</dt>
+<dd>
+<p>They assume there are a variety of firms, with the same Cobb-Douglas production function, but each has a different level of total factor productivity. They assume that higher productivity firms have higher proportional markups, which will hold for certain utility functions (however not with a CES utility function which implies fixed proportional markups).</p>
+</dd>
+<dd>
+They then empirically show that there has been a lot of reallocation towards higher-productivity firms, which can explain the increasing trends in markups and declining labor share.
+</dd>
+<dt><span class="citation" data-cites="jones2023ai">Jones (<a href="#ref-jones2023ai" role="doc-biblioref">2023</a>)</span> “The AI dilemma: Growth versus existential risk”</dt>
+<dd>
+<p>This paper makes two points about the tradeoff between AI-driven economic growth and AI-caused existential risk:</p>
+</dd>
+<dd>
+<ol type="1">
+<li>The appropriate tradeoff is extremely sensitive to the curvature of utility: if we have log utility then we would be prepared to risk a lot; if we have CRRA bounded utility then we woudl take very little risk.</li>
+</ol>
+</dd>
+<dd>
+<ol start="2" type="1">
+<li>If AI growth delivers greater life expectancy or population then the tradeoff becomes much more favorable, if we are utilitarians, because there are years of life on both sides of the ledger.</li>
+</ol>
+</dd>
+</dl>
+</section>
+<section id="technical-details" class="level1">
+<h1>Technical Details</h1>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="192" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt>Macroeconomic models are built from a chain of functions.</dt>
+<dd>
+<p>Macroeconomic models are typically built from production functions (mapping inputs to goods), and utility functions (mapping goods to consumer value). We’ll represent these functions with diagrams like those on the right.</p>
+</dd>
+<dt>The critical assumptions in a model are over the substitutability of inputs (<span class="math inline">\(\sigma\)</span>).</dt>
+<dd>
+<p>Most of the difference between models is in the assumptions about <em>substitutability</em> of inputs, represented with <span class="math inline">\(\sigma\)</span>. The elasticity can be defined as the effect of a change in relative price on relative consumption (assuming <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> are chosen to maximize profits given input prices <span class="math inline">\(p_1\)</span> and <span class="math inline">\(p_2\)</span>): <span class="math display">\[\sigma_{21}=\frac{d\ln(x_1/x_2)}{d\ln(p_1/p_2)}.\]</span></p>
+</dd>
+<dd>
+It is often convenient to assume that functions have the following structure, in which the elasticity of substitution is equal to <span class="math inline">\(\sigma\)</span> everywhere (i.e. for every value of the inputs, <span class="math inline">\(A,B,C\)</span>). <span class="math display">\[\begin{aligned}
+  \text{output}&amp;=\left(\text{A}^\frac{\sigma}{\sigma-1}+\text{B}^\frac{\sigma}{\sigma-1}+\text{C}^\frac{\sigma}{\sigma-1}\right)^\frac{\sigma-1}{\sigma}.
+   \end{aligned}\]</span>
+</dd>
+</dl>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="192" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt>When <span class="math inline">\(\sigma&gt;1\)</span>, inputs are substitutes.</dt>
+<dd>
+For example tractors and horses are substitutes in producing wheat. This has two useful implications: (1) when the quantity of horses increases, the share of income going to horses will increase (assuming each input is paid their marginal product); (2) when the price of tractors falls then the quantity of horses demanded will fall.
+</dd>
+</dl>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="192" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt>When <span class="math inline">\(\sigma&lt;1\)</span>, inputs are complements.</dt>
+<dd>
+For example cowboys and horses are complements in producing beef. This has two implications: (1) when the quantity of horses increases the share of income going to horses will decrease; (2) when the price of horses falls then the quantity of cowboys demanded will increase (for a given price of cowboys).
+</dd>
+</dl>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="192" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt>When <span class="math inline">\(\sigma=1\)</span>, factor shares will be fixed.</dt>
+<dd>
+For example suppose we model a strawberry farm as producing strawberries, with land and farmworkers as inputs.
+</dd>
+</dl>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt>Many of the models have two stages.</dt>
+<dd>
+In the first stage factors combine to create goods, in the second stage goods combine to create utility.
+</dd>
+</dl>
+<div class="column-margin">
+<p><span class="math display">\[\begin{aligned}
+   good_j &amp;= \left(\sum_{i}factor_{i,j}^\frac{\sigma_j}{\sigma_j-1}\right)^\frac{\sigma_j-1}{\sigma_j}
+      &amp;&amp; \text{(production)} \\
+   u&amp;=\left(\sum_{j}good_j^\frac{\sigma}{\sigma-1}\right)^\frac{\sigma-1}{\sigma}
+      &amp;&amp; \text{(utility)} \\
+\end{aligned}
+\]</span></p>
+</div>
+<dl>
+<dt>We assume that all consumers consume the same ratio of goods.</dt>
+<dd>
+<p>We assume that utility is homothetic meaning that the relative consumption of different goods is independent of the level of income. Although homotheticity certainly isn’t exactly true (e.g. Engel curves for food), <span class="citation" data-cites="ngai2007structural">Ngai and Pissarides (<a href="#ref-ngai2007structural" role="doc-biblioref">2007</a>)</span> argue that it’s a reasonable approximation and is consistent with the broad facts of structural change.</p>
+</dd>
+<dt>The effect of a small change in productivity on output will depend on the sector share.</dt>
+<dd>
+<p>Suppose productivity grows by 20% in one sector, and that sector constitutes 10% of the economy, then we should expect total output to increase by 2% (i.e. 20% x 10%). This is Hulten’s theorem <span class="citation" data-cites="hulten1978growth">(<a href="#ref-hulten1978growth" role="doc-biblioref">Hulten 1978</a>)</span>, and holds for small changes in a competitive economy with constant returns to scale (see derivation in <span class="citation" data-cites="acemoglu2024simple">Acemoglu (<a href="#ref-acemoglu2024simple" role="doc-biblioref">2024</a>)</span>).</p>
+</dd>
+<dt>The effect of a large change in productivity on output will also depend on substitutability.</dt>
+<dd>
+<p>Suppose AI makes labor much more productive in some sector, e.g. 10X more productive, then the effect on output will depend on substitutability. If <span class="math inline">\(\sigma=1\)</span> (Cobb-Douglas), then Hulten’s theorem will continue to be accurate for large changes, but if <span class="math inline">\(\sigma&lt;0\)</span> (gross complements) then the effect will be smaller, where <span class="math inline">\(\lambda\)</span> is the growth in productivity, and <span class="math inline">\(X\)</span> is the factor share:</p>
+<p><span class="math display">\[\utt{\frac{Y&#39;}{Y}}{output}{growth}=[(1-X)+ X \lambda^{-(1-\sigma)} ]^{-\frac{1}{1-\sigma}}\]</span></p>
+<p>If <span class="math inline">\(\lambda=\infty\)</span> then growth is <span class="math inline">\((1-X)^{-\frac{1}{1-\sigma}}\)</span>.</p>
+<p>If perfect complements (<span class="math inline">\(\sigma=0\)</span>) then <span class="math inline">\(\frac{Y&#39;}{Y}=\frac{1}{1-X}\)</span>, thus automating 10% of the economy will get 10% growth, and automating 50% of the economy would get 100% growth.</p>
+<p>If perfect complements (<span class="math inline">\(\sigma=0\)</span>) then <span class="math inline">\(\frac{Y&#39;}{Y}=[1-X(1-\lambda^{-1})]^{-1}\)</span>.<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a></p>
+</dd>
+<dt>The effect of productivity on factor income depends on substitutability and the factor share.</dt>
+<dd>
+<p>Suppose the productivity of factor <span class="math inline">\(X\)</span> increases: this will increase overall output, and the incomes of all other factors, but if <span class="math inline">\(\sigma&lt;1\)</span> then it will decrease the <em>share</em> of output going to factor <span class="math inline">\(X\)</span>. The net effect on factor income will be positive if and only if the share of output going to that factor, <span class="math inline">\(s_X\)</span>, starts at a sufficiently high level <span class="math inline">\(s_X&gt;\sigma\)</span> (see <span class="citation" data-cites="acemoglu2024simple">Acemoglu (<a href="#ref-acemoglu2024simple" role="doc-biblioref">2024</a>)</span> p12).</p>
+</dd>
+</dl>
+<section id="two-sector-ces" class="level2">
+<h2>Two Sector CES</h2>
+<p>See <code>posts/2025-12-26-loaves-and-fishes-model-of-ai.qmd</code></p>
+</section>
+<section id="a-knowledge-sharing-model" class="level2">
+<h2>A Knowledge-Sharing Model</h2>
+<p>See also <code>2024-08-05-ricardian-ai.md</code></p>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Suppose we think of LLMs as making private knowledge public. We start with a world where each person has an absolute advantage in the output that they produce:</p>
+<p>Then LLMs share knowledge which makes everyone better at <em>every</em> tasks, i.e. tasks that they’re not already specialized in.</p>
+<div class="cell">
+<div class="cell-output-display column-margin">
+<div>
+<figure>
+<p><img src="2024-08-19-equilibrium-models-of-ai_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="288" /></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Implications &amp; observations:</p>
+<ol type="1">
+<li><p><strong>The composition of output will shift.</strong> We will produce relatively much more of the things where knowledge is a scarce input (and so wages are high): medicine, engineering, law.</p></li>
+<li><p><strong>Highly paid professiosn wages will fall</strong> The quantity of output will increase and the wage will fall, but aggregate welfare increases.</p></li>
+<li><p><strong>Measured GDP could fall.</strong> Because exchange of services would be less necessary, because we can do those things ourselves.</p></li>
+<li><p><strong>The incentives to discover new information will weaken.</strong> If you expect any private information to become public, through LLMs, then you will no longer be able to earn a return from possessing that information.</p></li>
+<li><p><strong>Junior workers become experts / learning curve is compressed.</strong> Junior workers can use LLMs to very quickly catch up.</p></li>
+<li><p><strong>Even physical jobs would be affected.</strong> Strawberry pickers, baristas, arborists, can ask an LLM how to solve a problem, or can ask multimodal model to critique their form.</p></li>
+<li><p><strong>This is similar to books and the internet.</strong> The printing press and the internet also dramatically changed the distribution of information, I guess they’d have comparable economic impact.</p></li>
+</ol>
+<div style="page-break-after: always;"></div>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+<section id="bibliography" class="level1">
+<h1>Bibliography</h1>
+<div id="quarto-navigation-envelope" class="hidden">
+<p><span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-sidebar-title">Tom Cunningham</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-navbar-title">Tom Cunningham</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-navbar:About">About</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-navbar:/./about.html">/./about.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-navbar:https://twitter.com/testingham">https://twitter.com/testingham</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-navbar:https://www.linkedin.com/in/tom-cunningham-a9433/">https://www.linkedin.com/in/tom-cunningham-a9433/</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-navbar:https://tecunningham.github.io/index.xml">https://tecunningham.github.io/index.xml</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-navbar:scholar">scholar</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-navbar:https://scholar.google.com/citations?user=MDB_DgkAAAAJ">https://scholar.google.com/citations?user=MDB_DgkAAAAJ</span></p>
+</div>
+<div id="quarto-meta-markdown" class="hidden">
+<p><span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-metatitle">Models of the Economic Impact of AI | Tom Cunningham</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-twittercardtitle">Models of the Economic Impact of AI | Tom Cunningham</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-ogcardtitle">Models of the Economic Impact of AI | Tom Cunningham</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-metasitename">Tom Cunningham</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-twittercarddesc">Tom Cunningham blog</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-ogcardddesc">Tom Cunningham blog</span></p>
+</div>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-acemoglu2024simple" class="csl-entry" role="listitem">
+Acemoglu, Daron. 2024. <span>“The Simple Macroeconomics of AI.”</span> National Bureau of Economic Research. <a href="https://economics.mit.edu/sites/default/files/2024-04/The%20Simple%20Macroeconomics%20of%20AI.pdf">https://economics.mit.edu/sites/default/files/2024-04/The%20Simple%20Macroeconomics%20of%20AI.pdf</a>.
+</div>
+<div id="ref-acemoglu2018race" class="csl-entry" role="listitem">
+Acemoglu, Daron, and Pascual Restrepo. 2018. <span>“The Race Between Man and Machine: Implications of Technology for Growth, Factor Shares, and Employment.”</span> <em>American Economic Review</em> 108 (6): 1488–1542. <a href="https://doi.org/10.3386/w22252">https://doi.org/10.3386/w22252</a>.
+</div>
+<div id="ref-acemoglu2020unpacking" class="csl-entry" role="listitem">
+———. 2020. <span>“Unpacking Skill Bias: Automation and New Tasks.”</span> w26681. National Bureau of Economic Research. <a href="https://doi.org/10.2139/ssrn.3522330">https://doi.org/10.2139/ssrn.3522330</a>.
+</div>
+<div id="ref-acemoglu2022tasks" class="csl-entry" role="listitem">
+———. 2022. <span>“Tasks, Automation, and the Rise in US Wage Inequality.”</span> <em>Econometrica</em> 90 (5): 1973–2016. <a href="https://doi.org/10.3386/w28920">https://doi.org/10.3386/w28920</a>.
+</div>
+<div id="ref-adachi2024robots" class="csl-entry" role="listitem">
+Adachi, Daisuke, Daiji Kawaguchi, and Yukiko U Saito. 2024. <span>“Robots and Employment: Evidence from Japan, 1978–2017.”</span> <em>Journal of Labor Economics</em> 42 (2): 591–634. <a href="https://doi.org/10.1086/723205">https://doi.org/10.1086/723205</a>.
+</div>
+<div id="ref-aghion2024ai" class="csl-entry" role="listitem">
+Aghion, Philippe, and Simon Bunel. 2024. <span>“AI and Growth: Where Do We Stand.”</span> <a href="https://www.frbsf.org/wp-content/uploads/AI-and-Growth-Aghion-Bunel.pdf">https://www.frbsf.org/wp-content/uploads/AI-and-Growth-Aghion-Bunel.pdf</a>.
+</div>
+<div id="ref-aghion2019artificial" class="csl-entry" role="listitem">
+Aghion, Philippe, Benjamin F. Jones, and Charles I. Jones. 2019. <span>“Artificial Intelligence and Economic Growth.”</span> In <em>The Economics of Artificial Intelligence: An Agenda</em>, edited by Ajay Agrawal, Joshua Gans, and Avi Goldfarb, 237–90. Chicago: University of Chicago Press. <a href="https://doi.org/10.7208/9780226613475-011">https://doi.org/10.7208/9780226613475-011</a>.
+</div>
+<div id="ref-agrawal2023turing" class="csl-entry" role="listitem">
+Agrawal, Ajay K, Joshua S Gans, and Avi Goldfarb. 2023. <span>“The Turing Transformation: Artificial Intelligence, Intelligence Augmentation, and Skill Premiums.”</span> National Bureau of Economic Research. <a href="https://www.brookings.edu/wp-content/uploads/2023/06/20230612_CRM_Agrawaletal_TuringTransformation_FINAL.pdf">https://www.brookings.edu/wp-content/uploads/2023/06/20230612_CRM_Agrawaletal_TuringTransformation_FINAL.pdf</a>.
+</div>
+<div id="ref-agrawal2023automation" class="csl-entry" role="listitem">
+Agrawal, Ajay, Joshua S Gans, and Avi Goldfarb. 2023. <span>“Do We Want Less Automation?”</span> <em>Science</em> 381 (6654): 155–58. <a href="https://doi.org/10.1126/science.adh9429">https://doi.org/10.1126/science.adh9429</a>.
+</div>
+<div id="ref-autor2024applying" class="csl-entry" role="listitem">
+Autor, David. 2024. <span>“Applying AI to Rebuild Middle Class Jobs.”</span> National Bureau of Economic Research. <a href="https://doi.org/10.2139/ssrn.4722981">https://doi.org/10.2139/ssrn.4722981</a>.
+</div>
+<div id="ref-autor2024new" class="csl-entry" role="listitem">
+Autor, David, Caroline Chin, Anna Salomons, and Bryan Seegmiller. 2024. <span>“New Frontiers: The Origins and Content of New Work, 1940–2018.”</span> <em>The Quarterly Journal of Economics</em>, qjae008. <a href="https://doi.org/10.1093/qje/qjae008">https://doi.org/10.1093/qje/qjae008</a>.
+</div>
+<div id="ref-autor2021persistence" class="csl-entry" role="listitem">
+Autor, David, David Dorn, and Gordon H Hanson. 2021. <span>“On the Persistence of the China Shock.”</span> National Bureau of Economic Research. <a href="https://doi.org/10.3386/w29401">https://doi.org/10.3386/w29401</a>.
+</div>
+<div id="ref-autor2020fall" class="csl-entry" role="listitem">
+Autor, David, David Dorn, Lawrence F Katz, Christina Patterson, and John Van Reenen. 2020. <span>“<span class="nocase">The Fall of the Labor Share and the Rise of Superstar Firms*</span>.”</span> <em>The Quarterly Journal of Economics</em> 135 (2): 645–709. <a href="https://doi.org/10.1093/qje/qjaa004">https://doi.org/10.1093/qje/qjaa004</a>.
+</div>
+<div id="ref-autor2003skill" class="csl-entry" role="listitem">
+Autor, David, Frank Levy, and Richard J Murnane. 2003. <span>“The Skill Content of Recent Technological Change: An Empirical Exploration.”</span> <em>The Quarterly Journal of Economics</em> 118 (4): 1279–1333. <a href="https://doi.org/10.3386/w8337">https://doi.org/10.3386/w8337</a>.
+</div>
+<div id="ref-baqaee2019macro" class="csl-entry" role="listitem">
+Baqaee, David Rezza, and Emmanuel Farhi. 2019. <span>“The Macroeconomic Impact of Microeconomic Shocks: Beyond Hulten’s Theorem.”</span> <em>Econometrica</em> 87 (4): 1155–1206. <a href="https://doi.org/10.3982/ecta15202">https://doi.org/10.3982/ecta15202</a>.
+</div>
+<div id="ref-barnett2025consequences" class="csl-entry" role="listitem">
+Barnett, Matthew. 2025. <span>“The Economic Consequences of Automating Remote Work.”</span> <a href="https://epoch.ai/gradient-updates/consequences-of-automating-remote-work" class="uri">https://epoch.ai/gradient-updates/consequences-of-automating-remote-work</a>. <a href="https://epoch.ai/gradient-updates/consequences-of-automating-remote-work">https://epoch.ai/gradient-updates/consequences-of-automating-remote-work</a>.
+</div>
+<div id="ref-baumol1965performing" class="csl-entry" role="listitem">
+Baumol, W. J., and W. G. Bowen. 1965. <span>“On the Performing Arts: The Anatomy of Their Economic Problems.”</span> <em>The American Economic Review</em> 55 (1/2): 495–502. <a href="http://www.jstor.org/stable/1816292">http://www.jstor.org/stable/1816292</a>.
+</div>
+<div id="ref-benzell2022digital" class="csl-entry" role="listitem">
+Benzell, Seth G, Erik Brynjolfsson, and Guillaume Saint-Jacques. 2022. <span>“Digital Abundance Meets Scarce Architects: Implications for Wages, Interest Rates, and Growth.”</span> <a href="https://www.semanticscholar.org/search?q=Digital%20Abundance%20Meets%20Scarce%20Architects%3A%20Implications%20for%20Wages%2C%20Interest%20Rates%2C%20and%20Growth">https://www.semanticscholar.org/search?q=Digital%20Abundance%20Meets%20Scarce%20Architects%3A%20Implications%20for%20Wages%2C%20Interest%20Rates%2C%20and%20Growth</a>.
+</div>
+<div id="ref-beraja2022inefficient" class="csl-entry" role="listitem">
+Beraja, Martin, and Nathan Zorzi. 2022. <span>“Inefficient Automation.”</span> National Bureau of Economic Research. <a href="https://doi.org/10.3386/w30154">https://doi.org/10.3386/w30154</a>.
+</div>
+<div id="ref-bessen2016computer" class="csl-entry" role="listitem">
+Bessen, James E. 2016. <span>“How Computer Automation Affects Occupations: Technology, Jobs, and Skills.”</span> <em>Boston Univ. School of Law, Law and Economics Research Paper</em>, no. 15-49. <a href="https://doi.org/10.2139/ssrn.2690435">https://doi.org/10.2139/ssrn.2690435</a>.
+</div>
+<div id="ref-bessen2023automatic" class="csl-entry" role="listitem">
+Bessen, James, Martin Goos, Anna Salomons, and Wiljan Van den Berge. 2023. <span>“Automatic Reaction-What Happens to Workers at Firms That Automate?”</span> <em>The Review of Economics and Statistics</em>, no. Feb. 6, 2023. <a href="https://doi.org/10.2139/ssrn.3328877">https://doi.org/10.2139/ssrn.3328877</a>.
+</div>
+<div id="ref-boppart2020labor" class="csl-entry" role="listitem">
+Boppart, Timo, and Per Krusell. 2020. <span>“Labor Supply in the Past, Present, and Future: A Balanced-Growth Perspective.”</span> <em>Journal of Political Economy</em> 128 (1): 118–57. <a href="https://doi.org/10.3386/w22215">https://doi.org/10.3386/w22215</a>.
+</div>
+<div id="ref-brynjolfsson2023turing" class="csl-entry" role="listitem">
+Brynjolfsson, Erik. 2023. <span>“The Turing Trap: The Promise &amp; Peril of Human-Like Artificial Intelligence.”</span> In <em>Augmented Education in the Global Age</em>, 103–16. Routledge. <a href="https://direct.mit.edu/daed/article-pdf/151/2/272/2060604/daed_a_01915.pdf">https://direct.mit.edu/daed/article-pdf/151/2/272/2060604/daed_a_01915.pdf</a>.
+</div>
+<div id="ref-brynjolfsson2023generative" class="csl-entry" role="listitem">
+Brynjolfsson, Erik, Danielle Li, and Lindsey R Raymond. 2023. <span>“Generative AI at Work.”</span> <em>Available at SSRN 4573321</em>. <a href="https://doi.org/10.1093/qje/qjae044">https://doi.org/10.1093/qje/qjae044</a>.
+</div>
+<div id="ref-buera2015skill" class="csl-entry" role="listitem">
+Buera, Francisco J, Joseph P Kaboski, and Richard Rogerson. 2015. <span>“Skill-Biased Structural Change.”</span> <em>American Economic Journal: Macroeconomics</em> 7 (3): 95–150. <a href="https://doi.org/10.3386/w21165">https://doi.org/10.3386/w21165</a>.
+</div>
+<div id="ref-caselli2019robot" class="csl-entry" role="listitem">
+Caselli, Francesco, and Alan Manning. 2019. <span>“Robot Arithmetic: New Technology and Wages.”</span> <em>American Economic Review: Insights</em> 1 (1): 1–12. <a href="https://doi.org/10.1257/aeri.20170036">https://doi.org/10.1257/aeri.20170036</a>.
+</div>
+<div id="ref-chow2023transformative" class="csl-entry" role="listitem">
+Chow, Trevor, Basil Halperin, and J Zachary Mazlish. 2023. <span>“Transformative AI, Existential Risk, and Asset Pricing.”</span> Working Paper. <a href="https://www.semanticscholar.org/paper/2638140868591361598cb00cf40d7899e9f5fd47">https://www.semanticscholar.org/paper/2638140868591361598cb00cf40d7899e9f5fd47</a>.
+</div>
+<div id="ref-costinot2023robots" class="csl-entry" role="listitem">
+Costinot, Arnaud, and Ivan Werning. 2023. <span>“Robots, Trade, and Luddism: A Sufficient Statistic Approach to Optimal Technology Regulation.”</span> <em>The Review of Economic Studies</em> 90 (5): 2261–91. <a href="https://doi.org/10.3386/w25103">https://doi.org/10.3386/w25103</a>.
+</div>
+<div id="ref-davidson2021could" class="csl-entry" role="listitem">
+Davidson, Tom. 2021. <span>“Could Advanced AI Drive Explosive Economic Growth.”</span> <em>Open Philanthropy</em> 25. <a href="https://www.semanticscholar.org/search?q=Could%20advanced%20AI%20drive%20explosive%20economic%20growth">https://www.semanticscholar.org/search?q=Could%20advanced%20AI%20drive%20explosive%20economic%20growth</a>.
+</div>
+<div id="ref-dixit1977monopolistic" class="csl-entry" role="listitem">
+Dixit, Avinash K, and Joseph E Stiglitz. 1977. <span>“Monopolistic Competition and Optimum Product Diversity.”</span> <em>The American Economic Review</em> 67 (3): 297–308. <a href="https://www.semanticscholar.org/search?q=Monopolistic%20competition%20and%20optimum%20product%20diversity">https://www.semanticscholar.org/search?q=Monopolistic%20competition%20and%20optimum%20product%20diversity</a>.
+</div>
+<div id="ref-eisfeldt2023labor" class="csl-entry" role="listitem">
+Eisfeldt, Andrea L, Gregor Schubert, Miao Ben Zhang, and Bledi Taska. 2023. <span>“The Labor Impact of Generative AI on Firm Values.”</span> <em>Available at SSRN 4436627</em>. <a href="https://www.semanticscholar.org/search?q=The%20Labor%20Impact%20of%20Generative%20AI%20on%20Firm%20Values">https://www.semanticscholar.org/search?q=The%20Labor%20Impact%20of%20Generative%20AI%20on%20Firm%20Values</a>.
+</div>
+<div id="ref-erdil2023explosive" class="csl-entry" role="listitem">
+Erdil, Ege, and Tamay Besiroglu. 2023. <span>“Explosive Growth from AI Automation: A Review of the Arguments.”</span> <em>arXiv Preprint arXiv:2309.11690</em>. <a href="https://arxiv.org/pdf/2309.11690.pdf">https://arxiv.org/pdf/2309.11690.pdf</a>.
+</div>
+<div id="ref-gechert2022measuring" class="csl-entry" role="listitem">
+Gechert, Sebastian, Tomas Havranek, Zuzana Irsova, and Dominika Kolcunova. 2022. <span>“Measuring Capital-Labor Substitution: The Importance of Method Choices and Publication Bias.”</span> <em>Review of Economic Dynamics</em> 45: 55–82. <a href="https://doi.org/10.1016/j.red.2021.05.003">https://doi.org/10.1016/j.red.2021.05.003</a>.
+</div>
+<div id="ref-giuntella2022workers" class="csl-entry" role="listitem">
+Giuntella, Osea, Yi Lu, and Tianyi Wang. 2022. <span>“How Do Workers and Households Adjust to Robots? Evidence from China.”</span> National Bureau of Economic Research. <a href="https://doi.org/10.2139/ssrn.4293620">https://doi.org/10.2139/ssrn.4293620</a>.
+</div>
+<div id="ref-hemous2022rise" class="csl-entry" role="listitem">
+Hemous, David, and Morten Olsen. 2022. <span>“The Rise of the Machines: Automation, Horizontal Innovation, and Income Inequality.”</span> <em>American Economic Journal: Macroeconomics</em> 14 (1): 179–223. <a href="https://doi.org/10.1257/mac.20160164">https://doi.org/10.1257/mac.20160164</a>.
+</div>
+<div id="ref-hotte2023technology" class="csl-entry" role="listitem">
+Hotte, Kerstin, Melline Somers, and Angelos Theodorakopoulos. 2023. <span>“Technology and Jobs: A Systematic Literature Review.”</span> <em>Technological Forecasting and Social Change</em> 194: 122750. <a href="https://doi.org/10.1016/j.techfore.2023.122750">https://doi.org/10.1016/j.techfore.2023.122750</a>.
+</div>
+<div id="ref-hulten1978growth" class="csl-entry" role="listitem">
+Hulten, Charles R. 1978. <span>“Growth Accounting with Intermediate Inputs.”</span> <em>The Review of Economic Studies</em> 45 (3): 511–18. <a href="https://doi.org/10.2307/2297252">https://doi.org/10.2307/2297252</a>.
+</div>
+<div id="ref-humlum2019robot" class="csl-entry" role="listitem">
+Humlum, Anders. 2019. <span>“Robot Adoption and Labor Market Dynamics.”</span> <em>Princeton University</em>. <a href="https://www.nber.org/papers/w33777">https://www.nber.org/papers/w33777</a>.
+</div>
+<div id="ref-ide2024artificialintelligenceknowledgeeconomy" class="csl-entry" role="listitem">
+Ide, Enrique, and Eduard Talamas. 2024a. <span>“Artificial Intelligence in the Knowledge Economy.”</span> <a href="https://doi.org/10.1086/737233">https://doi.org/10.1086/737233</a>.
+</div>
+<div id="ref-ide2024turingvalleyaicapabilities" class="csl-entry" role="listitem">
+———. 2024b. <span>“The Turing Valley: How AI Capabilities Shape Labor Income.”</span> <a href="https://arxiv.org/pdf/2408.16443.pdf">https://arxiv.org/pdf/2408.16443.pdf</a>.
+</div>
+<div id="ref-ilo2015income" class="csl-entry" role="listitem">
+ILO, IMF, OECD. 2015. <span>“Income Inequality and Labour Income Share in G20 Countries: Trends, Impacts and Causes.”</span> <a href="https://doi.org/10.1163/2210-7975_hrd-4022-2015046">https://doi.org/10.1163/2210-7975_hrd-4022-2015046</a>.
+</div>
+<div id="ref-jones2023ai" class="csl-entry" role="listitem">
+Jones, Charles I. 2023. <span>“The AI Dilemma: Growth Versus Existential Risk.”</span> National Bureau of Economic Research. <a href="https://doi.org/10.1257/aeri.20230570">https://doi.org/10.1257/aeri.20230570</a>.
+</div>
+<div id="ref-karabarbounis2014global" class="csl-entry" role="listitem">
+Karabarbounis, Loukas, and Brent Neiman. 2014. <span>“The Global Decline of the Labor Share.”</span> <em>The Quarterly Journal of Economics</em> 129 (1): 61–103. <a href="http://www.nber.org/papers/w19136.pdf">http://www.nber.org/papers/w19136.pdf</a>.
+</div>
+<div id="ref-katz1992changes" class="csl-entry" role="listitem">
+Katz, Lawrence F, and Kevin M Murphy. 1992. <span>“Changes in Relative Wages, 1963–1987: Supply and Demand Factors.”</span> <em>The Quarterly Journal of Economics</em> 107 (1): 35–78. <a href="https://doi.org/10.3386/w3927">https://doi.org/10.3386/w3927</a>.
+</div>
+<div id="ref-korinek2024scenarios" class="csl-entry" role="listitem">
+Korinek, Anton, and Donghyun Suh. 2024. <span>“Scenarios for the Transition to AGI.”</span> National Bureau of Economic Research. <a href="https://arxiv.org/pdf/2403.12107.pdf">https://arxiv.org/pdf/2403.12107.pdf</a>.
+</div>
+<div id="ref-krusell2000capital" class="csl-entry" role="listitem">
+Krusell, Per, Lee E Ohanian, Jose-Victor Rios-Rull, and Giovanni L Violante. 2000. <span>“Capital-Skill Complementarity and Inequality: A Macroeconomic Analysis.”</span> <em>Econometrica</em> 68 (5): 1029–53. <a href="https://doi.org/10.1111/1468-0262.00150">https://doi.org/10.1111/1468-0262.00150</a>.
+</div>
+<div id="ref-lehr2022optimal" class="csl-entry" role="listitem">
+Lehr, Nils Haakon, and Pascual Restrepo. 2022. <span>“Optimal Gradualism.”</span> National Bureau of Economic Research. <a href="https://doi.org/10.3386/w30755">https://doi.org/10.3386/w30755</a>.
+</div>
+<div id="ref-lu2021review" class="csl-entry" role="listitem">
+Lu, Yingying, and Yixiao Zhou. 2021. <span>“A Review on the Economics of Artificial Intelligence.”</span> <em>Journal of Economic Surveys</em> 35 (4): 1045–72. <a href="https://www.semanticscholar.org/search?q=A%20review%20on%20the%20economics%20of%20artificial%20intelligence">https://www.semanticscholar.org/search?q=A%20review%20on%20the%20economics%20of%20artificial%20intelligence</a>.
+</div>
+<div id="ref-ngai2007structural" class="csl-entry" role="listitem">
+Ngai, L Rachel, and Christopher A Pissarides. 2007. <span>“Structural Change in a Multisector Model of Growth.”</span> <em>American Economic Review</em> 97 (1): 429–43. <a href="https://doi.org/10.1257/000282807780323460">https://doi.org/10.1257/000282807780323460</a>.
+</div>
+<div id="ref-nordhaus2021singularity" class="csl-entry" role="listitem">
+Nordhaus, William D. 2021. <span>“Are We Approaching an Economic Singularity? Information Technology and the Future of Economic Growth.”</span> <em>American Economic Journal: Macroeconomics</em> 13 (1): 299–332. <a href="https://doi.org/10.2139/ssrn.2658259">https://doi.org/10.2139/ssrn.2658259</a>.
+</div>
+<div id="ref-noy2023generative" class="csl-entry" role="listitem">
+Noy, Shakked, and Whitney Zhang. 2023. <span>“Experimental Evidence on the Productivity Effects of Generative AI.”</span> <em>arXiv Preprint arXiv:2304.02313</em>. <a href="https://arxiv.org/pdf/2304.02313.pdf">https://arxiv.org/pdf/2304.02313.pdf</a>.
+</div>
+<div id="ref-oberfield2021micro" class="csl-entry" role="listitem">
+Oberfield, Ezra, and Devesh Raval. 2021. <span>“Micro Data and Macro Technology.”</span> <em>Econometrica</em> 89 (2): 703–32. <a href="https://doi.org/10.2139/ssrn.2188988">https://doi.org/10.2139/ssrn.2188988</a>.
+</div>
+<div id="ref-ricardo1821principles" class="csl-entry" role="listitem">
+Ricardo, David. 1821. <em>On the Principles of Political Economy</em>. J. Murray London. <a href="https://www.semanticscholar.org/search?q=On%20the%20principles%20of%20political%20economy">https://www.semanticscholar.org/search?q=On%20the%20principles%20of%20political%20economy</a>.
+</div>
+<div id="ref-sachs2012smart" class="csl-entry" role="listitem">
+Sachs, Jeffrey D, and Laurence J Kotlikoff. 2012. <span>“Smart Machines and Long-Term Misery.”</span> National Bureau of economic research. <a href="https://doi.org/10.3386/w18629">https://doi.org/10.3386/w18629</a>.
+</div>
+<div id="ref-smith2024" class="csl-entry" role="listitem">
+Smith, Noah. 2024. <span>“Plentiful, High-Paying Jobs in the Age of AI.”</span> <a href="https://www.noahpinion.blog/p/plentiful-high-paying-jobs-in-the">https://www.noahpinion.blog/p/plentiful-high-paying-jobs-in-the</a>.
+</div>
+<div id="ref-trammell2023economic" class="csl-entry" role="listitem">
+Trammell, Philip, and Anton Korinek. 2023. <span>“Economic Growth Under Transformative AI.”</span> National Bureau of Economic Research. <a href="https://doi.org/10.3386/w31815">https://doi.org/10.3386/w31815</a>.
+</div>
+<div id="ref-zeira1998workers" class="csl-entry" role="listitem">
+Zeira, Joseph. 1998. <span>“Workers, Machines, and Economic Growth.”</span> <em>The Quarterly Journal of Economics</em> 113 (4): 1091–1117. <a href="https://doi.org/10.1162/003355398555847">https://doi.org/10.1162/003355398555847</a>.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>The only review article I’m aware of is <span class="citation" data-cites="lu2021review">Lu and Zhou (<a href="#ref-lu2021review" role="doc-biblioref">2021</a>)</span> from 2021.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><span class="citation" data-cites="boppart2020labor">Boppart and Krusell (<a href="#ref-boppart2020labor" role="doc-biblioref">2020</a>)</span> say “across countries and historically, hours fall steadily by a little below 0.5% per year.”<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>If the relative price of output fell by 10X and the relative consumption increased by 5X this implies an elasticity of substitution between consumption and leisure slightly below 1 (<span class="math inline">\(\sigma=\frac{d\ln(x_G/x_L)}{d\ln(p_L/p_G)}=\frac{\ln(5)}{\ln(10)}\simeq 0.7\)</span>).<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p><span class="citation" data-cites="nordhaus2021singularity">Nordhaus (<a href="#ref-nordhaus2021singularity" role="doc-biblioref">2021</a>)</span> says “the sectors that are experiencing the most rapid price declines are also experiencing slight declines in expenditure shares.” This is also the assumption underlying the “cost disease” model in <span class="citation" data-cites="baumol1965performing">Baumol and Bowen (<a href="#ref-baumol1965performing" role="doc-biblioref">1965</a>)</span>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p><span class="citation" data-cites="autor2020fall">Autor et al. (<a href="#ref-autor2020fall" role="doc-biblioref">2020</a>)</span> say <em>“Although there is controversy over the degree to which the fall in the labor share of GDP is due to measurement issues … there is a general consensus that the fall is real and significant.”</em><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p><span class="citation" data-cites="gechert2022measuring">Gechert et al. (<a href="#ref-gechert2022measuring" role="doc-biblioref">2022</a>)</span> survey the literature and argue the elasticity of substitution between capital and labor is well below 1, which would imply that increasing the productivity of capital would increase the labor share. <span class="citation" data-cites="acemoglu2024simple">Acemoglu (<a href="#ref-acemoglu2024simple" role="doc-biblioref">2024</a>)</span> assumes aggregate capital and labor have elasticity of substitution of 0.5.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>They say ” a rise in superstar firms would occur if consumers have become more sensitive to quality-adjusted prices due to, for example, greater product market competition (e.g., through globalization) or improved search technologies … or the growth of platform competition”<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>This discussion is taken from <span class="citation" data-cites="aghion2019artificial">Aghion, Jones, and Jones (<a href="#ref-aghion2019artificial" role="doc-biblioref">2019</a>)</span> on p4.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>This is what happens in <span class="citation" data-cites="acemoglu2018race">Acemoglu and Restrepo (<a href="#ref-acemoglu2018race" role="doc-biblioref">2018</a>)</span> with “full automation”: there is comparative advantage between labor and capital, but the labor share goes to zero.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p><span class="citation" data-cites="smith2024">Smith (<a href="#ref-smith2024" role="doc-biblioref">2024</a>)</span> seems to acknowledge that this argument undercuts the comparative advantage argument for high wages. He has two responses: (1) that the government would limit energy use by AI (“if human lives are at stake … most governments seem likely to limit AI’s ability to hog energy.”) or (2) that the non-energy costs of AI compute are high (“turning energy into compute is really, really expensive and hard … [t]hose bottlenecks are specific to compute; unlike energy, they’re not things that you can allocate back and forth between compute manufacturing and human consumption.”)<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p><a href="https://www.nytimes.com/2024/03/22/opinion/ai-jobs-comparative-advantage.html">Peter Coy, NY Times March 22 2024</a>.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p>It’s closely related to an informal argument in <span class="citation" data-cites="autor2024applying">Autor (<a href="#ref-autor2024applying" role="doc-biblioref">2024</a>)</span>: he says “[AI] would simultaneously temper the monopoly power that doctors hold over medical care, lawyers over document production, software engineers over computer code, professors over undergraduate education, etc.”<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13"><p>This discussion is taken from <span class="citation" data-cites="aghion2019artificial">Aghion, Jones, and Jones (<a href="#ref-aghion2019artificial" role="doc-biblioref">2019</a>)</span> on p4.<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14"><p>A nice observation (p1500): if the CES coefficients (<span class="math inline">\(\sigma\)</span> and <span class="math inline">\(\zeta\)</span>) are both equal to 1 then aggregate output will be Cobb-Douglas, where the capital share is the share of tasks that are automated.<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn15"><p>I believe <span class="citation" data-cites="agrawal2023automation">A. Agrawal, Gans, and Goldfarb (<a href="#ref-agrawal2023automation" role="doc-biblioref">2023</a>)</span> has the same basic argument but I could not find a copy online.<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn16"><p><span class="citation" data-cites="baqaee2019macro">Baqaee and Farhi (<a href="#ref-baqaee2019macro" role="doc-biblioref">2019</a>)</span> extend Hulten’s theorem beyond first-order terms and show that second-order terms are often important, e.g. in calibrations to oil shocks .<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id = "quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("tecunningham\.github\.io");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+</body>
+
+</html>

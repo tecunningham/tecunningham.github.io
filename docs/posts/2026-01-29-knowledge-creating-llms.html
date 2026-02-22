@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Tom Cunningham">
+<meta name="dcterms.date" content="2026-02-06">
+<meta name="description" content="Tom Cunningham blog">
+
+<title>Knowledge-Creating LLMs | Tom Cunningham – Tom Cunningham</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-12027453-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+<script>window.MathJax = {
+   loader: { load: ["https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/xypic.js"]},
+   tex: {packages: {'[+]': ['xypic','bm']},
+         macros: {  bm: ["\\boldsymbol{#1}", 1],
+                    ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+                    utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3] }
+   }
+};
+</script>
+<style>
+   h1 {  border-bottom: 8px solid #557;}
+   h2 {  border-bottom: 1px solid #ccc;}
+   .greyproof {
+      background-color: #f5f5f5;
+      padding: 1em;
+      margin: 1em 0;
+      border-radius: 4px;
+   }
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+<meta name="twitter:title" content="Knowledge-Creating LLMs | Tom Cunningham">
+<meta name="twitter:description" content="Tom Cunningham blog">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Tom Cunningham</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href=".././about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/testingham"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/tom-cunningham-a9433/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://tecunningham.github.io/index.xml"> <i class="bi bi-rss-fill" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://scholar.google.com/citations?user=MDB_DgkAAAAJ"> 
+<span class="menu-text">scholar</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Knowledge-Creating LLMs</h1>
+                      </div>
+  </div>
+    
+  <div class="quarto-title-meta-author">
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-heading">Affiliation</div>
+    
+      <div class="quarto-title-meta-contents">
+      <p class="author">Tom Cunningham </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://metr.org/">
+              METR
+              </a>
+            </p>
+        </div>
+    </div>
+
+  <div class="quarto-title-meta">
+
+        
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 6, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Thanks to Zoë Hitzig &amp; Parker Whitfill, among others, for helpful comments.</p>
+</div></div><dl>
+<dt>It’s useful to make a distinction between two types of LLMs:</dt>
+<dd>
+<p><strong>Knowledge-sharing LLMs.</strong> Traditionally LLMs have been trained with human judgment as the ground truth, as a consequence they rarely exhibit superhuman performance. Their economic value mainly comes from sharing existing knowledge, and the natural business model is to sell access broadly.</p>
+<p><strong>Knowledge-creating LLMs.</strong> Recently LLMs have been trained against the real world, as a consequence they can extend the limits of human knowledge. The demand for new knowledge is different from the demand for old knowledge, and there’s reason to expect LLM-creators to sell access <em>exclusively</em>.</p>
+<p>Obviously it’s a continuum but we’re clearly setting out on the trajectory from the first to the second, and I haven’t seen much discussion of the implications. I expect that the 2026 impacts of AI will be dominated by these considerations.</p>
+<p>Below I give a longer discussion of this distinction, implications for IP, and a galaxy-brain theory that there are only a few dozen deep problems in the world. I sketch some considerations for a more formal economic model.</p>
+</dd>
+</dl>
+<section id="knowledge-sharing-vs-knowledge-creating-llms" class="level1">
+<h1>Knowledge-Sharing vs Knowledge-Creating LLMs</h1>
+<dl>
+<dt>Knowledge-sharing LLMs.</dt>
+<dd>
+<p>I find it is useful to think of LLMs as lowering the price of sharing existing human knowledge (see some of my previous writing on this: <a href="https://tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html">AI &amp; Imitation</a>, <a href="https://tecunningham.github.io/posts/2025-09-19-transformative-AI-notes.html">a pocket model of AI</a>).</p>
+<p>Traditionally LLMs have been trained with human judgment as the ground truth, using labels from paid raters or from customers. As a consequence they can answer questions and solve problems up to the limits of human expertise but rarely beyond (with some exceptions, see the literature on LLM Transcendence, <span class="citation" data-cites="abreu2025taxonomytranscendence">Abreu et al. (<a href="#ref-abreu2025taxonomytranscendence" role="doc-biblioref">2025</a>)</span>).</p>
+<p>If we model the economic effects of LLMs as coming from sharing existing knowledge, recorded in the training data, this has a number of implications that seem to fit the data.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<ul>
+<li><p>LLM use will be higher among those junior in their careers, facing problems that are new to them.</p></li>
+<li><p>LLMs will be disproportionately used by people outside their area of expertise, e.g.&nbsp;lawyers will use them relatively more for medical questions, doctors will use them relatively more for legal questions.</p></li>
+<li><p>LLMs will be disproportionately used in well-documented domains, e.g.&nbsp;relatively more for popular programming languages than for proprietary programming languages.</p></li>
+<li><p>LLMs will decrease knowledge rents – the premium earned by people and firms whose value comes from knowledge.</p></li>
+<li><p>LLMs will increase home production – LLMs let you solve problems yourself (see our ChatGPT paper, <span class="citation" data-cites="chatterji2025chatgpt">Chatterji et al. (<a href="#ref-chatterji2025chatgpt" role="doc-biblioref">2025</a>)</span>), insofar as this substitutes for market-provided knowledge this can decrease measured GDP.</p></li>
+<li><p>LLMs decrease the returns to innovation and news-gathering, because they increase the speed of knowledge diffusion and thus diminish the rents that can be earned from new knowledge.</p></li>
+<li><p>LLM use has high fixed costs (collecting the knowledge) and low marginal costs (sharing the knowledge). The returns to tokens on an individual problem rapidly diminish when you hit the frontier of existing knowledge. One ChatGPT query can tell me what an expert would think about my problem, additional ChatGPT queries have much less use.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Knowledge-creating LLMs.</dt>
+<dd>
+<p>Over the past 18 months it has become much more popular to train LLMs directly against a source of ground truth, e.g.&nbsp;Reinforcement Learning against Verifiable Rewards (RLVR). Accompanying this there has been a steadily increasing stream of announcements of new discoveries by LLMs.</p>
+<p>New LLM-based discovery techniques (e.g.&nbsp;AlphaEvolve (<span class="citation" data-cites="novikov2025alphaevolve">Novikov et al. (<a href="#ref-novikov2025alphaevolve" role="doc-biblioref">2025</a>)</span>), TTT-Discover (<span class="citation" data-cites="yuksekgonul2026learning">Yuksekgonul et al. (<a href="#ref-yuksekgonul2026learning" role="doc-biblioref">2026</a>)</span>)) are distinct from prior AI discovery applications (e.g.&nbsp;AlphaFold, AlphaTensor) in that they are <em>general</em> methods, they can relatively quickly be adapted to any arbitrary optimization problem.</p>
+<p>Some potential applications for knowledge-generating inference: (1) optimize every part of the AI R&amp;D and serving stack; (2) do drug discovery; (3) discover new algorithms which can be used in new software (e.g.&nbsp;new codecs, new scheduling algorithms); (4) build better trading algorithms; (5) if you have a sufficiently high-quality verifier to human preferences, then build very high-quality cultural products, e.g.&nbsp;movies.</p>
+<p>Knowledge-creating LLMs will differ from knowledge-sharing LLMs in a number of ways:</p>
+<ul>
+<li><p>Knowledge-creating LLMs will have qualitatively different benchmarks: instead of seeing if they can answer questions which we already know the answer to (most existing benchmarks), we want them to answer <em>new</em> questions, e.g.&nbsp;solve an unsolved mathematical problem (<a href="https://epoch.ai/frontiermath/open-problems">FrontierMath Open Problems</a>) or set a new record on an optimization problem (e.g.&nbsp;GSO-bench, <span class="citation" data-cites="shetty2025gso">Shetty et al. (<a href="#ref-shetty2025gso" role="doc-biblioref">2025</a>)</span>). We can use these new frontier benchmarks are indices for capability, but they are more challenging to interpret because the frontier is always moving.</p></li>
+<li><p>Knowledge-creating LLMs have high returns to compute on individual problems, unlike knowledge-sharing LLMs for which returns asymptote quickly. It can be worth spending billions of tokens to solve a single problem if the solution is generally applicable.</p></li>
+</ul>
+<ul>
+<li>The demand for new knowledge is much less elastic than the demand for existing knowledge because there are high returns to <em>exclusivity</em> of new knowledge. Thus LLM-providers are likely to either (1) use the knowledge themselves; or (2) license the new knowledge to partners, rather than expose the knowledge-generation technology through a general-purpose API. Sarah Friar, OpenAI’s CFO, said in <a href="https://openai.com/index/a-business-that-scales-with-the-value-of-intelligence/">January 2026</a>:</li>
+</ul>
+<blockquote class="blockquote">
+<p><em>“As intelligence moves into scientific research, drug discovery, energy systems, and financial modeling, new economic models will emerge. Licensing, IP-based agreements, and outcome-based pricing will share in the value created.”</em></p>
+</blockquote>
+</dd>
+<dt>Will knowledge-creation be bottlenecked on data?</dt>
+<dd>
+A common claim is that AI knowledge-creation will be bottlenecked on the ability to run new experiments. E.g. an automated biologist still needs a lab (<span class="citation" data-cites="amodei2024machines">Amodei (<a href="#ref-amodei2024machines" role="doc-biblioref">2024</a>)</span>), and an automated AI researcher will still need a lot of GPUs to do experiments. Whether this is true depends on the shape of the optimization landscape. If the world is intrinsically high-dimensional, then there is no substitute for collecting data. But if there exists a low-dimensional structure then there are high returns to just thinking harder (more discussion in an <a href="https://tecunningham.github.io/posts/2025-09-19-transformative-AI-notes.html">earlier post</a>). We have found many domains which appeared to be high-dimensional, but turned out to be intrinsically low-dimensional.
+</dd>
+</dl>
+</section>
+<section id="a-visual-illustration" class="level1">
+<h1>A Visual Illustration</h1>
+<p>Here we draw the cost for a set of 3 humans across a range of tasks, assuming each has a specialty area where they have the lowest labor-cost. The knowledge-sharing LLM aggregates knowledge, and so is the lower bound across all three agents.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2026-01-29-knowledge-creating-llms_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can then illustrate a knowledge-creating LLM as pushing below the human frontier at some set of tasks:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2026-01-29-knowledge-creating-llms_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="there-are-only-a-dozen-deep-problems" class="level1">
+<h1>There are Only a Dozen Deep Problems</h1>
+<dl>
+<dt>If you squint, a billion problems resolve into just a dozen common problems.</dt>
+<dd>
+<p>In many domains we can reduce the set of problems down to a much smaller set of equivalence-classes or canonical problems. We can then consider problem-solving as having two parts: (1) map to a canonical problem; (2) make progress on that canonical problem.</p>
+<p>Consider three types of problems which LLMs are often asked to solve:</p>
+</dd>
+<dt>(1) Constraint-satisfaction problems.</dt>
+<dd>
+Optimization theory textbooks will often have two types of results (1) proofs on the optimality of certain algorithms; (2) proofs that one type of problem is logically equivalent to another type of problem (e.g.&nbsp;a very large class of problems are equivalent to <a href="https://en.wikipedia.org/wiki/Boolean_satisfiability_problem">3SAT</a>, or can be reduced to 3SAT in polynomial time). Some algorithms are known to be optimal but many others are being continually improved.
+</dd>
+<dt>(2) Factual problems.</dt>
+<dd>
+We can reduce a factual question into (1) find the documented facts that are relevant to this question; (2) infer the answer from those facts. Once you have collected the existing documented facts you hit a ceiling, which can only be advanced by collecting more facts.
+</dd>
+<dt>(3) Statistical inference problems.</dt>
+<dd>
+For many classes of supervised learning problems there exists an existing “best practice”, e.g.&nbsp;a <a href="https://developer.nvidia.com/blog/the-kaggle-grandmasters-playbook-7-battle-tested-modeling-techniques-for-tabular-data/">recent article</a> says <em>“Over hundreds of Kaggle competitions, we’ve refined a playbook that consistently lands us near the top of the leaderboard”</em>.
+</dd>
+<dt>This is a difficulty for LLM benchmarking.</dt>
+<dd>
+<p>The mapping between idiosyncratic and canonical problems is a difficulty for LLM benchmarking. If each problem can be mapped to a canonical problem, and there exists a best-known-algorithm for each of those canonical problems, then it’s difficult to test the model’s intelligence. A reasonably smart LLM will know how to map a new problem into a canonical problem, and will know the textbook best-practice for that canonical problem (XGboost, ARIMA, gaussian process, branch-and-cut, PPO, etc.). Thus we either have to devise problems sufficiently weird that it’s difficult to map them to textbook problems, or instead ask LLMs to advance the knowledge frontier on one of the existing canonical problems.</p>
+<p>The remaining good domains for LLM benchmarking are tasks that are an <em>emulsion</em> of data and logic. They’re neither pure statistical inference nor pure deductive reasoning, but require both. Complex video games with a rich state-space are a good example (<a href="https://arxiv.org/pdf/2505.18134">VideoGameBench</a> appears to be far from saturated), also rich simulated real-world environments like <a href="https://andonlabs.com/evals/vending-bench-2">VendingBench</a>.</p>
+</dd>
+<dt>Labs will spend a lot on fixed inference, a little on variable inference.</dt>
+<dd>
+If this perspective is accurate then it has deep implications for the economics of AI: the marginal cost of solving an idiosyncratic problem is small (you just need to map it to one of the canonical problems, and apply that solution), but there’s very high value in making progress on the canonical problems. So we would expect AI labs to be spending huge amounts of compute on advancing the SoTA on the few deep problems of the world, and providing a service that solves idiosyncratic problems very cheaply.
+</dd>
+<dt>There will be a land-grab in intellectual property.</dt>
+<dd>
+If we maintain the same intellectual property law then this implies there will be a land-grab: firms will rush to be the first to discover new technologies which they can patent. But it seems plausible that the exclusivity will be inefficient, i.e.&nbsp;it wasn’t necessary to motivate the research, the new technology would’ve been discovered anyway.
+</dd>
+</dl>
+</section>
+<section id="appendix" class="level1">
+<h1>Appendix</h1>
+<dl>
+<dt>Recent examples of LLM optimization ability:</dt>
+<dd>
+<p>Recent examples of</p>
+<p><span class="citation" data-cites="novikov2025alphaevolve">Novikov et al. (<a href="#ref-novikov2025alphaevolve" role="doc-biblioref">2025</a>)</span> (Alpha-Evolve):</p>
+<blockquote class="blockquote">
+<p>“AlphaEvolve orchestrates an autonomous pipeline of LLMs, whose task is to improve an algorithm by making direct changes to the code. … When applied to optimizing critical components of large-scale computational stacks at Google, AlphaEvolve developed a more efficient scheduling algorithm for data centers, found a functionally equivalent simplification in the circuit design of hardware accelerators, and accelerated the training of the LLM underpinning AlphaEvolve itself. Furthermore, AlphaEvolve discovered novel, provably correct algorithms that surpass state-of-the-art solutions on a spectrum of problems in mathematics and computer science, significantly expanding the scope of prior automated discovery methods (Romera-Paredes et al., 2023).”</p>
+</blockquote>
+<p><span class="citation" data-cites="yuksekgonul2026learning">Yuksekgonul et al. (<a href="#ref-yuksekgonul2026learning" role="doc-biblioref">2026</a>)</span> (TTT-Discover):</p>
+<blockquote class="blockquote">
+<p>“We report results for every problem we attempted, across mathematics, GPU kernel engineering, algorithm design, and biology. TTT-Discover sets the new state of the art in almost all of them: (i) Erdős’ minimum overlap problem and an autocorrelation inequality; (ii) a GPUMode kernel competition (up to 2×faster than prior art); (iii) past AtCoder algorithm competitions; and (iv) denoising problem in single-cell analysis. Our solutions are reviewed by experts or the organizers.”</p>
+</blockquote>
+<p>The Opus 4.6 <a href="https://www-cdn.anthropic.com/0dd865075ad3132672ee0ab40b05a53f14cf5288.pdf">system card</a> reports results on a kernel optimization task. It’s notable that their internal scaffold shows much higher performance than their public model.</p>
+<blockquote class="blockquote">
+<p>“Claude Opus 4.6 obtained a 427× best speedup using an experimental scaffold and a 190× best speedup using our standard scaffold.</p>
+</blockquote>
+</dd>
+</dl>
+</section>
+<section id="economic-model-sketch" class="level1">
+<h1>Economic Model Sketch</h1>
+<dl>
+<dt>A promissory note.</dt>
+<dd>
+I’m working on a more full-specified model, but I wanted to get this blog post out sooner. I feel this area is incredibly ripe for modelling, I’d love to find a theorist collaborator, &amp; it’d make me very happy if someone else writes something about this.
+</dd>
+<dt>Embodied and disembodied knowledge.</dt>
+<dd>
+I find it useful to distinguish between <em>embodied</em> knowledge (the knowledge only applies to my own labor), and <em>disembodied</em> knowledge (I can scale my knowledge, e.g.&nbsp;hiring other workers or building machines). Knowledge-sharing seems to mostly apply to embodied knowledge, e.g.&nbsp;I use ChatGPT to learn medical knowledge I can use myself. Knowledge-creation is more applicable to disembodied knowledge, e.g.&nbsp;firms innovate.
+</dd>
+<dt>A simple model of disembodied knowledge.</dt>
+<dd>
+<p>In a very simple model we have:</p>
+<ol type="1">
+<li>Aggregate output is determined by the best knowledge.</li>
+<li>Aggregate profit is determined by the distance between the best and second-best knowledge.</li>
+</ol>
+<p>Suppose there are <span class="math inline">\(L\)</span> people, each has 1 unit of labor, and there is just one good. Each person knows some subset of recipes <span class="math inline">\(R_i\subseteq R\)</span>, and each recipe yields some cost of producing the good from labor, <span class="math inline">\(c(r)\)</span>. Then person <span class="math inline">\(i\)</span>’s effective cost <span class="math inline">\(c_i\)</span> is the lowest cost among the recipes that they know. Each person can rent labor from others to produce the consumption good, and we assume labor is allocated via Bertrand wage competition among recipe-holders; workers are price-takers and work for the highest wage.</p>
+<p>We can order the costs from lowest to highest, <span class="math inline">\(c_{(1)}\leq \cdots \leq c_{(L)}\)</span>. In equilibrium the lowest-cost agent will rent the labor of all others, produce the good at the lowest cost <span class="math inline">\(c_{(1)}\)</span>, and then sell the good back at a price equal to the second-lowest cost (<span class="math inline">\(1/c_{(2)}\)</span>), and keep the remainder as profit:</p>
+</dd>
+<dd>
+<p><span class="math display">\[\begin{aligned}
+  \text{output} &amp;= \frac{1}{c_{(1)}}L  &amp;&amp; \text{(the best recipe)}\\
+  \text{profit} &amp;= \left(\frac{1}{c_{(1)}}-\frac{1}{c_{(2)}}\right)(L-1)
+     &amp;&amp; \text{(diff bw 1st and 2nd-best recipe)}
+   \end{aligned}
+   \]</span></p>
+<p>Two simple implications:</p>
+<ol type="1">
+<li><p>Knowledge-sharing spreads output. If we share the best recipe among the whole population, now <span class="math inline">\(c'_{(2)}=c'_{(1)}=c_{(1)}\)</span>. Total output is unchanged, but profit is eliminated, and the output is spread equally among all actors.</p></li>
+<li><p>Knowledge-creation increases output. Suppose we can improve the best recipe, <span class="math inline">\(c'_{(1)}&lt;c_{(1)}\)</span>. Total output will increase. The effect on profit will depend on (1) whether the identity of the lowest-cost producer changes; and (2) the degree of improvement.</p></li>
+</ol>
+<p>We then wish to turn to the market for knowledge. The answers are somewhat sensitive to the knowledge-seller’s ability to commit &amp; exclude knowledge-sharing. But broadly it’s clear that the demand for new knowlege is much less elastic than the demand for existing knowledge: it’s far more valuable to be the <em>sole</em> owner of new knowledge.</p>
+</dd>
+</dl>
+
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-abreu2025taxonomytranscendence" class="csl-entry" role="listitem">
+Abreu, Natalie, Edwin Zhang, Eran Malach, and Naomi Saphra. 2025. <span>“A Taxonomy of Transcendence.”</span> <a href="https://arxiv.org/pdf/2508.17669.pdf">https://arxiv.org/pdf/2508.17669.pdf</a>.
+</div>
+<div id="ref-amodei2024machines" class="csl-entry" role="listitem">
+Amodei, Dario. 2024. <span>“Machines of Loving Grace: How AI Could Transform the World for the Better.”</span> October 2024. <a href="https://www.darioamodei.com/essay/machines-of-loving-grace">https://www.darioamodei.com/essay/machines-of-loving-grace</a>.
+</div>
+<div id="ref-chatterji2025chatgpt" class="csl-entry" role="listitem">
+Chatterji, Aaron, Thomas Cunningham, David J. Deming, Zoe Hitzig, Christopher Ong, Carl Yan Shan, and Kevin Wadman. 2025. <span>“How People Use ChatGPT.”</span> Working Paper 34255. National Bureau of Economic Research. <a href="https://doi.org/10.3386/w34255">https://doi.org/10.3386/w34255</a>.
+</div>
+<div id="ref-novikov2025alphaevolve" class="csl-entry" role="listitem">
+Novikov, Alexander, Ngân Vũ, Marvin Eisenberger, Emilien Dupont, Po-Sen Huang, Adam Zsolt Wagner, Sergey Shirobokov, et al. 2025. <span>“AlphaEvolve: A Coding Agent for Scientific and Algorithmic Discovery.”</span> <em>arXiv Preprint</em> arXiv:2506.13131. <a href="https://doi.org/10.48550/arXiv.2506.13131">https://doi.org/10.48550/arXiv.2506.13131</a>.
+</div>
+<div id="ref-shetty2025gso" class="csl-entry" role="listitem">
+Shetty, Manish, Naman Jain, Jinjian Liu, Vijay Kethanaboyina, Koushik Sen, and Ion Stoica. 2025. <span>“GSO: Challenging Software Optimization Tasks for Evaluating SWE-Agents.”</span> <a href="https://arxiv.org/pdf/2505.23671.pdf">https://arxiv.org/pdf/2505.23671.pdf</a>.
+</div>
+<div id="ref-yuksekgonul2026learning" class="csl-entry" role="listitem">
+Yuksekgonul, Mert, Daniel Koceja, Xinhao Li, Federico Bianchi, Jed McCaleb, Xiaolong Wang, Jan Kautz, et al. 2026. <span>“Learning to Discover at Test Time.”</span> <em>arXiv Preprint</em> arXiv:2601.16175. <a href="https://test-time-training.github.io/discover.pdf">https://test-time-training.github.io/discover.pdf</a>.
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Many other technologies share knowledge – speaking, writing, printing, the internet – LLMs just continue this progression but further lower the costs of sharing.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{cunningham2026,
+  author = {Cunningham, Tom},
+  title = {Knowledge-Creating {LLMs}},
+  date = {2026-02-06},
+  url = {tecunningham.github.io/posts/2026-01-29-knowledge-creating-llms.html},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-cunningham2026" class="csl-entry quarto-appendix-citeas" role="listitem">
+Cunningham, Tom. 2026. <span>“Knowledge-Creating LLMs.”</span> February
+6, 2026. <a href="https://tecunningham.github.io/posts/2026-01-29-knowledge-creating-llms.html">tecunningham.github.io/posts/2026-01-29-knowledge-creating-llms.html</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("tecunningham\.github\.io");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

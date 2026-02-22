@@ -1,0 +1,18 @@
+% Reusable TikZ helpers for AI cost-curve diagrams.
+% normal-CDF approximation: Phi(z) ~= 1/(1+exp(-1.702 z))
+\newcommand{\AICostAxes}{%
+  \draw[black] (0,0) rectangle (2,1);
+  \draw[->] (0,0) -- node[midway,below] {cost} (2.2,0);
+  \draw[->] (0,0) -- node[above,midway,rotate=90] {achievement} (0,1.2);
+}
+% Args: {mu}{sigma}{asymptote}{color}{label}{yshift}
+\newcommand{\AICostGaussianCDF}[6]{%
+  \pgfmathsetmacro{\mu}{#1}%
+  \pgfmathsetmacro{\sigma}{#2}%
+  \pgfmathsetmacro{\yend}{#3}%
+  \pgfmathsetmacro{\cL}{1/(1+exp(-1.702*((0-\mu)/\sigma)))}%
+  \pgfmathsetmacro{\cR}{1/(1+exp(-1.702*((2-\mu)/\sigma)))}%
+  \draw[#4,thick,domain=0:2,samples=200,smooth]
+    plot (\x,{\yend*((1/(1+exp(-1.702*((\x-\mu)/\sigma)))-\cL)/(\cR-\cL))})
+    node[right,#4,yshift=#6] {#5};%
+}

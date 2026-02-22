@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Tom Cunningham">
+<meta name="dcterms.date" content="2025-09-24">
+<meta name="description" content="Tom Cunningham blog">
+
+<title>A Knowledge-Sharing Model of LLMs | Tom Cunningham – Tom Cunningham</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-12027453-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+<script>window.MathJax = {
+   loader: { load: ["https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/xypic.js"]},
+   tex: {packages: {'[+]': ['xypic','bm']},
+         macros: {  bm: ["\\boldsymbol{#1}", 1],
+                    ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+                    utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3] }
+   }
+};
+</script>
+<style>
+   h1 {  border-bottom: 8px solid #557;}
+   h2 {  border-bottom: 1px solid #ccc;}
+   .greyproof {
+      background-color: #f5f5f5;
+      padding: 1em;
+      margin: 1em 0;
+      border-radius: 4px;
+   }
+</style>
+<meta name="quarto:status" content="draft">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+<meta name="twitter:title" content="A Knowledge-Sharing Model of LLMs | Tom Cunningham">
+<meta name="twitter:description" content="Tom Cunningham blog">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Draft</div>
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Tom Cunningham</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href=".././about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/testingham"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/tom-cunningham-a9433/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://tecunningham.github.io/index.xml"> <i class="bi bi-rss-fill" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://scholar.google.com/citations?user=MDB_DgkAAAAJ"> 
+<span class="menu-text">scholar</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">A Knowledge-Sharing Model of LLMs</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Tom Cunningham </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">September 24, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<dl>
+<dt>One sentence version.</dt>
+<dd>
+<p>LLMs observe more datapoints than humans, but are worse at extrapolating from those data points; this therefore makes them relatively better at <em>common</em> problems, and relatively worse at <em>rare</em> problems.</p>
+<p>In this note I give a simplified formal model of LLM vs human abilities, discuss the evidence we have on LLM capabilities, &amp; the implications for the economic and safety effects of LLMs.</p>
+</dd>
+</dl>
+<section id="overview" class="level1">
+<h1>Overview</h1>
+<dl>
+<dt>Puzzle: why are LLMs better than humans at some tasks, worse at others?</dt>
+<dd>
+We do not have a standard theory of LLM capabilities, &amp; there is a well-known puzzle: LLMs beat almost all humans on certain tasks (exam questions, interview questions), yet lose to almost all humans on other tasks (agentic tasks, playing games).
+</dd>
+<dd>
+People have proposed various properties of the tasks which might explain this jaggedness: computational complexity; time horizon; verifiability.
+</dd>
+<dt>Answer: success depends on similarity to the tasks in training set.</dt>
+<dd>
+For simplicity, treat humans and LLMs both as solving a supervised learning problem. Additionally assume that LLMs are worse at extrapolation.
+</dd>
+</dl>
+<p>LLMs have more knowledge than humans but less intelligence.</p>
+<dl>
+<dt>This explains the capabilities of LLMs (jaggedness).</dt>
+<dd>
+I argue below that this gives a crisp characterization of what tasks LLMs can and cannot do.
+</dd>
+</dl>
+<p>This explains the economic implications of LLMs.</p>
+<pre><code>  The economic and safety implications are downstream of this:
+  
+  1. LLMs speeds up common tasks; (2) LLMs are good at tasks that take humans a short time (without context); (3) .</code></pre>
+<dl>
+<dt>(simplest model: just lookup tables).</dt>
+<dd>
+This model already gives you fairly rich predictions.
+</dd>
+<dt>The theory has clear testable implications.</dt>
+<dd>
+<ul>
+<li>Given some task, and two agents, the agent will be more likely to succeed if it has more experience with closer tasks.</li>
+</ul>
+</dd>
+<dt>Helps explain many facts:</dt>
+<dd>
+<ol type="1">
+<li>LLMs pass aptitude tests but do not have the aptitude to do the job.</li>
+<li>LLMs can do short-horizon tasks as well as humans, but not long-horizon tasks.</li>
+</ol>
+</dd>
+</dl>
+<section id="implications-for-capabilities" class="level2">
+<h2 class="anchored" data-anchor-id="implications-for-capabilities">Implications for Capabilities</h2>
+<dl>
+<dt>We want to explain the jaggedness.</dt>
+<dd>
+Does this theory of LLMs do a good job of explaining the capabilities of LLMs, i.e.&nbsp;the set of tasks that they can and cannot do?
+</dd>
+<dt>Chatbot use.</dt>
+<dd>
+<ol type="1">
+<li>Chatbots are used for new-to-you questions.</li>
+</ol>
+</dd>
+<dt>Aptitude tests.</dt>
+<dd>
+Why can LLMs pass exams and evals, but not act in the real world?
+</dd>
+<dt>Time horizon.</dt>
+<dd>
+<ul>
+<li>Tasks that take longer are farther from distribution, and so take humans longer time to assemble the properties of the question.</li>
+<li>The theory predicts outliers: (1) tasks that are additively separable.</li>
+</ul>
+</dd>
+<dt>LLM transcendence.</dt>
+<dd>
+Zhang on transcendence: (1) skill denoising; (2) skill selection; (3) skill generalization. They have a model where different experts learn edges on a graph, you could think about this as <em>compound</em> questions where you need to know the answer to two subquestions, there you clearly get transcendence.
+</dd>
+<dt>Economic impacts / adoption</dt>
+<dd>
+<ul>
+<li>Software engineering/</li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="implications-for-economics" class="level2">
+<h2 class="anchored" data-anchor-id="implications-for-economics">Implications for Economics</h2>
+</section>
+<section id="implications-for-safety" class="level2">
+<h2 class="anchored" data-anchor-id="implications-for-safety">Implications for Safety</h2>
+</section>
+<section id="formalization" class="level2">
+<h2 class="anchored" data-anchor-id="formalization">Formalization</h2>
+<dl>
+<dt>Atomic questions, scalar answers.</dt>
+<dd>
+<ul>
+<li>You get a questions <span class="math inline">\(q\in Q\)</span>, from <span class="math inline">\(f(q)\)</span>, you choose an answer <span class="math inline">\(a\in\mathcal{R}\)</span>, with payoff <span class="math inline">\(y(q,a)\)</span>, and no correlation in payoffs.</li>
+<li>Venn diagram: your experience, others’ experience.</li>
+</ul>
+</dd>
+<dt>Vector questions, linear-Gaussian answers.</dt>
+<dd>
+<ul>
+<li>Get a closed form expression for (A) human; (B) agent; (C) agent-first.</li>
+</ul>
+</dd>
+<dt>Scalar questions.</dt>
+<dd>
+<ul>
+<li>If random answers, then equivalent to atomic questions.</li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="twitter-version" class="level2">
+<h2 class="anchored" data-anchor-id="twitter-version">Twitter Version</h2>
+<p>Here’s a theory of LLM and human capabilities.</p>
+<p>Puzzle: why are LLMs better than humans at some tasks (exams, interviews), but worse at other tasks (interaction, long horizon, games)? Why is the frontier jagged?</p>
+<p>Explanation: LLMs have more data but worse extrapolation. This implies they outperform humans on tasks that are <em>common</em> but underperform on tasks that are <em>rare</em>.</p>
+</section>
+<section id="related" class="level2">
+<h2 class="anchored" data-anchor-id="related">Related</h2>
+<p>Agarwal Gans &amp; Goldfarb, <a href="https://cdn.chools.in/DIG_LIB/E-Book/Prediction%20Machines-The%20Simple%20Economics%20of%20Artificial%20Intelligence%20by%20Ajay%20Agrawal_.pdf?utm_source=chatgpt.com">Prediction Machines</a></p>
+<blockquote class="blockquote">
+<p>“One major benefit of prediction machines is that they can scale in a way that humans cannot. One downside is that they struggle to make predictions in unusual cases for which there isn’t much historical data. Combined, this means that many human-machine collaborations will take the form of “prediction by exception.””</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>“prediction machines learn when data is plentiful, which happens when they are dealing with more routine or frequent scenarios.”</p>
+</blockquote>
+<p><span class="citation" data-cites="brynjolfsson2023generative">Brynjolfsson, Li, and Raymond (<a href="#ref-brynjolfsson2023generative" role="doc-biblioref">2023</a>)</span>:</p>
+<blockquote class="blockquote">
+<p>“AI access has the smallest reduction in handle time for problems where human agents are already well trained (very routine problems) or where its training data may be sparse (very rare problems). We see the largest improvements in the handle time for moderately uncommon problems.”</p>
+</blockquote>
+</section>
+</section>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>This note treats chatbots as lowering the cost of access to existing public knowledge. A chatbot is essentially a database of questions for which the answer already exists in the public domain (and hence in the LLM training data). It implies that people will consult a chatbot when they encounter a question for which (i) they do not know the answer, and (ii) they expect that someone else does know the answer, and has documented it in the public domain.</p>
+<p>The model expresses a very common view of LLMs, but has not been stated as explicitly before as far as I am aware. LLM chatbots clearly do many things which would not normally be described as answering questions (drawing pictures, drafting text, editing text, writing code), however the majority share of chatbot queries appear to be asking for information (<span class="citation" data-cites="chatterji2025chatgpt">Chatterji et al. (<a href="#ref-chatterji2025chatgpt" role="doc-biblioref">2025</a>)</span>). The core predictions can be expressed assuming a discrete set of questions, but I also derive predictions from a fuller model which allows for the user and chatbot to interpolate between answers among different related questions.</p>
+<p>This model gives a variety of predictions about when chatbots will be used:</p>
+<ol type="1">
+<li><p><strong>Chatbots will be consulted more by novices more than experts in a domain.</strong> This is because novices are more likely to encounter a question that they have not encountered before. A corollary is that chatbots will be used where you are a <em>relative</em> novice, e.g.&nbsp;a doctor will be more likely to use a chatbot for a legal question, and a lawyer will be relatively more likely to use a chatbot for a medical question.</p></li>
+<li><p><strong>Chatbots will be used more in occupations with high returns to experience.</strong> In domains where workers frequently encounter problems that are neither highly repetitive, nor entirely idiosyncratic, then we would expect high returns to experience, and also high chatbot use.</p></li>
+<li><p><strong>Chatbots will be used more in occupations with high mobility.</strong> If the same questions tend to recur across jobs within the same occupation then we expect high mobility between jobs, and also high chatbot use.</p></li>
+<li><p><strong>Chatbots will be consulted more for well-documented domains.</strong> Chatbots will be used more for questions about technologies that are public than technologies that are proprietary (which do not appear in the training material), and prevalence of questions about a technology should be convex in the popularity of that technology.</p></li>
+</ol>
+<p>The model also gives us basic predictions about the equilibrium effect of chatbots:</p>
+<ol type="1">
+<li><p><strong>Chatbots raise welfare through better decisions.</strong> We should also expect increases in welfare if agents can adjust on other margins, especially through reducing the use of other information-sources (books, web search), and through expanding the set of questions that a person attempts to answer.</p></li>
+<li><p><strong>Chatbots flatten comparative advantage.</strong> If comparative advantage is due to differences in knowledge (the set of questions for which you know the answer) then chatbots will flatten those differences. In a class of trade models where productivity differences are entirely driven by knowledge gaps, this is formally equivalent to “catch up” technology growth, where the catch-up implies: (1) higher average wages; (2) lower wages for the highest-paid; (3) lower trade, i.e.&nbsp;lower GDP (<span class="citation" data-cites="dornbusch1977comparative">Dornbusch, Fischer, and Samuelson (<a href="#ref-dornbusch1977comparative" role="doc-biblioref">1977</a>)</span>, <span class="citation" data-cites="wilson1980general">Wilson (<a href="#ref-wilson1980general" role="doc-biblioref">1980</a>)</span>).</p></li>
+</ol>
+<section id="existing-models-of-ai-adoption." class="level4">
+<h4 class="anchored" data-anchor-id="existing-models-of-ai-adoption.">Existing models of AI adoption.</h4>
+<p>We can compare this to a few existing models of AI:</p>
+<ul>
+<li><p><strong>AI performs a task autonomously.</strong> <span class="citation" data-cites="zeira1998workers">(<a href="#ref-zeira1998workers" role="doc-biblioref">Zeira 1998</a>)</span> models automation as allowing capital to perform some task instead of labor. We then expect workers who previously specialized in those tasks to see declines in their wages, e.g. <span class="citation" data-cites="acemoglu2011handbook">(<a href="#ref-acemoglu2011handbook" role="doc-biblioref">Acemoglu and Autor 2011</a>)</span>, <span class="citation" data-cites="acemoglu2018race">(<a href="#ref-acemoglu2018race" role="doc-biblioref">Acemoglu and Restrepo 2018</a>)</span>.</p></li>
+<li><p><strong>AI reduces the time required to perform a task.</strong> <span class="citation" data-cites="eloundou2023gpts">(<a href="#ref-eloundou2023gpts" role="doc-biblioref">Eloundou et al. 2023</a>)</span> treats LLMs as reducing the time required to complete a task by a fixed proportion.[UNFINISHED]</p></li>
+<li><p><strong>AI supplies knowledge.</strong> <span class="citation" data-cites="ide2024artificialintelligenceknowledgeeconomy">Ide and Talamas (<a href="#ref-ide2024artificialintelligenceknowledgeeconomy" role="doc-biblioref">2024</a>)</span> and <span class="citation" data-cites="autor2025expertise">Autor and Thompson (<a href="#ref-autor2025expertise" role="doc-biblioref">2025</a>)</span> [UNFINISHED]. Important point about Garicano/Ide/Talamas model: (1) whether the knowledge required for a problem is known ex ante or ex post; (2) whether you can rank knowledge on a scale.</p>
+<p>Note: <span class="citation" data-cites="garicano2006organization">Garicano and Rossi-Hansberg (<a href="#ref-garicano2006organization" role="doc-biblioref">2006</a>)</span> says "Our theory suggests that the impact of communication technology during the last years of the 1990s and early 2000s should lead organizations toward increasing centralization, an equalization of routine jobs, and a reduction of self-employment as hierarchies get larger through larger spans of control and more layers ... Our interpretation is that the underlying source of variation is the costs of acquiring and communicating information: improvements in the cost of accessing knowledge, mostly concentrated in the 1980s and early 1990s but present throughout the period, followed by improvements in communication technology in the late 1990s."</p></li>
+</ul>
+</section>
+<section id="vector-model." class="level4">
+<h4 class="anchored" data-anchor-id="vector-model.">Vector model.</h4>
+<p>We also describe a model in which each question is a vector, based on an earlier model of LLMs written for a different purpose, <span class="citation" data-cites="cunningham2023imitation">Cunningham (<a href="#ref-cunningham2023imitation" role="doc-biblioref">2023</a>)</span>.</p>
+<p>Suppose each question <span class="math inline">\(\bm{q}\)</span> is a vector of binary characteristics, and the true answer is a scalar, <span class="math inline">\(a\)</span>, determined by a set of unobserved weights, <span class="math inline">\(\bm{w}\)</span>, with <span class="math inline">\(a=\bm{w}\bm{q}\)</span>. The human guesses the answer to the new question by interpolating among previously-seen questions and answers (<span class="math inline">\((\bm{q}^i,a^i)_{i=1,\ldots,n}\)</span>). They can also consult a chatbot which answers questions in the same way, but with a different set of previously-seen questions (i.e.&nbsp;the chatbot’s training data). We can then give a crisp closed-form expression for the expected benefit of consulting a chatbot, based on the relationship between the question <span class="math inline">\(q\)</span>, the human’s experience <span class="math inline">\(Q_1\)</span>, and the chatbot’s experience, <span class="math inline">\(Q_2\)</span>. We expect a chatbot to be consulted when you encounter a question that has components which fall outside the space formed from by your knowledge set (questions for which you know the answer), but which fall inside the space formed by the chatbot’s knowledge set.</p>
+</section>
+<section id="conjectures-about-adoption" class="level2">
+<h2 class="anchored" data-anchor-id="conjectures-about-adoption">Conjectures About Adoption</h2>
+<p>We can make some conjectures about adoption by occupation and by task:</p>
+<table class="caption-top table">
+<caption>Conjectures about adoption by occupation</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Occupation</strong></th>
+<th style="text-align: left;"><strong>Predicted ChatGPT use</strong></th>
+<th style="text-align: left;"><strong>Reason</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">software engineer - python</td>
+<td style="text-align: left;">high</td>
+<td style="text-align: left;">problems novel, discrete, similar to those on internet</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">software engineer - proprietary</td>
+<td style="text-align: left;">low</td>
+<td style="text-align: left;">problems novel, discrete, not similar to those on internet</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">physician</td>
+<td style="text-align: left;">high</td>
+<td style="text-align: left;">problems novel, discrete, similar to those on internet</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">contact center worker</td>
+<td style="text-align: left;">low</td>
+<td style="text-align: left;">problems novel, discrete, not similar to those on internet</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">architect</td>
+<td style="text-align: left;">low</td>
+<td style="text-align: left;">problems novel, not discrete, not text-based</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">manual worker</td>
+<td style="text-align: left;">low</td>
+<td style="text-align: left;">problems not text-based</td>
+</tr>
+</tbody>
+</table>
+<table class="caption-top table">
+<caption>Conjectures about adoption by task</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Task</strong></th>
+<th style="text-align: left;"><strong>Predicted chatbot use</strong></th>
+<th style="text-align: left;"><strong>Reason</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intellectual curiosity</td>
+<td style="text-align: left;">high</td>
+<td style="text-align: left;">novel, discrete, similar to those on the internet</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Diagnosing medical problems</td>
+<td style="text-align: left;">high</td>
+<td style="text-align: left;">novel, discrete, similar to those on the internet</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Problems with widely-adopted systems (car, house, computer)</td>
+<td style="text-align: left;">high</td>
+<td style="text-align: left;">novel, discrete, similar to those on the internet</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Problems with idiosyncratic systems (custom setups)</td>
+<td style="text-align: left;">low</td>
+<td style="text-align: left;">novel, discrete, <em>not</em> similar to those on the internet</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="additional-issues." class="level2">
+<h2 class="anchored" data-anchor-id="additional-issues.">Additional issues.</h2>
+<ol type="1">
+<li><p><strong>Why are LLMs used as advisors, not agents?</strong> It’s notable that LLMs are relatively rarely given autonomy to make a decision without human oversight. ChatGPT is mostly built as an advisor, it cannot take actions on your behalf. This could be accommodated by this model if most questions have large private components, such that ChatGPT’s answer is worse than the human’s, but the ChatGPT-augmented answer is better than the human’s.</p></li>
+<li><p><strong>Relationship to time-savings.</strong> This model quantifies the benefit from ChatGPT as the <em>accuracy</em> of an answer to a question. Much other literature on LLMs measures the value in time-savings, e.g. most RCTs of LLM augmentation (both in the laboratory and the field), and many self-reports. We could convert the accuracy increase to a time-savings if we say that people can spend more time to increase accuracy.</p></li>
+<li><p><strong>How does ChatGPT differ from Google?</strong> If we interpret ChatGPT’s training set as the content of the public internet then the same model could be applied to a search engine. We could distinguish ChatGPT in two ways: (1) the cost of consulting ChatGPT is significantly lower because it will give an answer immediately, instead of directing the human to another page where they have to skim the text; (2) ChatGPT can <em>interpolate</em> questions in its training data, e.g.&nbsp;it will give an answer to your question even if nobody has answered that question before, but the answer can be predicted from the answer to other questions.</p></li>
+<li><p><strong>Dimensionality of the domain.</strong> We might be able to extend the model to distinguish between two types of dimensionality: (1) surface dimensionality (how many letters it takes to express the question/prompt); (2) the latent dimensionality of the domain. In general the returns to experience will depend on the latent dimensionality of the domain: if the latent dimensionality is low then a few examples is enough to learn the patterns, if the latent dimensionality is high then error continuously decreases with experience (there’s a nice closed-form expression for this).</p></li>
+<li><p><strong>High-dimensional answers.</strong> Our model assumes <em>scalar</em> answers. In fact ChatGPT gives high-dimensional outputs. I think we can say some nice things here.</p></li>
+<li><p><strong>Tacit knowledge.</strong> For some ChatGPT prompts the user can <em>recognize</em> a correct answer, but cannot produce a correct answer themselves (AKA a generation-validation gap). E.g. asking for a picture, asking for a poem. The generation-validation asymmetry can be due either to (1) computational difficulty; (2) tacit knowledge.</p></li>
+<li><p><strong>Routine questions.</strong> For some ChatGPT prompts the user can clearly do the task themselves, without any extra information but it’s time-consuming: e.g.&nbsp;doing a simple mathematical operation, alphabetizing a list, typing out boilerplate code. These types of queries don’t fit our model so well.</p></li>
+</ol>
+</section>
+</section>
+<section id="model-with-atomic-questions" class="level1">
+<h1>Model with Atomic Questions</h1>
+<p>Here we define the simplest model: given some question you will consult the chatbot if and only if (1) you do not know the answer to this question; (2) the chatbot does know the answer to this question.</p>
+<p>Suppose you are confronted by a question (<span class="math inline">\(q\in\mathcal{Q}\)</span>), and you have to supply an answer, <span class="math inline">\(\hat{a}\in\mathcal{R}\)</span>.</p>
+<p>The chatbot’s set of prior questions-observed is <span class="math inline">\(\bm{Q}_1\subseteq \mathcal{Q}\)</span>, the user’s set is <span class="math inline">\(\bm{Q}_2\subseteq \mathcal{Q}\)</span>, with the composition of both sets public knowledge (i.e.&nbsp;you know <em>whether</em> the chatbot knows the answer to each question, without you knowing what that answer is).</p>
+<p>It is clear that the user will consult the chatbot if and only if <span class="math inline">\(q\in Q_1\)</span> and <span class="math inline">\(q\not{\in}Q_2\)</span>. In the vector model below, this discrete rule is replaced by a continuous analogue: you benefit from consulting the chatbot when the components of the question that lie outside your own experience overlap with the subspace spanned by the chatbot’s experience.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-venn" class="quarto-float quarto-figure quarto-figure-center anchored" width="672">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-venn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2025-06-14-model-of-chatbots_files/figure-html/fig-venn-1.png" id="fig-venn" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-venn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="what-would-a-satisfying-theory-look-like" class="level1">
+<h1>What Would a Satisfying Theory Look Like?</h1>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2025-06-14-model-of-chatbots_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt>Some implications:</dt>
+<dd>
+<ol type="1">
+<li>LLMs are capped at human abilities.</li>
+<li>LLMs are capped at training data.</li>
+<li>Chatbots consulted on questions that are <em>new to you</em>: doctors use it for legal questions; lawyers use it for medical questions.</li>
+<li>Chatbots relatively worse at off-distribution questions.</li>
+</ol>
+</dd>
+</dl>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2025-06-14-model-of-chatbots_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2025-06-14-model-of-chatbots_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2025-06-14-model-of-chatbots_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2025-06-14-model-of-chatbots_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="visualization-of-question-density" class="level1">
+<h1>Visualization of Question Density</h1>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-question-density" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-question-density-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2025-06-14-model-of-chatbots_files/figure-html/fig-question-density-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-question-density-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Question density and accuracy curves
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="model-with-vector-questions" class="level1">
+<h1>Model with Vector Questions</h1>
+<section id="the-state-of-the-world-and-questions." class="level4">
+<h4 class="anchored" data-anchor-id="the-state-of-the-world-and-questions.">The State of the World and Questions.</h4>
+<p>The state of the world is defined by a vector of <span class="math inline">\(p\)</span> unobserved parameters, <span class="math inline">\(\bm{w} \in \mathbb{R}^p\)</span>. A question is a vector of <span class="math inline">\(p\)</span> binary features, <span class="math inline">\(\bm{q} \in \{-1, 1\}^p\)</span>. The true answer to a question <span class="math inline">\(\bm{q}\)</span> is a scalar <span class="math inline">\(a\)</span> determined by the linear relationship: <span class="math display">\[a = \bm{q}'\bm{w} = \sum_{k=1}^p q_k w_k\]</span></p>
+</section>
+<section id="agents-and-information." class="level4">
+<h4 class="anchored" data-anchor-id="agents-and-information.">Agents and Information.</h4>
+<p>There is a set of agents, indexed by <span class="math inline">\(i \in \mathcal{I}\)</span>. Each agent <span class="math inline">\(i\)</span> possesses an information set <span class="math inline">\(\mathcal{D}_i\)</span>, which consists of <span class="math inline">\(n_i\)</span> questions they have previously encountered, along with their true answers. We can represent this information as a pair <span class="math inline">\((\bm{Q}_i, \bm{a}_i)\)</span>:</p>
+<ul>
+<li><p><span class="math inline">\(\bm{Q}_i\)</span> is an <span class="math inline">\(n_i \times p\)</span> matrix where each row is a question vector. Let the <span class="math inline">\(j\)</span>-th question for agent <span class="math inline">\(i\)</span> be <span class="math inline">\(\bm{q}_{i,j}'\)</span>, so that: <span class="math display">\[\bm{Q}_i = \begin{bmatrix} \bm{q}_{i,1}' \\ \vdots \\ \bm{q}_{i,n_i}' \end{bmatrix} = \begin{bmatrix} q_{i,1,1} &amp; \cdots &amp; q_{i,1,p} \\ \vdots &amp; \ddots &amp; \vdots \\ q_{i,n_i,1} &amp; \cdots &amp; q_{i,n_i,p} \end{bmatrix}\]</span></p></li>
+<li><p><span class="math inline">\(\bm{a}_i\)</span> is an <span class="math inline">\(n_i \times 1\)</span> vector of the corresponding answers. The answers are generated according to the true model: <span class="math display">\[\bm{a}_i = \bm{Q}_i \bm{w}\]</span></p></li>
+</ul>
+</section>
+<section id="beliefs." class="level4">
+<h4 class="anchored" data-anchor-id="beliefs.">Beliefs.</h4>
+<p>All agents share a common prior belief about the state of the world, assuming the weights <span class="math inline">\(\bm{w}\)</span> are drawn from a multivariate Gaussian distribution: <span class="math display">\[\bm{w} \sim N(\bm{0}, \Sigma)\]</span> where <span class="math inline">\(\Sigma\)</span> is a <span class="math inline">\(p \times p\)</span> positive-semidefinite covariance matrix. A common assumption we will use is an isotropic prior, where <span class="math inline">\(\Sigma = \sigma^2 \bm{I}_p\)</span> for some scalar <span class="math inline">\(\sigma^2 &gt; 0\)</span>. This implies that, a priori, the weights are uncorrelated and have equal variance.</p>
+<p>Given their information set <span class="math inline">\(\mathcal{D}_i\)</span>, agent <span class="math inline">\(i\)</span> forms a posterior belief about <span class="math inline">\(\bm{w}\)</span>. When a new question <span class="math inline">\(\bm{q}_{\text{new}}\)</span> arises, the agent uses their posterior distribution to form an estimate of the answer, <span class="math inline">\(\hat{a}_{\text{new}} = \bm{q}_{\text{new}}' \mathbb{E}[\bm{w} \mid \mathcal{D}_i]\)</span>.</p>
+<p>Throughout the analysis below we make two simplifying assumptions. First, observations are noiseless: when an agent has seen a question before, they observe its exact true answer, so that <span class="math inline">\(\bm{a}_i = \bm{Q}_i\bm{w}\)</span>. Second, the matrices <span class="math inline">\(\bm{Q}_i\Sigma\bm{Q}_i^{\top}\)</span> (and, under an isotropic prior, <span class="math inline">\(\bm{Q}_i\bm{Q}_i^{\top}\)</span>) are invertible, so that the posterior expressions are well defined. Both assumptions can be relaxed (for example by allowing noisy answers), at the cost of slightly more involved algebra but with the same basic geometry: what matters is how a new question projects onto the subspaces spanned by past questions.</p>
+</section>
+</section>
+<section id="propositions" class="level1">
+<h1>Propositions</h1>
+<div class="proposition">
+<p><strong>Proposition 1</strong> (Posterior over <span class="math inline">\(\bm{w}\)</span> given <span class="math inline">\(\bm{Q}\)</span> and <span class="math inline">\(\bm{a}\)</span>). <em>The agent’s posterior mean and variance will be: <span class="math display">\[\begin{aligned}
+      \hat{\bm w}&amp;= \Sigma \bm{Q}^{\top}(\bm{Q}\Sigma \bm{Q}^{\top})^{-1}\bm a\\
+      \Sigma_{\mid a} &amp;=\Sigma-\Sigma \bm{Q}^{\top}(\bm{Q}\Sigma \bm{Q}^{\top})^{-1}\bm{Q}\Sigma.
+   \end{aligned}\]</span></em></p>
+</div>
+<div class="greyproof">
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span><em>Proof.</em> The derivation follows from the standard formula for conditional Gaussian distributions. We begin by defining the joint distribution of the weights <span class="math inline">\(\bm{w}\)</span> and the answers <span class="math inline">\(\bm{a}\)</span>. The weights and answers are jointly Gaussian: <span class="math display">\[\begin{pmatrix} \bm{w} \\ \bm{a} \end{pmatrix} \sim N\left(
+      \begin{pmatrix} \bm{0} \\ \bm{0} \end{pmatrix},
+      \begin{pmatrix}
+         \Sigma &amp; \Sigma \bm{Q}' \\
+         \bm{Q}\Sigma &amp; \bm{Q}\Sigma \bm{Q}'
+      \end{pmatrix}
+   \right)\]</span> where the covariance terms are derived as follows:</p>
+<ul>
+<li><p><span class="math inline">\(Cov(\bm{w}, \bm{w}) = \Sigma\)</span> (prior covariance)</p></li>
+<li><p><span class="math inline">\(Cov(\bm{a}, \bm{a}) = Cov(\bm{Q}\bm{w}, \bm{Q}\bm{w}) = \bm{Q} Cov(\bm{w}, \bm{w}) \bm{Q}' = \bm{Q}\Sigma \bm{Q}'\)</span></p></li>
+<li><p><span class="math inline">\(Cov(\bm{w}, \bm{a}) = Cov(\bm{w}, \bm{Q}\bm{w}) = Cov(\bm{w}, \bm{w})\bm{Q}' = \Sigma \bm{Q}'\)</span></p></li>
+</ul>
+<p>The conditional mean <span class="math inline">\(E[\bm{w}|\bm{a}]\)</span> is given by the formula: <span class="math display">\[E[\bm{w}|\bm{a}] = E[\bm{w}] + Cov(\bm{w},\bm{a})Var(\bm{a})^{-1}(\bm{a} - E[\bm{a}])\]</span></p>
+<p>Substituting the values from our model (<span class="math inline">\(E[\bm{w}] = \bm{0}\)</span>, <span class="math inline">\(E[\bm{a}] = \bm{0}\)</span>): <span class="math display">\[\hat{\bm{w}} = \bm{0} + (\Sigma \bm{Q}')(\bm{Q}\Sigma \bm{Q}')^{-1}(\bm{a} - \bm{0}) = \Sigma \bm{Q}'(\bm{Q}\Sigma \bm{Q}')^{-1}\bm{a}\]</span></p>
+<p>This gives us the posterior mean of the weights. The posterior covariance is given by: <span class="math display">\[Var(\bm{w}|\bm{a}) = Var(\bm{w}) - Cov(\bm{w},\bm{a})Var(\bm{a})^{-1}Cov(\bm{a},\bm{w}) = \Sigma - \Sigma \bm{Q}'(\bm{Q}\Sigma \bm{Q}')^{-1}\bm{Q}\Sigma.\]</span>&nbsp;◻</p>
+</div>
+</div>
+<div class="proposition">
+<p><strong>Proposition 2</strong> (Expected error for a given question). <em>The expected squared error for a new question <span class="math inline">\(\bm q\)</span> is: <span class="math display">\[\mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \bm q' \Sigma_{\mid a} \bm q\]</span> For an isotropic prior where <span class="math inline">\(\Sigma = \sigma^2 \bm{I}\)</span>, the error is proportional to the squared distance of <span class="math inline">\(\bm q\)</span> from the subspace spanned by the previously seen questions in <span class="math inline">\(\bm{Q}\)</span>: <span class="math display">\[\mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \sigma^2 \|(\bm{I}-\bm{P_Q})\bm q\|^2\]</span> where <span class="math inline">\(\bm{P_Q}\)</span> is the projection matrix onto the row-span of <span class="math inline">\(\bm{Q}\)</span>.</em></p>
+</div>
+<div class="greyproof">
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span><em>Proof.</em> The prediction error is <span class="math inline">\(\bm{q}'\bm{w} - \bm{q}'\hat{\bm{w}} = \bm{q}'(\bm{w} - \hat{\bm{w}})\)</span>. The expected squared error is the variance of this prediction error. <span class="math display">\[\begin{aligned}
+\mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] &amp;= \mathbb{E}[\bm q'(\bm w - \hat{\bm w})(\bm w - \hat{\bm w})'\bm q] \\
+&amp;= \bm q' \mathbb{E}[(\bm w - \hat{\bm w})(\bm w - \hat{\bm w})'] \bm q \\
+&amp;= \bm q' Var(\bm w \mid \bm a) \bm q = \bm q' \Sigma_{\mid a} \bm q
+\end{aligned}\]</span> This proves the first part of the proposition. For the second part, we assume an isotropic prior <span class="math inline">\(\Sigma = \sigma^2\bm{I}\)</span>. Substituting this into the expression for <span class="math inline">\(\Sigma_{\mid a}\)</span> from Proposition 1: <span class="math display">\[\begin{aligned}
+\Sigma_{\mid a} &amp;= \sigma^2\bm{I} - (\sigma^2\bm{I})\bm{Q}'(\bm{Q}(\sigma^2\bm{I})\bm{Q}')^{-1}\bm{Q}(\sigma^2\bm{I}) \\
+&amp;= \sigma^2\bm{I} - \sigma^4 \bm{Q}'(\sigma^2\bm{Q}\bm{Q}')^{-1}\bm{Q} \\
+&amp;= \sigma^2\bm{I} - \sigma^4 (\sigma^2)^{-1} \bm{Q}'(\bm{Q}\bm{Q}')^{-1}\bm{Q} \\
+&amp;= \sigma^2(\bm{I} - \bm{Q}'(\bm{Q}\bm{Q}')^{-1}\bm{Q})
+\end{aligned}\]</span> Let <span class="math inline">\(\bm{P_Q} = \bm{Q}'(\bm{Q}\bm{Q}')^{-1}\bm{Q}\)</span>, which is the projection matrix onto the row space of <span class="math inline">\(\bm{Q}\)</span>. Then <span class="math inline">\(\Sigma_{\mid a} = \sigma^2(\bm{I} - \bm{P_Q})\)</span>. The expected squared error is: <span class="math display">\[\mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \bm q' \sigma^2(\bm{I} - \bm{P_Q}) \bm q = \sigma^2 \bm q'(\bm{I} - \bm{P_Q})\bm q\]</span> Since <span class="math inline">\(\bm{I} - \bm{P_Q}\)</span> is an idempotent projection matrix, <span class="math inline">\(\bm q'(\bm{I} - \bm{P_Q})\bm q = \bm q'(\bm{I} - \bm{P_Q})'(\bm{I} - \bm{P_Q})\bm q = \|(\bm{I} - \bm{P_Q})\bm q\|^2\)</span>. Thus, <span class="math display">\[\mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \sigma^2 \|(\bm{I}-\bm{P_Q})\bm q\|^2\]</span>&nbsp;◻</p>
+</div>
+</div>
+<div class="proposition">
+<p><strong>Proposition 3</strong> (Error decreases with more independent questions). <em>The average expected squared error over all possible new questions <span class="math inline">\(\bm{q}\)</span> decreases linearly with the number of linearly independent questions in the training set <span class="math inline">\(\bm{Q}\)</span>. Specifically, with an isotropic prior <span class="math inline">\(\Sigma = \sigma^2 \bm{I}\)</span>, the average error is: <span class="math display">\[\mathbb{E}_{\bm{q}}[\text{error}(\bm{q})] = \sigma^2 (p - \operatorname{rank}(\bm{Q}))\]</span> where the expectation is taken over new questions <span class="math inline">\(\bm{q}\)</span> with i.i.d. components drawn uniformly from <span class="math inline">\(\{-1,1\}\)</span>.</em></p>
+</div>
+<div class="greyproof">
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span><em>Proof.</em> The proof proceeds in two steps. First, we write the expression for the error for a given new question <span class="math inline">\(\bm q\)</span>. Second, we average this error over the distribution of all possible questions.</p>
+<ol type="1">
+<li><p><strong>Predictive error for a fixed <span class="math inline">\(\bm q\)</span>.</strong> From Proposition 2, the expected squared error for a specific new question <span class="math inline">\(\bm q\)</span>, given an isotropic prior <span class="math inline">\(\Sigma = \sigma^2 \bm{I}\)</span>, is: <span class="math display">\[\text{error}(\bm q) = \mathbb{E}[(\bm q'(\bm w - \hat{\bm w}))^2] = \sigma^2 \bm q'(\bm{I}-\bm{P_Q})\bm q\]</span> where <span class="math inline">\(\bm{P_Q} = \bm{Q}'(\bm{Q}\bm{Q}')^{-1}\bm{Q}\)</span> is the projection matrix onto the row-span of <span class="math inline">\(\bm{Q}\)</span>.</p></li>
+<li><p><strong>Average over random new questions.</strong> We now take the expectation of this error over the distribution of new questions <span class="math inline">\(\bm q\)</span>. The components of <span class="math inline">\(\bm q\)</span> are i.i.d. uniform on <span class="math inline">\(\{-1,1\}\)</span>, which implies that <span class="math inline">\(\mathbb{E}[\bm q] = \bm 0\)</span> and <span class="math inline">\(\mathbb{E}[\bm q \bm q'] = \bm{I}_p\)</span>. The average error is: <span class="math display">\[\begin{aligned}
+       \mathbb{E}_{\bm q}[\text{error}(\bm q)] &amp;= \mathbb{E}_{\bm q}[\sigma^2 \bm q'(\bm{I}-\bm{P_Q})\bm q] \\
+                                              &amp;= \sigma^2 \mathbb{E}_{\bm q}[\operatorname{tr}(\bm q'(\bm{I}-\bm{P_Q})\bm q)] \\
+                                              &amp;= \sigma^2 \mathbb{E}_{\bm q}[\operatorname{tr}((\bm{I}-\bm{P_Q})\bm q \bm q')] \\
+                                              &amp;= \sigma^2 \operatorname{tr}((\bm{I}-\bm{P_Q})\mathbb{E}_{\bm q}[\bm q \bm q']) \\
+                                              &amp;= \sigma^2 \operatorname{tr}(\bm{I}-\bm{P_Q}) \\
+                                              &amp;= \sigma^2 (\operatorname{tr}(\bm{I}) - \operatorname{tr}(\bm{P_Q}))
+    \end{aligned}\]</span> The trace of the identity matrix is <span class="math inline">\(p\)</span>. The trace of a projection matrix is the dimension of the subspace it projects onto, so <span class="math inline">\(\operatorname{tr}(\bm{P_Q}) = \operatorname{rank}(\bm{Q})\)</span>. Thus, the average error is: <span class="math display">\[\mathbb{E}_{\bm q}[\text{error}(\bm q)] = \sigma^2 (p - \operatorname{rank}(\bm{Q}))\]</span> Since the rank of <span class="math inline">\(\bm{Q}\)</span> increases with each linearly independent question added, the average error decreases linearly until <span class="math inline">\(\operatorname{rank}(\bm{Q})=p\)</span>, at which point it becomes zero.</p></li>
+</ol>
+<p>&nbsp;◻</p>
+</div>
+</div>
+<div class="proposition">
+<p><strong>Proposition 4</strong> (Two–stage updating with agents 1 and 2). <em>Consider two agents who share an isotropic prior <span class="math inline">\(\bm{w}\sim N(\bm{0},\,\sigma^{2}\bm{I}_p)\)</span>.</em></p>
+<ul>
+<li><p><em>Agent <span class="math inline">\(1\)</span> observes data <span class="math inline">\((\bm{Q}_1,\bm{a}_1)\)</span> and forms the posterior mean <span class="math display">\[\hat{\bm w}_1 = \bm{Q}_1^{\top}(\bm{Q}_1\bm{Q}_1^{\top})^{-1}\bm{a}_1, \qquad \bm{P}_1 := \bm{Q}_1^{\top}(\bm{Q}_1\bm{Q}_1^{\top})^{-1}\bm{Q}_1.\]</span></em></p></li>
+<li><p><em>Agent <span class="math inline">\(2\)</span> observes data <span class="math inline">\((\bm{Q}_2,\bm{a}_2)\)</span> and forms the posterior mean <span class="math display">\[\hat{\bm w}_2 = \bm{Q}_2^{\top}(\bm{Q}_2\bm{Q}_2^{\top})^{-1}\bm{a}_2, \qquad \bm{P}_2 := \bm{Q}_2^{\top}(\bm{Q}_2\bm{Q}_2^{\top})^{-1}\bm{Q}_2.\]</span></em></p></li>
+<li><p><em>A new question <span class="math inline">\(\bm{q}\in\{-1,1\}^{p}\)</span> arrives. Agent <span class="math inline">\(1\)</span> announces the estimate <span class="math inline">\(\hat{a}_1 = \bm{q}'\hat{\bm w}_1\)</span>.</em></p></li>
+</ul>
+<p><em>Let <span class="math display">\[\begin{align}
+      \mu_2 &amp;= \bm{q}'\hat{\bm w}_2, &amp;  \sigma_2^{2} &amp;= \sigma^{2}\,\bm{q}'(\bm{I}-\bm{P}_2)\bm{q},\\
+      \mu_{2,1} &amp;= \bm{q}'\bm{P}_1\hat{\bm w}_2, &amp; \sigma_{21} &amp;= \sigma^{2}\,\bm{q}'(\bm{I}-\bm{P}_2)\bm{P}_1^{\top}\bm{q},\\
+      \sigma_{1\mid 2}^{2} &amp;= \sigma^{2}\,\bm{q}'\bm{P}_1(\bm{I}-\bm{P}_2)\bm{P}_1^{\top}\bm{q}, &amp; \kappa &amp;= \frac{\sigma_{21}}{\sigma_{1\mid2}^{2}}.
+\end{align}\]</span></em></p>
+<p><em>Then, the posterior distribution of the true answer <span class="math inline">\(a=\bm{q}'\bm{w}\)</span> for agent <span class="math inline">\(2\)</span> before seeing <span class="math inline">\(\hat{a}_1\)</span> is <span class="math inline">\(N(\mu_2,\,\sigma_2^{2})\)</span>, and after observing <span class="math inline">\(\hat{a}_1\)</span> it is <span class="math display">\[a\mid \hat{a}_1,\bm{a}_2 \;\sim\; N\bigl(\mu_{2\mid1},\,\sigma_{2\mid1}^{2}\bigr),\qquad
+      \mu_{2\mid1}=\mu_{2}+\kappa\bigl(\hat{a}_1-\mu_{2,1}\bigr),\quad
+      \sigma_{2\mid1}^{2}=\sigma_{2}^{2}-\kappa\,\sigma_{21}.\]</span></em></p>
+</div>
+<div class="greyproof">
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span><em>Proof.</em> The estimate of agent 1 is a linear function of the true weights <span class="math inline">\(\bm{w}\)</span>, since <span class="math inline">\(\bm{a}_1 = \bm{Q}_1\bm{w}\)</span>, so <span class="math inline">\(\hat{a}_1 = \bm{q}'\hat{\bm w}_1 = \bm{q}'\bm{Q}_1^{\top}(\bm{Q}_1\bm{Q}_1^{\top})^{-1}\bm{a}_1 = \bm{q}'\bm{P}_1\bm{w}\)</span>.</p>
+<p>Conditioning on agent <span class="math inline">\(2\)</span>’s data, the posterior for <span class="math inline">\(\bm{w}\)</span> is <span class="math inline">\(N(\hat{\bm w}_2,\,\Sigma_2)\)</span> with <span class="math inline">\(\Sigma_2 = \sigma^{2}(\bm{I}-\bm{P}_2)\)</span>. The pair <span class="math inline">\((a,\hat{a}_1)\)</span> is therefore jointly Gaussian, since both are linear functions of <span class="math inline">\(\bm{w}\)</span>. Their joint distribution conditional on agent 2’s data has:</p>
+<ul>
+<li><p><span class="math inline">\(E[a | \bm{a}_2] = \bm{q}'\hat{\bm{w}}_2 = \mu_2\)</span></p></li>
+<li><p><span class="math inline">\(E[\hat{a}_1 | \bm{a}_2] = \bm{q}'\bm{P}_1\hat{\bm{w}}_2 = \mu_{2,1}\)</span></p></li>
+<li><p><span class="math inline">\(\text{Var}(a | \bm{a}_2) = \bm{q}'\sigma^2(\bm{I} - \bm{P}_2)\bm{q} = \sigma_2^2\)</span></p></li>
+<li><p><span class="math inline">\(\text{Var}(\hat{a}_1 | \bm{a}_2) = \bm{q}'\bm{P}_1\sigma^2(\bm{I} - \bm{P}_2)\bm{P}_1^{\top}\bm{q} = \sigma_{1|2}^2\)</span></p></li>
+<li><p><span class="math inline">\(\text{Cov}(a, \hat{a}_1 | \bm{a}_2) = \bm{q}'\sigma^2(\bm{I} - \bm{P}_2)\bm{P}_1^{\top}\bm{q} = \sigma_{21}\)</span></p></li>
+</ul>
+<p>So the covariance matrix of <span class="math inline">\((a, \hat{a}_1)\)</span> conditional on agent 2’s data is: <span class="math display">\[\begin{pmatrix}
+  \sigma_2^{2} &amp; \sigma_{21} \\
+  \sigma_{21} &amp; \sigma_{1\mid2}^{2}
+\end{pmatrix}\]</span></p>
+<p>For any joint Gaussian vector, the conditional distribution of the first component given the second is again Gaussian with <span class="math display">\[\mu_{2\mid1}=\mu_{2}+\frac{\sigma_{21}}{\sigma_{1\mid2}^{2}}\bigl(\hat{a}_1-\mu_{2,1}\bigr), \qquad
+\sigma_{2\mid1}^{2}=\sigma_{2}^{2}-\frac{\sigma_{21}^{2}}{\sigma_{1\mid2}^{2}}.\]</span> Identifying <span class="math inline">\(\kappa=\sigma_{21}/\sigma_{1\mid2}^{2}\)</span> yields the stated result.&nbsp;◻</p>
+</div>
+</div>
+<div class="proposition">
+<p><strong>Proposition 5</strong> (Conditions for valuable two-stage updating). <em>In the setting of Proposition 4, consulting agent 1 provides value to agent 2 if and only if: <span class="math display">\[\bm{q}'(\bm{I} - \bm{P}_2)\bm{P}_1^{\top}\bm{q} \neq 0\]</span> When this condition holds:</em></p>
+<ul>
+<li><p><em>The posterior mean changes: <span class="math inline">\(\mu_{2|1} \neq \mu_2\)</span></em></p></li>
+<li><p><em>The posterior variance decreases: <span class="math inline">\(\sigma_{2|1}^2 &lt; \sigma_2^2\)</span></em></p></li>
+</ul>
+<p><em>When this condition fails, consulting agent 1 provides no additional information: <span class="math inline">\(\mu_{2|1} = \mu_2\)</span> and <span class="math inline">\(\sigma_{2|1}^2 = \sigma_2^2\)</span>.</em></p>
+</div>
+<div class="greyproof">
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span><em>Proof.</em> From Proposition 4, the change in the posterior mean is <span class="math inline">\(\mu_{2|1} - \mu_2 = \kappa(\hat{a}_1 - \mu_{2,1})\)</span>, and the change in posterior variance is <span class="math inline">\(\sigma_2^2 - \sigma_{2|1}^2 = \kappa \sigma_{21}\)</span>, where <span class="math inline">\(\kappa = \frac{\sigma_{21}}{\sigma_{1|2}^2}\)</span> and <span class="math inline">\(\sigma_{21} = \sigma^2 \bm{q}'(\bm{I} - \bm{P}_2)\bm{P}_1^{\top}\bm{q}\)</span>.</p>
+<p>If <span class="math inline">\(\sigma_{21} = 0\)</span>, then <span class="math inline">\(\kappa = 0\)</span>, so <span class="math inline">\(\mu_{2|1} = \mu_2\)</span> and <span class="math inline">\(\sigma_{2|1}^2 = \sigma_2^2\)</span>.</p>
+<p>If <span class="math inline">\(\sigma_{21} \neq 0\)</span>, then <span class="math inline">\(\kappa \neq 0\)</span> (since <span class="math inline">\(\sigma_{1|2}^2 \geq 0\)</span> with equality only when <span class="math inline">\(\bm{P}_1(\bm{I} - \bm{P}_2) = \bm{0}\)</span>, which implies <span class="math inline">\(\sigma_{21} = 0\)</span>). In this case, both the mean and variance will generally change unless <span class="math inline">\(\hat{a}_1 = \mu_{2,1}\)</span>, which occurs with probability zero.</p>
+<p>Therefore, two-stage updating provides value if and only if <span class="math inline">\(\sigma_{21} = \sigma^2 \bm{q}'(\bm{I} - \bm{P}_2)\bm{P}_1^{\top}\bm{q} \neq 0\)</span>.&nbsp;◻</p>
+</div>
+</div>
+<p>The intuition behind Proposition 5 is straightforward: <strong>it is worthwhile to consult another agent if and only if the component of the question that you don’t understand overlaps with the other agent’s area of expertise.</strong></p>
+<p>More precisely:</p>
+<ul>
+<li><p><span class="math inline">\((\bm{I} - \bm{P}_2)\bm{q}\)</span> represents the <em>residual</em> of the question after projecting it onto agent 2’s own experience. This is the part of the question that agent 2 finds novel or unfamiliar.</p></li>
+<li><p><span class="math inline">\(\bm{P}_1^{\top}\bm{q}\)</span> represents the component of the question that lies within agent 1’s area of expertise (the row space of their experience matrix <span class="math inline">\(\bm{Q}_1\)</span>).</p></li>
+<li><p>The condition <span class="math inline">\(\bm{q}'(\bm{I} - \bm{P}_2)\bm{P}_1^{\top}\bm{q} \neq 0\)</span> requires that these two components are not orthogonal—there must be some overlap between what agent 2 doesn’t know and what agent 1 does know.</p></li>
+</ul>
+<p>Put informally: consultation becomes valuable when there is overlap between agent 2’s knowledge gaps and agent 1’s strengths.</p>
+<p>In the context of the ChatGPT model, this suggests that an AI assistant is most valuable for questions where:</p>
+<ol type="1">
+<li><p>The question contains elements that are novel to the human user (large <span class="math inline">\(\|(\bm{I} - \bm{P}_2)\bm{q}\|\)</span>)</p></li>
+<li><p>These novel elements fall within the AI’s training domain (non-zero projection onto the AI’s knowledge space)</p></li>
+</ol>
+<section id="human-alone-chatbot-alone-or-consultation" class="level2">
+<h2 class="anchored" data-anchor-id="human-alone-chatbot-alone-or-consultation">Human alone, chatbot alone, or consultation?</h2>
+<p>We can characterize the conditions for the three possible actions:</p>
+<p>Suppose there is some small <span class="math inline">\(\varepsilon\)</span> cost to delegating a question to the chatbot, and some slightly larger <span class="math inline">\(\delta&gt;\varepsilon\)</span> cost to consulting the chatbot first, and then giving a human-adjusted answer. Then we can characterize the conditions for the three regions:</p>
+<p><span class="math display">\[S_{1\to 2} = \bm{q}'(\bm{I}-\bm{P}_2)\bm{P}_1^{\top}\bm{q} \quad\text{(chatbot has info the human lacks)}\]</span> <span class="math display">\[S_{2\to 1} = \bm{q}'(\bm{I}-\bm{P}_1)\bm{P}_2^{\top}\bm{q} \quad\text{(human has info the chatbot lacks)}\]</span></p>
+<div id="tab:policies">
+<table class="caption-top table">
+<caption>Information-structure conditions for preferring human alone, chatbot alone, or consultation.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Policy</th>
+<th style="text-align: center;">Condition</th>
+<th style="text-align: left;">Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Human alone</td>
+<td style="text-align: center;"><span class="math inline">\(S_{1\to 2} = 0 \;\text{and}\; S_{2\to 1} \neq 0\)</span></td>
+<td style="text-align: left;">Chatbot has no relevant information beyond what the human already knows, while the human has some information the chatbot lacks.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Chatbot alone</td>
+<td style="text-align: center;"><span class="math inline">\(S_{2\to 1} = 0 \;\text{and}\; S_{1\to 2} \neq 0\)</span></td>
+<td style="text-align: left;">Human has no relevant information beyond what the chatbot already knows, while the chatbot has some information the human lacks.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Consultation</td>
+<td style="text-align: center;"><span class="math inline">\(S_{1\to 2} \neq 0 \;\text{and}\; S_{2\to 1} \neq 0\)</span></td>
+<td style="text-align: left;">Each has relevant information that the other lacks, so combining them is worthwhile despite the higher consultation cost <span class="math inline">\(\delta &gt; \varepsilon\)</span>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="venn-diagram-model-implications" class="level1">
+<h1>2025-12-15 | venn diagram model &amp; implications</h1>
+<section id="assumptions" class="level2">
+<h2 class="anchored" data-anchor-id="assumptions">Assumptions</h2>
+<ol type="1">
+<li><p><strong>Human-supervised:</strong> LLMs can do tasks that are <em>close</em> to the set of tasks in the training set, but they’re relatively worse outside.</p></li>
+<li><p><strong>World-supervised:</strong> works if (A) feedback is cheap; (B) has latent structure.</p></li>
+</ol>
+</section>
+<section id="implications" class="level2">
+<h2 class="anchored" data-anchor-id="implications">Implications</h2>
+<ol type="1">
+<li><p><strong>Two types of human-supervised progress:</strong></p>
+<ul>
+<li>more data</li>
+<li>better extrapolation</li>
+</ul></li>
+<li><p><strong>Will use LLMs for new-to-you tasks.</strong> Will use for new-to-you questions.</p></li>
+<li><p><strong>Will use LLMs for separable tasks.</strong> Where the .</p></li>
+</ol>
+</section>
+<section id="implications-for-catastrophic-risk" class="level2">
+<h2 class="anchored" data-anchor-id="implications-for-catastrophic-risk">Implications for catastrophic risk</h2>
+<ol type="1">
+<li>Things we’re worried about:
+<ul>
+<li>AI R&amp;D</li>
+<li>Bioweapons</li>
+<li>Hacking</li>
+<li>Autonomy/self-replication</li>
+</ul></li>
+<li>Two types of AI R&amp;D progress
+<ul>
+<li>imitation learning</li>
+<li>learning directly (AlphaZero).</li>
+</ul></li>
+<li>Implication: it’s useful to prune the training data to hinder capabilities.
+<ul>
+<li>You can get around this but LLMs aren’t great at extrapolation.</li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="old-abstract" class="level1">
+<h1>Old Abstract</h1>
+<p>This note formalizes a common intuitive model of chatbots as sharing existing knowledge. People will consult a chatbot when they encounter a question for which they do not know the answer, but they expect the answer exists somewhere in the public domain (and therefore the chatbot’s training set). The model gives strong predictions about chatbot adoption across demographics, occupations, and tasks. Insofar as wages are driven by differences in knowledge then we should expect chatbots to flatten those differences, and cause (1) higher average consumption; (2) lower wages for the highest-paid; (3) lower trade, i.e.&nbsp;lower GDP (because more tasks move into home production).</p>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-acemoglu2011handbook" class="csl-entry" role="listitem">
+Acemoglu, Daron, and David Autor. 2011. <span>“Skills, Tasks and Technologies: Implications for Employment and Earnings.”</span> In, edited by David Card and Orley Ashenfelter, 4:1043–1171. Handbook of Labor Economics. Elsevier. https://doi.org/<a href="https://doi.org/10.1016/S0169-7218(11)02410-5">https://doi.org/10.1016/S0169-7218(11)02410-5</a>.
+</div>
+<div id="ref-acemoglu2018race" class="csl-entry" role="listitem">
+Acemoglu, Daron, and Pascual Restrepo. 2018. <span>“The Race Between Man and Machine: Implications of Technology for Growth, Factor Shares, and Employment.”</span> <em>American Economic Review</em> 108 (6): 1488–1542. <a href="https://doi.org/10.3386/w22252">https://doi.org/10.3386/w22252</a>.
+</div>
+<div id="ref-autor2025expertise" class="csl-entry" role="listitem">
+Autor, David, and Neil Thompson. 2025. <span>“Expertise.”</span> <em>Journal of the European Economic Association</em>, jvaf023. <a href="https://www.semanticscholar.org/search?q=Expertise">https://www.semanticscholar.org/search?q=Expertise</a>.
+</div>
+<div id="ref-brynjolfsson2023generative" class="csl-entry" role="listitem">
+Brynjolfsson, Erik, Danielle Li, and Lindsey R Raymond. 2023. <span>“Generative AI at Work.”</span> <em>Available at SSRN 4573321</em>. <a href="https://doi.org/10.1093/qje/qjae044">https://doi.org/10.1093/qje/qjae044</a>.
+</div>
+<div id="ref-chatterji2025chatgpt" class="csl-entry" role="listitem">
+Chatterji, Aaron, Thomas Cunningham, David J. Deming, Zoe Hitzig, Christopher Ong, Carl Yan Shan, and Kevin Wadman. 2025. <span>“How People Use ChatGPT.”</span> Working Paper 34255. National Bureau of Economic Research. <a href="https://doi.org/10.3386/w34255">https://doi.org/10.3386/w34255</a>.
+</div>
+<div id="ref-cunningham2023imitation" class="csl-entry" role="listitem">
+Cunningham, Tom. 2023. <span>“An <span>AI</span> <span>Which</span> <span>Imitates</span> <span>Humans</span> <span>Can</span> <span>Beat</span> <span>Humans</span>.”</span> October 6, 2023. <a href="https://tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html">tecunningham.github.io/posts/2023-09-05-model-of-ai-imitation.html</a>.
+</div>
+<div id="ref-dornbusch1977comparative" class="csl-entry" role="listitem">
+Dornbusch, Rudiger, Stanley Fischer, and Paul A Samuelson. 1977. <span>“Comparative Advantage, Trade, and Payments in a Ricardian Model with a Continuum of Goods.”</span> <em>The American Economic Review</em> 67 (5): 823–39. <a href="https://www.semanticscholar.org/paper/8d18235b9606a7e8f64036ab0b50aa7b6d0a3ed8">https://www.semanticscholar.org/paper/8d18235b9606a7e8f64036ab0b50aa7b6d0a3ed8</a>.
+</div>
+<div id="ref-eloundou2023gpts" class="csl-entry" role="listitem">
+Eloundou, Tyna, Sam Manning, Pamela Mishkin, and Daniel Rock. 2023. <span>“Gpts Are Gpts: An Early Look at the Labor Market Impact Potential of Large Language Models.”</span> <em>arXiv Preprint arXiv:2303.10130</em>. <a href="https://arxiv.org/pdf/2303.10130.pdf">https://arxiv.org/pdf/2303.10130.pdf</a>.
+</div>
+<div id="ref-garicano2006organization" class="csl-entry" role="listitem">
+Garicano, Luis, and Esteban Rossi-Hansberg. 2006. <span>“Organization and Inequality in a Knowledge Economy.”</span> <em>The Quarterly Journal of Economics</em> 121 (4): 1383–1435. <a href="https://doi.org/10.1162/qjec.121.4.1383">https://doi.org/10.1162/qjec.121.4.1383</a>.
+</div>
+<div id="ref-ide2024artificialintelligenceknowledgeeconomy" class="csl-entry" role="listitem">
+Ide, Enrique, and Eduard Talamas. 2024. <span>“Artificial Intelligence in the Knowledge Economy.”</span> <a href="https://doi.org/10.1086/737233">https://doi.org/10.1086/737233</a>.
+</div>
+<div id="ref-wilson1980general" class="csl-entry" role="listitem">
+Wilson, Charles A. 1980. <span>“On the General Structure of Ricardian Models with a Continuum of Goods: Applications to Growth, Tariff Theory, and Technical Change.”</span> <em>Econometrica: Journal of the Econometric Society</em>, 1675–1702. <a href="https://doi.org/10.2307/1911928">https://doi.org/10.2307/1911928</a>.
+</div>
+<div id="ref-zeira1998workers" class="csl-entry" role="listitem">
+Zeira, Joseph. 1998. <span>“Workers, Machines, and Economic Growth.”</span> <em>The Quarterly Journal of Economics</em> 113 (4): 1091–1117. <a href="https://doi.org/10.1162/003355398555847">https://doi.org/10.1162/003355398555847</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("tecunningham\.github\.io");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
