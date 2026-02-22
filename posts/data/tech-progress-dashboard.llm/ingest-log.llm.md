@@ -1,3 +1,7 @@
+---
+draft: true
+---
+
 # Tech Progress Dashboard ingestion log
 
 - Source post: `posts/2026-02-14-tech-progress-dashboard.llm.qmd`
