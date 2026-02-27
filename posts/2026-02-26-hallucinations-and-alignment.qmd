@@ -1,0 +1,62 @@
+---
+title: Hallucinations and Alignment
+---
+
+
+## TikZ Diagrams
+
+### Probability-Payoff Diagram
+
+```{=latex}
+\begin{tikzpicture}[>=stealth, scale=1.0]
+  % Axes
+  \draw[->] (0,0) -- (6,0) node[right] {Probability};
+  \draw[->] (0,0) -- (0,4) node[above] {Payoff};
+
+  % Tick marks (x: 0 to 1)
+  \foreach \x/\lab in {0/0, 1.5/0.25, 3/0.5, 4.5/0.75, 6/1}
+    \draw (\x,0.08) -- (\x,-0.08) node[below] {\lab};
+
+  % Tick marks (y)
+  \foreach \y/\lab in {0/0, 1/1, 2/2, 3/3, 4/4}
+    \draw (0.08,\y) -- (-0.08,\y) node[left] {\lab};
+
+  % Example expected-payoff line
+  \draw[thick, blue] (0,0.6) -- (6,3.2) node[right] {$\mathbb{E}[\text{payoff}]$};
+
+  % Example points
+  \filldraw[black] (1.5,1.1) circle (1.5pt) node[above right] {$A$};
+  \filldraw[black] (4.5,2.6) circle (1.5pt) node[above right] {$B$};
+\end{tikzpicture}
+```
+
+### Marschak-Machina Diagram
+
+```{=latex}
+\begin{tikzpicture}[>=stealth, scale=4.0]
+  % Axes
+  \draw[->] (0,0) -- (1.1,0) node[right] {$p_H$};
+  \draw[->] (0,0) -- (0,1.1) node[above] {$p_L$};
+
+  % Feasible set: p_H >= 0, p_L >= 0, p_H + p_L <= 1
+  \draw[thick] (0,0) -- (1,0) -- (0,1) -- cycle;
+
+  % Boundary label
+  \draw[dashed] (1,0) -- (0,1);
+  \node at (0.56,0.56) {$p_H + p_L = 1$};
+
+  % Corner labels
+  \node[below left] at (0,0) {$p_M=1$};
+  \node[below] at (1,0) {$p_H=1$};
+  \node[left] at (0,1) {$p_L=1$};
+
+  % Example indifference curves
+  \draw[blue, thick, domain=0.08:0.78, smooth, variable=\x]
+    plot (\x, {0.78 - \x - 0.10*(\x-0.45)^2});
+  \draw[blue, thick, domain=0.12:0.72, smooth, variable=\x]
+    plot (\x, {0.62 - \x - 0.10*(\x-0.45)^2});
+
+  \node[blue] at (0.83,0.22) {$U_2$};
+  \node[blue] at (0.75,0.10) {$U_1$};
+\end{tikzpicture}
+```
