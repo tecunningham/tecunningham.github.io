@@ -22,7 +22,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -103,6 +123,35 @@ ga('send', {
 </style>
 <meta name="quarto:status" content="draft">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 <meta name="twitter:title" content="Hallucinations and Alignment | Tom Cunningham">
@@ -209,12 +258,60 @@ ga('send', {
 </div>
 </div>
 </div>
+</section>
+<section id="indifference-curve-slope-derivation" class="level3">
+<h3 class="anchored" data-anchor-id="indifference-curve-slope-derivation">Indifference-Curve Slope Derivation</h3>
+<p>Let <span class="math inline">\(p_r := p_{\text{right}}\)</span>, <span class="math inline">\(p_w := p_{\text{wrong}}\)</span>, and <span class="math inline">\(p_a := p_{\text{abstain}} = 1 - p_r - p_w\)</span>.<br>
+Suppose expected utility is <span class="math display">\[
+U = \pi_{\text{succeed}} p_r + \pi_{\text{fail}} p_w + \pi_{\text{abstain}} p_a.
+\]</span> Substitute <span class="math inline">\(p_a = 1 - p_r - p_w\)</span>: <span class="math display">\[
+U = \pi_{\text{abstain}}
+  + (\pi_{\text{succeed}}-\pi_{\text{abstain}})p_r
+  + (\pi_{\text{fail}}-\pi_{\text{abstain}})p_w.
+\]</span> Holding utility fixed at level <span class="math inline">\(\bar U\)</span> gives the indifference curve: <span class="math display">\[
+p_w
+= \frac{\bar U-\pi_{\text{abstain}}}{\pi_{\text{fail}}-\pi_{\text{abstain}}}
+- \frac{\pi_{\text{succeed}}-\pi_{\text{abstain}}}{\pi_{\text{fail}}-\pi_{\text{abstain}}}\,p_r.
+\]</span> So the slope in the <span class="math inline">\((p_r,p_w)\)</span> diagram is <span class="math display">\[
+\frac{dp_w}{dp_r}\Big|_{U=\bar U}
+= -\frac{\pi_{\text{succeed}}-\pi_{\text{abstain}}}{\pi_{\text{fail}}-\pi_{\text{abstain}}}.
+\]</span> This makes explicit that the slope depends on payoff differences relative to abstain: changing <span class="math inline">\(\pi_{\text{succeed}}\)</span>, <span class="math inline">\(\pi_{\text{fail}}\)</span>, or <span class="math inline">\(\pi_{\text{abstain}}\)</span> changes the slope.</p>
+<p>If we normalize <span class="math inline">\(\pi_{\text{abstain}}=0\)</span>, this becomes <span class="math display">\[
+\frac{dp_w}{dp_r}\Big|_{U=\bar U}
+= -\frac{\pi_{\text{succeed}}}{\pi_{\text{fail}}},
+\]</span> with indifference lines <span class="math display">\[
+p_w = \frac{\bar U}{\pi_{\text{fail}}} - \frac{\pi_{\text{succeed}}}{\pi_{\text{fail}}}\,p_r.
+\]</span></p>
+</section>
+<section id="chow-1970-reject-option" class="level3">
+<h3 class="anchored" data-anchor-id="chow-1970-reject-option">Chow (1970): Reject Option</h3>
+<p>Chow analyzes optimal classification when “reject/abstain” is allowed as a third action alongside class predictions <span class="citation" data-cites="chow1970optimum">Chow (<a href="#ref-chow1970optimum" role="doc-biblioref">1970</a>)</span>. The key result is a posterior-threshold rule: predict only when posterior confidence is high enough; otherwise abstain.</p>
+<p>With symmetric 0-1 classification payoff (correct payoff <span class="math inline">\(1\)</span>, wrong payoff <span class="math inline">\(0\)</span>) and abstain payoff <span class="math inline">\(\pi_{\text{abstain}} \in (0,1)\)</span>, the rule is: <span class="math display">\[
+\max_y P(y \mid x) \ge \pi_{\text{abstain}}
+\quad\Longrightarrow\quad
+\text{predict } \arg\max_y P(y \mid x),
+\]</span> and abstain otherwise.</p>
+<p>An equivalent loss version (mistake loss <span class="math inline">\(1\)</span>, reject loss <span class="math inline">\(d\)</span>) is: <span class="math display">\[
+\max_y P(y \mid x) \ge 1-d
+\quad\Longrightarrow\quad
+\text{predict}.
+\]</span></p>
+<p>In the Marschak-Machina triangle, this is exactly a comparison of expected prediction payoff against <span class="math inline">\(\pi_{\text{abstain}}\)</span>, so Chow’s threshold boundary corresponds to an indifference line.</p>
+<p>Recent theory in the LLM setting proves a complementary point: even calibrated language models must hallucinate at a nonzero rate, which motivates explicit abstain/verification policies rather than prediction-only objectives <span class="citation" data-cites="kalai2024calibrated">Kalai and Vempala (<a href="#ref-kalai2024calibrated" role="doc-biblioref">2024</a>)</span>.</p>
+
 
 
 </section>
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-chow1970optimum" class="csl-entry" role="listitem">
+Chow, C. K. 1970. <span>“On Optimum Recognition Error and Reject Tradeoff.”</span> <em>IEEE Transactions on Information Theory</em>. <a href="https://doi.org/10.1109/TIT.1970.1054406">https://doi.org/10.1109/TIT.1970.1054406</a>.
+</div>
+<div id="ref-kalai2024calibrated" class="csl-entry" role="listitem">
+Kalai, Adam Tauman, and Santosh S. Vempala. 2024. <span>“Calibrated Language Models Must Hallucinate.”</span> In <em>Proceedings of the 56th Annual ACM Symposium on Theory of Computing</em>, 160–71. <a href="https://doi.org/10.1145/3618260.3649777">https://doi.org/10.1145/3618260.3649777</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

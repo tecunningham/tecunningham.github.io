@@ -2,6 +2,7 @@
 title: Hallucinations and Alignment
 draft: true
 engine: knitr
+bibliography: ai.bib
 ---
 
 
@@ -11,6 +12,11 @@ engine: knitr
 
 ```{tikz}
 \begin{tikzpicture}[>=stealth, scale=1.0]
+  % Outcome payoffs (for labels)
+  \def\ySucc{3.4}
+  \def\yAbst{2.0}
+  \def\yFail{0.8}
+
   % Axes
   \draw[->] (0,0) -- (6,0) node[right] {Probability};
   \draw[->] (0,0) -- (0,4) node[above] {Payoff};
@@ -22,6 +28,14 @@ engine: knitr
   % Tick marks (y)
   \foreach \y/\lab in {0/0, 1/1, 2/2, 3/3, 4/4}
     \draw (0.08,\y) -- (-0.08,\y) node[left] {\lab};
+
+  % Payoff labels for outcomes
+  \draw[densely dotted] (0,\ySucc) -- (6,\ySucc);
+  \draw[densely dotted] (0,\yAbst) -- (6,\yAbst);
+  \draw[densely dotted] (0,\yFail) -- (6,\yFail);
+  \node[left] at (0,\ySucc) {$\pi_{\text{succeed}}$};
+  \node[left] at (0,\yAbst) {$\pi_{\text{abstain}}$};
+  \node[left] at (0,\yFail) {$\pi_{\text{fail}}$};
 
   % Example expected-payoff line
   \draw[thick, blue] (0,0.6) -- (6,3.2) node[right] {$E[\text{payoff}]$};
@@ -36,29 +50,103 @@ engine: knitr
 
 ```{tikz}
 \begin{tikzpicture}[>=stealth, scale=4.0]
-  % Axes
-  \draw[->] (0,0) -- (1.1,0) node[right] {$p_H$};
-  \draw[->] (0,0) -- (0,1.1) node[above] {$p_L$};
+  % Outcome payoffs (normalized so pi_abstain = 0)
+  \def\piSucc{1.0}
+  \def\piFail{-0.6}
+  \def\piAbst{0.0}
 
-  % Feasible set: p_H >= 0, p_L >= 0, p_H + p_L <= 1
+  % Axes
+  \draw[->] (0,0) -- (1.1,0) node[right] {$p_{\text{right}}$};
+  \draw[->] (0,0) -- (0,1.1) node[above] {$p_{\text{wrong}}$};
+
+  % Feasible set: p_right >= 0, p_wrong >= 0, p_right + p_wrong <= 1
   \draw[thick] (0,0) -- (1,0) -- (0,1) -- cycle;
 
   % Boundary label
   \draw[dashed] (1,0) -- (0,1);
-  \node at (0.56,0.56) {$p_H + p_L = 1$};
+  \node at (0.58,0.58) {$p_{\text{right}} + p_{\text{wrong}} = 1$};
 
   % Corner labels
-  \node[below left] at (0,0) {$p_M=1$};
-  \node[below] at (1,0) {$p_H=1$};
-  \node[left] at (0,1) {$p_L=1$};
+  \node[below left] at (0,0) {$p_{\text{abstain}}=1$};
+  \node[below] at (1,0) {$p_{\text{right}}=1$};
+  \node[left] at (0,1) {$p_{\text{wrong}}=1$};
 
-  % Example indifference curves
-  \draw[blue, thick, domain=0.08:0.78, smooth, variable=\x]
-    plot (\x, {0.78 - \x - 0.10*(\x-0.45)^2});
-  \draw[blue, thick, domain=0.12:0.72, smooth, variable=\x]
-    plot (\x, {0.62 - \x - 0.10*(\x-0.45)^2});
+  % Fine dotted expected-utility indifference curves, clipped to simplex
+  \begin{scope}
+    \clip (0,0) -- (1,0) -- (0,1) -- cycle;
+    \foreach \ubar in {-0.66,-0.58,-0.50,-0.42,-0.34,-0.26,-0.18,-0.10,-0.02,0.06,0.14,0.22,0.30,0.38,0.46,0.54} {
+      \draw[blue, dotted, line width=0.3pt, domain=-0.15:1.15, samples=2]
+        plot (\x, {((\ubar-\piAbst)/(\piFail-\piAbst)) - ((\piSucc-\piAbst)/(\piFail-\piAbst))*\x});
+    }
+  \end{scope}
 
-  \node[blue] at (0.83,0.22) {$U_2$};
-  \node[blue] at (0.75,0.10) {$U_1$};
+  % A couple of highlighted utility levels
+  \draw[blue, thick, domain=-0.15:1.15, samples=2]
+    plot (\x, {((0.00-\piAbst)/(\piFail-\piAbst)) - ((\piSucc-\piAbst)/(\piFail-\piAbst))*\x});
+  \draw[blue, thick, domain=-0.15:1.15, samples=2]
+    plot (\x, {((0.30-\piAbst)/(\piFail-\piAbst)) - ((\piSucc-\piAbst)/(\piFail-\piAbst))*\x});
+  \node[blue] at (0.80,0.14) {$U_1$};
+  \node[blue] at (0.46,0.84) {$U_2$};
 \end{tikzpicture}
 ```
+
+### Indifference-Curve Slope Derivation
+
+Let $p_r := p_{\text{right}}$, $p_w := p_{\text{wrong}}$, and $p_a := p_{\text{abstain}} = 1 - p_r - p_w$.  
+Suppose expected utility is
+$$
+U = \pi_{\text{succeed}} p_r + \pi_{\text{fail}} p_w + \pi_{\text{abstain}} p_a.
+$$
+Substitute $p_a = 1 - p_r - p_w$:
+$$
+U = \pi_{\text{abstain}}
+  + (\pi_{\text{succeed}}-\pi_{\text{abstain}})p_r
+  + (\pi_{\text{fail}}-\pi_{\text{abstain}})p_w.
+$$
+Holding utility fixed at level $\bar U$ gives the indifference curve:
+$$
+p_w
+= \frac{\bar U-\pi_{\text{abstain}}}{\pi_{\text{fail}}-\pi_{\text{abstain}}}
+- \frac{\pi_{\text{succeed}}-\pi_{\text{abstain}}}{\pi_{\text{fail}}-\pi_{\text{abstain}}}\,p_r.
+$$
+So the slope in the $(p_r,p_w)$ diagram is
+$$
+\frac{dp_w}{dp_r}\Big|_{U=\bar U}
+= -\frac{\pi_{\text{succeed}}-\pi_{\text{abstain}}}{\pi_{\text{fail}}-\pi_{\text{abstain}}}.
+$$
+This makes explicit that the slope depends on payoff differences relative to abstain: changing $\pi_{\text{succeed}}$, $\pi_{\text{fail}}$, or $\pi_{\text{abstain}}$ changes the slope.
+
+If we normalize $\pi_{\text{abstain}}=0$, this becomes
+$$
+\frac{dp_w}{dp_r}\Big|_{U=\bar U}
+= -\frac{\pi_{\text{succeed}}}{\pi_{\text{fail}}},
+$$
+with indifference lines
+$$
+p_w = \frac{\bar U}{\pi_{\text{fail}}} - \frac{\pi_{\text{succeed}}}{\pi_{\text{fail}}}\,p_r.
+$$
+
+
+### Chow (1970): Reject Option
+
+Chow analyzes optimal classification when "reject/abstain" is allowed as a third action alongside class predictions @chow1970optimum.
+The key result is a posterior-threshold rule: predict only when posterior confidence is high enough; otherwise abstain.
+
+With symmetric 0-1 classification payoff (correct payoff $1$, wrong payoff $0$) and abstain payoff $\pi_{\text{abstain}} \in (0,1)$, the rule is:
+$$
+\max_y P(y \mid x) \ge \pi_{\text{abstain}}
+\quad\Longrightarrow\quad
+\text{predict } \arg\max_y P(y \mid x),
+$$
+and abstain otherwise.
+
+An equivalent loss version (mistake loss $1$, reject loss $d$) is:
+$$
+\max_y P(y \mid x) \ge 1-d
+\quad\Longrightarrow\quad
+\text{predict}.
+$$
+
+In the Marschak-Machina triangle, this is exactly a comparison of expected prediction payoff against $\pi_{\text{abstain}}$, so Chow's threshold boundary corresponds to an indifference line.
+
+Recent theory in the LLM setting proves a complementary point: even calibrated language models must hallucinate at a nonzero rate, which motivates explicit abstain/verification policies rather than prediction-only objectives @kalai2024calibrated.
