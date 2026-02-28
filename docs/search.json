@@ -166,5 +166,47 @@
     "title": "Knowledge-Creating LLMs",
     "section": "Footnotes",
     "text": "Footnotes\n\n\nMany other technologies share knowledge – speaking, writing, printing, the internet – LLMs just continue this progression but further lower the costs of sharing.↩︎"
+  },
+  {
+    "objectID": "posts/2026-02-26-hallucinations-and-alignment.html",
+    "href": "posts/2026-02-26-hallucinations-and-alignment.html",
+    "title": "Hallucinations and Alignment",
+    "section": "",
+    "text": "When an LLM answers a question, there are three possible outcomes: it succeeds (gives a correct answer), it fails (gives an incorrect answer, i.e. hallucinates), or it abstains (declines to answer). These three outcomes have different payoffs, and the optimal policy depends on the relative magnitudes of \\(\\pi_{\\text{succeed}}\\), \\(\\pi_{\\text{fail}}\\), and \\(\\pi_{\\text{abstain}}\\).\nThis framing—treating hallucination control as a three-action decision problem—connects to classical pattern recognition theory (Chow 1970), the economics of decision under uncertainty (the Marschak-Machina triangle), and recent theoretical results showing that calibrated language models must hallucinate at a nonzero rate (kalai2024calibrated?)."
+  },
+  {
+    "objectID": "posts/2026-02-26-hallucinations-and-alignment.html#introduction",
+    "href": "posts/2026-02-26-hallucinations-and-alignment.html#introduction",
+    "title": "Hallucinations and Alignment",
+    "section": "",
+    "text": "When an LLM answers a question, there are three possible outcomes: it succeeds (gives a correct answer), it fails (gives an incorrect answer, i.e. hallucinates), or it abstains (declines to answer). These three outcomes have different payoffs, and the optimal policy depends on the relative magnitudes of \\(\\pi_{\\text{succeed}}\\), \\(\\pi_{\\text{fail}}\\), and \\(\\pi_{\\text{abstain}}\\).\nThis framing—treating hallucination control as a three-action decision problem—connects to classical pattern recognition theory (Chow 1970), the economics of decision under uncertainty (the Marschak-Machina triangle), and recent theoretical results showing that calibrated language models must hallucinate at a nonzero rate (kalai2024calibrated?)."
+  },
+  {
+    "objectID": "posts/2026-02-26-hallucinations-and-alignment.html#claims",
+    "href": "posts/2026-02-26-hallucinations-and-alignment.html#claims",
+    "title": "Hallucinations and Alignment",
+    "section": "Claims",
+    "text": "Claims\n\nThree-outcome framing. Any question-answering system faces a choice among succeed, fail, and abstain. The value of the system depends on the probabilities of each outcome and their payoffs.\nPayoff asymmetry determines policy. The optimal abstain threshold depends on the ratio \\(\\pi_{\\text{succeed}} / |\\pi_{\\text{fail}}|\\). When failure is very costly relative to success (e.g. medical or legal advice), the abstain region should expand.\nIndifference-curve slope encodes preferences. In the Marschak-Machina probability simplex, the slope of an expected-utility indifference curve is \\(-\\pi_{\\text{succeed}}/\\pi_{\\text{fail}}\\) (after normalizing \\(\\pi_{\\text{abstain}}=0\\)). Different users/applications trace out different slopes.\nHallucination is structurally inevitable. (kalai2024calibrated?) prove that calibrated LMs must hallucinate at a rate related to the fraction of training facts that appear exactly once. This means abstain/verification mechanisms are not optional add-ons but necessary components.\nChow’s reject-option rule is the optimal policy. Given the three payoffs, the Bayes-optimal rule is a posterior-threshold rule: predict only when confidence exceeds a threshold determined by the payoffs; otherwise abstain (Chow 1970)."
+  },
+  {
+    "objectID": "posts/2026-02-26-hallucinations-and-alignment.html#probability-payoff-diagram",
+    "href": "posts/2026-02-26-hallucinations-and-alignment.html#probability-payoff-diagram",
+    "title": "Hallucinations and Alignment",
+    "section": "Probability-Payoff Diagram",
+    "text": "Probability-Payoff Diagram"
+  },
+  {
+    "objectID": "posts/2026-02-26-hallucinations-and-alignment.html#marschak-machina-diagram",
+    "href": "posts/2026-02-26-hallucinations-and-alignment.html#marschak-machina-diagram",
+    "title": "Hallucinations and Alignment",
+    "section": "Marschak-Machina Diagram",
+    "text": "Marschak-Machina Diagram\nThe probability simplex has three vertices corresponding to the three pure outcomes: certain success (\\(p_s=1\\)), certain failure (\\(p_f=1\\)), and certain abstention (\\(p_a=1\\)). Any lottery over outcomes is a point in this triangle. Under expected utility with payoffs \\(\\pi_{\\text{succeed}}, \\pi_{\\text{fail}}, \\pi_{\\text{abstain}}\\), indifference curves are parallel straight lines whose slope depends on the payoff ratios.\n\n\n\n\n\n\n\n\n\n\nIndifference-curve slope derivation\nLet \\(p_s, p_f, p_a = 1-p_s-p_f\\) denote the probabilities of succeed, fail, and abstain. Expected utility is\n\\[\nU = \\pi_{\\text{succeed}}\\, p_s + \\pi_{\\text{fail}}\\, p_f + \\pi_{\\text{abstain}}\\, p_a.\n\\]\n\nSubstitute \\(p_a = 1 - p_s - p_f\\): $$ U = _{}\n\n\n({}-{}),p_s\n({}-{}),p_f. $$\n\n\nHold \\(U = \\bar U\\) and solve for \\(p_f\\): $$ p_f = \n\n\n,p_s. $$\n\n\nThe slope of the indifference curve in the \\((p_s, p_f)\\) plane is therefore: \\[\n\\frac{dp_f}{dp_s}\\bigg|_{U=\\bar U}\n= -\\frac{\\pi_{\\text{succeed}}-\\pi_{\\text{abstain}}}{\\pi_{\\text{fail}}-\\pi_{\\text{abstain}}}.\n\\]\nNormalizing \\(\\pi_{\\text{abstain}}=0\\), this simplifies to: \\[\n\\frac{dp_f}{dp_s}\\bigg|_{U=\\bar U}\n= -\\frac{\\pi_{\\text{succeed}}}{\\pi_{\\text{fail}}},\n\\qquad\np_f = \\frac{\\bar U}{\\pi_{\\text{fail}}} - \\frac{\\pi_{\\text{succeed}}}{\\pi_{\\text{fail}}}\\,p_s.\n\\]\n\nThe slope depends only on the ratio of payoff differences relative to abstain. When failure is very costly (\\(|\\pi_{\\text{fail}}|\\) large), the curves are flatter: the decision-maker tolerates little additional failure probability in exchange for more success probability."
+  },
+  {
+    "objectID": "posts/2026-02-26-hallucinations-and-alignment.html#related-literature",
+    "href": "posts/2026-02-26-hallucinations-and-alignment.html#related-literature",
+    "title": "Hallucinations and Alignment",
+    "section": "Related Literature",
+    "text": "Related Literature\n\nChow (1970): Optimal reject rules\nChow (1970) introduces the reject (abstain) option into classification and derives the optimal error-reject tradeoff. The key result is a posterior-threshold rule:\n\n“The performance of a pattern recognition system is characterized by its error and reject tradeoff. This paper describes an optimum rejection rule and presents a general relation between the error and reject probabilities.”\n\nIn our notation, given payoffs \\(\\pi_{\\text{succeed}}, \\pi_{\\text{fail}}, \\pi_{\\text{abstain}}\\) with \\(\\pi_{\\text{fail}} &lt; \\pi_{\\text{abstain}} &lt; \\pi_{\\text{succeed}}\\), the Bayes-optimal rule is:\n\\[\n\\max_y P(y \\mid x) \\ge \\frac{\\pi_{\\text{abstain}} - \\pi_{\\text{fail}}}{\\pi_{\\text{succeed}} - \\pi_{\\text{fail}}}\n\\quad\\Longrightarrow\\quad\n\\text{predict } \\arg\\max_y P(y \\mid x),\n\\]\nand abstain otherwise. In the symmetric 0-1 loss case (\\(\\pi_{\\text{succeed}}=1\\), \\(\\pi_{\\text{fail}}=0\\), abstain cost \\(d\\)), this reduces to: predict iff \\(\\max_y P(y\\mid x) \\ge 1-d\\).\nIn the Marschak-Machina triangle, this threshold corresponds to one of the indifference lines: the boundary between the region where prediction is preferred and the region where abstention is preferred.\n\n\nKalai and Vempala (2024): Calibrated models must hallucinate\n(kalai2024calibrated?) prove that hallucination is a structural inevitability for calibrated language models, not merely a failure of architecture or data quality:\n\n“There is an inherent statistical lower-bound on the rate that pretrained language models hallucinate certain types of facts, having nothing to do with the transformer LM architecture or data quality. For ‘arbitrary’ facts whose veracity cannot be determined from the training data, we show that hallucinations must occur at a certain rate for language models that satisfy a statistical calibration condition.”\n\nTheir main bound is:\n\\[\n\\text{Hallucination rate} \\ge \\widehat{MF} - \\text{Miscalibration} - O(1/\\sqrt{n}),\n\\]\nwhere \\(\\widehat{MF}\\) is the “monofact” rate (fraction of training facts appearing exactly once) and \\(n\\) is the training set size. The implication for system design is that post-training interventions (RLHF, abstention mechanisms, retrieval augmentation) are not merely helpful add-ons but structurally necessary responses to a mathematical inevitability."
   }
 ]

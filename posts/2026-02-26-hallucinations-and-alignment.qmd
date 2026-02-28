@@ -5,10 +5,26 @@ engine: knitr
 bibliography: ai.bib
 ---
 
+## Introduction
 
-## TikZ Diagrams
+When an LLM answers a question, there are three possible outcomes: it **succeeds** (gives a correct answer), it **fails** (gives an incorrect answer, i.e. hallucinates), or it **abstains** (declines to answer). These three outcomes have different payoffs, and the optimal policy depends on the relative magnitudes of $\pi_{\text{succeed}}$, $\pi_{\text{fail}}$, and $\pi_{\text{abstain}}$.
 
-### Probability-Payoff Diagram
+This framing---treating hallucination control as a three-action decision problem---connects to classical pattern recognition theory [@chow1970optimum], the economics of decision under uncertainty (the Marschak-Machina triangle), and recent theoretical results on why language models hallucinate [@kalai2025why].
+
+## Claims
+
+1. **Three-outcome framing.** Any question-answering system faces a choice among succeed, fail, and abstain. The value of the system depends on the probabilities of each outcome and their payoffs.
+
+2. **Payoff asymmetry determines policy.** The optimal abstain threshold depends on the ratio $\pi_{\text{succeed}} / |\pi_{\text{fail}}|$. When failure is very costly relative to success (e.g. medical or legal advice), the abstain region should expand.
+
+3. **Indifference-curve slope encodes preferences.** In the Marschak-Machina probability simplex, the slope of an expected-utility indifference curve is $-\pi_{\text{succeed}}/\pi_{\text{fail}}$ (after normalizing $\pi_{\text{abstain}}=0$). Different users/applications trace out different slopes.
+
+4. **Hallucination is structurally inevitable.** @kalai2025why show that even with error-free training data, pretraining objectives produce hallucinations, and binary evaluation benchmarks then reward guessing over abstention. Abstain/verification mechanisms are not optional add-ons but necessary components.
+
+5. **Chow's reject-option rule is the optimal policy.** Given the three payoffs, the Bayes-optimal rule is a posterior-threshold rule: predict only when confidence exceeds a threshold determined by the payoffs; otherwise abstain [@chow1970optimum].
+
+
+## Probability-Payoff Diagram
 
 ```{tikz}
 \begin{tikzpicture}[>=stealth, scale=1.0]
@@ -46,7 +62,9 @@ bibliography: ai.bib
 \end{tikzpicture}
 ```
 
-### Marschak-Machina Diagram
+## Marschak-Machina Diagram
+
+The probability simplex has three vertices corresponding to the three pure outcomes: certain success ($p_s=1$), certain failure ($p_f=1$), and certain abstention ($p_a=1$). Any lottery over outcomes is a point in this triangle. Under expected utility with payoffs $\pi_{\text{succeed}}, \pi_{\text{fail}}, \pi_{\text{abstain}}$, indifference curves are parallel straight lines whose slope depends on the payoff ratios.
 
 ```{tikz}
 \begin{tikzpicture}[>=stealth, scale=4.0]
@@ -56,20 +74,20 @@ bibliography: ai.bib
   \def\piAbst{0.0}
 
   % Axes
-  \draw[->] (0,0) -- (1.1,0) node[right] {$p_{\text{right}}$};
-  \draw[->] (0,0) -- (0,1.1) node[above] {$p_{\text{wrong}}$};
+  \draw[->] (0,0) -- (1.1,0) node[right] {$p_{\text{succeed}}$};
+  \draw[->] (0,0) -- (0,1.1) node[above] {$p_{\text{fail}}$};
 
-  % Feasible set: p_right >= 0, p_wrong >= 0, p_right + p_wrong <= 1
+  % Feasible simplex
   \draw[thick] (0,0) -- (1,0) -- (0,1) -- cycle;
 
   % Boundary label
   \draw[dashed] (1,0) -- (0,1);
-  \node at (0.58,0.58) {$p_{\text{right}} + p_{\text{wrong}} = 1$};
+  \node at (0.58,0.58) {$p_s + p_f = 1$};
 
   % Corner labels
-  \node[below left] at (0,0) {$p_{\text{abstain}}=1$};
-  \node[below] at (1,0) {$p_{\text{right}}=1$};
-  \node[left] at (0,1) {$p_{\text{wrong}}=1$};
+  \node[below left] at (0,0) {$p_a=1$};
+  \node[below] at (1,0) {$p_s=1$};
+  \node[left] at (0,1) {$p_f=1$};
 
   % Fine dotted expected-utility indifference curves, clipped to simplex
   \begin{scope}
@@ -85,68 +103,104 @@ bibliography: ai.bib
     plot (\x, {((0.00-\piAbst)/(\piFail-\piAbst)) - ((\piSucc-\piAbst)/(\piFail-\piAbst))*\x});
   \draw[blue, thick, domain=-0.15:1.15, samples=2]
     plot (\x, {((0.30-\piAbst)/(\piFail-\piAbst)) - ((\piSucc-\piAbst)/(\piFail-\piAbst))*\x});
-  \node[blue] at (0.80,0.14) {$U_1$};
-  \node[blue] at (0.46,0.84) {$U_2$};
+  \node[blue] at (0.80,0.14) {$\bar U_1$};
+  \node[blue] at (0.46,0.84) {$\bar U_2$};
 \end{tikzpicture}
 ```
 
-### Indifference-Curve Slope Derivation
+### Indifference-curve slope derivation
 
-Let $p_r := p_{\text{right}}$, $p_w := p_{\text{wrong}}$, and $p_a := p_{\text{abstain}} = 1 - p_r - p_w$.  
-Suppose expected utility is
+Let $p_s, p_f, p_a = 1-p_s-p_f$ denote the probabilities of succeed, fail, and abstain. Expected utility is
+
 $$
-U = \pi_{\text{succeed}} p_r + \pi_{\text{fail}} p_w + \pi_{\text{abstain}} p_a.
+U = \pi_{\text{succeed}}\, p_s + \pi_{\text{fail}}\, p_f + \pi_{\text{abstain}}\, p_a.
 $$
-Substitute $p_a = 1 - p_r - p_w$:
+
+1. Substitute $p_a = 1 - p_s - p_f$:
 $$
 U = \pi_{\text{abstain}}
-  + (\pi_{\text{succeed}}-\pi_{\text{abstain}})p_r
-  + (\pi_{\text{fail}}-\pi_{\text{abstain}})p_w.
+  + (\pi_{\text{succeed}}-\pi_{\text{abstain}})\,p_s
+  + (\pi_{\text{fail}}-\pi_{\text{abstain}})\,p_f.
 $$
-Holding utility fixed at level $\bar U$ gives the indifference curve:
+
+2. Hold $U = \bar U$ and solve for $p_f$:
 $$
-p_w
-= \frac{\bar U-\pi_{\text{abstain}}}{\pi_{\text{fail}}-\pi_{\text{abstain}}}
-- \frac{\pi_{\text{succeed}}-\pi_{\text{abstain}}}{\pi_{\text{fail}}-\pi_{\text{abstain}}}\,p_r.
+p_f
+= \frac{\bar U - \pi_{\text{abstain}}}{\pi_{\text{fail}}-\pi_{\text{abstain}}}
+- \frac{\pi_{\text{succeed}}-\pi_{\text{abstain}}}{\pi_{\text{fail}}-\pi_{\text{abstain}}}\,p_s.
 $$
-So the slope in the $(p_r,p_w)$ diagram is
+
+3. The slope of the indifference curve in the $(p_s, p_f)$ plane is therefore:
 $$
-\frac{dp_w}{dp_r}\Big|_{U=\bar U}
+\frac{dp_f}{dp_s}\bigg|_{U=\bar U}
 = -\frac{\pi_{\text{succeed}}-\pi_{\text{abstain}}}{\pi_{\text{fail}}-\pi_{\text{abstain}}}.
 $$
-This makes explicit that the slope depends on payoff differences relative to abstain: changing $\pi_{\text{succeed}}$, $\pi_{\text{fail}}$, or $\pi_{\text{abstain}}$ changes the slope.
 
-If we normalize $\pi_{\text{abstain}}=0$, this becomes
+4. Normalizing $\pi_{\text{abstain}}=0$, this simplifies to:
 $$
-\frac{dp_w}{dp_r}\Big|_{U=\bar U}
+\frac{dp_f}{dp_s}\bigg|_{U=\bar U}
 = -\frac{\pi_{\text{succeed}}}{\pi_{\text{fail}}},
-$$
-with indifference lines
-$$
-p_w = \frac{\bar U}{\pi_{\text{fail}}} - \frac{\pi_{\text{succeed}}}{\pi_{\text{fail}}}\,p_r.
+\qquad
+p_f = \frac{\bar U}{\pi_{\text{fail}}} - \frac{\pi_{\text{succeed}}}{\pi_{\text{fail}}}\,p_s.
 $$
 
+The slope depends only on the ratio of payoff differences relative to abstain. When failure is very costly ($|\pi_{\text{fail}}|$ large), the curves are flatter: the decision-maker tolerates little additional failure probability in exchange for more success probability.
 
-### Chow (1970): Reject Option
+## Related Literature
 
-Chow analyzes optimal classification when "reject/abstain" is allowed as a third action alongside class predictions @chow1970optimum.
-The key result is a posterior-threshold rule: predict only when posterior confidence is high enough; otherwise abstain.
+### Chow (1957, 1970): Optimal reject rules
 
-With symmetric 0-1 classification payoff (correct payoff $1$, wrong payoff $0$) and abstain payoff $\pi_{\text{abstain}} \in (0,1)$, the rule is:
+@chow1970optimum introduces the **reject option** (which he calls the "Indecision class" $I$) into pattern recognition and derives the optimal error-reject tradeoff. Chow's terminology maps directly onto ours:
+
+| Chow's term | Our term |
+|---|---|
+| correct recognition | succeed |
+| error (misclassification) | fail |
+| rejection / indecision | abstain |
+
+Chow's setup uses a cost function over these three outcomes:
+
+> *"Let $C(i|j)$ be the cost incurred by classifying in $G_i$ when the true class is $G_j$. Then $C(i|j) = 0$ if $i=j$ [correct], $= 1$ if $i \ne j$ [error], $= t$ if $i = I$ [rejection]."*
+
+The key result ("Chow's rule") is that the Bayes-optimal classification rule is a posterior-threshold rule: accept and classify when confident enough, reject otherwise:
+
+> *"The classification rule which minimizes the risk can be stated as: $x \in A$ [accept] if $\max_i P(G_i | x) \ge 1-t$; $x \in D_I$ [reject] if $\max_i P(G_i | x) < 1-t$."*
+
+And this rule is optimal in a strong sense:
+
+> *"Chow's rule is optimal in the sense that for some reject rate specified by the threshold $t$, no other rule can yield a lower error rate."*
+
+The abstract summarizes:
+
+> *"The performance of a pattern recognition system is characterized by its error and reject tradeoff. This paper describes an optimum rejection rule and presents a general relation between the error and reject probabilities."*
+
+The threshold $t$ is related to the costs of the three outcomes as $t = (C_r - C_c)/(C_e - C_c)$, where $C_e, C_r, C_c$ are the costs of error, rejection, and correct recognition. In our payoff notation ($\pi_{\text{succeed}}, \pi_{\text{fail}}, \pi_{\text{abstain}}$), Chow's rule becomes: predict iff
+
 $$
-\max_y P(y \mid x) \ge \pi_{\text{abstain}}
-\quad\Longrightarrow\quad
-\text{predict } \arg\max_y P(y \mid x),
-$$
-and abstain otherwise.
-
-An equivalent loss version (mistake loss $1$, reject loss $d$) is:
-$$
-\max_y P(y \mid x) \ge 1-d
-\quad\Longrightarrow\quad
-\text{predict}.
+\max_y P(y \mid x) \ge \frac{\pi_{\text{abstain}} - \pi_{\text{fail}}}{\pi_{\text{succeed}} - \pi_{\text{fail}}}.
 $$
 
-In the Marschak-Machina triangle, this is exactly a comparison of expected prediction payoff against $\pi_{\text{abstain}}$, so Chow's threshold boundary corresponds to an indifference line.
+In the Marschak-Machina triangle, this threshold corresponds to one of the indifference lines: the boundary between the region where prediction is preferred and the region where abstention is preferred. Despite the direct relevance, Chow (1970) does not appear to be cited in the LLM hallucination literature.
 
-Recent theory in the LLM setting proves a complementary point: even calibrated language models must hallucinate at a nonzero rate, which motivates explicit abstain/verification policies rather than prediction-only objectives @kalai2024calibrated.
+
+### Kalai, Nachum, Vempala, and Zhang (2025): Why language models hallucinate
+
+@kalai2025why argue that hallucinations are not a mysterious glitch but a predictable consequence of how models are trained and evaluated. Their central thesis is that the three-outcome structure (succeed, fail, abstain) is systematically distorted by binary evaluation:
+
+> *"Language models hallucinate because the training and evaluation procedures reward guessing over acknowledging uncertainty. ... Hallucinations need not be mysterious---they originate simply as errors in binary classification."*
+
+The paper makes two distinct arguments:
+
+**1. Pretraining origin.** Even with error-free training data, the statistical objective of pretraining produces hallucinations. The authors reduce the problem to binary classification ("Is-It-Valid"), showing that
+
+$$
+\text{generative error rate} \gtrsim 2 \cdot \text{IIV misclassification rate}.
+$$
+
+For arbitrary facts (like someone's birthday) where there is no learnable pattern, the hallucination rate after pretraining is at least the fraction of facts appearing exactly once in the training data.
+
+**2. Post-training persistence.** Even after RLHF and other interventions, hallucinations persist because nearly all evaluation benchmarks use binary grading that penalizes abstention:
+
+> *"Binary evaluations of language models impose a false right-wrong dichotomy, award no credit to answers that express uncertainty, omit dubious details, or request clarification. ... Under binary grading, abstaining is strictly sub-optimal."*
+
+The fix they propose is exactly the payoff structure from our Marschak-Machina framework: penalize errors more than abstentions, with an explicit confidence threshold $t$ stated in the prompt. Their proposed scoring rule awards $+1$ for a correct answer, $-t/(1-t)$ for an incorrect answer, and $0$ for abstaining---so that answering is optimal iff confidence exceeds $t$. This is Chow's reject-option rule rediscovered in the LLM evaluation context.

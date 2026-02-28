@@ -155,6 +155,7 @@ window.Quarto = {
 
 <link rel="stylesheet" href="../styles.css">
 <meta name="twitter:title" content="Hallucinations and Alignment | Tom Cunningham">
+<meta name="twitter:description" content="Tom Cunningham blog">
 <meta name="twitter:card" content="summary">
 </head>
 
@@ -233,10 +234,23 @@ window.Quarto = {
 
 
 
-<section id="tikz-diagrams" class="level2">
-<h2 class="anchored" data-anchor-id="tikz-diagrams">TikZ Diagrams</h2>
-<section id="probability-payoff-diagram" class="level3">
-<h3 class="anchored" data-anchor-id="probability-payoff-diagram">Probability-Payoff Diagram</h3>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>When an LLM answers a question, there are three possible outcomes: it <strong>succeeds</strong> (gives a correct answer), it <strong>fails</strong> (gives an incorrect answer, i.e.&nbsp;hallucinates), or it <strong>abstains</strong> (declines to answer). These three outcomes have different payoffs, and the optimal policy depends on the relative magnitudes of <span class="math inline">\(\pi_{\text{succeed}}\)</span>, <span class="math inline">\(\pi_{\text{fail}}\)</span>, and <span class="math inline">\(\pi_{\text{abstain}}\)</span>.</p>
+<p>This framing—treating hallucination control as a three-action decision problem—connects to classical pattern recognition theory <span class="citation" data-cites="chow1970optimum">(<a href="#ref-chow1970optimum" role="doc-biblioref">Chow 1970</a>)</span>, the economics of decision under uncertainty (the Marschak-Machina triangle), and recent theoretical results showing that calibrated language models must hallucinate at a nonzero rate <span class="citation" data-cites="kalai2024calibrated">(<a href="#ref-kalai2024calibrated" role="doc-biblioref"><strong>kalai2024calibrated?</strong></a>)</span>.</p>
+</section>
+<section id="claims" class="level2">
+<h2 class="anchored" data-anchor-id="claims">Claims</h2>
+<ol type="1">
+<li><p><strong>Three-outcome framing.</strong> Any question-answering system faces a choice among succeed, fail, and abstain. The value of the system depends on the probabilities of each outcome and their payoffs.</p></li>
+<li><p><strong>Payoff asymmetry determines policy.</strong> The optimal abstain threshold depends on the ratio <span class="math inline">\(\pi_{\text{succeed}} / |\pi_{\text{fail}}|\)</span>. When failure is very costly relative to success (e.g.&nbsp;medical or legal advice), the abstain region should expand.</p></li>
+<li><p><strong>Indifference-curve slope encodes preferences.</strong> In the Marschak-Machina probability simplex, the slope of an expected-utility indifference curve is <span class="math inline">\(-\pi_{\text{succeed}}/\pi_{\text{fail}}\)</span> (after normalizing <span class="math inline">\(\pi_{\text{abstain}}=0\)</span>). Different users/applications trace out different slopes.</p></li>
+<li><p><strong>Hallucination is structurally inevitable.</strong> <span class="citation" data-cites="kalai2024calibrated">(<a href="#ref-kalai2024calibrated" role="doc-biblioref"><strong>kalai2024calibrated?</strong></a>)</span> prove that calibrated LMs must hallucinate at a rate related to the fraction of training facts that appear exactly once. This means abstain/verification mechanisms are not optional add-ons but necessary components.</p></li>
+<li><p><strong>Chow’s reject-option rule is the optimal policy.</strong> Given the three payoffs, the Bayes-optimal rule is a posterior-threshold rule: predict only when confidence exceeds a threshold determined by the payoffs; otherwise abstain <span class="citation" data-cites="chow1970optimum">(<a href="#ref-chow1970optimum" role="doc-biblioref">Chow 1970</a>)</span>.</p></li>
+</ol>
+</section>
+<section id="probability-payoff-diagram" class="level2">
+<h2 class="anchored" data-anchor-id="probability-payoff-diagram">Probability-Payoff Diagram</h2>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -247,8 +261,9 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="marschak-machina-diagram" class="level3">
-<h3 class="anchored" data-anchor-id="marschak-machina-diagram">Marschak-Machina Diagram</h3>
+<section id="marschak-machina-diagram" class="level2">
+<h2 class="anchored" data-anchor-id="marschak-machina-diagram">Marschak-Machina Diagram</h2>
+<p>The probability simplex has three vertices corresponding to the three pure outcomes: certain success (<span class="math inline">\(p_s=1\)</span>), certain failure (<span class="math inline">\(p_f=1\)</span>), and certain abstention (<span class="math inline">\(p_a=1\)</span>). Any lottery over outcomes is a point in this triangle. Under expected utility with payoffs <span class="math inline">\(\pi_{\text{succeed}}, \pi_{\text{fail}}, \pi_{\text{abstain}}\)</span>, indifference curves are parallel straight lines whose slope depends on the payoff ratios.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -258,46 +273,68 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</section>
 <section id="indifference-curve-slope-derivation" class="level3">
-<h3 class="anchored" data-anchor-id="indifference-curve-slope-derivation">Indifference-Curve Slope Derivation</h3>
-<p>Let <span class="math inline">\(p_r := p_{\text{right}}\)</span>, <span class="math inline">\(p_w := p_{\text{wrong}}\)</span>, and <span class="math inline">\(p_a := p_{\text{abstain}} = 1 - p_r - p_w\)</span>.<br>
-Suppose expected utility is <span class="math display">\[
-U = \pi_{\text{succeed}} p_r + \pi_{\text{fail}} p_w + \pi_{\text{abstain}} p_a.
-\]</span> Substitute <span class="math inline">\(p_a = 1 - p_r - p_w\)</span>: <span class="math display">\[
-U = \pi_{\text{abstain}}
-  + (\pi_{\text{succeed}}-\pi_{\text{abstain}})p_r
-  + (\pi_{\text{fail}}-\pi_{\text{abstain}})p_w.
-\]</span> Holding utility fixed at level <span class="math inline">\(\bar U\)</span> gives the indifference curve: <span class="math display">\[
-p_w
-= \frac{\bar U-\pi_{\text{abstain}}}{\pi_{\text{fail}}-\pi_{\text{abstain}}}
-- \frac{\pi_{\text{succeed}}-\pi_{\text{abstain}}}{\pi_{\text{fail}}-\pi_{\text{abstain}}}\,p_r.
-\]</span> So the slope in the <span class="math inline">\((p_r,p_w)\)</span> diagram is <span class="math display">\[
-\frac{dp_w}{dp_r}\Big|_{U=\bar U}
-= -\frac{\pi_{\text{succeed}}-\pi_{\text{abstain}}}{\pi_{\text{fail}}-\pi_{\text{abstain}}}.
-\]</span> This makes explicit that the slope depends on payoff differences relative to abstain: changing <span class="math inline">\(\pi_{\text{succeed}}\)</span>, <span class="math inline">\(\pi_{\text{fail}}\)</span>, or <span class="math inline">\(\pi_{\text{abstain}}\)</span> changes the slope.</p>
-<p>If we normalize <span class="math inline">\(\pi_{\text{abstain}}=0\)</span>, this becomes <span class="math display">\[
-\frac{dp_w}{dp_r}\Big|_{U=\bar U}
-= -\frac{\pi_{\text{succeed}}}{\pi_{\text{fail}}},
-\]</span> with indifference lines <span class="math display">\[
-p_w = \frac{\bar U}{\pi_{\text{fail}}} - \frac{\pi_{\text{succeed}}}{\pi_{\text{fail}}}\,p_r.
+<h3 class="anchored" data-anchor-id="indifference-curve-slope-derivation">Indifference-curve slope derivation</h3>
+<p>Let <span class="math inline">\(p_s, p_f, p_a = 1-p_s-p_f\)</span> denote the probabilities of succeed, fail, and abstain. Expected utility is</p>
+<p><span class="math display">\[
+U = \pi_{\text{succeed}}\, p_s + \pi_{\text{fail}}\, p_f + \pi_{\text{abstain}}\, p_a.
 \]</span></p>
+<ol type="1">
+<li>Substitute <span class="math inline">\(p_a = 1 - p_s - p_f\)</span>: $$ U = _{}</li>
+</ol>
+<ul>
+<li>(<em>{}-</em>{}),p_s</li>
+<li>(<em>{}-</em>{}),p_f. $$</li>
+</ul>
+<ol start="2" type="1">
+<li>Hold <span class="math inline">\(U = \bar U\)</span> and solve for <span class="math inline">\(p_f\)</span>: $$ p_f = </li>
+</ol>
+<ul>
+<li>,p_s. $$</li>
+</ul>
+<ol start="3" type="1">
+<li><p>The slope of the indifference curve in the <span class="math inline">\((p_s, p_f)\)</span> plane is therefore: <span class="math display">\[
+\frac{dp_f}{dp_s}\bigg|_{U=\bar U}
+= -\frac{\pi_{\text{succeed}}-\pi_{\text{abstain}}}{\pi_{\text{fail}}-\pi_{\text{abstain}}}.
+\]</span></p></li>
+<li><p>Normalizing <span class="math inline">\(\pi_{\text{abstain}}=0\)</span>, this simplifies to: <span class="math display">\[
+\frac{dp_f}{dp_s}\bigg|_{U=\bar U}
+= -\frac{\pi_{\text{succeed}}}{\pi_{\text{fail}}},
+\qquad
+p_f = \frac{\bar U}{\pi_{\text{fail}}} - \frac{\pi_{\text{succeed}}}{\pi_{\text{fail}}}\,p_s.
+\]</span></p></li>
+</ol>
+<p>The slope depends only on the ratio of payoff differences relative to abstain. When failure is very costly (<span class="math inline">\(|\pi_{\text{fail}}|\)</span> large), the curves are flatter: the decision-maker tolerates little additional failure probability in exchange for more success probability.</p>
 </section>
-<section id="chow-1970-reject-option" class="level3">
-<h3 class="anchored" data-anchor-id="chow-1970-reject-option">Chow (1970): Reject Option</h3>
-<p>Chow analyzes optimal classification when “reject/abstain” is allowed as a third action alongside class predictions <span class="citation" data-cites="chow1970optimum">Chow (<a href="#ref-chow1970optimum" role="doc-biblioref">1970</a>)</span>. The key result is a posterior-threshold rule: predict only when posterior confidence is high enough; otherwise abstain.</p>
-<p>With symmetric 0-1 classification payoff (correct payoff <span class="math inline">\(1\)</span>, wrong payoff <span class="math inline">\(0\)</span>) and abstain payoff <span class="math inline">\(\pi_{\text{abstain}} \in (0,1)\)</span>, the rule is: <span class="math display">\[
-\max_y P(y \mid x) \ge \pi_{\text{abstain}}
+</section>
+<section id="related-literature" class="level2">
+<h2 class="anchored" data-anchor-id="related-literature">Related Literature</h2>
+<section id="chow-1970-optimal-reject-rules" class="level3">
+<h3 class="anchored" data-anchor-id="chow-1970-optimal-reject-rules">Chow (1970): Optimal reject rules</h3>
+<p><span class="citation" data-cites="chow1970optimum">Chow (<a href="#ref-chow1970optimum" role="doc-biblioref">1970</a>)</span> introduces the reject (abstain) option into classification and derives the optimal error-reject tradeoff. The key result is a posterior-threshold rule:</p>
+<blockquote class="blockquote">
+<p><em>“The performance of a pattern recognition system is characterized by its error and reject tradeoff. This paper describes an optimum rejection rule and presents a general relation between the error and reject probabilities.”</em></p>
+</blockquote>
+<p>In our notation, given payoffs <span class="math inline">\(\pi_{\text{succeed}}, \pi_{\text{fail}}, \pi_{\text{abstain}}\)</span> with <span class="math inline">\(\pi_{\text{fail}} &lt; \pi_{\text{abstain}} &lt; \pi_{\text{succeed}}\)</span>, the Bayes-optimal rule is:</p>
+<p><span class="math display">\[
+\max_y P(y \mid x) \ge \frac{\pi_{\text{abstain}} - \pi_{\text{fail}}}{\pi_{\text{succeed}} - \pi_{\text{fail}}}
 \quad\Longrightarrow\quad
 \text{predict } \arg\max_y P(y \mid x),
-\]</span> and abstain otherwise.</p>
-<p>An equivalent loss version (mistake loss <span class="math inline">\(1\)</span>, reject loss <span class="math inline">\(d\)</span>) is: <span class="math display">\[
-\max_y P(y \mid x) \ge 1-d
-\quad\Longrightarrow\quad
-\text{predict}.
 \]</span></p>
-<p>In the Marschak-Machina triangle, this is exactly a comparison of expected prediction payoff against <span class="math inline">\(\pi_{\text{abstain}}\)</span>, so Chow’s threshold boundary corresponds to an indifference line.</p>
-<p>Recent theory in the LLM setting proves a complementary point: even calibrated language models must hallucinate at a nonzero rate, which motivates explicit abstain/verification policies rather than prediction-only objectives <span class="citation" data-cites="kalai2024calibrated">Kalai and Vempala (<a href="#ref-kalai2024calibrated" role="doc-biblioref">2024</a>)</span>.</p>
+<p>and abstain otherwise. In the symmetric 0-1 loss case (<span class="math inline">\(\pi_{\text{succeed}}=1\)</span>, <span class="math inline">\(\pi_{\text{fail}}=0\)</span>, abstain cost <span class="math inline">\(d\)</span>), this reduces to: predict iff <span class="math inline">\(\max_y P(y\mid x) \ge 1-d\)</span>.</p>
+<p>In the Marschak-Machina triangle, this threshold corresponds to one of the indifference lines: the boundary between the region where prediction is preferred and the region where abstention is preferred.</p>
+</section>
+<section id="kalai-and-vempala-2024-calibrated-models-must-hallucinate" class="level3">
+<h3 class="anchored" data-anchor-id="kalai-and-vempala-2024-calibrated-models-must-hallucinate">Kalai and Vempala (2024): Calibrated models must hallucinate</h3>
+<p><span class="citation" data-cites="kalai2024calibrated">(<a href="#ref-kalai2024calibrated" role="doc-biblioref"><strong>kalai2024calibrated?</strong></a>)</span> prove that hallucination is a structural inevitability for calibrated language models, not merely a failure of architecture or data quality:</p>
+<blockquote class="blockquote">
+<p><em>“There is an inherent statistical lower-bound on the rate that pretrained language models hallucinate certain types of facts, having nothing to do with the transformer LM architecture or data quality. For ‘arbitrary’ facts whose veracity cannot be determined from the training data, we show that hallucinations must occur at a certain rate for language models that satisfy a statistical calibration condition.”</em></p>
+</blockquote>
+<p>Their main bound is:</p>
+<p><span class="math display">\[
+\text{Hallucination rate} \ge \widehat{MF} - \text{Miscalibration} - O(1/\sqrt{n}),
+\]</span></p>
+<p>where <span class="math inline">\(\widehat{MF}\)</span> is the “monofact” rate (fraction of training facts appearing exactly once) and <span class="math inline">\(n\)</span> is the training set size. The implication for system design is that post-training interventions (RLHF, abstention mechanisms, retrieval augmentation) are not merely helpful add-ons but structurally necessary responses to a mathematical inevitability.</p>
 
 
 
@@ -307,9 +344,6 @@ p_w = \frac{\bar U}{\pi_{\text{fail}}} - \frac{\pi_{\text{succeed}}}{\pi_{\text{
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-chow1970optimum" class="csl-entry" role="listitem">
 Chow, C. K. 1970. <span>“On Optimum Recognition Error and Reject Tradeoff.”</span> <em>IEEE Transactions on Information Theory</em>. <a href="https://doi.org/10.1109/TIT.1970.1054406">https://doi.org/10.1109/TIT.1970.1054406</a>.
-</div>
-<div id="ref-kalai2024calibrated" class="csl-entry" role="listitem">
-Kalai, Adam Tauman, and Santosh S. Vempala. 2024. <span>“Calibrated Language Models Must Hallucinate.”</span> In <em>Proceedings of the 56th Annual ACM Symposium on Theory of Computing</em>, 160–71. <a href="https://doi.org/10.1145/3618260.3649777">https://doi.org/10.1145/3618260.3649777</a>.
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
