@@ -237,7 +237,7 @@ window.Quarto = {
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>When an LLM answers a question, there are three possible outcomes: it <strong>succeeds</strong> (gives a correct answer), it <strong>fails</strong> (gives an incorrect answer, i.e.&nbsp;hallucinates), or it <strong>abstains</strong> (declines to answer). These three outcomes have different payoffs, and the optimal policy depends on the relative magnitudes of <span class="math inline">\(\pi_{\text{succeed}}\)</span>, <span class="math inline">\(\pi_{\text{fail}}\)</span>, and <span class="math inline">\(\pi_{\text{abstain}}\)</span>.</p>
-<p>This framing—treating hallucination control as a three-action decision problem—connects to classical pattern recognition theory <span class="citation" data-cites="chow1970optimum">(<a href="#ref-chow1970optimum" role="doc-biblioref">Chow 1970</a>)</span>, the economics of decision under uncertainty (the Marschak-Machina triangle), and recent theoretical results showing that calibrated language models must hallucinate at a nonzero rate <span class="citation" data-cites="kalai2024calibrated">(<a href="#ref-kalai2024calibrated" role="doc-biblioref"><strong>kalai2024calibrated?</strong></a>)</span>.</p>
+<p>This framing—treating hallucination control as a three-action decision problem—connects to classical pattern recognition theory <span class="citation" data-cites="chow1970optimum">(<a href="#ref-chow1970optimum" role="doc-biblioref">Chow 1970</a>)</span>, the economics of decision under uncertainty (the Marschak-Machina triangle), and recent theoretical results on why language models hallucinate <span class="citation" data-cites="kalai2025why">(<a href="#ref-kalai2025why" role="doc-biblioref">Kalai et al. 2025</a>)</span>.</p>
 </section>
 <section id="claims" class="level2">
 <h2 class="anchored" data-anchor-id="claims">Claims</h2>
@@ -245,7 +245,7 @@ window.Quarto = {
 <li><p><strong>Three-outcome framing.</strong> Any question-answering system faces a choice among succeed, fail, and abstain. The value of the system depends on the probabilities of each outcome and their payoffs.</p></li>
 <li><p><strong>Payoff asymmetry determines policy.</strong> The optimal abstain threshold depends on the ratio <span class="math inline">\(\pi_{\text{succeed}} / |\pi_{\text{fail}}|\)</span>. When failure is very costly relative to success (e.g.&nbsp;medical or legal advice), the abstain region should expand.</p></li>
 <li><p><strong>Indifference-curve slope encodes preferences.</strong> In the Marschak-Machina probability simplex, the slope of an expected-utility indifference curve is <span class="math inline">\(-\pi_{\text{succeed}}/\pi_{\text{fail}}\)</span> (after normalizing <span class="math inline">\(\pi_{\text{abstain}}=0\)</span>). Different users/applications trace out different slopes.</p></li>
-<li><p><strong>Hallucination is structurally inevitable.</strong> <span class="citation" data-cites="kalai2024calibrated">(<a href="#ref-kalai2024calibrated" role="doc-biblioref"><strong>kalai2024calibrated?</strong></a>)</span> prove that calibrated LMs must hallucinate at a rate related to the fraction of training facts that appear exactly once. This means abstain/verification mechanisms are not optional add-ons but necessary components.</p></li>
+<li><p><strong>Hallucination is structurally inevitable.</strong> <span class="citation" data-cites="kalai2025why">Kalai et al. (<a href="#ref-kalai2025why" role="doc-biblioref">2025</a>)</span> show that even with error-free training data, pretraining objectives produce hallucinations, and binary evaluation benchmarks then reward guessing over abstention. Abstain/verification mechanisms are not optional add-ons but necessary components.</p></li>
 <li><p><strong>Chow’s reject-option rule is the optimal policy.</strong> Given the three payoffs, the Bayes-optimal rule is a posterior-threshold rule: predict only when confidence exceeds a threshold determined by the payoffs; otherwise abstain <span class="citation" data-cites="chow1970optimum">(<a href="#ref-chow1970optimum" role="doc-biblioref">Chow 1970</a>)</span>.</p></li>
 </ol>
 </section>
@@ -309,32 +309,70 @@ p_f = \frac{\bar U}{\pi_{\text{fail}}} - \frac{\pi_{\text{succeed}}}{\pi_{\text{
 </section>
 <section id="related-literature" class="level2">
 <h2 class="anchored" data-anchor-id="related-literature">Related Literature</h2>
-<section id="chow-1970-optimal-reject-rules" class="level3">
-<h3 class="anchored" data-anchor-id="chow-1970-optimal-reject-rules">Chow (1970): Optimal reject rules</h3>
-<p><span class="citation" data-cites="chow1970optimum">Chow (<a href="#ref-chow1970optimum" role="doc-biblioref">1970</a>)</span> introduces the reject (abstain) option into classification and derives the optimal error-reject tradeoff. The key result is a posterior-threshold rule:</p>
+<section id="chow-1957-1970-optimal-reject-rules" class="level3">
+<h3 class="anchored" data-anchor-id="chow-1957-1970-optimal-reject-rules">Chow (1957, 1970): Optimal reject rules</h3>
+<p><span class="citation" data-cites="chow1970optimum">Chow (<a href="#ref-chow1970optimum" role="doc-biblioref">1970</a>)</span> introduces the <strong>reject option</strong> (which he calls the “Indecision class” <span class="math inline">\(I\)</span>) into pattern recognition and derives the optimal error-reject tradeoff. Chow’s terminology maps directly onto ours:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Chow’s term</th>
+<th>Our term</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>correct recognition</td>
+<td>succeed</td>
+</tr>
+<tr class="even">
+<td>error (misclassification)</td>
+<td>fail</td>
+</tr>
+<tr class="odd">
+<td>rejection / indecision</td>
+<td>abstain</td>
+</tr>
+</tbody>
+</table>
+<p>Chow’s setup uses a cost function over these three outcomes:</p>
+<blockquote class="blockquote">
+<p><em>“Let <span class="math inline">\(C(i|j)\)</span> be the cost incurred by classifying in <span class="math inline">\(G_i\)</span> when the true class is <span class="math inline">\(G_j\)</span>. Then <span class="math inline">\(C(i|j) = 0\)</span> if <span class="math inline">\(i=j\)</span> [correct], <span class="math inline">\(= 1\)</span> if <span class="math inline">\(i \ne j\)</span> [error], <span class="math inline">\(= t\)</span> if <span class="math inline">\(i = I\)</span> [rejection].”</em></p>
+</blockquote>
+<p>The key result (“Chow’s rule”) is that the Bayes-optimal classification rule is a posterior-threshold rule: accept and classify when confident enough, reject otherwise:</p>
+<blockquote class="blockquote">
+<p><em>“The classification rule which minimizes the risk can be stated as: <span class="math inline">\(x \in A\)</span> [accept] if <span class="math inline">\(\max_i P(G_i | x) \ge 1-t\)</span>; <span class="math inline">\(x \in D_I\)</span> [reject] if <span class="math inline">\(\max_i P(G_i | x) &lt; 1-t\)</span>.”</em></p>
+</blockquote>
+<p>And this rule is optimal in a strong sense:</p>
+<blockquote class="blockquote">
+<p><em>“Chow’s rule is optimal in the sense that for some reject rate specified by the threshold <span class="math inline">\(t\)</span>, no other rule can yield a lower error rate.”</em></p>
+</blockquote>
+<p>The abstract summarizes:</p>
 <blockquote class="blockquote">
 <p><em>“The performance of a pattern recognition system is characterized by its error and reject tradeoff. This paper describes an optimum rejection rule and presents a general relation between the error and reject probabilities.”</em></p>
 </blockquote>
-<p>In our notation, given payoffs <span class="math inline">\(\pi_{\text{succeed}}, \pi_{\text{fail}}, \pi_{\text{abstain}}\)</span> with <span class="math inline">\(\pi_{\text{fail}} &lt; \pi_{\text{abstain}} &lt; \pi_{\text{succeed}}\)</span>, the Bayes-optimal rule is:</p>
+<p>The threshold <span class="math inline">\(t\)</span> is related to the costs of the three outcomes as <span class="math inline">\(t = (C_r - C_c)/(C_e - C_c)\)</span>, where <span class="math inline">\(C_e, C_r, C_c\)</span> are the costs of error, rejection, and correct recognition. In our payoff notation (<span class="math inline">\(\pi_{\text{succeed}}, \pi_{\text{fail}}, \pi_{\text{abstain}}\)</span>), Chow’s rule becomes: predict iff</p>
 <p><span class="math display">\[
-\max_y P(y \mid x) \ge \frac{\pi_{\text{abstain}} - \pi_{\text{fail}}}{\pi_{\text{succeed}} - \pi_{\text{fail}}}
-\quad\Longrightarrow\quad
-\text{predict } \arg\max_y P(y \mid x),
+\max_y P(y \mid x) \ge \frac{\pi_{\text{abstain}} - \pi_{\text{fail}}}{\pi_{\text{succeed}} - \pi_{\text{fail}}}.
 \]</span></p>
-<p>and abstain otherwise. In the symmetric 0-1 loss case (<span class="math inline">\(\pi_{\text{succeed}}=1\)</span>, <span class="math inline">\(\pi_{\text{fail}}=0\)</span>, abstain cost <span class="math inline">\(d\)</span>), this reduces to: predict iff <span class="math inline">\(\max_y P(y\mid x) \ge 1-d\)</span>.</p>
-<p>In the Marschak-Machina triangle, this threshold corresponds to one of the indifference lines: the boundary between the region where prediction is preferred and the region where abstention is preferred.</p>
+<p>In the Marschak-Machina triangle, this threshold corresponds to one of the indifference lines: the boundary between the region where prediction is preferred and the region where abstention is preferred. Despite the direct relevance, Chow (1970) does not appear to be cited in the LLM hallucination literature.</p>
 </section>
-<section id="kalai-and-vempala-2024-calibrated-models-must-hallucinate" class="level3">
-<h3 class="anchored" data-anchor-id="kalai-and-vempala-2024-calibrated-models-must-hallucinate">Kalai and Vempala (2024): Calibrated models must hallucinate</h3>
-<p><span class="citation" data-cites="kalai2024calibrated">(<a href="#ref-kalai2024calibrated" role="doc-biblioref"><strong>kalai2024calibrated?</strong></a>)</span> prove that hallucination is a structural inevitability for calibrated language models, not merely a failure of architecture or data quality:</p>
+<section id="kalai-nachum-vempala-and-zhang-2025-why-language-models-hallucinate" class="level3">
+<h3 class="anchored" data-anchor-id="kalai-nachum-vempala-and-zhang-2025-why-language-models-hallucinate">Kalai, Nachum, Vempala, and Zhang (2025): Why language models hallucinate</h3>
+<p><span class="citation" data-cites="kalai2025why">Kalai et al. (<a href="#ref-kalai2025why" role="doc-biblioref">2025</a>)</span> argue that hallucinations are not a mysterious glitch but a predictable consequence of how models are trained and evaluated. Their central thesis is that the three-outcome structure (succeed, fail, abstain) is systematically distorted by binary evaluation:</p>
 <blockquote class="blockquote">
-<p><em>“There is an inherent statistical lower-bound on the rate that pretrained language models hallucinate certain types of facts, having nothing to do with the transformer LM architecture or data quality. For ‘arbitrary’ facts whose veracity cannot be determined from the training data, we show that hallucinations must occur at a certain rate for language models that satisfy a statistical calibration condition.”</em></p>
+<p><em>“Language models hallucinate because the training and evaluation procedures reward guessing over acknowledging uncertainty. … Hallucinations need not be mysterious—they originate simply as errors in binary classification.”</em></p>
 </blockquote>
-<p>Their main bound is:</p>
+<p>The paper makes two distinct arguments:</p>
+<p><strong>1. Pretraining origin.</strong> Even with error-free training data, the statistical objective of pretraining produces hallucinations. The authors reduce the problem to binary classification (“Is-It-Valid”), showing that</p>
 <p><span class="math display">\[
-\text{Hallucination rate} \ge \widehat{MF} - \text{Miscalibration} - O(1/\sqrt{n}),
+\text{generative error rate} \gtrsim 2 \cdot \text{IIV misclassification rate}.
 \]</span></p>
-<p>where <span class="math inline">\(\widehat{MF}\)</span> is the “monofact” rate (fraction of training facts appearing exactly once) and <span class="math inline">\(n\)</span> is the training set size. The implication for system design is that post-training interventions (RLHF, abstention mechanisms, retrieval augmentation) are not merely helpful add-ons but structurally necessary responses to a mathematical inevitability.</p>
+<p>For arbitrary facts (like someone’s birthday) where there is no learnable pattern, the hallucination rate after pretraining is at least the fraction of facts appearing exactly once in the training data.</p>
+<p><strong>2. Post-training persistence.</strong> Even after RLHF and other interventions, hallucinations persist because nearly all evaluation benchmarks use binary grading that penalizes abstention:</p>
+<blockquote class="blockquote">
+<p><em>“Binary evaluations of language models impose a false right-wrong dichotomy, award no credit to answers that express uncertainty, omit dubious details, or request clarification. … Under binary grading, abstaining is strictly sub-optimal.”</em></p>
+</blockquote>
+<p>The fix they propose is exactly the payoff structure from our Marschak-Machina framework: penalize errors more than abstentions, with an explicit confidence threshold <span class="math inline">\(t\)</span> stated in the prompt. Their proposed scoring rule awards <span class="math inline">\(+1\)</span> for a correct answer, <span class="math inline">\(-t/(1-t)\)</span> for an incorrect answer, and <span class="math inline">\(0\)</span> for abstaining—so that answering is optimal iff confidence exceeds <span class="math inline">\(t\)</span>. This is Chow’s reject-option rule rediscovered in the LLM evaluation context.</p>
 
 
 
@@ -344,6 +382,9 @@ p_f = \frac{\bar U}{\pi_{\text{fail}}} - \frac{\pi_{\text{succeed}}}{\pi_{\text{
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-chow1970optimum" class="csl-entry" role="listitem">
 Chow, C. K. 1970. <span>“On Optimum Recognition Error and Reject Tradeoff.”</span> <em>IEEE Transactions on Information Theory</em>. <a href="https://doi.org/10.1109/TIT.1970.1054406">https://doi.org/10.1109/TIT.1970.1054406</a>.
+</div>
+<div id="ref-kalai2025why" class="csl-entry" role="listitem">
+Kalai, Adam Tauman, Ofir Nachum, Santosh S. Vempala, and Edwin Zhang. 2025. <span>“Why Language Models Hallucinate.”</span> <em>arXiv Preprint</em> arXiv:2509.04664 (September). <a href="https://doi.org/10.48550/arXiv.2509.04664">https://doi.org/10.48550/arXiv.2509.04664</a>.
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
