@@ -247,25 +247,31 @@ Project spec (human)
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
-<li><p>Overall goal: a blog post about why language models hallucinate, that it’s a badly-specified payoff function.</p></li>
-<li><p><strong>If there are important ambiguities or inconsistencies in the spec you should ask me.</strong></p></li>
+<li><p>This project is structured with spec (human) &gt; plan (LLM) &gt; document (LLM). You can write to the spec only if you get affirmative approval from the human author for the exact changes.</p></li>
+<li><p>Overall goal: a two-page blog post with some obsevations about hallucinations in language models. Then appendices to back up (1) data; (2) literature review; (3) derivations.</p></li>
 <li><p>Basic model:</p>
 <ul>
 <li>Canonical problem: the user has to choose between a few options (multi-choice), the LLM has probabilities on each answer.</li>
-<li>Distinguish LLM outputs: binary (recommend one option), ternary (can abstain), and continuous (report probabilities over options).</li>
-<li>The user has some outside option from not choosing, which is above choosing the wrong option. Can also extend such that they can pay a cost to get the right answer themselves.</li>
+<li>The LLM can output a few different things: binary (most-likely option), ternary (abstain), and continuous (report probabilities for every option).</li>
+<li>The user has some outside option from not choosing, which is better than choosing the wrong option. In the appendix discuss a model where the user can pay a cost to (a) verify the LLM’s answer, or (b) find the right answer themselves.</li>
 </ul></li>
 <li><p>Claims:</p>
 <ul>
 <li>Continuous output is best.</li>
-<li>The usefulness of a binary-output LLM to a user is convex in its avg accuracy.</li>
-<li>The threshold for making a claim is p^*=(_a-_f)/(_s-_f).</li>
-<li>Illustrate different user preferences over succeed/fail/abstain on a simplex</li>
+<li>The usefulness of a binary-output LLM to a user is convex in its avg accuracy, this means value of benchmark scores is convex.</li>
+<li>If you can abstain, the threshold for making a claim is p^*=(_a-_f)/(_s-_f).</li>
 <li>Training with a reward only for accuracy encourages guessing over abstention.</li>
+<li>Simplex representation:
+<ul>
+<li>We can illustrate different user preferences over succeed/fail/abstain on a simplex: reward accuracy; punish failure; F1.</li>
+<li>We can illustrate different empirical results: SimpleQA, Abstain-QA. Put the simplex in the body, numerical results in the appendix.</li>
+</ul></li>
 </ul></li>
 <li><p>Additional notes</p>
 <ul>
-<li>Related literature: cite and discuss Chow (1970) and Kalai et al.&nbsp;(2025); for each, list their claims precisely.</li>
+<li>Emphasize that I mostly follow Kalai et al.&nbsp;treatment, but add some helpful visualizations.</li>
+<li>Related literature: start with a chronological list of related papers, Chow, Herbei and Wegkamp (you can mention there are other followsup on “classification with a reject option”), Kalai et al., Kadavath. Don’t need to mention conformal prediction or calibration &amp; scoring.</li>
+<li>Detailed discussion of Chow (1970) and Kalai et al.&nbsp;(2025), list their claims precisely.</li>
 <li>The diagrams should be super clear. Make sure you <em>look</em> at the diagrams to see that they are readable.</li>
 <li>Plot data from different studies on simplex diagrams. Also give comments on the diagrams, on what the takewaay is about tradeoffs here, &amp; see that’s consistent with what the original papers say.</li>
 </ul></li>
@@ -286,7 +292,7 @@ Project plan (LLM)
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
-<li><p>Deliverable: a blog post explaining hallucinations as payoff-misalignment (user utility vs training/eval rewards), using a simple decision-theory model.</p></li>
+<li><p>Deliverable: a ~2-page blog post explaining hallucinations as payoff-misalignment (user utility vs training/eval rewards), using a simple decision-theory model. Use appendices for (i) the verification extension and (ii) benchmark tables/plots.</p></li>
 <li><p>Structure:</p>
 <ul>
 <li>Setup: multi-choice question with <span class="math inline">\(k\)</span> options; model has posterior <span class="math inline">\(p(y\mid x)\)</span>; user chooses (i) pick an option, (ii) abstain, or (iii) pay a cost to verify (optional extension).</li>
@@ -299,13 +305,14 @@ Project plan (LLM)
 <li>Accuracy-only rewards + binary grading encourage guessing over abstention; connect to Kalai et al.&nbsp;(2025) and Chow (1970).</li>
 </ul></li>
 <li>Geometry: use a Marschak-Machina simplex to visualize (a) user preferences (indifference lines) and (b) training/eval objectives.</li>
+<li>Related literature: start with a chronological list; keep focus on Chow (1970), Herbei and Wegkamp (2006) (+ brief mention of followups), Kadavath et al.&nbsp;(2022), and Kalai et al.&nbsp;(2025). Add a short subsection on recent LLM-specific abstention / verification mechanisms (refusal-aware tuning, explicit IDK tokens, self-checking / verification loops, semantic-uncertainty detectors), plus one short caveat about high-confidence hallucinations.</li>
 </ul></li>
 <li><p>Figures:</p>
 <ul>
 <li>1D payoff-vs-confidence threshold plot (clean, consistent sign conventions).</li>
-<li>Optional verification extension plot (attempt vs verify threshold).</li>
-<li>Simplex with indifference grids for a few payoff ratios/objectives.</li>
-<li>Simplex points from multiple studies/benchmarks + short takeaways, with explicit comparability caveats.</li>
+<li>Simplex with indifference grids for a few payoff ratios/objectives (accuracy-only, punish failure, F1).</li>
+<li>Appendix: verification extension plot (attempt vs verify threshold).</li>
+<li>Appendix: simplex points from multiple studies/benchmarks + short takeaways, with explicit comparability caveats.</li>
 </ul></li>
 <li><p>Editing rules while executing:</p>
 <ul>
@@ -399,26 +406,10 @@ V_{\text{binary}}(p)=\max\Bigl\{\pi_a,\; p\,\pi_s + (1-p)\,\pi_f\Bigr\}.
 </div>
 </div>
 </div>
-<section id="optional-extension-verification" class="level3">
-<h3 class="anchored" data-anchor-id="optional-extension-verification">Optional extension: verification</h3>
-<p>Suppose the user has a way to pay a cost <span class="math inline">\(c\)</span> to obtain the correct answer (e.g.&nbsp;look it up, run an expensive check, ask a human). In the simplest model, verification yields certain success with payoff <span class="math inline">\(\pi_s-c\)</span>.</p>
-<p>Since abstaining and verifying are both “outside options” (their payoff does not depend on the model’s confidence), the only relevant outside-option payoff is <span class="math display">\[
-\pi_{\text{outside}}=\max\{\pi_a,\;\pi_s-c\}.
-\]</span></p>
-<p>The attempt rule is the same threshold logic as before: attempt iff <span class="math display">\[
-p \ge \frac{\pi_{\text{outside}}-\pi_f}{\pi_s-\pi_f}.
-\]</span></p>
-<p>The diagram below shows an example where verification dominates abstention (<span class="math inline">\(\pi_s-c&gt;\pi_a\)</span>): at low confidence the user verifies; only above a higher threshold does it become worth attempting directly.</p>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="2026-02-26-hallucinations-and-alignment_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
+<p>In the normalized example shown in the diagram, <span class="math inline">\((\pi_s,\pi_a,\pi_f)=(2,0,-2)\)</span>, so <span class="math display">\[
+p^*=\frac{0-(-2)}{2-(-2)}=\tfrac{1}{2}.
+\]</span> So in this example, the right behavior is “answer only when you’re at least 50% confident.”</p>
+<p>Appendix <a href="#appendix-verification">Verification option</a> shows how the threshold changes if the user can pay a cost to verify.</p>
 </section>
 <section id="simplex-representation" class="level2">
 <h2 class="anchored" data-anchor-id="simplex-representation">Simplex Representation</h2>
@@ -428,15 +419,15 @@ p \ge \frac{\pi_{\text{outside}}-\pi_f}{\pi_s-\pi_f}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2026-02-26-hallucinations-and-alignment_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="2026-02-26-hallucinations-and-alignment_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Each point in the simplex is a lottery over outcomes: a model might succeed with probability <span class="math inline">\(p_s\)</span>, fail with probability <span class="math inline">\(p_f\)</span>, and abstain with probability <span class="math inline">\(p_a\)</span>. The panels show three different objective families:</p>
 <ul>
-<li><strong>Reward accuracy</strong> (<span class="math inline">\(U=p_s\)</span>): success is rewarded, but failure and abstention are treated the same. This creates pressure to guess rather than abstain.</li>
-<li><strong>Punish failure</strong> (linear expected utility): failure is explicitly penalized relative to abstention, expanding the region where abstaining is optimal.</li>
+<li><strong>Accuracy-only</strong> (<span class="math inline">\(U=p_s\)</span>): success is rewarded, but failure and abstention are treated the same. This creates pressure to guess rather than abstain.</li>
+<li><strong>Penalize failure</strong> (linear expected utility): failure is explicitly penalized relative to abstention, expanding the region where abstaining is optimal.</li>
 <li><strong>F1</strong> (a non-linear metric): indifference curves bend, reflecting that the metric itself builds in a particular tradeoff between attempting and being correct.</li>
 </ul>
 <section id="indifference-curve-slope-derivation" class="level3">
@@ -477,14 +468,14 @@ p_f = \frac{\bar U}{\pi_f} - \frac{\pi_s}{\pi_f}\,p_s.
 </section>
 <section id="related-literature" class="level2">
 <h2 class="anchored" data-anchor-id="related-literature">Related Literature</h2>
-<section id="brisk-summary" class="level3">
-<h3 class="anchored" data-anchor-id="brisk-summary">Brisk summary</h3>
+<section id="chronological-sketch" class="level3">
+<h3 class="anchored" data-anchor-id="chronological-sketch">Chronological sketch</h3>
 <ul>
-<li><strong>Reject option / selective prediction.</strong> The classical Bayes-optimal abstention rule is Chow’s reject option <span class="citation" data-cites="chow1970optimum">(<a href="#ref-chow1970optimum" role="doc-biblioref">Chow 1970</a>)</span>. Modern ML re-derives and extends it as “selective classification” and the risk-coverage tradeoff <span class="citation" data-cites="herbei2006reject bartlett2008reject elyaniv2010selective geifman2019selectivenet">(<a href="#ref-herbei2006reject" role="doc-biblioref">Herbei and Wegkamp 2006</a>; <a href="#ref-bartlett2008reject" role="doc-biblioref">Bartlett and Wegkamp 2008</a>; <a href="#ref-elyaniv2010selective" role="doc-biblioref">El-Yaniv and Wiener 2010</a>; <a href="#ref-geifman2019selectivenet" role="doc-biblioref">Geifman and El-Yaniv 2019</a>)</span>.</li>
-<li><strong>Output format and information.</strong> The “continuous output is weakly best” argument is an instance of the general fact that more informative signals cannot reduce expected utility (Blackwell order) <span class="citation" data-cites="blackwell1953equivalent">(<a href="#ref-blackwell1953equivalent" role="doc-biblioref">Blackwell 1953</a>)</span>.</li>
-<li><strong>Probability forecasts and incentives.</strong> Proper scoring rules provide a principled way to reward honest probability reports and encourage calibrated uncertainty estimates <span class="citation" data-cites="gneiting2007scoring">(<a href="#ref-gneiting2007scoring" role="doc-biblioref">Gneiting and Raftery 2007</a>)</span>.</li>
-<li><strong>LLM self-evaluation.</strong> Some work finds that language models can estimate the probability their own answers are correct (e.g.&nbsp;by producing a calibrated <span class="math inline">\(P(\text{True})\)</span>), which is exactly the quantity needed to implement threshold rules <span class="citation" data-cites="kadavath2022mostly">(<a href="#ref-kadavath2022mostly" role="doc-biblioref">Kadavath et al. 2022</a>)</span>.</li>
-<li><strong>Distribution-free prediction sets.</strong> Conformal prediction is a complementary route: it outputs sets (or abstains) with finite-sample coverage guarantees and can be layered on top of any base model <span class="citation" data-cites="shafer2008conformal angelopoulos2021gentle">(<a href="#ref-shafer2008conformal" role="doc-biblioref">Shafer and Vovk 2008</a>; <a href="#ref-angelopoulos2021gentle" role="doc-biblioref">Angelopoulos and Bates 2021</a>)</span>.</li>
+<li><span class="citation" data-cites="chow1970optimum">Chow (<a href="#ref-chow1970optimum" role="doc-biblioref">1970</a>)</span>: introduces the Bayes-optimal reject option (“indecision”) and derives the posterior-threshold rule.</li>
+<li><span class="citation" data-cites="herbei2006reject">Herbei and Wegkamp (<a href="#ref-herbei2006reject" role="doc-biblioref">2006</a>)</span>: formalizes “classification with a reject option” in modern statistical learning terms; there are many followups on learning and using reject policies (e.g. <span class="citation" data-cites="bartlett2008reject elyaniv2010selective geifman2019selectivenet">(<a href="#ref-bartlett2008reject" role="doc-biblioref">Bartlett and Wegkamp 2008</a>; <a href="#ref-elyaniv2010selective" role="doc-biblioref">El-Yaniv and Wiener 2010</a>; <a href="#ref-geifman2019selectivenet" role="doc-biblioref">Geifman and El-Yaniv 2019</a>)</span>).</li>
+<li><span class="citation" data-cites="kadavath2022mostly">Kadavath et al. (<a href="#ref-kadavath2022mostly" role="doc-biblioref">2022</a>)</span>: finds that language models can often estimate whether their own answers are correct, which is exactly the signal needed to implement a threshold rule in practice.</li>
+<li>Recent LLM work tries to <em>implement</em> the missing abstain/verify channel via refusal-aware tuning and explicit “IDK” tokens <span class="citation" data-cites="zhang-etal-2024-r cohen2024idontknowexplicit">(<a href="#ref-zhang-etal-2024-r" role="doc-biblioref">Zhang et al. 2024</a>; <a href="#ref-cohen2024idontknowexplicit" role="doc-biblioref">Cohen et al. 2024</a>)</span>, verification loops <span class="citation" data-cites="dhuliawala2023chainofverificationreduceshallucinationlarge altinisik2026doireallyknow">(<a href="#ref-dhuliawala2023chainofverificationreduceshallucinationlarge" role="doc-biblioref">Dhuliawala et al. 2023</a>; <a href="#ref-altinisik2026doireallyknow" role="doc-biblioref">Altinisik et al. 2026</a>)</span>, and black-box uncertainty proxies like sampling-based checks or semantic uncertainty <span class="citation" data-cites="manakul-etal-2023-selfcheckgpt farquhar2024detectinghallucinationssemanticentropy">(<a href="#ref-manakul-etal-2023-selfcheckgpt" role="doc-biblioref">Manakul, Liusie, and Gales 2023</a>; <a href="#ref-farquhar2024detectinghallucinationssemanticentropy" role="doc-biblioref">Farquhar et al. 2024</a>)</span>.</li>
+<li><span class="citation" data-cites="kalai2025why">Kalai et al. (<a href="#ref-kalai2025why" role="doc-biblioref">2025</a>)</span>: argues LLM hallucinations are a predictable consequence of binary grading that penalizes abstention; proposes a scoring rule that makes abstaining optimal below a stated confidence threshold.</li>
 </ul>
 </section>
 <section id="chow-1970-optimal-reject-rules" class="level3">
@@ -527,6 +518,16 @@ p_f = \frac{\bar U}{\pi_f} - \frac{\pi_s}{\pi_f}\,p_s.
 \]</span></p>
 <p>In the Marschak-Machina triangle, this threshold corresponds to one of the indifference lines: the boundary between the region where prediction is preferred and the region where abstention is preferred.</p>
 </section>
+<section id="herbei-and-wegkamp-2006-and-followups-learning-a-reject-option" class="level3">
+<h3 class="anchored" data-anchor-id="herbei-and-wegkamp-2006-and-followups-learning-a-reject-option">Herbei and Wegkamp (2006) and followups: Learning a reject option</h3>
+<p><span class="citation" data-cites="herbei2006reject">Herbei and Wegkamp (<a href="#ref-herbei2006reject" role="doc-biblioref">2006</a>)</span> (and a large followup literature) reframes the reject option as a learning problem: you want a predictor that is accurate on the examples it attempts, while explicitly controlling how often it refuses.</p>
+<p>For this post, the key takeaway is less about any one algorithm and more about the framing: “abstention is a first-class action” is standard in the statistical decision-theory literature, and the same expected-utility thresholds show up once you make the third outcome explicit.</p>
+</section>
+<section id="kadavath-et-al.-2022-models-can-sometimes-score-their-own-answers" class="level3">
+<h3 class="anchored" data-anchor-id="kadavath-et-al.-2022-models-can-sometimes-score-their-own-answers">Kadavath et al.&nbsp;(2022): Models can sometimes score their own answers</h3>
+<p>If you want the simple <span class="math inline">\(p^*\)</span> rule to be usable, you need some per-question measure of correctness probability (like <span class="math inline">\(p_{\max}(x)\)</span> or a direct <span class="math inline">\(P(\text{correct}\mid x)\)</span> proxy).</p>
+<p><span class="citation" data-cites="kadavath2022mostly">Kadavath et al. (<a href="#ref-kadavath2022mostly" role="doc-biblioref">2022</a>)</span> study this in language models, finding that they can often estimate whether their own answers are correct. That makes “give the user a probability” a practical interface choice, not just a theoretical one.</p>
+</section>
 <section id="kalai-nachum-vempala-and-zhang-2025-why-language-models-hallucinate" class="level3">
 <h3 class="anchored" data-anchor-id="kalai-nachum-vempala-and-zhang-2025-why-language-models-hallucinate">Kalai, Nachum, Vempala, and Zhang (2025): Why language models hallucinate</h3>
 <p><span class="citation" data-cites="kalai2025why">Kalai et al. (<a href="#ref-kalai2025why" role="doc-biblioref">2025</a>)</span> argue that hallucinations are not a mysterious glitch but a predictable consequence of how models are trained and evaluated. Their central thesis is that the three-outcome structure (succeed, fail, abstain) is systematically distorted by binary evaluation:</p>
@@ -539,23 +540,15 @@ p_f = \frac{\bar U}{\pi_f} - \frac{\pi_s}{\pi_f}\,p_s.
 <p><strong>2. Post-training persistence.</strong> Even after RLHF and other interventions, hallucinations persist because nearly all evaluation benchmarks use binary grading that penalizes abstention:</p>
 <p>The fix they propose is exactly the payoff structure from our Marschak-Machina framework: penalize errors more than abstentions, with an explicit confidence threshold <span class="math inline">\(t\)</span> stated in the prompt. Their proposed scoring rule awards <span class="math inline">\(+1\)</span> for a correct answer, <span class="math inline">\(-t/(1-t)\)</span> for an incorrect answer, and <span class="math inline">\(0\)</span> for abstaining—so that answering is optimal iff confidence exceeds <span class="math inline">\(t\)</span>. This is Chow’s reject-option rule rediscovered in the LLM evaluation context.</p>
 </section>
-<section id="selective-classification-risk-coverage-tradeoffs" class="level3">
-<h3 class="anchored" data-anchor-id="selective-classification-risk-coverage-tradeoffs">Selective classification (risk-coverage tradeoffs)</h3>
-<p>In modern ML, the reject option is often framed as <strong>selective classification</strong>: a predictor chooses a subset of examples to label (“coverage”) and aims to minimize error on that subset (“risk”). This is the same three-outcome structure in different words: success/failure live inside the covered set, and abstention is the complement.</p>
+<section id="recent-mechanisms-refusal-uncertainty-signals-and-verification" class="level3">
+<h3 class="anchored" data-anchor-id="recent-mechanisms-refusal-uncertainty-signals-and-verification">Recent mechanisms: refusal, uncertainty signals, and verification</h3>
+<p>Our model is deliberately abstract: it assumes the user has access to (i) a usable confidence signal <span class="math inline">\(p\)</span> and (ii) an abstain / verify channel. A lot of recent work can be read as ways of engineering those two ingredients:</p>
 <ul>
-<li><span class="citation" data-cites="elyaniv2010selective">El-Yaniv and Wiener (<a href="#ref-elyaniv2010selective" role="doc-biblioref">2010</a>)</span> develops foundations for selective classification and emphasizes the risk-coverage tradeoff.</li>
-<li><span class="citation" data-cites="herbei2006reject">Herbei and Wegkamp (<a href="#ref-herbei2006reject" role="doc-biblioref">2006</a>)</span> and <span class="citation" data-cites="bartlett2008reject">Bartlett and Wegkamp (<a href="#ref-bartlett2008reject" role="doc-biblioref">2008</a>)</span> study classification with a reject option and how to learn it via loss minimization.</li>
-<li><span class="citation" data-cites="geifman2019selectivenet">Geifman and El-Yaniv (<a href="#ref-geifman2019selectivenet" role="doc-biblioref">2019</a>)</span> shows one way to build the reject option directly into deep networks by jointly learning a predictor and a selection function.</li>
+<li><p><strong>Make abstention an explicit output.</strong> Refusal-aware fine-tuning can teach a model to say “I don’t know” on out-of-knowledge questions <span class="citation" data-cites="zhang-etal-2024-r">(<a href="#ref-zhang-etal-2024-r" role="doc-biblioref">Zhang et al. 2024</a>)</span>. Similarly, adding an explicit uncertainty token and training it to soak up probability mass on incorrect predictions effectively adds an abstain action to the model’s output space <span class="citation" data-cites="cohen2024idontknowexplicit">(<a href="#ref-cohen2024idontknowexplicit" role="doc-biblioref">Cohen et al. 2024</a>)</span>.</p></li>
+<li><p><strong>Pay a cost to verify.</strong> Inference-time verification loops like Chain-of-Verification (CoVe) can be viewed as “spend extra tokens/compute to reduce <span class="math inline">\(p_f\)</span>” <span class="citation" data-cites="dhuliawala2023chainofverificationreduceshallucinationlarge">(<a href="#ref-dhuliawala2023chainofverificationreduceshallucinationlarge" role="doc-biblioref">Dhuliawala et al. 2023</a>)</span>. Very recent work trains this kind of behavior directly, with structured self-verification traces and an explicit final decision to answer vs abstain <span class="citation" data-cites="altinisik2026doireallyknow">(<a href="#ref-altinisik2026doireallyknow" role="doc-biblioref">Altinisik et al. 2026</a>)</span>.</p></li>
+<li><p><strong>Construct a confidence signal without logits.</strong> When output probabilities are unavailable (or untrustworthy), disagreement across samples can act as a proxy confidence signal. SelfCheckGPT does this with sampling-based consistency checks <span class="citation" data-cites="manakul-etal-2023-selfcheckgpt">(<a href="#ref-manakul-etal-2023-selfcheckgpt" role="doc-biblioref">Manakul, Liusie, and Gales 2023</a>)</span>; semantic-uncertainty methods like semantic entropy similarly use semantic variability across generations to predict and filter confabulations <span class="citation" data-cites="farquhar2024detectinghallucinationssemanticentropy">(<a href="#ref-farquhar2024detectinghallucinationssemanticentropy" role="doc-biblioref">Farquhar et al. 2024</a>)</span>, and followup work proposes cheaper “semantic entropy probes” in the same spirit <span class="citation" data-cites="kossen2024semanticentropyprobesrobust">(<a href="#ref-kossen2024semanticentropyprobesrobust" role="doc-biblioref">Kossen et al. 2024</a>)</span>.</p></li>
 </ul>
-<p>The important connection to this post is: once you make abstention explicit, the “right” threshold is not a moral property of the model; it is the decision boundary induced by payoffs.</p>
-</section>
-<section id="calibration-and-scoring-rules" class="level3">
-<h3 class="anchored" data-anchor-id="calibration-and-scoring-rules">Calibration and scoring rules</h3>
-<p>If you want a continuous interface (probabilities) to be useful, you need those probabilities to mean something. Proper scoring rules give a principled way to reward honest probability forecasts and thereby encourage calibration <span class="citation" data-cites="gneiting2007scoring">(<a href="#ref-gneiting2007scoring" role="doc-biblioref">Gneiting and Raftery 2007</a>)</span>. Empirically, some work finds that language models can often estimate the probability their own answers are correct, which is exactly the signal a user needs to implement a threshold rule <span class="citation" data-cites="kadavath2022mostly">(<a href="#ref-kadavath2022mostly" role="doc-biblioref">Kadavath et al. 2022</a>)</span>.</p>
-</section>
-<section id="conformal-prediction-prediction-sets" class="level3">
-<h3 class="anchored" data-anchor-id="conformal-prediction-prediction-sets">Conformal prediction (prediction sets)</h3>
-<p>Conformal prediction is a complementary approach: instead of outputting a single label, it outputs a <strong>set</strong> of plausible labels with finite-sample coverage guarantees. Large sets correspond to “I don’t know” behavior; singletons correspond to confident predictions. This provides a distribution-free way to control error rates of the attempted answers, given a calibration set <span class="citation" data-cites="shafer2008conformal angelopoulos2021gentle">(<a href="#ref-shafer2008conformal" role="doc-biblioref">Shafer and Vovk 2008</a>; <a href="#ref-angelopoulos2021gentle" role="doc-biblioref">Angelopoulos and Bates 2021</a>)</span>.</p>
+<p>A cautionary note: neither uncertainty proxies nor “self-verification” are automatically reliable. Some hallucinations happen with high confidence (so uncertainty-based filters can miss them) <span class="citation" data-cites="simhi2025trustmeimwrong">(<a href="#ref-simhi2025trustmeimwrong" role="doc-biblioref">Simhi et al. 2025</a>)</span>, and in logical reasoning settings models can struggle to identify their own errors (so internal self-checks can fail without external grounding) <span class="citation" data-cites="hong-etal-2024-closer">(<a href="#ref-hong-etal-2024-closer" role="doc-biblioref">Hong et al. 2024</a>)</span>.</p>
 </section>
 </section>
 <section id="implications-for-alignment" class="level2">
@@ -565,8 +558,31 @@ p_f = \frac{\bar U}{\pi_f} - \frac{\pi_s}{\pi_f}\,p_s.
 <ul>
 <li><strong>Expose confidence.</strong> If the user cannot observe confidence, they cannot implement the threshold rule; binary outputs force guessing.</li>
 <li><strong>Score abstention explicitly.</strong> Benchmarks that collapse abstain into “wrong” implicitly set <span class="math inline">\(\pi_a=\pi_f\)</span> and will select for guessing.</li>
-<li><strong>Prefer calibrated probabilities or verification hooks.</strong> Either give users a usable <span class="math inline">\(p_{\max}\)</span>, or route medium-confidence cases to a verification workflow.</li>
+<li><strong>Prefer probabilities or verification hooks.</strong> Either give users a usable <span class="math inline">\(p_{\max}\)</span>, or route medium-confidence cases to a verification workflow (a second pass, a tool call, or a structured self-check) <span class="citation" data-cites="dhuliawala2023chainofverificationreduceshallucinationlarge farquhar2024detectinghallucinationssemanticentropy">(<a href="#ref-dhuliawala2023chainofverificationreduceshallucinationlarge" role="doc-biblioref">Dhuliawala et al. 2023</a>; <a href="#ref-farquhar2024detectinghallucinationssemanticentropy" role="doc-biblioref">Farquhar et al. 2024</a>)</span>.</li>
 </ul>
+</section>
+<section id="appendix-verification" class="level2">
+<h2 class="anchored" data-anchor-id="appendix-verification">Appendix: Verification option</h2>
+<p>Suppose the user has a way to pay a cost <span class="math inline">\(c\)</span> to obtain the correct answer (e.g.&nbsp;look it up, run an expensive check, ask a human). In the simplest model, verification yields certain success with payoff <span class="math inline">\(\pi_s-c\)</span>.</p>
+<p>Since abstaining and verifying are both “outside options” (their payoff does not depend on the model’s confidence), the only relevant outside-option payoff is <span class="math display">\[
+\pi_{\text{outside}}=\max\{\pi_a,\;\pi_s-c\}.
+\]</span></p>
+<p>The attempt rule is the same threshold logic as before: attempt iff <span class="math display">\[
+p \ge \frac{\pi_{\text{outside}}-\pi_f}{\pi_s-\pi_f}.
+\]</span></p>
+<p>In the example shown below, <span class="math inline">\((\pi_s,\pi_a,\pi_f)=(2,0,-2)\)</span> and <span class="math inline">\(\pi_s-c=1\)</span>, so <span class="math display">\[
+p^*_{\mathrm{verify}}=\frac{1-(-2)}{2-(-2)}=\tfrac{3}{4}.
+\]</span></p>
+<p>Operationally, “verify” can mean many things: a web lookup, a separate fact-checking model, retrieval + citation, or even a structured self-checking loop that spends extra tokens before committing to an answer <span class="citation" data-cites="dhuliawala2023chainofverificationreduceshallucinationlarge altinisik2026doireallyknow">(<a href="#ref-dhuliawala2023chainofverificationreduceshallucinationlarge" role="doc-biblioref">Dhuliawala et al. 2023</a>; <a href="#ref-altinisik2026doireallyknow" role="doc-biblioref">Altinisik et al. 2026</a>)</span>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2026-02-26-hallucinations-and-alignment_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="appendix-cross-benchmark-outcome-table" class="level2">
 <h2 class="anchored" data-anchor-id="appendix-cross-benchmark-outcome-table">Appendix: Cross-Benchmark Outcome Table</h2>
@@ -639,146 +655,6 @@ p_f = \frac{\bar U}{\pi_f} - \frac{\pi_s}{\pi_f}\,p_s.
 <td style="text-align: right;">9.2</td>
 </tr>
 <tr class="odd">
-<td>AbstentionBench</td>
-<td>DeepSeek R1 Distill Llama 70B</td>
-<td style="text-align: right;">43.7</td>
-<td style="text-align: right;">10.3</td>
-<td style="text-align: right;">46.0</td>
-</tr>
-<tr class="even">
-<td>AbstentionBench</td>
-<td>o1</td>
-<td style="text-align: right;">27.2</td>
-<td style="text-align: right;">6.8</td>
-<td style="text-align: right;">66.0</td>
-</tr>
-<tr class="odd">
-<td>AbstentionBench</td>
-<td>S1.1 32B</td>
-<td style="text-align: right;">45.6</td>
-<td style="text-align: right;">11.4</td>
-<td style="text-align: right;">43.0</td>
-</tr>
-<tr class="even">
-<td>AbstentionBench</td>
-<td>Llama 3.1 70B Tulu 3 DPO</td>
-<td style="text-align: right;">26.1</td>
-<td style="text-align: right;">6.9</td>
-<td style="text-align: right;">67.0</td>
-</tr>
-<tr class="odd">
-<td>AbstentionBench</td>
-<td>Llama 3.1 70B Tulu 3 PPO RLVF</td>
-<td style="text-align: right;">26.9</td>
-<td style="text-align: right;">7.1</td>
-<td style="text-align: right;">66.0</td>
-</tr>
-<tr class="even">
-<td>AbstentionBench</td>
-<td>Llama 3.3 70B Instruct</td>
-<td style="text-align: right;">26.5</td>
-<td style="text-align: right;">7.5</td>
-<td style="text-align: right;">66.0</td>
-</tr>
-<tr class="odd">
-<td>AbstentionBench</td>
-<td>Gemini 1.5 Pro</td>
-<td style="text-align: right;">25.4</td>
-<td style="text-align: right;">7.6</td>
-<td style="text-align: right;">67.0</td>
-</tr>
-<tr class="even">
-<td>AbstentionBench</td>
-<td>GPT-4o</td>
-<td style="text-align: right;">23.3</td>
-<td style="text-align: right;">7.8</td>
-<td style="text-align: right;">69.0</td>
-</tr>
-<tr class="odd">
-<td>AbstentionBench</td>
-<td>Qwen2.5 32B</td>
-<td style="text-align: right;">21.8</td>
-<td style="text-align: right;">7.3</td>
-<td style="text-align: right;">71.0</td>
-</tr>
-<tr class="even">
-<td>AbstentionBench</td>
-<td>Llama 3.1 8B Tulu 3 PPO RLVF</td>
-<td style="text-align: right;">36.8</td>
-<td style="text-align: right;">12.3</td>
-<td style="text-align: right;">51.0</td>
-</tr>
-<tr class="odd">
-<td>AbstentionBench</td>
-<td>Llama 3.1 405B Instruct</td>
-<td style="text-align: right;">23.7</td>
-<td style="text-align: right;">8.3</td>
-<td style="text-align: right;">68.0</td>
-</tr>
-<tr class="even">
-<td>AbstentionBench</td>
-<td>Llama 3.1 8B Tulu 3 DPO</td>
-<td style="text-align: right;">34.8</td>
-<td style="text-align: right;">12.2</td>
-<td style="text-align: right;">53.0</td>
-</tr>
-<tr class="odd">
-<td>AbstentionBench</td>
-<td>Llama 3.1 70B Instruct</td>
-<td style="text-align: right;">26.6</td>
-<td style="text-align: right;">9.4</td>
-<td style="text-align: right;">64.0</td>
-</tr>
-<tr class="even">
-<td>AbstentionBench</td>
-<td>Llama 3.1 70B Tulu 3 SFT</td>
-<td style="text-align: right;">30.1</td>
-<td style="text-align: right;">12.9</td>
-<td style="text-align: right;">57.0</td>
-</tr>
-<tr class="odd">
-<td>AbstentionBench</td>
-<td>Llama 3.1 8B Instruct</td>
-<td style="text-align: right;">23.8</td>
-<td style="text-align: right;">10.2</td>
-<td style="text-align: right;">66.0</td>
-</tr>
-<tr class="even">
-<td>AbstentionBench</td>
-<td>Mistral 7B v0.3</td>
-<td style="text-align: right;">25.5</td>
-<td style="text-align: right;">11.5</td>
-<td style="text-align: right;">63.0</td>
-</tr>
-<tr class="odd">
-<td>AbstentionBench</td>
-<td>Llama 3.1 8B Tulu 3 SFT</td>
-<td style="text-align: right;">37.1</td>
-<td style="text-align: right;">20.0</td>
-<td style="text-align: right;">43.0</td>
-</tr>
-<tr class="even">
-<td>AbstentionBench</td>
-<td>OLMo 7B</td>
-<td style="text-align: right;">25.8</td>
-<td style="text-align: right;">20.2</td>
-<td style="text-align: right;">54.0</td>
-</tr>
-<tr class="odd">
-<td>AbstentionBench</td>
-<td>Llama 3.1 70B Base</td>
-<td style="text-align: right;">25.5</td>
-<td style="text-align: right;">25.5</td>
-<td style="text-align: right;">49.0</td>
-</tr>
-<tr class="even">
-<td>AbstentionBench</td>
-<td>Llama 3.1 8B Base</td>
-<td style="text-align: right;">23.5</td>
-<td style="text-align: right;">32.5</td>
-<td style="text-align: right;">44.0</td>
-</tr>
-<tr class="odd">
 <td>Abstain-QA</td>
 <td>GPT-4 Turbo</td>
 <td style="text-align: right;">66.1</td>
@@ -815,32 +691,28 @@ p_f = \frac{\bar U}{\pi_f} - \frac{\pi_s}{\pi_f}\,p_s.
 </tr>
 </tbody>
 </table>
-<p>Notes: - Table columns are constructed to look like probabilities in the <span class="math inline">\((p_s,p_f,p_a)\)</span> simplex: <span class="math inline">\(p_s=\text{p\_s\_pct}/100\)</span>, <span class="math inline">\(p_f=\text{p\_f\_pct}/100\)</span>, <span class="math inline">\(p_a=\text{p\_a\_pct}/100\)</span>. - For SimpleQA, these correspond directly to {Correct, Incorrect, Not attempted} shares. - For the other benchmarks, these are <em>constructed</em> from the paper’s summary metrics to enable geometric comparisons; interpret them as a mapping into a common coordinate system, not as identical underlying evaluation protocols.</p>
+<p>Notes: - Table columns are constructed to look like probabilities in the <span class="math inline">\((p_s,p_f,p_a)\)</span> simplex: <span class="math inline">\(p_s=\text{p\_s\_pct}/100\)</span>, <span class="math inline">\(p_f=\text{p\_f\_pct}/100\)</span>, <span class="math inline">\(p_a=\text{p\_a\_pct}/100\)</span>. - For SimpleQA, these correspond directly to {Correct, Incorrect, Not attempted} shares. - For Abstain-QA, these are constructed from the paper’s summary metrics; interpret them as a mapping into a common coordinate system, not as identical underlying evaluation protocols.</p>
 <section id="data-extraction-details-by-source" class="level3">
 <h3 class="anchored" data-anchor-id="data-extraction-details-by-source">Data extraction details by source</h3>
-<p><strong>SimpleQA (Wei et al., 2024).</strong> The table uses all model rows shown in the main SimpleQA model-comparison table (8 models). Here, <code>p_s_pct</code> is <strong>Correct</strong>, <code>p_a_pct</code> is <strong>Not attempted</strong>, and <code>p_f_pct</code> is computed as <span class="math inline">\(100-\text{Correct}-\text{Not attempted}\)</span>. I chose this slice because it is the paper’s canonical cross-model summary and directly exposes explicit non-attempt behavior.</p>
-<p><strong>AbstentionBench (Kirichenko et al., 2025).</strong> The table uses all model rows from Appendix D Table 4 (20 models). The paper reports <strong>Average Accuracy</strong> and <strong>Average Abstention Recall</strong>. I set <span class="math inline">\(p_{a,\%} = \text{Average Abstention Recall}\)</span>, interpret <span class="math inline">\(100-p_a\)</span> as an attempt-like rate, and construct <span class="math display">\[
-p_s \approx \text{AvgAcc}\cdot(1-p_a),\qquad
-p_f \approx (1-\text{AvgAcc})\cdot(1-p_a),
-\]</span> all expressed in percent. This is not a literal per-question abstain rate; it’s a mapping for geometric intuition using the only aggregate abstention signal reported in the table.</p>
-<p><strong>Abstain-QA (Madhusudhan et al., 2024).</strong> This is a deliberate subset, not all values in the paper: I take the <strong>MMLU / Standard clause / Base</strong> rows (5 models) from the main result table. The paper reports <strong>AAC</strong> (answerable accuracy) and <strong>AR</strong> (abstention rate). I set <span class="math inline">\(p_{a,\%}=\text{AR}\)</span> and construct <span class="math inline">\(p_{s,\%}\)</span> and <span class="math inline">\(p_{f,\%}\)</span> by treating AAC as attempt-conditional accuracy: <span class="math display">\[
+<p><strong>SimpleQA (Wei et al., 2024) <span class="citation" data-cites="wei2024measuringshortformfactualitylarge">(<a href="#ref-wei2024measuringshortformfactualitylarge" role="doc-biblioref">Wei et al. 2024</a>)</span>.</strong> The table uses all model rows shown in the main SimpleQA model-comparison table (8 models). Here, <code>p_s_pct</code> is <strong>Correct</strong>, <code>p_a_pct</code> is <strong>Not attempted</strong>, and <code>p_f_pct</code> is computed as <span class="math inline">\(100-\text{Correct}-\text{Not attempted}\)</span>. I chose this slice because it is the paper’s canonical cross-model summary and directly exposes explicit non-attempt behavior.</p>
+<p><strong>Abstain-QA (Madhusudhan et al., 2024) <span class="citation" data-cites="madhusudhan2024llmsknowanswerinvestigating">(<a href="#ref-madhusudhan2024llmsknowanswerinvestigating" role="doc-biblioref">Madhusudhan et al. 2024</a>)</span>.</strong> This is a deliberate subset, not all values in the paper: I take the <strong>MMLU / Standard clause / Base</strong> rows (5 models) from the main result table. The paper reports <strong>AAC</strong> (answerable accuracy) and <strong>AR</strong> (abstention rate). I set <span class="math inline">\(p_{a,\%}=\text{AR}\)</span> and construct <span class="math inline">\(p_{s,\%}\)</span> and <span class="math inline">\(p_{f,\%}\)</span> by treating AAC as attempt-conditional accuracy: <span class="math display">\[
 p_s = \text{AAC}\cdot(1-p_a),\qquad
 p_f = (1-\text{AAC})\cdot(1-p_a),
 \]</span> all expressed in percent.</p>
-<p><strong>Important comparability caveats.</strong> Even after mapping all results into <span class="math inline">\((p_s,p_f,p_a)\)</span> coordinates, the underlying tasks and abstention metrics differ: SimpleQA is short-form factual QA with optional non-attempts, AbstentionBench is an abstention-focused multi-scenario benchmark with recall-style abstention metrics, and Abstain-QA is multiple-choice QA with an explicit IDK/NOTA option. So the combined table is useful for geometric intuition and directional comparisons, but not for strict leaderboard ranking across benchmarks.</p>
-<p>Sources: ¹ <a href="https://arxiv.org/pdf/2411.04368">SimpleQA: Measuring short-form factuality in large language models</a><br>
-² <a href="https://arxiv.org/html/2506.09038v1">AbstentionBench: Reasoning LLMs Fail on Unanswerable Questions</a><br>
-³ <a href="https://arxiv.org/html/2407.16221">Do LLMs Know When to NOT Answer? Investigating Abstention Abilities of Large Language Models</a></p>
+<p><strong>Important comparability caveats.</strong> Even after mapping all results into <span class="math inline">\((p_s,p_f,p_a)\)</span> coordinates, the underlying tasks and abstention protocols differ: SimpleQA is short-form factual QA with optional non-attempts, while Abstain-QA is multiple-choice QA with an explicit IDK/NOTA option. So the combined table is useful for geometric intuition and directional comparisons, but not for strict leaderboard ranking across benchmarks.</p>
+<p>Sources: <span class="citation" data-cites="wei2024measuringshortformfactualitylarge">Wei et al. (<a href="#ref-wei2024measuringshortformfactualitylarge" role="doc-biblioref">2024</a>)</span>; <span class="citation" data-cites="madhusudhan2024llmsknowanswerinvestigating">Madhusudhan et al. (<a href="#ref-madhusudhan2024llmsknowanswerinvestigating" role="doc-biblioref">2024</a>)</span>.</p>
 </section>
 </section>
 <section id="appendix-benchmark-points-in-the-simplex" class="level2">
 <h2 class="anchored" data-anchor-id="appendix-benchmark-points-in-the-simplex">Appendix: Benchmark Points in the Simplex</h2>
-<p>The next three figures plot benchmark observations as points on a Marschak-Machina simplex using a common transformation from the table columns:</p>
+<p>The next two figures plot benchmark observations as points on a Marschak-Machina simplex using a common transformation from the table columns:</p>
 <p><span class="math display">\[
 p_s = \text{p\_s\_pct}/100,\qquad
 p_f = \text{p\_f\_pct}/100,\qquad
 p_a = \text{p\_a\_pct}/100.
 \]</span></p>
+<section id="simpleqa" class="level3">
+<h3 class="anchored" data-anchor-id="simpleqa">SimpleQA</h3>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -850,6 +722,19 @@ p_a = \text{p\_a\_pct}/100.
 </div>
 </div>
 </div>
+</section>
+<section id="abstain-qa" class="level3">
+<h3 class="anchored" data-anchor-id="abstain-qa">Abstain-QA</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2026-02-26-hallucinations-and-alignment_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
 <section id="reading-the-simplex-plots" class="level3">
 <h3 class="anchored" data-anchor-id="reading-the-simplex-plots">Reading the simplex plots</h3>
 <ol type="1">
@@ -865,8 +750,8 @@ p_a = \text{p\_a\_pct}/100.
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-angelopoulos2021gentle" class="csl-entry" role="listitem">
-Angelopoulos, Anastasios N., and Stephen Bates. 2021. <span>“A Gentle Introduction to Conformal Prediction and Distribution-Free Uncertainty Quantification.”</span> <em>arXiv Preprint</em>. <a href="https://doi.org/10.48550/arXiv.2107.07511">https://doi.org/10.48550/arXiv.2107.07511</a>.
+<div id="ref-altinisik2026doireallyknow" class="csl-entry" role="listitem">
+Altinisik, Enes, Masoomali Fatehkia, Fatih Deniz, Nadir Durrani, Majd Hawasly, Mohammad Raza, and Husrev Taha Sencar. 2026. <span>“Do i Really Know? Learning Factual Self-Verification for Hallucination Reduction.”</span> <a href="https://doi.org/10.48550/arXiv.2602.02018">https://doi.org/10.48550/arXiv.2602.02018</a>.
 </div>
 <div id="ref-bartlett2008reject" class="csl-entry" role="listitem">
 Bartlett, Peter L., and Marten H. Wegkamp. 2008. <span>“Classification with a Reject Option Using a Hinge Loss.”</span> <em>Journal of Machine Learning Research</em> 9 (59): 1823–40. <a href="https://www.jmlr.org/papers/v9/bartlett08a.html">https://www.jmlr.org/papers/v9/bartlett08a.html</a>.
@@ -877,17 +762,26 @@ Blackwell, David. 1953. <span>“Equivalent Comparisons of Experiments.”</span
 <div id="ref-chow1970optimum" class="csl-entry" role="listitem">
 Chow, C. K. 1970. <span>“On Optimum Recognition Error and Reject Tradeoff.”</span> <em>IEEE Transactions on Information Theory</em>. <a href="https://doi.org/10.1109/TIT.1970.1054406">https://doi.org/10.1109/TIT.1970.1054406</a>.
 </div>
+<div id="ref-cohen2024idontknowexplicit" class="csl-entry" role="listitem">
+Cohen, Roi, Konstantin Dobler, Eden Biran, and Gerard de Melo. 2024. <span>“I Don’t Know: Explicit Modeling of Uncertainty with an [IDK] Token.”</span> <a href="https://doi.org/10.48550/arXiv.2412.06676">https://doi.org/10.48550/arXiv.2412.06676</a>.
+</div>
+<div id="ref-dhuliawala2023chainofverificationreduceshallucinationlarge" class="csl-entry" role="listitem">
+Dhuliawala, Shehzaad, Mojtaba Komeili, Jing Xu, Roberta Raileanu, Xian Li, Asli Celikyilmaz, and Jason Weston. 2023. <span>“Chain-of-Verification Reduces Hallucination in Large Language Models.”</span> <a href="https://doi.org/10.48550/arXiv.2309.11495">https://doi.org/10.48550/arXiv.2309.11495</a>.
+</div>
 <div id="ref-elyaniv2010selective" class="csl-entry" role="listitem">
 El-Yaniv, Ran, and Yair Wiener. 2010. <span>“On the Foundations of Noise-Free Selective Classification.”</span> <em>Journal of Machine Learning Research</em> 11 (53): 1605–41. <a href="https://www.jmlr.org/papers/v11/el-yaniv10a.html">https://www.jmlr.org/papers/v11/el-yaniv10a.html</a>.
+</div>
+<div id="ref-farquhar2024detectinghallucinationssemanticentropy" class="csl-entry" role="listitem">
+Farquhar, Sebastian, Jannik Kossen, Lorenz Kuhn, and Yarin Gal. 2024. <span>“Detecting Hallucinations in Large Language Models Using Semantic Entropy.”</span> <em>Nature</em> 630 (8017): 625–30. <a href="https://doi.org/10.1038/s41586-024-07421-0">https://doi.org/10.1038/s41586-024-07421-0</a>.
 </div>
 <div id="ref-geifman2019selectivenet" class="csl-entry" role="listitem">
 Geifman, Yonatan, and Ran El-Yaniv. 2019. <span>“SelectiveNet: A Deep Neural Network with an Integrated Reject Option.”</span> In <em>Proceedings of the 36th International Conference on Machine Learning</em>, 97:2151–59. Proceedings of Machine Learning Research. <a href="https://proceedings.mlr.press/v97/geifman19a.html">https://proceedings.mlr.press/v97/geifman19a.html</a>.
 </div>
-<div id="ref-gneiting2007scoring" class="csl-entry" role="listitem">
-Gneiting, Tilmann, and Adrian E. Raftery. 2007. <span>“Strictly Proper Scoring Rules, Prediction, and Estimation.”</span> <em>Journal of the American Statistical Association</em> 102 (477): 359–78. <a href="https://doi.org/10.1198/016214506000001437">https://doi.org/10.1198/016214506000001437</a>.
-</div>
 <div id="ref-herbei2006reject" class="csl-entry" role="listitem">
 Herbei, Radu, and Marten H. Wegkamp. 2006. <span>“Classification with Reject Option.”</span> <em>The Canadian Journal of Statistics</em> 34 (4): 709–21. <a href="https://doi.org/10.1002/cjs.5550340410">https://doi.org/10.1002/cjs.5550340410</a>.
+</div>
+<div id="ref-hong-etal-2024-closer" class="csl-entry" role="listitem">
+Hong, Ruixin, Hongming Zhang, Xinyu Pang, Dong Yu, and Changshui Zhang. 2024. <span>“A Closer Look at the Self-Verification Abilities of Large Language Models in Logical Reasoning.”</span> In <em>Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)</em>, 900–925. Mexico City, Mexico: Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2024.naacl-long.52">https://doi.org/10.18653/v1/2024.naacl-long.52</a>.
 </div>
 <div id="ref-kadavath2022mostly" class="csl-entry" role="listitem">
 Kadavath, Saurav, Tom Conerly, Amanda Askell, Tom Henighan, Dawn Drain, Ethan Perez, Nicholas Schiefer, et al. 2022. <span>“Language Models (Mostly) Know What They Know.”</span> <em>arXiv Preprint</em>. <a href="https://doi.org/10.48550/arXiv.2207.05221">https://doi.org/10.48550/arXiv.2207.05221</a>.
@@ -895,8 +789,23 @@ Kadavath, Saurav, Tom Conerly, Amanda Askell, Tom Henighan, Dawn Drain, Ethan Pe
 <div id="ref-kalai2025why" class="csl-entry" role="listitem">
 Kalai, Adam Tauman, Ofir Nachum, Santosh S. Vempala, and Edwin Zhang. 2025. <span>“Why Language Models Hallucinate.”</span> <em>arXiv Preprint</em> arXiv:2509.04664 (September). <a href="https://doi.org/10.48550/arXiv.2509.04664">https://doi.org/10.48550/arXiv.2509.04664</a>.
 </div>
-<div id="ref-shafer2008conformal" class="csl-entry" role="listitem">
-Shafer, Glenn, and Vladimir Vovk. 2008. <span>“A Tutorial on Conformal Prediction.”</span> <em>Journal of Machine Learning Research</em> 9 (12): 371–421. <a href="https://www.jmlr.org/papers/v9/shafer08a.html">https://www.jmlr.org/papers/v9/shafer08a.html</a>.
+<div id="ref-kossen2024semanticentropyprobesrobust" class="csl-entry" role="listitem">
+Kossen, Jannik, Jiatong Han, Muhammed Razzak, Lisa Schut, Shreshth Malik, and Yarin Gal. 2024. <span>“Semantic Entropy Probes: Robust and Cheap Hallucination Detection in <span>LLM</span>s.”</span> <a href="https://doi.org/10.48550/arXiv.2406.15927">https://doi.org/10.48550/arXiv.2406.15927</a>.
+</div>
+<div id="ref-madhusudhan2024llmsknowanswerinvestigating" class="csl-entry" role="listitem">
+Madhusudhan, Nishanth, Sathwik Tejaswi Madhusudhan, Vikas Yadav, and Masoud Hashemi. 2024. <span>“Do <span>LLM</span>s Know When to <span>NOT</span> Answer? Investigating Abstention Abilities of Large Language Models.”</span> <a href="https://doi.org/10.48550/arXiv.2407.16221">https://doi.org/10.48550/arXiv.2407.16221</a>.
+</div>
+<div id="ref-manakul-etal-2023-selfcheckgpt" class="csl-entry" role="listitem">
+Manakul, Potsawee, Adian Liusie, and Mark Gales. 2023. <span>“SelfCheckGPT: Zero-Resource Black-Box Hallucination Detection for Generative Large Language Models.”</span> In <em>Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing</em>, 9004–17. Singapore: Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2023.emnlp-main.557">https://doi.org/10.18653/v1/2023.emnlp-main.557</a>.
+</div>
+<div id="ref-simhi2025trustmeimwrong" class="csl-entry" role="listitem">
+Simhi, Adi, Itay Itzhak, Fazl Barez, Gabriel Stanovsky, and Yonatan Belinkov. 2025. <span>“Trust Me, i’m Wrong: <span>LLM</span>s Hallucinate with Certainty Despite Knowing the Answer.”</span> <a href="https://doi.org/10.48550/arXiv.2502.12964">https://doi.org/10.48550/arXiv.2502.12964</a>.
+</div>
+<div id="ref-wei2024measuringshortformfactualitylarge" class="csl-entry" role="listitem">
+Wei, Jason, Karina Nguyen, Hyung Won Chung, Yunxin Joy Jiao, Spencer Papay, Amelia Glaese, John Schulman, and William Fedus. 2024. <span>“Measuring Short-Form Factuality in Large Language Models.”</span> <a href="https://doi.org/10.48550/arXiv.2411.04368">https://doi.org/10.48550/arXiv.2411.04368</a>.
+</div>
+<div id="ref-zhang-etal-2024-r" class="csl-entry" role="listitem">
+Zhang, Hanning, Shizhe Diao, Yong Lin, Yi Fung, Qing Lian, Xingyao Wang, Yangyi Chen, Heng Ji, and Tong Zhang. 2024. <span>“R-Tuning: Instructing Large Language Models to Say <span>“I</span> Don<span>’</span>t Know<span>”</span>.”</span> In <em>Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)</em>, 7113–39. Mexico City, Mexico: Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2024.naacl-long.394">https://doi.org/10.18653/v1/2024.naacl-long.394</a>.
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

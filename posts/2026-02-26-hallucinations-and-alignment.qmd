@@ -24,15 +24,17 @@ bibliography: ai.bib
     - Training with a reward only for accuracy encourages guessing over abstention.
     - Simplex representation:
         - We can illustrate different user preferences over succeed/fail/abstain on a simplex: reward accuracy; punish failure; F1. 
-        - We can illustrate different empirical results: SimpleQA, AbstentionBench, Abstain-QA. Put the simplex in the body, numerical results in the appendix.
+        - We can illustrate different empirical results: SimpleQA, Abstain-QA. Put the simplex in the body, numerical results in the appendix.
     
 
 - Additional notes
-    - Emphasize that I mostly follow Kalai et al. treatment, but add some helpful visualizations. 
+    - We will use these papers for terminology: (1) Wen et al (2025) "know your limits: a survey of abstention in large language models"; (2) Kalai et al. (2025) "Why Language Models Hallucinate". 
     - Related literature: start with a chronological list of related papers, Chow, Herbei and Wegkamp (you can mention there are other followsup on "classification with a reject option"), Kalai et al., Kadavath. Don't need to mention conformal prediction or calibration & scoring.
+    - Related literature: add a short "recent mechanisms" subsection on LLM-specific ways of implementing abstain/verify and confidence signals (e.g. refusal-aware tuning; explicit IDK tokens; verification loops; sampling-based or semantic-uncertainty detection). Include a short caveat that self-check/uncertainty can miss high-confidence hallucinations and can fail in some reasoning settings.
     - Detailed discussion of Chow (1970) and Kalai et al. (2025), list their claims precisely.
     - The diagrams should be super clear. Make sure you *look* at the diagrams to see that they are readable.
     - Plot data from different studies on simplex diagrams. Also give comments on the diagrams, on what the takewaay is about tradeoffs here, & see that's consistent with what the original papers say.
+    - Note early on different terminology: "abstain", "refuse", "reject", "IDK/i don't know", "forfeit", "concede", "fold" (others?)
 :::
 <!-- PROJECT-SPEC-HUMAN-END -->
 
@@ -50,7 +52,7 @@ bibliography: ai.bib
         - Binary usefulness is convex in average accuracy (kink at the abstain/use threshold).
         - Accuracy-only rewards + binary grading encourage guessing over abstention; connect to Kalai et al. (2025) and Chow (1970).
     - Geometry: use a Marschak-Machina simplex to visualize (a) user preferences (indifference lines) and (b) training/eval objectives.
-    - Related literature: start with a chronological list; keep focus on Chow (1970), Herbei and Wegkamp (2006) (+ brief mention of followups), Kalai et al. (2025), and Kadavath et al. (2022).
+    - Related literature: start with a chronological list; keep focus on Chow (1970), Herbei and Wegkamp (2006) (+ brief mention of followups), Kadavath et al. (2022), and Kalai et al. (2025). Add a short subsection on recent LLM-specific abstention / verification mechanisms (refusal-aware tuning, explicit IDK tokens, self-checking / verification loops, semantic-uncertainty detectors), plus one short caveat about high-confidence hallucinations.
 
 - Figures:
     - 1D payoff-vs-confidence threshold plot (clean, consistent sign conventions).
@@ -191,7 +193,7 @@ This figure visualizes the threshold rule: as confidence $p$ rises, the expected
   \draw[black, dashed] (\xThresh,\yMin) -- (\xThresh,\yMax);
   \node[above] at (\xThresh,\yMax)
     {$\pi_a = p\pi_s + (1-p)\pi_f$};
-  \node[below] at (\xThresh,-0.25) {$p^*$};
+  \node[below] at (\xThresh,-0.45) {$p^*$};
 \end{tikzpicture}
 ```
 
@@ -215,8 +217,8 @@ Different training/evaluation objectives induce different indifference-curve set
 
   % Reward accuracy: utility = p_s
   \begin{scope}[xshift=0cm]
-    \MMBaseSimplex{Reward accuracy}
-    \node[font=\scriptsize] at (0.50,0.86) {$U = p_s$};
+    \MMBaseSimplex{Accuracy-only}
+    \node[font=\scriptsize, fill=white, inner sep=1pt] at (0.50,0.86) {$U = p_s$};
     \begin{scope}
       \clip (0,0) -- (1,0) -- (0,1) -- cycle;
       \foreach \xx in {0.08,0.16,0.24,0.32,0.40,0.48,0.56,0.64,0.72,0.80,0.88,0.96} {
@@ -226,20 +228,20 @@ Different training/evaluation objectives induce different indifference-curve set
   \end{scope}
 
   % Punish failure: expected utility with strong negative pi_fail
-  \begin{scope}[xshift=1.45cm]
+  \begin{scope}[xshift=2.8cm]
     \def\piSucc{1.0}
     \def\piFail{-1.0}
     \def\piAbst{0.0}
-    \MMBaseSimplex{Punish failure}
-    \node[font=\scriptsize] at (0.50,0.86) {$U = p_s - \lambda p_f,\ \lambda=1$};
+    \MMBaseSimplex{Penalize failure}
+    \node[font=\scriptsize, fill=white, inner sep=1pt] at (0.50,0.86) {$U = p_s - p_f$};
     \MMIndifferenceGrid
   \end{scope}
 
   % F1 contours (single-question form, C=I=N=0):
   % F1 = 2 p_s / (1 + p_s + p_f), so p_f = ((2/u)-1)p_s - 1 for level u
-  \begin{scope}[xshift=2.9cm]
+  \begin{scope}[xshift=5.6cm]
     \MMBaseSimplex{F1}
-    \node[font=\scriptsize] at (0.50,0.86) {$U = \frac{2p_s}{1+p_s+p_f}$};
+    \node[font=\scriptsize, fill=white, inner sep=1pt] at (0.50,0.86) {$U = \frac{2p_s}{1+p_s+p_f}$};
     \begin{scope}
       \clip (0,0) -- (1,0) -- (0,1) -- cycle;
       \foreach \ubar in {0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95} {
@@ -253,8 +255,8 @@ Different training/evaluation objectives induce different indifference-curve set
 
 Each point in the simplex is a lottery over outcomes: a model might succeed with probability $p_s$, fail with probability $p_f$, and abstain with probability $p_a$. The panels show three different objective families:
 
-- **Reward accuracy** ($U=p_s$): success is rewarded, but failure and abstention are treated the same. This creates pressure to guess rather than abstain.
-- **Punish failure** (linear expected utility): failure is explicitly penalized relative to abstention, expanding the region where abstaining is optimal.
+- **Accuracy-only** ($U=p_s$): success is rewarded, but failure and abstention are treated the same. This creates pressure to guess rather than abstain.
+- **Penalize failure** (linear expected utility): failure is explicitly penalized relative to abstention, expanding the region where abstaining is optimal.
 - **F1** (a non-linear metric): indifference curves bend, reflecting that the metric itself builds in a particular tradeoff between attempting and being correct.
 
 ### Indifference-curve slope derivation
@@ -302,13 +304,13 @@ The slope depends only on payoff differences relative to abstain. When failure i
 
 ## Related Literature
 
-### Brisk summary
+### Chronological sketch
 
-- **Reject option / selective prediction.** The classical Bayes-optimal abstention rule is Chow's reject option [@chow1970optimum]. Modern ML re-derives and extends it as "selective classification" and the risk-coverage tradeoff [@herbei2006reject; @bartlett2008reject; @elyaniv2010selective; @geifman2019selectivenet].
-- **Output format and information.** The "continuous output is weakly best" argument is an instance of the general fact that more informative signals cannot reduce expected utility (Blackwell order) [@blackwell1953equivalent].
-- **Probability forecasts and incentives.** Proper scoring rules provide a principled way to reward honest probability reports and encourage calibrated uncertainty estimates [@gneiting2007scoring].
-- **LLM self-evaluation.** Some work finds that language models can estimate the probability their own answers are correct (e.g. by producing a calibrated $P(\text{True})$), which is exactly the quantity needed to implement threshold rules [@kadavath2022mostly].
-- **Distribution-free prediction sets.** Conformal prediction is a complementary route: it outputs sets (or abstains) with finite-sample coverage guarantees and can be layered on top of any base model [@shafer2008conformal; @angelopoulos2021gentle].
+- @chow1970optimum: introduces the Bayes-optimal reject option ("indecision") and derives the posterior-threshold rule.
+- @herbei2006reject: formalizes "classification with a reject option" in modern statistical learning terms; there are many followups on learning and using reject policies (e.g. [@bartlett2008reject; @elyaniv2010selective; @geifman2019selectivenet]).
+- @kadavath2022mostly: finds that language models can often estimate whether their own answers are correct, which is exactly the signal needed to implement a threshold rule in practice.
+- Recent LLM work tries to *implement* the missing abstain/verify channel via refusal-aware tuning and explicit "IDK" tokens [@zhang-etal-2024-r; @cohen2024idontknowexplicit], verification loops [@dhuliawala2023chainofverificationreduceshallucinationlarge; @altinisik2026doireallyknow], and black-box uncertainty proxies like sampling-based checks or semantic uncertainty [@manakul-etal-2023-selfcheckgpt; @farquhar2024detectinghallucinationssemanticentropy].
+- @kalai2025why: argues LLM hallucinations are a predictable consequence of binary grading that penalizes abstention; proposes a scoring rule that makes abstaining optimal below a stated confidence threshold.
 
 ### Chow (1970): Optimal reject rules
 
@@ -341,6 +343,17 @@ $$
 
 In the Marschak-Machina triangle, this threshold corresponds to one of the indifference lines: the boundary between the region where prediction is preferred and the region where abstention is preferred.
 
+### Herbei and Wegkamp (2006) and followups: Learning a reject option
+
+@herbei2006reject (and a large followup literature) reframes the reject option as a learning problem: you want a predictor that is accurate on the examples it attempts, while explicitly controlling how often it refuses.
+
+For this post, the key takeaway is less about any one algorithm and more about the framing: "abstention is a first-class action" is standard in the statistical decision-theory literature, and the same expected-utility thresholds show up once you make the third outcome explicit.
+
+### Kadavath et al. (2022): Models can sometimes score their own answers
+
+If you want the simple $p^*$ rule to be usable, you need some per-question measure of correctness probability (like $p_{\max}(x)$ or a direct $P(\text{correct}\mid x)$ proxy).
+
+@kadavath2022mostly study this in language models, finding that they can often estimate whether their own answers are correct. That makes "give the user a probability" a practical interface choice, not just a theoretical one.
 
 ### Kalai, Nachum, Vempala, and Zhang (2025): Why language models hallucinate
 
@@ -360,23 +373,17 @@ For arbitrary facts (like someone's birthday) where there is no learnable patter
 
 The fix they propose is exactly the payoff structure from our Marschak-Machina framework: penalize errors more than abstentions, with an explicit confidence threshold $t$ stated in the prompt. Their proposed scoring rule awards $+1$ for a correct answer, $-t/(1-t)$ for an incorrect answer, and $0$ for abstaining---so that answering is optimal iff confidence exceeds $t$. This is Chow's reject-option rule rediscovered in the LLM evaluation context.
 
-### Selective classification (risk-coverage tradeoffs)
+### Recent mechanisms: refusal, uncertainty signals, and verification
 
-In modern ML, the reject option is often framed as **selective classification**: a predictor chooses a subset of examples to label ("coverage") and aims to minimize error on that subset ("risk"). This is the same three-outcome structure in different words: success/failure live inside the covered set, and abstention is the complement.
+Our model is deliberately abstract: it assumes the user has access to (i) a usable confidence signal $p$ and (ii) an abstain / verify channel. A lot of recent work can be read as ways of engineering those two ingredients:
 
-- @elyaniv2010selective develops foundations for selective classification and emphasizes the risk-coverage tradeoff.
-- @herbei2006reject and @bartlett2008reject study classification with a reject option and how to learn it via loss minimization.
-- @geifman2019selectivenet shows one way to build the reject option directly into deep networks by jointly learning a predictor and a selection function.
+- **Make abstention an explicit output.** Refusal-aware fine-tuning can teach a model to say "I don't know" on out-of-knowledge questions [@zhang-etal-2024-r]. Similarly, adding an explicit uncertainty token and training it to soak up probability mass on incorrect predictions effectively adds an abstain action to the model's output space [@cohen2024idontknowexplicit].
 
-The important connection to this post is: once you make abstention explicit, the "right" threshold is not a moral property of the model; it is the decision boundary induced by payoffs.
+- **Pay a cost to verify.** Inference-time verification loops like Chain-of-Verification (CoVe) can be viewed as "spend extra tokens/compute to reduce $p_f$" [@dhuliawala2023chainofverificationreduceshallucinationlarge]. Very recent work trains this kind of behavior directly, with structured self-verification traces and an explicit final decision to answer vs abstain [@altinisik2026doireallyknow].
 
-### Calibration and scoring rules
+- **Construct a confidence signal without logits.** When output probabilities are unavailable (or untrustworthy), disagreement across samples can act as a proxy confidence signal. SelfCheckGPT does this with sampling-based consistency checks [@manakul-etal-2023-selfcheckgpt]; semantic-uncertainty methods like semantic entropy similarly use semantic variability across generations to predict and filter confabulations [@farquhar2024detectinghallucinationssemanticentropy], and followup work proposes cheaper "semantic entropy probes" in the same spirit [@kossen2024semanticentropyprobesrobust].
 
-If you want a continuous interface (probabilities) to be useful, you need those probabilities to mean something. Proper scoring rules give a principled way to reward honest probability forecasts and thereby encourage calibration [@gneiting2007scoring]. Empirically, some work finds that language models can often estimate the probability their own answers are correct, which is exactly the signal a user needs to implement a threshold rule [@kadavath2022mostly].
-
-### Conformal prediction (prediction sets)
-
-Conformal prediction is a complementary approach: instead of outputting a single label, it outputs a **set** of plausible labels with finite-sample coverage guarantees. Large sets correspond to "I don't know" behavior; singletons correspond to confident predictions. This provides a distribution-free way to control error rates of the attempted answers, given a calibration set [@shafer2008conformal; @angelopoulos2021gentle].
+A cautionary note: neither uncertainty proxies nor "self-verification" are automatically reliable. Some hallucinations happen with high confidence (so uncertainty-based filters can miss them) [@simhi2025trustmeimwrong], and in logical reasoning settings models can struggle to identify their own errors (so internal self-checks can fail without external grounding) [@hong-etal-2024-closer].
 
 ## Implications for "alignment"
 
@@ -386,7 +393,7 @@ Practical implications:
 
 - **Expose confidence.** If the user cannot observe confidence, they cannot implement the threshold rule; binary outputs force guessing.
 - **Score abstention explicitly.** Benchmarks that collapse abstain into "wrong" implicitly set $\pi_a=\pi_f$ and will select for guessing.
-- **Prefer calibrated probabilities or verification hooks.** Either give users a usable $p_{\max}$, or route medium-confidence cases to a verification workflow.
+- **Prefer probabilities or verification hooks.** Either give users a usable $p_{\max}$, or route medium-confidence cases to a verification workflow (a second pass, a tool call, or a structured self-check) [@dhuliawala2023chainofverificationreduceshallucinationlarge; @farquhar2024detectinghallucinationssemanticentropy].
 
 ## Appendix: Verification option {#appendix-verification}
 
@@ -406,6 +413,8 @@ In the example shown below, $(\pi_s,\pi_a,\pi_f)=(2,0,-2)$ and $\pi_s-c=1$, so
 $$
 p^*_{\mathrm{verify}}=\frac{1-(-2)}{2-(-2)}=\tfrac{3}{4}.
 $$
+
+Operationally, "verify" can mean many things: a web lookup, a separate fact-checking model, retrieval + citation, or even a structured self-checking loop that spends extra tokens before committing to an answer [@dhuliawala2023chainofverificationreduceshallucinationlarge; @altinisik2026doireallyknow].
 
 ```{tikz}
 \begin{tikzpicture}[>=stealth, scale=1.0]
@@ -447,7 +456,7 @@ $$
   \draw[black, dashed] (\xVerify,\yMin) -- (\xVerify,\yMax);
   \node[above] at (\xVerify,\yMax)
     {$\pi_s-c = p\pi_s + (1-p)\pi_f$};
-  \node[below] at (\xVerify,-0.25) {$p^*_{\mathrm{verify}}$};
+  \node[below] at (\xVerify,-0.45) {$p^*_{\mathrm{verify}}$};
 
   \node[font=\scriptsize] at (2.0,1.6) {verify};
   \node[font=\scriptsize] at (5.4,1.6) {attempt};
@@ -468,26 +477,6 @@ To make cross-model plotting easier, the table below standardizes outputs from m
 | SimpleQA | GPT-4o | 38.2 | 60.8 | 1.0 |
 | SimpleQA | OpenAI o1-mini | 8.1 | 63.4 | 28.5 |
 | SimpleQA | OpenAI o1-preview | 42.7 | 48.1 | 9.2 |
-| AbstentionBench | DeepSeek R1 Distill Llama 70B | 43.7 | 10.3 | 46.0 |
-| AbstentionBench | o1 | 27.2 | 6.8 | 66.0 |
-| AbstentionBench | S1.1 32B | 45.6 | 11.4 | 43.0 |
-| AbstentionBench | Llama 3.1 70B Tulu 3 DPO | 26.1 | 6.9 | 67.0 |
-| AbstentionBench | Llama 3.1 70B Tulu 3 PPO RLVF | 26.9 | 7.1 | 66.0 |
-| AbstentionBench | Llama 3.3 70B Instruct | 26.5 | 7.5 | 66.0 |
-| AbstentionBench | Gemini 1.5 Pro | 25.4 | 7.6 | 67.0 |
-| AbstentionBench | GPT-4o | 23.3 | 7.8 | 69.0 |
-| AbstentionBench | Qwen2.5 32B | 21.8 | 7.3 | 71.0 |
-| AbstentionBench | Llama 3.1 8B Tulu 3 PPO RLVF | 36.8 | 12.3 | 51.0 |
-| AbstentionBench | Llama 3.1 405B Instruct | 23.7 | 8.3 | 68.0 |
-| AbstentionBench | Llama 3.1 8B Tulu 3 DPO | 34.8 | 12.2 | 53.0 |
-| AbstentionBench | Llama 3.1 70B Instruct | 26.6 | 9.4 | 64.0 |
-| AbstentionBench | Llama 3.1 70B Tulu 3 SFT | 30.1 | 12.9 | 57.0 |
-| AbstentionBench | Llama 3.1 8B Instruct | 23.8 | 10.2 | 66.0 |
-| AbstentionBench | Mistral 7B v0.3 | 25.5 | 11.5 | 63.0 |
-| AbstentionBench | Llama 3.1 8B Tulu 3 SFT | 37.1 | 20.0 | 43.0 |
-| AbstentionBench | OLMo 7B | 25.8 | 20.2 | 54.0 |
-| AbstentionBench | Llama 3.1 70B Base | 25.5 | 25.5 | 49.0 |
-| AbstentionBench | Llama 3.1 8B Base | 23.5 | 32.5 | 44.0 |
 | Abstain-QA | GPT-4 Turbo | 66.1 | 19.7 | 14.2 |
 | Abstain-QA | GPT-4 32K | 72.0 | 19.1 | 8.9 |
 | Abstain-QA | GPT-3.5 Turbo | 61.1 | 37.4 | 1.5 |
@@ -497,23 +486,14 @@ To make cross-model plotting easier, the table below standardizes outputs from m
 Notes:
 - Table columns are constructed to look like probabilities in the $(p_s,p_f,p_a)$ simplex: $p_s=\text{p\_s\_pct}/100$, $p_f=\text{p\_f\_pct}/100$, $p_a=\text{p\_a\_pct}/100$.
 - For SimpleQA, these correspond directly to {Correct, Incorrect, Not attempted} shares.
-- For the other benchmarks, these are *constructed* from the paper's summary metrics to enable geometric comparisons; interpret them as a mapping into a common coordinate system, not as identical underlying evaluation protocols.
+- For Abstain-QA, these are constructed from the paper's summary metrics; interpret them as a mapping into a common coordinate system, not as identical underlying evaluation protocols.
 
 ### Data extraction details by source
 
-**SimpleQA (Wei et al., 2024).**
+**SimpleQA (Wei et al., 2024) [@wei2024measuringshortformfactualitylarge].**
 The table uses all model rows shown in the main SimpleQA model-comparison table (8 models). Here, `p_s_pct` is **Correct**, `p_a_pct` is **Not attempted**, and `p_f_pct` is computed as $100-\text{Correct}-\text{Not attempted}$. I chose this slice because it is the paper's canonical cross-model summary and directly exposes explicit non-attempt behavior.
 
-**AbstentionBench (Kirichenko et al., 2025).**
-The table uses all model rows from Appendix D Table 4 (20 models). The paper reports **Average Accuracy** and **Average Abstention Recall**. I set
-$p_{a,\%} = \text{Average Abstention Recall}$, interpret $100-p_a$ as an attempt-like rate, and construct
-$$
-p_s \approx \text{AvgAcc}\cdot(1-p_a),\qquad
-p_f \approx (1-\text{AvgAcc})\cdot(1-p_a),
-$$
-all expressed in percent. This is not a literal per-question abstain rate; it's a mapping for geometric intuition using the only aggregate abstention signal reported in the table.
-
-**Abstain-QA (Madhusudhan et al., 2024).**
+**Abstain-QA (Madhusudhan et al., 2024) [@madhusudhan2024llmsknowanswerinvestigating].**
 This is a deliberate subset, not all values in the paper: I take the **MMLU / Standard clause / Base** rows (5 models) from the main result table. The paper reports **AAC** (answerable accuracy) and **AR** (abstention rate). I set $p_{a,\%}=\text{AR}$ and construct $p_{s,\%}$ and $p_{f,\%}$ by treating AAC as attempt-conditional accuracy:
 $$
 p_s = \text{AAC}\cdot(1-p_a),\qquad
@@ -522,16 +502,13 @@ $$
 all expressed in percent.
 
 **Important comparability caveats.**
-Even after mapping all results into $(p_s,p_f,p_a)$ coordinates, the underlying tasks and abstention metrics differ: SimpleQA is short-form factual QA with optional non-attempts, AbstentionBench is an abstention-focused multi-scenario benchmark with recall-style abstention metrics, and Abstain-QA is multiple-choice QA with an explicit IDK/NOTA option. So the combined table is useful for geometric intuition and directional comparisons, but not for strict leaderboard ranking across benchmarks.
+Even after mapping all results into $(p_s,p_f,p_a)$ coordinates, the underlying tasks and abstention protocols differ: SimpleQA is short-form factual QA with optional non-attempts, while Abstain-QA is multiple-choice QA with an explicit IDK/NOTA option. So the combined table is useful for geometric intuition and directional comparisons, but not for strict leaderboard ranking across benchmarks.
 
-Sources:
-¹ [SimpleQA: Measuring short-form factuality in large language models](https://arxiv.org/pdf/2411.04368)  
-² [AbstentionBench: Reasoning LLMs Fail on Unanswerable Questions](https://arxiv.org/html/2506.09038v1)  
-³ [Do LLMs Know When to NOT Answer? Investigating Abstention Abilities of Large Language Models](https://arxiv.org/html/2407.16221)
+Sources: @wei2024measuringshortformfactualitylarge; @madhusudhan2024llmsknowanswerinvestigating.
 
 ## Appendix: Benchmark Points in the Simplex
 
-The next three figures plot benchmark observations as points on a Marschak-Machina simplex using a common transformation from the table columns:
+The next two figures plot benchmark observations as points on a Marschak-Machina simplex using a common transformation from the table columns:
 
 $$
 p_s = \text{p\_s\_pct}/100,\qquad
@@ -539,80 +516,75 @@ p_f = \text{p\_f\_pct}/100,\qquad
 p_a = \text{p\_a\_pct}/100.
 $$
 
+### SimpleQA
+
 ```{tikz}
-\begin{tikzpicture}[>=stealth, scale=2.2]
-  \def\piSucc{1.0}
-  \def\piFail{-0.6}
-  \def\piAbst{0.0}
+\begin{tikzpicture}[>=stealth, scale=3.0]
   \input{_tikz/marschak_machina_shared.tex}
+  \MMBaseSimplex{SimpleQA}
 
-	  \begin{scope}[xshift=0cm]
-		    \MMBaseSimplex{SimpleQA}
-		    \MMIndifferenceGrid
-		    \foreach \x/\y in {
-		      0.051/0.196,
-		      0.057/0.193,
-		      0.235/0.369,
-		      0.289/0.361,
-		      0.086/0.905,
-		      0.382/0.608,
-		      0.081/0.634,
-		      0.427/0.481
-		    }{
-		      \MMPoint{\x}{\y}
-		    }
-		    \node[font=\tiny, anchor=west] at (0.392,0.608) {GPT-4o};
-		    \node[font=\tiny, anchor=west] at (0.437,0.481) {o1-preview};
-		    \node[font=\tiny, anchor=west] at (0.092,0.905) {GPT-4o-mini};
-		  \end{scope}
+  % All models (faint points).
+  \foreach \x/\y in {
+    0.051/0.196,
+    0.057/0.193,
+    0.235/0.369,
+    0.289/0.361,
+    0.086/0.905,
+    0.382/0.608,
+    0.081/0.634,
+    0.427/0.481
+  }{
+    \fill[black, opacity=0.55] (\x,\y) circle (0.010);
+  }
 
-	  \begin{scope}[xshift=1.45cm]
-		    \MMBaseSimplex{AbstentionBench}
-		    \MMIndifferenceGrid
-		    \foreach \x/\y in {
-		      0.437/0.103,
-		      0.272/0.068,
-		      0.456/0.114,
-		      0.261/0.069,
-		      0.269/0.071,
-		      0.265/0.075,
-		      0.254/0.076,
-		      0.233/0.078,
-		      0.218/0.073,
-		      0.368/0.123,
-		      0.237/0.083,
-		      0.348/0.122,
-		      0.266/0.094,
-		      0.301/0.129,
-		      0.238/0.102,
-		      0.255/0.115,
-		      0.371/0.200,
-		      0.258/0.202,
-		      0.255/0.255,
-		      0.235/0.325
-		    }{
-		      \MMPoint{\x}{\y}
-		    }
-		    \node[font=\tiny, anchor=west] at (0.443,0.103) {DeepSeek R1 distill};
-		    \node[font=\tiny, anchor=west] at (0.278,0.068) {o1};
-		    \node[font=\tiny, anchor=west] at (0.241,0.325) {L3.1 8B base};
-		  \end{scope}
+  % Callouts for a few labeled models.
+  \begin{scope}[shift={(0.382,0.608)}]
+    \fill[red!70!black] (0,0) circle (0.013);
+    \draw[red!70!black, line width=0.35pt] (0,0) -- (0.08,0.02);
+    \node[font=\scriptsize, anchor=west, fill=white, inner sep=1pt] at (0.08,0.02) {GPT-4o};
+  \end{scope}
+  \begin{scope}[shift={(0.427,0.481)}]
+    \fill[red!70!black] (0,0) circle (0.013);
+    \draw[red!70!black, line width=0.35pt] (0,0) -- (0.08,-0.02);
+    \node[font=\scriptsize, anchor=west, fill=white, inner sep=1pt] at (0.08,-0.02) {o1-preview};
+  \end{scope}
+  \begin{scope}[shift={(0.086,0.905)}]
+    \fill[red!70!black] (0,0) circle (0.013);
+    \draw[red!70!black, line width=0.35pt] (0,0) -- (0.08,-0.10);
+    \node[font=\scriptsize, anchor=west, fill=white, inner sep=1pt] at (0.08,-0.10) {GPT-4o-mini};
+  \end{scope}
+\end{tikzpicture}
+```
 
-	  \begin{scope}[xshift=2.9cm]
-		    \MMBaseSimplex{Abstain-QA}
-		    \MMIndifferenceGrid
-		    \foreach \x/\y in {
-		      0.661/0.197,
-		      0.720/0.191,
-		      0.611/0.374,
-		      0.541/0.370,
-		      0.590/0.291
-		    }{
-		      \MMPoint{\x}{\y}
-		    }
-		    \node[font=\tiny, anchor=west] at (0.726,0.191) {GPT-4 32K};
-		    \node[font=\tiny, anchor=west] at (0.617,0.374) {GPT-3.5};
-		  \end{scope}
+### Abstain-QA
+
+```{tikz}
+\begin{tikzpicture}[>=stealth, scale=3.0]
+  \input{_tikz/marschak_machina_shared.tex}
+  \MMBaseSimplex{Abstain-QA}
+
+  % All models (faint points).
+  \foreach \x/\y in {
+    0.661/0.197,
+    0.720/0.191,
+    0.611/0.374,
+    0.541/0.370,
+    0.590/0.291
+  }{
+    \fill[black, opacity=0.55] (\x,\y) circle (0.010);
+  }
+
+  % Callouts for a few labeled models.
+  \begin{scope}[shift={(0.720,0.191)}]
+    \fill[red!70!black] (0,0) circle (0.013);
+    \draw[red!70!black, line width=0.35pt] (0,0) -- (0.06,0.02);
+    \node[font=\scriptsize, anchor=west, fill=white, inner sep=1pt] at (0.06,0.02) {GPT-4 32K};
+  \end{scope}
+  \begin{scope}[shift={(0.611,0.374)}]
+    \fill[red!70!black] (0,0) circle (0.013);
+    \draw[red!70!black, line width=0.35pt] (0,0) -- (0.06,0.06);
+    \node[font=\scriptsize, anchor=west, fill=white, inner sep=1pt] at (0.06,0.06) {GPT-3.5};
+  \end{scope}
 \end{tikzpicture}
 ```
 
