@@ -1,0 +1,22 @@
+% Shared TikZ helpers for Marschak-Machina simplex plots
+\providecommand{\MMBaseSimplex}[1]{%
+  \draw[->] (0,0) -- (1.08,0) node[midway, below, font=\scriptsize] {$p_{\text{succeed}}$};
+  \draw[->] (0,0) -- (0,1.08);
+  \node[rotate=90, anchor=south, font=\scriptsize] at (-0.02,0.54) {$p_{\text{fail}}$};
+  \draw[thick] (0,0) -- (1,0) -- (0,1) -- cycle;
+  \node[font=\scriptsize] at (0.50,1.03) {#1};
+}
+
+\providecommand{\MMIndifferenceGrid}{%
+  \begin{scope}
+    \clip (0,0) -- (1,0) -- (0,1) -- cycle;
+    \foreach \ubar in {-1.20,-1.10,-1.00,-0.90,-0.80,-0.70,-0.60,-0.50,-0.40,-0.30,-0.20,-0.10,0.00,0.10,0.20,0.30,0.40,0.50,0.60,0.70,0.80,0.90,1.00,1.10,1.20} {
+      \draw[blue!65, dotted, line width=0.25pt, domain=-0.15:1.15, samples=2]
+        plot (\x, {((\ubar-\piAbst)/(\piFail-\piAbst)) - ((\piSucc-\piAbst)/(\piFail-\piAbst))*\x});
+    }
+  \end{scope}
+}
+
+\providecommand{\MMPoint}[2]{%
+  \fill[black] (#1,#2) circle (0.012);
+}

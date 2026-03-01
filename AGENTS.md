@@ -12,6 +12,11 @@ file describing BibTeX formatting guidelines.
 ## Conventions
 
 - Files named `XXX.llm.qmd` indicate documents written by an LLM.
+- Use the section order `PROJECT-SPEC-HUMAN` -> `PROJECT-PLAN-LLM` -> main document content.
+- Treat `<!-- PROJECT-SPEC-HUMAN-BEGIN --> ... <!-- PROJECT-SPEC-HUMAN-END -->` as human-owned, non-editable content.
+- Do not modify the `PROJECT-SPEC-HUMAN` block unless the user explicitly asks to edit that exact protected block.
+- Treat `<!-- PROJECT-PLAN-LLM-BEGIN --> ... <!-- PROJECT-PLAN-LLM-END -->` as LLM-owned planning content that the LLM should update while working.
+- Keep the `PROJECT-PLAN-LLM` block aligned with the human spec and update it before substantial document edits.
 
 ## Quarto Markdown Notes
 
