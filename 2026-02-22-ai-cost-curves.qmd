@@ -9,17 +9,21 @@ execute:
   cache: true # caches chunk output
 ---
 
+It's useful to draw plots showing achievement vs expenditure, comparing humans & agents.
+
+You can read the y-axis in a few ways: (1) score on a benchmark; (2) quality of the output; (3) score on an optimization problem.
+
 Observations:
 
-1. Generally, agents are cheaper but less capable.
+1. In most cases agents are cheaper than humans but hit a ceiling in capability.
 2. Can simplify to say agents are free, without much loss.
-3. We can see three types of growth: (A) cheaper inference; (B) ; 
-4. This theory maps exactly to time horizon. 
-5. Can derive these curves from a theory (???).
+3. We can see three types of agent growth: (A) cheaper inference; (B) expanded capabilities; (C) test-time growth. 
+4. Distillation shifts cost curves left.
+5. This observation is a nice fit for time horizon (more discussion required)
+6. Q: can you derive these curves from a theory of task complexity?
 
+Basic plot:
 
-
-It's super useful to draw plots showing achievement vs expenditure for humans vs computers, like this:
 
 ```{tikz}
 \input{2026-02-22-ai-cost-curves-tikz-helpers.tex}
@@ -30,11 +34,30 @@ It's super useful to draw plots showing achievement vs expenditure for humans vs
 \end{tikzpicture}
 ```
 
-You can read the y-axis in a few ways: (1) score on a benchmark; (2) quality of the output; (3) score on some optimization problem.
 
-Some observations:
+Three types of agent change:
 
-1. Today, for a given levcomputers are either cheaper than humans or .
+```{tikz}
+\input{2026-02-22-ai-cost-curves-tikz-helpers.tex}
+\begin{tikzpicture}[scale=4]
+  \AICostAxes
+  %\AICostGaussianCDF{0.7}{0.2}{0.90}{black!60}{human}{1pt}
+  \AICostGaussianCDF{0.5}{0.2}{0.50}{red!60,dashed}{}{-2pt}
+  \AICostGaussianCDF{0.3}{0.2}{0.50}{red!60}{}{-2pt}
+  \AICostGaussianCDF{0.5}{0.2}{0.70}{red!60}{}{-2pt}
+  \AICostGaussianCDF{0.6}{0.3}{0.70}{red!60}{}{-2pt}
+  \node[red!60] at (0.6,0.83) {\footnotesize (more capable)};
+  \draw[->,red!60] (0.6,0.8) -- (.7,0.6);
+  \node[red!60] at (1.5,0.55) {\footnotesize (more returns to inference)};
+  \draw[->,red!60] (1.05,0.55) -- (0.9,0.55);
+  \node[red!60] at (0.2,0.53) {\footnotesize (cheaper)};
+  \draw[->,red!60] (0.2,0.5) -- (0.3,0.3);
+\end{tikzpicture}
+```
+
+#               additional plots
+
+Extra plots:
 
 
 ```{tikz}
