@@ -1,223 +1,128 @@
 ---
-title: Hallucinations and Alignment
+title: Knowledge of Success
+citation: true
 draft: true
 engine: knitr
 bibliography: ai.bib
 ---
+<!-- - Note early on different terminology: "abstain", "refuse", "reject", "IDK/i don't know", "forfeit", "concede", "fold" (others?) -->
 
-<!-- PROJECT-SPEC-HUMAN-BEGIN -->
-::: {.callout-note collapse="true" title="Project spec (human)"}
+LLMs are much more useful if they tell you their confidence.
+: 
+    When asking an LLM to do a task it's reassuring to know that it's successful in some fraction of cases, but it's far more useful to know *which* cases it's successful in:
 
-- This project is structured with spec (human) > plan (LLM) > document (LLM). You can write to the spec only if you get affirmative approval from the human author for the exact changes.
+    - If you're answering a question, I want to know your confidence in the answer.
+    - If you're supplying a proof for a theorem, I want to know whether you think the proof is valid.
+    - If you're fixing a bug, I want to know if you think the fix is going to work.
+    - If you're writing a poem for me, I want to know if the poem is good.
 
-- Overall goal: a two-page blog post with some obsevations about hallucinations in language models. Then appendices to back up (1) data; (2) literature review; (3) derivations.
+    Unfortunately until recently LLMs were trained just to maximize their success rates, and for that reason they often wouldn't report useful signals of confidence, which made them much less useful. This I think is a good explanation of why LLMs hallucinate (argued in @kalai2025why), but the same logic illuminates some other cases.
+    
+    The discussion below mostly follows @kalai2025why, but adds some arguments and visualization I did when working with those authors in 2024 at OpenAI. I think these points are fairly well-known within the industry but ought to be better known outside it.
 
-- Basic model:
-    - The user has to make a choice between N options, they get $\pi_s>0$ if they choose the right one, otherwise $\pi_f<0$. But they can also abstain and get $\pi_a=0$.
-    - choose between a few options (multi-choice), the LLM has probabilities on each answer.
-    - The LLM will always return the most-likely option
-        - answer (i.e. most likely option)
-        - answer or abstain (if P(answer) is below some threshold)
-        - answer with likelihood
-    - The user has some outside option from not choosing, which is better than choosing the wrong option. Thus they will only choose the recommended option if the probability is sufficiently high
-    - Extension: the user can pay a cost to verify 
-    - In the appendix discuss a model where the user can pay a cost to (a) verify the LLM's answer, or (b) find the right answer themselves.
-
-- Claims:
-    - Diagram: show p on the x-axis, represents probability of the most-likely alternative (i.e. LLM's beliefs).
-    - The usefulness of a binary-output LLM to a user is convex in its avg accuracy, this means the value of benchmark scores is convex.
-    - If you can abstain then the threshold for making a claim is p^*=(\pi_a-\pi_f)/(\pi_s-\pi_f).
-    - Training with a reward only for accuracy encourages guessing over abstention.
-    - Simplex representation:
-        - We can illustrate different user preferences over succeed/fail/abstain on a simplex: reward accuracy; punish failure; F1. 
-        - We can illustrate different empirical results: SimpleQA, Abstain-QA. Put the simplex in the body, numerical results in the appendix.
-    - Note that if 
+This follows from a very simple model.
+: 
+    Suppose I have to make a choice among $N$ options, and I have no priors about which is most likely to be right. Then it's fine if the LLM just tells me which is the most-likely option, without telling me its probability.
+    
+    However if we add a touch of realism, then it suddenly becomes much more useful if the LLM tells me its probability (or it admits when it doesn't know). This will happen if any of the following are true: (1) I have some private information about the different options; (2) I can choose to spend some time verifying the proposed option, or searching for solutions; (3) I have the option of abstaining and not making a choice.
     
 
-- Additional notes
-    - We will use these papers for terminology: (1) Wen et al (2025) "know your limits: a survey of abstention in large language models"; (2) Kalai et al. (2025) "Why Language Models Hallucinate". 
-    - Related literature: start with a chronological list of related papers, Chow, Herbei and Wegkamp (you can mention there are other followsup on "classification with a reject option"), Kalai et al., Kadavath. Don't need to mention conformal prediction or calibration & scoring.
-    - Related literature: add a short "recent mechanisms" subsection on LLM-specific ways of implementing abstain/verify and confidence signals (e.g. refusal-aware tuning; explicit IDK tokens; verification loops; sampling-based or semantic-uncertainty detection). Include a short caveat that self-check/uncertainty can miss high-confidence hallucinations and can fail in some reasoning settings.
-    - Related literature: one-line note that abstention/refusal is now being studied beyond factual QA, including math and coding benchmarks (e.g. Mohamadi et al. 2025; Jha et al. 2026; Dai et al. 2025; Oehri et al. 2025).
-    - Detailed discussion of Chow (1970) and Kalai et al. (2025), list their claims precisely.
-    - The diagrams should be super clear. Make sure you *look* at the diagrams to see that they are readable.
-    - Plot data from different studies on simplex diagrams. Also give comments on the diagrams, on what the takewaay is about tradeoffs here, & see that's consistent with what the original papers say.
-    - Note early on different terminology: "abstain", "refuse", "reject", "IDK/i don't know", "forfeit", "concede", "fold" (others?)
-:::
-<!-- PROJECT-SPEC-HUMAN-END -->
+Some implications.
+: 
+    1. **Models seem overconfident because they are trained only on accuracy, not on calibration.** When models aren't allowed to fold they learn to bluff.
+    2. **The value of a model will be a convex in its accuracy.** Going from 90% to 100% accuracy is more than twice as valuable as going from 80% to 90%, because it lowers the cost of verification, and lowers the likelihood of abstention. This is only true when models don't report their confidence.
+    3. **Benchmarks should report both accuracy and reliability.** If you're choosing betwen two models it's useful to know not just the share of correct responses, but also whether the model will report when it fails (i.e. accuracy).
+    4. **Models are good self-critics.** Somewhat surprisingly, a model can often identify its own mistakes. This makes sense for models that are trained only on accuracy, not on calibration, because they systematically exaggerate their success.
+
+In this post.
+: 
+    I state the model very briefly and give a nice visual aid, to show the optimal threshold for abstaining.
+    
+    I also show how we can use a simplex diagram to illustrate tradeoffs between accuracy and confidence, showing both the frontier (plotting results from benchmarks) and .
+
+<!-- 
+- Related: implicit goals vs explicit goals.
+- Related: soft verification vs hard verification.
+- Related: models audit themselves, because they *know* whether they succeeded, so can easily see whether it's a success. 
+- If you don't let the model fold then it will bluff.
+ -->
 
 
-<!-- PROJECT-PLAN-LLM-BEGIN -->
-::: {.callout-note collapse="true" title="Project plan (LLM)"}
-- Deliverable: a ~2-page blog post explaining hallucinations as payoff-misalignment (user utility vs training/eval rewards), using a simple decision-theory model. Use appendices for (i) the verification extension and (ii) benchmark tables/plots.
+# Model
 
-- Structure:
-    - Setup: multi-choice question with $k$ options; model has posterior $p(y\mid x)$; user chooses (i) pick an option, (ii) abstain, or (iii) pay a cost to verify (optional extension).
-    - Outputs: compare binary (one option), ternary (option or abstain), continuous (probabilities over options).
-    - Core threshold: derive $p^*=(\pi_a-\pi_f)/(\pi_s-\pi_f)$ and interpret.
-    - Key claims to support:
-        - Continuous output is (weakly) best for the user (information-loss argument).
-        - Binary usefulness is convex in average accuracy (kink at the abstain/use threshold).
-        - Accuracy-only rewards + binary grading encourage guessing over abstention; connect to Kalai et al. (2025) and Chow (1970).
-    - Geometry: use a Marschak-Machina simplex to visualize (a) user preferences (indifference lines) and (b) training/eval objectives.
-    - Related literature: start with a chronological list; keep focus on Chow (1970), Herbei and Wegkamp (2006) (+ brief mention of followups), Kadavath et al. (2022), and Kalai et al. (2025). Add a short subsection on recent LLM-specific abstention / verification mechanisms (refusal-aware tuning, explicit IDK tokens, self-checking / verification loops, semantic-uncertainty detectors), plus one short caveat about high-confidence hallucinations.
+Basic model: you just care about accuracy.
+: 
+    Suppose you have to choose which of $N$ options is correct, you get $u=1$ if you succeed and $u=0$ if you fail. You have no idea which is right (uniform priors), but you know the LLM has information, and chooses the right answer with probability $p$. In this case it's sufficent for the LLM to report the option with the highest probability, and the user's expected payoff is linear in the LLM's average accuracy, $p$.
 
-- Figures:
-    - 1D payoff-vs-confidence threshold plot (clean, consistent sign conventions).
-    - Simplex with indifference grids for a few payoff ratios/objectives (accuracy-only, punish failure, F1).
-    - Appendix: verification extension plot (attempt vs verify threshold).
-    - Appendix: simplex points from multiple studies/benchmarks + short takeaways, with explicit comparability caveats.
+    ```{tikz}
+    #| fig-width: 4
+    \begin{tikzpicture}[scale=6]
+    \def\ySucc{2.0}
+    \def\yAbst{0.0}
+    \def\yFail{-2.0}
+    \draw[<->] (0,1.1) -- node[midway,rotate=90,above] {utilty}
+        (0,0) node[below]{0} -- node[midway,below]{probability, $p$} (1,0) node[below]{1} -- (1,1.1);
 
-- Editing rules while executing:
-    - Do not edit `PROJECT-SPEC-HUMAN`.
-    - Keep notation consistent across text + figures ($\pi_s,\pi_f,\pi_a$; typically normalize $\pi_a=0$).
-:::
-<!-- PROJECT-PLAN-LLM-END -->
+    \draw[blue,dashed] (0,0)--(1,0) node[right]{0 - fail};
+    \draw[blue,dashed] (0,1)--(1,1) node[right]{1 - succeed};
+    \draw[blue,thick] (0,0)-- node[midway,anchor=south east]{$E[u|p]$} (1,1);
+    \end{tikzpicture}
+    ```
 
 
-## Introduction
+If you can abstain, payoff is convex in accuracy.
+: 
+    Now suppose the user can choose to abstain, i.e. they refuse to make a choice and get $u=\pi_i$, with $0<\pi_a<1$. Then they will only consult the model if $p>\pi_a$, and so the value of the model will be convex in $p$. The threshold here is the same as that derived in @chow1970optimum.
 
-Hallucinations are usually described as the model "making things up". But in many applications, hallucinations are the predictable outcome of a mis-specified payoff function: the user cares about the tradeoff between **being right**, **being wrong**, and **not answering** (or escalating to verification), while most training and evaluation pipelines implicitly reward "answer something" much more than "know when to stop".
+    ```{tikz}
+    #| fig-width: 4
+    \begin{tikzpicture}[scale=6]
+    \def\ySucc{2.0}
+    \def\yAbst{0.0}
+    \def\yFail{-2.0}
+    \draw[<->] (0,1.1) -- node[midway,rotate=90,above] {utilty}
+        (0,0) node[below]{0} -- node[midway,below]{probability, $p$} (1,0) node[below]{1} -- (1,1.1);
 
-This post treats question answering as a small decision problem with payoffs $(\pi_s,\pi_f,\pi_a)$ for succeed / fail / abstain. That framing connects directly to Chow's classic reject-option rule in pattern recognition [@chow1970optimum], to the Marschak-Machina probability simplex, and to recent results arguing that binary evaluation systematically pressures models to guess [@kalai2025why].
+    \draw[blue,dashed] (0,0)--(1,0) node[right]{0 - fail};
+    \draw[blue,dashed] (0,1)--(1,1) node[right]{1 - succeed};
+    \draw[blue,dashed] (0,.6)--(1,.6) node[right]{$\pi_a$ - abstain};
+    \draw[blue,dashed] (0,0)--(1,1);
+    \draw[blue,thick] (0,.6) -- (.6,.6) node[anchor=south east]{$E[u|p]$} -- (1,1);
+    \end{tikzpicture}
+    ```
 
-## Basic model
+If there is costly verification then payoff will be three-part.
+: 
+    Finally, now assume you can pay a cost $c$ to verify whether an answer is correct, and if it's wrong then you abstain. Then there will be three regions:
+    
+    - If $p$ is low, you don't ask the LLM, and abstain.
+    - If $p$ is intermediate you ask but verify (and abstain if it's wrong).
+    - If $p$ is high then you ask and trust without verification.
 
-Consider a multiple-choice question with $k$ options and a hidden correct answer $y^\star$. The model observes an input $x$ and has a posterior distribution $p(y\mid x)$ over options.
+    ```{tikz}
+    #| fig-width: 4
+    \begin{tikzpicture}[scale=6]
+    \def\ySucc{2.0}
+    \def\yAbst{0.0}
+    \def\yFail{-2.0}
+    \draw[<->] (0,1.1) -- node[midway,rotate=90,above] {utilty}
+        (0,0) node[below]{0} -- node[midway,below]{probability, $p$} (1,0) node[below]{1} -- (1,1.1);
 
-The user can take one of three actions:
+    \draw[blue,dashed] (0,0)--(1,0) node[right]{0 - fail};
+    \draw[blue,dashed] (0,1)--(1,1) node[right]{1 - succeed};
+    \draw[blue,dashed] (0,.6)--(1,.6) node[right]{$\pi_a$ - abstain};
+    \draw[blue,dashed] (0,.5)--(1,.9) node[right]{verify};
+    \draw[blue,dashed] (0,0)--(1,1);
+    \draw[blue,thick] (0,.6) -- (.25,.6) --  node[midway,anchor=south east]{$E[u|p]$} ({5/6},{5/6}) -- (1,1);
+    \end{tikzpicture}
+    ```
 
-1. **Answer:** pick an option $\hat y$.
-2. **Abstain:** do not answer (or defer to a safer outside option).
-3. **Verify (optional extension):** pay a cost $c$ to obtain the correct answer by some other means.
-
-For now, summarize payoffs as constants:
-
-- Succeed (pick $\hat y=y^\star$): payoff $\pi_s$.
-- Fail (pick $\hat y\neq y^\star$): payoff $\pi_f$.
-- Abstain (outside option): payoff $\pi_a$.
-
-Assume $\pi_s>\pi_a>\pi_f$: being right is best; abstaining is better than being wrong.
-
-### Outputs: binary, ternary, continuous
-
-We can distinguish LLM "answer formats" by how much information they expose about $p(y\mid x)$:
-
-- **Binary:** the model returns a single recommended option $\hat y$.
-- **Ternary:** the model either returns $\hat y$ or abstains.
-- **Continuous:** the model returns (an approximation to) the full distribution $p(y\mid x)$ over options.
-
-## Claims
-
-1. **A single threshold organizes abstention.** If an "attempt" succeeds with probability $p$ and fails with probability $1-p$, then attempting has expected payoff
-   $$
-   \mathrm{E}[\pi\mid \text{attempt}] = p\,\pi_s + (1-p)\,\pi_f.
-   $$
-   Attempting is optimal iff $\mathrm{E}[\pi\mid \text{attempt}] \ge \pi_a$, i.e.
-   $$
-   p \ge p^* \equiv \frac{\pi_a-\pi_f}{\pi_s-\pi_f}.
-   $$
-
-2. **Binary usefulness is convex in average accuracy.** A user with an outside option chooses to rely on a binary-output model only when $p\ge p^*$. So the user's value is the max of an outside option and a linear function of $p$, which is convex.
-
-3. **Continuous output is (weakly) best.** If the model provides $p(y\mid x)$, the user can compute the expected payoff of each action (answer/abstain/verify) and implement the optimal policy. Any coarser output (binary or ternary) throws away information, and cannot improve expected utility.
-
-4. **The simplex makes preferences and objectives visible.** In the Marschak-Machina simplex over $(p_s,p_f,p_a)$, user preferences correspond to indifference lines whose slope is determined by payoff ratios; training/evaluation objectives correspond to different directions in the same triangle.
-
-5. **Hallucinations are a consequence of the objective.** Accuracy-only training rewards and binary grading make abstention suboptimal and encourage guessing. Chow (1970) derives the optimal reject rule in this exact payoff model [@chow1970optimum]; Kalai et al. (2025) argue modern LLM pipelines effectively ignore this reject option and therefore pressure models to hallucinate [@kalai2025why].
-
-## From probabilities to actions
-
-For a multiple-choice question, suppose the user answers by choosing the MAP option $\hat y(x)=\arg\max_y p(y\mid x)$. Under the symmetric payoff model above (only "correct vs incorrect" matters), the probability of success from attempting is
-$$
-p_{\max}(x)\equiv \max_y p(y\mid x).
-$$
-
-So the attempt-vs-abstain decision is driven by a single number: answer iff $p_{\max}(x)\ge p^*$.
-
-If verification is available at cost $c$, one simple version is: verifying yields certain success with payoff $\pi_s-c$. Then for each question the user compares three quantities:
-
-- Attempt: $p_{\max}(x)\,\pi_s + (1-p_{\max}(x))\,\pi_f$.
-- Abstain: $\pi_a$.
-- Verify: $\pi_s-c$.
-
-This makes the "payoff mis-specification" point concrete: evaluation regimes that treat abstention as failure implicitly set $\pi_a\approx \pi_f$, eliminating the region where "don't answer" is optimal.
-
-### Convex value of a binary-output model
-
-In the most constrained interface, a binary-output model only returns $\hat y$ and the user cannot condition on per-question confidence (they only know the model's average accuracy $p$ on the relevant distribution). Then the user's best policy is either to follow the model or to abstain, and the resulting value is
-$$
-V_{\text{binary}}(p)=\max\Bigl\{\pi_a,\; p\,\pi_s + (1-p)\,\pi_f\Bigr\}.
-$$
-
-This is the maximum of two affine functions of $p$, so it is convex. It has a kink at the threshold $p=p^*$: below the threshold the user abstains and additional accuracy has (locally) zero value; above the threshold, value increases linearly with accuracy. This is one reason "small accuracy gains" can feel useless until a system crosses a reliability threshold.
-
-### Why continuous output is (weakly) best
-
-Continuous output (the distribution $p(y\mid x)$, or any sufficiently rich summary like $(\hat y,p_{\max})$) lets the user implement the payoff-optimal policy question-by-question: answer only when it clears their $p^*$, abstain otherwise, and (if available) trigger verification in the middle region.
-
-Binary and ternary outputs are strict coarsenings of the posterior: they discard information about confidence. By a standard "more information cannot hurt" argument (Blackwell ordering), a user who observes a more informative signal can always simulate a less informative one by ignoring information, but not vice versa [@blackwell1953equivalent]. So a continuous interface is weakly better than any binary/ternary interface for any fixed payoff function.
+<!-- TO ADD: (1)  -->
 
 
-## Probability-Payoff Diagram
+# Simplex Representation
 
-This figure visualizes the threshold rule: as confidence $p$ rises, the expected payoff of attempting rises linearly from $\pi_f$ (when $p=0$) to $\pi_s$ (when $p=1$). Abstaining yields the flat payoff $\pi_a$. The optimal policy is to attempt when the blue line crosses the abstain line.
-
-```{tikz}
-\begin{tikzpicture}[>=stealth, scale=1.0]
-  % Example payoffs (adding a constant to all payoffs does not change decisions).
-  \def\ySucc{2.0}
-  \def\yAbst{0.0}
-  \def\yFail{-2.0}
-  \def\yMin{-2.4}
-  \def\yMax{2.4}
-  \pgfmathsetmacro{\pThresh}{(\yAbst-\yFail)/(\ySucc-\yFail)}
-  \pgfmathsetmacro{\xThresh}{6*\pThresh}
-
-  % Axes
-  \draw[->] (0,0) -- (6,0) node[right] {Confidence $p$};
-  \draw[->] (0,\yMin) -- (0,\yMax) node[above] {Payoff};
-
-  % Tick marks (x: 0 to 1)
-  \foreach \x/\lab in {0/0, 1.5/0.25, 3/0.5, 4.5/0.75, 6/1}
-    \draw (\x,0.08) -- (\x,-0.08) node[below] {\lab};
-
-  % Right boundary at p=1
-  \draw[thick] (6,\yMin) -- (6,\yMax);
-
-  % Payoff labels for outcomes
-  \draw[densely dotted] (0,\ySucc) -- (6,\ySucc);
-  \draw[blue, dashed] (0,\yAbst) -- (6,\yAbst);
-  \draw[densely dotted] (0,\yFail) -- (6,\yFail);
-  \node[right] at (6,\ySucc) {$\pi_s$};
-  \node[left] at (0,\yAbst) {$\pi_a$};
-  \node[left] at (0,\yFail) {$\pi_f$};
-
-  % Expected-payoff line as a function of p:
-  % E[payoff](p) = p*pi_s + (1-p)*pi_f
-  \draw[thick, blue] (0,\yFail) -- (6,\ySucc) node[right] {$\mathrm{E}[\pi\mid \text{attempt}]$};
-
-  % Threshold where abstain equals expected payoff from answer attempt
-  \draw[black, dashed] (\xThresh,\yMin) -- (\xThresh,\yMax);
-  \node[above] at (\xThresh,\yMax)
-    {$\pi_a = p\pi_s + (1-p)\pi_f$};
-  \node[below] at (\xThresh,-0.45) {$p^*$};
-\end{tikzpicture}
-```
-
-In the normalized example shown in the diagram, $(\pi_s,\pi_a,\pi_f)=(2,0,-2)$, so
-$$
-p^*=\frac{0-(-2)}{2-(-2)}=\tfrac{1}{2}.
-$$
-So in this example, the right behavior is "answer only when you're at least 50% confident."
-
-Appendix [Verification option](#appendix-verification) shows how the threshold changes if the user can pay a cost to verify.
-
-## Simplex Representation
-
-The probability simplex has three vertices corresponding to the three pure outcomes: certain success ($p_s=1$), certain failure ($p_f=1$), and certain abstention ($p_a=1$). Any lottery over outcomes is a point in this triangle.
-
-Different training/evaluation objectives induce different indifference-curve sets over $(p_s,p_f,p_a)$. The figure below contrasts three illustrative objectives.
+It's very useful to draw the likelihood of three outcomes (succeed, fail, abstain) on a diagram.^[Economists know this as a Marschack-Machina diagram.] We can then draw indifference curves represnting different objective functions:
 
 ```{tikz}
 \begin{tikzpicture}[>=stealth, scale=2.2]
@@ -227,34 +132,34 @@ Different training/evaluation objectives induce different indifference-curve set
   \begin{scope}[xshift=0cm]
     \MMBaseSimplex{Accuracy-only}
     \node[font=\scriptsize, fill=white, inner sep=1pt] at (0.50,0.86) {$U = p_s$};
-    \begin{scope}
+    \begin{scope} 
       \clip (0,0) -- (1,0) -- (0,1) -- cycle;
       \foreach \xx in {0.08,0.16,0.24,0.32,0.40,0.48,0.56,0.64,0.72,0.80,0.88,0.96} {
         \draw[blue!65, dotted, line width=0.25pt] (\xx,-0.1) -- (\xx,1.1);
-      }
+      }    
     \end{scope}
   \end{scope}
 
   % Punish failure: expected utility with strong negative pi_fail
-  \begin{scope}[xshift=2.8cm]
+  \begin{scope}[xshift=1.5cm]
     \def\piSucc{1.0}
     \def\piFail{-1.0}
     \def\piAbst{0.0}
-    \MMBaseSimplex{Penalize failure}
+    \MMBaseSimplex{Can abstain}
     \node[font=\scriptsize, fill=white, inner sep=1pt] at (0.50,0.86) {$U = p_s - p_f$};
     \MMIndifferenceGrid
   \end{scope}
 
   % F1 contours (single-question form, C=I=N=0):
   % F1 = 2 p_s / (1 + p_s + p_f), so p_f = ((2/u)-1)p_s - 1 for level u
-  \begin{scope}[xshift=5.6cm]
-    \MMBaseSimplex{F1}
+  \begin{scope}[xshift=3cm]
+    \MMBaseSimplex{F1 objective} 
     \node[font=\scriptsize, fill=white, inner sep=1pt] at (0.50,0.86) {$U = \frac{2p_s}{1+p_s+p_f}$};
     \begin{scope}
       \clip (0,0) -- (1,0) -- (0,1) -- cycle;
-      \foreach \ubar in {0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95} {
+      \foreach \ubar in {0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95} {
         \draw[blue!65, dotted, line width=0.25pt, domain=-0.1:1.1, samples=2]
-          plot (\x, {((2/\ubar)-1)*\x - 1});
+          plot (\x, {((2/\ubar)-1)*\x - 1}); 
       }
     \end{scope}
   \end{scope}
@@ -267,52 +172,94 @@ Each point in the simplex is a lottery over outcomes: a model might succeed with
 - **Penalize failure** (linear expected utility): failure is explicitly penalized relative to abstention, expanding the region where abstaining is optimal.
 - **F1** (a non-linear metric): indifference curves bend, reflecting that the metric itself builds in a particular tradeoff between attempting and being correct.
 
-### Indifference-curve slope derivation
 
-Let $p_s, p_f, p_a = 1-p_s-p_f$ denote the probabilities of succeed, fail, and abstain. Expected utility is
+### SimpleQA
 
-$$
-U = \pi_s\, p_s + \pi_f\, p_f + \pi_a\, p_a.
-$$
+```{tikz}
+\begin{tikzpicture}[>=stealth, scale=3.0]
+  \input{_tikz/marschak_machina_shared.tex}
+  \MMBaseSimplex{SimpleQA}
 
-1. Substitute $p_a = 1 - p_s - p_f$:
-   $$
-   \begin{aligned}
-   U
-   &= \pi_a \\
-   &\quad+ (\pi_s-\pi_a)\,p_s \\
-   &\quad+ (\pi_f-\pi_a)\,p_f.
-   \end{aligned}
-   $$
+  % All models (faint points).
+  \foreach \x/\y in {
+    0.051/0.196,
+    0.057/0.193,
+    0.235/0.369,
+    0.289/0.361,
+    0.086/0.905,
+    0.382/0.608,
+    0.081/0.634,
+    0.427/0.481
+  }{
+    \fill[black, opacity=0.55] (\x,\y) circle (0.010);
+  }
 
-2. Hold $U = \bar U$ and solve for $p_f$:
-   $$
-   \begin{aligned}
-   p_f
-   &= \frac{\bar U - \pi_a}{\pi_f-\pi_a}
-    - \frac{\pi_s-\pi_a}{\pi_f-\pi_a}\,p_s.
-   \end{aligned}
-   $$
+  % Callouts for a few labeled models.
+  \begin{scope}[shift={(0.382,0.608)}]
+    \fill[red!70!black] (0,0) circle (0.013);
+    \draw[red!70!black, line width=0.35pt] (0,0) -- (0.08,0.02);
+    \node[font=\scriptsize, anchor=west, fill=white, inner sep=1pt] at (0.08,0.02) {GPT-4o};
+  \end{scope}
+  \begin{scope}[shift={(0.427,0.481)}]
+    \fill[red!70!black] (0,0) circle (0.013);
+    \draw[red!70!black, line width=0.35pt] (0,0) -- (0.08,-0.02);
+    \node[font=\scriptsize, anchor=west, fill=white, inner sep=1pt] at (0.08,-0.02) {o1-preview};
+  \end{scope}
+  \begin{scope}[shift={(0.086,0.905)}]
+    \fill[red!70!black] (0,0) circle (0.013);
+    \draw[red!70!black, line width=0.35pt] (0,0) -- (0.08,-0.10);
+    \node[font=\scriptsize, anchor=west, fill=white, inner sep=1pt] at (0.08,-0.10) {GPT-4o-mini};
+  \end{scope}
+\end{tikzpicture}
+```
 
-3. The slope of the indifference curve in the $(p_s, p_f)$ plane is therefore:
-   $$
-   \frac{dp_f}{dp_s}\bigg|_{U=\bar U}
-   = -\frac{\pi_s-\pi_a}{\pi_f-\pi_a}.
-   $$
+### Abstain-QA
 
-4. Normalizing $\pi_a=0$, this simplifies to:
-   $$
-   \frac{dp_f}{dp_s}\bigg|_{U=\bar U}
-   = -\frac{\pi_s}{\pi_f},
-   \qquad
-   p_f = \frac{\bar U}{\pi_f} - \frac{\pi_s}{\pi_f}\,p_s.
-   $$
+```{tikz}
+\begin{tikzpicture}[>=stealth, scale=3.0]
+  \input{_tikz/marschak_machina_shared.tex}
+  \MMBaseSimplex{Abstain-QA}
 
-The slope depends only on payoff differences relative to abstain. When failure is very costly ($|\pi_f|$ large after normalizing $\pi_a=0$), the curves are flatter: the decision-maker tolerates little additional failure probability in exchange for more success probability.
+  % All models (faint points).
+  \foreach \x/\y in {
+    0.661/0.197,
+    0.720/0.191,
+    0.611/0.374,
+    0.541/0.370,
+    0.590/0.291
+  }{
+    \fill[black, opacity=0.55] (\x,\y) circle (0.010);
+  }
 
-## Related Literature
+  % Callouts for a few labeled models.
+  \begin{scope}[shift={(0.720,0.191)}]
+    \fill[red!70!black] (0,0) circle (0.013);
+    \draw[red!70!black, line width=0.35pt] (0,0) -- (0.06,0.02);
+    \node[font=\scriptsize, anchor=west, fill=white, inner sep=1pt] at (0.06,0.02) {GPT-4 32K};
+  \end{scope}
+  \begin{scope}[shift={(0.611,0.374)}]
+    \fill[red!70!black] (0,0) circle (0.013);
+    \draw[red!70!black, line width=0.35pt] (0,0) -- (0.06,0.06);
+    \node[font=\scriptsize, anchor=west, fill=white, inner sep=1pt] at (0.06,0.06) {GPT-3.5};
+  \end{scope}
+\end{tikzpicture}
+```
 
-### Chronological sketch
+### Reading the simplex plots
+
+1. The horizontal axis is $p_s$ (succeed share) and the vertical axis is $p_f$ (fail share). The remaining probability is $p_a=1-p_s-p_f$ (abstain share), so points closer to the diagonal edge have lower abstention.
+
+2. Moving down (lower $p_f$) corresponds to reducing failures; whether that is best depends on how much worse failure is than abstention ($\pi_f$ vs $\pi_a$).
+
+3. The labeled points illustrate that a model can look good under an "answer-everything" regime by pushing $p_a$ toward zero, but that is exactly the regime that a payoff function with a harsh $\pi_f$ would discourage.
+
+4. Don't over-interpret cross-benchmark comparisons: each source defines abstention differently, so these plots are best read as a geometric visualization of tradeoffs, not as a single unified leaderboard.
+
+
+
+#           Related Literature
+
+## Chronological sketch
 
 - @chow1970optimum: introduces the Bayes-optimal reject option ("indecision") and derives the posterior-threshold rule.
 - @herbei2006reject: formalizes "classification with a reject option" in modern statistical learning terms; there are many followups on learning and using reject policies (e.g. [@bartlett2008reject; @elyaniv2010selective; @geifman2019selectivenet]).
@@ -351,19 +298,19 @@ $$
 
 In the Marschak-Machina triangle, this threshold corresponds to one of the indifference lines: the boundary between the region where prediction is preferred and the region where abstention is preferred.
 
-### Herbei and Wegkamp (2006) and followups: Learning a reject option
+## Herbei and Wegkamp (2006) and followups: Learning a reject option
 
 @herbei2006reject (and a large followup literature) reframes the reject option as a learning problem: you want a predictor that is accurate on the examples it attempts, while explicitly controlling how often it refuses.
 
 For this post, the key takeaway is less about any one algorithm and more about the framing: "abstention is a first-class action" is standard in the statistical decision-theory literature, and the same expected-utility thresholds show up once you make the third outcome explicit.
 
-### Kadavath et al. (2022): Models can sometimes score their own answers
+## Kadavath et al. (2022): Models can sometimes score their own answers
 
 If you want the simple $p^*$ rule to be usable, you need some per-question measure of correctness probability (like $p_{\max}(x)$ or a direct $P(\text{correct}\mid x)$ proxy).
 
 @kadavath2022mostly study this in language models, finding that they can often estimate whether their own answers are correct. That makes "give the user a probability" a practical interface choice, not just a theoretical one.
 
-### Kalai, Nachum, Vempala, and Zhang (2025): Why language models hallucinate
+## Kalai, Nachum, Vempala, and Zhang (2025): Why language models hallucinate
 
 @kalai2025why argue that hallucinations are not a mysterious glitch but a predictable consequence of how models are trained and evaluated. Their central thesis is that the three-outcome structure (succeed, fail, abstain) is systematically distorted by binary evaluation:
 
@@ -381,7 +328,7 @@ For arbitrary facts (like someone's birthday) where there is no learnable patter
 
 The fix they propose is exactly the payoff structure from our Marschak-Machina framework: penalize errors more than abstentions, with an explicit confidence threshold $t$ stated in the prompt. Their proposed scoring rule awards $+1$ for a correct answer, $-t/(1-t)$ for an incorrect answer, and $0$ for abstaining---so that answering is optimal iff confidence exceeds $t$. This is Chow's reject-option rule rediscovered in the LLM evaluation context.
 
-### Recent mechanisms: refusal, uncertainty signals, and verification
+## Recent mechanisms: refusal, uncertainty signals, and verification
 
 Our model is deliberately abstract: it assumes the user has access to (i) a usable confidence signal $p$ and (ii) an abstain / verify channel. A lot of recent work can be read as ways of engineering those two ingredients:
 
@@ -395,17 +342,8 @@ A cautionary note: neither uncertainty proxies nor "self-verification" are autom
 
 Beyond factual QA, @mohamadi2025honestyaccuracytrustworthylanguage show on GSM8K/MedQA/GPQA that replacing binary RLVR rewards with a ternary scheme $(+1,0,-\lambda)$ produces controllable answer-vs-abstain tradeoffs and useful abstention-aware cascades. @jha2026rewardingintellectualhumilitylearning report on MedMCQA and Hendrycks Math that moderate abstention rewards reduce wrong answers without collapsing coverage, especially when paired with supervised abstention training. In code generation, @dai2025reducinghallucinationsllmgeneratedcode frame the task as "find a correct program or abstain" and use semantic triangulation to improve abstention decisions on LiveCodeBench/CodeElo. Complementarily, @oehri2025trusteduncertaintylargelanguage fuse multiple uncertainty signals into calibrated correctness probabilities and enforce user-specified risk budgets via refusal, including experiments on code generation with execution tests.
 
-## Implications for "alignment"
 
-If you view hallucinations through this lens, "alignment" is not a mysterious property of model internals. It is the much more mundane question: does the model's training and evaluation objective implement the user's payoff function?
-
-Practical implications:
-
-- **Expose confidence.** If the user cannot observe confidence, they cannot implement the threshold rule; binary outputs force guessing.
-- **Score abstention explicitly.** Benchmarks that collapse abstain into "wrong" implicitly set $\pi_a=\pi_f$ and will select for guessing.
-- **Prefer probabilities or verification hooks.** Either give users a usable $p_{\max}$, or route medium-confidence cases to a verification workflow (a second pass, a tool call, or a structured self-check) [@dhuliawala2023chainofverificationreduceshallucinationlarge; @farquhar2024detectinghallucinationssemanticentropy].
-
-## Appendix: Verification option {#appendix-verification}
+# Appendix: Verification option {#appendix-verification}
 
 Suppose the user has a way to pay a cost $c$ to obtain the correct answer (e.g. look it up, run an expensive check, ask a human). In the simplest model, verification yields certain success with payoff $\pi_s-c$.
 
@@ -517,93 +455,3 @@ Even after mapping all results into $(p_s,p_f,p_a)$ coordinates, the underlying 
 Sources: @wei2024measuringshortformfactualitylarge; @madhusudhan2024llmsknowanswerinvestigating.
 
 ## Appendix: Benchmark Points in the Simplex
-
-The next two figures plot benchmark observations as points on a Marschak-Machina simplex using a common transformation from the table columns:
-
-$$
-p_s = \text{p\_s\_pct}/100,\qquad
-p_f = \text{p\_f\_pct}/100,\qquad
-p_a = \text{p\_a\_pct}/100.
-$$
-
-### SimpleQA
-
-```{tikz}
-\begin{tikzpicture}[>=stealth, scale=3.0]
-  \input{_tikz/marschak_machina_shared.tex}
-  \MMBaseSimplex{SimpleQA}
-
-  % All models (faint points).
-  \foreach \x/\y in {
-    0.051/0.196,
-    0.057/0.193,
-    0.235/0.369,
-    0.289/0.361,
-    0.086/0.905,
-    0.382/0.608,
-    0.081/0.634,
-    0.427/0.481
-  }{
-    \fill[black, opacity=0.55] (\x,\y) circle (0.010);
-  }
-
-  % Callouts for a few labeled models.
-  \begin{scope}[shift={(0.382,0.608)}]
-    \fill[red!70!black] (0,0) circle (0.013);
-    \draw[red!70!black, line width=0.35pt] (0,0) -- (0.08,0.02);
-    \node[font=\scriptsize, anchor=west, fill=white, inner sep=1pt] at (0.08,0.02) {GPT-4o};
-  \end{scope}
-  \begin{scope}[shift={(0.427,0.481)}]
-    \fill[red!70!black] (0,0) circle (0.013);
-    \draw[red!70!black, line width=0.35pt] (0,0) -- (0.08,-0.02);
-    \node[font=\scriptsize, anchor=west, fill=white, inner sep=1pt] at (0.08,-0.02) {o1-preview};
-  \end{scope}
-  \begin{scope}[shift={(0.086,0.905)}]
-    \fill[red!70!black] (0,0) circle (0.013);
-    \draw[red!70!black, line width=0.35pt] (0,0) -- (0.08,-0.10);
-    \node[font=\scriptsize, anchor=west, fill=white, inner sep=1pt] at (0.08,-0.10) {GPT-4o-mini};
-  \end{scope}
-\end{tikzpicture}
-```
-
-### Abstain-QA
-
-```{tikz}
-\begin{tikzpicture}[>=stealth, scale=3.0]
-  \input{_tikz/marschak_machina_shared.tex}
-  \MMBaseSimplex{Abstain-QA}
-
-  % All models (faint points).
-  \foreach \x/\y in {
-    0.661/0.197,
-    0.720/0.191,
-    0.611/0.374,
-    0.541/0.370,
-    0.590/0.291
-  }{
-    \fill[black, opacity=0.55] (\x,\y) circle (0.010);
-  }
-
-  % Callouts for a few labeled models.
-  \begin{scope}[shift={(0.720,0.191)}]
-    \fill[red!70!black] (0,0) circle (0.013);
-    \draw[red!70!black, line width=0.35pt] (0,0) -- (0.06,0.02);
-    \node[font=\scriptsize, anchor=west, fill=white, inner sep=1pt] at (0.06,0.02) {GPT-4 32K};
-  \end{scope}
-  \begin{scope}[shift={(0.611,0.374)}]
-    \fill[red!70!black] (0,0) circle (0.013);
-    \draw[red!70!black, line width=0.35pt] (0,0) -- (0.06,0.06);
-    \node[font=\scriptsize, anchor=west, fill=white, inner sep=1pt] at (0.06,0.06) {GPT-3.5};
-  \end{scope}
-\end{tikzpicture}
-```
-
-### Reading the simplex plots
-
-1. The horizontal axis is $p_s$ (succeed share) and the vertical axis is $p_f$ (fail share). The remaining probability is $p_a=1-p_s-p_f$ (abstain share), so points closer to the diagonal edge have lower abstention.
-
-2. Moving down (lower $p_f$) corresponds to reducing failures; whether that is best depends on how much worse failure is than abstention ($\pi_f$ vs $\pi_a$).
-
-3. The labeled points illustrate that a model can look good under an "answer-everything" regime by pushing $p_a$ toward zero, but that is exactly the regime that a payoff function with a harsh $\pi_f$ would discourage.
-
-4. Don't over-interpret cross-benchmark comparisons: each source defines abstention differently, so these plots are best read as a geometric visualization of tradeoffs, not as a single unified leaderboard.
