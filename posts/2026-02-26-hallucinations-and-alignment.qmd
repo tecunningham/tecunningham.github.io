@@ -13,24 +13,32 @@ bibliography: ai.bib
 - Overall goal: a two-page blog post with some obsevations about hallucinations in language models. Then appendices to back up (1) data; (2) literature review; (3) derivations.
 
 - Basic model:
-    - Canonical problem: the user has to choose between a few options (multi-choice), the LLM has probabilities on each answer.
-    - The LLM can output a few different things: binary (most-likely option), ternary (abstain), and continuous (report probabilities for every option).
-    - The user has some outside option from not choosing, which is better than choosing the wrong option. In the appendix discuss a model where the user can pay a cost to (a) verify the LLM's answer, or (b) find the right answer themselves.
+    - The user has to make a choice between N options, they get $\pi_s>0$ if they choose the right one, otherwise $\pi_f<0$. But they can also abstain and get $\pi_a=0$.
+    - choose between a few options (multi-choice), the LLM has probabilities on each answer.
+    - The LLM will always return the most-likely option
+        - answer (i.e. most likely option)
+        - answer or abstain (if P(answer) is below some threshold)
+        - answer with likelihood
+    - The user has some outside option from not choosing, which is better than choosing the wrong option. Thus they will only choose the recommended option if the probability is sufficiently high
+    - Extension: the user can pay a cost to verify 
+    - In the appendix discuss a model where the user can pay a cost to (a) verify the LLM's answer, or (b) find the right answer themselves.
 
 - Claims:
-    - Continuous output is best.
-    - The usefulness of a binary-output LLM to a user is convex in its avg accuracy, this means value of benchmark scores is convex.
-    - If you can abstain, the threshold for making a claim is p^*=(\pi_a-\pi_f)/(\pi_s-\pi_f).
+    - Diagram: show p on the x-axis, represents probability of the most-likely alternative (i.e. LLM's beliefs).
+    - The usefulness of a binary-output LLM to a user is convex in its avg accuracy, this means the value of benchmark scores is convex.
+    - If you can abstain then the threshold for making a claim is p^*=(\pi_a-\pi_f)/(\pi_s-\pi_f).
     - Training with a reward only for accuracy encourages guessing over abstention.
     - Simplex representation:
         - We can illustrate different user preferences over succeed/fail/abstain on a simplex: reward accuracy; punish failure; F1. 
         - We can illustrate different empirical results: SimpleQA, Abstain-QA. Put the simplex in the body, numerical results in the appendix.
+    - Note that if 
     
 
 - Additional notes
     - We will use these papers for terminology: (1) Wen et al (2025) "know your limits: a survey of abstention in large language models"; (2) Kalai et al. (2025) "Why Language Models Hallucinate". 
     - Related literature: start with a chronological list of related papers, Chow, Herbei and Wegkamp (you can mention there are other followsup on "classification with a reject option"), Kalai et al., Kadavath. Don't need to mention conformal prediction or calibration & scoring.
     - Related literature: add a short "recent mechanisms" subsection on LLM-specific ways of implementing abstain/verify and confidence signals (e.g. refusal-aware tuning; explicit IDK tokens; verification loops; sampling-based or semantic-uncertainty detection). Include a short caveat that self-check/uncertainty can miss high-confidence hallucinations and can fail in some reasoning settings.
+    - Related literature: one-line note that abstention/refusal is now being studied beyond factual QA, including math and coding benchmarks (e.g. Mohamadi et al. 2025; Jha et al. 2026; Dai et al. 2025; Oehri et al. 2025).
     - Detailed discussion of Chow (1970) and Kalai et al. (2025), list their claims precisely.
     - The diagrams should be super clear. Make sure you *look* at the diagrams to see that they are readable.
     - Plot data from different studies on simplex diagrams. Also give comments on the diagrams, on what the takewaay is about tradeoffs here, & see that's consistent with what the original papers say.
@@ -384,6 +392,8 @@ Our model is deliberately abstract: it assumes the user has access to (i) a usab
 - **Construct a confidence signal without logits.** When output probabilities are unavailable (or untrustworthy), disagreement across samples can act as a proxy confidence signal. SelfCheckGPT does this with sampling-based consistency checks [@manakul-etal-2023-selfcheckgpt]; semantic-uncertainty methods like semantic entropy similarly use semantic variability across generations to predict and filter confabulations [@farquhar2024detectinghallucinationssemanticentropy], and followup work proposes cheaper "semantic entropy probes" in the same spirit [@kossen2024semanticentropyprobesrobust].
 
 A cautionary note: neither uncertainty proxies nor "self-verification" are automatically reliable. Some hallucinations happen with high confidence (so uncertainty-based filters can miss them) [@simhi2025trustmeimwrong], and in logical reasoning settings models can struggle to identify their own errors (so internal self-checks can fail without external grounding) [@hong-etal-2024-closer].
+
+Beyond factual QA, @mohamadi2025honestyaccuracytrustworthylanguage show on GSM8K/MedQA/GPQA that replacing binary RLVR rewards with a ternary scheme $(+1,0,-\lambda)$ produces controllable answer-vs-abstain tradeoffs and useful abstention-aware cascades. @jha2026rewardingintellectualhumilitylearning report on MedMCQA and Hendrycks Math that moderate abstention rewards reduce wrong answers without collapsing coverage, especially when paired with supervised abstention training. In code generation, @dai2025reducinghallucinationsllmgeneratedcode frame the task as "find a correct program or abstain" and use semantic triangulation to improve abstention decisions on LiveCodeBench/CodeElo. Complementarily, @oehri2025trusteduncertaintylargelanguage fuse multiple uncertainty signals into calibrated correctness probabilities and enforce user-specified risk budgets via refusal, including experiments on code generation with execution tests.
 
 ## Implications for "alignment"
 

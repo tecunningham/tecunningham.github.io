@@ -251,29 +251,41 @@ Project spec (human)
 <li><p>Overall goal: a two-page blog post with some obsevations about hallucinations in language models. Then appendices to back up (1) data; (2) literature review; (3) derivations.</p></li>
 <li><p>Basic model:</p>
 <ul>
-<li>Canonical problem: the user has to choose between a few options (multi-choice), the LLM has probabilities on each answer.</li>
-<li>The LLM can output a few different things: binary (most-likely option), ternary (abstain), and continuous (report probabilities for every option).</li>
-<li>The user has some outside option from not choosing, which is better than choosing the wrong option. In the appendix discuss a model where the user can pay a cost to (a) verify the LLM’s answer, or (b) find the right answer themselves.</li>
+<li>The user has to make a choice between N options, they get <span class="math inline">\(\pi_s&gt;0\)</span> if they choose the right one, otherwise <span class="math inline">\(\pi_f&lt;0\)</span>. But they can also abstain and get <span class="math inline">\(\pi_a=0\)</span>.</li>
+<li>choose between a few options (multi-choice), the LLM has probabilities on each answer.</li>
+<li>The LLM will always return the most-likely option
+<ul>
+<li>answer (i.e.&nbsp;most likely option)</li>
+<li>answer or abstain (if P(answer) is below some threshold)</li>
+<li>answer with likelihood</li>
+</ul></li>
+<li>The user has some outside option from not choosing, which is better than choosing the wrong option. Thus they will only choose the recommended option if the probability is sufficiently high</li>
+<li>Extension: the user can pay a cost to verify</li>
+<li>In the appendix discuss a model where the user can pay a cost to (a) verify the LLM’s answer, or (b) find the right answer themselves.</li>
 </ul></li>
 <li><p>Claims:</p>
 <ul>
-<li>Continuous output is best.</li>
-<li>The usefulness of a binary-output LLM to a user is convex in its avg accuracy, this means value of benchmark scores is convex.</li>
-<li>If you can abstain, the threshold for making a claim is p^*=(_a-_f)/(_s-_f).</li>
+<li>Diagram: show p on the x-axis, represents probability of the most-likely alternative (i.e.&nbsp;LLM’s beliefs).</li>
+<li>The usefulness of a binary-output LLM to a user is convex in its avg accuracy, this means the value of benchmark scores is convex.</li>
+<li>If you can abstain then the threshold for making a claim is p^*=(_a-_f)/(_s-_f).</li>
 <li>Training with a reward only for accuracy encourages guessing over abstention.</li>
 <li>Simplex representation:
 <ul>
 <li>We can illustrate different user preferences over succeed/fail/abstain on a simplex: reward accuracy; punish failure; F1.</li>
 <li>We can illustrate different empirical results: SimpleQA, Abstain-QA. Put the simplex in the body, numerical results in the appendix.</li>
 </ul></li>
+<li>Note that if</li>
 </ul></li>
 <li><p>Additional notes</p>
 <ul>
-<li>Emphasize that I mostly follow Kalai et al.&nbsp;treatment, but add some helpful visualizations.</li>
+<li>We will use these papers for terminology: (1) Wen et al (2025) “know your limits: a survey of abstention in large language models”; (2) Kalai et al.&nbsp;(2025) “Why Language Models Hallucinate”.</li>
 <li>Related literature: start with a chronological list of related papers, Chow, Herbei and Wegkamp (you can mention there are other followsup on “classification with a reject option”), Kalai et al., Kadavath. Don’t need to mention conformal prediction or calibration &amp; scoring.</li>
+<li>Related literature: add a short “recent mechanisms” subsection on LLM-specific ways of implementing abstain/verify and confidence signals (e.g.&nbsp;refusal-aware tuning; explicit IDK tokens; verification loops; sampling-based or semantic-uncertainty detection). Include a short caveat that self-check/uncertainty can miss high-confidence hallucinations and can fail in some reasoning settings.</li>
+<li>Related literature: one-line note that abstention/refusal is now being studied beyond factual QA, including math and coding benchmarks (e.g.&nbsp;Mohamadi et al.&nbsp;2025; Jha et al.&nbsp;2026; Dai et al.&nbsp;2025; Oehri et al.&nbsp;2025).</li>
 <li>Detailed discussion of Chow (1970) and Kalai et al.&nbsp;(2025), list their claims precisely.</li>
 <li>The diagrams should be super clear. Make sure you <em>look</em> at the diagrams to see that they are readable.</li>
 <li>Plot data from different studies on simplex diagrams. Also give comments on the diagrams, on what the takewaay is about tradeoffs here, &amp; see that’s consistent with what the original papers say.</li>
+<li>Note early on different terminology: “abstain”, “refuse”, “reject”, “IDK/i don’t know”, “forfeit”, “concede”, “fold” (others?)</li>
 </ul></li>
 </ul>
 </div>
@@ -549,6 +561,7 @@ p_f = \frac{\bar U}{\pi_f} - \frac{\pi_s}{\pi_f}\,p_s.
 <li><p><strong>Construct a confidence signal without logits.</strong> When output probabilities are unavailable (or untrustworthy), disagreement across samples can act as a proxy confidence signal. SelfCheckGPT does this with sampling-based consistency checks <span class="citation" data-cites="manakul-etal-2023-selfcheckgpt">(<a href="#ref-manakul-etal-2023-selfcheckgpt" role="doc-biblioref">Manakul, Liusie, and Gales 2023</a>)</span>; semantic-uncertainty methods like semantic entropy similarly use semantic variability across generations to predict and filter confabulations <span class="citation" data-cites="farquhar2024detectinghallucinationssemanticentropy">(<a href="#ref-farquhar2024detectinghallucinationssemanticentropy" role="doc-biblioref">Farquhar et al. 2024</a>)</span>, and followup work proposes cheaper “semantic entropy probes” in the same spirit <span class="citation" data-cites="kossen2024semanticentropyprobesrobust">(<a href="#ref-kossen2024semanticentropyprobesrobust" role="doc-biblioref">Kossen et al. 2024</a>)</span>.</p></li>
 </ul>
 <p>A cautionary note: neither uncertainty proxies nor “self-verification” are automatically reliable. Some hallucinations happen with high confidence (so uncertainty-based filters can miss them) <span class="citation" data-cites="simhi2025trustmeimwrong">(<a href="#ref-simhi2025trustmeimwrong" role="doc-biblioref">Simhi et al. 2025</a>)</span>, and in logical reasoning settings models can struggle to identify their own errors (so internal self-checks can fail without external grounding) <span class="citation" data-cites="hong-etal-2024-closer">(<a href="#ref-hong-etal-2024-closer" role="doc-biblioref">Hong et al. 2024</a>)</span>.</p>
+<p>Beyond factual QA, <span class="citation" data-cites="mohamadi2025honestyaccuracytrustworthylanguage">Mohamadi, Wang, and Li (<a href="#ref-mohamadi2025honestyaccuracytrustworthylanguage" role="doc-biblioref">2025</a>)</span> show on GSM8K/MedQA/GPQA that replacing binary RLVR rewards with a ternary scheme <span class="math inline">\((+1,0,-\lambda)\)</span> produces controllable answer-vs-abstain tradeoffs and useful abstention-aware cascades. <span class="citation" data-cites="jha2026rewardingintellectualhumilitylearning">Jha et al. (<a href="#ref-jha2026rewardingintellectualhumilitylearning" role="doc-biblioref">2026</a>)</span> report on MedMCQA and Hendrycks Math that moderate abstention rewards reduce wrong answers without collapsing coverage, especially when paired with supervised abstention training. In code generation, <span class="citation" data-cites="dai2025reducinghallucinationsllmgeneratedcode">Dai et al. (<a href="#ref-dai2025reducinghallucinationsllmgeneratedcode" role="doc-biblioref">2025</a>)</span> frame the task as “find a correct program or abstain” and use semantic triangulation to improve abstention decisions on LiveCodeBench/CodeElo. Complementarily, <span class="citation" data-cites="oehri2025trusteduncertaintylargelanguage">Oehri et al. (<a href="#ref-oehri2025trusteduncertaintylargelanguage" role="doc-biblioref">2025</a>)</span> fuse multiple uncertainty signals into calibrated correctness probabilities and enforce user-specified risk budgets via refusal, including experiments on code generation with execution tests.</p>
 </section>
 </section>
 <section id="implications-for-alignment" class="level2">
@@ -765,6 +778,9 @@ Chow, C. K. 1970. <span>“On Optimum Recognition Error and Reject Tradeoff.”<
 <div id="ref-cohen2024idontknowexplicit" class="csl-entry" role="listitem">
 Cohen, Roi, Konstantin Dobler, Eden Biran, and Gerard de Melo. 2024. <span>“I Don’t Know: Explicit Modeling of Uncertainty with an [IDK] Token.”</span> <a href="https://doi.org/10.48550/arXiv.2412.06676">https://doi.org/10.48550/arXiv.2412.06676</a>.
 </div>
+<div id="ref-dai2025reducinghallucinationsllmgeneratedcode" class="csl-entry" role="listitem">
+Dai, Yihan, Sijie Liang, Haotian Xu, Peichu Xie, and Sergey Mechtaev. 2025. <span>“Reducing Hallucinations in <span>LLM</span>-Generated Code via Semantic Triangulation.”</span> <a href="https://doi.org/10.48550/arXiv.2511.12288">https://doi.org/10.48550/arXiv.2511.12288</a>.
+</div>
 <div id="ref-dhuliawala2023chainofverificationreduceshallucinationlarge" class="csl-entry" role="listitem">
 Dhuliawala, Shehzaad, Mojtaba Komeili, Jing Xu, Roberta Raileanu, Xian Li, Asli Celikyilmaz, and Jason Weston. 2023. <span>“Chain-of-Verification Reduces Hallucination in Large Language Models.”</span> <a href="https://doi.org/10.48550/arXiv.2309.11495">https://doi.org/10.48550/arXiv.2309.11495</a>.
 </div>
@@ -783,6 +799,9 @@ Herbei, Radu, and Marten H. Wegkamp. 2006. <span>“Classification with Reject O
 <div id="ref-hong-etal-2024-closer" class="csl-entry" role="listitem">
 Hong, Ruixin, Hongming Zhang, Xinyu Pang, Dong Yu, and Changshui Zhang. 2024. <span>“A Closer Look at the Self-Verification Abilities of Large Language Models in Logical Reasoning.”</span> In <em>Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)</em>, 900–925. Mexico City, Mexico: Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2024.naacl-long.52">https://doi.org/10.18653/v1/2024.naacl-long.52</a>.
 </div>
+<div id="ref-jha2026rewardingintellectualhumilitylearning" class="csl-entry" role="listitem">
+Jha, Abha, Akanksha Mahajan, Ashwath Vaithinathan Aravindan, Praveen Saravanan, Sai Sailaja Policharla, and Sonal Chaturbhuj Gehlot. 2026. <span>“Rewarding Intellectual Humility Learning When Not to Answer in Large Language Models.”</span> <a href="https://doi.org/10.48550/arXiv.2601.20126">https://doi.org/10.48550/arXiv.2601.20126</a>.
+</div>
 <div id="ref-kadavath2022mostly" class="csl-entry" role="listitem">
 Kadavath, Saurav, Tom Conerly, Amanda Askell, Tom Henighan, Dawn Drain, Ethan Perez, Nicholas Schiefer, et al. 2022. <span>“Language Models (Mostly) Know What They Know.”</span> <em>arXiv Preprint</em>. <a href="https://doi.org/10.48550/arXiv.2207.05221">https://doi.org/10.48550/arXiv.2207.05221</a>.
 </div>
@@ -797,6 +816,12 @@ Madhusudhan, Nishanth, Sathwik Tejaswi Madhusudhan, Vikas Yadav, and Masoud Hash
 </div>
 <div id="ref-manakul-etal-2023-selfcheckgpt" class="csl-entry" role="listitem">
 Manakul, Potsawee, Adian Liusie, and Mark Gales. 2023. <span>“SelfCheckGPT: Zero-Resource Black-Box Hallucination Detection for Generative Large Language Models.”</span> In <em>Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing</em>, 9004–17. Singapore: Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2023.emnlp-main.557">https://doi.org/10.18653/v1/2023.emnlp-main.557</a>.
+</div>
+<div id="ref-mohamadi2025honestyaccuracytrustworthylanguage" class="csl-entry" role="listitem">
+Mohamadi, Mohamad Amin, Tianhao Wang, and Zhiyuan Li. 2025. <span>“Honesty over Accuracy: Trustworthy Language Models Through Reinforced Hesitation.”</span> <a href="https://doi.org/10.48550/arXiv.2511.11500">https://doi.org/10.48550/arXiv.2511.11500</a>.
+</div>
+<div id="ref-oehri2025trusteduncertaintylargelanguage" class="csl-entry" role="listitem">
+Oehri, Markus, Giulia Conti, Kaviraj Pather, Alexandre Rossi, Laia Serra, Adrian Parody, Rogvi Johannesen, Aviaja Petersen, and Arben Krasniqi. 2025. <span>“Trusted Uncertainty in Large Language Models: A Unified Framework for Confidence Calibration and Risk-Controlled Refusal.”</span> <a href="https://doi.org/10.48550/arXiv.2509.01455">https://doi.org/10.48550/arXiv.2509.01455</a>.
 </div>
 <div id="ref-simhi2025trustmeimwrong" class="csl-entry" role="listitem">
 Simhi, Adi, Itay Itzhak, Fazl Barez, Gabriel Stanovsky, and Yonatan Belinkov. 2025. <span>“Trust Me, i’m Wrong: <span>LLM</span>s Hallucinate with Certainty Despite Knowing the Answer.”</span> <a href="https://doi.org/10.48550/arXiv.2502.12964">https://doi.org/10.48550/arXiv.2502.12964</a>.
