@@ -61,27 +61,6 @@ engine: knitr
    3. If the distribution of running-speeds is sufficiently fat-tailed (e.g. $t$-distribution with df<2), then you get the opposite implication (I think a sufficient condition for exaggeration seems to be log-concavity of the probability density function).
 
 
-#           FB Post
-
-My claim: keeping track of people you pass when you run will typically *exaggerate* your ranking in relative speed, e.g. if you pass people by with a ratio of 3:1 then you're probably not at the 75th percentile of speeds, you're significantly lower than that. (However this requires a sufficiently thin-tailed distribution of speeds).
-
-More formally:
-
-WITHOUT ASSUMPTION ON DISTRIBUTION
-
-1. I cannot infer anything certain about my rank. Given the ratio of pass/passed-by, I could be either the fastest or the slowest runner. E.g. suppose the majority of runners were just slightly faster than me, but a few runners who were much slower, then I would pass many more runners than I passed by, but nevertheless my rank among runners would be low.
-
-2. I can infer whether I'm faster or slower than average. If the number of people who pass me is equal to the number of people who I'm passed by then I must be going the *average* speed. If I pass more than I'm passed by then I must be going faster than average. As a corollary: if the distribution is symmetric (mean=median) then if you pass more people than you're passed by then you must have above-median speed.
-
-WITH ASSUMPTION ON DISTRIBUTION
-
-Let's say that "exaggeration" holds if your position in the passing distribution (passes/(passes+passedby)) is farther from 50% than your percentile in the distribution of speeds (faster/(faster+slower)).
-
-1. If speeds are uniform then there's a very simple solution, and exaggeration will always hold. The ratio of faster/slower will be equal to the square root of the ratio of passes/passed-by. E.g. if I pass 100X as many people as I pass by, then there will be only 10X as many people who I'm faster than than who I'm slower than. There's a simple graphical derivation: the volume of people I pass (and are passed by) will be given by the area of triangles on either side of my speed, and the areas of those triangles are proportional to the square of the number of runners.
-
-2. If I assume a Normal distribution then there's an analytic solution. The solution is a little bit ugly but exaggeration always holds: i.e. the share of people you pass always exceeds your percentile in the speed distribution.
-
-However with a t-distribution exaggeration with low degrees of freedom then exaggeration won't always hold. I think there must be some condition on how fat-tailed the distribution is for exaggeration to hold.
 
 #           Derivation
 
@@ -284,16 +263,16 @@ $$
 
 ```{r}
 pass <- function(x) {
-   x * pnorm(x) + dnorm(x)
+    x * pnorm(x) + dnorm(x)
 }
 passed <- function(x) {
-   x * pnorm(x) + dnorm(x) - x
+    x * pnorm(x) + dnorm(x) - x
 }
 share <- function(x) {
-   pass(x) / (pass(x) + passed(x))
+    pass(x) / (pass(x) + passed(x))
 }
 ratio <- function(x) {
-   pass(x) / passed(x)
+    pass(x) / passed(x)
 }
 ratio(1.3)
 pnorm(1.3) / (1 - pnorm(1.3))
@@ -301,28 +280,28 @@ share(.5)
 pnorm(.5)
 
 ratio_sum <- function(x, density) {
-   range <- 100
-   percentile <- 0
-   for (speed in seq(-range, x, 0.1)) {
-      percentile <- percentile + density(speed) * 0.1
-   }
-   pass <- 0 # people you pass
-   for (speed in seq(-range, x, 0.1)) {
-      pass <- pass + density(speed) * (x - speed) * 0.1
-   }
-   passed <- 0 # people you're passed by
-   for (speed in seq(x, range, 0.1)) {
-      passed <- passed + density(speed) * (speed - x) * 0.1
-   }
-   # return (pass/passed) and (slower/faster)
-   return(c(pass / passed, (percentile / (1 - percentile))))
+    range <- 100
+    percentile <- 0
+    for (speed in seq(-range, x, 0.1)) {
+        percentile <- percentile + density(speed) * 0.1
+    }
+    pass <- 0 # people you pass
+    for (speed in seq(-range, x, 0.1)) {
+        pass <- pass + density(speed) * (x - speed) * 0.1
+    }
+    passed <- 0 # people you're passed by
+    for (speed in seq(x, range, 0.1)) {
+        passed <- passed + density(speed) * (speed - x) * 0.1
+    }
+    # return (pass/passed) and (slower/faster)
+    return(c(pass / passed, (percentile / (1 - percentile))))
 }
 ratio_sum(5, dnorm)
 ratio_sum(5, function(x) {
-   dt(x, df = 1)
+    dt(x, df = 1)
 })
 ratio_sum(5, function(x) {
-   dt(x, df = 2)
+    dt(x, df = 2)
 })
 
 curve(dt(x, df = 1), -8, 8)
@@ -367,13 +346,13 @@ We can't know for sure but if you assume the distribution of speeds is Normal th
 
 #           Notes
 
-Matt:
+##      Matt:
 
 > "I think I can get some bounds ... if r>1: since E|s-x| <= \sqrt E(s-x)^2 we get that s<=mean + (r-1)/(2 \sqrt{r}) sd. Only assumption is that mean and sd exist -- and I've done my sums right!"
 
 Oh very nice Matt. It took me a bit but now I see it (though I can't quite derive it). So if I pass 3X as many people as pass me, then I know that my speed cannot be more than 1.2 SDs above the mean (=2/sqrt(3)). It seems to me intuitive that there ought to also be a lower bound but may be wrong (we know that s>mean if r>1, intuitive that we can say something stronger than that).
 
-Erik:
+##      Erik:
 
 > "I think you’re less likely to see faster runners. The probability you intersect their path at the same time is lower because the time interval they’re there is shorter ... think (4) is related to length/size bias (https://en.wikipedia.org/wiki/Length_time_bias) I wasn't imagining the circular track scenario either, a straight line where people jump in at random points at random speeds. If you imagine runners are at every point in their run at once, and you draw a line at any point in the track at some instant, since a fast runner is on the track for less time you're less likely to hit their trajectory. I think depending on the setup of the problem this can vary -- i.e. depending on track shape, distribution of times spent running, and of speeds. Also I could be missing something"
 
@@ -382,3 +361,27 @@ Length-time bias:
 >  "if the same number of slow-growing and fast-growing tumors appear in a year, the screening test detects more slow-growers than fast-growers. If the slow growing tumors are less likely to be fatal than the fast growers, the people whose cancer is detected by screening do better, on average, than the people whose tumors are detected from symptoms
 
 [Data that speeds are lognormal](https://www.allendowney.com/blog/2023/10/28/why-are-you-so-slow/)
+
+
+
+##           FB Post
+
+My claim: keeping track of people you pass when you run will typically *exaggerate* your ranking in relative speed, e.g. if you pass people by with a ratio of 3:1 then you're probably not at the 75th percentile of speeds, you're significantly lower than that. (However this requires a sufficiently thin-tailed distribution of speeds).
+
+More formally:
+
+WITHOUT ASSUMPTION ON DISTRIBUTION
+
+1. I cannot infer anything certain about my rank. Given the ratio of pass/passed-by, I could be either the fastest or the slowest runner. E.g. suppose the majority of runners were just slightly faster than me, but a few runners who were much slower, then I would pass many more runners than I passed by, but nevertheless my rank among runners would be low.
+
+2. I can infer whether I'm faster or slower than average. If the number of people who pass me is equal to the number of people who I'm passed by then I must be going the *average* speed. If I pass more than I'm passed by then I must be going faster than average. As a corollary: if the distribution is symmetric (mean=median) then if you pass more people than you're passed by then you must have above-median speed.
+
+WITH ASSUMPTION ON DISTRIBUTION
+
+Let's say that "exaggeration" holds if your position in the passing distribution (passes/(passes+passedby)) is farther from 50% than your percentile in the distribution of speeds (faster/(faster+slower)).
+
+1. If speeds are uniform then there's a very simple solution, and exaggeration will always hold. The ratio of faster/slower will be equal to the square root of the ratio of passes/passed-by. E.g. if I pass 100X as many people as I pass by, then there will be only 10X as many people who I'm faster than than who I'm slower than. There's a simple graphical derivation: the volume of people I pass (and are passed by) will be given by the area of triangles on either side of my speed, and the areas of those triangles are proportional to the square of the number of runners.
+
+2. If I assume a Normal distribution then there's an analytic solution. The solution is a little bit ugly but exaggeration always holds: i.e. the share of people you pass always exceeds your percentile in the speed distribution.
+
+However with a t-distribution exaggeration with low degrees of freedom then exaggeration won't always hold. I think there must be some condition on how fat-tailed the distribution is for exaggeration to hold.
