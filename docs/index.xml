@@ -10,7 +10,189 @@
 <atom:link href="tecunningham.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>{{&lt; meta description-meta &gt;}}</description>
 <generator>quarto-1.5.57</generator>
-<lastBuildDate>Fri, 06 Feb 2026 08:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 07 Mar 2026 08:00:00 GMT</lastBuildDate>
+<item>
+  <title>When You Overtake More Runners than You’re Overtaken by</title>
+  <dc:creator>Tom Cunningham</dc:creator>
+  <link>tecunningham.github.io/posts/2023-08-13-runner-percentile.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<style>
+   h1 {  border-bottom: 4px solid black;}
+   h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; font-size: 14px; color: black; }
+   dl {display: grid;grid-template-columns: max-content auto;}
+   dt {grid-column-start: 1;}
+   dd {grid-column-start: 2; margin-left: 2em;}
+</style>
+<p><strong>Suppose you overtake 10 times as many runners as overtake you. What can you say about your speed relative to the other runners?</strong></p>
+<p>For concreteness, suppose everyone is running around a circular track in the same direction forever, and each person started at a random point.</p>
+<p><strong>Answer:</strong> We can write the general relationship as follows: <img src="https://latex.codecogs.com/png.latex?%5Cfrac%7B%5Ctext%7Bfrequency%20of%20passing%7D%7D%7B%5Ctext%7Bfrequency%20of%20being%20passed%7D%7D%0A%20%20%20%20%20%20%20%20%20=%5Cfrac%7B%5Ctext%7Bshare%20slower%20runners%7D%7D%7B%5Ctext%7Bshare%20faster%20runners%7D%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%5Ctimes%0A%20%20%20%20%20%20%20%20%20%20%20%20%5Cfrac%7B%5Ctext%7Bavg%20excess%20above%20slower%20runners%7D%7D%7B%5Ctext%7Bavg%20lag%20behind%20faster%20runners%7D%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%25=%20%5Cfrac%7BE%5Bs-x%7Cx%3Cs%5D%7D%7BE%5Bx-s%7Cx%3Es%5D%7D%5Cfrac%7BP(x%3Cs)%7D%7BP(x%3Es)%7D%0A%20%20%20"></p>
+<p><strong>The ratio of slower/faster will not generally be equal to the ratio of passing/passed.</strong> The reason is that your propensity to encounter another runner depends on the difference in speeds: you will rarely pass or be passed by those who run similar speeds to you.</p>
+<p><strong>If the distribution of speeds is symmetric and log-concave, your frequency of passing runners will exaggerate your position in the distribution of speeds.</strong> E.g. if you pass 10x as many people as pass you then there are <em>fewer</em> than 10x as many people who are slower than you relative to people who are faster than you. This covers normal, logistic, &amp; uniform distributions.</p>
+<p><strong>Some additional implications:</strong></p>
+<ol type="1">
+<li>If you’re passing the same number of people as pass you, then you must be running exactly the mean speed.</li>
+<li>If the distribution of running speeds is sufficiently fat-tailed (e.g.&nbsp;a <img src="https://latex.codecogs.com/png.latex?t">-distribution with <img src="https://latex.codecogs.com/png.latex?%5Cmathrm%7Bdf%7D%3C2">), then you can get the opposite implication.</li>
+<li>(due to Matt Parry) If mean and variance exist, then your pass/passed ratio also gives an upper bound on how many standard deviations above the mean you can be: <img src="https://latex.codecogs.com/png.latex?s-%5Cmu%20%5Cle%20%5Cfrac%7Br-1%7D%7B2%5Csqrt%7Br%7D%7D%5Csigma"> where <img src="https://latex.codecogs.com/png.latex?r"> is your ratio of pass/passed.</li>
+</ol>
+<p>(<a href="https://www.facebook.com/tom.cunningham.374549/posts/pfbid0enA2CUnsfnukfqAwKPmvjDig33bqzs1J1X43KVMrZKRVDK2d5p2Q83dEhC7TPj4Sl">original FB post</a>)</p>
+<section id="derivation" class="level1">
+<h1>Derivation</h1>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20s%20&amp;=%20%5Ctext%7Bmy%20speed%7D%20%5C%5C%0A%20%20%20%20%20%20x%20&amp;%5Csim%20%5Cphi,%20%5Ctext%7Bother%20runners'%20speeds%7D%20%5C%5C%0A%20%20%20%20%20%20p=%5Ctext%7Brunners%20I%20pass%7D%0A%20%20%20%20%20%20%20%20%20&amp;=%20%5Cint_%7B-%5Cinfty%7D%5Es%20%5Cutt%7B%5Cphi(x)%7D%7Brunners%7D%7Bat%20speed%20$x$%7D%5Cutt%7B(s-x)%7D%7Bfrequency%7D%7Bwe%20pass%7Ddx%5C%5C%0A%20%20%20%20%20%20%20%20%20&amp;=%20s%5CPhi(s)-%5Cint_%7B-%5Cinfty%7D%5Esx%5Cphi(x)dx%20%5C%5C%0A%20%20%20%20%20%20q=%20%5Ctext%7Brunners%20who%20pass%20me%7D%0A%20%20%20%20%20%20%20%20%20&amp;=%20%5Cint_%7Bs%7D%5E%5Cinfty%20%5Cutt%7B%5Cphi(x)%7D%7Brunners%7D%7Bat%20speed%20$x$%7D%5Cutt%7B(x-s)%7D%7Bfrequency%7D%7Bwe%20pass%7Ddx%5C%5C%0A%20%20%20%20%20%20%20%20%20&amp;=%20%5Cint_%7Bs%7D%5E%7B%5Cinfty%7Dx%5Cphi(x)dx-s(1-%5CPhi(s))%20%5C%5C%0A%20%20%20%20%20%20r=%5Ctext%7Bratio%20pass/passed%7D%0A%20%20%20%20%20%20%20%20%20&amp;=%20%5Cfrac%7Bs%5CPhi(s)-%5Cint_%7B-%5Cinfty%7D%5Esx%5Cphi(x)dx%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%5Cint_%7Bs%7D%5E%7B%5Cinfty%7Dx%5Cphi(x)dx-s(1-%5CPhi(s))%7D%20%5C%5C%0A%20%20%20%20%20%20%20%20%20&amp;=%20%5Cutt%7B%5Cfrac%7BE%5Bs-x%7Cx%3Cs%5D%7D%7BE%5Bx-s%7Cx%3Es%5D%7D%7D%7Bratio%20of%20avg%20excess%20above%20slower%7D%7Bto%20avg%20lag%20behind%20faster%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%5Cutt%7B%5Cfrac%7BP(x%3Cs)%7D%7BP(x%3Es)%7D%7D%7Bratio%20of%20slower%7D%7Bto%20faster%7D%0A%20%20%20%5Cend%7Baligned%7D%0A%20%20%20"></p>
+<p>This last expression is the most important. It implies you can figure out your rank among runners <img src="https://latex.codecogs.com/png.latex?%5Cfrac%7BP(x%3Cs)%7D%7BP(x%3Es)%7D"> if you know the relative distance in speeds among those who are faster and those who are slower. If the speed differences are identical then the two ratios are the same. For the Normal distribution, the conditional expectations are such that the slower runners are closer than the faster runners, implying the exaggeration property.</p>
+<p>Derivation of the final condition: <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20E%5Bx%7Cx%3Cs%5D%0A%20%20%20%20%20%20%20%20%20&amp;=%20%5Cfrac%7B%5Cint_%7B-%5Cinfty%7D%5Es%20x%5Cphi(x)dx%7D%7B%5CPhi(s)%7D%5C%5C%0A%20%20%20%20%20%20%20%20%20&amp;=%20s-%5Cfrac%7Bp%7D%7B%5CPhi(s)%7D%0A%20%20%20%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(from%20above)%7D%20%5C%5C%0A%20%20%20%20%20%20E%5Bx%7Cx%3Es%5D%0A%20%20%20%20%20%20%20%20%20&amp;=%20%5Cfrac%7B%5Cint_%7Bs%7D%5E%7B%5Cinfty%7D%20x%5Cphi(x)dx%7D%7B1-%5CPhi(s)%7D%5C%5C%0A%20%20%20%20%20%20%20%20%20&amp;=%20s+%5Cfrac%7Bq%7D%7B(1-%5CPhi(s))%7D%5C%5C%0A%20%20%20%20%20%20%5Cfrac%7BE%5Bx%7Cx%3Cs%5D-s%7D%7BE%5Bx%7Cx%3Es%5D-s%7D%0A%20%20%20%20%20%20%20%20%20&amp;=%20-%5Cfrac%7Bp%7D%7Bq%7D%5Cfrac%7B1-%5CPhi(s)%7D%7B%5CPhi(s)%7D%5C%5C%0A%20%20%20%20%20%20r=%5Cfrac%7Bp%7D%7Bq%7D%0A%20%20%20%20%20%20%20%20%20&amp;=%20%5Cfrac%7BE%5Bs-x%7Cx%3Cs%5DP(x%3Cs)%7D%7BE%5Bx-s%7Cx%3Es%5DP(x%3Es)%7D%0A%20%20%20%5Cend%7Baligned%7D%0A%20%20%20"></p>
+<p>One sufficient condition for exaggeration: let <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20U_s%20&amp;=%20s-x%20%5Cmid%20x%3Cs%20%5C%5C%0A%20%20%20%20%20%20V_s%20&amp;=%20x-s%20%5Cmid%20x%3Es%0A%20%20%20%5Cend%7Baligned%7D%0A%20%20%20"></p>
+<p>Then <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20E%5BU_s%5D%20&amp;=%20E%5Bs-x%7Cx%3Cs%5D%20%5C%5C%0A%20%20%20%20%20%20E%5BV_s%5D%20&amp;=%20E%5Bx-s%7Cx%3Es%5D%0A%20%20%20%5Cend%7Baligned%7D%0A%20%20%20"></p>
+<p>so exaggeration holds if <img src="https://latex.codecogs.com/png.latex?U_s"> stochastically dominates <img src="https://latex.codecogs.com/png.latex?V_s">. Their survival functions are <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20P(U_s%3Et)%0A%20%20%20%20%20%20%20%20%20&amp;=%20%5Cfrac%7BF(s-t)%7D%7BF(s)%7D%20%5C%5C%0A%20%20%20%20%20%20P(V_s%3Et)%0A%20%20%20%20%20%20%20%20%20&amp;=%20%5Cfrac%7B1-F(s+t)%7D%7B1-F(s)%7D%0A%20%20%20%5Cend%7Baligned%7D%0A%20%20%20"></p>
+<p>Now suppose the density is symmetric about <img src="https://latex.codecogs.com/png.latex?c"> and log-concave. Then <img src="https://latex.codecogs.com/png.latex?F"> is log-concave, so for each fixed <img src="https://latex.codecogs.com/png.latex?t%5Cge%200"> the function <img src="https://latex.codecogs.com/png.latex?g_t(x)=%5Clog%20F(x-t)-%5Clog%20F(x)"></p>
+<p>is increasing in <img src="https://latex.codecogs.com/png.latex?x">. By symmetry, <img src="https://latex.codecogs.com/png.latex?%5Cfrac%7B1-F(s+t)%7D%7B1-F(s)%7D=%5Cfrac%7BF(2c-s-t)%7D%7BF(2c-s)%7D"></p>
+<p>and if <img src="https://latex.codecogs.com/png.latex?s%5Cge%20c"> then <img src="https://latex.codecogs.com/png.latex?2c-s%5Cle%20s">, so <img src="https://latex.codecogs.com/png.latex?%5Cfrac%7BF(s-t)%7D%7BF(s)%7D%5Cge%20%5Cfrac%7BF(2c-s-t)%7D%7BF(2c-s)%7D=%5Cfrac%7B1-F(s+t)%7D%7B1-F(s)%7D"></p>
+<p>for all <img src="https://latex.codecogs.com/png.latex?t%5Cge%200">. Therefore <img src="https://latex.codecogs.com/png.latex?U_s"> stochastically dominates <img src="https://latex.codecogs.com/png.latex?V_s">, so <img src="https://latex.codecogs.com/png.latex?E%5Bs-x%7Cx%3Cs%5D%5Cge%20E%5Bx-s%7Cx%3Es%5D"></p>
+<p>and exaggeration follows.</p>
+<p>Bound in standard deviations (assuming mean and variance exist): <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20%5Cmu%20&amp;=%20E%5Bx%5D%20%5C%5C%0A%20%20%20%20%20%20%5Csigma%5E2%20&amp;=%20%5Cmathrm%7BVar%7D(x)%20%5C%5C%0A%20%20%20%20%20%20a%20&amp;=%20E%5B(s-x)_+%5D%20%5C%5C%0A%20%20%20%20%20%20b%20&amp;=%20E%5B(x-s)_+%5D%20%5C%5C%0A%20%20%20%20%20%20r%20&amp;=%20%5Cfrac%7Ba%7D%7Bb%7D%20%5C%5C%0A%20%20%20%20%20%20s-%5Cmu%0A%20%20%20%20%20%20%20%20%20&amp;=%20E%5Bs-x%5D%20%5C%5C%0A%20%20%20%20%20%20%20%20%20&amp;=%20a-b%20%5C%5C%0A%20%20%20%20%20%20%20%20%20&amp;=%20(r-1)b%20%5C%5C%0A%20%20%20%20%20%20E%7Cs-x%7C%0A%20%20%20%20%20%20%20%20%20&amp;=%20a+b%20%5C%5C%0A%20%20%20%20%20%20%20%20%20&amp;=%20(r+1)b%20%5C%5C%0A%20%20%20%20%20%20%20%20%20&amp;=%20%5Cfrac%7Br+1%7D%7Br-1%7D(s-%5Cmu)%20%5C%5C%0A%20%20%20%20%20%20E%7Cs-x%7C%0A%20%20%20%20%20%20%20%20%20&amp;%5Cle%20%5Csqrt%7BE%5B(s-x)%5E2%5D%7D%20%5C%5C%0A%20%20%20%20%20%20%20%20%20&amp;=%20%5Csqrt%7B(s-%5Cmu)%5E2+%5Csigma%5E2%7D%0A%20%20%20%5Cend%7Baligned%7D%0A%20%20%20"></p>
+<p>So <img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%20%20%20%5Cfrac%7Br+1%7D%7Br-1%7D(s-%5Cmu)%0A%20%20%20%20%20%20%20%20%20&amp;%5Cle%20%5Csqrt%7B(s-%5Cmu)%5E2+%5Csigma%5E2%7D%20%5C%5C%0A%20%20%20%20%20%20%5Cleft(%5Cfrac%7Br+1%7D%7Br-1%7D%5Cright)%5E2(s-%5Cmu)%5E2%0A%20%20%20%20%20%20%20%20%20&amp;%5Cle%20(s-%5Cmu)%5E2+%5Csigma%5E2%20%5C%5C%0A%20%20%20%20%20%20%5Cfrac%7B4r%7D%7B(r-1)%5E2%7D(s-%5Cmu)%5E2%0A%20%20%20%20%20%20%20%20%20&amp;%5Cle%20%5Csigma%5E2%20%5C%5C%0A%20%20%20%20%20%20s-%5Cmu%0A%20%20%20%20%20%20%20%20%20&amp;%5Cle%20%5Cfrac%7Br-1%7D%7B2%5Csqrt%7Br%7D%7D%5Csigma%0A%20%20%20%5Cend%7Baligned%7D%0A%20%20%20"></p>
+</section>
+<section id="uniform-distribution-of-speeds" class="level1">
+<h1>Uniform Distribution of Speeds</h1>
+<p>With a uniform distribution you can easily see that the number of passing events is proportional to the area of the triangle, and so proportional to the <em>square</em> of the number of runners below/above your speed.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tecunningham.github.io/posts/2023-08-13-runner-percentile_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="normal-distribution-of-speeds" class="level1 page-columns page-full">
+<h1>Normal Distribution of Speeds</h1>
+<div class="cell page-columns page-full">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tecunningham.github.io/posts/2023-08-13-runner-percentile_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div></div></div>
+<div class="cell page-columns page-full">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tecunningham.github.io/posts/2023-08-13-runner-percentile_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div></div></div>
+<div class="cell page-columns page-full">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tecunningham.github.io/posts/2023-08-13-runner-percentile_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div></div></div>
+<div class="cell page-columns page-full">
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tecunningham.github.io/posts/2023-08-13-runner-percentile_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div></div></div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tecunningham.github.io/posts/2023-08-13-runner-percentile_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20s%20&amp;=%20%5Ctext%7Bmy%20speed%7D%20%5C%5C%0A%20%20%20x%20&amp;%5Csim%20%5Cphi,%20%5Ctext%7Bother%20runners'%20speeds%7D%20%5C%5C%0A%20%20%20%5Ctext%7Brunners%20I%20pass%7D%0A%20%20%20%20%20%20&amp;=%20%5Cint_%7B-%5Cinfty%7D%5Es%20%5Cutt%7B%5Cphi(x)%7D%7Brunners%20with%7D%7Bspeed%20$x$%7D%5Cutt%7B(s-x)%7D%7Brate%20I%7D%7Bpass%20them%7Ddx%5C%5C%0A%20%20%20%20%20%20&amp;=%20s%5CPhi(s)%20-%20%5Cint_%7B-%5Cinfty%7D%5Es%20x%5Cphi(x)%20dx%20%5C%5C%0A%20%20%20%20%20%20&amp;=%20s%20%5CPhi(s)%20+%20%5Cphi(s)%20%5C%5C%0A%20%20%20%20%20%20&amp;%20%5Ctext%7B(last%20step%20uses%20$%5Cphi=N(0,1)$)%7D%5C%5C%0A%20%20%20%5Ctext%7Brunners%20who%20pass%20me%7D%0A%20%20%20%20%20%20&amp;=%20%5Cint_%7Bs%7D%5E%5Cinfty%20%5Cutt%7B%5Cphi(x)%7D%7Brunners%20with%7D%7Bspeed%20$x$%7D%5Cutt%7B(x-s)%7D%7Brate%20they%7D%7Bpass%20me%7Ddx%5C%5C%0A%20%20%20%20%20%20&amp;=%20%5Cleft%5B%20%20-%5Cphi(x)%20-s%5CPhi(x)%20%20%5Cright%5D%5E%5Cinfty_s%20%5C%5C%0A%20%20%20%20%20%20&amp;=%20(0+%5Cphi(s))%20-%20(s-s%5CPhi(s))%5C%5C%0A%20%20%20%20%20%20&amp;=%20%5Cphi(s)%20-%20s%20+%20s%5CPhi(s)%20%5C%5C%0A%20%20%20r=%5Ctext%7Bratio%20pass/passed%20by%7D%0A%20%20%20%20%20%20&amp;=%20%5Cfrac%7Bs%5CPhi(s)+%5Cphi(s)%7D%7B%5Cphi(s)+s%5CPhi(s)-s%7D%5C%5C%0A%20%20%20%5Ctext%7Bshare%20I%20pass%7D%0A%20%20%20%20%20%20&amp;=%20%5Cfrac%7Bs%20%5CPhi(s)%20+%20%5Cphi(s)%7D%7Bs%20%5CPhi(s)%20+%20%5Cphi(s)+%5Cphi(s)%20-%20s%20+%20s%5CPhi(s)%7D%20%5C%5C%0A%20%20%20%20%20%20&amp;=%20%5Cfrac%7Bs%20%5CPhi(s)%20+%20%5Cphi(s)%7D%7B2s%5CPhi(s)%20+%202%5Cphi(s)%20-%20s%7D%0A%5Cend%7Baligned%7D%0A"></p>
+<p><strong>Note on derivatives:</strong></p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0A%20%20%20%5Cphi(x)%20&amp;=%20%5Cfrac%7B1%7D%7B%5Csqrt%7B2%5Cpi%7D%7De%5E%7B-x%5E2/2%7D%0A%20%20%20%20%20%20&amp;&amp;%20%5Ctext%7B(standard%20normal)%7D%5C%5C%0A%20%20%20%5Cphi'(x)%20&amp;=%20-x%5Cphi(x)%0A%5Cend%7Baligned%7D%0A"></p>
+</section>
+<section id="simulations" class="level1">
+<h1>Simulations</h1>
+<p>Each cell in the table below shows first the ratio pass/passed, then the ratio slower/faster, for a given speed <img src="https://latex.codecogs.com/png.latex?s">. We can see that exaggeration holds in the Gaussian and <img src="https://latex.codecogs.com/png.latex?t(%5Cmathrm%7Bdf%7D=2)"> examples, but not in the <img src="https://latex.codecogs.com/png.latex?t(%5Cmathrm%7Bdf%7D=1)"> example.</p>
+<p>Note that <img src="https://latex.codecogs.com/png.latex?t"> with <img src="https://latex.codecogs.com/png.latex?%5Cmathrm%7Bdf%7D=1"> is weird because it doesn’t have an expectation, i.e.&nbsp;<img src="https://latex.codecogs.com/png.latex?x%5Cphi(x)"> never goes to zero, so it is harder to think about.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">speed (<img src="https://latex.codecogs.com/png.latex?s">)</th>
+<th style="text-align: left;">N(0,1)</th>
+<th style="text-align: left;">t(df=1)</th>
+<th style="text-align: left;">t(df=2)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">-1.0</td>
+<td style="text-align: left;">0.077 / 0.21</td>
+<td style="text-align: left;">0.53 / 0.34</td>
+<td style="text-align: left;">0.26 / 0.28</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.0</td>
+<td style="text-align: left;">1 / 1.1</td>
+<td style="text-align: left;">1 / 1.1</td>
+<td style="text-align: left;">1 / 1.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.5</td>
+<td style="text-align: left;">3.5 / 2.4</td>
+<td style="text-align: left;">1.4 / 1.9</td>
+<td style="text-align: left;">2 / 2.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1.0</td>
+<td style="text-align: left;">13.0 / 5.8</td>
+<td style="text-align: left;">1.9 / 3.1</td>
+<td style="text-align: left;">3.8 / 4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2.0</td>
+<td style="text-align: left;">238 / 48.7</td>
+<td style="text-align: left;">3.2 / 5.8</td>
+<td style="text-align: left;">10.3 / 10.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10.0</td>
+<td style="text-align: left;">1.46e+25 / Inf</td>
+<td style="text-align: left;">23.3 / 27.8</td>
+<td style="text-align: left;">249 / 202</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<p><strong>Mathoverflow (2010) <a href="https://mathoverflow.net/questions/40913/you-pass-x-people-and-y-people-pass-you-how-relatively-fast-are-you">“You pass X people and Y people pass you: how relatively fast are you?”</a></strong></p>
+<p>There are a number of sketches of answers, but no explicit solutions. A few answers wrongly conclude that the ratio of overtakes to being overtaken is equal to the ratio of slower to faster runners.</p>
+<p><strong>Clevenson, Schilling, Watkins and Watkins (2001) “The Average Speed on the Highway”</strong></p>
+<p>They show that if the number of cars you pass is equal to the number of cars that pass you then you must be driving the average speed (not necessarily the median speed).</p>
+<p><strong>Schilling (2006) “Do You Know Your Relative Driving Speed?”.</strong></p>
+<pre><code>This seems to have most of the same results as the note here. </code></pre>
+
+
+</section>
+
+ ]]></description>
+  <guid>tecunningham.github.io/posts/2023-08-13-runner-percentile.html</guid>
+  <pubDate>Sat, 07 Mar 2026 08:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Knowledge-Creating LLMs</title>
   <dc:creator>Tom Cunningham</dc:creator>
@@ -7155,53 +7337,6 @@ Accounts.”</span> January 31, 2023. <a href="https://tecunningham.github.io/po
 </div></div></section></div> ]]></description>
   <guid>tecunningham.github.io/posts/2023-01-31-social-media-suspensions-data.html</guid>
   <pubDate>Tue, 31 Jan 2023 08:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Optimal Coronavirus Policy Should be Front-Loaded</title>
-  <link>tecunningham.github.io/posts/2020-04-05-front-loading-restrictions.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<p><strong>Q: How should you sequence policies over time?</strong> E.g. suppose you want to manage the epidemic until a vaccine arrives and you have policies (lockdowns, distancing, masks) each of which is associated with a certain effect on the growth-rate of cases, but each also has some fixed social cost per day. How should you apply the policies over time?</p>
-<p><strong>A: The severity of the policies should be gradually <em>decreasing</em>,</strong> i.e.&nbsp;they should gradually become less severe, as you approach the availability of a vaccine. There should not be zig-zagging between policies in this setup.</p>
-<p>Any justification for zig-zagging must come from some additional consideration like (a) non-separabilities in the costs, e.g.&nbsp;psychological/economic need for occasional respite, (b) uncertainty about the end-date, (c) uncertainty about the effect of the policies, such that there is informational-value from varying policies, or (d) desire to maintain a steady flow of cases, in order to reach herd immunity (the “mitigation” strategy).</p>
-<section id="corollary-you-should-never-expect-policy-to-get-stricter" class="level2">
-<h2 class="anchored" data-anchor-id="corollary-you-should-never-expect-policy-to-get-stricter">Corollary: you should never <em>expect</em> policy to get stricter</h2>
-<p>You should never find yourself in the situation where you expect policy to get stricter in the future. If you anticipate that a stricter policy will be appropriate next week then that strict policy is appropriate <em>this</em> week!</p>
-<p>Countries in early stages of the epidemic should be doing as much or more as countries in later stages.</p>
-</section>
-<section id="intuition" class="level2">
-<h2 class="anchored" data-anchor-id="intuition">Intuition</h2>
-<p>Suppose that there’s some tradeoff across policiers between the growth-rate and the social cost.</p>
-<p>Then given any fixed time-path of policies: e.g., (A,A,B,C), if it is not monotonically decreasing in severity from high-cost to low-cost, then you can do strictly better by rearranging the path of policies to be monotonically decreasing. The social cost will be identical, because the set of policies will be the same, but the number of cases will be lower at every point in time, since at any given point the cumulative growth rates, up to that point, will be lower. Thus the final cumulative number of cases will be lower.</p>
-</section>
-<section id="additional-reason-to-front-load-extinction" class="level2">
-<h2 class="anchored" data-anchor-id="additional-reason-to-front-load-extinction">Additional Reason to Front-Load: Extinction</h2>
-<p>All of this is treating the number of cases as a continuous variable which means you can never completely extinguish the disease. However if that’s a possibility that’s within sight (e.g.&nbsp;as in NZ), then that’s a significantly <em>stronger</em> case for starting with very severe policies, to try to kill the disease entirely, and then you can go back to the garden of Eden.</p>
-</section>
-<section id="prior-discussion" class="level2">
-<h2 class="anchored" data-anchor-id="prior-discussion">Prior Discussion</h2>
-<p>There’s been some discussion of zig-zagging by the Imperial group (<a href="[URL](https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf)">paper</a>) and by Timothy Gowers (<a href="https://twitter.com/wtgowers/status/1243973167879794691">twitter &amp; post</a>)</p>
-<p>Gowers says the optimal policy is very short zig-zags (changing policy every other day), however I think this is misleading. It comes from fixing the lower-threshold and optimizing the upper-threshold. If instead you fixed the upper-threshold and optimized the lower-threshold, then the optimal cycle-length will be long.</p>
-<p>If you choose both the upper and lower threshold (both T and S) then he notes that they’ll both be arbitarily low. However this ignores the cost of <em>getting</em> to zero given current cases.</p>
-<p>Instead a well-defined problem is to choose an optimal time-path of policy given some start-point and end-point. In that case it’ll be a path of gradually decreasing strictness (without zig-zags).</p>
-<p>You can see the intuition in the diagram below: the total infections is approximately the area under the zig-zag (not quite: because the y-axis is ln(cases), but this won’t matter for the argument). Thus you can reduce the area under the line by lowering the upper threshold. However if you instead take the <em>upper</em> threshold as fixed, then it’s optimal to choose a lower threshold that is as low as possible, i.e.&nbsp;you want <em>long</em> cycles, not short cycles.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://www.dropbox.com/s/jj93tz0k0kuau49/zigzag.png?raw=1" class="img-fluid figure-img"></p>
-<figcaption>abc</figcaption>
-</figure>
-</div>
-
-
-</section>
-
- ]]></description>
-  <guid>tecunningham.github.io/posts/2020-04-05-front-loading-restrictions.html</guid>
-  <pubDate>Sun, 05 Apr 2020 07:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

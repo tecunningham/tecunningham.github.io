@@ -1,8 +1,7 @@
 ---
-title: If You Overtake More Runners than You're Overtaken by
+title: When You Overtake More Runners than You're Overtaken by
 author: Tom Cunningham
 date: 2026-03-07
-draft: true
 execute:
   echo: false
   cache: true # caches chunk output
@@ -10,9 +9,9 @@ fig-align: center
 reference-location: margin
 format:
    html:
-      toc: true
-      toc-depth: 2
-      toc-location: left
+#      toc: true
+#      toc-depth: 2
+#      toc-location: left
       code-fold: true
       html-math-method:
          method: mathjax
@@ -44,7 +43,9 @@ engine: knitr
 
 <!-- https://tecunningham.github.io/posts/2023-08-13-runner-percentile.html -->
 
-**Suppose you overtake 10 times as many runners as overtake you. What can you say about your speed relative to the other runners?** For concreteness, suppose everyone is running around a circular track in the same direction forever, and each person started at a random point.
+**Suppose you overtake 10 times as many runners as overtake you. What can you say about your speed relative to the other runners?** 
+
+For concreteness, suppose everyone is running around a circular track in the same direction forever, and each person started at a random point.
 
 **Answer:** We can write the general relationship as follows:
    $$\frac{\text{frequency of passing}}{\text{frequency of being passed}}
@@ -54,15 +55,16 @@ engine: knitr
             %= \frac{E[s-x|x<s]}{E[x-s|x>s]}\frac{P(x<s)}{P(x>s)}
    $$
 
-   **The ratio of slower/faster will not generally be equal to the ratio of passing/passed.** The reason is that your propensity to encounter another runner depends on the difference in speeds: you will rarely pass or be passed by those who run similar speeds to you.
+**The ratio of slower/faster will not generally be equal to the ratio of passing/passed.** The reason is that your propensity to encounter another runner depends on the difference in speeds: you will rarely pass or be passed by those who run similar speeds to you.
 
-   **Some additional implications:**
+**If the distribution of speeds is symmetric and log-concave, your frequency of passing runners will exaggerate your position in the distribution of speeds.** E.g. if you pass 10x as many people as pass you then there are *fewer* than 10x as many people who are slower than you relative to people who are faster than you. This covers normal, logistic, & uniform distributions. 
 
-   1. If you're passing the same number of people as pass you, then you must be running exactly the mean speed.
-   2. If the distribution of running speeds is Gaussian, then your ratio of passing/passed exaggerates your position in the distribution of speeds, e.g. if you pass 10x as many people as pass you then there are *fewer* than 10x as many people who are slower than you relative to people who are faster than you.
-   3. If the distribution of running speeds is symmetric and log-concave, then exaggeration holds whenever you're above the center of the distribution. This covers the Normal, logistic, Laplace, and uniform distributions.
-   4. If the distribution of running speeds is sufficiently fat-tailed (e.g. a $t$-distribution with $\mathrm{df}<2$), then you can get the opposite implication.
-   5. (due to Matt Parry) If mean and variance exist, then your pass/passed ratio also gives an upper bound on how many standard deviations above the mean you can be:
+
+**Some additional implications:**
+
+1. If you're passing the same number of people as pass you, then you must be running exactly the mean speed.
+2. If the distribution of running speeds is sufficiently fat-tailed (e.g. a $t$-distribution with $\mathrm{df}<2$), then you can get the opposite implication.
+3. (due to Matt Parry) If mean and variance exist, then your pass/passed ratio also gives an upper bound on how many standard deviations above the mean you can be:
       $$s-\mu \le \frac{r-1}{2\sqrt{r}}\sigma$$
       where $r$ is your ratio of pass/passed.
 
@@ -411,6 +413,10 @@ knitr::kable(table_df, col.names = c("speed ($s$)", "N(0,1)", "t(df=1)", "t(df=2
 **Clevenson, Schilling, Watkins and Watkins (2001) "The Average Speed on the Highway"**
 
    They show that if the number of cars you pass is equal to the number of cars that pass you then you must be driving the average speed (not necessarily the median speed).
+
+**Schilling (2006) "Do You Know Your Relative Driving Speed?".**
+
+    This seems to have most of the same results as the note here. 
 
 <!-- 
 #           Notes
