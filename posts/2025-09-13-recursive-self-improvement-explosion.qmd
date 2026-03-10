@@ -5,7 +5,10 @@ bibliography: ai.bib
 date: today
 draft: true
 engine: knitr
-toc: true
+reference-location: document
+citation-location: document
+#toc: true
+#toc-location: left-body
 execute:
   echo: false
   warning: false
@@ -114,9 +117,211 @@ We could plot data from a variety of different experiments on this plot, & ask s
 
 
 
+#           Toy model of AI stack
 
-#               Models
+See also `posts/2026-02-10-model-of-labs.qmd`
 
+Model A: Chinchilla. You just choose model size.
+: 
+    - One choice variable: model size (holding compute fixed, this trades-off against training runs).
+    - You can do some low-cost derisks, but extrapolating to a large compute scale is imperfect.
+    - *Convex but expensive to evaluate.*
+
+Model B: algorithm search.
+:   - Each algorithm is a mapping from compute->loss, and you can summarize it with a scalar efficiency (just like nanoGPT).
+    - *medium-cost evaluation; non-convex.*
+
+Model C: training data.
+:   - There's a distribution of tasks, with probability f(t).
+    - An LLM is just a lookup table, you slowly expand coverage, collecting a larger fraction of tasks t.
+
+Model D: layer cake.
+:   - You have a function that turns money->intelligence, & that function gets more efficient over time, it's falling at about 8X/year.
+    
+    - You can separate the optimization problem into layers, they are partially separable:
+        1. GPU design
+        2. Model architecture
+        3. Pretraining optimizer
+        4. Pretraining data
+        5. Posttraining algorithm (RL)
+        6. Posttraining data
+        7. Elicitation/harness
+    
+    - The cost of an experiment is different for different parts. Some parts scale additively (GPU design), other parts its hard to predict effect of scale (architecture). If they scale additively then the cost of experimentation is small (but expenditure could still be large).
+
+
+:::: {.columns style="height: 100vh; gap: 2rem;"}
+::: {.column}
+```{tikz}
+#| fig-width: 6
+\begin{tikzpicture}[scale=8]
+    \draw[step=0.1, gray, dotted] (0,0) grid (1,1);
+    \draw (0,0) -- (1,0) node[midway,below] {ln(training expenditure)}
+        -- (1,1) -- (0,1) -- (0,0) node[midway,above,rotate=90] {model intelligence};
+    
+    \draw[thick, blue] (0,0) plot[domain=0:1, samples=100] (\x, {0.55*(1-exp(-2*\x))}) node[anchor=south west]{2026 technology};
+    \draw[thick, blue, dotted] (0,0) plot[domain=0.1:1, samples=100] (\x, {0.55*(1-exp(-2*(\x-0.1)))}) node[right]{2025 technology};
+    \draw[thick, blue, dotted] (0,0) plot[domain=0.2:1, samples=100] (\x, {0.55*(1-exp(-2*(\x-0.2)))}) node[anchor=north west]{2024 technology};
+
+    \fill[black] (0.5,{0.55*(1-exp(-2*(0.5-0.2)))}) circle (0.01) node[right, xshift=4pt, fill=white, draw=black, inner sep=2pt] {2024 model};
+    \fill[black] (0.6,{0.55*(1-exp(-2*(0.6-0.1)))}) circle (0.01) node[right, xshift=4pt, fill=white, draw=black, inner sep=2pt] {2025 model};
+    \fill[black] (0.7,{0.55*(1-exp(-2*0.7))}) circle (0.01) node[right, xshift=4pt,  fill=white, draw=black, inner sep=2pt] {2026 model};
+\end{tikzpicture}
+```
+
+
+:::
+::: {.column}
+   I think this picture gives a reasonable summary of the orthodox picture of LLM progress:
+   
+   - Technology is getting 3X more efficient each year (blue curves shifting left) 
+   - Training compute is increasing around 3X/year (black points shifting right)
+   
+
+   However some important qualifications:
+
+   1. @gundlach2025algorithmicprogressai argue that the true technology curves are steeper, and shifting left much more slowly. Thus algorithmic progress is relatively less important, and most progress is coming from pure scale.
+   2. Epoch note that training compute may not be growing that rapidly.
+   3. The technology curve includes anything that maps training expenditure to intelligence: progress in compute cost, algorithms, accumulation of training data, and progress in elicitation.
+   4. Labs are probably spending relatively more on R&D (shifting the blue curve left/up) than on training (the black points). 
+   
+   An important note: there's no consensus on how to measure the y-axis ("model intelligence"). For many applications it doesn't matter as long as we have an ordinal measure (i.e. we can reliably rank model intelligence). 
+
+:::
+:::
+
+
+|                             | annual growth (log) | worker exp. | experiment exp. | scale-free? |
+| --------------------------- | :-----------------: | :---------: | :-------------: | :---------: |
+| GPU design                  |         0.3         |      -      |        -        |     ✅      |
+| Model architecture          |         0.3         |    $0.5B    |       $2B       |     ❌      |
+| Pretraining optimizer       |         0.3         |    $0.5B    |       $2B       |     ❌      |
+| Pretraining data            |         0.3         |    $0.5B    |      $0.5B      |     ❌      |
+| Posttraining algorithm (RL) |         0.3         |    $0.5B    |      $0.5B      |     ❌      |
+| Posttraining data           |         0.3         |    $0.5B    |      $0.5B      |     ✅      |
+| Elicitation/harness         |         0.3         |    $0.5B    |      $0.1B      |     ✅      |
+|                             |                     |             |                 |             |
+| TOTAL                       |      2.1 (8X)       |     $3B     |       $6B       |             |
+
+
+Q: what determines relative expenditure on experiments vs workers?
+:   
+    - _Random landscape → more experiments._
+    - _Regular landscape → more experiments._ Some landscapes are known to be regular, so you can just set a well-known optimization algorithm against them. E.g. hyperparameter tuning, oil discovery.
+    - _Expensive experiments → ambiguous._ Even if experiments were cheap, could spend a lot on them. Even if experiments expensive, could spend a small amount (moon landing).
+Q: what determines the share spent on salary-vs-experiments?
+:   - _Not just determined by the cost of experimenation._ Even if experiments were cheap, you might want to spend a lot on them, because you're bottlenecked on .
+    - _Random landscape → more experiments._ If each alternative is a completely random draw, then there's no returns to thinking harder.
+    - _Regular landscape → more experiments._ Some landscapes are known to be regular, so you can just set a well-known optimization algorithm against them, and spend all your budget on collecting more datapoints, rather than tuning the algorithm. E.g. hyperparameter tuning.
+    - _Structured landscape → more thinking._ If the landscape has some .
+
+Q: where is AI likely to help?
+: 
+    - At each layer we have production functions Y(W,E).
+    - Which parts of 
+    - 
+
+Visualization: show layers, shows recursive effects.
+: 
+    - 
+
+Visualization: plot intelligence(expenditure).
+:   - Plot intelligence(expenditure), and show the function shifting left by 3X/year (efficiency)
+    - Show points over time: contribution from scale vs efficiency.
+    - Also plot theory that the curvature changes, so the efficiencies only show up at higher scale.
+    - Plot the difference between open & closed models.
+
+
+    - (you could remove the model-training part entirely & just say cumulative R&D gets you to a certain level of model intelligence)
+
+
+
+##          data on expenditure
+
+
+Epoch, [Can AI Companies Become Profitable](https://epoch.ai/gradient-updates/can-ai-companies-become-profitable)
+: 
+        They estimate GPT-5 cost $3B compute, $1.5B salaries, $0.3B data [1]
+
+Josh You / Epoch (Oct 2025) ["Most of OpenAI’s 2024 compute went to experiments"](https://epoch.ai/data-insights/openai-compute-spend)
+: 
+    - $5B total research compute
+    - $0.5B = GPT-4.5 training run
+    - $4.5B = experiment compute
+
+
+##          estimates of efficiency growth
+
+|   |   |
+|---|---|
+|   |   |
+|   |   |
+
+
+Anson Ho (Feb 2026): 10X/year.
+: 
+    https://epoch.ai/gradient-updates/the-least-understood-driver-of-ai-progress
+
+    > "So here’s my best guess: after accounting for all training compute (including post-training), I think we’re seeing software progress at around 10× per year, and my 80% credible interval would probably range from 2× to 50× per year.
+
+Steven Byrnes: 30%/year.
+: 
+    https://www.lesswrong.com/posts/sGNFtWbXiLJg2hLzK/the-nature-of-llm-algorithmic-progress-v2
+
+    > "apart from [transformers] the field has produced probably <10× of training efficiency improvements in this category in the entire period from 2018 to today (≈30%/year)."
+
+Parker: GPT-2 improvement 700X, 2019-2026.
+:   - Current nanogpt SOTA is 707x faster (2.5X/year)
+    - 15x faster FLOP per second (on fixed hardware) (1.5X/year)
+    - 46x less FLOPs to reach the same val loss (1.7X/year)
+    https://x.com/whitfill_parker/status/2028515815268491592
+
+NanoGPT: 30X improvement.
+: 
+    https://github.com/KellerJordan/modded-nanogpt
+    - 05/28/24, 45 minutes
+    - 02/16/26, 1.5 minutes
+    - Factor of 30, so 5 doublings, over 21 months, so doubling every 4 months.
+    - 30X lower wall-clock, 26X fewer tokens used.
+
+    Karpathy says his 2024 nanoGPT costs ~$20 to train the model to get GPT-2 .
+
+    https://github.com/karpathy/llm.c/discussions/481
+
+    A contemporary blog post estimates GPT-2 training at $50K:
+
+    https://medium.com/%40vanya_cohen/opengpt-2-we-replicated-gpt-2-because-you-can-too-45e34e6d36dc
+
+    Original @ https://github.com/openai/gpt-2
+    
+    Karpathy: *"Let's reproduce the GPT-2 (124M) in llm.c (~4,000 lines of C/CUDA) in 90 minutes for $20."*
+
+
+
+Gundlach et al. (2025) ["On the Origins of Algorithmic Progress in AI"][def16].
+:  > "Our results indicate that algorithmic progress for small models has been far slower than previously assumed, and that measures of algorithmic efficiency are strongly reference-dependent.
+
+   (note it's unclear whether it's model *size* or model *training compute*).
+
+   ![Figure](images/2026-02-25-05-18-41.png)
+
+   Their figure says the Transformer accounted for 2/3 of the compute-efficiency wins since 2017.
+
+   Estimates over 2012-2023:
+
+   - 21,000X total (250%/year)
+   - 100X at small scale
+
+
+Thompson et al. (2022) ["The Importance of (Exponentially More) Computing Power"](https://arxiv.org/pdf/2206.14007.pdf)
+: 
+   > "we assemble direct quantitative evidence of the impact that computing power has had on five domains: two computing bellwethers (Chess and Go), and three economically important applications (weather prediction, protein folding, and oil exploration). Computing power explains 49%-94% of the performance improvements in these domains. 
+
+    ![](images/2023-11-03-17-44-38.png)
+
+
+
+#           Models
 
 ##                charts
 
@@ -185,7 +390,8 @@ My simpler version:
 
 $$\begin{aligned}
    \dot{S}  &= L^\alpha C^\gamma S^{1-\beta} \\
-\end{aligned}$$
+\end{aligned}
+$$
 
 We can show:
 
@@ -244,17 +450,20 @@ flowchart LR
 Basic model with accumulating ideas:
 $$\begin{gathered}\dot{A}=R^{\gamma}\\
    \xymatrix{*++[F]{R\&D} \ar[r] & *++[F]{\Delta algorithms}\ar[r] & *++[F]{algorithms}}
-\end{gathered}$$
+\end{gathered}
+$$
 
 Model with shoulders/armpits of giants (Jones model):^[This was introduced by @jones1995rd, where there are diminishing returns to knowledge, whereas Romer (1990) had assumed no diminishing returns to knowledge, $\beta=0$.]
 $$\begin{gathered}\dot{A}=R^{\gamma}A^{1-\beta}\\
    \xymatrix{*++[F]{R\&D} \ar[r] & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}\ar@/^2em/[l]}
-\end{gathered}$$
+\end{gathered}
+$$
 
 Recursive self-improvement, where knowledge actually helps R&D:
 $$\begin{gathered}\dot{A}=R^{\gamma}\\
    \xymatrix{*++[F]{R\&D} \ar[r] & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}\ar@/^2em/[l]\ar@/^3em/[ll]}
-\end{gathered}$$
+\end{gathered}
+$$
 
 Extrapolating from these models.
 : It's dangerous to talk about "the elasticity" between A and B: it is meaningful to talk about the elasticity *at a given point* but it's a strong functional-form assumption that it'll have the same elasticity everywhere. 
@@ -310,9 +519,6 @@ Blacksmith.
     You have a hammer and you spend time making horseshoes, or working on a new hammer.
 
     A harder hammer both (1) makes horseshoes faster, or (2) makes your hammer still harder.
-
-
-
 
 #           References
 
@@ -395,7 +601,7 @@ Eric Drexler (Aug 2025) ["The Reality of Recursive Self-Improvement"](https://ai
 
 
 
-#          Overflow / Offcuts
+#           Overflow / Offcuts
 
 
 

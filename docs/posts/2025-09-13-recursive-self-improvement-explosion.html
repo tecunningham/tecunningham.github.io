@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Tom Cunningham">
-<meta name="dcterms.date" content="2026-03-09">
+<meta name="dcterms.date" content="2026-03-10">
 <meta name="description" content="Tom Cunningham blog">
 
 <title>Recursive Self-Improvement | Tom Cunningham – Tom Cunningham</title>
@@ -163,7 +163,7 @@ window.Quarto = {
 <meta name="twitter:card" content="summary">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Draft</div>
@@ -231,7 +231,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 9, 2026</p>
+        <p class="date">March 10, 2026</p>
       </div>
     </div>
     
@@ -242,29 +242,9 @@ window.Quarto = {
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">Summary</a></li>
-  <li><a href="#traineetrainer-curves" id="toc-traineetrainer-curves" class="nav-link" data-scroll-target="#traineetrainer-curves">Trainee:Trainer Curves</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
-  <li><a href="#we-need-more-bottom-up-modelling-of-ais-economic-effect-unfinished" id="toc-we-need-more-bottom-up-modelling-of-ais-economic-effect-unfinished" class="nav-link" data-scroll-target="#we-need-more-bottom-up-modelling-of-ais-economic-effect-unfinished">We need more bottom-up modelling of AI’s economic effect [UNFINISHED]</a></li>
-  <li><a href="#models" id="toc-models" class="nav-link" data-scroll-target="#models">Models</a>
-  <ul class="collapse">
-  <li><a href="#charts" id="toc-charts" class="nav-link" data-scroll-target="#charts">charts</a></li>
-  <li><a href="#davidson-halperin-houlden-korinek-2025-when-does-automating-research-produce-explosive-growth" id="toc-davidson-halperin-houlden-korinek-2025-when-does-automating-research-produce-explosive-growth" class="nav-link" data-scroll-target="#davidson-halperin-houlden-korinek-2025-when-does-automating-research-produce-explosive-growth">Davidson, Halperin, Houlden, Korinek (2025) “When Does Automating Research Produce Explosive Growth?”</a></li>
-  <li><a href="#tkwa-model" id="toc-tkwa-model" class="nav-link" data-scroll-target="#tkwa-model">tkwa&nbsp; model</a></li>
-  <li><a href="#jones-model" id="toc-jones-model" class="nav-link" data-scroll-target="#jones-model">Jones model</a></li>
-  <li><a href="#metaphors-for-rsi" id="toc-metaphors-for-rsi" class="nav-link" data-scroll-target="#metaphors-for-rsi">metaphors for RSI</a></li>
-  </ul></li>
-  <li><a href="#overflow-offcuts" id="toc-overflow-offcuts" class="nav-link" data-scroll-target="#overflow-offcuts">Overflow / Offcuts</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
-<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
@@ -344,6 +324,505 @@ window.Quarto = {
 </div>
 </div>
 </div>
+</section>
+<section id="toy-model-of-ai-stack" class="level1">
+<h1>Toy model of AI stack</h1>
+<p>See also <code>posts/2026-02-10-model-of-labs.qmd</code></p>
+<dl>
+<dt>Model A: Chinchilla. You just choose model size.</dt>
+<dd>
+<ul>
+<li>One choice variable: model size (holding compute fixed, this trades-off against training runs).</li>
+<li>You can do some low-cost derisks, but extrapolating to a large compute scale is imperfect.</li>
+<li><em>Convex but expensive to evaluate.</em></li>
+</ul>
+</dd>
+<dt>Model B: algorithm search.</dt>
+<dd>
+<ul>
+<li>Each algorithm is a mapping from compute-&gt;loss, and you can summarize it with a scalar efficiency (just like nanoGPT).</li>
+<li><em>medium-cost evaluation; non-convex.</em></li>
+</ul>
+</dd>
+<dt>Model C: training data.</dt>
+<dd>
+<ul>
+<li>There’s a distribution of tasks, with probability f(t).</li>
+<li>An LLM is just a lookup table, you slowly expand coverage, collecting a larger fraction of tasks t.</li>
+</ul>
+</dd>
+<dt>Model D: layer cake.</dt>
+<dd>
+<ul>
+<li><p>You have a function that turns money-&gt;intelligence, &amp; that function gets more efficient over time, it’s falling at about 8X/year.</p></li>
+<li><p>You can separate the optimization problem into layers, they are partially separable:</p>
+<ol type="1">
+<li>GPU design</li>
+<li>Model architecture</li>
+<li>Pretraining optimizer</li>
+<li>Pretraining data</li>
+<li>Posttraining algorithm (RL)</li>
+<li>Posttraining data</li>
+<li>Elicitation/harness</li>
+</ol></li>
+<li><p>The cost of an experiment is different for different parts. Some parts scale additively (GPU design), other parts its hard to predict effect of scale (architecture). If they scale additively then the cost of experimentation is small (but expenditure could still be large).</p></li>
+</ul>
+</dd>
+</dl>
+<div class="columns" style="height: 100vh; gap: 2rem;">
+<div class="column">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2025-09-13-recursive-self-improvement-explosion_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column">
+<p>I think this picture gives a reasonable summary of the orthodox picture of LLM progress:</p>
+<ul>
+<li>Technology is getting 3X more efficient each year (blue curves shifting left)</li>
+<li>Training compute is increasing around 3X/year (black points shifting right)</li>
+</ul>
+<p>However some important qualifications:</p>
+<ol type="1">
+<li><span class="citation" data-cites="gundlach2025algorithmicprogressai">Gundlach et al. (<a href="#ref-gundlach2025algorithmicprogressai" role="doc-biblioref">2025</a>)</span> argue that the true technology curves are steeper, and shifting left much more slowly. Thus algorithmic progress is relatively less important, and most progress is coming from pure scale.</li>
+<li>Epoch note that training compute may not be growing that rapidly.</li>
+<li>The technology curve includes anything that maps training expenditure to intelligence: progress in compute cost, algorithms, accumulation of training data, and progress in elicitation.</li>
+<li>Labs are likely spending relatively more on R&amp;D (shifting the blue curve left/up) than on training (the black points).</li>
+</ol>
+<p>An important note: there’s no consensus on how to measure the y-axis (“model intelligence”). For many applications it doesn’t matter as long as we have an ordinal measure (i.e.&nbsp;we can reliably rank model intelligence).</p>
+</div>
+</div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 22%">
+<col style="width: 13%">
+<col style="width: 18%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;">annual growth (log)</th>
+<th style="text-align: center;">worker exp.</th>
+<th style="text-align: center;">experiment exp.</th>
+<th style="text-align: center;">scale-free?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GPU design</td>
+<td style="text-align: center;">0.3</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr class="even">
+<td>Model architecture</td>
+<td style="text-align: center;">0.3</td>
+<td style="text-align: center;">$0.5B</td>
+<td style="text-align: center;">$2B</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr class="odd">
+<td>Pretraining optimizer</td>
+<td style="text-align: center;">0.3</td>
+<td style="text-align: center;">$0.5B</td>
+<td style="text-align: center;">$2B</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr class="even">
+<td>Pretraining data</td>
+<td style="text-align: center;">0.3</td>
+<td style="text-align: center;">$0.5B</td>
+<td style="text-align: center;">$0.5B</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr class="odd">
+<td>Posttraining algorithm (RL)</td>
+<td style="text-align: center;">0.3</td>
+<td style="text-align: center;">$0.5B</td>
+<td style="text-align: center;">$0.5B</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr class="even">
+<td>Posttraining data</td>
+<td style="text-align: center;">0.3</td>
+<td style="text-align: center;">$0.5B</td>
+<td style="text-align: center;">$0.5B</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr class="odd">
+<td>Elicitation/harness</td>
+<td style="text-align: center;">0.3</td>
+<td style="text-align: center;">$0.5B</td>
+<td style="text-align: center;">$0.1B</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr class="even">
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td>TOTAL</td>
+<td style="text-align: center;">2.1 (8X)</td>
+<td style="text-align: center;">$3B</td>
+<td style="text-align: center;">$6B</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<dl>
+<dt>Q: what determines relative expenditure on experiments vs workers?</dt>
+<dd>
+<ul>
+<li><em>Random landscape → more experiments.</em></li>
+<li><em>Regular landscape → more experiments.</em> Some landscapes are known to be regular, so you can just set a well-known optimization algorithm against them. E.g. hyperparameter tuning, oil discovery.</li>
+<li><em>Expensive experiments → ambiguous.</em> Even if experiments were cheap, could spend a lot on them. Even if experiments expensive, could spend a small amount (moon landing). Q: what determines the share spent on salary-vs-experiments?</li>
+</ul>
+</dd>
+<dd>
+<ul>
+<li><em>Not just determined by the cost of experimenation.</em> Even if experiments were cheap, you might want to spend a lot on them, because you’re bottlenecked on .</li>
+<li><em>Random landscape → more experiments.</em> If each alternative is a completely random draw, then there’s no returns to thinking harder.</li>
+<li><em>Regular landscape → more experiments.</em> Some landscapes are known to be regular, so you can just set a well-known optimization algorithm against them, and spend all your budget on collecting more datapoints, rather than tuning the algorithm. E.g. hyperparameter tuning.</li>
+<li><em>Structured landscape → more thinking.</em> If the landscape has some .</li>
+</ul>
+</dd>
+<dt>Q: where is AI likely to help?</dt>
+<dd>
+<ul>
+<li>At each layer we have production functions Y(W,E).</li>
+<li>Which parts of</li>
+<li></li>
+</ul>
+</dd>
+<dt>Visualization: show layers, shows recursive effects.</dt>
+<dd>
+<ul>
+<li></li>
+</ul>
+</dd>
+<dt>Visualization: plot intelligence(expenditure).</dt>
+<dd>
+<ul>
+<li><p>Plot intelligence(expenditure), and show the function shifting left by 3X/year (efficiency)</p></li>
+<li><p>Show points over time: contribution from scale vs efficiency.</p></li>
+<li><p>Also plot theory that the curvature changes, so the efficiencies only show up at higher scale.</p></li>
+<li><p>Plot the difference between open &amp; closed models.</p></li>
+<li><p>(you could remove the model-training part entirely &amp; just say cumulative R&amp;D gets you to a certain level of model intelligence)</p></li>
+</ul>
+</dd>
+</dl>
+<section id="data-on-expenditure" class="level2">
+<h2 class="anchored" data-anchor-id="data-on-expenditure">data on expenditure</h2>
+<dl>
+<dt>Epoch, <a href="https://epoch.ai/gradient-updates/can-ai-companies-become-profitable">Can AI Companies Become Profitable</a></dt>
+<dd>
+<pre><code>They estimate GPT-5 cost $3B compute, $1.5B salaries, $0.3B data [1]</code></pre>
+</dd>
+<dt>Josh You / Epoch (Oct 2025) <a href="https://epoch.ai/data-insights/openai-compute-spend">“Most of OpenAI’s 2024 compute went to experiments”</a></dt>
+<dd>
+<ul>
+<li>$5B total research compute</li>
+<li>$0.5B = GPT-4.5 training run</li>
+<li>$4.5B = experiment compute</li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="estimates-of-efficiency-growth" class="level2">
+<h2 class="anchored" data-anchor-id="estimates-of-efficiency-growth">estimates of efficiency growth</h2>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl>
+<dt>Anson Ho (Feb 2026): 10X/year.</dt>
+<dd>
+<p>https://epoch.ai/gradient-updates/the-least-understood-driver-of-ai-progress</p>
+<blockquote class="blockquote">
+<p>“So here’s my best guess: after accounting for all training compute (including post-training), I think we’re seeing software progress at around 10× per year, and my 80% credible interval would probably range from 2× to 50× per year.</p>
+</blockquote>
+</dd>
+<dt>Steven Byrnes: 30%/year.</dt>
+<dd>
+<p>https://www.lesswrong.com/posts/sGNFtWbXiLJg2hLzK/the-nature-of-llm-algorithmic-progress-v2</p>
+<blockquote class="blockquote">
+<p>“apart from [transformers] the field has produced probably &lt;10× of training efficiency improvements in this category in the entire period from 2018 to today (≈30%/year).”</p>
+</blockquote>
+</dd>
+<dt>Parker: GPT-2 improvement 700X, 2019-2026.</dt>
+<dd>
+<ul>
+<li>Current nanogpt SOTA is 707x faster (2.5X/year)</li>
+<li>15x faster FLOP per second (on fixed hardware) (1.5X/year)</li>
+<li>46x less FLOPs to reach the same val loss (1.7X/year) https://x.com/whitfill_parker/status/2028515815268491592</li>
+</ul>
+</dd>
+<dt>NanoGPT: 30X improvement.</dt>
+<dd>
+<p>https://github.com/KellerJordan/modded-nanogpt - 05/28/24, 45 minutes - 02/16/26, 1.5 minutes - Factor of 30, so 5 doublings, over 21 months, so doubling every 4 months. - 30X lower wall-clock, 26X fewer tokens used.</p>
+<p>Karpathy says his 2024 nanoGPT costs ~$20 to train the model to get GPT-2 .</p>
+<p>https://github.com/karpathy/llm.c/discussions/481</p>
+<p>A contemporary blog post estimates GPT-2 training at $50K:</p>
+<p>https://medium.com/%40vanya_cohen/opengpt-2-we-replicated-gpt-2-because-you-can-too-45e34e6d36dc</p>
+<p>Original @ https://github.com/openai/gpt-2</p>
+<p>Karpathy: <em>“Let’s reproduce the GPT-2 (124M) in llm.c (~4,000 lines of C/CUDA) in 90 minutes for $20.”</em></p>
+</dd>
+<dt>Gundlach et al.&nbsp;(2025) [“On the Origins of Algorithmic Progress in AI”][def16].</dt>
+<dd>
+<blockquote class="blockquote">
+<p>“Our results indicate that algorithmic progress for small models has been far slower than previously assumed, and that measures of algorithmic efficiency are strongly reference-dependent.</p>
+</blockquote>
+</dd>
+</dl>
+<p>(note it’s unclear whether it’s model <em>size</em> or model <em>training compute</em>).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/2026-02-25-05-18-41.png" class="img-fluid figure-img"></p>
+<figcaption>Figure</figcaption>
+</figure>
+</div>
+<p>Their figure says the Transformer accounted for 2/3 of the compute-efficiency wins since 2017.</p>
+<p>Estimates over 2012-2023:</p>
+<ul>
+<li>21,000X total (250%/year)</li>
+<li>100X at small scale</li>
+</ul>
+<dl>
+<dt>Thompson et al.&nbsp;(2022) <a href="https://arxiv.org/pdf/2206.14007.pdf">“The Importance of (Exponentially More) Computing Power”</a></dt>
+<dd>
+<blockquote class="blockquote">
+<p>“we assemble direct quantitative evidence of the impact that computing power has had on five domains: two computing bellwethers (Chess and Go), and three economically important applications (weather prediction, protein folding, and oil exploration). Computing power explains 49%-94% of the performance improvements in these domains.</p>
+</blockquote>
+<p><img src="images/2023-11-03-17-44-38.png" class="img-fluid"></p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="models" class="level1">
+<h1>Models</h1>
+<section id="charts" class="level2">
+<h2 class="anchored" data-anchor-id="charts">charts</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  RD["R&amp;D"] --&gt; algorithms
+  RD_compute["R&amp;D compute"] --&gt; algorithms
+  algorithms --&gt; intelligence
+  compute --&gt; intelligence
+  data --&gt; intelligence
+  intelligence --&gt;|??| economic_value["economic value"]
+  intelligence --&gt;|??| algorithms
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  humans["R&amp;D workers"] --&gt; RD
+  RD["effective R&amp;D labor"] --&gt;|b| algorithms
+  algorithms --&gt; intelligence
+  compute --&gt;|a| intelligence
+  intelligence --&gt;|c| RD
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="davidson-halperin-houlden-korinek-2025-when-does-automating-research-produce-explosive-growth" class="level2">
+<h2 class="anchored" data-anchor-id="davidson-halperin-houlden-korinek-2025-when-does-automating-research-produce-explosive-growth">Davidson, Halperin, Houlden, Korinek (2025) “When Does Automating Research Produce Explosive Growth?”</h2>
+<p>Summary: once you automate a sufficient number of tasks (i.e.&nbsp;do them with capital) then this will kick-off an intelligence explosion.</p>
+<ul>
+<li>Basic model:
+<ul>
+<li>If <span class="math inline">\(\dot{S}_t=S_t^{1-\beta}\)</span>, so you get explosion if <span class="math inline">\(\beta&lt;0\)</span>, steady-state growth if <span class="math inline">\(\beta=0\)</span>, and gradual slowing if <span class="math inline">\(\beta&gt;1\)</span>.</li>
+<li>Now if you start automating inputs, the effective exponent gradually gets higher.</li>
+</ul></li>
+<li>Multi-sector version.
+<ul>
+<li>You gradually automate some of the things, so they can be done with capital.</li>
+<li>You have spillovers between different processes.</li>
+</ul></li>
+<li>Estimates of <span class="math inline">\(\beta\)</span>:
+<ul>
+<li>Bloom overall <span class="math inline">\(\beta=3\)</span></li>
+<li>For software R&amp;D they estimate <span class="math inline">\(\beta=3\)</span></li>
+<li>they say in software <span class="math inline">\(\beta=0.1\)</span></li>
+</ul></li>
+<li>Questions:
+<ul>
+<li>Any historical domain where we’ve seen regimes of <span class="math inline">\(\beta&lt;0\)</span>?, &amp; so explosion.</li>
+</ul></li>
+</ul>
+<p>My observations:</p>
+<ul>
+<li><p>Q: how to think about the growth effect of uplift vs automation?</p></li>
+<li><p>It seems to me AI typically makes things effectively <em>free</em>, rather than being bottlenecked by capital. I think this is a problem for Cobb-Douglas production.</p></li>
+</ul>
+</section>
+<section id="tkwa-model" class="level2">
+<h2 class="anchored" data-anchor-id="tkwa-model">tkwa&nbsp; model</h2>
+<p>https://github.com/tkwa/ai-takeoff-model/blob/main/notes.md</p>
+<p><span class="math display">\[\begin{aligned}
+   S'(t) &amp;= R(t) S^{1 - \beta} = \left(\frac L {1-f}\right)^\alpha C^\zeta S^{1 - \beta}\\
+   f(t) &amp;= \sigma(v(\log C(t)S(t) - \log E_{hac}))
+\end{aligned}
+\]</span></p>
+<p>My simpler version:</p>
+<p><span class="math display">\[\begin{aligned}
+   \dot{S}  &amp;= L^\alpha C^\gamma S^{1-\beta} \\
+\end{aligned}
+\]</span></p>
+<p>We can show:</p>
+<p><span class="math display">\[S^{\beta} = S_0^{\beta} + \frac{\beta\,L_0^\alpha C_0^\gamma}{\alpha g_L+\gamma g_C}\Big(e^{(\alpha g_L+\gamma g_C)t}-1\Big).\]</span></p>
+<p>In the limit we get <span class="math inline">\(g_s=\frac{\alpha g_L+\gamma g_C}{\beta}\)</span></p>
+<hr>
+<pre class="mermaid"><code>flowchart LR
+    subgraph Inputs["Inputs"]
+        L["Labor&lt;br/&gt;(growing 2×)"]
+        C["Compute&lt;br/&gt;(growing 3×)"]
+    end
+    
+    subgraph RnD["AI R&amp;D"]
+        E["Efficiency&lt;br/&gt;(growing 5×)"]
+    end
+    
+    subgraph Capabilities["Capabilities"]
+        EC["Effective&lt;br/&gt;Compute"]
+        TH["Time Horizon"]
+    end
+    
+    subgraph Feedback["Feedback Loop"]
+        A["Automation"]
+    end
+    
+    L --&gt;|"α = 0.25"| E
+    C --&gt;|"ζ = 0.6"| E
+    E --&gt;|"β = 0.5&lt;br/&gt;(self-improving)"| E
+    C --&gt; EC
+    E --&gt; EC
+    EC --&gt; TH
+    TH --&gt;|"ν = 1/3"| A
+    A --&gt;|"augments"| L</code></pre>
+<pre class="mermaid"><code>flowchart LR
+  labor --&gt; algorithms
+  RD_compute["R&amp;D compute"] --&gt; algorithms
+  algorithms --&gt; intelligence
+  training_compute --&gt; intelligence
+  data --&gt; intelligence
+  intelligence --&gt;|??| economic_value["economic value"]
+  intelligence --&gt;|??| RD</code></pre>
+</section>
+<section id="jones-model" class="level2">
+<h2 class="anchored" data-anchor-id="jones-model">Jones model</h2>
+<p>Basic model with accumulating ideas: <span class="math display">\[\begin{gathered}\dot{A}=R^{\gamma}\\
+   \xymatrix{*++[F]{R\&amp;D} \ar[r] &amp; *++[F]{\Delta algorithms}\ar[r] &amp; *++[F]{algorithms}}
+\end{gathered}
+\]</span></p>
+<p>Model with shoulders/armpits of giants (Jones model):<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> <span class="math display">\[\begin{gathered}\dot{A}=R^{\gamma}A^{1-\beta}\\
+   \xymatrix{*++[F]{R\&amp;D} \ar[r] &amp; *++[F]{\Delta knowledge}\ar[r] &amp; *++[F]{knowledge}\ar@/^2em/[l]}
+\end{gathered}
+\]</span></p>
+<p>Recursive self-improvement, where knowledge actually helps R&amp;D: <span class="math display">\[\begin{gathered}\dot{A}=R^{\gamma}\\
+   \xymatrix{*++[F]{R\&amp;D} \ar[r] &amp; *++[F]{\Delta knowledge}\ar[r] &amp; *++[F]{knowledge}\ar@/^2em/[l]\ar@/^3em/[ll]}
+\end{gathered}
+\]</span></p>
+<dl>
+<dt>Extrapolating from these models.</dt>
+<dd>
+It’s dangerous to talk about “the elasticity” between A and B: it is meaningful to talk about the elasticity <em>at a given point</em> but it’s a strong functional-form assumption that it’ll have the same elasticity everywhere.
+</dd>
+<dt>Mathematical assumptions on intelligence -&gt; R&amp;D:</dt>
+<dd>
+<ol type="1">
+<li><em>Full automation.</em> Once you hit a threshold of intelligence then it’s worth entirely replacing humans with agents. E.g. replacing tollbooth operator with automatic tollbooth.</li>
+<li><em>Partial automation.</em> There’s some subset of tasks, and you replace them one-by-one.</li>
+<li><em>Speedup.</em> -&gt; Humans and agents are complements, an agent increases efficiency on all tasks.</li>
+</ol>
+</dd>
+<dt>Concrete assumptions.</dt>
+<dd>
+<ol type="1">
+<li><em>Autonomous algorithm-search machine.</em> You spend a lot of tokens, it autonomously learns to navigate the space. Like AlphaZero, trained from scratch.</li>
+<li><em>Speeds up routine tasks.</em> The AI R&amp;D guy can do certain things quicker, e.g.&nbsp;parse logs, write visualization, fix bugs.</li>
+<li><em>Shares knowledge.</em> Can learn tricks. It doesn’t affect people at the frontier very much.</li>
+</ol>
+</dd>
+<dt>Q: what if the capability frontier is the data frontier?</dt>
+<dd>
+<ul>
+<li>Nice prediction: will not speed up experts, only behind the frontier.</li>
+</ul>
+</dd>
+<dt>Natural processes often have explosive <em>regions</em>.</dt>
+<dd>
+You
+</dd>
+</dl>
+</section>
+<section id="metaphors-for-rsi" class="level2">
+<h2 class="anchored" data-anchor-id="metaphors-for-rsi">metaphors for RSI</h2>
+<dl>
+<dt>Drawing balls from an urn.</dt>
+<dd>
+There’s some distribution of values, then you get a very nice expression. The expected value of <span class="math inline">\(N\)</span> draws just depends on the extreme value distribution of <span class="math inline">\(f(v)\)</span>. This is exactly Kortum (1997).
+</dd>
+<dt>A tool factory makes better tools.</dt>
+<dd>
+I think this is Jones’ metaphor. <em>Distinct</em> from Kortum, because the returns to search now depends on the stock of ideas.
+</dd>
+<dt>Machine tools and regular tools</dt>
+<dd>
+<ol type="1">
+<li>The Dutch make machine tools.</li>
+<li>The machine tools make regular tools.</li>
+<li>The regular tools make products.</li>
+</ol>
+<p>At some point the machine tools become good enough to make themselves, but it’s a discrete jump.</p>
+</dd>
+<dt>Lego - combining ideas.</dt>
+<dd>
+Weitzmann’s recombinant search is like this: you combine ideas to make new ideas, now you have a larger stock of ideas to combine.
+</dd>
+<dt>Recipes.</dt>
+<dd>
+You try out recipes, which are combinations of prior recipes. <span class="citation" data-cites="jones2023recipes">Jones (<a href="#ref-jones2023recipes" role="doc-biblioref">2023</a>)</span> – something like a reconciliation of Weitzman &amp; Kortum.
+</dd>
+<dt>Blacksmith.</dt>
+<dd>
+<p>You have a hammer and you spend time making horseshoes, or working on a new hammer.</p>
+<p>A harder hammer both (1) makes horseshoes faster, or (2) makes your hammer still harder.</p>
+</dd>
+</dl>
+</section>
 </section>
 <section id="references" class="level1">
 <h1>References</h1>
@@ -429,9 +908,11 @@ They give conditions under which automating R&amp;D will cause an explosion in G
 </dd>
 </dl>
 </section>
-<section id="we-need-more-bottom-up-modelling-of-ais-economic-effect-unfinished" class="level1 page-columns page-full">
-<h1>We need more bottom-up modelling of AI’s economic effect [UNFINISHED]</h1>
-<dl class="page-columns page-full">
+<section id="overflow-offcuts" class="level1">
+<h1>Overflow / Offcuts</h1>
+<section id="we-need-more-bottom-up-modelling-of-ais-economic-effect-unfinished" class="level2">
+<h2 class="anchored" data-anchor-id="we-need-more-bottom-up-modelling-of-ais-economic-effect-unfinished">We need more bottom-up modelling of AI’s economic effect [UNFINISHED]</h2>
+<dl>
 <dt>There are two approaches to modelling AI’s effect.</dt>
 <dd>
 <p>From a lot of conversations about recursive self-improvement I realized it’s useful to distinguish between two qualitatively different ways of thinking about AI’s ability to do work:</p>
@@ -450,218 +931,14 @@ There are some papers with “model organisms” of recursive self-improvement: 
 AI treats it as a pure optimization problem, already it’s better at chip design, algorithm design.
 </dd>
 <dt>Some related discussion:</dt>
-<dd class="page-columns page-full">
+<dd>
 <p>Nathan Lambert recapitulates some discussions from the Curve about recursive self-improvement <a href="https://www.interconnects.ai/p/thoughts-on-the-curve">here</a>.</p>
-<p>This is related to the Bresnahan/systems view of AI. He talks about the first wave of ML models: “The transition to ICT-based production has largely proceeded at the production system level, not the task level.”<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;“My empirical conclusion about these applications is that the lazy idea of AI – that is, of computer systems that are able to perform productive tasks previously done by humans– is irrelevant to understanding how these technologies create value. Here “irrelevant” does not mean that substitution of machine for human tasks is less important than other determinants of the value in use of AITs. It means irrelevant: task-level substitution of machine for human plays no role in these highly valuable systems.”</p></div></div></dd>
-</dl>
-</section>
-<section id="models" class="level1 page-columns page-full">
-<h1>Models</h1>
-<section id="charts" class="level2">
-<h2 class="anchored" data-anchor-id="charts">charts</h2>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">flowchart LR
-  RD["R&amp;D"] --&gt; algorithms
-  RD_compute["R&amp;D compute"] --&gt; algorithms
-  algorithms --&gt; intelligence
-  compute --&gt; intelligence
-  data --&gt; intelligence
-  intelligence --&gt;|??| economic_value["economic value"]
-  intelligence --&gt;|??| algorithms
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">flowchart LR
-  humans["R&amp;D workers"] --&gt; RD
-  RD["effective R&amp;D labor"] --&gt;|b| algorithms
-  algorithms --&gt; intelligence
-  compute --&gt;|a| intelligence
-  intelligence --&gt;|c| RD
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-</section>
-<section id="davidson-halperin-houlden-korinek-2025-when-does-automating-research-produce-explosive-growth" class="level2">
-<h2 class="anchored" data-anchor-id="davidson-halperin-houlden-korinek-2025-when-does-automating-research-produce-explosive-growth">Davidson, Halperin, Houlden, Korinek (2025) “When Does Automating Research Produce Explosive Growth?”</h2>
-<p>Summary: once you automate a sufficient number of tasks (i.e.&nbsp;do them with capital) then this will kick-off an intelligence explosion.</p>
-<ul>
-<li>Basic model:
-<ul>
-<li>If <span class="math inline">\(\dot{S}_t=S_t^{1-\beta}\)</span>, so you get explosion if <span class="math inline">\(\beta&lt;0\)</span>, steady-state growth if <span class="math inline">\(\beta=0\)</span>, and gradual slowing if <span class="math inline">\(\beta&gt;1\)</span>.</li>
-<li>Now if you start automating inputs, the effective exponent gradually gets higher.</li>
-</ul></li>
-<li>Multi-sector version.
-<ul>
-<li>You gradually automate some of the things, so they can be done with capital.</li>
-<li>You have spillovers between different processes.</li>
-</ul></li>
-<li>Estimates of <span class="math inline">\(\beta\)</span>:
-<ul>
-<li>Bloom overall <span class="math inline">\(\beta=3\)</span></li>
-<li>For software R&amp;D they estimate <span class="math inline">\(\beta=3\)</span></li>
-<li>they say in software <span class="math inline">\(\beta=0.1\)</span></li>
-</ul></li>
-<li>Questions:
-<ul>
-<li>Any historical domain where we’ve seen regimes of <span class="math inline">\(\beta&lt;0\)</span>?, &amp; so explosion.</li>
-</ul></li>
-</ul>
-<p>My observations:</p>
-<ul>
-<li><p>Q: how to think about the growth effect of uplift vs automation?</p></li>
-<li><p>It seems to me AI typically makes things effectively <em>free</em>, rather than being bottlenecked by capital. I think this is a problem for Cobb-Douglas production.</p></li>
-</ul>
-</section>
-<section id="tkwa-model" class="level2">
-<h2 class="anchored" data-anchor-id="tkwa-model">tkwa&nbsp; model</h2>
-<p>https://github.com/tkwa/ai-takeoff-model/blob/main/notes.md</p>
-<p><span class="math display">\[\begin{aligned}
-   S'(t) &amp;= R(t) S^{1 - \beta} = \left(\frac L {1-f}\right)^\alpha C^\zeta S^{1 - \beta}\\
-   f(t) &amp;= \sigma(v(\log C(t)S(t) - \log E_{hac}))
-\end{aligned}
-\]</span></p>
-<p>My simpler version:</p>
-<p><span class="math display">\[\begin{aligned}
-   \dot{S}  &amp;= L^\alpha C^\gamma S^{1-\beta} \\
-\end{aligned}\]</span></p>
-<p>We can show:</p>
-<p><span class="math display">\[S^{\beta} = S_0^{\beta} + \frac{\beta\,L_0^\alpha C_0^\gamma}{\alpha g_L+\gamma g_C}\Big(e^{(\alpha g_L+\gamma g_C)t}-1\Big).\]</span></p>
-<p>In the limit we get <span class="math inline">\(g_s=\frac{\alpha g_L+\gamma g_C}{\beta}\)</span></p>
-<hr>
-<pre class="mermaid"><code>flowchart LR
-    subgraph Inputs["Inputs"]
-        L["Labor&lt;br/&gt;(growing 2×)"]
-        C["Compute&lt;br/&gt;(growing 3×)"]
-    end
-    
-    subgraph RnD["AI R&amp;D"]
-        E["Efficiency&lt;br/&gt;(growing 5×)"]
-    end
-    
-    subgraph Capabilities["Capabilities"]
-        EC["Effective&lt;br/&gt;Compute"]
-        TH["Time Horizon"]
-    end
-    
-    subgraph Feedback["Feedback Loop"]
-        A["Automation"]
-    end
-    
-    L --&gt;|"α = 0.25"| E
-    C --&gt;|"ζ = 0.6"| E
-    E --&gt;|"β = 0.5&lt;br/&gt;(self-improving)"| E
-    C --&gt; EC
-    E --&gt; EC
-    EC --&gt; TH
-    TH --&gt;|"ν = 1/3"| A
-    A --&gt;|"augments"| L</code></pre>
-<pre class="mermaid"><code>flowchart LR
-  labor --&gt; algorithms
-  RD_compute["R&amp;D compute"] --&gt; algorithms
-  algorithms --&gt; intelligence
-  training_compute --&gt; intelligence
-  data --&gt; intelligence
-  intelligence --&gt;|??| economic_value["economic value"]
-  intelligence --&gt;|??| RD</code></pre>
-</section>
-<section id="jones-model" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="jones-model">Jones model</h2>
-<p>Basic model with accumulating ideas: <span class="math display">\[\begin{gathered}\dot{A}=R^{\gamma}\\
-   \xymatrix{*++[F]{R\&amp;D} \ar[r] &amp; *++[F]{\Delta algorithms}\ar[r] &amp; *++[F]{algorithms}}
-\end{gathered}\]</span></p>
-<p>Model with shoulders/armpits of giants (Jones model):<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <span class="math display">\[\begin{gathered}\dot{A}=R^{\gamma}A^{1-\beta}\\
-   \xymatrix{*++[F]{R\&amp;D} \ar[r] &amp; *++[F]{\Delta knowledge}\ar[r] &amp; *++[F]{knowledge}\ar@/^2em/[l]}
-\end{gathered}\]</span></p>
-<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;This was introduced by <span class="citation" data-cites="jones1995rd">Jones (<a href="#ref-jones1995rd" role="doc-biblioref">1995</a>)</span>, where there are diminishing returns to knowledge, whereas Romer (1990) had assumed no diminishing returns to knowledge, <span class="math inline">\(\beta=0\)</span>.</p></div></div><p>Recursive self-improvement, where knowledge actually helps R&amp;D: <span class="math display">\[\begin{gathered}\dot{A}=R^{\gamma}\\
-   \xymatrix{*++[F]{R\&amp;D} \ar[r] &amp; *++[F]{\Delta knowledge}\ar[r] &amp; *++[F]{knowledge}\ar@/^2em/[l]\ar@/^3em/[ll]}
-\end{gathered}\]</span></p>
-<dl>
-<dt>Extrapolating from these models.</dt>
-<dd>
-It’s dangerous to talk about “the elasticity” between A and B: it is meaningful to talk about the elasticity <em>at a given point</em> but it’s a strong functional-form assumption that it’ll have the same elasticity everywhere.
-</dd>
-<dt>Mathematical assumptions on intelligence -&gt; R&amp;D:</dt>
-<dd>
-<ol type="1">
-<li><em>Full automation.</em> Once you hit a threshold of intelligence then it’s worth entirely replacing humans with agents. E.g. replacing tollbooth operator with automatic tollbooth.</li>
-<li><em>Partial automation.</em> There’s some subset of tasks, and you replace them one-by-one.</li>
-<li><em>Speedup.</em> -&gt; Humans and agents are complements, an agent increases efficiency on all tasks.</li>
-</ol>
-</dd>
-<dt>Concrete assumptions.</dt>
-<dd>
-<ol type="1">
-<li><em>Autonomous algorithm-search machine.</em> You spend a lot of tokens, it autonomously learns to navigate the space. Like AlphaZero, trained from scratch.</li>
-<li><em>Speeds up routine tasks.</em> The AI R&amp;D guy can do certain things quicker, e.g.&nbsp;parse logs, write visualization, fix bugs.</li>
-<li><em>Shares knowledge.</em> Can learn tricks. It doesn’t affect people at the frontier very much.</li>
-</ol>
-</dd>
-<dt>Q: what if the capability frontier is the data frontier?</dt>
-<dd>
-<ul>
-<li>Nice prediction: will not speed up experts, only behind the frontier.</li>
-</ul>
-</dd>
-<dt>Natural processes often have explosive <em>regions</em>.</dt>
-<dd>
-You
+<p>This is related to the Bresnahan/systems view of AI. He talks about the first wave of ML models: “The transition to ICT-based production has largely proceeded at the production system level, not the task level.”<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 </dd>
 </dl>
 </section>
-<section id="metaphors-for-rsi" class="level2">
-<h2 class="anchored" data-anchor-id="metaphors-for-rsi">metaphors for RSI</h2>
-<dl>
-<dt>Drawing balls from an urn.</dt>
-<dd>
-There’s some distribution of values, then you get a very nice expression. The expected value of <span class="math inline">\(N\)</span> draws just depends on the extreme value distribution of <span class="math inline">\(f(v)\)</span>. This is exactly Kortum (1997).
-</dd>
-<dt>A tool factory makes better tools.</dt>
-<dd>
-I think this is Jones’ metaphor. <em>Distinct</em> from Kortum, because the returns to search now depends on the stock of ideas.
-</dd>
-<dt>Machine tools and regular tools</dt>
-<dd>
-<ol type="1">
-<li>The Dutch make machine tools.</li>
-<li>The machine tools make regular tools.</li>
-<li>The regular tools make products.</li>
-</ol>
-<p>At some point the machine tools become good enough to make themselves, but it’s a discrete jump.</p>
-</dd>
-<dt>Lego - combining ideas.</dt>
-<dd>
-Weitzmann’s recombinant search is like this: you combine ideas to make new ideas, now you have a larger stock of ideas to combine.
-</dd>
-<dt>Recipes.</dt>
-<dd>
-You try out recipes, which are combinations of prior recipes. <span class="citation" data-cites="jones2023recipes">Jones (<a href="#ref-jones2023recipes" role="doc-biblioref">2023</a>)</span> – something like a reconciliation of Weitzman &amp; Kortum.
-</dd>
-<dt>Blacksmith.</dt>
-<dd>
-<p>You have a hammer and you spend time making horseshoes, or working on a new hammer.</p>
-<p>A harder hammer both (1) makes horseshoes faster, or (2) makes your hammer still harder.</p>
-</dd>
-</dl>
-</section>
-</section>
-<section id="overflow-offcuts" class="level1">
-<h1>Overflow / Offcuts</h1>
+<section id="history-of-optimization" class="level2">
+<h2 class="anchored" data-anchor-id="history-of-optimization">History of Optimization</h2>
 <dl>
 <dt>Some optimization landscapes that were already conquered.</dt>
 <dd>
@@ -773,16 +1050,26 @@ You try out recipes, which are combinations of prior recipes. <span class="citat
 
 
 </section>
+</section>
 
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-gundlach2025algorithmicprogressai" class="csl-entry" role="listitem">
+Gundlach, Hans, Alex Fogelson, Jayson Lynch, Ana Trisovic, Jonathan Rosenfeld, Anmol Sandhu, and Neil Thompson. 2025. <span>“On the Origin of Algorithmic Progress in AI.”</span> <a href="https://arxiv.org/abs/2511.21622">https://arxiv.org/abs/2511.21622</a>.
+</div>
 <div id="ref-jones1995rd" class="csl-entry" role="listitem">
 Jones, Charles I. 1995. <span>“R&amp;d-Based Models of Economic Growth.”</span> <em>Journal of Political Economy</em> 103 (4): 759–84. https://doi.org/<a href="https://doi.org/10.1086/262002">https://doi.org/10.1086/262002</a>.
 </div>
 <div id="ref-jones2023recipes" class="csl-entry" role="listitem">
 ———. 2023. <span>“Recipes and Economic Growth: A Combinatorial March down an Exponential Tail.”</span> <em>Journal of Political Economy</em> 131 (8): 1994–2031. <a href="https://doi.org/10.1086/723631">https://doi.org/10.1086/723631</a>.
 </div>
-</div></section></div></main> <!-- /main -->
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>This was introduced by <span class="citation" data-cites="jones1995rd">Jones (<a href="#ref-jones1995rd" role="doc-biblioref">1995</a>)</span>, where there are diminishing returns to knowledge, whereas Romer (1990) had assumed no diminishing returns to knowledge, <span class="math inline">\(\beta=0\)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>“My empirical conclusion about these applications is that the lazy idea of AI – that is, of computer systems that are able to perform productive tasks previously done by humans– is irrelevant to understanding how these technologies create value. Here “irrelevant” does not mean that substitution of machine for human tasks is less important than other determinants of the value in use of AITs. It means irrelevant: task-level substitution of machine for human plays no role in these highly valuable systems.”<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
