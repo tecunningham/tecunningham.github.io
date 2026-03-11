@@ -217,6 +217,9 @@ Model D: layer cake.
     \draw (0,0) -- (1,0) node[midway,below] {ln(training expenditure)}
         -- (1,1) -- (0,1) -- (0,0) node[midway,above,rotate=90] {model intelligence};
     
+    \draw[blue,->] (0.17,0.1)--(0.13,0.1);
+    \draw[blue,->] (0.27,0.1)--(0.23,0.1);
+
     \draw[thick, blue] (0,0) plot[domain=0:1, samples=100] (\x, {0.55*(1-exp(-2*\x))}) node[anchor=south west]{2026 technology};
     \draw[thick, blue, dotted] (0,0) plot[domain=0.1:1, samples=100] (\x, {0.55*(1-exp(-2*(\x-0.1)))}) node[right]{2025 technology};
     \draw[thick, blue, dotted] (0,0) plot[domain=0.2:1, samples=100] (\x, {0.55*(1-exp(-2*(\x-0.2)))}) node[anchor=north west]{2024 technology};
@@ -235,16 +238,13 @@ Model D: layer cake.
    - Technology is getting 3X more efficient each year (blue curves shifting left) 
    - Training compute is increasing around 3X/year (black points shifting right)
    
+   Some notes:
 
-   However some important qualifications:
-
-   1. @gundlach2025algorithmicprogressai argue that the true technology curves are steeper, and shifting left much more slowly. Thus algorithmic progress is relatively less important, and most progress is coming from pure scale.
-   2. Epoch note that training compute may not be growing that rapidly.
-   3. The technology curve includes anything that maps training expenditure to intelligence: progress in compute cost, algorithms, accumulation of training data, and progress in elicitation.
-   4. Labs are probably spending relatively more on R&D (shifting the blue curve left/up) than on training (the black points). 
-   
-   An important note: there's no consensus on how to measure the y-axis ("model intelligence"). For many applications it doesn't matter as long as we have an ordinal measure (i.e. we can reliably rank model intelligence). 
-
+   1. These growth-rate numbers are very ballpark, lots of disagreement.
+   2. The technology curve includes anything that changes the mapping of training expenditure to intelligence: declines in GPU cost, advances in algorithms, accumulation of training data, and progress in elicitation.
+   2. There's no consensus on how to measure the y-axis ("model intelligence"). For many questions it actually doesn't matter as long as we have an ordinal measure (i.e. we can reliably rank model intelligence). However for RSI it matters.
+   3. Labs are probably spending relatively more on R&D (shifting the blue curve left/up) than on training (shifting the black points right). E.g. Epoch estimate that OpenAI is spending much more on salaries & experiments than on frontier model training.
+   4. @gundlach2025algorithmicprogressai argue that the true technology curves are steeper, and shifting left much more slowly. Thus algorithmic progress is relatively less important, and most progress is coming from pure scale.
 :::
 :::
 
@@ -262,16 +262,11 @@ Model D: layer cake.
 | TOTAL                       |      2.1 (8X)       |     $3B     |       $6B       |             |
 
 
-Q: what determines relative expenditure on experiments vs workers?
-:   
-    - _Random landscape → more experiments._
-    - _Regular landscape → more experiments._ Some landscapes are known to be regular, so you can just set a well-known optimization algorithm against them. E.g. hyperparameter tuning, oil discovery.
-    - _Expensive experiments → ambiguous._ Even if experiments were cheap, could spend a lot on them. Even if experiments expensive, could spend a small amount (moon landing).
 Q: what determines the share spent on salary-vs-experiments?
 :   - _Not just determined by the cost of experimenation._ Even if experiments were cheap, you might want to spend a lot on them, because you're bottlenecked on .
     - _Random landscape → more experiments._ If each alternative is a completely random draw, then there's no returns to thinking harder.
     - _Regular landscape → more experiments._ Some landscapes are known to be regular, so you can just set a well-known optimization algorithm against them, and spend all your budget on collecting more datapoints, rather than tuning the algorithm. E.g. hyperparameter tuning.
-    - _Structured landscape → more thinking._ If the landscape has some .
+    - _Structured landscape → more thinking._ If the landscape has some latent structure, that requires deep reflection, then we'd expect relatively higher payoff to thinking.
 
 Q: where is AI likely to help?
 : 
