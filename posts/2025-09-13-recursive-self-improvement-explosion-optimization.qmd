@@ -129,16 +129,31 @@ Model.
 :   - There's a distribution of apples, each has a height.
     - Each apple is equally valuable.
     - An agent can pick apples up to their height.
-    - Can represent state with a scalar: the line below which apples are picked.
-    - There are diminishing returns to effort in picking apples below that line, so not all apples are picked.
+    - _Represent state with a scalar:_ the line below which apples are picked.
+    - _Represent with a distribution:_ There are diminishing returns to effort in picking apples below that line, so not all apples are picked at a given height.
 
 Implication: you want tests of *reach* for LLMs.
 :   
     - You don't want to just see whether LLMs can pick apples, but you want to test for their reach.
-    - Thus you find problems which 
+    - Some apples aren't picked because they weren't worth the squeeze (Erdos problems that are uninteresting)
+    - You find problems that are out of reach for LLMs: pre-register open problems, whether solution is known (FirstProof) or unknown (FrontierMath Tier 4).
 
 Implication: whether they can stand on each others' shoulders.
 :   - 
+
+Relation to landscape model.
+:   - Suppose you can separate optimization into orthogonal dimensions.
+    - Some sub-parts are convex, some are really complicated.
+    - 
+
+|                                           |               |
+| ----------------------------------------- | ------------- |
+| AI replaces R&D workers.                  | Davidson      |
+| AI automates a subset of general tasks    | (some models) |
+| AI automates a subset of R&D tasks.       | (most models) |
+| AI increases productivity of R&D workers. | ??            |
+| AI replace *low quality* R&D workers.     | ??            |
+| (other mechanisms?)                       |               |
 
 --------------------------------------------
 
@@ -152,11 +167,11 @@ Apple Tree Optimization
 
 --------------------------------------------
 
-LLMs are suddenly able to optimize algorithms pretty well, & so maybe  recursive-self-improvement has kicked off.
+1. LLMs are suddenly able to optimize algorithms pretty well --- maybe  recursive-self-improvement has just kicked off.
 
-I think the critical thing is to distinguish between shallow & deep optimizations. 
+2. But the critical question is whether the fruit that it's picking are low-hanging. If all the optimizations are routine, then it'll run out pretty quickly.
 
-Most models of RSI, as far as I can tell, 
+3. Most models of RSI, as far as I can tell, 
 
 --------------------------------------------
 
@@ -360,6 +375,25 @@ Thompson et al. (2022) ["The Importance of (Exponentially More) Computing Power"
 
 #           Other Peoples' Models
 
+|                             |                                                            |
+| --------------------------- | ---------------------------------------------------------- |
+| Aghion Jones & Jones (2017) | AI automates general tasks                                 |
+| Davidson (2021)             | AI substitutes for human researchers, $\dot{A}=f(L_H+L_R)$ |
+| Epoch GATE (2025)           | AI automates general tasks                                 |
+| Davidson et al. (2025)      | AI automates R&D tasks                                     |
+| Ben Jones (2025)            | AI automates R&D tasks                                     |
+| AI Futures Model (2025)     | AI automates R&D tasks                                     |
+| Tkwa LessWrong model (2026) | AI automates R&D tasks                                     |
+
+
+##                Agrawal, McHale, Oett (2018) FINDING NEEDLES IN HAYSTACKS: ARTIFICIAL INTELLIGENCE AND RECOMBINANT GROWTH
+
+@agrawal2019needles
+
+> "Our focus is different from these papers in that instead of emphasising the potential substitution of machines for workers in existing tasks, we emphasise the importance of AI in overcoming a specific problem that impedes human researchers – finding useful combinations in complex discovery spaces."
+
+Also see @agrawal2023automation.
+
 ##                charts
 
 
@@ -412,10 +446,18 @@ My observations:
  
 - It seems to me AI typically makes things effectively *free*, rather than being bottlenecked by capital. I think this is a problem for Cobb-Douglas production.
 
+##                      AI futures model
+
+https://www.timelinesmodel.com
+
+They assume AI automates some fraction of R&D tasks, proportional to the time horizon.
 
 ##                       tkwa  model
 
+Short: AI automates some fraction of R&D tasks, which causes an effective multiplier on R&D labor: "parallel uplift and 1/(1-f) are equivalent in the simple model".
+
 https://github.com/tkwa/ai-takeoff-model/blob/main/notes.md
+https://www.lesswrong.com/posts/uy6B5rEPvcwi55cBK/research-note-a-simpler-ai-timelines-model-predicts-99-ai-r
 
 $$\begin{aligned}
    S'(t) &= R(t) S^{1 - \beta} = \left(\frac L {1-f}\right)^\alpha C^\zeta S^{1 - \beta}\\
@@ -486,19 +528,22 @@ flowchart LR
 
 Basic model with accumulating ideas:
 $$\begin{gathered}\dot{A}=R^{\gamma}\\
-   \xymatrix{*++[F]{R\&D} \ar[r] & *++[F]{\Delta algorithms}\ar[r] & *++[F]{algorithms}}
+   \xymatrix{*++[F]{R\&D} \ar[r] & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}}
 \end{gathered}
 $$
 
 Model with shoulders/armpits of giants (Jones model):^[This was introduced by @jones1995rd, where there are diminishing returns to knowledge, whereas Romer (1990) had assumed no diminishing returns to knowledge, $\beta=0$.]
-$$\begin{gathered}\dot{A}=R^{\gamma}A^{1-\beta}\\
-   \xymatrix{*++[F]{R\&D} \ar[r] & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}\ar@/^2em/[l]}
+$$\begin{gathered}
+    \dot{A}=R^{\gamma}A^{1-\beta}\\
+    \xymatrix{*++[F]{R\&D} \ar[r] & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}\ar@/^2em/[l]}
 \end{gathered}
 $$
 
 Recursive self-improvement, where knowledge actually helps R&D:
-$$\begin{gathered}\dot{A}=R^{\gamma}\\
-   \xymatrix{*++[F]{R\&D} \ar[r] & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}\ar@/^2em/[l]\ar@/^3em/[ll]}
+$$\begin{gathered}
+    R=A^{\kappa}\\
+    \dot{A}=A^{1-\beta+\kappa}\\
+    \xymatrix{*++[F]{R\&D} \ar[r] & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}\ar@/^2em/[l]\ar@/^3em/[ll]}
 \end{gathered}
 $$
 
@@ -587,24 +632,6 @@ Eric Drexler (2025) ["The Reality of Recursive Self-Improvement"](https://aipros
     > "In hyperparameter optimization, advances in Bayesian and multi-fidelity methods often achieve order-of-magnitude savings compared to naive grid search. What once required thousands of full model trainings can now be accomplished with fewer and more intelligent probes. As daunting costs of innovation fall, research becomes faster and more ambitious.
 
     > "The trajectory toward comprehensive AI capabilities makes these developments predictable, not in detail, but in outline.
-
-
-
-Eric Drexler (Aug 2025) ["The Reality of Recursive Self-Improvement"](https://aiprospects.substack.com/p/the-reality-of-recursive-improvement)
-
-:  Automating steps in the optimization loop:
-
-      - Automating differentiation.
-      - Neural architecture search.
-      - Bayesian optimization.
-
-:  > "The fundamental mechanism is systemic friction reduction — aggregate improvements expand possibilities by enabling faster progress and more ambitious goals
-
-    > "In hyperparameter optimization, advances in Bayesian and multi-fidelity methods often achieve order-of-magnitude savings compared to naive grid search. What once required thousands of full model trainings can now be accomplished with fewer and more intelligent probes. As daunting costs of innovation fall, research becomes faster and more ambitious.
-
-    > "The trajectory toward comprehensive AI capabilities makes these developments predictable, not in detail, but in outline.
-
-
 
 
 #           Overflow / Offcuts
