@@ -172,7 +172,15 @@ Apple Tree Optimization
 2. But the critical question is whether the fruit that it's picking are low-hanging. If all the optimizations are routine, then it'll run out pretty quickly.
 
 
-##              Bernoulli Apple Model
+##              Apple-Picking Model
+
+**Motivation:**
+
+- Agents are starting to autonomously optimize real-world functions, beating the human state-of-the-art.
+- In most models of RSI, agents only automate subtasks in R&D, but now they seem to be doing the whole thing autonomously.
+- Intuitively they're only doing *shallow* optimizations, not deep optimizations.
+- We want a model so that we can define what it means to only do shallow optimizations, and test whether agents obey these predictions.
+- Testable predictions: (A) agents asymptote to a lower value than humans; (B) agents are relatively more useful for problems which have had less human time on them; (C) agents will asymptote to higher values if they are given better human starting points.
 
 **Setup:**
 
@@ -190,7 +198,7 @@ Apple Tree Optimization
 #| label: bernoulli-functions
 #| dependson: bernoulli-heatmap
 #| fig-align: center
-#| fig-width: 4
+#| fig-width: 5
 #| fig-height: 4
 p <- 0.5
 lambda <- 0.5
@@ -235,14 +243,14 @@ grid(col = "gray85", lty = "dotted")
 text(
     x = 4,
     y = apples(4.2, 0) - 0.04,
-    labels = "human-only",
+    labels = "human",
     col = "#1b9e77",
     pos = 4
 )
 text(
     x = 4,
     y = apples(0, 4.2) - 0.04,
-    labels = "agent-only",
+    labels = "agent",
     col = "#d95f02",
     pos = 4
 )
@@ -311,8 +319,9 @@ par(old_par)
 
 
 **Implication: agent value and asymptote depends on starting point.** 
-    - If you start an agent from scratch, it will have high marginal value, but a low asymptote.
-    - If you start an agent after some human optimization, it will have lower marginal value, but it will be able to achieve a higher asymptote (below, starting after 1 unit of human search raises the agent asymptote from 0.5 to 0.7).
+
+- If you start an agent from scratch, it will have high marginal value, but a low asymptote.
+- If you start an agent after some human optimization, it will have lower marginal value, but it will be able to achieve a higher asymptote (below, starting after 1 unit of human search raises the agent asymptote from 0.5 to 0.7).
 
 ```{r}
 #| label: bernoulli-agent-after-human
