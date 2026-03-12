@@ -117,7 +117,7 @@ We could plot data from a variety of different experiments on this plot, & ask s
 
 
 
-#           Apple Tree Model / Low Hanging
+#           Apple-Picking Model / Low Hanging
 
 Apple tree model of ideas.
 : 
@@ -171,9 +171,185 @@ Apple Tree Optimization
 
 2. But the critical question is whether the fruit that it's picking are low-hanging. If all the optimizations are routine, then it'll run out pretty quickly.
 
-3. Most models of RSI, as far as I can tell, 
 
---------------------------------------------
+##              Bernoulli Model
+
+- There are a continuum of apples spready uniformly across [0,1].
+- Each period of search you have a probability $p$ of *not* finding an apple.
+- A human can find apples over $[0,1]$, an agent can only find apples over $[0,\lambda]$.
+- After $n_H$ human searches, and $n_A$ agent searches, then 
+    $$\text{apples found}= 1-\left((1-\lambda)p^{n_H}+\lambda p^{n_H+n_A}\right).$$
+
+- Implications:
+    - Agents asymptote to a lower level.
+    - Agent & human effort is subadditive
+    - The value of a search doesn't depend just on the share of apples found, it depends on the state (ie. $n_H$ and $n_A$).
+    - There's an asymmetry:
+        - If you have a lot of agents, one human is very valuable.
+        - If you have a lot of humans, one agent is not very valuable.
+
+- For $p=1/4$ and $\lambda=0.5$, we can see the share implied by this expression in a small heat map:
+
+```{r}
+#| results: asis
+p <- 1 / 4
+lambda <- 0.5
+n_vals <- 0:5
+apples <- function(n_H, n_A) {
+    1 - ((1 - lambda) * p^n_H + lambda * p^(n_H + n_A))
+}
+
+apple_share <- outer(
+    n_vals,
+    n_vals,
+    Vectorize(function(n_H, n_A) {
+        apples(n_H, n_A)
+    })
+)
+
+fill_palette <- grDevices::colorRampPalette(
+    c("#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#3182bd")
+)(100)
+
+cell_html <- function(share) {
+    color_idx <- max(1, min(100, round(share * 99) + 1))
+    bg <- fill_palette[color_idx]
+    fg <- if (share > 0.6) "white" else "black"
+    paste0(
+        "<td style='background:", bg, "; color:", fg,
+        "; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;'>",
+        "<div style='font-weight:600;'>", sprintf("%.1f%%", 100 * share), "</div>",
+        "</td>"
+    )
+}
+
+header_cells <- paste0(
+    "<th style='padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;'>",
+    "n_A = ", n_vals, "</th>",
+    collapse = ""
+)
+
+rows <- vapply(seq_along(n_vals), function(i) {
+    row_cells <- vapply(seq_along(n_vals), function(j) {
+        cell_html(apple_share[i, j])
+    }, character(1))
+
+    paste0(
+        "<tr>",
+        if (i == 1) {
+            paste0(
+                "<th rowspan='", length(n_vals),
+                "' style='padding:0; border:1px solid #d0d7de; background:#f6f8fa; width:2.5rem;'>",
+                "<div style='display:inline-block; transform:rotate(-90deg); white-space:nowrap; font-weight:600;'>",
+                "human searches",
+                "</div></th>"
+            )
+        } else {
+            ""
+        },
+        "<th style='padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;'>n_H = ",
+        n_vals[i],
+        "</th>",
+        paste0(row_cells, collapse = ""),
+        "</tr>"
+    )
+}, character(1))
+
+cat(
+    "<table style='border-collapse:collapse; margin:1rem 0; font-size:0.95rem;'>",
+    "<caption style='caption-side:top; text-align:center; font-weight:600; padding-bottom:0.45rem;'>",
+    "Heat map of apples found (p = ", p, ", &lambda; = ", lambda, ")",
+    "</caption>",
+    "<thead>",
+    "<tr><th colspan='2' style='border:none; background:transparent;'></th>",
+    "<th colspan='", length(n_vals),
+    "' style='padding:0.3rem 0.7rem; border:none; background:transparent; text-align:center; font-weight:600;'>agent searches</th></tr>",
+    "<tr><th style='border:none; background:transparent;'></th><th style='padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;'></th>",
+    header_cells,
+    "</tr></thead>",
+    "<tbody>",
+    paste0(rows, collapse = ""),
+    "</tbody></table>",
+    sep = ""
+)
+```
+
+- Treating $n_H$ and $n_A$ as continuous, the level sets of $\text{apples found}(n_H, n_A)$ look like this:
+
+```{r}
+#| fig-width: 6
+#| fig-height: 5
+n_H_grid <- seq(0, 5, length.out = 201)
+n_A_grid <- seq(0, 5, length.out = 201)
+apple_surface <- outer(
+    n_A_grid,
+    n_H_grid,
+    Vectorize(function(n_A, n_H) apples(n_H, n_A))
+)
+
+filled.contour(
+    x = n_A_grid,
+    y = n_H_grid,
+    z = apple_surface,
+    xlab = "agent searches",
+    ylab = "human searches",
+    main = bquote("Isovalues of apples found" ~ "(" * p == .(p) * "," ~ lambda == .(lambda) * ")"),
+    levels = seq(0, 1, by = 0.1),
+    color.palette = function(n) {
+        grDevices::colorRampPalette(
+            c("#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#3182bd")
+        )(n)
+    },
+    plot.axes = {
+        axis(1)
+        axis(2)
+        contour(
+            x = n_A_grid,
+            y = n_H_grid,
+            z = apple_surface,
+            levels = seq(0, 1, by = 0.1),
+            add = TRUE,
+            drawlabels = TRUE,
+            lwd = 1.1
+        )
+        grid(col = "gray85", lty = "dotted")
+    }
+)
+```
+
+- Holding one search type at zero, we can compare $\text{apples}(n_H,0)$ and $\text{apples}(0,n_A)$ on the same axes:
+
+```{r}
+#| fig-width: 6
+#| fig-height: 4
+n_grid <- seq(0, 5, length.out = 400)
+
+plot(
+    n_grid,
+    apples(n_grid, 0),
+    type = "l",
+    lwd = 2,
+    col = "#1b9e77",
+    ylim = c(0, 1),
+    xlab = "continuous searches",
+    ylab = "share of apples found",
+    main = bquote("Human-only vs agent-only search" ~ "(" * p == .(p) * "," ~ lambda == .(lambda) * ")")
+)
+lines(
+    n_grid,
+    apples(0, n_grid),
+    lwd = 2,
+    col = "#d95f02"
+)
+grid(col = "gray85", lty = "dotted")
+legend(
+    "bottomright",
+    legend = c("apples(n_H, 0)", "apples(0, n_A)"),
+    col = c("#1b9e77", "#d95f02"),
+    lwd = 2,
+    bty = "n"
+)
+```
 
 #           Toy model of AI stack
 

@@ -325,8 +325,8 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="apple-tree-model-low-hanging" class="level1">
-<h1>Apple Tree Model / Low Hanging</h1>
+<section id="apple-picking-model-low-hanging" class="level1">
+<h1>Apple-Picking Model / Low Hanging</h1>
 <dl>
 <dt>Apple tree model of ideas.</dt>
 <dd>
@@ -373,18 +373,26 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td>AI replaces R&amp;D workers.</td>
-<td></td>
+<td>Davidson</td>
 </tr>
 <tr class="even">
-<td>AI automates a subset of R&amp;D tasks.</td>
-<td>Tkwa, AJJ</td>
+<td>AI automates a subset of general tasks</td>
+<td>(some models)</td>
 </tr>
 <tr class="odd">
-<td>AI increases productivity of R&amp;D workers.</td>
-<td></td>
+<td>AI automates a subset of R&amp;D tasks.</td>
+<td>(most models)</td>
 </tr>
 <tr class="even">
+<td>AI increases productivity of R&amp;D workers.</td>
+<td>??</td>
+</tr>
+<tr class="odd">
 <td>AI replace <em>low quality</em> R&amp;D workers.</td>
+<td>??</td>
+</tr>
+<tr class="even">
+<td>(other mechanisms?)</td>
 <td></td>
 </tr>
 </tbody>
@@ -400,9 +408,307 @@ window.Quarto = {
 <ol type="1">
 <li><p>LLMs are suddenly able to optimize algorithms pretty well — maybe recursive-self-improvement has just kicked off.</p></li>
 <li><p>But the critical question is whether the fruit that it’s picking are low-hanging. If all the optimizations are routine, then it’ll run out pretty quickly.</p></li>
-<li><p>Most models of RSI, as far as I can tell,</p></li>
 </ol>
-<hr>
+<section id="bernoulli-model" class="level2">
+<h2 class="anchored" data-anchor-id="bernoulli-model">Bernoulli Model</h2>
+<ul>
+<li><p>There are a continuum of apples spready uniformly across [0,1].</p></li>
+<li><p>Each period of search you have a probability <span class="math inline">\(p\)</span> of <em>not</em> finding an apple.</p></li>
+<li><p>A human can find apples over <span class="math inline">\([0,1]\)</span>, an agent can only find apples over <span class="math inline">\([0,\lambda]\)</span>.</p></li>
+<li><p>After <span class="math inline">\(n_H\)</span> human searches, and <span class="math inline">\(n_A\)</span> agent searches, then <span class="math display">\[\text{apples found}= 1-\left((1-\lambda)p^{n_H}+\lambda p^{n_H+n_A}\right).\]</span></p></li>
+<li><p>Implications:</p>
+<ul>
+<li>Agents asymptote to a lower level.</li>
+<li>Agent &amp; human effort is subadditive</li>
+<li>The value of a search doesn’t depend just on the share of apples found, it depends on the state (ie. <span class="math inline">\(n_H\)</span> and <span class="math inline">\(n_A\)</span>).</li>
+<li>There’s an asymmetry:
+<ul>
+<li>If you have a lot of agents, one human is very valuable.</li>
+<li>If you have a lot of humans, one agent is not very valuable.</li>
+</ul></li>
+</ul></li>
+<li><p>For <span class="math inline">\(p=1/4\)</span> and <span class="math inline">\(\lambda=0.5\)</span>, we can see the share implied by this expression in a small heat map:</p></li>
+</ul>
+<table style="border-collapse:collapse; margin:1rem 0; font-size:0.95rem;">
+<caption style="caption-side:top; text-align:center; font-weight:600; padding-bottom:0.45rem;">
+Heat map of apples found (p = 0.25, λ = 0.5)
+</caption>
+<thead>
+<tr>
+<th colspan="2" style="border:none; background:transparent;">
+</th>
+<th colspan="6" style="padding:0.3rem 0.7rem; border:none; background:transparent; text-align:center; font-weight:600;">
+agent searches
+</th>
+</tr>
+<tr>
+<th style="border:none; background:transparent;">
+</th>
+<th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
+</th>
+<th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
+n_A = 0
+</th>
+<th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
+n_A = 1
+</th>
+<th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
+n_A = 2
+</th>
+<th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
+n_A = 3
+</th>
+<th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
+n_A = 4
+</th>
+<th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
+n_A = 5
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th rowspan="6" style="padding:0; border:1px solid #d0d7de; background:#f6f8fa; width:2.5rem;">
+<div style="display:inline-block; transform:rotate(-90deg); white-space:nowrap; font-weight:600;">
+human searches
+</div>
+</th>
+<th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
+n_H = 0
+</th>
+<td style="background:#F7FBFF; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+0.0%
+</div>
+</td>
+<td style="background:#C9DDF0; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+37.5%
+</div>
+</td>
+<td style="background:#B9D5EA; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+46.9%
+</div>
+</td>
+<td style="background:#B3D2E8; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+49.2%
+</div>
+</td>
+<td style="background:#B3D2E8; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+49.8%
+</div>
+</td>
+<td style="background:#B3D2E8; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+50.0%
+</div>
+</td>
+</tr>
+<tr>
+<th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
+n_H = 1
+</th>
+<td style="background:#78B5D8; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+75.0%
+</div>
+</td>
+<td style="background:#5CA3CF; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+84.4%
+</div>
+</td>
+<td style="background:#579ECD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+86.7%
+</div>
+</td>
+<td style="background:#579ECD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+87.3%
+</div>
+</td>
+<td style="background:#549CCC; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+87.5%
+</div>
+</td>
+<td style="background:#549CCC; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+87.5%
+</div>
+</td>
+</tr>
+<tr>
+<th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
+n_H = 2
+</th>
+<td style="background:#428FC4; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+93.8%
+</div>
+</td>
+<td style="background:#3C8AC2; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+96.1%
+</div>
+</td>
+<td style="background:#3988C0; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+96.7%
+</div>
+</td>
+<td style="background:#3988C0; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+96.8%
+</div>
+</td>
+<td style="background:#3988C0; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+96.9%
+</div>
+</td>
+<td style="background:#3988C0; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+96.9%
+</div>
+</td>
+</tr>
+<tr>
+<th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
+n_H = 3
+</th>
+<td style="background:#3686BF; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+98.4%
+</div>
+</td>
+<td style="background:#3384BE; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+99.0%
+</div>
+</td>
+<td style="background:#3384BE; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+99.2%
+</div>
+</td>
+<td style="background:#3384BE; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+99.2%
+</div>
+</td>
+<td style="background:#3384BE; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+99.2%
+</div>
+</td>
+<td style="background:#3384BE; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+99.2%
+</div>
+</td>
+</tr>
+<tr>
+<th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
+n_H = 4
+</th>
+<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+99.6%
+</div>
+</td>
+<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+99.8%
+</div>
+</td>
+<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+99.8%
+</div>
+</td>
+<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+99.8%
+</div>
+</td>
+<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+99.8%
+</div>
+</td>
+<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+99.8%
+</div>
+</td>
+</tr>
+<tr>
+<th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
+n_H = 5
+</th>
+<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+99.9%
+</div>
+</td>
+<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+99.9%
+</div>
+</td>
+<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+99.9%
+</div>
+</td>
+<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+100.0%
+</div>
+</td>
+<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+100.0%
+</div>
+</td>
+<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+100.0%
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Treating <span class="math inline">\(n_H\)</span> and <span class="math inline">\(n_A\)</span> as continuous, the level sets of <span class="math inline">\(\text{apples found}(n_H, n_A)\)</span> look like this:</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2025-09-13-recursive-self-improvement-explosion-optimization_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Holding one search type at zero, we can compare <span class="math inline">\(\text{apples}(n_H,0)\)</span> and <span class="math inline">\(\text{apples}(0,n_A)\)</span> on the same axes:</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2025-09-13-recursive-self-improvement-explosion-optimization_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="toy-model-of-ai-stack" class="level1">
 <h1>Toy model of AI stack</h1>
@@ -454,7 +760,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2025-09-13-recursive-self-improvement-explosion-optimization_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="576"></p>
+<p><img src="2025-09-13-recursive-self-improvement-explosion-optimization_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="576"></p>
 </figure>
 </div>
 </div>
@@ -465,14 +771,14 @@ window.Quarto = {
 <li>Technology is getting 3X more efficient each year (blue curves shifting left)</li>
 <li>Training compute is increasing around 3X/year (black points shifting right)</li>
 </ul>
-<p>However some important qualifications:</p>
+<p>Some notes:</p>
 <ol type="1">
+<li>These growth-rate numbers are very ballpark, lots of disagreement.</li>
+<li>The technology curve includes anything that changes the mapping of training expenditure to intelligence: declines in GPU cost, advances in algorithms, accumulation of training data, and progress in elicitation.</li>
+<li>There’s no consensus on how to measure the y-axis (“model intelligence”). For many questions it actually doesn’t matter as long as we have an ordinal measure (i.e.&nbsp;we can reliably rank model intelligence). However for RSI it matters.</li>
+<li>Labs are probably spending relatively more on R&amp;D (shifting the blue curve left/up) than on training (shifting the black points right). E.g. Epoch estimate that OpenAI is spending much more on salaries &amp; experiments than on frontier model training.</li>
 <li><span class="citation" data-cites="gundlach2025algorithmicprogressai">Gundlach et al. (<a href="#ref-gundlach2025algorithmicprogressai" role="doc-biblioref">2025</a>)</span> argue that the true technology curves are steeper, and shifting left much more slowly. Thus algorithmic progress is relatively less important, and most progress is coming from pure scale.</li>
-<li>Epoch note that training compute may not be growing that rapidly.</li>
-<li>The technology curve includes anything that maps training expenditure to intelligence: progress in compute cost, algorithms, accumulation of training data, and progress in elicitation.</li>
-<li>Labs are probably spending relatively more on R&amp;D (shifting the blue curve left/up) than on training (the black points).</li>
 </ol>
-<p>An important note: there’s no consensus on how to measure the y-axis (“model intelligence”). For many applications it doesn’t matter as long as we have an ordinal measure (i.e.&nbsp;we can reliably rank model intelligence).</p>
 </div>
 </div>
 <table class="caption-top table">
@@ -559,20 +865,13 @@ window.Quarto = {
 </tbody>
 </table>
 <dl>
-<dt>Q: what determines relative expenditure on experiments vs workers?</dt>
-<dd>
-<ul>
-<li><em>Random landscape → more experiments.</em></li>
-<li><em>Regular landscape → more experiments.</em> Some landscapes are known to be regular, so you can just set a well-known optimization algorithm against them. E.g. hyperparameter tuning, oil discovery.</li>
-<li><em>Expensive experiments → ambiguous.</em> Even if experiments were cheap, could spend a lot on them. Even if experiments expensive, could spend a small amount (moon landing). Q: what determines the share spent on salary-vs-experiments?</li>
-</ul>
-</dd>
+<dt>Q: what determines the share spent on salary-vs-experiments?</dt>
 <dd>
 <ul>
 <li><em>Not just determined by the cost of experimenation.</em> Even if experiments were cheap, you might want to spend a lot on them, because you’re bottlenecked on .</li>
 <li><em>Random landscape → more experiments.</em> If each alternative is a completely random draw, then there’s no returns to thinking harder.</li>
 <li><em>Regular landscape → more experiments.</em> Some landscapes are known to be regular, so you can just set a well-known optimization algorithm against them, and spend all your budget on collecting more datapoints, rather than tuning the algorithm. E.g. hyperparameter tuning.</li>
-<li><em>Structured landscape → more thinking.</em> If the landscape has some .</li>
+<li><em>Structured landscape → more thinking.</em> If the landscape has some latent structure, that requires deep reflection, then we’d expect relatively higher payoff to thinking.</li>
 </ul>
 </dd>
 <dt>Q: where is AI likely to help?</dt>
@@ -687,36 +986,48 @@ window.Quarto = {
 <h1>Other Peoples’ Models</h1>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 32%">
-<col style="width: 67%">
+<col style="width: 31%">
+<col style="width: 68%">
 </colgroup>
 <tbody>
 <tr class="odd">
-<td>Aghion Jones &amp; Jones (2007)</td>
-<td></td>
+<td>Aghion Jones &amp; Jones (2017)</td>
+<td>AI automates general tasks</td>
 </tr>
 <tr class="even">
 <td>Davidson (2021)</td>
-<td>AI substitutes for human researchers <span class="math inline">\(\dot{A}=f(L_H+L_R)\)</span></td>
+<td>AI substitutes for human researchers, <span class="math inline">\(\dot{A}=f(L_H+L_R)\)</span></td>
 </tr>
 <tr class="odd">
+<td>Epoch GATE (2025)</td>
+<td>AI automates general tasks</td>
+</tr>
+<tr class="even">
 <td>Davidson et al.&nbsp;(2025)</td>
-<td>AI automates tasks</td>
-</tr>
-<tr class="even">
-<td>Ben Jones (2025)</td>
-<td>AI automates tasks</td>
+<td>AI automates R&amp;D tasks</td>
 </tr>
 <tr class="odd">
-<td>AIFP (2025)</td>
-<td></td>
+<td>Ben Jones (2025)</td>
+<td>AI automates R&amp;D tasks</td>
 </tr>
 <tr class="even">
-<td>Tkwa model</td>
-<td>AI automates tasks</td>
+<td>AI Futures Model (2025)</td>
+<td>AI automates R&amp;D tasks</td>
+</tr>
+<tr class="odd">
+<td>Tkwa LessWrong model (2026)</td>
+<td>AI automates R&amp;D tasks</td>
 </tr>
 </tbody>
 </table>
+<section id="agrawal-mchale-oett-2018-finding-needles-in-haystacks-artificial-intelligence-and-recombinant-growth" class="level2">
+<h2 class="anchored" data-anchor-id="agrawal-mchale-oett-2018-finding-needles-in-haystacks-artificial-intelligence-and-recombinant-growth">Agrawal, McHale, Oett (2018) FINDING NEEDLES IN HAYSTACKS: ARTIFICIAL INTELLIGENCE AND RECOMBINANT GROWTH</h2>
+<p><span class="citation" data-cites="agrawal2019needles">Agrawal, McHale, and Oettl (<a href="#ref-agrawal2019needles" role="doc-biblioref">2019</a>)</span></p>
+<blockquote class="blockquote">
+<p>“Our focus is different from these papers in that instead of emphasising the potential substitution of machines for workers in existing tasks, we emphasise the importance of AI in overcoming a specific problem that impedes human researchers – finding useful combinations in complex discovery spaces.”</p>
+</blockquote>
+<p>Also see <span class="citation" data-cites="agrawal2023automation">Agrawal, Gans, and Goldfarb (<a href="#ref-agrawal2023automation" role="doc-biblioref">2023</a>)</span>.</p>
+</section>
 <section id="charts" class="level2">
 <h2 class="anchored" data-anchor-id="charts">charts</h2>
 <div class="cell" data-layout-align="default">
@@ -787,9 +1098,15 @@ window.Quarto = {
 <li><p>It seems to me AI typically makes things effectively <em>free</em>, rather than being bottlenecked by capital. I think this is a problem for Cobb-Douglas production.</p></li>
 </ul>
 </section>
+<section id="ai-futures-model" class="level2">
+<h2 class="anchored" data-anchor-id="ai-futures-model">AI futures model</h2>
+<p>https://www.timelinesmodel.com</p>
+<p>They assume AI automates some fraction of R&amp;D tasks, proportional to the time horizon.</p>
+</section>
 <section id="tkwa-model" class="level2">
 <h2 class="anchored" data-anchor-id="tkwa-model">tkwa&nbsp; model</h2>
-<p>https://github.com/tkwa/ai-takeoff-model/blob/main/notes.md</p>
+<p>Short: AI automates some fraction of R&amp;D tasks, which causes an effective multiplier on R&amp;D labor: “parallel uplift and 1/(1-f) are equivalent in the simple model”.</p>
+<p>https://github.com/tkwa/ai-takeoff-model/blob/main/notes.md https://www.lesswrong.com/posts/uy6B5rEPvcwi55cBK/research-note-a-simpler-ai-timelines-model-predicts-99-ai-r</p>
 <p><span class="math display">\[\begin{aligned}
    S'(t) &amp;= R(t) S^{1 - \beta} = \left(\frac L {1-f}\right)^\alpha C^\zeta S^{1 - \beta}\\
    f(t) &amp;= \sigma(v(\log C(t)S(t) - \log E_{hac}))
@@ -1136,6 +1453,12 @@ AI treats it as a pure optimization problem, already it’s better at chip desig
 
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-agrawal2023automation" class="csl-entry" role="listitem">
+Agrawal, Ajay, Joshua S Gans, and Avi Goldfarb. 2023. <span>“Do We Want Less Automation?”</span> <em>Science</em> 381 (6654): 155–58. <a href="https://doi.org/10.1126/science.adh9429">https://doi.org/10.1126/science.adh9429</a>.
+</div>
+<div id="ref-agrawal2019needles" class="csl-entry" role="listitem">
+Agrawal, Ajay, John McHale, and Alexander Oettl. 2019. <span>“Finding Needles in Haystacks: Artificial Intelligence and Recombinant Growth.”</span> In <em>The Economics of Artificial Intelligence: An Agenda</em>, edited by Ajay Agrawal, Joshua Gans, and Avi Goldfarb, 149–74. Chicago, IL: University of Chicago Press. <a href="https://doi.org/10.7208/9780226613475-007">https://doi.org/10.7208/9780226613475-007</a>.
+</div>
 <div id="ref-gundlach2025algorithmicprogressai" class="csl-entry" role="listitem">
 Gundlach, Hans, Alex Fogelson, Jayson Lynch, Ana Trisovic, Jonathan Rosenfeld, Anmol Sandhu, and Neil Thompson. 2025. <span>“On the Origin of Algorithmic Progress in AI.”</span> <a href="https://arxiv.org/abs/2511.21622">https://arxiv.org/abs/2511.21622</a>.
 </div>
