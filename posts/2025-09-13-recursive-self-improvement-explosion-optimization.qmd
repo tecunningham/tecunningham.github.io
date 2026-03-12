@@ -172,41 +172,203 @@ Apple Tree Optimization
 2. But the critical question is whether the fruit that it's picking are low-hanging. If all the optimizations are routine, then it'll run out pretty quickly.
 
 
-##              Bernoulli Model
+##              Bernoulli Apple Model
+
+**Setup:**
 
 - There are a continuum of apples spready uniformly across [0,1].
-- Each period of search you have a probability $p$ of *not* finding an apple.
-- A human can find apples over $[0,1]$, an agent can only find apples over $[0,\lambda]$.
-- After $n_H$ human searches, and $n_A$ agent searches, then 
-    $$\text{apples found}= 1-\left((1-\lambda)p^{n_H}+\lambda p^{n_H+n_A}\right).$$
+- A human can find apples over $[0,1]$, but agent can only find apples over $[0,\lambda]$.
+- Both humans and agents find apples at rate $p$ per unit time, with $t_H$ and $t_A$ representing human and agent time spent searching.
 
-- Implications:
-    - Agents asymptote to a lower level.
-    - Agent & human effort is subadditive
-    - The value of a search doesn't depend just on the share of apples found, it depends on the state (ie. $n_H$ and $n_A$).
-    - There's an asymmetry:
-        - If you have a lot of agents, one human is very valuable.
-        - If you have a lot of humans, one agent is not very valuable.
+**We can then derive apples found:**
 
-- For $p=1/4$ and $\lambda=0.5$, we can see the share implied by this expression in a small heat map:
+   $$\text{share apples found}= 1-\left(\underbrace{\lambda e^{-p(t_H+t_A)}}_{\text{agent+human search}}+\underbrace{(1-\lambda)e^{-p t_H}}_{\text{human-only search}}\right).$$
+
+**Implication: agents asymptote to a lower level than humans.** Here we compare agent-only to human-only. Note that agents might reasonably have a higher rate of finding apples ($p_H>p_A$) per unit time (or money), in which case the agent curve would rise quicker but still asymptote lower.
 
 ```{r}
-#| results: asis
-p <- 1 / 4
+#| label: bernoulli-functions
+#| dependson: bernoulli-heatmap
+#| fig-align: center
+#| fig-width: 4
+#| fig-height: 4
+p <- 0.5
 lambda <- 0.5
 n_vals <- 0:5
-apples <- function(n_H, n_A) {
-    1 - ((1 - lambda) * p^n_H + lambda * p^(n_H + n_A))
+apples <- function(t_H, t_A) {
+    1 - ((1 - lambda) * exp(-p * t_H) + lambda * exp(-p * (t_H + t_A)))
 }
 
 apple_share <- outer(
     n_vals,
     n_vals,
-    Vectorize(function(n_H, n_A) {
-        apples(n_H, n_A)
+    Vectorize(function(t_H, t_A) {
+        apples(t_H, t_A)
     })
 )
 
+
+n_grid <- seq(0, 5, length.out = 400)
+human_asymptote <- 1
+agent_asymptote <- lambda
+
+plot(
+    n_grid,
+    apples(n_grid, 0),
+    type = "l",
+    lwd = 2,
+    col = "#1b9e77",
+    ylim = c(0, 1),
+    xlab = "search time",
+    ylab = "share found",
+    main = bquote("Human-only vs agent-only search" ~ "(" * p == .(p) * "," ~ lambda == .(lambda) * ")")
+)
+lines(
+    n_grid,
+    apples(0, n_grid),
+    lwd = 2,
+    col = "#d95f02"
+)
+abline(h = human_asymptote, lty = "dashed", lwd = 1.4, col = "#1b9e77")
+abline(h = agent_asymptote, lty = "dashed", lwd = 1.4, col = "#d95f02")
+grid(col = "gray85", lty = "dotted")
+text(
+    x = 4,
+    y = apples(4.2, 0) - 0.04,
+    labels = "human-only",
+    col = "#1b9e77",
+    pos = 4
+)
+text(
+    x = 4,
+    y = apples(0, 4.2) - 0.04,
+    labels = "agent-only",
+    col = "#d95f02",
+    pos = 4
+)
+```
+
+**Implication: agents can improve on human SoTA, but only by a limited amount.** We can see that agents can improve on the humans' SoTA performance, but in each case the value asymptotes.
+
+```{r}
+#| label: bernoulli-isovalues
+#| dependson: bernoulli-heatmap
+#| fig-width: 5.5
+#| fig-align: center
+#| fig-height: 5
+n_H_grid <- seq(0, 5, length.out = 201)
+n_A_grid <- seq(0, 5, length.out = 201)
+apple_surface <- outer(
+    n_A_grid,
+    n_H_grid,
+    Vectorize(function(t_A, t_H) apples(t_H, t_A))
+)
+
+fill_colors <- grDevices::colorRampPalette(
+    c("#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#3182bd")
+)(100)
+
+color_breaks <- seq(0, 1, length.out = 101)
+color_idx <- cut(apple_surface, breaks = color_breaks, include.lowest = TRUE, labels = FALSE)
+raster_colors <- matrix(fill_colors[color_idx], nrow = nrow(apple_surface), ncol = ncol(apple_surface))
+raster_colors <- t(raster_colors)[ncol(raster_colors):1, ]
+
+old_par <- par(mar = c(3.2, 3.2, 2.5, 0.8), pty = "s")
+plot(
+    NA,
+    xlim = c(0, 5),
+    ylim = c(0, 5),
+    type = "n",
+    xaxs = "i",
+    yaxs = "i",
+    xlab = "",
+    ylab = "",
+    axes = FALSE,
+    main = bquote("Share of apples found" ~ "(" * p == .(p) * "," ~ lambda == .(lambda) * ")")
+)
+rasterImage(as.raster(raster_colors), 0, 0, 5, 5, interpolate = FALSE)
+grid(col = "gray85", lty = "dotted")
+axis(1, at = 0:5)
+axis(2, at = 0:5, las = 1)
+box()
+title(xlab = "agent search time", line = 2)
+title(ylab = "human search time", line = 2)
+contour(
+    x = n_A_grid,
+    y = n_H_grid,
+    z = apple_surface,
+    levels = seq(0, 1, by = 0.1),
+    add = TRUE,
+    drawlabels = TRUE,
+    labcex = 0.8,
+    lwd = 1.1,
+    col = "black",
+    vfont = c("sans serif", "bold")
+)
+par(old_par)
+```
+
+
+
+**Implication: agent value and asymptote depends on starting point.** 
+    - If you start an agent from scratch, it will have high marginal value, but a low asymptote.
+    - If you start an agent after some human optimization, it will have lower marginal value, but it will be able to achieve a higher asymptote (below, starting after 1 unit of human search raises the agent asymptote from 0.5 to 0.7).
+
+```{r}
+#| label: bernoulli-agent-after-human
+#| dependson: bernoulli-heatmap
+#| fig-align: center
+#| fig-width: 6
+#| fig-height: 4
+n_grid <- seq(0, 5, length.out = 400)
+
+plot(
+    n_grid,
+    apples(n_grid, 0),
+    type = "l",
+    lwd = 2,
+    col = "#1b9e77",
+    ylim = c(0, 1),
+    xlab = "total search time",
+    ylab = "share found",
+    main = bquote("Agent search after human head-start" ~ "(" * p == .(p) * "," ~ lambda == .(lambda) * ")")
+)
+grid(col = "gray85", lty = "dotted")
+
+human_starts <- 0:4
+dash_styles <- c("solid", "44", "24", "42", "22")
+for (i in seq_along(human_starts)) {
+    tH0 <- human_starts[i]
+    t_A_grid <- seq(0, 5, length.out = 400)
+    lines(
+        tH0 + t_A_grid,
+        apples(tH0, t_A_grid),
+        lwd = 2,
+        col = "#d95f02",
+        lty = dash_styles[i]
+    )
+}
+
+text(
+    x = 4.2,
+    y = apples(4.2, 0) + 0.03,
+    labels = "human-only",
+    col = "#1b9e77",
+    cex = 0.8
+)
+```
+
+
+---
+
+
+
+
+- For $p=0.5$ and $\lambda=0.5$, we can see the share implied by this expression in a small heat map:
+
+```{r}
+#| label: bernoulli-heatmap
+#| results: asis
 fill_palette <- grDevices::colorRampPalette(
     c("#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#3182bd")
 )(100)
@@ -225,7 +387,7 @@ cell_html <- function(share) {
 
 header_cells <- paste0(
     "<th style='padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;'>",
-    "n_A = ", n_vals, "</th>",
+    "t_A = ", n_vals, "</th>",
     collapse = ""
 )
 
@@ -241,13 +403,13 @@ rows <- vapply(seq_along(n_vals), function(i) {
                 "<th rowspan='", length(n_vals),
                 "' style='padding:0; border:1px solid #d0d7de; background:#f6f8fa; width:2.5rem;'>",
                 "<div style='display:inline-block; transform:rotate(-90deg); white-space:nowrap; font-weight:600;'>",
-                "human searches",
+                "human search time",
                 "</div></th>"
             )
         } else {
             ""
         },
-        "<th style='padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;'>n_H = ",
+        "<th style='padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;'>t_H = ",
         n_vals[i],
         "</th>",
         paste0(row_cells, collapse = ""),
@@ -258,12 +420,12 @@ rows <- vapply(seq_along(n_vals), function(i) {
 cat(
     "<table style='border-collapse:collapse; margin:1rem 0; font-size:0.95rem;'>",
     "<caption style='caption-side:top; text-align:center; font-weight:600; padding-bottom:0.45rem;'>",
-    "Heat map of apples found (p = ", p, ", &lambda; = ", lambda, ")",
+    "Heat map of share found (p = ", p, ", &lambda; = ", lambda, ")",
     "</caption>",
     "<thead>",
     "<tr><th colspan='2' style='border:none; background:transparent;'></th>",
     "<th colspan='", length(n_vals),
-    "' style='padding:0.3rem 0.7rem; border:none; background:transparent; text-align:center; font-weight:600;'>agent searches</th></tr>",
+    "' style='padding:0.3rem 0.7rem; border:none; background:transparent; text-align:center; font-weight:600;'>agent search time</th></tr>",
     "<tr><th style='border:none; background:transparent;'></th><th style='padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;'></th>",
     header_cells,
     "</tr></thead>",
@@ -274,82 +436,6 @@ cat(
 )
 ```
 
-- Treating $n_H$ and $n_A$ as continuous, the level sets of $\text{apples found}(n_H, n_A)$ look like this:
-
-```{r}
-#| fig-width: 6
-#| fig-height: 5
-n_H_grid <- seq(0, 5, length.out = 201)
-n_A_grid <- seq(0, 5, length.out = 201)
-apple_surface <- outer(
-    n_A_grid,
-    n_H_grid,
-    Vectorize(function(n_A, n_H) apples(n_H, n_A))
-)
-
-filled.contour(
-    x = n_A_grid,
-    y = n_H_grid,
-    z = apple_surface,
-    xlab = "agent searches",
-    ylab = "human searches",
-    main = bquote("Isovalues of apples found" ~ "(" * p == .(p) * "," ~ lambda == .(lambda) * ")"),
-    levels = seq(0, 1, by = 0.1),
-    color.palette = function(n) {
-        grDevices::colorRampPalette(
-            c("#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#3182bd")
-        )(n)
-    },
-    plot.axes = {
-        axis(1)
-        axis(2)
-        contour(
-            x = n_A_grid,
-            y = n_H_grid,
-            z = apple_surface,
-            levels = seq(0, 1, by = 0.1),
-            add = TRUE,
-            drawlabels = TRUE,
-            lwd = 1.1
-        )
-        grid(col = "gray85", lty = "dotted")
-    }
-)
-```
-
-- Holding one search type at zero, we can compare $\text{apples}(n_H,0)$ and $\text{apples}(0,n_A)$ on the same axes:
-
-```{r}
-#| fig-width: 6
-#| fig-height: 4
-n_grid <- seq(0, 5, length.out = 400)
-
-plot(
-    n_grid,
-    apples(n_grid, 0),
-    type = "l",
-    lwd = 2,
-    col = "#1b9e77",
-    ylim = c(0, 1),
-    xlab = "continuous searches",
-    ylab = "share of apples found",
-    main = bquote("Human-only vs agent-only search" ~ "(" * p == .(p) * "," ~ lambda == .(lambda) * ")")
-)
-lines(
-    n_grid,
-    apples(0, n_grid),
-    lwd = 2,
-    col = "#d95f02"
-)
-grid(col = "gray85", lty = "dotted")
-legend(
-    "bottomright",
-    legend = c("apples(n_H, 0)", "apples(0, n_A)"),
-    col = c("#1b9e77", "#d95f02"),
-    lwd = 2,
-    bty = "n"
-)
-```
 
 #           Toy model of AI stack
 

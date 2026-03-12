@@ -409,36 +409,60 @@ window.Quarto = {
 <li><p>LLMs are suddenly able to optimize algorithms pretty well — maybe recursive-self-improvement has just kicked off.</p></li>
 <li><p>But the critical question is whether the fruit that it’s picking are low-hanging. If all the optimizations are routine, then it’ll run out pretty quickly.</p></li>
 </ol>
-<section id="bernoulli-model" class="level2">
-<h2 class="anchored" data-anchor-id="bernoulli-model">Bernoulli Model</h2>
+<section id="bernoulli-apple-model" class="level2">
+<h2 class="anchored" data-anchor-id="bernoulli-apple-model">Bernoulli Apple Model</h2>
+<p><strong>Setup:</strong></p>
 <ul>
-<li><p>There are a continuum of apples spready uniformly across [0,1].</p></li>
-<li><p>Each period of search you have a probability <span class="math inline">\(p\)</span> of <em>not</em> finding an apple.</p></li>
-<li><p>A human can find apples over <span class="math inline">\([0,1]\)</span>, an agent can only find apples over <span class="math inline">\([0,\lambda]\)</span>.</p></li>
-<li><p>After <span class="math inline">\(n_H\)</span> human searches, and <span class="math inline">\(n_A\)</span> agent searches, then <span class="math display">\[\text{apples found}= 1-\left((1-\lambda)p^{n_H}+\lambda p^{n_H+n_A}\right).\]</span></p></li>
-<li><p>Implications:</p>
+<li>There are a continuum of apples spready uniformly across [0,1].</li>
+<li>A human can find apples over <span class="math inline">\([0,1]\)</span>, but agent can only find apples over <span class="math inline">\([0,\lambda]\)</span>.</li>
+<li>Both humans and agents find apples at rate <span class="math inline">\(p\)</span> per unit time, with <span class="math inline">\(t_H\)</span> and <span class="math inline">\(t_A\)</span> representing human and agent time spent searching.</li>
+</ul>
+<p><strong>We can then derive apples found:</strong></p>
+<p><span class="math display">\[\text{share apples found}= 1-\left(\underbrace{\lambda e^{-p(t_H+t_A)}}_{\text{agent+human search}}+\underbrace{(1-\lambda)e^{-p t_H}}_{\text{human-only search}}\right).\]</span></p>
+<p><strong>Implication: agents asymptote to a lower level than humans.</strong> Here we compare agent-only to human-only. Note that agents might reasonably have a higher rate of finding apples (<span class="math inline">\(p_H&gt;p_A\)</span>) per unit time (or money), in which case the agent curve would rise quicker but still asymptote lower.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-09-13-recursive-self-improvement-explosion-optimization_files/figure-html/bernoulli-functions-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="384"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Implication: agents can improve on human SoTA, but only by a limited amount.</strong> We can see that agents can improve on the humans’ SoTA performance, but in each case the value asymptotes.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-09-13-recursive-self-improvement-explosion-optimization_files/figure-html/bernoulli-isovalues-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="528"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Implication: agent value and asymptote depends on starting point.</strong> - If you start an agent from scratch, it will have high marginal value, but a low asymptote. - If you start an agent after some human optimization, it will have lower marginal value, but it will be able to achieve a higher asymptote (below, starting after 1 unit of human search raises the agent asymptote from 0.5 to 0.7).</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-09-13-recursive-self-improvement-explosion-optimization_files/figure-html/bernoulli-agent-after-human-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
 <ul>
-<li>Agents asymptote to a lower level.</li>
-<li>Agent &amp; human effort is subadditive</li>
-<li>The value of a search doesn’t depend just on the share of apples found, it depends on the state (ie. <span class="math inline">\(n_H\)</span> and <span class="math inline">\(n_A\)</span>).</li>
-<li>There’s an asymmetry:
-<ul>
-<li>If you have a lot of agents, one human is very valuable.</li>
-<li>If you have a lot of humans, one agent is not very valuable.</li>
-</ul></li>
-</ul></li>
-<li><p>For <span class="math inline">\(p=1/4\)</span> and <span class="math inline">\(\lambda=0.5\)</span>, we can see the share implied by this expression in a small heat map:</p></li>
+<li>For <span class="math inline">\(p=0.5\)</span> and <span class="math inline">\(\lambda=0.5\)</span>, we can see the share implied by this expression in a small heat map:</li>
 </ul>
 <table style="border-collapse:collapse; margin:1rem 0; font-size:0.95rem;">
 <caption style="caption-side:top; text-align:center; font-weight:600; padding-bottom:0.45rem;">
-Heat map of apples found (p = 0.25, λ = 0.5)
+Heat map of share found (p = 0.5, λ = 0.5)
 </caption>
 <thead>
 <tr>
 <th colspan="2" style="border:none; background:transparent;">
 </th>
 <th colspan="6" style="padding:0.3rem 0.7rem; border:none; background:transparent; text-align:center; font-weight:600;">
-agent searches
+agent search time
 </th>
 </tr>
 <tr>
@@ -447,22 +471,22 @@ agent searches
 <th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
 </th>
 <th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
-n_A = 0
+t_A = 0
 </th>
 <th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
-n_A = 1
+t_A = 1
 </th>
 <th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
-n_A = 2
+t_A = 2
 </th>
 <th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
-n_A = 3
+t_A = 3
 </th>
 <th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
-n_A = 4
+t_A = 4
 </th>
 <th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
-n_A = 5
+t_A = 5
 </th>
 </tr>
 </thead>
@@ -470,60 +494,135 @@ n_A = 5
 <tr>
 <th rowspan="6" style="padding:0; border:1px solid #d0d7de; background:#f6f8fa; width:2.5rem;">
 <div style="display:inline-block; transform:rotate(-90deg); white-space:nowrap; font-weight:600;">
-human searches
+human search time
 </div>
 </th>
 <th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
-n_H = 0
+t_H = 0
 </th>
 <td style="background:#F7FBFF; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
 <div style="font-weight:600;">
 0.0%
 </div>
 </td>
-<td style="background:#C9DDF0; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<td style="background:#DFEBF7; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
 <div style="font-weight:600;">
-37.5%
+19.7%
 </div>
 </td>
-<td style="background:#B9D5EA; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<td style="background:#D0E1F2; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
 <div style="font-weight:600;">
-46.9%
+31.6%
 </div>
 </td>
-<td style="background:#B3D2E8; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<td style="background:#C7DCEF; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
 <div style="font-weight:600;">
-49.2%
+38.8%
 </div>
 </td>
-<td style="background:#B3D2E8; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<td style="background:#BFD8EC; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
 <div style="font-weight:600;">
-49.8%
+43.2%
 </div>
 </td>
-<td style="background:#B3D2E8; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<td style="background:#BBD6EB; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
 <div style="font-weight:600;">
-50.0%
+45.9%
 </div>
 </td>
 </tr>
 <tr>
 <th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
-n_H = 1
+t_H = 1
 </th>
+<td style="background:#C6DBEF; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+39.3%
+</div>
+</td>
+<td style="background:#AED1E6; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+51.3%
+</div>
+</td>
+<td style="background:#A0CBE1; color:black; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+58.5%
+</div>
+</td>
+<td style="background:#97C6DF; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+62.9%
+</div>
+</td>
+<td style="background:#8FC2DD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+65.6%
+</div>
+</td>
+<td style="background:#8ABFDC; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+67.2%
+</div>
+</td>
+</tr>
+<tr>
+<th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
+t_H = 2
+</th>
+<td style="background:#94C4DF; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+63.2%
+</div>
+</td>
+<td style="background:#82BBDB; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+70.4%
+</div>
+</td>
 <td style="background:#78B5D8; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
 <div style="font-weight:600;">
-75.0%
+74.8%
+</div>
+</td>
+<td style="background:#70B1D7; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+77.5%
+</div>
+</td>
+<td style="background:#6EAFD6; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+79.1%
+</div>
+</td>
+<td style="background:#6BAED6; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+80.1%
+</div>
+</td>
+</tr>
+<tr>
+<th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
+t_H = 3
+</th>
+<td style="background:#70B1D7; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+77.7%
+</div>
+</td>
+<td style="background:#65AAD3; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+82.1%
 </div>
 </td>
 <td style="background:#5CA3CF; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
 <div style="font-weight:600;">
-84.4%
+84.7%
 </div>
 </td>
-<td style="background:#579ECD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<td style="background:#5AA1CE; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
 <div style="font-weight:600;">
-86.7%
+86.4%
 </div>
 </td>
 <td style="background:#579ECD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
@@ -533,181 +632,82 @@ n_H = 1
 </td>
 <td style="background:#549CCC; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
 <div style="font-weight:600;">
-87.5%
-</div>
-</td>
-<td style="background:#549CCC; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-87.5%
+87.9%
 </div>
 </td>
 </tr>
 <tr>
 <th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
-n_H = 2
+t_H = 4
 </th>
+<td style="background:#579ECD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+86.5%
+</div>
+</td>
+<td style="background:#519ACA; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+89.1%
+</div>
+</td>
+<td style="background:#4B95C8; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+90.7%
+</div>
+</td>
+<td style="background:#4893C7; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+91.7%
+</div>
+</td>
+<td style="background:#4893C7; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+92.3%
+</div>
+</td>
+<td style="background:#4591C5; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+92.7%
+</div>
+</td>
+</tr>
+<tr>
+<th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
+t_H = 5
+</th>
+<td style="background:#4893C7; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+91.8%
+</div>
+</td>
+<td style="background:#4591C5; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+93.4%
+</div>
+</td>
 <td style="background:#428FC4; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
 <div style="font-weight:600;">
-93.8%
+94.4%
+</div>
+</td>
+<td style="background:#3F8DC3; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+95.0%
+</div>
+</td>
+<td style="background:#3F8DC3; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
+<div style="font-weight:600;">
+95.3%
 </div>
 </td>
 <td style="background:#3C8AC2; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
 <div style="font-weight:600;">
-96.1%
-</div>
-</td>
-<td style="background:#3988C0; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-96.7%
-</div>
-</td>
-<td style="background:#3988C0; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-96.8%
-</div>
-</td>
-<td style="background:#3988C0; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-96.9%
-</div>
-</td>
-<td style="background:#3988C0; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-96.9%
-</div>
-</td>
-</tr>
-<tr>
-<th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
-n_H = 3
-</th>
-<td style="background:#3686BF; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-98.4%
-</div>
-</td>
-<td style="background:#3384BE; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-99.0%
-</div>
-</td>
-<td style="background:#3384BE; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-99.2%
-</div>
-</td>
-<td style="background:#3384BE; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-99.2%
-</div>
-</td>
-<td style="background:#3384BE; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-99.2%
-</div>
-</td>
-<td style="background:#3384BE; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-99.2%
-</div>
-</td>
-</tr>
-<tr>
-<th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
-n_H = 4
-</th>
-<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-99.6%
-</div>
-</td>
-<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-99.8%
-</div>
-</td>
-<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-99.8%
-</div>
-</td>
-<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-99.8%
-</div>
-</td>
-<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-99.8%
-</div>
-</td>
-<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-99.8%
-</div>
-</td>
-</tr>
-<tr>
-<th style="padding:0.45rem 0.7rem; border:1px solid #d0d7de; background:#f6f8fa;">
-n_H = 5
-</th>
-<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-99.9%
-</div>
-</td>
-<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-99.9%
-</div>
-</td>
-<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-99.9%
-</div>
-</td>
-<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-100.0%
-</div>
-</td>
-<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-100.0%
-</div>
-</td>
-<td style="background:#3182BD; color:white; text-align:center; padding:0.55rem 0.7rem; border:1px solid #d0d7de;">
-<div style="font-weight:600;">
-100.0%
+95.6%
 </div>
 </td>
 </tr>
 </tbody>
 </table>
-<ul>
-<li>Treating <span class="math inline">\(n_H\)</span> and <span class="math inline">\(n_A\)</span> as continuous, the level sets of <span class="math inline">\(\text{apples found}(n_H, n_A)\)</span> look like this:</li>
-</ul>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="2025-09-13-recursive-self-improvement-explosion-optimization_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="576"></p>
-</figure>
-</div>
-</div>
-</div>
-<ul>
-<li>Holding one search type at zero, we can compare <span class="math inline">\(\text{apples}(n_H,0)\)</span> and <span class="math inline">\(\text{apples}(0,n_A)\)</span> on the same axes:</li>
-</ul>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="2025-09-13-recursive-self-improvement-explosion-optimization_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="576"></p>
-</figure>
-</div>
-</div>
-</div>
 </section>
 </section>
 <section id="toy-model-of-ai-stack" class="level1">
@@ -760,7 +760,7 @@ n_H = 5
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2025-09-13-recursive-self-improvement-explosion-optimization_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="576"></p>
+<p><img src="2025-09-13-recursive-self-improvement-explosion-optimization_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="576"></p>
 </figure>
 </div>
 </div>
