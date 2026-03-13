@@ -336,6 +336,14 @@ window.Quarto = {
 <li>You can list out all the insights, some are low, some are</li>
 </ul>
 </dd>
+</dl>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/2026-03-12-11-32-34.png" class="img-fluid figure-img"></p>
+<figcaption>apple tree</figcaption>
+</figure>
+</div>
+<dl>
 <dt>Model.</dt>
 <dd>
 <ul>
@@ -462,10 +470,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<hr>
-<ul>
-<li>For <span class="math inline">\(p=0.5\)</span> and <span class="math inline">\(\lambda=0.5\)</span>, we can see the share implied by this expression in a small heat map:</li>
-</ul>
+<p>Table:</p>
 <table style="border-collapse:collapse; margin:1rem 0; font-size:0.95rem;">
 <caption style="caption-side:top; text-align:center; font-weight:600; padding-bottom:0.45rem;">
 Heat map of share found (p = 0.5, λ = 0.5)
@@ -721,6 +726,84 @@ t_H = 5
 </tr>
 </tbody>
 </table>
+</section>
+<section id="closed-apple-picking-model" class="level2">
+<h2 class="anchored" data-anchor-id="closed-apple-picking-model">Closed Apple-Picking Model</h2>
+<p><strong>Setup:</strong></p>
+<ol type="1">
+<li>Apples sit at heights in <span class="math inline">\([0,\infty)\)</span>; human reach is normalized to 1. The agent has reach <span class="math inline">\(\lambda_t \ge 0\)</span> and picks everything below it.</li>
+<li>Humans pick in the band <span class="math inline">\((\lambda_t, 1]\)</span> at a rate governed by <span class="math inline">\(p\)</span>.</li>
+<li>Agent reach depends on cumualtive apples harvested: they can only pick apples after some minimum threshold (<span class="math inline">\(\bar{a}\)</span>), and then linear in <span class="math inline">\(a\)</span>.</li>
+</ol>
+<p><strong>Implications:</strong></p>
+<ol type="1">
+<li>Agents will get taller than humans iff <span class="math inline">\(\alpha + \beta(1-\bar{a}) &gt; 1\)</span></li>
+<li>Agent height will be explosive iff <span class="math inline">\(\beta &gt;1\)</span>, i.e.&nbsp;if eating all the apples in a 1-cm slice of tree causes you to grow 1cm higher. If not then you converge to a finite height <span class="math inline">\(\lambda^*\)</span>.</li>
+</ol>
+<section id="state-variables-and-dynamics" class="level3">
+<h3 class="anchored" data-anchor-id="state-variables-and-dynamics">1. State variables and dynamics</h3>
+<p>Normalize human reach to 1.</p>
+<ul>
+<li><strong><span class="math inline">\(\lambda_t \ge 0\)</span></strong>: agent reach (how high the AI can pick).</li>
+<li><strong><span class="math inline">\(h_t \in [0,1]\)</span></strong>: human coverage of the human-only band <span class="math inline">\((\lambda_t, 1]\)</span> (fraction of that band already picked by humans).</li>
+</ul>
+<p><strong>Human dynamics</strong> (one parameter <span class="math inline">\(p \in (0,1)\)</span>): per period, a fraction <span class="math inline">\(1-p\)</span> of the remaining human-level band gets picked, so <span class="math display">\[h_{t+1} = 1 - p(1-h_t), \qquad h_0 = 0.\]</span> (Equivalently <span class="math inline">\(h_t = 1 - p^t\)</span>; the recursion keeps the model closed and autonomous.)</p>
+<p><strong>Apples harvested</strong> (agent + humans, with clipping at 1): <span class="math display">\[a_t = \lambda_t + (1-\lambda_t)_+ \, h_t, \qquad (x)_+ \equiv \max\{x,0\}.\]</span> Agent gets everything up to <span class="math inline">\(\lambda_t\)</span>; humans only contribute on the band of length <span class="math inline">\((1-\lambda_t)_+\)</span>, of which fraction <span class="math inline">\(h_t\)</span> is covered by time <span class="math inline">\(t\)</span>.</p>
+<p><strong>Self-improvement</strong> (activation threshold <span class="math inline">\(\bar{a}\)</span>, then affine in <span class="math inline">\(a_t\)</span>): <span class="math display">\[\lambda_{t+1} = \begin{cases} 0, &amp; a_t &lt; \bar{a} \\ \alpha + \beta(a_t - \bar{a}), &amp; a_t \ge \bar{a}. \end{cases}\]</span></p>
+<p>Parameters: <strong><span class="math inline">\(p\)</span></strong> (human speed), <strong><span class="math inline">\(\bar{a}\)</span></strong> (minimum progress to “turn on” the agent), <strong><span class="math inline">\(\alpha\)</span></strong> (baseline capability once on), <strong><span class="math inline">\(\beta\)</span></strong> (strength of recursive improvement). Initial condition <span class="math inline">\(\lambda_0\)</span> (typically 0). Four parameters plus <span class="math inline">\(\lambda_0\)</span>.</p>
+<hr>
+</section>
+<section id="crisp-conditions" class="level3">
+<h3 class="anchored" data-anchor-id="crisp-conditions">2. Crisp conditions</h3>
+<p><strong>A) Activation.</strong> With <span class="math inline">\(\lambda_t = 0\)</span>, <span class="math inline">\(a_t = h_t \to 1\)</span>. So the agent can ever turn on <strong>iff <span class="math inline">\(\bar{a} &lt; 1\)</span></strong>. If <span class="math inline">\(\bar{a} \ge 1\)</span>, <span class="math inline">\(\lambda_t \equiv 0\)</span> forever. Activation-time approximation: <span class="math inline">\(h_t = 1 - p^t \ge \bar{a}\)</span> <span class="math inline">\(\Leftrightarrow\)</span> <span class="math inline">\(t \ge \ln(1-\bar{a})/\ln p\)</span>; <span class="math inline">\(p\)</span> mainly shifts <em>when</em> activation happens.</p>
+<p><strong>B) Crossing human level.</strong> As <span class="math inline">\(t \to \infty\)</span>, <span class="math inline">\(h_t \to 1\)</span>. If <span class="math inline">\(\lambda_t &lt; 1\)</span>, <span class="math inline">\(a_t \to 1\)</span>; if <span class="math inline">\(\lambda_t \ge 1\)</span>, <span class="math inline">\(a_t = \lambda_t\)</span>. So asymptotically <span class="math inline">\(\lambda_{t+1} \to f(1)\)</span> with <span class="math inline">\(f(1) = 0\)</span> if <span class="math inline">\(1 &lt; \bar{a}\)</span>, and <span class="math inline">\(f(1) = \alpha + \beta(1-\bar{a})\)</span> if <span class="math inline">\(1 \ge \bar{a}\)</span>. So <strong>takeoff past human level</strong> (eventually <span class="math inline">\(\lambda &gt; 1\)</span>) <strong>iff</strong> <span class="math display">\[\boxed{\alpha + \beta(1-\bar{a}) &gt; 1.}\]</span> Interpretation: “If the orchard were fully human-level (<span class="math inline">\(a=1\)</span>), would the next agent be at least human-level?” If not, the system stays below 1. This condition is essentially independent of <span class="math inline">\(p\)</span> (timing, not whether).</p>
+<p><strong>C) Above human level: runaway vs saturation.</strong> For <span class="math inline">\(\lambda_t \ge 1\)</span>, <span class="math inline">\(a_t = \lambda_t\)</span> and <span class="math display">\[\lambda_{t+1} = \alpha + \beta(\lambda_t - \bar{a}).\]</span> - <strong>Runaway / hard takeoff</strong> iff <span class="math inline">\(\boxed{\beta &gt; 1}\)</span> (roughly geometric growth in <span class="math inline">\(\lambda_t\)</span>). - <strong>Soft takeoff / saturation</strong> iff <span class="math inline">\(\boxed{\beta &lt; 1}\)</span>: convergence to <span class="math display">\[\lambda^* = \frac{\alpha - \beta\bar{a}}{1-\beta}\]</span> (provided the system crosses 1 first). - <strong>Knife-edge</strong> <span class="math inline">\(\beta = 1\)</span>: linear growth.</p>
+<hr>
+</section>
+<section id="illustrations" class="level3">
+<h3 class="anchored" data-anchor-id="illustrations">3. Illustrations</h3>
+<p>The figures below implement this model: four canonical trajectories, phase diagram in <span class="math inline">\((\alpha,\beta)\)</span>, cobweb plots of the asymptotic map, and sensitivity to <span class="math inline">\(p\)</span> and <span class="math inline">\(\bar{a}\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-09-13-recursive-self-improvement-explosion-optimization_files/figure-html/apple-rsi-four-regimes-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Four regimes: no activation (ā≥1), activated but stuck (f(1)&lt;1), soft takeoff (f(1)&gt;1, β&lt;1), hard takeoff (f(1)&gt;1, β&gt;1)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-09-13-recursive-self-improvement-explosion-optimization_files/figure-html/apple-rsi-phase-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>Phase diagram: f(1)=1 (cross human level) and β=1 (runaway vs saturation) at fixed ā = 0.3</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-09-13-recursive-self-improvement-explosion-optimization_files/figure-html/apple-rsi-cobweb-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Cobweb: asymptotic map λ_{t+1} = f(max(λ_t,1)); soft (β&lt;1) vs hard (β&gt;1)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2025-09-13-recursive-self-improvement-explosion-optimization_files/figure-html/apple-rsi-sensitivity-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Sensitivity: effect of p (left) and of ā (right) on λ_t trajectory</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
 </section>
 </section>
 <section id="toy-model-of-ai-stack" class="level1">
@@ -1338,6 +1421,23 @@ They give conditions under which automating R&amp;D will cause an explosion in G
 </section>
 <section id="overflow-offcuts" class="level1">
 <h1>Overflow / Offcuts</h1>
+<dl>
+<dt>How important is scale?</dt>
+<dd>
+<ul>
+<li><a href="https://arxiv.org/pdf/2509.01440">Benchmarking Optimizers for Large Language Model Pretraining</a></li>
+<li>They compare 10 optimizers which are alternatives to AdamW, &amp; shown to beat it in some circumstances, and find that 3/10 beat it.</li>
+<li><blockquote class="blockquote">
+<p>“Methods that perform well in short speedruns might not be optimal for longer training horizons”</p>
+</blockquote></li>
+<li>Figure 1 shows only 3/10 optimizers outperform AdamW at scale.</li>
+</ul>
+</dd>
+<dt>Terrance Tao / optimization problems.</dt>
+<dd>
+https://github.com/teorth/optimizationproblems?tab=readme-ov-file They list 7 cases of “recent progress”, 3 of them are explicitly LLM-assisted or LLM-generated.
+</dd>
+</dl>
 <section id="metaphors-for-rsi" class="level2">
 <h2 class="anchored" data-anchor-id="metaphors-for-rsi">metaphors for RSI</h2>
 <dl>

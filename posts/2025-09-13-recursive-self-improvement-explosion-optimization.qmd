@@ -125,6 +125,8 @@ Apple tree model of ideas.
     - You have an orchard, you send in an army of midgets and they.
     - You can list out all the insights, some are low, some are 
 
+![apple tree](images/2026-03-12-11-32-34.png)
+
 Model.
 :   - There's a distribution of apples, each has a height.
     - Each apple is equally valuable.
@@ -370,12 +372,8 @@ text(
 ```
 
 
----
 
-
-
-
-- For $p=0.5$ and $\lambda=0.5$, we can see the share implied by this expression in a small heat map:
+Table:
 
 ```{r}
 #| label: bernoulli-heatmap
@@ -447,6 +445,213 @@ cat(
 )
 ```
 
+##          Closed Apple-Picking Model
+
+**Setup:**
+
+1. Apples sit at heights in $[0,\infty)$; human reach is normalized to 1. The agent has reach $\lambda_t \ge 0$ and picks everything below it.
+2. Humans pick in the band $(\lambda_t, 1]$ at a rate governed by $p$.
+3. Agent reach depends on cumualtive apples harvested: they can only pick apples after some minimum threshold ($\bar{a}$), and then linear in $a$.
+
+**Implications:**
+
+1. Agents will get taller than humans iff $\alpha + \beta(1-\bar{a}) > 1$
+2. Agent height will be explosive iff $\beta >1$, i.e. if eating all the apples in a 1-cm slice of tree causes you to grow 1cm higher. If not then you converge to a finite height $\lambda^*$.
+
+
+### 1. State variables and dynamics
+
+Normalize human reach to 1.
+
+- **$\lambda_t \ge 0$**: agent reach (how high the AI can pick).
+- **$h_t \in [0,1]$**: human coverage of the human-only band $(\lambda_t, 1]$ (fraction of that band already picked by humans).
+
+**Human dynamics** (one parameter $p \in (0,1)$): per period, a fraction $1-p$ of the remaining human-level band gets picked, so
+$$h_{t+1} = 1 - p(1-h_t), \qquad h_0 = 0.$$
+(Equivalently $h_t = 1 - p^t$; the recursion keeps the model closed and autonomous.)
+
+**Apples harvested** (agent + humans, with clipping at 1):
+$$a_t = \lambda_t + (1-\lambda_t)_+ \, h_t, \qquad (x)_+ \equiv \max\{x,0\}.$$
+Agent gets everything up to $\lambda_t$; humans only contribute on the band of length $(1-\lambda_t)_+$, of which fraction $h_t$ is covered by time $t$.
+
+**Self-improvement** (activation threshold $\bar{a}$, then affine in $a_t$):
+$$\lambda_{t+1} = \begin{cases} 0, & a_t < \bar{a} \\ \alpha + \beta(a_t - \bar{a}), & a_t \ge \bar{a}. \end{cases}$$
+
+Parameters: **$p$** (human speed), **$\bar{a}$** (minimum progress to “turn on” the agent), **$\alpha$** (baseline capability once on), **$\beta$** (strength of recursive improvement). Initial condition $\lambda_0$ (typically 0). Four parameters plus $\lambda_0$.
+
+---
+
+### 2. Crisp conditions
+
+**A) Activation.** With $\lambda_t = 0$, $a_t = h_t \to 1$. So the agent can ever turn on **iff $\bar{a} < 1$**. If $\bar{a} \ge 1$, $\lambda_t \equiv 0$ forever. Activation-time approximation: $h_t = 1 - p^t \ge \bar{a}$ $\Leftrightarrow$ $t \ge \ln(1-\bar{a})/\ln p$; $p$ mainly shifts *when* activation happens.
+
+**B) Crossing human level.** As $t \to \infty$, $h_t \to 1$. If $\lambda_t < 1$, $a_t \to 1$; if $\lambda_t \ge 1$, $a_t = \lambda_t$. So asymptotically $\lambda_{t+1} \to f(1)$ with $f(1) = 0$ if $1 < \bar{a}$, and $f(1) = \alpha + \beta(1-\bar{a})$ if $1 \ge \bar{a}$. So **takeoff past human level** (eventually $\lambda > 1$) **iff**
+$$\boxed{\alpha + \beta(1-\bar{a}) > 1.}$$
+Interpretation: “If the orchard were fully human-level ($a=1$), would the next agent be at least human-level?” If not, the system stays below 1. This condition is essentially independent of $p$ (timing, not whether).
+
+**C) Above human level: runaway vs saturation.** For $\lambda_t \ge 1$, $a_t = \lambda_t$ and
+$$\lambda_{t+1} = \alpha + \beta(\lambda_t - \bar{a}).$$
+- **Runaway / hard takeoff** iff $\boxed{\beta > 1}$ (roughly geometric growth in $\lambda_t$).
+- **Soft takeoff / saturation** iff $\boxed{\beta < 1}$: convergence to
+$$\lambda^* = \frac{\alpha - \beta\bar{a}}{1-\beta}$$
+(provided the system crosses 1 first).
+- **Knife-edge** $\beta = 1$: linear growth.
+
+---
+
+### 3. Illustrations
+
+The figures below implement this model: four canonical trajectories, phase diagram in $(\alpha,\beta)$, cobweb plots of the asymptotic map, and sensitivity to $p$ and $\bar{a}$.
+
+```{r}
+#| label: apple-rsi-sim
+#| include: false
+# Closed apple-picking RSI: h_{t+1}=1-p(1-h_t), a_t = lambda_t + (1-lambda_t)_+ * h_t,
+# lambda_{t+1} = 0 if a_t < abar else alpha + beta*(a_t - abar)
+sim_apple_rsi <- function(t_max, lambda0, p, abar, alpha, beta) {
+    h <- numeric(t_max + 1)
+    h[1] <- 0
+    for (t in seq_len(t_max)) h[t + 1] <- 1 - p * (1 - h[t])
+    a <- numeric(t_max + 1)
+    lambda <- numeric(t_max + 1)
+    lambda[1] <- lambda0
+    for (t in seq(0, t_max)) {
+        rem <- max(0, 1 - lambda[t + 1])
+        a[t + 1] <- lambda[t + 1] + rem * h[t + 1]
+        if (t < t_max) {
+            lambda[t + 2] <- if (a[t + 1] < abar) 0 else alpha + beta * (a[t + 1] - abar)
+        }
+    }
+    list(t = 0:t_max, a = a, lambda = lambda, h = h[seq_len(t_max + 1)])
+}
+```
+
+```{r}
+#| label: apple-rsi-four-regimes
+#| fig-align: center
+#| fig-width: 7
+#| fig-height: 5
+#| fig-cap: "Four regimes: no activation (ā≥1), activated but stuck (f(1)<1), soft takeoff (f(1)>1, β<1), hard takeoff (f(1)>1, β>1)"
+t_max <- 25
+regimes <- list(
+    list(p = 0.6, abar = 1.2, alpha = 0.3, beta = 0.8, lambda0 = 0, lab = "No activation (ā ≥ 1)"),
+    list(p = 0.6, abar = 0.4, alpha = 0.2, beta = 0.4, lambda0 = 0, lab = "Stuck (f(1) < 1)"),
+    list(p = 0.6, abar = 0.2, alpha = 0.5, beta = 0.8, lambda0 = 0, lab = "Soft takeoff (β < 1)"),
+    list(p = 0.6, abar = 0.2, alpha = 0.3, beta = 1.2, lambda0 = 0, lab = "Hard takeoff (β > 1)")
+)
+cols <- c("#666666", "#d95f02", "#1b9e77", "#7570b3")
+par(mfrow = c(1, 2), mar = c(3.5, 3.5, 2.2, 0.8))
+plot(NA, xlim = c(0, t_max), ylim = c(0, 2.2), xlab = "t", ylab = expression(lambda[t]), main = expression(lambda[t] ~ "(agent reach)"))
+grid(col = "gray85", lty = "dotted")
+abline(h = 1, lty = 2, col = "gray40")
+for (i in seq_along(regimes)) {
+    r <- regimes[[i]]
+    s <- sim_apple_rsi(t_max, r$lambda0, r$p, r$abar, r$alpha, r$beta)
+    lines(s$t, s$lambda, col = cols[i], lwd = 2)
+}
+legend("topleft", legend = sapply(regimes, function(x) x$lab), col = cols, lwd = 2, bty = "n", cex = 0.75)
+plot(NA, xlim = c(0, t_max), ylim = c(0, 2.2), xlab = "t", ylab = expression(a[t]), main = expression(a[t] ~ "(apples harvested)"))
+grid(col = "gray85", lty = "dotted")
+abline(h = 1, lty = 2, col = "gray40")
+for (i in seq_along(regimes)) {
+    r <- regimes[[i]]
+    s <- sim_apple_rsi(t_max, r$lambda0, r$p, r$abar, r$alpha, r$beta)
+    lines(s$t, s$a, col = cols[i], lwd = 2)
+}
+legend("topleft", legend = sapply(regimes, function(x) x$lab), col = cols, lwd = 2, bty = "n", cex = 0.75)
+par(mfrow = c(1, 1))
+```
+
+```{r}
+#| label: apple-rsi-phase
+#| fig-align: center
+#| fig-width: 5.5
+#| fig-height: 5
+#| fig-cap: "Phase diagram: f(1)=1 (cross human level) and β=1 (runaway vs saturation) at fixed ā = 0.3"
+abar_fix <- 0.3
+f1 <- function(alpha, beta) alpha + beta * (1 - abar_fix)
+ng <- 80
+alpha_g <- seq(0, 1.2, length.out = ng)
+beta_g <- seq(0.2, 2, length.out = ng)
+cross_human <- outer(alpha_g, beta_g, function(a, b) f1(a, b) - 1)
+image(alpha_g, beta_g, cross_human,
+    col = rev(grDevices::colorRampPalette(c("#d95f02", "white", "#1b9e77"))(201)),
+    breaks = seq(-1.5, 1.5, length.out = 202), xlab = expression(alpha), ylab = expression(beta),
+    main = expression("Phase diagram (" * bar(a) == 0.3 * ")")
+)
+contour(alpha_g, beta_g, cross_human, levels = 0, add = TRUE, lwd = 2, labcex = 0.8)
+contour(alpha_g, beta_g, outer(alpha_g, beta_g, function(a, b) b), levels = 1, add = TRUE, lty = 2, lwd = 2, labcex = 0.8)
+text(0.5, 1.6, "f(1)=1", cex = 0.85)
+text(0.95, 1.05, expression(beta == 1), cex = 0.85)
+legend("topleft", legend = c("f(1) < 1 (stuck)", "f(1) > 1 (cross)"), fill = c("#d95f02", "#1b9e77"), bty = "n", cex = 0.8)
+```
+
+```{r}
+#| label: apple-rsi-cobweb
+#| fig-align: center
+#| fig-width: 7
+#| fig-height: 3.5
+#| fig-cap: "Cobweb: asymptotic map λ_{t+1} = f(max(λ_t,1)); soft (β<1) vs hard (β>1)"
+f_asy <- function(lam, abar, alpha, beta) {
+    a <- max(lam, 1)
+    if (a < abar) 0 else alpha + beta * (a - abar)
+}
+abar_c <- 0.3
+lam_max <- 3
+par(mfrow = c(1, 2), mar = c(3.5, 3.5, 2.2, 0.8))
+for (sc in list(list(alpha = 0.5, beta = 0.7, tit = "Soft (β < 1)"), list(alpha = 0.2, beta = 1.3, tit = "Hard (β > 1)"))) {
+    lam_seq <- seq(0, lam_max, length.out = 400)
+    f_seq <- vapply(lam_seq, function(x) f_asy(x, abar_c, sc$alpha, sc$beta), 0)
+    plot(lam_seq, f_seq,
+        type = "l", lwd = 2, xlim = c(0, lam_max), ylim = c(0, lam_max),
+        xlab = expression(lambda[t]), ylab = expression(lambda[t + 1]), main = sc$tit
+    )
+    abline(0, 1, lty = 2, col = "gray40")
+    grid(col = "gray85", lty = "dotted")
+    lam <- 1
+    for (step in 1:20) {
+        lam_new <- f_asy(lam, abar_c, sc$alpha, sc$beta)
+        segments(lam, lam, lam, lam_new, col = "#7570b3", lwd = 1)
+        segments(lam, lam_new, lam_new, lam_new, col = "#7570b3", lwd = 1)
+        lam <- lam_new
+    }
+}
+par(mfrow = c(1, 1))
+```
+
+```{r}
+#| label: apple-rsi-sensitivity
+#| fig-align: center
+#| fig-width: 7
+#| fig-height: 5
+#| fig-cap: "Sensitivity: effect of p (left) and of ā (right) on λ_t trajectory"
+par(mfrow = c(1, 2), mar = c(3.5, 3.5, 2.2, 0.8))
+p_vals <- c(0.3, 0.5, 0.7, 0.9)
+plot(NA,
+    xlim = c(0, t_max), ylim = c(0, 1.8), xlab = "t", ylab = expression(lambda[t]),
+    main = "Effect of p (human speed); ā=0.3, α=0.4, β=1.1"
+)
+grid(col = "gray85", lty = "dotted")
+abline(h = 1, lty = 2, col = "gray40")
+for (i in seq_along(p_vals)) {
+    s <- sim_apple_rsi(t_max, 0, p_vals[i], 0.3, 0.4, 1.1)
+    lines(s$t, s$lambda, col = cols[i], lwd = 2)
+}
+legend("topleft", legend = paste("p =", p_vals), col = cols, lwd = 2, bty = "n")
+abar_vals <- c(0.1, 0.3, 0.5, 0.7)
+plot(NA,
+    xlim = c(0, t_max), ylim = c(0, 1.8), xlab = "t", ylab = expression(lambda[t]),
+    main = "Effect of ā (activation threshold); p=0.6, α=0.4, β=1.1"
+)
+grid(col = "gray85", lty = "dotted")
+abline(h = 1, lty = 2, col = "gray40")
+for (i in seq_along(abar_vals)) {
+    s <- sim_apple_rsi(t_max, 0, 0.6, abar_vals[i], 0.4, 1.1)
+    lines(s$t, s$lambda, col = cols[i], lwd = 2)
+}
+legend("topleft", legend = as.expression(sapply(abar_vals, function(x) bquote(bar(a) == .(x)))), col = cols, lwd = 2, bty = "n")
+par(mfrow = c(1, 1))
+```
 
 #           Toy model of AI stack
 
@@ -922,6 +1127,18 @@ Eric Drexler (2025) ["The Reality of Recursive Self-Improvement"](https://aipros
 
 
 #           Overflow / Offcuts
+
+How important is scale?
+: 
+    - [Benchmarking Optimizers for Large Language Model Pretraining](https://arxiv.org/pdf/2509.01440)
+    - They compare 10 optimizers which are alternatives to AdamW, & shown to beat it in some circumstances, and find that 3/10 beat it.
+    - > "Methods that perform well in short speedruns might not be optimal for longer training horizons"
+    - Figure 1 shows only 3/10 optimizers outperform AdamW at scale.
+
+Terrance Tao / optimization problems.
+: 
+    https://github.com/teorth/optimizationproblems?tab=readme-ov-file
+    They list 7 cases of "recent progress", 3 of them are explicitly LLM-assisted or LLM-generated.
 
 ##    metaphors for RSI
 
