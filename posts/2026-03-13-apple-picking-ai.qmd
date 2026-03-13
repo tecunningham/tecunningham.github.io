@@ -28,7 +28,7 @@ execute:
 <!-- https://tecunningham.github.io/posts/2026-03-13-apple-picking-ai.html -->
 
 ::: {.column-margin}
-   Thanks to Nate Rush, Manish Shetty, Basil Halperin for helpful comments.
+   Thanks to Nate Rush, Manish Shetty, Basil Halperin, & Parker Whitfill for helpful comments.
 :::
 
 
@@ -40,7 +40,7 @@ An apple-picking model of AI work.
 
     ![](images/2026-03-12-11-32-34.png)
 
-    The specific motivation was to help think through the implications of recent evidence that AI can push forward the frontier on various optimization and AI R&D problems. If you can pay $10 to increase the efficiency of an algorithm by 1% then, on its surface, this look like the path to self-improvement, and you can replace humans with AI agents. But realistically the 1% improvement is a *shallow* improvement, and the apple tree model tries to distinguish between shallow and deep improvements.
+    The specific motivation was to help think through the implications of recent evidence that AI can push forward the frontier on various optimization and AI R&D problems. If you can pay $10 to increase the efficiency of an algorithm by 1% then, on its surface, this look like the path to self-improvement, and you can replace humans with AI agents. But realistically the 1% improvement is a *shallow* improvement, and the apple-picking model tries to distinguish between shallow and deep improvements.
 
 Implications of the apple-picking model.
 : 
@@ -164,18 +164,20 @@ Implication: agents can improve on human SoTA, but only by a limited amount.
     ```
 
 
-Implication: agent value and asymptote depends on starting point.
+Implication: agent asymptote depends on the starting point.
 : 
-    The plot below shows agent trajectories, each starting after a different amount of human work.
+    The plot below shows a variety of agent trajectories, each starting after a different amount of human work.
+    
+    You could interpret this as starting an agent at different points in the history of optimizing some algorithm, e.g. nanoGPT.
 
-    If you start an agent from scratch, it will have high marginal value, but a low asymptote.
+    The model implies that if you start an agent from the original unoptimized version of an algorithm it will quickly make high gains, but asymptote to a value well below the human state-of-the-art.
 
-    If you start an agent after some human optimization, it will have lower marginal value, but it will be able to achieve a higher asymptote (below, starting after 1 unit of human search raises the agent asymptote from 0.5 to 0.7).
+    If you start an agent after a small amount of human optimization, it will have smaller initial value (some of the apples have already been picked), but it will be able to achieve a higher asymptote.
 
     ```{tikz}
     \begin{tikzpicture}[x=1.1cm, y=5cm]
     \def\rH{0.2} \def\rA{0.9} \def\lam{0.5}
-    \draw[-] (0,0) -- (5.5,0) node[midway,below] {total search time}
+    \draw[-] (0,0) -- (5.5,0) node[midway,below] {search expenditure}
         -- (5.5,1) -- (0,1) -- (0,0) node[midway,rotate=90,above] {share found};
     \node[above] at (2.75,1) {$r_H=0.2,\; r_A=0.9,\; \lambda=0.5$};
     \draw[teal, thick, domain=0:5.3, samples=120]
@@ -190,8 +192,8 @@ Implication: agent value and asymptote depends on starting point.
         plot (\x, {1 - (1-\lam)*exp(-3*\rH) - \lam*exp(-3*\rH - \rA*(\x-3))});
     \draw[orange, thick, loosely dashed, domain=4:5.3, samples=120]
         plot (\x, {1 - (1-\lam)*exp(-4*\rH) - \lam*exp(-4*\rH - \rA*(\x-4))});
-    \node[teal, right] at (4.2, {1 - exp(-\rH*4.2) + 0.03}) {human-only};
-    \node[orange, right] at (4.15, {1 - \lam*exp(-\rA*4.15) - (1-\lam) - 0.03}) {$t_H=0,1,2,3,4$};
+    \node[teal, right] at (5.5, {1 - exp(-\rH*5)}) {human-only};
+    %\node[orange, right] at (4.15, {1 - \lam*exp(-\rA*4.15) - (1-\lam) - 0.03}) {$t_H=0,1,2,3,4$};
     \end{tikzpicture}
     ```
 
@@ -199,18 +201,24 @@ Implication: agent value and asymptote depends on starting point.
 
 
 
-##          Closed Apple-Picking Model
+#          Closed Apple-Picking Model
 
-**Setup:**
+Now let the robot's height depend on apples harvested.
+: 
+    The previous model applied to agents working on an arbitrary problem. Now we focus on agents working on AI R&D. We make two changes:
 
-1. Apples sit at heights in $[0,\infty)$; human reach is normalized to 1. The agent has reach $\lambda_t \ge 0$ and picks everything below it.
+    1. We assume that the agent's ability ($\lambda$) is itself a function of AI R&D progress (the robot is eating the apples and getting taller). It turns out that we can get a simple closed-form solution when this function is linear. To add a touch of realism we assume that agents have no meaningful ability until algorithmic progress passes some minimum threshold ($\bar{a}$).
+    2. We assume that agents pick *all* the apples available to them each period. This makes things easier to model (the state of the tree can be summarized with just two variables, $\lambda$ and $a$), but it also seems a reasonable assumption: AI research labs will keep spending money on agent-optimizing their algorithms until they hit low returns.
+
+Implications:
+: 
+    1. Agents will get taller than humans iff $\alpha + \beta(1-\bar{a}) > 1$
+    2. Agent height will be explosive iff $\beta >1$, i.e. if eating all the apples in a 1-cm slice of tree causes you to grow 1cm higher. If not then you converge to a finite height $\lambda^*$.
+
+
+<!-- 1. Apples sit at heights in $[0,\infty)$; human reach is normalized to 1. The agent has reach $\lambda_t \ge 0$ and picks everything below it.
 2. Humans pick in the band $(\lambda_t, 1]$ at a rate governed by $p$.
-3. Agent reach depends on cumualtive apples harvested: they can only pick apples after some minimum threshold ($\bar{a}$), and then linear in $a$.
-
-**Implications:**
-
-1. Agents will get taller than humans iff $\alpha + \beta(1-\bar{a}) > 1$
-2. Agent height will be explosive iff $\beta >1$, i.e. if eating all the apples in a 1-cm slice of tree causes you to grow 1cm higher. If not then you converge to a finite height $\lambda^*$.
+3. Agent reach depends on cumualtive apples harvested: they can only pick apples after some minimum threshold ($\bar{a}$), and then linear in $a$. -->
 
 
 ### 1. State variables and dynamics

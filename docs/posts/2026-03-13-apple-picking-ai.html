@@ -272,14 +272,14 @@ window.Quarto = {
 </style>
 
 <div class="no-row-height column-margin column-container"><div class="">
-<p>Thanks to Nate Rush, Manish Shetty, Basil Halperin for helpful comments.</p>
+<p>Thanks to Nate Rush, Manish Shetty, Basil Halperin, &amp; Parker Whitfill for helpful comments.</p>
 </div></div><dl>
 <dt>An apple-picking model of AI work.</dt>
 <dd>
 <p>Here’s a simple model useful for thinking about AI’s contribution to solving problems.</p>
 <p>In short: an agent helping you with programming is like a robot helping you pick apples. It will take care of all the apples up to a certain height, and find apples you haven’t found, but there will still be apples out of its reach.</p>
 <p><img src="images/2026-03-12-11-32-34.png" class="img-fluid"></p>
-<p>The specific motivation was to help think through the implications of recent evidence that AI can push forward the frontier on various optimization and AI R&amp;D problems. If you can pay $10 to increase the efficiency of an algorithm by 1% then, on its surface, this look like the path to self-improvement, and you can replace humans with AI agents. But realistically the 1% improvement is a <em>shallow</em> improvement, and the apple tree model tries to distinguish between shallow and deep improvements.</p>
+<p>The specific motivation was to help think through the implications of recent evidence that AI can push forward the frontier on various optimization and AI R&amp;D problems. If you can pay $10 to increase the efficiency of an algorithm by 1% then, on its surface, this look like the path to self-improvement, and you can replace humans with AI agents. But realistically the 1% improvement is a <em>shallow</em> improvement, and the apple-picking model tries to distinguish between shallow and deep improvements.</p>
 </dd>
 <dt>Implications of the apple-picking model.</dt>
 <dd>
@@ -352,11 +352,12 @@ window.Quarto = {
 </div>
 </div>
 </dd>
-<dt>Implication: agent value and asymptote depends on starting point.</dt>
+<dt>Implication: agent asymptote depends on the starting point.</dt>
 <dd>
-<p>The plot below shows agent trajectories, each starting after a different amount of human work.</p>
-<p>If you start an agent from scratch, it will have high marginal value, but a low asymptote.</p>
-<p>If you start an agent after some human optimization, it will have lower marginal value, but it will be able to achieve a higher asymptote (below, starting after 1 unit of human search raises the agent asymptote from 0.5 to 0.7).</p>
+<p>The plot below shows a variety of agent trajectories, each starting after a different amount of human work.</p>
+<p>You could interpret this as starting an agent at different points in the history of optimizing some algorithm, e.g.&nbsp;nanoGPT.</p>
+<p>The model implies that if you start an agent from the original unoptimized version of an algorithm it will quickly make high gains, but asymptote to a value well below the human state-of-the-art.</p>
+<p>If you start an agent after a small amount of human optimization, it will have smaller initial value (some of the apples have already been picked), but it will be able to achieve a higher asymptote.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -368,19 +369,26 @@ window.Quarto = {
 </div>
 </dd>
 </dl>
-<section id="closed-apple-picking-model" class="level2">
-<h2 class="anchored" data-anchor-id="closed-apple-picking-model">Closed Apple-Picking Model</h2>
-<p><strong>Setup:</strong></p>
+</section>
+<section id="closed-apple-picking-model" class="level1">
+<h1>Closed Apple-Picking Model</h1>
+<dl>
+<dt>Now let the robot’s height depend on apples harvested.</dt>
+<dd>
+<p>The previous model applied to agents working on an arbitrary problem. Now we focus on agents working on AI R&amp;D. We make two changes:</p>
 <ol type="1">
-<li>Apples sit at heights in <span class="math inline">\([0,\infty)\)</span>; human reach is normalized to 1. The agent has reach <span class="math inline">\(\lambda_t \ge 0\)</span> and picks everything below it.</li>
-<li>Humans pick in the band <span class="math inline">\((\lambda_t, 1]\)</span> at a rate governed by <span class="math inline">\(p\)</span>.</li>
-<li>Agent reach depends on cumualtive apples harvested: they can only pick apples after some minimum threshold (<span class="math inline">\(\bar{a}\)</span>), and then linear in <span class="math inline">\(a\)</span>.</li>
+<li>We assume that the agent’s ability (<span class="math inline">\(\lambda\)</span>) is itself a function of AI R&amp;D progress (the robot is eating the apples and getting taller). It turns out that we can get a simple closed-form solution when this function is linear. To add a touch of realism we assume that agents have no meaningful ability until algorithmic progress passes some minimum threshold (<span class="math inline">\(\bar{a}\)</span>).</li>
+<li>We assume that agents pick <em>all</em> the apples available to them each period. This makes things easier to model (the state of the tree can be summarized with just two variables, <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(a\)</span>), but it also seems a reasonable assumption: AI research labs will keep spending money on agent-optimizing their algorithms until they hit low returns.</li>
 </ol>
-<p><strong>Implications:</strong></p>
+</dd>
+<dt>Implications:</dt>
+<dd>
 <ol type="1">
 <li>Agents will get taller than humans iff <span class="math inline">\(\alpha + \beta(1-\bar{a}) &gt; 1\)</span></li>
 <li>Agent height will be explosive iff <span class="math inline">\(\beta &gt;1\)</span>, i.e.&nbsp;if eating all the apples in a 1-cm slice of tree causes you to grow 1cm higher. If not then you converge to a finite height <span class="math inline">\(\lambda^*\)</span>.</li>
 </ol>
+</dd>
+</dl>
 <section id="state-variables-and-dynamics" class="level3">
 <h3 class="anchored" data-anchor-id="state-variables-and-dynamics">1. State variables and dynamics</h3>
 <p>Normalize human reach to 1.</p>
@@ -417,7 +425,6 @@ window.Quarto = {
 
 
 
-</section>
 </section>
 </section>
 
