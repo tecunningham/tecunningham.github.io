@@ -1,5 +1,5 @@
 ---
-title: An Apple-Picking Model of Agents
+title: An Apple-Plucking Model of Agents
 author:
   - name: Tom Cunningham
     affiliation: METR
@@ -28,23 +28,35 @@ execute:
 
 An apple-picking model of AI work.
 : 
-    Here's a simple model which I find useful to think about agent vs human ability in solving problems.
+    Here's a simple model useful for thinking about AI's contribution to solving problems.
 
-    In short: an agent helping you do programming work is like having a robot help you pick apples. It will take care of all the apples up to a certain height, and find apples you haven't found, but there will still be apples out of its reach.
+    In short: an agent helping you with programming is like a robot helping you pick apples. It will take care of all the apples up to a certain height, and find apples you haven't found, but there will still be apples out of its reach.
 
     ![](images/2026-03-12-11-32-34.png)
 
-    The motivation was to help make sense of the recent ability of LLMs to autonomously push the frontier forward on various optimization and AI R&D problems. If they can make genuine discoveries themselves, at far lower cost than humans, then why aren't we seeing a complete displacement of human work? It must be because the agents' discoveries are in some sense "shallow", and indeed much commentary on agent optimization is that the discoveries are not yet truly novel.
+    The specific motivation was to help think through the implications of recent evidence that AI can push forward the frontier on various optimization and AI R&D problems. If you can pay $10 to increase the efficiency of an algorithm by 1% then, on its surface, this look like the path to self-improvement, and you can replace humans with AI agents. But realistically the 1% improvement is a *shallow* improvement, and the apple tree model tries to distinguish between shallow and deep improvements.
 
 Implications of the apple-picking model.
 : 
-    1. Agents will be able to advance the human state-of-the-art on various optimization problems.
-    2. Agents will have relatively bigger value (relative to humans) for problems that are not yet heavily optimized.
-    3. To gauge the ability of agents we want to test not just for their ability to improve performance, but their *reach*.
+    1. Agents can autonomously advance the state-of-the-art on an optimization problem, yet still not be a perfect substitute for human labor (they can find the unpicked low apples).
+    2. Agent contribution to a problem, as you scale the expenditure, will be higher than human contribution, but then asymptote to a lower maximum value.
+    3. Agents will have relatively bigger value (relative to humans) for problems that are not yet heavily optimized.
+    4. Agents will asymptote to higher points if they are given better human starting points (if a tree is partly picked).
+    5. To gauge the ability of agents we want to test not just for their ability to improve performance, but their *reach*.
+
+
+Relation to other literature. 
+: 
+    Most existing models of AI R&D assume that AI accelerates or multiples human reserachers, e.g. by automating some of their tasks. I believe this is roughly true for @aghion2019artificial, @davidson2021could, @erdil2025gate, @davidson2026automatingairesearch, @jones2025aird, @kwa2026simpleraitimelines. These models then calibrate the effect through (1) how much does AI accelerate R&D workers; (2) how much do R&D workers contribute to our stock of knowledge. But this is hard to reconcile with evidence that AI is already autonomously speeding-up AI research. A critical distinction is that these models all summarize the level of productivity with a scalar. This means that a 1% improvement in efficiency is equal, there is no distinction between a shallow and deep speedup.
+
+    There are two models I'm aware of that allow autonomous AI actions, but distinguish the quality of those actions.
+
+    1. @kokotajlo2025aifuturesmodel model AI and human "research taste", though I don't have a clear idea exactly how taste is aggregated within a lab. 
+    2. @ide2024artificialintelligenceknowledgeeconomy model AI with different levels of human ability.
 
 Other notes.
 : 
-    *Landscape.* A more general version would model the entire *landscape*. You can represent an optimization problem as $y-f(\bm{x})$, where you're trying to choose an $\bm{x}$ to maximize $y$, given some unknown $f(\cdot)$.
+    *Landscape.* A more general version would model the entire *landscape*. You can represent an optimization problem as $y=f(\bm{x})$, where you're trying to choose an $\bm{x}$ to maximize $y$, given some unknown $f(\cdot)$.
 
     *Existing models of AI R&D.*
 
@@ -55,26 +67,6 @@ Other notes.
     - LLM training is a big stack of algorithms, which we've been optimizing at perhaps 10X/year.
 
 
-|                                           |               |
-| ----------------------------------------- | ------------- |
-| AI replaces R&D workers.                  | Davidson      |
-| AI automates a subset of general tasks    | (some models) |
-| AI automates a subset of R&D tasks.       | (most models) |
-| AI increases productivity of R&D workers. | ??            |
-| AI replace *low quality* R&D workers.     | ??            |
-| (other mechanisms?)                       |               |
-
---------------------------------------------
-
-**Motivation:**
-
-- Agents are showing the ability to autonomously optimize AI training, beating the human state-of-the-art.
-- Where does this end? If you can pay some tokens to improve the training function by $x$% better, then ....
-
-- In most models of RSI, agents only automate subtasks in R&D, but now they seem to be doing the whole thing autonomously.
-- Intuitively they're only doing *shallow* optimizations, not deep optimizations.
-- We want a model so that we can define what it means to only do shallow optimizations, and test whether agents obey these predictions.
-- Testable predictions: (A) agents asymptote to a lower value than humans; (B) agents are relatively more useful for problems which have had less human time on them; (C) agents will asymptote to higher values if they are given better human starting points.
 
 #               Basic Model
 
