@@ -1,0 +1,462 @@
+---
+title: An Apple-Picking Model of Agents
+author:
+  - name: Tom Cunningham
+    affiliation: METR
+bibliography: ai.bib
+date: today
+draft: true
+engine: knitr
+reference-location: document
+citation-location: document
+#toc: true
+#toc-location: left-body
+execute:
+  echo: false
+  warning: false
+  error: false
+  cache: true # caches chunk output
+---
+<style>
+   h1 {  border-bottom: 4px solid black; }
+   h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; color: black; }
+   dl {display: grid;}
+   dt {grid-column-start: 1; width: 6cm;}
+   dd {grid-column-start: 2; margin-left: 2em;}
+</style>
+
+
+An apple-picking model of AI work.
+: 
+    Here's a simple model which I find useful to think about agent vs human ability in solving problems.
+
+    In short: an agent helping you do programming work is like having a robot help you pick apples. It will take care of all the apples up to a certain height, and find apples you haven't found, but there will still be apples out of its reach.
+
+    ![](images/2026-03-12-11-32-34.png)
+
+    The motivation was to help make sense of the recent ability of LLMs to autonomously push the frontier forward on various optimization and AI R&D problems. If they can make genuine discoveries themselves, at far lower cost than humans, then why aren't we seeing a complete displacement of human work? It must be because the agents' discoveries are in some sense "shallow", and indeed much commentary on agent optimization is that the discoveries are not yet truly novel.
+
+Implications of the apple-picking model.
+: 
+    1. Agents will be able to advance the human state-of-the-art on various optimization problems.
+    2. Agents will have relatively bigger value (relative to humans) for problems that are not yet heavily optimized.
+    3. To gauge the ability of agents we want to test not just for their ability to improve performance, but their *reach*.
+
+Other notes.
+: 
+    *Landscape.* A more general version would model the entire *landscape*. You can represent an optimization problem as $y-f(\bm{x})$, where you're trying to choose an $\bm{x}$ to maximize $y$, given some unknown $f(\cdot)$.
+
+    *Existing models of AI R&D.*
+
+    *Implications for AI R&D.*
+
+    - LLMs are suddenly able to optimize algorithms pretty well --- maybe  recursive-self-improvement has just kicked off. But the critical question is whether the fruit that it's picking are low-hanging. If all the optimizations are routine, then it'll run out pretty quickly.
+
+    - LLM training is a big stack of algorithms, which we've been optimizing at perhaps 10X/year.
+
+
+|                                           |               |
+| ----------------------------------------- | ------------- |
+| AI replaces R&D workers.                  | Davidson      |
+| AI automates a subset of general tasks    | (some models) |
+| AI automates a subset of R&D tasks.       | (most models) |
+| AI increases productivity of R&D workers. | ??            |
+| AI replace *low quality* R&D workers.     | ??            |
+| (other mechanisms?)                       |               |
+
+--------------------------------------------
+
+**Motivation:**
+
+- Agents are showing the ability to autonomously optimize AI training, beating the human state-of-the-art.
+- Where does this end? If you can pay some tokens to improve the training function by $x$% better, then ....
+
+- In most models of RSI, agents only automate subtasks in R&D, but now they seem to be doing the whole thing autonomously.
+- Intuitively they're only doing *shallow* optimizations, not deep optimizations.
+- We want a model so that we can define what it means to only do shallow optimizations, and test whether agents obey these predictions.
+- Testable predictions: (A) agents asymptote to a lower value than humans; (B) agents are relatively more useful for problems which have had less human time on them; (C) agents will asymptote to higher values if they are given better human starting points.
+
+#               Basic Model
+
+Setup.
+:   There are a continuum of apples spready uniformly on the real line.
+    
+    A human can find apples over $[0,1]$, but agent can only find apples over $[0,\lambda]$, with $\lambda<1$ (at least for now).
+    
+    Humans find apples at rate $r_H$, agents find apples at rate $r_A$, and we use $t_H$ and $t_A$ to represent the time humans and agents spend searching (you can also interpret $t_H$ and $t_A$ as expenditure on the problem).
+
+**We can then derive apples found:**
+
+   $$\text{share apples found}= \underbrace{\lambda(1-e^{-r_Ht_H+r_At_A})}_{\text{apples from bottom of tree}}+\underbrace{(1-\lambda)(1-e^{-r_Ht_H})}_{\text{apples from top of tree}}.$$
+
+Implication: agents asymptote to a lower level than humans.
+: 
+    Here we illustrate agent-only and human-only search curves: the agent curve rises more quickly ($r_A>r_H$), but asymptotes to a lower level ($\lambda<1$).
+
+    ```{tikz}
+    \begin{tikzpicture}[x=1.2cm, y=5cm]
+    \def\rH{0.2} \def\rA{0.9} \def\lam{0.5}
+    \draw[-] (0,0) -- (5.5,0) node[midway,below] {search-time / expenditure}
+        --(5.5,1)--(0,1)--(0,0) node[midway,rotate=90,above] {share apples found};
+    % human: 1 - e^{-r_H t}
+    \draw[teal, thick, domain=0:5.3, samples=120]
+        plot (\x, {1 - (1-\lam)*exp(-\rH*\x) - \lam*exp(-\rH*\x)});
+    % agent: λ(1 - e^{-r_A t})
+    \draw[orange, thick, domain=0:5.3, samples=120]
+        plot (\x, {1 - (1-\lam) - \lam*exp(-\rA*\x)});
+    \draw[teal, dashed, thin] (0,.99) -- (5.3,.99);
+    \draw[orange, dashed, thin] (0,\lam) -- (5.3,\lam);
+    \node[teal, right] at (4.2, {1 - exp(-\rH*4.2) + 0.12}) {human};
+    \node[orange, right] at (4.2, {\lam*(1 - exp(-\rA*4.2)) - 0.04}) {agent};
+    \node[above] at (2.5,1) {$r_H=0.2,\; r_A=0.9,\; \lambda=0.5$};
+    \end{tikzpicture}
+    ```
+
+    The shape of these curves is a good match for what we see across tasks, e.g. in @metr2024capability. For most tasks either (1) an agent can do it much cheaper than a human; or (2) an agent can't do it at all.
+
+    ![](images/2026-03-13-05-35-22.png)
+
+
+```{r}
+#| include: false
+#| cache: false
+old_tinytex_engine_args <- getOption("tinytex.engine_args")
+options(tinytex.engine_args = unique(c(old_tinytex_engine_args, "-shell-escape")))
+```
+
+
+Implication: agents can improve on human SoTA, but only by a limited amount.
+: 
+    We can now draw the 
+    We can see that agents can improve on the humans' SoTA performance, but in each case the value asymptotes.
+
+    ```{tikz}
+    #| engine-opts:
+    #|   extra.preamble: "\\usepackage{pgfplots}\\pgfplotsset{compat=1.18}"
+    \begin{tikzpicture}
+    \begin{axis}[
+        view={0}{90}, width=8cm, height=8cm,
+        xlabel={agent search time}, ylabel={human search time},
+        title={Share of apples found \;($r_H{=}0.2,\; r_A{=}0.9,\; \lambda{=}0.5$)},
+        domain=0:5, y domain=0:5,
+        xmin=0, xmax=5, ymin=0, ymax=5,
+        enlargelimits=false,
+        axis equal image,
+        axis on top,
+        colormap/viridis,
+    ]
+    \addplot3[
+        surf,
+        shader=interp,
+        samples=45,
+        draw=none,
+    ] {1 - 0.5*exp(-0.2*y) - 0.5*exp(-0.2*y - 0.9*x)};
+    \addplot3[
+        contour gnuplot={
+            levels={0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9},
+            labels over line,
+            draw color=black,
+        },
+        samples=51,
+        thick,
+        draw=black,
+    ] {1 - 0.5*exp(-0.2*y) - 0.5*exp(-0.2*y - 0.9*x)};
+    \end{axis}
+    \end{tikzpicture}
+    ```
+
+
+Implication: agent value and asymptote depends on starting point.
+: 
+    The plot below shows agent trajectories, each starting after a different amount of human work.
+
+    If you start an agent from scratch, it will have high marginal value, but a low asymptote.
+
+    If you start an agent after some human optimization, it will have lower marginal value, but it will be able to achieve a higher asymptote (below, starting after 1 unit of human search raises the agent asymptote from 0.5 to 0.7).
+
+    ```{tikz}
+    \begin{tikzpicture}[x=1.1cm, y=5cm]
+    \def\rH{0.2} \def\rA{0.9} \def\lam{0.5}
+    \draw[-] (0,0) -- (5.5,0) node[midway,below] {total search time}
+        -- (5.5,1) -- (0,1) -- (0,0) node[midway,rotate=90,above] {share found};
+    \node[above] at (2.75,1) {$r_H=0.2,\; r_A=0.9,\; \lambda=0.5$};
+    \draw[teal, thick, domain=0:5.3, samples=120]
+        plot (\x, {1 - exp(-\rH*\x)});
+    \draw[orange, thick, domain=0:5.3, samples=120]
+        plot (\x, {1 - \lam*exp(-\rA*\x) - (1-\lam)});
+    \draw[orange, thick, dashed, domain=1:5.3, samples=120]
+        plot (\x, {1 - (1-\lam)*exp(-\rH) - \lam*exp(-\rH - \rA*(\x-1))});
+    \draw[orange, thick, dash dot, domain=2:5.3, samples=120]
+        plot (\x, {1 - (1-\lam)*exp(-2*\rH) - \lam*exp(-2*\rH - \rA*(\x-2))});
+    \draw[orange, thick, densely dotted, domain=3:5.3, samples=120]
+        plot (\x, {1 - (1-\lam)*exp(-3*\rH) - \lam*exp(-3*\rH - \rA*(\x-3))});
+    \draw[orange, thick, loosely dashed, domain=4:5.3, samples=120]
+        plot (\x, {1 - (1-\lam)*exp(-4*\rH) - \lam*exp(-4*\rH - \rA*(\x-4))});
+    \node[teal, right] at (4.2, {1 - exp(-\rH*4.2) + 0.03}) {human-only};
+    \node[orange, right] at (4.15, {1 - \lam*exp(-\rA*4.15) - (1-\lam) - 0.03}) {$t_H=0,1,2,3,4$};
+    \end{tikzpicture}
+    ```
+
+
+
+
+
+##          Closed Apple-Picking Model
+
+**Setup:**
+
+1. Apples sit at heights in $[0,\infty)$; human reach is normalized to 1. The agent has reach $\lambda_t \ge 0$ and picks everything below it.
+2. Humans pick in the band $(\lambda_t, 1]$ at a rate governed by $p$.
+3. Agent reach depends on cumualtive apples harvested: they can only pick apples after some minimum threshold ($\bar{a}$), and then linear in $a$.
+
+**Implications:**
+
+1. Agents will get taller than humans iff $\alpha + \beta(1-\bar{a}) > 1$
+2. Agent height will be explosive iff $\beta >1$, i.e. if eating all the apples in a 1-cm slice of tree causes you to grow 1cm higher. If not then you converge to a finite height $\lambda^*$.
+
+
+### 1. State variables and dynamics
+
+Normalize human reach to 1.
+
+- **$\lambda_t \ge 0$**: agent reach (how high the AI can pick).
+- **$h_t \in [0,1]$**: human coverage of the human-only band $(\lambda_t, 1]$ (fraction of that band already picked by humans).
+
+**Human dynamics** (one parameter $p \in (0,1)$): per period, a fraction $1-p$ of the remaining human-level band gets picked, so
+$$h_{t+1} = 1 - p(1-h_t), \qquad h_0 = 0.$$
+(Equivalently $h_t = 1 - p^t$; the recursion keeps the model closed and autonomous.)
+
+**Apples harvested** (agent + humans, with clipping at 1):
+$$a_t = \lambda_t + (1-\lambda_t)_+ \, h_t, \qquad (x)_+ \equiv \max\{x,0\}.$$
+Agent gets everything up to $\lambda_t$; humans only contribute on the band of length $(1-\lambda_t)_+$, of which fraction $h_t$ is covered by time $t$.
+
+**Self-improvement** (activation threshold $\bar{a}$, then affine in $a_t$):
+$$\lambda_{t+1} = \begin{cases} 0, & a_t < \bar{a} \\ \alpha + \beta(a_t - \bar{a}), & a_t \ge \bar{a}. \end{cases}$$
+
+Parameters: **$p$** (human speed), **$\bar{a}$** (minimum progress to “turn on” the agent), **$\alpha$** (baseline capability once on), **$\beta$** (strength of recursive improvement). Initial condition $\lambda_0$ (typically 0). Four parameters plus $\lambda_0$.
+
+---
+
+### 2. Crisp conditions
+
+**A) Activation.** With $\lambda_t = 0$, $a_t = h_t \to 1$. So the agent can ever turn on **iff $\bar{a} < 1$**. If $\bar{a} \ge 1$, $\lambda_t \equiv 0$ forever. Activation-time approximation: $h_t = 1 - p^t \ge \bar{a}$ $\Leftrightarrow$ $t \ge \ln(1-\bar{a})/\ln p$; $p$ mainly shifts *when* activation happens.
+
+**B) Crossing human level.** As $t \to \infty$, $h_t \to 1$. If $\lambda_t < 1$, $a_t \to 1$; if $\lambda_t \ge 1$, $a_t = \lambda_t$. So asymptotically $\lambda_{t+1} \to f(1)$ with $f(1) = 0$ if $1 < \bar{a}$, and $f(1) = \alpha + \beta(1-\bar{a})$ if $1 \ge \bar{a}$. So **takeoff past human level** (eventually $\lambda > 1$) **iff**
+$$\boxed{\alpha + \beta(1-\bar{a}) > 1.}$$
+Interpretation: “If the orchard were fully human-level ($a=1$), would the next agent be at least human-level?” If not, the system stays below 1. This condition is essentially independent of $p$ (timing, not whether).
+
+**C) Above human level: runaway vs saturation.** For $\lambda_t \ge 1$, $a_t = \lambda_t$ and
+$$\lambda_{t+1} = \alpha + \beta(\lambda_t - \bar{a}).$$
+- **Runaway / hard takeoff** iff $\boxed{\beta > 1}$ (roughly geometric growth in $\lambda_t$).
+- **Soft takeoff / saturation** iff $\boxed{\beta < 1}$: convergence to
+$$\lambda^* = \frac{\alpha - \beta\bar{a}}{1-\beta}$$
+(provided the system crosses 1 first).
+- **Knife-edge** $\beta = 1$: linear growth.
+
+---
+
+### 3. Illustrations
+
+The figures below implement this model: four canonical trajectories, phase diagram in $(\alpha,\beta)$, cobweb plots of the asymptotic map, and sensitivity to $p$ and $\bar{a}$.
+
+```{r}
+#| label: apple-rsi-sim
+#| include: false
+# Closed apple-picking RSI: h_{t+1}=1-p(1-h_t), a_t = lambda_t + (1-lambda_t)_+ * h_t,
+# lambda_{t+1} = 0 if a_t < abar else alpha + beta*(a_t - abar)
+sim_apple_rsi <- function(t_max, lambda0, p, abar, alpha, beta) {
+    h <- numeric(t_max + 1)
+    h[1] <- 0
+    for (t in seq_len(t_max)) h[t + 1] <- 1 - p * (1 - h[t])
+    a <- numeric(t_max + 1)
+    lambda <- numeric(t_max + 1)
+    lambda[1] <- lambda0
+    for (t in seq(0, t_max)) {
+        rem <- max(0, 1 - lambda[t + 1])
+        a[t + 1] <- lambda[t + 1] + rem * h[t + 1]
+        if (t < t_max) {
+            lambda[t + 2] <- if (a[t + 1] < abar) 0 else alpha + beta * (a[t + 1] - abar)
+        }
+    }
+    list(t = 0:t_max, a = a, lambda = lambda, h = h[seq_len(t_max + 1)])
+}
+```
+
+```{r}
+#| label: apple-rsi-four-regimes
+#| fig-align: center
+#| fig-width: 7
+#| fig-height: 5
+#| fig-cap: "Four regimes: no activation (<U+0101><U+2265>1), activated but stuck (f(1)<1), soft takeoff (f(1)>1, <U+03B2><1), hard takeoff (f(1)>1, <U+03B2>>1)"
+t_max <- 25
+regimes <- list(
+    list(p = 0.6, abar = 1.2, alpha = 0.3, beta = 0.8, lambda0 = 0, lab = "No activation (<U+0101> <U+2265> 1)"),
+    list(p = 0.6, abar = 0.4, alpha = 0.2, beta = 0.4, lambda0 = 0, lab = "Stuck (f(1) < 1)"),
+    list(p = 0.6, abar = 0.2, alpha = 0.5, beta = 0.8, lambda0 = 0, lab = "Soft takeoff (<U+03B2> < 1)"),
+    list(p = 0.6, abar = 0.2, alpha = 0.3, beta = 1.2, lambda0 = 0, lab = "Hard takeoff (<U+03B2> > 1)")
+)
+cols <- c("#666666", "#d95f02", "#1b9e77", "#7570b3")
+par(mfrow = c(1, 2), mar = c(3.5, 3.5, 2.2, 0.8))
+plot(NA, xlim = c(0, t_max), ylim = c(0, 2.2), xlab = "t", ylab = expression(lambda[t]), main = expression(lambda[t] ~ "(agent reach)"))
+grid(col = "gray85", lty = "dotted")
+abline(h = 1, lty = 2, col = "gray40")
+for (i in seq_along(regimes)) {
+    r <- regimes[[i]]
+    s <- sim_apple_rsi(t_max, r$lambda0, r$p, r$abar, r$alpha, r$beta)
+    lines(s$t, s$lambda, col = cols[i], lwd = 2)
+}
+legend("topleft", legend = sapply(regimes, function(x) x$lab), col = cols, lwd = 2, bty = "n", cex = 0.75)
+plot(NA, xlim = c(0, t_max), ylim = c(0, 2.2), xlab = "t", ylab = expression(a[t]), main = expression(a[t] ~ "(apples harvested)"))
+grid(col = "gray85", lty = "dotted")
+abline(h = 1, lty = 2, col = "gray40")
+for (i in seq_along(regimes)) {
+    r <- regimes[[i]]
+    s <- sim_apple_rsi(t_max, r$lambda0, r$p, r$abar, r$alpha, r$beta)
+    lines(s$t, s$a, col = cols[i], lwd = 2)
+}
+legend("topleft", legend = sapply(regimes, function(x) x$lab), col = cols, lwd = 2, bty = "n", cex = 0.75)
+par(mfrow = c(1, 1))
+```
+
+```{tikz}
+#| engine-opts:
+#|   extra.preamble: "\\usepackage{pgfplots}\\pgfplotsset{compat=1.18}"
+\begin{tikzpicture}
+\begin{axis}[
+    name=ax1,
+    width=7cm, height=5cm,
+    xmin=0, xmax=25, ymin=0, ymax=2.2,
+    xlabel={$t$}, ylabel={$\lambda_t$},
+    title={$\lambda_t$ (agent reach)},
+    grid=both,
+    grid style={dotted, gray!60},
+    axis on top,
+    legend pos=north west,
+    legend cell align=left,
+    legend style={draw=none, fill=none, font=\small},
+]
+\addplot[dashed, gray!70] coordinates {(0,1) (25,1)};
+\addplot[very thick, gray] coordinates {(0,0.000000) (1,0.000000) (2,0.000000) (3,0.000000) (4,0.000000) (5,0.000000) (6,0.000000) (7,0.000000) (8,0.000000) (9,0.000000) (10,0.000000) (11,0.000000) (12,0.000000) (13,0.000000) (14,0.000000) (15,0.000000) (16,0.000000) (17,0.000000) (18,0.000000) (19,0.000000) (20,0.000000) (21,0.000000) (22,0.000000) (23,0.000000) (24,0.000000) (25,0.000000)};
+\addplot[very thick, orange] coordinates {(0,0.000000) (1,0.000000) (2,0.200000) (3,0.324800) (4,0.381663) (5,0.407945) (6,0.421585) (7,0.429205) (8,0.433609) (9,0.436195) (10,0.437727) (11,0.438640) (12,0.439185) (13,0.439512) (14,0.439707) (15,0.439824) (16,0.439895) (17,0.439937) (18,0.439962) (19,0.439977) (20,0.439986) (21,0.439992) (22,0.439995) (23,0.439997) (24,0.439998) (25,0.439999)};
+\addplot[very thick, teal] coordinates {(0,0.000000) (1,0.000000) (2,0.660000) (3,1.042080) (4,1.173664) (5,1.278931) (6,1.363145) (7,1.430516) (8,1.484413) (9,1.527530) (10,1.562024) (11,1.589619) (12,1.611695) (13,1.629356) (14,1.643485) (15,1.654788) (16,1.663830) (17,1.671064) (18,1.676851) (19,1.681481) (20,1.685185) (21,1.688148) (22,1.690518) (23,1.692415) (24,1.693932) (25,1.695145)};
+\addplot[very thick, violet] coordinates {(0,0.000000) (1,0.000000) (2,0.540000) (3,1.061280) (4,1.333536) (5,1.660243) (6,2.052292) (7,2.522750) (8,3.087300) (9,3.764760) (10,4.577712) (11,5.553255) (12,6.723906) (13,8.128687) (14,9.814424) (15,11.837309) (16,14.264771) (17,17.177725) (18,20.673270) (19,24.867924) (20,29.901509) (21,35.941811) (22,43.190173) (23,51.888208) (24,62.325850) (25,74.851020)};
+\legend{No activation ($\bar a \ge 1$), Stuck ($f(1)<1$), Soft takeoff ($\beta<1$), Hard takeoff ($\beta>1$)}
+\end{axis}
+
+\begin{axis}[
+    at={(ax1.outer east)},
+    anchor=outer west,
+    xshift=0.9cm,
+    width=7cm, height=5cm,
+    xmin=0, xmax=25, ymin=0, ymax=2.2,
+    xlabel={$t$}, ylabel={$a_t$},
+    title={$a_t$ (apples harvested)},
+    grid=both,
+    grid style={dotted, gray!60},
+    axis on top,
+    legend pos=north west,
+    legend cell align=left,
+    legend style={draw=none, fill=none, font=\small},
+]
+\addplot[dashed, gray!70] coordinates {(0,1) (25,1)};
+\addplot[very thick, gray] coordinates {(0,0.000000) (1,0.400000) (2,0.640000) (3,0.784000) (4,0.870400) (5,0.922240) (6,0.953344) (7,0.972006) (8,0.983204) (9,0.989922) (10,0.993953) (11,0.996372) (12,0.997823) (13,0.998694) (14,0.999216) (15,0.999530) (16,0.999718) (17,0.999831) (18,0.999898) (19,0.999939) (20,0.999963) (21,0.999978) (22,0.999987) (23,0.999992) (24,0.999995) (25,0.999997)};
+\addplot[very thick, orange] coordinates {(0,0.000000) (1,0.400000) (2,0.712000) (3,0.854157) (4,0.919863) (5,0.953962) (6,0.973013) (7,0.984021) (8,0.990487) (9,0.994318) (10,0.996600) (11,0.997963) (12,0.998779) (13,0.999268) (14,0.999561) (15,0.999737) (16,0.999842) (17,0.999905) (18,0.999943) (19,0.999966) (20,0.999980) (21,0.999988) (22,0.999993) (23,0.999996) (24,0.999997) (25,0.999998)};
+\addplot[very thick, teal] coordinates {(0,0.000000) (1,0.400000) (2,0.877600) (3,1.042080) (4,1.173664) (5,1.278931) (6,1.363145) (7,1.430516) (8,1.484413) (9,1.527530) (10,1.562024) (11,1.589619) (12,1.611695) (13,1.629356) (14,1.643485) (15,1.654788) (16,1.663830) (17,1.671064) (18,1.676851) (19,1.681481) (20,1.685185) (21,1.688148) (22,1.690518) (23,1.692415) (24,1.693932) (25,1.695145)};
+\addplot[very thick, violet] coordinates {(0,0.000000) (1,0.400000) (2,0.834400) (3,1.061280) (4,1.333536) (5,1.660243) (6,2.052292) (7,2.522750) (8,3.087300) (9,3.764760) (10,4.577712) (11,5.553255) (12,6.723906) (13,8.128687) (14,9.814424) (15,11.837309) (16,14.264771) (17,17.177725) (18,20.673270) (19,24.867924) (20,29.901509) (21,35.941811) (22,43.190173) (23,51.888208) (24,62.325850) (25,74.851020)};
+\legend{No activation ($\bar a \ge 1$), Stuck ($f(1)<1$), Soft takeoff ($\beta<1$), Hard takeoff ($\beta>1$)}
+\end{axis}
+\end{tikzpicture}
+```
+
+```{r}
+#| label: apple-rsi-phase
+#| fig-align: center
+#| fig-width: 5.5
+#| fig-height: 5
+#| fig-cap: "Phase diagram: f(1)=1 (cross human level) and <U+03B2>=1 (runaway vs saturation) at fixed <U+0101> = 0.3"
+abar_fix <- 0.3
+f1 <- function(alpha, beta) alpha + beta * (1 - abar_fix)
+ng <- 80
+alpha_g <- seq(0, 1.2, length.out = ng)
+beta_g <- seq(0.2, 2, length.out = ng)
+cross_human <- outer(alpha_g, beta_g, function(a, b) f1(a, b) - 1)
+image(alpha_g, beta_g, cross_human,
+    col = rev(grDevices::colorRampPalette(c("#d95f02", "white", "#1b9e77"))(201)),
+    breaks = seq(-1.5, 1.5, length.out = 202), xlab = expression(alpha), ylab = expression(beta),
+    main = expression("Phase diagram (" * bar(a) == 0.3 * ")")
+)
+contour(alpha_g, beta_g, cross_human, levels = 0, add = TRUE, lwd = 2, labcex = 0.8)
+contour(alpha_g, beta_g, outer(alpha_g, beta_g, function(a, b) b), levels = 1, add = TRUE, lty = 2, lwd = 2, labcex = 0.8)
+text(0.5, 1.6, "f(1)=1", cex = 0.85)
+text(0.95, 1.05, expression(beta == 1), cex = 0.85)
+legend("topleft", legend = c("f(1) < 1 (stuck)", "f(1) > 1 (cross)"), fill = c("#d95f02", "#1b9e77"), bty = "n", cex = 0.8)
+```
+
+```{r}
+#| label: apple-rsi-cobweb
+#| fig-align: center
+#| fig-width: 7
+#| fig-height: 3.5
+#| fig-cap: "Cobweb: asymptotic map <U+03BB>_{t+1} = f(max(<U+03BB>_t,1)); soft (<U+03B2><1) vs hard (<U+03B2>>1)"
+f_asy <- function(lam, abar, alpha, beta) {
+    a <- max(lam, 1)
+    if (a < abar) 0 else alpha + beta * (a - abar)
+}
+abar_c <- 0.3
+lam_max <- 3
+par(mfrow = c(1, 2), mar = c(3.5, 3.5, 2.2, 0.8))
+for (sc in list(list(alpha = 0.5, beta = 0.7, tit = "Soft (<U+03B2> < 1)"), list(alpha = 0.2, beta = 1.3, tit = "Hard (<U+03B2> > 1)"))) {
+    lam_seq <- seq(0, lam_max, length.out = 400)
+    f_seq <- vapply(lam_seq, function(x) f_asy(x, abar_c, sc$alpha, sc$beta), 0)
+    plot(lam_seq, f_seq,
+        type = "l", lwd = 2, xlim = c(0, lam_max), ylim = c(0, lam_max),
+        xlab = expression(lambda[t]), ylab = expression(lambda[t + 1]), main = sc$tit
+    )
+    abline(0, 1, lty = 2, col = "gray40")
+    grid(col = "gray85", lty = "dotted")
+    lam <- 1
+    for (step in 1:20) {
+        lam_new <- f_asy(lam, abar_c, sc$alpha, sc$beta)
+        segments(lam, lam, lam, lam_new, col = "#7570b3", lwd = 1)
+        segments(lam, lam_new, lam_new, lam_new, col = "#7570b3", lwd = 1)
+        lam <- lam_new
+    }
+}
+par(mfrow = c(1, 1))
+```
+
+```{r}
+#| label: apple-rsi-sensitivity
+#| fig-align: center
+#| fig-width: 7
+#| fig-height: 5
+#| fig-cap: "Sensitivity: effect of p (left) and of <U+0101> (right) on <U+03BB>_t trajectory"
+par(mfrow = c(1, 2), mar = c(3.5, 3.5, 2.2, 0.8))
+p_vals <- c(0.3, 0.5, 0.7, 0.9)
+plot(NA,
+    xlim = c(0, t_max), ylim = c(0, 1.8), xlab = "t", ylab = expression(lambda[t]),
+    main = "Effect of p (human speed); <U+0101>=0.3, <U+03B1>=0.4, <U+03B2>=1.1"
+)
+grid(col = "gray85", lty = "dotted")
+abline(h = 1, lty = 2, col = "gray40")
+for (i in seq_along(p_vals)) {
+    s <- sim_apple_rsi(t_max, 0, p_vals[i], 0.3, 0.4, 1.1)
+    lines(s$t, s$lambda, col = cols[i], lwd = 2)
+}
+legend("topleft", legend = paste("p =", p_vals), col = cols, lwd = 2, bty = "n")
+abar_vals <- c(0.1, 0.3, 0.5, 0.7)
+plot(NA,
+    xlim = c(0, t_max), ylim = c(0, 1.8), xlab = "t", ylab = expression(lambda[t]),
+    main = "Effect of <U+0101> (activation threshold); p=0.6, <U+03B1>=0.4, <U+03B2>=1.1"
+)
+grid(col = "gray85", lty = "dotted")
+abline(h = 1, lty = 2, col = "gray40")
+for (i in seq_along(abar_vals)) {
+    s <- sim_apple_rsi(t_max, 0, 0.6, abar_vals[i], 0.4, 1.1)
+    lines(s$t, s$lambda, col = cols[i], lwd = 2)
+}
+legend("topleft", legend = as.expression(sapply(abar_vals, function(x) bquote(bar(a) == .(x)))), col = cols, lwd = 2, bty = "n")
+par(mfrow = c(1, 1))
+```
+
+
