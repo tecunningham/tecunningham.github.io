@@ -165,7 +165,7 @@ window.Quarto = {
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Draft</div>
@@ -253,9 +253,11 @@ window.Quarto = {
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
 
 
 
@@ -268,7 +270,10 @@ window.Quarto = {
    dt {grid-column-start: 1; width: 6cm;}
    dd {grid-column-start: 2; margin-left: 2em;}
 </style>
-<dl>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Thanks to Nate Rush, Manish Shetty, Basil Halperin for helpful comments.</p>
+</div></div><dl>
 <dt>An apple-picking model of AI work.</dt>
 <dd>
 <p>Here’s a simple model useful for thinking about AI’s contribution to solving problems.</p>
@@ -279,11 +284,11 @@ window.Quarto = {
 <dt>Implications of the apple-picking model.</dt>
 <dd>
 <ol type="1">
-<li>Agents can autonomously advance the state-of-the-art on an optimization problem, yet still not be a perfect substitute for human labor (they can find the unpicked low apples).</li>
-<li>Agent contribution to a problem, as you scale the expenditure, will be higher than human contribution, but then asymptote to a lower maximum value.</li>
-<li>Agents will have relatively bigger value (relative to humans) for problems that are not yet heavily optimized.</li>
+<li>Agents can autonomously advance the state-of-the-art on an optimization problem, yet still not be a perfect substitute for human labor (they can find the low apples that haven’t been picked yet).</li>
+<li>Agent contribution to a problem, as you scale the expenditure, will be higher than human contribution, but then asymptote to a lower maximum value (they’ll pick a lot of apples, but will never be able to pick them all).</li>
+<li>Agents will have relatively bigger value, relative to humans, for problems that are not yet heavily optimized (robots are useful for trees that have never been picked).</li>
 <li>Agents will asymptote to higher points if they are given better human starting points (if a tree is partly picked).</li>
-<li>To gauge the ability of agents we want to test not just for their ability to improve performance, but their <em>reach</em>.</li>
+<li>To gauge the ability of agents we want to test not just for their ability to improve performance, but their <em>reach</em> (we want to benchmark robots not on how many apples they can pick, but the height of the highest apple they can reach).</li>
 </ol>
 </dd>
 <dt>Relation to other literature.</dt>
@@ -393,57 +398,18 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="crisp-conditions">2. Crisp conditions</h3>
 <p><strong>A) Activation.</strong> With <span class="math inline">\(\lambda_t = 0\)</span>, <span class="math inline">\(a_t = h_t \to 1\)</span>. So the agent can ever turn on <strong>iff <span class="math inline">\(\bar{a} &lt; 1\)</span></strong>. If <span class="math inline">\(\bar{a} \ge 1\)</span>, <span class="math inline">\(\lambda_t \equiv 0\)</span> forever. Activation-time approximation: <span class="math inline">\(h_t = 1 - p^t \ge \bar{a}\)</span> <span class="math inline">\(\Leftrightarrow\)</span> <span class="math inline">\(t \ge \ln(1-\bar{a})/\ln p\)</span>; <span class="math inline">\(p\)</span> mainly shifts <em>when</em> activation happens.</p>
 <p><strong>B) Crossing human level.</strong> As <span class="math inline">\(t \to \infty\)</span>, <span class="math inline">\(h_t \to 1\)</span>. If <span class="math inline">\(\lambda_t &lt; 1\)</span>, <span class="math inline">\(a_t \to 1\)</span>; if <span class="math inline">\(\lambda_t \ge 1\)</span>, <span class="math inline">\(a_t = \lambda_t\)</span>. So asymptotically <span class="math inline">\(\lambda_{t+1} \to f(1)\)</span> with <span class="math inline">\(f(1) = 0\)</span> if <span class="math inline">\(1 &lt; \bar{a}\)</span>, and <span class="math inline">\(f(1) = \alpha + \beta(1-\bar{a})\)</span> if <span class="math inline">\(1 \ge \bar{a}\)</span>. So <strong>takeoff past human level</strong> (eventually <span class="math inline">\(\lambda &gt; 1\)</span>) <strong>iff</strong> <span class="math display">\[\boxed{\alpha + \beta(1-\bar{a}) &gt; 1.}\]</span> Interpretation: “If the orchard were fully human-level (<span class="math inline">\(a=1\)</span>), would the next agent be at least human-level?” If not, the system stays below 1. This condition is essentially independent of <span class="math inline">\(p\)</span> (timing, not whether).</p>
-<p><strong>C) Above human level: runaway vs saturation.</strong> For <span class="math inline">\(\lambda_t \ge 1\)</span>, <span class="math inline">\(a_t = \lambda_t\)</span> and <span class="math display">\[\lambda_{t+1} = \alpha + \beta(\lambda_t - \bar{a}).\]</span> - <strong>Runaway / hard takeoff</strong> iff <span class="math inline">\(\boxed{\beta &gt; 1}\)</span> (roughly geometric growth in <span class="math inline">\(\lambda_t\)</span>). - <strong>Soft takeoff / saturation</strong> iff <span class="math inline">\(\boxed{\beta &lt; 1}\)</span>: convergence to <span class="math display">\[\lambda^* = \frac{\alpha - \beta\bar{a}}{1-\beta}\]</span> (provided the system crosses 1 first). - <strong>Knife-edge</strong> <span class="math inline">\(\beta = 1\)</span>: linear growth.</p>
+<p><strong>C) Above human level: runaway vs saturation.</strong> For <span class="math inline">\(\lambda_t \ge 1\)</span>, <span class="math inline">\(a_t = \lambda_t\)</span> and <span class="math display">\[\lambda_{t+1} = \alpha + \beta(\lambda_t - \bar{a}).\]</span></p>
+<ul>
+<li><p><strong>Runaway / hard takeoff</strong> iff <span class="math inline">\(\boxed{\beta &gt; 1}\)</span> (roughly geometric growth in <span class="math inline">\(\lambda_t\)</span>).</p></li>
+<li><p><strong>Soft takeoff / saturation</strong> iff <span class="math inline">\(\boxed{\beta &lt; 1}\)</span>: convergence to <span class="math display">\[\lambda^* = \frac{\alpha - \beta\bar{a}}{1-\beta}\]</span> (provided the system crosses 1 first).</p></li>
+<li><p><strong>Knife-edge</strong> <span class="math inline">\(\beta = 1\)</span>: linear growth.</p></li>
+</ul>
 <hr>
-</section>
-<section id="illustrations" class="level3">
-<h3 class="anchored" data-anchor-id="illustrations">3. Illustrations</h3>
-<p>The figures below implement this model: four canonical trajectories, phase diagram in <span class="math inline">\((\alpha,\beta)\)</span>, cobweb plots of the asymptotic map, and sensitivity to <span class="math inline">\(p\)</span> and <span class="math inline">\(\bar{a}\)</span>.</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="2026-03-13-apple-picking-ai_files/figure-html/apple-rsi-four-regimes-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Four regimes: no activation (&lt;U+0101&gt;&lt;U+2265&gt;1), activated but stuck (f(1)&lt;1), soft takeoff (f(1)&gt;1, &lt;U+03B2&gt;&lt;1), hard takeoff (f(1)&gt;1, &lt;U+03B2&gt;&gt;1)</figcaption>
-</figure>
-</div>
-</div>
-</div>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
 <p><img src="2026-03-13-apple-picking-ai_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="2026-03-13-apple-picking-ai_files/figure-html/apple-rsi-phase-1.png" class="img-fluid figure-img" width="528"></p>
-<figcaption>Phase diagram: f(1)=1 (cross human level) and &lt;U+03B2&gt;=1 (runaway vs saturation) at fixed &lt;U+0101&gt; = 0.3</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="2026-03-13-apple-picking-ai_files/figure-html/apple-rsi-cobweb-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Cobweb: asymptotic map &lt;U+03BB&gt;_{t+1} = f(max(&lt;U+03BB&gt;_t,1)); soft (&lt;U+03B2&gt;&lt;1) vs hard (&lt;U+03B2&gt;&gt;1)</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="2026-03-13-apple-picking-ai_files/figure-html/apple-rsi-sensitivity-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Sensitivity: effect of p (left) and of &lt;U+0101&gt; (right) on &lt;U+03BB&gt;_t trajectory</figcaption>
 </figure>
 </div>
 </div>

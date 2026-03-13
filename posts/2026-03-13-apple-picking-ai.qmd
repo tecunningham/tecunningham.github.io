@@ -25,6 +25,12 @@ execute:
    dd {grid-column-start: 2; margin-left: 2em;}
 </style>
 
+<!-- https://tecunningham.github.io/posts/2026-03-13-apple-picking-ai.html -->
+
+::: {.column-margin}
+   Thanks to Nate Rush, Manish Shetty, Basil Halperin for helpful comments.
+:::
+
 
 An apple-picking model of AI work.
 : 
@@ -38,11 +44,11 @@ An apple-picking model of AI work.
 
 Implications of the apple-picking model.
 : 
-    1. Agents can autonomously advance the state-of-the-art on an optimization problem, yet still not be a perfect substitute for human labor (they can find the unpicked low apples).
-    2. Agent contribution to a problem, as you scale the expenditure, will be higher than human contribution, but then asymptote to a lower maximum value.
-    3. Agents will have relatively bigger value (relative to humans) for problems that are not yet heavily optimized.
+    1. Agents can autonomously advance the state-of-the-art on an optimization problem, yet still not be a perfect substitute for human labor (they can find the low apples that haven't been picked yet).
+    2. Agent contribution to a problem, as you scale the expenditure, will be higher than human contribution, but then asymptote to a lower maximum value (they'll pick a lot of apples, but will never be able to pick them all).
+    3. Agents will have relatively bigger value, relative to humans,  for problems that are not yet heavily optimized (robots are useful for trees that have never been picked).
     4. Agents will asymptote to higher points if they are given better human starting points (if a tree is partly picked).
-    5. To gauge the ability of agents we want to test not just for their ability to improve performance, but their *reach*.
+    5. To gauge the ability of agents we want to test not just for their ability to improve performance, but their *reach* (we want to benchmark robots not on how many apples they can pick, but the height of the highest apple they can reach).
 
 
 Relation to other literature. 
@@ -239,81 +245,48 @@ Interpretation: “If the orchard were fully human-level ($a=1$), would the next
 
 **C) Above human level: runaway vs saturation.** For $\lambda_t \ge 1$, $a_t = \lambda_t$ and
 $$\lambda_{t+1} = \alpha + \beta(\lambda_t - \bar{a}).$$
+
 - **Runaway / hard takeoff** iff $\boxed{\beta > 1}$ (roughly geometric growth in $\lambda_t$).
+
 - **Soft takeoff / saturation** iff $\boxed{\beta < 1}$: convergence to
 $$\lambda^* = \frac{\alpha - \beta\bar{a}}{1-\beta}$$
 (provided the system crosses 1 first).
+
 - **Knife-edge** $\beta = 1$: linear growth.
 
 ---
 
-### 3. Illustrations
-
-The figures below implement this model: four canonical trajectories, phase diagram in $(\alpha,\beta)$, cobweb plots of the asymptotic map, and sensitivity to $p$ and $\bar{a}$.
-
-```{r}
-#| label: apple-rsi-sim
-#| include: false
-# Closed apple-picking RSI: h_{t+1}=1-p(1-h_t), a_t = lambda_t + (1-lambda_t)_+ * h_t,
-# lambda_{t+1} = 0 if a_t < abar else alpha + beta*(a_t - abar)
-sim_apple_rsi <- function(t_max, lambda0, p, abar, alpha, beta) {
-    h <- numeric(t_max + 1)
-    h[1] <- 0
-    for (t in seq_len(t_max)) h[t + 1] <- 1 - p * (1 - h[t])
-    a <- numeric(t_max + 1)
-    lambda <- numeric(t_max + 1)
-    lambda[1] <- lambda0
-    for (t in seq(0, t_max)) {
-        rem <- max(0, 1 - lambda[t + 1])
-        a[t + 1] <- lambda[t + 1] + rem * h[t + 1]
-        if (t < t_max) {
-            lambda[t + 2] <- if (a[t + 1] < abar) 0 else alpha + beta * (a[t + 1] - abar)
-        }
-    }
-    list(t = 0:t_max, a = a, lambda = lambda, h = h[seq_len(t_max + 1)])
-}
-```
-
-```{r}
-#| label: apple-rsi-four-regimes
-#| fig-align: center
-#| fig-width: 7
-#| fig-height: 5
-#| fig-cap: "Four regimes: no activation (<U+0101><U+2265>1), activated but stuck (f(1)<1), soft takeoff (f(1)>1, <U+03B2><1), hard takeoff (f(1)>1, <U+03B2>>1)"
-t_max <- 25
-regimes <- list(
-    list(p = 0.6, abar = 1.2, alpha = 0.3, beta = 0.8, lambda0 = 0, lab = "No activation (<U+0101> <U+2265> 1)"),
-    list(p = 0.6, abar = 0.4, alpha = 0.2, beta = 0.4, lambda0 = 0, lab = "Stuck (f(1) < 1)"),
-    list(p = 0.6, abar = 0.2, alpha = 0.5, beta = 0.8, lambda0 = 0, lab = "Soft takeoff (<U+03B2> < 1)"),
-    list(p = 0.6, abar = 0.2, alpha = 0.3, beta = 1.2, lambda0 = 0, lab = "Hard takeoff (<U+03B2> > 1)")
-)
-cols <- c("#666666", "#d95f02", "#1b9e77", "#7570b3")
-par(mfrow = c(1, 2), mar = c(3.5, 3.5, 2.2, 0.8))
-plot(NA, xlim = c(0, t_max), ylim = c(0, 2.2), xlab = "t", ylab = expression(lambda[t]), main = expression(lambda[t] ~ "(agent reach)"))
-grid(col = "gray85", lty = "dotted")
-abline(h = 1, lty = 2, col = "gray40")
-for (i in seq_along(regimes)) {
-    r <- regimes[[i]]
-    s <- sim_apple_rsi(t_max, r$lambda0, r$p, r$abar, r$alpha, r$beta)
-    lines(s$t, s$lambda, col = cols[i], lwd = 2)
-}
-legend("topleft", legend = sapply(regimes, function(x) x$lab), col = cols, lwd = 2, bty = "n", cex = 0.75)
-plot(NA, xlim = c(0, t_max), ylim = c(0, 2.2), xlab = "t", ylab = expression(a[t]), main = expression(a[t] ~ "(apples harvested)"))
-grid(col = "gray85", lty = "dotted")
-abline(h = 1, lty = 2, col = "gray40")
-for (i in seq_along(regimes)) {
-    r <- regimes[[i]]
-    s <- sim_apple_rsi(t_max, r$lambda0, r$p, r$abar, r$alpha, r$beta)
-    lines(s$t, s$a, col = cols[i], lwd = 2)
-}
-legend("topleft", legend = sapply(regimes, function(x) x$lab), col = cols, lwd = 2, bty = "n", cex = 0.75)
-par(mfrow = c(1, 1))
-```
 
 ```{tikz}
 #| engine-opts:
 #|   extra.preamble: "\\usepackage{pgfplots}\\pgfplotsset{compat=1.18}"
+% Recurrence: h_t = 1 - p^t; a_t = λ_t + (1-λ_t)*h_t when λ_t<1 else λ_t; λ_{t+1} = a_t≥ā ? α+β(a_t-ā) : 0.
+% Four scenarios: (p, ā, α, β) = (0.6, 1.5, 0, 0) no activation; (0.6, 0.2, 0.12, 0.4) stuck; (0.6, 0.2, 0.35, 0.9) soft; (0.6, 0.2, 0.32, 1.1) hard.
+\def\appleloop#1#2#3#4{
+  \pgfmathsetmacro{\p}{#1}\pgfmathsetmacro{\bara}{#2}\pgfmathsetmacro{\alphap}{#3}\pgfmathsetmacro{\betap}{#4}
+  \gdef\coordslambda{}\gdef\coordsat{}
+  \gdef\lambdai{0}
+  \foreach \t in {0,1,...,25} {
+    \pgfmathsetmacro{\ht}{1 - pow(\p,\t)}
+    \pgfmathparse{\lambdai >= 1 ? \lambdai : \lambdai + (1-\lambdai)*\ht}
+    \pgfmathsetmacro{\at}{\pgfmathresult}
+    \pgfmathparse{\at < \bara ? 0 : \alphap + \betap*(\at - \bara)}
+    \pgfmathsetmacro{\lambdanext}{\pgfmathresult}
+    \xdef\coordslambda{\coordslambda (\t,\lambdai)}
+    \xdef\coordsat{\coordsat (\t,\at)}
+    \xdef\lambdai{\lambdanext}
+  }
+}
 \begin{tikzpicture}
+\appleloop{0.6}{1.5}{0}{0}
+\edef\coordslambdaA{\coordslambda}\edef\coordsatA{\coordsat}
+\appleloop{0.6}{0.2}{0.12}{0.4}
+\edef\coordslambdaB{\coordslambda}\edef\coordsatB{\coordsat}
+\appleloop{0.6}{0.2}{0.35}{0.9}
+\edef\coordslambdaC{\coordslambda}\edef\coordsatC{\coordsat}
+\appleloop{0.6}{0.2}{0.32}{1.1}
+\edef\coordslambdaD{\coordslambda}\edef\coordsatD{\coordsat}
+
 \begin{axis}[
     name=ax1,
     width=7cm, height=5cm,
@@ -328,10 +301,10 @@ par(mfrow = c(1, 1))
     legend style={draw=none, fill=none, font=\small},
 ]
 \addplot[dashed, gray!70] coordinates {(0,1) (25,1)};
-\addplot[very thick, gray] coordinates {(0,0.000000) (1,0.000000) (2,0.000000) (3,0.000000) (4,0.000000) (5,0.000000) (6,0.000000) (7,0.000000) (8,0.000000) (9,0.000000) (10,0.000000) (11,0.000000) (12,0.000000) (13,0.000000) (14,0.000000) (15,0.000000) (16,0.000000) (17,0.000000) (18,0.000000) (19,0.000000) (20,0.000000) (21,0.000000) (22,0.000000) (23,0.000000) (24,0.000000) (25,0.000000)};
-\addplot[very thick, orange] coordinates {(0,0.000000) (1,0.000000) (2,0.200000) (3,0.324800) (4,0.381663) (5,0.407945) (6,0.421585) (7,0.429205) (8,0.433609) (9,0.436195) (10,0.437727) (11,0.438640) (12,0.439185) (13,0.439512) (14,0.439707) (15,0.439824) (16,0.439895) (17,0.439937) (18,0.439962) (19,0.439977) (20,0.439986) (21,0.439992) (22,0.439995) (23,0.439997) (24,0.439998) (25,0.439999)};
-\addplot[very thick, teal] coordinates {(0,0.000000) (1,0.000000) (2,0.660000) (3,1.042080) (4,1.173664) (5,1.278931) (6,1.363145) (7,1.430516) (8,1.484413) (9,1.527530) (10,1.562024) (11,1.589619) (12,1.611695) (13,1.629356) (14,1.643485) (15,1.654788) (16,1.663830) (17,1.671064) (18,1.676851) (19,1.681481) (20,1.685185) (21,1.688148) (22,1.690518) (23,1.692415) (24,1.693932) (25,1.695145)};
-\addplot[very thick, violet] coordinates {(0,0.000000) (1,0.000000) (2,0.540000) (3,1.061280) (4,1.333536) (5,1.660243) (6,2.052292) (7,2.522750) (8,3.087300) (9,3.764760) (10,4.577712) (11,5.553255) (12,6.723906) (13,8.128687) (14,9.814424) (15,11.837309) (16,14.264771) (17,17.177725) (18,20.673270) (19,24.867924) (20,29.901509) (21,35.941811) (22,43.190173) (23,51.888208) (24,62.325850) (25,74.851020)};
+\addplot[very thick, gray] coordinates {\coordslambdaA};
+\addplot[very thick, orange] coordinates {\coordslambdaB};
+\addplot[very thick, teal] coordinates {\coordslambdaC};
+\addplot[very thick, violet] coordinates {\coordslambdaD};
 \legend{No activation ($\bar a \ge 1$), Stuck ($f(1)<1$), Soft takeoff ($\beta<1$), Hard takeoff ($\beta>1$)}
 \end{axis}
 
@@ -351,104 +324,11 @@ par(mfrow = c(1, 1))
     legend style={draw=none, fill=none, font=\small},
 ]
 \addplot[dashed, gray!70] coordinates {(0,1) (25,1)};
-\addplot[very thick, gray] coordinates {(0,0.000000) (1,0.400000) (2,0.640000) (3,0.784000) (4,0.870400) (5,0.922240) (6,0.953344) (7,0.972006) (8,0.983204) (9,0.989922) (10,0.993953) (11,0.996372) (12,0.997823) (13,0.998694) (14,0.999216) (15,0.999530) (16,0.999718) (17,0.999831) (18,0.999898) (19,0.999939) (20,0.999963) (21,0.999978) (22,0.999987) (23,0.999992) (24,0.999995) (25,0.999997)};
-\addplot[very thick, orange] coordinates {(0,0.000000) (1,0.400000) (2,0.712000) (3,0.854157) (4,0.919863) (5,0.953962) (6,0.973013) (7,0.984021) (8,0.990487) (9,0.994318) (10,0.996600) (11,0.997963) (12,0.998779) (13,0.999268) (14,0.999561) (15,0.999737) (16,0.999842) (17,0.999905) (18,0.999943) (19,0.999966) (20,0.999980) (21,0.999988) (22,0.999993) (23,0.999996) (24,0.999997) (25,0.999998)};
-\addplot[very thick, teal] coordinates {(0,0.000000) (1,0.400000) (2,0.877600) (3,1.042080) (4,1.173664) (5,1.278931) (6,1.363145) (7,1.430516) (8,1.484413) (9,1.527530) (10,1.562024) (11,1.589619) (12,1.611695) (13,1.629356) (14,1.643485) (15,1.654788) (16,1.663830) (17,1.671064) (18,1.676851) (19,1.681481) (20,1.685185) (21,1.688148) (22,1.690518) (23,1.692415) (24,1.693932) (25,1.695145)};
-\addplot[very thick, violet] coordinates {(0,0.000000) (1,0.400000) (2,0.834400) (3,1.061280) (4,1.333536) (5,1.660243) (6,2.052292) (7,2.522750) (8,3.087300) (9,3.764760) (10,4.577712) (11,5.553255) (12,6.723906) (13,8.128687) (14,9.814424) (15,11.837309) (16,14.264771) (17,17.177725) (18,20.673270) (19,24.867924) (20,29.901509) (21,35.941811) (22,43.190173) (23,51.888208) (24,62.325850) (25,74.851020)};
+\addplot[very thick, gray] coordinates {\coordsatA};
+\addplot[very thick, orange] coordinates {\coordsatB};
+\addplot[very thick, teal] coordinates {\coordsatC};
+\addplot[very thick, violet] coordinates {\coordsatD};
 \legend{No activation ($\bar a \ge 1$), Stuck ($f(1)<1$), Soft takeoff ($\beta<1$), Hard takeoff ($\beta>1$)}
 \end{axis}
 \end{tikzpicture}
 ```
-
-```{r}
-#| label: apple-rsi-phase
-#| fig-align: center
-#| fig-width: 5.5
-#| fig-height: 5
-#| fig-cap: "Phase diagram: f(1)=1 (cross human level) and <U+03B2>=1 (runaway vs saturation) at fixed <U+0101> = 0.3"
-abar_fix <- 0.3
-f1 <- function(alpha, beta) alpha + beta * (1 - abar_fix)
-ng <- 80
-alpha_g <- seq(0, 1.2, length.out = ng)
-beta_g <- seq(0.2, 2, length.out = ng)
-cross_human <- outer(alpha_g, beta_g, function(a, b) f1(a, b) - 1)
-image(alpha_g, beta_g, cross_human,
-    col = rev(grDevices::colorRampPalette(c("#d95f02", "white", "#1b9e77"))(201)),
-    breaks = seq(-1.5, 1.5, length.out = 202), xlab = expression(alpha), ylab = expression(beta),
-    main = expression("Phase diagram (" * bar(a) == 0.3 * ")")
-)
-contour(alpha_g, beta_g, cross_human, levels = 0, add = TRUE, lwd = 2, labcex = 0.8)
-contour(alpha_g, beta_g, outer(alpha_g, beta_g, function(a, b) b), levels = 1, add = TRUE, lty = 2, lwd = 2, labcex = 0.8)
-text(0.5, 1.6, "f(1)=1", cex = 0.85)
-text(0.95, 1.05, expression(beta == 1), cex = 0.85)
-legend("topleft", legend = c("f(1) < 1 (stuck)", "f(1) > 1 (cross)"), fill = c("#d95f02", "#1b9e77"), bty = "n", cex = 0.8)
-```
-
-```{r}
-#| label: apple-rsi-cobweb
-#| fig-align: center
-#| fig-width: 7
-#| fig-height: 3.5
-#| fig-cap: "Cobweb: asymptotic map <U+03BB>_{t+1} = f(max(<U+03BB>_t,1)); soft (<U+03B2><1) vs hard (<U+03B2>>1)"
-f_asy <- function(lam, abar, alpha, beta) {
-    a <- max(lam, 1)
-    if (a < abar) 0 else alpha + beta * (a - abar)
-}
-abar_c <- 0.3
-lam_max <- 3
-par(mfrow = c(1, 2), mar = c(3.5, 3.5, 2.2, 0.8))
-for (sc in list(list(alpha = 0.5, beta = 0.7, tit = "Soft (<U+03B2> < 1)"), list(alpha = 0.2, beta = 1.3, tit = "Hard (<U+03B2> > 1)"))) {
-    lam_seq <- seq(0, lam_max, length.out = 400)
-    f_seq <- vapply(lam_seq, function(x) f_asy(x, abar_c, sc$alpha, sc$beta), 0)
-    plot(lam_seq, f_seq,
-        type = "l", lwd = 2, xlim = c(0, lam_max), ylim = c(0, lam_max),
-        xlab = expression(lambda[t]), ylab = expression(lambda[t + 1]), main = sc$tit
-    )
-    abline(0, 1, lty = 2, col = "gray40")
-    grid(col = "gray85", lty = "dotted")
-    lam <- 1
-    for (step in 1:20) {
-        lam_new <- f_asy(lam, abar_c, sc$alpha, sc$beta)
-        segments(lam, lam, lam, lam_new, col = "#7570b3", lwd = 1)
-        segments(lam, lam_new, lam_new, lam_new, col = "#7570b3", lwd = 1)
-        lam <- lam_new
-    }
-}
-par(mfrow = c(1, 1))
-```
-
-```{r}
-#| label: apple-rsi-sensitivity
-#| fig-align: center
-#| fig-width: 7
-#| fig-height: 5
-#| fig-cap: "Sensitivity: effect of p (left) and of <U+0101> (right) on <U+03BB>_t trajectory"
-par(mfrow = c(1, 2), mar = c(3.5, 3.5, 2.2, 0.8))
-p_vals <- c(0.3, 0.5, 0.7, 0.9)
-plot(NA,
-    xlim = c(0, t_max), ylim = c(0, 1.8), xlab = "t", ylab = expression(lambda[t]),
-    main = "Effect of p (human speed); <U+0101>=0.3, <U+03B1>=0.4, <U+03B2>=1.1"
-)
-grid(col = "gray85", lty = "dotted")
-abline(h = 1, lty = 2, col = "gray40")
-for (i in seq_along(p_vals)) {
-    s <- sim_apple_rsi(t_max, 0, p_vals[i], 0.3, 0.4, 1.1)
-    lines(s$t, s$lambda, col = cols[i], lwd = 2)
-}
-legend("topleft", legend = paste("p =", p_vals), col = cols, lwd = 2, bty = "n")
-abar_vals <- c(0.1, 0.3, 0.5, 0.7)
-plot(NA,
-    xlim = c(0, t_max), ylim = c(0, 1.8), xlab = "t", ylab = expression(lambda[t]),
-    main = "Effect of <U+0101> (activation threshold); p=0.6, <U+03B1>=0.4, <U+03B2>=1.1"
-)
-grid(col = "gray85", lty = "dotted")
-abline(h = 1, lty = 2, col = "gray40")
-for (i in seq_along(abar_vals)) {
-    s <- sim_apple_rsi(t_max, 0, 0.6, abar_vals[i], 0.4, 1.1)
-    lines(s$t, s$lambda, col = cols[i], lwd = 2)
-}
-legend("topleft", legend = as.expression(sapply(abar_vals, function(x) bquote(bar(a) == .(x)))), col = cols, lwd = 2, bty = "n")
-par(mfrow = c(1, 1))
-```
-
-
