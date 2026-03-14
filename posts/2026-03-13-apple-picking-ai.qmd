@@ -1,5 +1,5 @@
 ---
-title: An Apple-Plucking Model of Agents
+title: An Apple-Picking Model of Agents
 author:
   - name: Tom Cunningham
     affiliation: METR
@@ -17,34 +17,145 @@ execute:
   error: false
   cache: true # caches chunk output
 ---
-<style>
+<!--
    h1 {  border-bottom: 4px solid black; }
    h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; color: black; }
    dl {display: grid;}
    dt {grid-column-start: 1; width: 6cm;}
    dd {grid-column-start: 2; margin-left: 2em;}
-</style>
+-->
 
 <!-- https://tecunningham.github.io/posts/2026-03-13-apple-picking-ai.html -->
 
 ::: {.column-margin}
-   Thanks to Nate Rush, Manish Shetty, Basil Halperin, & Parker Whitfill for comments.
+   Thanks to Nate Rush, Manish Shetty, Thomas Kwa, Basil Halperin, Tom Houlden, & Parker Whitfill for comments.
 :::
 
 
 A simple model for AI R&D.
 : 
-    An agent helping you to optimize an algorithm is like a robot helping you pick apples. It will take care of all the apples up to a certain height, and it will find apples you haven't found, but there will still be apples out of its reach.
+    An agent helping you to optimize an algorithm is like a robot helping you pick apples. It will take care of all the apples up to a certain height, and it may find apples you haven't found yet, but there will still be apples out of its reach.
 
-    The motivation for writing this model was to help think through the implications of recent evidence that AI can push forward the frontier on various optimization and AI R&D problems (see my earlier post on [knowledge problems](https://tecunningham.github.io/posts/2026-01-29-knowledge-creating-llms.html)). If you can spend $100 in tokens to increase the efficiency of an AI training algorithm by 0.1% then, on its surface, this looks like the path to self-improvement, and you can replace humans with AI. But realistically the agents have been discovering *shallow* improvements to algorithms. This apple-picking model is my attempt to help think through the distinction, and figure out how to measure agents' optimization ability.
+    The motivation for writing this model was to help think through the implications of recent evidence that AI can push forward the frontier on various optimization and AI R&D problems (see my earlier post on [AI knowledge creation](https://tecunningham.github.io/posts/2026-01-29-knowledge-creating-llms.html)). If you can spend $100 in tokens to increase the efficiency of an AI training algorithm by 0.1% then, on its surface, this looks like the path to self-improvement, and you can replace humans with AI. But realistically the agents have been discovering *shallow* improvements to algorithms. This apple-picking model is my attempt to help think through the distinction, and figure out how to measure agents' optimization ability.
 
-    Below I give a formal model but the basic ideas can all be illustrated with the illustration at right:
+    Below I give a formal model but the basic ideas can all be seen with a drawing: here both the human and robot have picked four apples, but they've left the tree in a very different state, so the robot isn't ready to replace the human yet:
 
 \ 
 
-::: {.column-margin}
-   ![](images/2026-03-12-11-32-34.png)
-:::
+```{tikz}
+#| fig-align: center
+#| fig-width: 3
+\begin{tikzpicture}[
+    x=0.62cm,
+    y=0.62cm,
+    line cap=round,
+    line join=round,
+    draw=blue!65!black,
+    line width=0.8pt
+]
+% easy-to-tune layout parameters
+\def\groundY{0.2}
+\def\humanX{1.6}
+\def\leftTreeX{6.7}
+\def\rightTreeX{12.9}
+\def\robotX{17.0}
+\def\trunkTopY{4.0}
+\def\canopyTopY{9.55}
+\def\canopyLeft{-1.55}
+\def\canopyRight{1.55}
+\def\fruitRadius{0.18}
+\def\crossHalf{0.15}
+\def\robotReachY{5.6}
+
+\newcommand{\drawCross}[2]{
+    \begin{scope}[shift={({#1},{#2})}]
+    \draw (-\crossHalf,-\crossHalf) -- (\crossHalf,\crossHalf);
+    \draw (-\crossHalf,\crossHalf) -- (\crossHalf,-\crossHalf);
+    \end{scope}
+}
+
+\newcommand{\drawFruit}[2]{
+    \draw (#1,#2) circle (\fruitRadius);
+}
+
+\newcommand{\drawTree}[1]{
+    \begin{scope}[shift={({#1},0)}]
+    \draw (-0.80,\groundY-0.05) -- (0.80,\groundY-0.05);
+    \draw (-0.10,\groundY-0.05)
+        .. controls +(0.35,0.25) and +(-0.10,-0.90) .. (-0.02,\trunkTopY);
+    \draw (0.10,\groundY-0.05)
+        .. controls +(-0.35,0.25) and +(0.10,-0.90) .. (0.02,\trunkTopY);
+    \draw (\canopyLeft,\trunkTopY)
+        .. controls +(-0.60,0.80) and +(-0.30,-1.30) .. (-1.30,8.35)
+        .. controls +(0.25,1.05) and +(-0.95,0.30) .. (0.00,\canopyTopY)
+        .. controls +(0.90,0.25) and +(-0.45,0.95) .. (1.25,8.75)
+        .. controls +(0.55,-0.75) and +(0.25,1.00) .. (1.10,5.80)
+        .. controls +(-0.20,-1.00) and +(0.90,-0.20) .. (\canopyRight,\trunkTopY)
+        .. controls +(-1.00,-0.20) and +(0.95,-0.20) .. (\canopyLeft,\trunkTopY);
+    \end{scope}
+}
+
+\newcommand{\drawHuman}[1]{
+    \begin{scope}[shift={({#1},0)}]
+    \draw (0,8.15) circle (0.45);
+    \fill[blue!65!black] (-0.15,8.3) circle (0.04);
+    \draw (0.15,8.05) -- ++(0.15,-0.15);
+    \draw (0,7.7) -- ++(0,-5.5);
+    \draw (0,6.55) -- (1.95,7.25) -- (2.75,7.88);
+    \draw (2.75,7.88) -- ++(0.20,0.18);
+    \draw (2.75,7.88) -- ++(0.08,0.26);
+    \draw (2.88,8.01) -- ++(-0.16,0.04);
+    \draw (0,2.2) -- ++(-0.18,-2.0);
+    \draw (0,2.2) -- ++(0.32,-2.0);
+    \draw (-0.45,\groundY) -- ++(1.0,0);
+    \end{scope}
+}
+
+\newcommand{\drawRobot}[1]{
+    \begin{scope}[shift={({#1},0)}]
+    \draw (0,4.75) circle (0.5);
+    \draw (-1.0,4.25) -- (1.0,4.25) -- (1.0,3.0) -- (-1.0,3.0) -- cycle;
+    \draw (-1.0,3.0) -- ++(0,-2.65) -- ++(0.95,0);
+    \draw (1.0,3.0) -- ++(0,-2.65) -- ++(-0.8,0);
+    \draw (-1.25,\groundY) -- ++(2.6,0);
+    % straight robotic arm showing a limited reach
+    \draw (-0.75,4.0) -- (-2.05,\robotReachY);
+    \draw (-2.05,\robotReachY) -- ++(-0.18,0.22);
+    \draw (-2.05,\robotReachY) -- ++(-0.26,-0.08);
+    \draw (-2.18,\robotReachY+0.08) -- ++(0.08,-0.16);
+    \end{scope}
+}
+
+\drawHuman{\humanX}
+\drawTree{\leftTreeX}
+\drawTree{\rightTreeX}
+\drawRobot{\robotX}
+
+% fruit layouts relative to tree centers
+\begin{scope}[shift={({\leftTreeX},0)}]
+\drawCross{-0.8}{8.6}
+\drawFruit{0.75}{8.6}
+\drawFruit{-0.8}{7.4}
+\drawCross{0.75}{7.4}
+\drawCross{-0.8}{6.2}
+\drawFruit{0.75}{6.2}
+\drawFruit{-0.8}{5.0}
+\drawCross{0.75}{5.0}
+\end{scope}
+\foreach \x/\y in {-0.85/8.6, 0.65/8.6, -0.85/7.35, 0.65/7.35}{
+    \begin{scope}[shift={({\rightTreeX},0)}]
+    \drawFruit{\x}{\y}
+    \end{scope}
+}
+\foreach \x/\y in {-0.85/6.05, 0.65/6.05, -0.85/4.85, 0.65/4.85}{
+    \begin{scope}[shift={({\rightTreeX},0)}]
+    \drawCross{\x}{\y}
+    \end{scope}
+}
+\end{tikzpicture}
+```
+
+
 |Agents finding optimizations|Robots picking apples|
 |-|-|
 |Agents can autonomously advance the state-of-the-art on an optimization problem|Robots can find low apples that humans have not picked yet|
@@ -57,45 +168,36 @@ Recursive self-improvement.
 : 
     It's also possible to close this model, where agent R&D contributes to the next generation of agent ability. This is like assuming that a robot can eat apples they harvested & grow taller. The condition for explosive growth is simple: it will happen when all the apples within a one-foot slice of the tree are sufficient for the robot to grow another foot.
 
-Relation to other literature. 
+Relation to other models of AI R&D. 
 : 
-    Most existing models of AI R&D assume that either AI accelerates or multiplies human researchers, e.g. by automating some of their tasks. I believe this is roughly true for @aghion2019artificial, @davidson2021could, @erdil2025gate, @davidson2026automatingairesearch, @jones2025aird, @kwa2026simpleraitimelines. These models then calibrate the effect through (1) how much does AI accelerate R&D workers; (2) how much do R&D workers contribute to our stock of knowledge.
+    The critical distinction between this model and others is how we represent the state. Most existing models summarize the level of productivity (or stock of knowledge) with a single number, meaning there's no distinction between a shallow and deep contribution. The model I'm using here allows us to represent the state with two numbers: the share of apples picked above and below $\lambda$. For the RSI version of the model, we track $\lambda$ and the share of apples picked between $\lambda$ and 1.
+
+    Most existing models of recurse self-improvement assume that either AI accelerates or replaces human R&D researchers. I believe this is roughly true for @aghion2019artificial, @davidson2021could, @erdil2025gate, @davidson2026automatingairesearch, @jones2025aird, @kwa2026simpleraitimelines. These models then calibrate the effect through (1) how much does AI accelerate R&D workers; (2) how much do R&D workers contribute to our stock of knowledge.
     
     However there is some awkwardness in fitting these models to the data:
     
-    1. It is hard to reconcile these models with evidence that AI is already *autonomously* contributing to AI research yet not replacing humans (i.e. autonomous agents are not perfect substitutes for humans). 
-    2. Some models assume .
-    
-    A critical distinction is that these models all summarize the level of productivity with a scalar. This means there's no distinction between a shallow and deep contribution to a problem, if each speeds up the output by 1%.
+    1. It is hard to reconcile these models with evidence that AI is already autonomously contributing to AI research, yet still not replacing humans (i.e. autonomous agents are not perfect substitutes for humans). 
+    2. Models with human replacement typically assume a limited number of AI R&D agents (e.g. @davidson2026automatingairesearch), because having an infinite number of R&D agents would cause immediate explosive growth. But it's hard to motivate why we would have a small number, rather than scaling the number of agents up to the limits of compute.
 
-    There are two models I'm aware of that allow autonomous AI actions, but distinguish the quality of those actions.
-
-    1. @kokotajlo2025aifuturesmodel model AI and human "research taste", though I don't have a clear idea exactly how taste is aggregated within a lab. 
-    2. @ide2024artificialintelligenceknowledgeeconomy model AI with different levels of human ability.
+    @kokotajlo2025aifuturesmodel models AI and human "research taste", though I don't have a clear idea exactly how taste is aggregated.^[@ide2024artificialintelligenceknowledgeeconomy model AI with different levels of human ability, though I believe they only discrete problem-solving, not cumulative contribution to knowledge-gathering.]
 
 Things to add.
 : 
-    *Landscape.* A more general version would model the entire *landscape*. You can represent an optimization problem as $y=f(\bm{x})$, where you're trying to choose an $\bm{x}$ to maximize $y$, given some unknown $f(\cdot)$. (talk about non-additivity of optimizations; talk about conditions under which landscape is separable, and so each subspace is an independent apple).
+    - *Landscape.* A more general version would model the entire *landscape*. You can represent an optimization problem as $y=f(\bm{x})$, where you're trying to choose an $\bm{x}$ to maximize $y$, given some unknown $f(\cdot)$. (talk about non-additivity of optimizations; talk about conditions under which landscape is separable, and so each subspace is an independent apple; talk about path dependence).
 
-    *Relation to time horizon.* You can think of the high apples as long-time-horizon tasks.
+    - *Relation to time horizon.* You can think of the high apples as long-time-horizon tasks.
 
-    *Path dependence.*
+    - *Shape of the tree.* You can extend the model such that apples are non-uniformly distributed, then we can replace $\lambda$ with $F(\lambda)$ below. We can then talk about types of domain which are bottom-heavy (most optimizations are pretty easy to find) vs top-heavy (most optimizations are hard to find). It then becomes important to know whether AI R&D is relatively more bottom-heavy or top-heavy, if the former then we might already be on the brink of an intelligence explosion.
 
-    *Shape of the tree.* (examples of trees with naturally more low-hanging fruit; examples of trees that are now pretty bare low-down).
+    - *Directed search.* We assume that the probability of finding an apple/optimization is independent of other apples already found. 
+    
+    - *Other bottlenecks.* -- e.g. compute bottlenecks, experiment bottlenecks.
 
-    *Other bottlenecks.* -- e.g. compute bottlenecks, experiment bottlenecks.
-
-    *Existing models of AI R&D.*
-
-    *Implications for AI R&D.*
-
-    - LLMs are suddenly able to optimize algorithms pretty well --- maybe  recursive-self-improvement has just kicked off. But the critical question is whether the fruit that it's picking are low-hanging. If all the optimizations are routine, then it'll run out pretty quickly.
-
-    - LLM training is a big stack of algorithms, which we've been optimizing at perhaps 10X/year. [add some speculation about which parts of the stack have low-hanging fruit]
+    - *Sketch of a quantitative model of LLM training.* LLM training is a big stack of algorithms, which we've been optimizing at perhaps 10X/year. [add some speculation about which parts of the stack have low-hanging fruit]
 
 
 
-#               Basic Model
+#               Open Model
 
 Setup.
 :   There is a continuum of apples spread uniformly on the real line.
@@ -221,19 +323,21 @@ Implication: agent asymptote depends on the starting point.
 
 
 
-#          Closed Apple-Picking Model
+#          Closed Model
 
 Now let the robot's height depend on apples harvested.
 : 
-    The previous model applied to agents working on an arbitrary problem. Now we focus on agents working on AI R&D, which in turn increases agent ability. We make a few changes:
+    The previous model applied to agents working on an arbitrary problem. Now we focus on agents working on AI R&D, which in turn increases agent ability.
+    
+    We make a few changes:
 
-    1. We now track progress in picking apples over periods, where each period represents a generation of AI models, and we assume that agents pick *all* the apples available to them each period. This makes things easier to model (the state of the tree can be summarized with just two variables, $\lambda$ and $h$), but it also seems like a reasonable assumption: AI research labs will keep spending money on agent-optimizing their algorithms until there are low returns to additional use.
-    2. We assume that the agent's ability in period $n+1$ is a function of AI R&D progress in period $n$ (the robot is eating the apples and getting taller). It turns out that we can get a simple closed-form solution when this function is linear. To add a touch of realism we assume that agents have no meaningful ability until algorithmic progress passes some minimum threshold ($\bar{a}$).
+    1. We now track progress in picking apples over periods, where each period represents a generation of AI models, and we assume that agents pick *all* the apples available to them each period (apples below $\lambda_n$). This makes things easier to model (the state of the tree can be summarized with just two variables, $\lambda_n$ and $h_n$), but it also seems like a reasonable assumption: AI research labs will keep spending money on agent-optimizing their algorithms until there are low returns to additional use.
+    2. We assume that the agent's ability in period $n+1$ is a function of AI R&D progress in period $n$ (the robot is eating the apples and getting taller). It turns out that we can get a simple closed-form solution when this function is linear. To add a touch of realism we assume that agents have no meaningful ability to do R&D until algorithmic progress passes some minimum threshold ($\bar{a}$).
 
 
 Implications:
 : 
-    1. We will get superhuman progress (robots will be taller than humans) iff $\alpha + \beta(1-\bar{a}) > 1$
+    1. We will eventually get superhuman progress (robots will be taller than humans) iff $\alpha + \beta(1-\bar{a}) > 1$
     2. Agent height will be explosive iff $\beta > 1$, i.e. if eating all the apples in a 1-cm slice of tree causes you to grow 1 cm higher. If not, it converges to a finite height $\lambda^*$.
 
 
