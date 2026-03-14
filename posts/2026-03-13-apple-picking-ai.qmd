@@ -25,6 +25,11 @@ execute:
    dd {grid-column-start: 2; margin-left: 2em;}
 -->
 
+<!-- TWEETS
+
+
+ -->
+
 <!-- https://tecunningham.github.io/posts/2026-03-13-apple-picking-ai.html -->
 
 ::: {.column-margin}
@@ -36,133 +41,132 @@ A simple model for AI R&D.
 : 
     An agent helping you to optimize an algorithm is like a robot helping you pick apples. It will take care of all the apples up to a certain height, and it may find apples you haven't found yet, but there will still be apples out of its reach.
 
-    The motivation for writing this model was to help think through the implications of recent evidence that AI can push forward the frontier on various optimization and AI R&D problems (see my earlier post on [AI knowledge creation](https://tecunningham.github.io/posts/2026-01-29-knowledge-creating-llms.html)). If you can spend $100 in tokens to increase the efficiency of an AI training algorithm by 0.1% then, on its surface, this looks like the path to self-improvement, and you can replace humans with AI. But realistically the agents have been discovering *shallow* improvements to algorithms. This apple-picking model is my attempt to help think through the distinction, and figure out how to measure agents' optimization ability.
-
     Below I give a formal model but the basic ideas can all be seen with a drawing: here both the human and robot have picked four apples, but they've left the tree in a very different state, so the robot isn't ready to replace the human yet:
 
-\ 
+    ```{tikz}
+    #| fig-align: center
+    #| fig-width: 3
+    \begin{tikzpicture}[
+        x=0.62cm,
+        y=0.62cm,
+        line cap=round,
+        line join=round,
+        draw=blue!65!black,
+        line width=2pt
+    ]
+    % easy-to-tune layout parameters
+    \def\groundY{0.2}
+    \def\humanX{1.6}
+    \def\leftTreeX{6.7}
+    \def\rightTreeX{12.9}
+    \def\robotX{17.0}
+    \def\trunkTopY{4.0}
+    \def\canopyTopY{9.55}
+    \def\canopyLeft{-1.55}
+    \def\canopyRight{1.55}
+    \def\fruitRadius{0.18}
+    \def\crossHalf{0.15}
+    \def\robotReachY{5.6}
 
-```{tikz}
-#| fig-align: center
-#| fig-width: 3
-\begin{tikzpicture}[
-    x=0.62cm,
-    y=0.62cm,
-    line cap=round,
-    line join=round,
-    draw=blue!65!black,
-    line width=0.8pt
-]
-% easy-to-tune layout parameters
-\def\groundY{0.2}
-\def\humanX{1.6}
-\def\leftTreeX{6.7}
-\def\rightTreeX{12.9}
-\def\robotX{17.0}
-\def\trunkTopY{4.0}
-\def\canopyTopY{9.55}
-\def\canopyLeft{-1.55}
-\def\canopyRight{1.55}
-\def\fruitRadius{0.18}
-\def\crossHalf{0.15}
-\def\robotReachY{5.6}
+    \newcommand{\drawCross}[2]{
+        \begin{scope}[shift={({#1},{#2})}]
+        \draw (-\crossHalf,-\crossHalf) -- (\crossHalf,\crossHalf);
+        \draw (-\crossHalf,\crossHalf) -- (\crossHalf,-\crossHalf);
+        \end{scope}
+    }
 
-\newcommand{\drawCross}[2]{
-    \begin{scope}[shift={({#1},{#2})}]
-    \draw (-\crossHalf,-\crossHalf) -- (\crossHalf,\crossHalf);
-    \draw (-\crossHalf,\crossHalf) -- (\crossHalf,-\crossHalf);
+    \newcommand{\drawFruit}[2]{
+        \draw (#1,#2) circle (\fruitRadius);
+    }
+
+    \newcommand{\drawTree}[1]{
+        \begin{scope}[shift={({#1},0)}]
+        \draw (-0.80,\groundY-0.05) -- (0.80,\groundY-0.05);
+        \draw (-0.10,\groundY-0.05)
+            .. controls +(0.35,0.25) and +(-0.10,-0.90) .. (-0.02,\trunkTopY);
+        \draw (0.10,\groundY-0.05)
+            .. controls +(-0.35,0.25) and +(0.10,-0.90) .. (0.02,\trunkTopY);
+        \draw (\canopyLeft,\trunkTopY)
+            .. controls +(-0.60,0.80) and +(-0.30,-1.30) .. (-1.30,8.35)
+            .. controls +(0.25,1.05) and +(-0.95,0.30) .. (0.00,\canopyTopY)
+            .. controls +(0.90,0.25) and +(-0.45,0.95) .. (1.25,8.75)
+            .. controls +(0.55,-0.75) and +(0.25,1.00) .. (1.10,5.80)
+            .. controls +(-0.20,-1.00) and +(0.90,-0.20) .. (\canopyRight,\trunkTopY)
+            .. controls +(-1.00,-0.20) and +(0.95,-0.20) .. (\canopyLeft,\trunkTopY);
+        \end{scope}
+    }
+
+    \newcommand{\drawHuman}[1]{
+        \begin{scope}[shift={({#1},0)}]
+        \draw (0,8.15) circle (0.45);
+        \fill[blue!65!black] (-0.15,8.3) circle (0.04);
+        \draw (0.15,8.05) -- ++(0.15,-0.15);
+        \draw (0,7.7) -- ++(0,-5.5);
+        \draw (0,6.55) -- (1.95,7.25) -- (2.75,7.88);
+        \draw (2.75,7.88) -- ++(0.20,0.18);
+        \draw (2.75,7.88) -- ++(0.08,0.26);
+        \draw (2.88,8.01) -- ++(-0.16,0.04);
+        \draw (0,2.2) -- ++(-0.18,-2.0);
+        \draw (0,2.2) -- ++(0.32,-2.0);
+        \draw (-0.45,\groundY) -- ++(1.0,0);
+        \end{scope}
+    }
+
+    \newcommand{\drawRobot}[1]{
+        \begin{scope}[shift={({#1},0)}]
+        \draw (0,4.75) circle (0.5);
+        \draw (-1.0,4.25) -- (1.0,4.25) -- (1.0,3.0) -- (-1.0,3.0) -- cycle;
+        \draw (-1.0,3.0) -- ++(0,-2.65) -- ++(0.95,0);
+        \draw (1.0,3.0) -- ++(0,-2.65) -- ++(-0.8,0);
+        \draw (-1.25,\groundY) -- ++(2.6,0);
+        % straight robotic arm showing a limited reach
+        \draw (-0.75,4.0) -- (-2.05,\robotReachY);
+        \draw (-2.05,\robotReachY) -- ++(-0.18,0.22);
+        \draw (-2.05,\robotReachY) -- ++(-0.26,-0.08);
+        \draw (-2.18,\robotReachY+0.08) -- ++(0.08,-0.16);
+        \end{scope}
+    }
+
+    \drawHuman{\humanX}
+    \drawTree{\leftTreeX}
+    \drawTree{\rightTreeX}
+    \drawRobot{\robotX}
+
+    % fruit layouts relative to tree centers
+    \begin{scope}[shift={({\leftTreeX},0)}]
+    \drawCross{-0.8}{8.6}
+    \drawFruit{0.75}{8.6}
+    \drawFruit{-0.8}{7.4}
+    \drawCross{0.75}{7.4}
+    \drawCross{-0.8}{6.2}
+    \drawFruit{0.75}{6.2}
+    \drawFruit{-0.8}{5.0}
+    \drawCross{0.75}{5.0}
     \end{scope}
-}
-
-\newcommand{\drawFruit}[2]{
-    \draw (#1,#2) circle (\fruitRadius);
-}
-
-\newcommand{\drawTree}[1]{
-    \begin{scope}[shift={({#1},0)}]
-    \draw (-0.80,\groundY-0.05) -- (0.80,\groundY-0.05);
-    \draw (-0.10,\groundY-0.05)
-        .. controls +(0.35,0.25) and +(-0.10,-0.90) .. (-0.02,\trunkTopY);
-    \draw (0.10,\groundY-0.05)
-        .. controls +(-0.35,0.25) and +(0.10,-0.90) .. (0.02,\trunkTopY);
-    \draw (\canopyLeft,\trunkTopY)
-        .. controls +(-0.60,0.80) and +(-0.30,-1.30) .. (-1.30,8.35)
-        .. controls +(0.25,1.05) and +(-0.95,0.30) .. (0.00,\canopyTopY)
-        .. controls +(0.90,0.25) and +(-0.45,0.95) .. (1.25,8.75)
-        .. controls +(0.55,-0.75) and +(0.25,1.00) .. (1.10,5.80)
-        .. controls +(-0.20,-1.00) and +(0.90,-0.20) .. (\canopyRight,\trunkTopY)
-        .. controls +(-1.00,-0.20) and +(0.95,-0.20) .. (\canopyLeft,\trunkTopY);
-    \end{scope}
-}
-
-\newcommand{\drawHuman}[1]{
-    \begin{scope}[shift={({#1},0)}]
-    \draw (0,8.15) circle (0.45);
-    \fill[blue!65!black] (-0.15,8.3) circle (0.04);
-    \draw (0.15,8.05) -- ++(0.15,-0.15);
-    \draw (0,7.7) -- ++(0,-5.5);
-    \draw (0,6.55) -- (1.95,7.25) -- (2.75,7.88);
-    \draw (2.75,7.88) -- ++(0.20,0.18);
-    \draw (2.75,7.88) -- ++(0.08,0.26);
-    \draw (2.88,8.01) -- ++(-0.16,0.04);
-    \draw (0,2.2) -- ++(-0.18,-2.0);
-    \draw (0,2.2) -- ++(0.32,-2.0);
-    \draw (-0.45,\groundY) -- ++(1.0,0);
-    \end{scope}
-}
-
-\newcommand{\drawRobot}[1]{
-    \begin{scope}[shift={({#1},0)}]
-    \draw (0,4.75) circle (0.5);
-    \draw (-1.0,4.25) -- (1.0,4.25) -- (1.0,3.0) -- (-1.0,3.0) -- cycle;
-    \draw (-1.0,3.0) -- ++(0,-2.65) -- ++(0.95,0);
-    \draw (1.0,3.0) -- ++(0,-2.65) -- ++(-0.8,0);
-    \draw (-1.25,\groundY) -- ++(2.6,0);
-    % straight robotic arm showing a limited reach
-    \draw (-0.75,4.0) -- (-2.05,\robotReachY);
-    \draw (-2.05,\robotReachY) -- ++(-0.18,0.22);
-    \draw (-2.05,\robotReachY) -- ++(-0.26,-0.08);
-    \draw (-2.18,\robotReachY+0.08) -- ++(0.08,-0.16);
-    \end{scope}
-}
-
-\drawHuman{\humanX}
-\drawTree{\leftTreeX}
-\drawTree{\rightTreeX}
-\drawRobot{\robotX}
-
-% fruit layouts relative to tree centers
-\begin{scope}[shift={({\leftTreeX},0)}]
-\drawCross{-0.8}{8.6}
-\drawFruit{0.75}{8.6}
-\drawFruit{-0.8}{7.4}
-\drawCross{0.75}{7.4}
-\drawCross{-0.8}{6.2}
-\drawFruit{0.75}{6.2}
-\drawFruit{-0.8}{5.0}
-\drawCross{0.75}{5.0}
-\end{scope}
-\foreach \x/\y in {-0.85/8.6, 0.65/8.6, -0.85/7.35, 0.65/7.35}{
-    \begin{scope}[shift={({\rightTreeX},0)}]
-    \drawFruit{\x}{\y}
-    \end{scope}
-}
-\foreach \x/\y in {-0.85/6.05, 0.65/6.05, -0.85/4.85, 0.65/4.85}{
-    \begin{scope}[shift={({\rightTreeX},0)}]
-    \drawCross{\x}{\y}
-    \end{scope}
-}
-\end{tikzpicture}
-```
+    \foreach \x/\y in {-0.85/8.6, 0.65/8.6, -0.85/7.35, 0.65/7.35}{
+        \begin{scope}[shift={({\rightTreeX},0)}]
+        \drawFruit{\x}{\y}
+        \end{scope}
+    }
+    \foreach \x/\y in {-0.85/6.05, 0.65/6.05, -0.85/4.85, 0.65/4.85}{
+        \begin{scope}[shift={({\rightTreeX},0)}]
+        \drawCross{\x}{\y}
+        \end{scope}
+    }
+    \end{tikzpicture}
+    ```
 
 
-|Agents finding optimizations|Robots picking apples|
+    The motivation for writing this model was to help think through the implications of recent evidence that AI can push forward the frontier on various optimization and AI R&D problems (see my earlier post on [AI knowledge creation](https://tecunningham.github.io/posts/2026-01-29-knowledge-creating-llms.html)). If you can spend $100 in tokens to increase the efficiency of an AI training algorithm by 0.1% then, on its surface, this looks like the path to self-improvement, and you can replace humans with AI. But realistically the agents have been discovering *shallow* improvements to algorithms. This apple-picking model is my attempt to help think through the distinction, and figure out how to measure agents' optimization ability.
+
+
+|Robots picking apples|Agents finding optimizations|
 |-|-|
-|Agents can autonomously advance the state-of-the-art on an optimization problem|Robots can find low apples that humans have not picked yet|
-|Agents will asymptote to a lower maximum value|Robots will not be able to pick all the apples humans can|
-|Agents will have greater relative value for problems that are not yet heavily optimized|Robots are more useful for trees that have never been picked|
-|An algorithm will be more optimized if agents are started after some rounds of human optimization|A tree will yield more apples if it's harvested by both a human and robots|
-|To gauge the value of agents we want to test for the maximum *depth* of optimization they can do|To gauge the ability of robots we want to measure the highest apple they can reach|
+|Robots can find low apples that humans have not picked yet|Agents can autonomously advance the state-of-the-art on optimization problems|
+|Robots will not be able to pick all the apples humans can|Agents will asymptote to a lower maximum value|
+|Robots are more useful for trees that have never been picked|Agents will have greater relative value for problems that are not yet heavily optimized|
+|A tree will yield more apples if it's harvested by both a human and robots|An algorithm will be more optimized if agents are started after some rounds of human optimization|
+|To gauge the ability of robots we want to measure the highest apple they can reach|To gauge the value of agents we want to test for the maximum *depth* of optimization they can do|
 
 Recursive self-improvement.
 : 
@@ -170,9 +174,9 @@ Recursive self-improvement.
 
 Relation to other models of AI R&D. 
 : 
-    The critical distinction between this model and others is how we represent the state. Most existing models summarize the level of productivity (or stock of knowledge) with a single number, meaning there's no distinction between a shallow and deep contribution. The model I'm using here allows us to represent the state with two numbers: the share of apples picked above and below $\lambda$. For the RSI version of the model, we track $\lambda$ and the share of apples picked between $\lambda$ and 1.
+    The critical distinction between this model and others is how we represent the state. Most existing models summarize the level of productivity (or stock of knowledge) with a single number, meaning there's no distinction between a shallow and deep contribution. The model I'm using here allows us to represent the state with two numbers: the share of apples picked above $\lambda$, and the share below $\lambda$. For the RSI version of the model we instead track the current level of capabilities ($\lambda_n$) and the share of apples picked above that threshold.
 
-    Most existing models of recurse self-improvement assume that either AI accelerates or replaces human R&D researchers. I believe this is roughly true for @aghion2019artificial, @davidson2021could, @erdil2025gate, @davidson2026automatingairesearch, @jones2025aird, @kwa2026simpleraitimelines. These models then calibrate the effect through (1) how much does AI accelerate R&D workers; (2) how much do R&D workers contribute to our stock of knowledge.
+    Most existing models of recursive self-improvement assume that either AI accelerates or replaces human R&D researchers. I believe this is roughly true for @aghion2019artificial, @davidson2021could, @erdil2025gate, @davidson2026automatingairesearch, @jones2025aird, @kwa2026simpleraitimelines. These models then calibrate the effect through (1) how much does AI accelerate R&D workers; (2) how much do R&D workers contribute to our stock of knowledge.
     
     However there is some awkwardness in fitting these models to the data:
     
@@ -185,15 +189,15 @@ Things to add.
 : 
     - *Landscape.* A more general version would model the entire *landscape*. You can represent an optimization problem as $y=f(\bm{x})$, where you're trying to choose an $\bm{x}$ to maximize $y$, given some unknown $f(\cdot)$. (talk about non-additivity of optimizations; talk about conditions under which landscape is separable, and so each subspace is an independent apple; talk about path dependence).
 
-    - *Relation to time horizon.* You can think of the high apples as long-time-horizon tasks.
+    - *Relation to time horizon.* You could think of the high apples as long-time-horizon tasks, i.e. tasks that AI agents are relatively worse at performing.
 
     - *Shape of the tree.* You can extend the model such that apples are non-uniformly distributed, then we can replace $\lambda$ with $F(\lambda)$ below. We can then talk about types of domain which are bottom-heavy (most optimizations are pretty easy to find) vs top-heavy (most optimizations are hard to find). It then becomes important to know whether AI R&D is relatively more bottom-heavy or top-heavy, if the former then we might already be on the brink of an intelligence explosion.
 
-    - *Directed search.* We assume that the probability of finding an apple/optimization is independent of other apples already found. 
+    - *Directed search.* We assumed that the probability of finding an apple is independent of other apples already found. Realistically people have an ability to put direct their attention to finding new innovations. This implies lower diminishing returns to expenditure, and higher complementarity between agents and humans, I'm not sure whether it would change the qualitative conclusions of the model.
     
-    - *Other bottlenecks.* -- e.g. compute bottlenecks, experiment bottlenecks.
+    - *Bottlenecks.* Some R&D is bottlenecked not just by thinking (which agents can do), but also by running experiments.
 
-    - *Sketch of a quantitative model of LLM training.* LLM training is a big stack of algorithms, which we've been optimizing at perhaps 10X/year. [add some speculation about which parts of the stack have low-hanging fruit]
+    - *Sketch of a quantitative model of LLM training.* LLM training is a big stack of algorithms, which we've been optimizing at perhaps 10X/year. Would be useful to add some speculation about which parts of the stack have low-hanging fruit.
 
 
 
@@ -204,11 +208,11 @@ Setup.
     
     A human can find apples over $[0,1]$, but an agent can only find apples over $[0,\lambda]$, with $\lambda < 1$ (at least for now).
     
-    Humans find apples at rate $r_H$, agents find apples at rate $r_A$, and we use $t_H$ and $t_A$ to represent the time humans and agents spend searching (you can also interpret $t_H$ and $t_A$ as expenditure on the problem).
+    Humans find apples at rate $r_H$, agents find apples at rate $r_A$, and we use $t_H$ and $t_A$ to represent the time humans and agents spend searching (you can also interpret $t_H$ and $t_A$ as monetary expenditure on the problem).
 
 **We can then derive apples found:**
 
-   $$\text{share apples found}= \underbrace{\lambda(1-e^{-r_Ht_H-r_At_A})}_{\text{apples from bottom of tree}}+\underbrace{(1-\lambda)(1-e^{-r_Ht_H})}_{\text{apples from top of tree}}.$$
+   $$\text{apples picked}= \underbrace{\lambda(1-e^{-r_Ht_H-r_At_A})}_{\text{apples from bottom of tree}}+\underbrace{(1-\lambda)(1-e^{-r_Ht_H})}_{\text{apples from top of tree}}.$$
 
 Implication: agents asymptote to a lower level than humans.
 : 
