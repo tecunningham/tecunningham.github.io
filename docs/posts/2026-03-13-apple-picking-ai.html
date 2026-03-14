@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Tom Cunningham">
-<meta name="dcterms.date" content="2026-03-13">
+<meta name="dcterms.date" content="2026-03-14">
 <meta name="description" content="Tom Cunningham blog">
 
 <title>An Apple-Plucking Model of Agents | Tom Cunningham – Tom Cunningham</title>
@@ -53,17 +53,15 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-d5e7c60e6424aa6ccf163f01508596ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -140,7 +138,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+      if (mathElements[i].tagName == "SPAN") {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -159,21 +157,16 @@ window.Quarto = {
 <link rel="stylesheet" href="../styles.css">
 <meta name="twitter:title" content="An Apple-Plucking Model of Agents | Tom Cunningham">
 <meta name="twitter:description" content="Tom Cunningham blog">
-<meta name="twitter:image" content="tecunningham.github.io/posts/images/2026-03-12-11-32-34.png">
-<meta name="twitter:image-height" content="286">
-<meta name="twitter:image-width" content="421">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Draft</div>
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Tom Cunningham</span>
     </a>
@@ -242,7 +235,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 13, 2026</p>
+        <p class="date">March 14, 2026</p>
       </div>
     </div>
     
@@ -272,37 +265,77 @@ window.Quarto = {
 </style>
 
 <div class="no-row-height column-margin column-container"><div class="">
-<p>Thanks to Nate Rush, Manish Shetty, Basil Halperin, &amp; Parker Whitfill for helpful comments.</p>
+<p>Thanks to Nate Rush, Manish Shetty, Basil Halperin, &amp; Parker Whitfill for comments.</p>
 </div></div><dl>
 <dt>A simple model for AI R&amp;D.</dt>
 <dd>
-<p>In short: an agent helping you with optimizing an algorithm is like a robot helping you pick apples. It will take care of all the apples up to a certain height, and find apples you haven’t found, but there will still be apples out of its reach.</p>
-<p><img src="images/2026-03-12-11-32-34.png" class="img-fluid"></p>
-<p>The specific motivation was to help think through the implications of recent evidence that AI can push forward the frontier on various optimization and AI R&amp;D problems. If you can pay $10 to increase the efficiency of an algorithm by 1% then, on its surface, this look like the path to self-improvement, and you can replace humans with AI agents. But realistically the agents have been discovering <em>shalow</em> improvements to algorithms, and the apple-picking model tries to distinguish between shallow and deep improvements.</p>
+<p>An agent helping you to optimize an algorithm is like a robot helping you pick apples. It will take care of all the apples up to a certain height, and it will find apples you haven’t found, but there will still be apples out of its reach.</p>
+<p>The motivation for writing this model was to help think through the implications of recent evidence that AI can push forward the frontier on various optimization and AI R&amp;D problems (see my earlier post on <a href="https://tecunningham.github.io/posts/2026-01-29-knowledge-creating-llms.html">knowledge problems</a>). If you can spend $100 in tokens to increase the efficiency of an AI training algorithm by 0.1% then, on its surface, this looks like the path to self-improvement, and you can replace humans with AI. But realistically the agents have been discovering <em>shallow</em> improvements to algorithms. This apple-picking model is my attempt to help think through the distinction, and figure out how to measure agents’ optimization ability.</p>
+<p>Below I give a formal model but the basic ideas can all be illustrated with the illustration at right:</p>
 </dd>
-<dt>Implications of the apple-picking model.</dt>
+</dl>
+<p>&nbsp;</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><img src="images/2026-03-12-11-32-34.png" class="img-fluid"></p>
+</div></div><table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Agents finding optimizations</th>
+<th>Robots picking apples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Agents can autonomously advance the state-of-the-art on an optimization problem</td>
+<td>Robots can find low apples that humans have not picked yet</td>
+</tr>
+<tr class="even">
+<td>Agents will asymptote to a lower maximum value</td>
+<td>Robots will not be able to pick all the apples humans can</td>
+</tr>
+<tr class="odd">
+<td>Agents will have greater relative value for problems that are not yet heavily optimized</td>
+<td>Robots are more useful for trees that have never been picked</td>
+</tr>
+<tr class="even">
+<td>An algorithm will be more optimized if agents are started after some rounds of human optimization</td>
+<td>A tree will yield more apples if it’s harvested by both a human and robots</td>
+</tr>
+<tr class="odd">
+<td>To gauge the value of agents we want to test for the maximum <em>depth</em> of optimization they can do</td>
+<td>To gauge the ability of robots we want to measure the highest apple they can reach</td>
+</tr>
+</tbody>
+</table>
+<dl>
+<dt>Recursive self-improvement.</dt>
 <dd>
-<ol type="1">
-<li>Agents can autonomously advance the state-of-the-art on an optimization problem, yet still not be a perfect substitute for human labor (they can find the low apples that haven’t been picked yet).</li>
-<li>Agent contribution to a problem, as you scale the expenditure, will be higher than human contribution, but then asymptote to a lower maximum value (they’ll pick a lot of apples, but will never be able to pick them all).</li>
-<li>Agents will have relatively bigger value, relative to humans, for problems that are not yet heavily optimized (robots are useful for trees that have never been picked).</li>
-<li>Agents will asymptote to higher points if they are given better human starting points (if a tree is partly picked).</li>
-<li>To gauge the ability of agents we want to test not just for their ability to improve performance, but their <em>reach</em> (we want to benchmark robots not on how many apples they can pick, but the height of the highest apple they can reach).</li>
-</ol>
+It’s also possible to close this model, where agent R&amp;D contributes to the next generation of agent ability. This is like assuming that a robot can eat apples they harvested &amp; grow taller. The condition for explosive growth is simple: it will happen when all the apples within a one-foot slice of the tree are sufficient for the robot to grow another foot.
 </dd>
 <dt>Relation to other literature.</dt>
 <dd>
-<p>Most existing models of AI R&amp;D assume that AI accelerates or multiples human reserachers, e.g.&nbsp;by automating some of their tasks. I believe this is roughly true for <span class="citation" data-cites="aghion2019artificial">Aghion, Jones, and Jones (<a href="#ref-aghion2019artificial" role="doc-biblioref">2019</a>)</span>, <span class="citation" data-cites="davidson2021could">Davidson (<a href="#ref-davidson2021could" role="doc-biblioref">2021</a>)</span>, <span class="citation" data-cites="erdil2025gate">Erdil et al. (<a href="#ref-erdil2025gate" role="doc-biblioref">2025</a>)</span>, <span class="citation" data-cites="davidson2026automatingairesearch">Davidson et al. (<a href="#ref-davidson2026automatingairesearch" role="doc-biblioref">2026</a>)</span>, <span class="citation" data-cites="jones2025aird">Jones (<a href="#ref-jones2025aird" role="doc-biblioref">2025</a>)</span>, <span class="citation" data-cites="kwa2026simpleraitimelines">Kwa (<a href="#ref-kwa2026simpleraitimelines" role="doc-biblioref">2026</a>)</span>. These models then calibrate the effect through (1) how much does AI accelerate R&amp;D workers; (2) how much do R&amp;D workers contribute to our stock of knowledge. But this is hard to reconcile with evidence that AI is already autonomously speeding-up AI research. A critical distinction is that these models all summarize the level of productivity with a scalar. This means that a 1% improvement in efficiency is equal, there is no distinction between a shallow and deep speedup.</p>
+<p>Most existing models of AI R&amp;D assume that either AI accelerates or multiplies human researchers, e.g.&nbsp;by automating some of their tasks. I believe this is roughly true for <span class="citation" data-cites="aghion2019artificial">Aghion, Jones, and Jones (<a href="#ref-aghion2019artificial" role="doc-biblioref">2019</a>)</span>, <span class="citation" data-cites="davidson2021could">Davidson (<a href="#ref-davidson2021could" role="doc-biblioref">2021</a>)</span>, <span class="citation" data-cites="erdil2025gate">Erdil et al. (<a href="#ref-erdil2025gate" role="doc-biblioref">2025</a>)</span>, <span class="citation" data-cites="davidson2026automatingairesearch">Davidson et al. (<a href="#ref-davidson2026automatingairesearch" role="doc-biblioref">2026</a>)</span>, <span class="citation" data-cites="jones2025aird">Jones (<a href="#ref-jones2025aird" role="doc-biblioref">2025</a>)</span>, <span class="citation" data-cites="kwa2026simpleraitimelines">Kwa (<a href="#ref-kwa2026simpleraitimelines" role="doc-biblioref">2026</a>)</span>. These models then calibrate the effect through (1) how much does AI accelerate R&amp;D workers; (2) how much do R&amp;D workers contribute to our stock of knowledge.</p>
+<p>However there is some awkwardness in fitting these models to the data:</p>
+<ol type="1">
+<li>It is hard to reconcile these models with evidence that AI is already <em>autonomously</em> contributing to AI research yet not replacing humans (i.e.&nbsp;autonomous agents are not perfect substitutes for humans).</li>
+<li>Some models assume .</li>
+</ol>
+<p>A critical distinction is that these models all summarize the level of productivity with a scalar. This means there’s no distinction between a shallow and deep contribution to a problem, if each speeds up the output by 1%.</p>
 <p>There are two models I’m aware of that allow autonomous AI actions, but distinguish the quality of those actions.</p>
 <ol type="1">
 <li><span class="citation" data-cites="kokotajlo2025aifuturesmodel">Kokotajlo et al. (<a href="#ref-kokotajlo2025aifuturesmodel" role="doc-biblioref">2025</a>)</span> model AI and human “research taste”, though I don’t have a clear idea exactly how taste is aggregated within a lab.</li>
 <li><span class="citation" data-cites="ide2024artificialintelligenceknowledgeeconomy">Ide and Talamas (<a href="#ref-ide2024artificialintelligenceknowledgeeconomy" role="doc-biblioref">2024</a>)</span> model AI with different levels of human ability.</li>
 </ol>
 </dd>
-<dt>Other notes / things to add.</dt>
+<dt>Things to add.</dt>
 <dd>
-<p><em>Relation to time horizon.</em> You can think of the high apples as long-time-horizon tasks.</p>
 <p><em>Landscape.</em> A more general version would model the entire <em>landscape</em>. You can represent an optimization problem as <span class="math inline">\(y=f(\bm{x})\)</span>, where you’re trying to choose an <span class="math inline">\(\bm{x}\)</span> to maximize <span class="math inline">\(y\)</span>, given some unknown <span class="math inline">\(f(\cdot)\)</span>. (talk about non-additivity of optimizations; talk about conditions under which landscape is separable, and so each subspace is an independent apple).</p>
+<p><em>Relation to time horizon.</em> You can think of the high apples as long-time-horizon tasks.</p>
 <p><em>Path dependence.</em></p>
 <p><em>Shape of the tree.</em> (examples of trees with naturally more low-hanging fruit; examples of trees that are now pretty bare low-down).</p>
 <p><em>Other bottlenecks.</em> – e.g.&nbsp;compute bottlenecks, experiment bottlenecks.</p>
@@ -319,13 +352,13 @@ window.Quarto = {
 <dl>
 <dt>Setup.</dt>
 <dd>
-<p>There are a continuum of apples spready uniformly on the real line.</p>
-<p>A human can find apples over <span class="math inline">\([0,1]\)</span>, but agent can only find apples over <span class="math inline">\([0,\lambda]\)</span>, with <span class="math inline">\(\lambda&lt;1\)</span> (at least for now).</p>
+<p>There is a continuum of apples spread uniformly on the real line.</p>
+<p>A human can find apples over <span class="math inline">\([0,1]\)</span>, but an agent can only find apples over <span class="math inline">\([0,\lambda]\)</span>, with <span class="math inline">\(\lambda &lt; 1\)</span> (at least for now).</p>
 <p>Humans find apples at rate <span class="math inline">\(r_H\)</span>, agents find apples at rate <span class="math inline">\(r_A\)</span>, and we use <span class="math inline">\(t_H\)</span> and <span class="math inline">\(t_A\)</span> to represent the time humans and agents spend searching (you can also interpret <span class="math inline">\(t_H\)</span> and <span class="math inline">\(t_A\)</span> as expenditure on the problem).</p>
 </dd>
 </dl>
 <p><strong>We can then derive apples found:</strong></p>
-<p><span class="math display">\[\text{share apples found}= \underbrace{\lambda(1-e^{-r_Ht_H+r_At_A})}_{\text{apples from bottom of tree}}+\underbrace{(1-\lambda)(1-e^{-r_Ht_H})}_{\text{apples from top of tree}}.\]</span></p>
+<p><span class="math display">\[\text{share apples found}= \underbrace{\lambda(1-e^{-r_Ht_H-r_At_A})}_{\text{apples from bottom of tree}}+\underbrace{(1-\lambda)(1-e^{-r_Ht_H})}_{\text{apples from top of tree}}.\]</span></p>
 <dl>
 <dt>Implication: agents asymptote to a lower level than humans.</dt>
 <dd>
@@ -344,7 +377,7 @@ window.Quarto = {
 </dd>
 <dt>Implication: agents can improve on human SoTA, but only by a limited amount.</dt>
 <dd>
-<p>We can now draw the We can see that agents can improve on the humans’ SoTA performance, but in each case the value asymptotes.</p>
+<p>We can see that agents can improve on the humans’ SoTA performance, but in each case the value asymptotes.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -378,43 +411,71 @@ window.Quarto = {
 <dl>
 <dt>Now let the robot’s height depend on apples harvested.</dt>
 <dd>
-<p>The previous model applied to agents working on an arbitrary problem. Now we focus on agents working on AI R&amp;D. We make two changes:</p>
+<p>The previous model applied to agents working on an arbitrary problem. Now we focus on agents working on AI R&amp;D, which in turn increases agent ability. We make a few changes:</p>
 <ol type="1">
-<li>We assume that the agent’s ability (<span class="math inline">\(\lambda\)</span>) is itself a function of AI R&amp;D progress (the robot is eating the apples and getting taller). It turns out that we can get a simple closed-form solution when this function is linear. To add a touch of realism we assume that agents have no meaningful ability until algorithmic progress passes some minimum threshold (<span class="math inline">\(\bar{a}\)</span>).</li>
-<li>We assume that agents pick <em>all</em> the apples available to them each period. This makes things easier to model (the state of the tree can be summarized with just two variables, <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(a\)</span>), but it also seems a reasonable assumption: AI research labs will keep spending money on agent-optimizing their algorithms until they hit low returns.</li>
+<li>We now track progress in picking apples over periods, where each period represents a generation of AI models, and we assume that agents pick <em>all</em> the apples available to them each period. This makes things easier to model (the state of the tree can be summarized with just two variables, <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(h\)</span>), but it also seems like a reasonable assumption: AI research labs will keep spending money on agent-optimizing their algorithms until there are low returns to additional use.</li>
+<li>We assume that the agent’s ability in period <span class="math inline">\(n+1\)</span> is a function of AI R&amp;D progress in period <span class="math inline">\(n\)</span> (the robot is eating the apples and getting taller). It turns out that we can get a simple closed-form solution when this function is linear. To add a touch of realism we assume that agents have no meaningful ability until algorithmic progress passes some minimum threshold (<span class="math inline">\(\bar{a}\)</span>).</li>
 </ol>
 </dd>
 <dt>Implications:</dt>
 <dd>
 <ol type="1">
-<li>Agents will get taller than humans iff <span class="math inline">\(\alpha + \beta(1-\bar{a}) &gt; 1\)</span></li>
-<li>Agent height will be explosive iff <span class="math inline">\(\beta &gt;1\)</span>, i.e.&nbsp;if eating all the apples in a 1-cm slice of tree causes you to grow 1cm higher. If not then you converge to a finite height <span class="math inline">\(\lambda^*\)</span>.</li>
+<li>We will get superhuman progress (robots will be taller than humans) iff <span class="math inline">\(\alpha + \beta(1-\bar{a}) &gt; 1\)</span></li>
+<li>Agent height will be explosive iff <span class="math inline">\(\beta &gt; 1\)</span>, i.e.&nbsp;if eating all the apples in a 1-cm slice of tree causes you to grow 1 cm higher. If not, it converges to a finite height <span class="math inline">\(\lambda^*\)</span>.</li>
 </ol>
 </dd>
 </dl>
-<section id="state-variables-and-dynamics" class="level3">
-<h3 class="anchored" data-anchor-id="state-variables-and-dynamics">1. State variables and dynamics</h3>
-<p>Normalize human reach to 1.</p>
+<section id="state-variables-and-dynamics" class="level2">
+<h2 class="anchored" data-anchor-id="state-variables-and-dynamics">State variables and dynamics</h2>
+<dl>
+<dt>Assumptions.</dt>
+<dd>
 <ul>
-<li><strong><span class="math inline">\(\lambda_t \ge 0\)</span></strong>: agent reach (how high the AI can pick).</li>
-<li><strong><span class="math inline">\(h_t \in [0,1]\)</span></strong>: human coverage of the human-only band <span class="math inline">\((\lambda_t, 1]\)</span> (fraction of that band already picked by humans).</li>
+<li>Apples are distributed uniformly on the real line, as before.</li>
+<li>Human reach is normalized to 1.</li>
+<li>Agent reach in period <span class="math inline">\(n\)</span> is <span class="math inline">\(\lambda_n \ge 0\)</span>.</li>
+<li><span class="math inline">\(h_n \in [0,1]\)</span>: human coverage of the human-only band <span class="math inline">\((\lambda_n, 1]\)</span> by the end of period <span class="math inline">\(n\)</span>.</li>
 </ul>
-<p><strong>Human dynamics</strong> (one parameter <span class="math inline">\(p \in (0,1)\)</span>): per period, a fraction <span class="math inline">\(1-p\)</span> of the remaining human-level band gets picked, so <span class="math display">\[h_{t+1} = 1 - p(1-h_t), \qquad h_0 = 0.\]</span> (Equivalently <span class="math inline">\(h_t = 1 - p^t\)</span>; the recursion keeps the model closed and autonomous.)</p>
-<p><strong>Apples harvested</strong> (agent + humans, with clipping at 1): <span class="math display">\[a_t = \lambda_t + (1-\lambda_t)_+ \, h_t, \qquad (x)_+ \equiv \max\{x,0\}.\]</span> Agent gets everything up to <span class="math inline">\(\lambda_t\)</span>; humans only contribute on the band of length <span class="math inline">\((1-\lambda_t)_+\)</span>, of which fraction <span class="math inline">\(h_t\)</span> is covered by time <span class="math inline">\(t\)</span>.</p>
-<p><strong>Self-improvement</strong> (activation threshold <span class="math inline">\(\bar{a}\)</span>, then affine in <span class="math inline">\(a_t\)</span>): <span class="math display">\[\lambda_{t+1} = \begin{cases} 0, &amp; a_t &lt; \bar{a} \\ \alpha + \beta(a_t - \bar{a}), &amp; a_t \ge \bar{a}. \end{cases}\]</span></p>
-<p>Parameters: <strong><span class="math inline">\(p\)</span></strong> (human speed), <strong><span class="math inline">\(\bar{a}\)</span></strong> (minimum progress to “turn on” the agent), <strong><span class="math inline">\(\alpha\)</span></strong> (baseline capability once on), <strong><span class="math inline">\(\beta\)</span></strong> (strength of recursive improvement). Initial condition <span class="math inline">\(\lambda_0\)</span> (typically 0). Four parameters plus <span class="math inline">\(\lambda_0\)</span>.</p>
-<hr>
+</dd>
+<dt>Human dynamics.</dt>
+<dd>
+<p>Each period, a fraction <span class="math inline">\(1-p\)</span> of the remaining human-level band gets picked, so:</p>
+<p><span class="math display">\[h_{n+1} = 1 - p(1-h_n), \qquad h_0 = 0.\]</span></p>
+</dd>
+<dt>Apples harvested.</dt>
+<dd>
+<p>(agent + humans, with clipping at 1): <span class="math display">\[a_n = \lambda_n + (1-\lambda_n)_+ \, h_n, \qquad (x)_+ \equiv \max\{x,0\}.\]</span></p>
+<p>Agent gets everything up to <span class="math inline">\(\lambda_n\)</span>; humans only contribute on the band of length <span class="math inline">\((1-\lambda_n)_+\)</span>, of which fraction <span class="math inline">\(h_n\)</span> is covered by period <span class="math inline">\(n\)</span>.</p>
+</dd>
+<dt>Self-improvement.</dt>
+<dd>
+<p>(activation threshold <span class="math inline">\(\bar{a}\)</span>, then affine in <span class="math inline">\(a_n\)</span>): <span class="math display">\[\lambda_{n+1} = \begin{cases} 0, &amp; a_n &lt; \bar{a} \\ \alpha + \beta(a_n - \bar{a}), &amp; a_n \ge \bar{a}. \end{cases}\]</span></p>
+<p>Parameters: <strong><span class="math inline">\(p\)</span></strong> (human speed), <strong><span class="math inline">\(\bar{a}\)</span></strong> (minimum progress to “turn on” the agent), <strong><span class="math inline">\(\alpha\)</span></strong> (baseline capability once on), <strong><span class="math inline">\(\beta\)</span></strong> (strength of recursive improvement). Initial condition <span class="math inline">\(\lambda_0\)</span> (typically 0).</p>
+</dd>
+</dl>
 </section>
-<section id="crisp-conditions" class="level3">
-<h3 class="anchored" data-anchor-id="crisp-conditions">2. Crisp conditions</h3>
-<p><strong>A) Activation.</strong> With <span class="math inline">\(\lambda_t = 0\)</span>, <span class="math inline">\(a_t = h_t \to 1\)</span>. So the agent can ever turn on <strong>iff <span class="math inline">\(\bar{a} &lt; 1\)</span></strong>. If <span class="math inline">\(\bar{a} \ge 1\)</span>, <span class="math inline">\(\lambda_t \equiv 0\)</span> forever. Activation-time approximation: <span class="math inline">\(h_t = 1 - p^t \ge \bar{a}\)</span> <span class="math inline">\(\Leftrightarrow\)</span> <span class="math inline">\(t \ge \ln(1-\bar{a})/\ln p\)</span>; <span class="math inline">\(p\)</span> mainly shifts <em>when</em> activation happens.</p>
-<p><strong>B) Crossing human level.</strong> As <span class="math inline">\(t \to \infty\)</span>, <span class="math inline">\(h_t \to 1\)</span>. If <span class="math inline">\(\lambda_t &lt; 1\)</span>, <span class="math inline">\(a_t \to 1\)</span>; if <span class="math inline">\(\lambda_t \ge 1\)</span>, <span class="math inline">\(a_t = \lambda_t\)</span>. So asymptotically <span class="math inline">\(\lambda_{t+1} \to f(1)\)</span> with <span class="math inline">\(f(1) = 0\)</span> if <span class="math inline">\(1 &lt; \bar{a}\)</span>, and <span class="math inline">\(f(1) = \alpha + \beta(1-\bar{a})\)</span> if <span class="math inline">\(1 \ge \bar{a}\)</span>. So <strong>takeoff past human level</strong> (eventually <span class="math inline">\(\lambda &gt; 1\)</span>) <strong>iff</strong> <span class="math display">\[\boxed{\alpha + \beta(1-\bar{a}) &gt; 1.}\]</span> Interpretation: “If the orchard were fully human-level (<span class="math inline">\(a=1\)</span>), would the next agent be at least human-level?” If not, the system stays below 1. This condition is essentially independent of <span class="math inline">\(p\)</span> (timing, not whether).</p>
-<p><strong>C) Above human level: runaway vs saturation.</strong> For <span class="math inline">\(\lambda_t \ge 1\)</span>, <span class="math inline">\(a_t = \lambda_t\)</span> and <span class="math display">\[\lambda_{t+1} = \alpha + \beta(\lambda_t - \bar{a}).\]</span></p>
+<section id="conditions" class="level2">
+<h2 class="anchored" data-anchor-id="conditions">Conditions</h2>
+<dl>
+<dt>Agents contributing to AI research.</dt>
+<dd>
+With <span class="math inline">\(\lambda_n = 0\)</span>, <span class="math inline">\(a_n = h_n \to 1\)</span>. So the agent can ever turn on <strong>iff <span class="math inline">\(\bar{a} &lt; 1\)</span></strong>. If <span class="math inline">\(\bar{a} \ge 1\)</span>, <span class="math inline">\(\lambda_n \equiv 0\)</span> forever. Activation-time approximation: <span class="math inline">\(h_n = 1 - p^n \ge \bar{a}\)</span> <span class="math inline">\(\Leftrightarrow\)</span> <span class="math inline">\(n \ge \ln(1-\bar{a})/\ln p\)</span>; <span class="math inline">\(p\)</span> mainly shifts <em>when</em> activation happens.
+</dd>
+<dt>Getting to superhuman AI research.</dt>
+<dd>
+<p>As <span class="math inline">\(n \to \infty\)</span>, <span class="math inline">\(h_n \to 1\)</span>. If <span class="math inline">\(\lambda_n &lt; 1\)</span>, <span class="math inline">\(a_n \to 1\)</span>; if <span class="math inline">\(\lambda_n \ge 1\)</span>, <span class="math inline">\(a_n = \lambda_n\)</span>. So asymptotically <span class="math inline">\(\lambda_{n+1} \to f(1)\)</span> with <span class="math inline">\(f(1) = 0\)</span> if <span class="math inline">\(1 &lt; \bar{a}\)</span>, and <span class="math inline">\(f(1) = \alpha + \beta(1-\bar{a})\)</span> if <span class="math inline">\(1 \ge \bar{a}\)</span>. So <strong>takeoff past human level</strong> (eventually <span class="math inline">\(\lambda_n &gt; 1\)</span>) <strong>iff</strong> <span class="math display">\[\boxed{\alpha + \beta(1-\bar{a}) &gt; 1.}\]</span></p>
+<p>Interpretation: “If the orchard were fully human-level (<span class="math inline">\(a=1\)</span>), would the next agent be at least human-level?” If not, the system stays below 1. This condition is essentially independent of <span class="math inline">\(p\)</span>.</p>
+</dd>
+<dt>Self-sustaining AI research.</dt>
+<dd>
+<p>For <span class="math inline">\(\lambda_n \ge 1\)</span>, <span class="math inline">\(a_n = \lambda_n\)</span> and <span class="math display">\[\lambda_{n+1} = \alpha + \beta(\lambda_n - \bar{a}).\]</span></p>
 <ul>
-<li><p><strong>Runaway / hard takeoff</strong> iff <span class="math inline">\(\boxed{\beta &gt; 1}\)</span> (roughly geometric growth in <span class="math inline">\(\lambda_t\)</span>).</p></li>
+<li><p><strong>Runaway / hard takeoff</strong> iff <span class="math inline">\(\boxed{\beta &gt; 1}\)</span> (roughly geometric growth in <span class="math inline">\(\lambda_n\)</span>).</p></li>
 <li><p><strong>Soft takeoff / saturation</strong> iff <span class="math inline">\(\boxed{\beta &lt; 1}\)</span>: convergence to <span class="math display">\[\lambda^* = \frac{\alpha - \beta\bar{a}}{1-\beta}\]</span> (provided the system crosses 1 first).</p></li>
 <li><p><strong>Knife-edge</strong> <span class="math inline">\(\beta = 1\)</span>: linear growth.</p></li>
 </ul>
+</dd>
+</dl>
 <hr>
 <div class="cell">
 <div class="cell-output-display">
@@ -461,243 +522,239 @@ METR. 2024. <span>“An Update on Our General Capability Evaluations.”</span> 
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-  window.document.addEventListener("DOMContentLoaded", function (event) {
-    const icon = "";
-    const anchorJS = new window.AnchorJS();
-    anchorJS.options = {
-      placement: 'right',
-      icon: icon
-    };
-    anchorJS.add('.anchored');
-    const isCodeAnnotation = (el) => {
-      for (const clz of el.classList) {
-        if (clz.startsWith('code-annotation-')) {                     
-          return true;
-        }
-      }
-      return false;
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
     }
-    const onCopySuccess = function(e) {
-      // button target
-      const button = e.trigger;
-      // don't keep focus
-      button.blur();
-      // flash "checked"
-      button.classList.add('code-copy-button-checked');
-      var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
-      let tooltip;
-      if (window.bootstrap) {
-        button.setAttribute("data-bs-toggle", "tooltip");
-        button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
-        tooltip = new bootstrap.Tooltip(button, 
-          { trigger: "manual", 
-            customClass: "code-copy-button-tooltip",
-            offset: [0, -8]});
-        tooltip.show();    
-      }
-      setTimeout(function() {
-        if (tooltip) {
-          tooltip.hide();
-          button.removeAttribute("data-bs-title");
-          button.removeAttribute("data-bs-toggle");
-          button.removeAttribute("data-bs-placement");
-        }
-        button.setAttribute("title", currentTitle);
-        button.classList.remove('code-copy-button-checked');
-      }, 1000);
-      // clear code selection
-      e.clearSelection();
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
     }
-    const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
         }
       }
       return codeEl.innerText;
-    }
-    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-      text: getTextToCopy
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
-    clipboard.on('success', onCopySuccess);
-    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-        text: getTextToCopy,
-        container: window.document.getElementById('quarto-embedded-source-code-modal')
-      });
-      clipboardModal.on('success', onCopySuccess);
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("tecunningham\.github\.io");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
-      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("tecunningham\.github\.io");
-      var isInternal = (href) => {
-          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-      }
-      // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-      for (var i=0; i<links.length; i++) {
-        const link = links[i];
-        if (!isInternal(link.href)) {
-          // undo the damage that might have been done by quarto-nav.js in the case of
-          // links that we want to consider external
-          if (link.dataset.originalHref !== undefined) {
-            link.href = link.dataset.originalHref;
-          }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
         }
       }
-    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-      const config = {
-        allowHTML: true,
-        maxWidth: 500,
-        delay: 100,
-        arrow: false,
-        appendTo: function(el) {
-            return el.parentElement;
-        },
-        interactive: true,
-        interactiveBorder: 10,
-        theme: 'quarto',
-        placement: 'bottom-start',
-      };
-      if (contentFn) {
-        config.content = contentFn;
-      }
-      if (onTriggerFn) {
-        config.onTrigger = onTriggerFn;
-      }
-      if (onUntriggerFn) {
-        config.onUntrigger = onUntriggerFn;
-      }
-      window.tippy(el, config); 
     }
-    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-    for (var i=0; i<noterefs.length; i++) {
-      const ref = noterefs[i];
-      tippyHover(ref, function() {
-        // use id or data attribute instead here
-        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-        try { href = new URL(href).hash; } catch {}
-        const id = href.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note) {
-          return note.innerHTML;
-        } else {
-          return "";
-        }
-      });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
     }
-    const xrefs = window.document.querySelectorAll('a.quarto-xref');
-    const processXRef = (id, note) => {
-      // Strip column container classes
-      const stripColumnClz = (el) => {
-        el.classList.remove("page-full", "page-columns");
-        if (el.children) {
-          for (const child of el.children) {
-            stripColumnClz(child);
-          }
-        }
-      }
-      stripColumnClz(note)
-      if (id === null || id.startsWith('sec-')) {
-        // Special case sections, only their first couple elements
-        const container = document.createElement("div");
-        if (note.children && note.children.length > 2) {
-          container.appendChild(note.children[0].cloneNode(true));
-          for (let i = 1; i < note.children.length; i++) {
-            const child = note.children[i];
-            if (child.tagName === "P" && child.innerText === "") {
-              continue;
-            } else {
-              container.appendChild(child.cloneNode(true));
-              break;
-            }
-          }
-          if (window.Quarto?.typesetMath) {
-            window.Quarto.typesetMath(container);
-          }
-          return container.innerHTML
-        } else {
-          if (window.Quarto?.typesetMath) {
-            window.Quarto.typesetMath(note);
-          }
-          return note.innerHTML;
-        }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
       } else {
-        // Remove any anchor links if they are present
-        const anchorLink = note.querySelector('a.anchorjs-link');
-        if (anchorLink) {
-          anchorLink.remove();
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
         }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        if (note.classList.contains("callout")) {
-          return note.outerHTML;
-        } else {
-          return note.innerHTML;
-        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
       }
     }
-    for (var i=0; i<xrefs.length; i++) {
-      const xref = xrefs[i];
-      tippyHover(xref, undefined, function(instance) {
-        instance.disable();
-        let url = xref.getAttribute('href');
-        let hash = undefined; 
-        if (url.startsWith('#')) {
-          hash = url;
-        } else {
-          try { hash = new URL(url).hash; } catch {}
-        }
-        if (hash) {
-          const id = hash.replace(/^#\/?/, "");
-          const note = window.document.getElementById(id);
-          if (note !== null) {
-            try {
-              const html = processXRef(id, note.cloneNode(true));
-              instance.setContent(html);
-            } finally {
-              instance.enable();
-              instance.show();
-            }
-          } else {
-            // See if we can fetch this
-            fetch(url.split('#')[0])
-            .then(res => res.text())
-            .then(html => {
-              const parser = new DOMParser();
-              const htmlDoc = parser.parseFromString(html, "text/html");
-              const note = htmlDoc.getElementById(id);
-              if (note !== null) {
-                const html = processXRef(id, note);
-                instance.setContent(html);
-              } 
-            }).finally(() => {
-              instance.enable();
-              instance.show();
-            });
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
           }
         } else {
-          // See if we can fetch a full url (with no hash to target)
-          // This is a special case and we should probably do some content thinning / targeting
-          fetch(url)
+          // See if we can fetch this
+          fetch(url.split('#')[0])
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.querySelector('main.content');
+            const note = htmlDoc.getElementById(id);
             if (note !== null) {
-              // This should only happen for chapter cross references
-              // (since there is no id in the URL)
-              // remove the first header
-              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-                note.children[0].remove();
-              }
-              const html = processXRef(null, note);
+              const html = processXRef(id, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -705,161 +762,185 @@ METR. 2024. <span>“An Update on Our General Capability Evaluations.”</span> 
             instance.show();
           });
         }
-      }, function(instance) {
-      });
-    }
-        let selectedAnnoteEl;
-        const selectorForAnnotation = ( cell, annotation) => {
-          let cellAttr = 'data-code-cell="' + cell + '"';
-          let lineAttr = 'data-code-annotation="' +  annotation + '"';
-          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-          return selector;
-        }
-        const selectCodeLines = (annoteEl) => {
-          const doc = window.document;
-          const targetCell = annoteEl.getAttribute("data-target-cell");
-          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-          const lineIds = lines.map((line) => {
-            return targetCell + "-" + line;
-          })
-          let top = null;
-          let height = null;
-          let parent = null;
-          if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
-            }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
-            }
-            selectedAnnoteEl = annoteEl;
-          }
-        };
-        const unselectCodeLines = () => {
-          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-          elementsIds.forEach((elId) => {
-            const div = window.document.getElementById(elId);
-            if (div) {
-              div.remove();
-            }
-          });
-          selectedAnnoteEl = undefined;
-        };
-          // Handle positioning of the toggle
-      window.addEventListener(
-        "resize",
-        throttle(() => {
-          elRect = undefined;
-          if (selectedAnnoteEl) {
-            selectCodeLines(selectedAnnoteEl);
-          }
-        }, 10)
-      );
-      function throttle(fn, ms) {
-      let throttle = false;
-      let timer;
-        return (...args) => {
-          if(!throttle) { // first call gets through
-              fn.apply(this, args);
-              throttle = true;
-          } else { // all the others get throttled
-              if(timer) clearTimeout(timer); // cancel #2
-              timer = setTimeout(() => {
-                fn.apply(this, args);
-                timer = throttle = false;
-              }, ms);
-          }
-        };
-      }
-        // Attach click handler to the DT
-        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-        for (const annoteDlNode of annoteDls) {
-          annoteDlNode.addEventListener('click', (event) => {
-            const clickedEl = event.target;
-            if (clickedEl !== selectedAnnoteEl) {
-              unselectCodeLines();
-              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-              if (activeEl) {
-                activeEl.classList.remove('code-annotation-active');
-              }
-              selectCodeLines(clickedEl);
-              clickedEl.classList.add('code-annotation-active');
-            } else {
-              // Unselect the line
-              unselectCodeLines();
-              clickedEl.classList.remove('code-annotation-active');
-            }
-          });
-        }
-    const findCites = (el) => {
-      const parentEl = el.parentElement;
-      if (parentEl) {
-        const cites = parentEl.dataset.cites;
-        if (cites) {
-          return {
-            el,
-            cites: cites.split(' ')
-          };
-        } else {
-          return findCites(el.parentElement)
-        }
       } else {
-        return undefined;
-      }
-    };
-    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-    for (var i=0; i<bibliorefs.length; i++) {
-      const ref = bibliorefs[i];
-      const citeInfo = findCites(ref);
-      if (citeInfo) {
-        tippyHover(citeInfo.el, function() {
-          var popup = window.document.createElement('div');
-          citeInfo.cites.forEach(function(cite) {
-            var citeDiv = window.document.createElement('div');
-            citeDiv.classList.add('hanging-indent');
-            citeDiv.classList.add('csl-entry');
-            var biblioDiv = window.document.getElementById('ref-' + cite);
-            if (biblioDiv) {
-              citeDiv.innerHTML = biblioDiv.innerHTML;
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
             }
-            popup.appendChild(citeDiv);
-          });
-          return popup.innerHTML;
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
         });
       }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
     }
-  });
-  </script>
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
 </div> <!-- /content -->
 
 

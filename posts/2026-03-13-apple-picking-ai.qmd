@@ -28,41 +28,56 @@ execute:
 <!-- https://tecunningham.github.io/posts/2026-03-13-apple-picking-ai.html -->
 
 ::: {.column-margin}
-   Thanks to Nate Rush, Manish Shetty, Basil Halperin, & Parker Whitfill for helpful comments.
+   Thanks to Nate Rush, Manish Shetty, Basil Halperin, & Parker Whitfill for comments.
 :::
 
 
 A simple model for AI R&D.
 : 
-    In short: an agent helping you with optimizing an algorithm is like a robot helping you pick apples. It will take care of all the apples up to a certain height, and find apples you haven't found, but there will still be apples out of its reach.
+    An agent helping you to optimize an algorithm is like a robot helping you pick apples. It will take care of all the apples up to a certain height, and it will find apples you haven't found, but there will still be apples out of its reach.
 
-    ![](images/2026-03-12-11-32-34.png)
+    The motivation for writing this model was to help think through the implications of recent evidence that AI can push forward the frontier on various optimization and AI R&D problems (see my earlier post on [knowledge problems](https://tecunningham.github.io/posts/2026-01-29-knowledge-creating-llms.html)). If you can spend $100 in tokens to increase the efficiency of an AI training algorithm by 0.1% then, on its surface, this looks like the path to self-improvement, and you can replace humans with AI. But realistically the agents have been discovering *shallow* improvements to algorithms. This apple-picking model is my attempt to help think through the distinction, and figure out how to measure agents' optimization ability.
 
-    The specific motivation was to help think through the implications of recent evidence that AI can push forward the frontier on various optimization and AI R&D problems. If you can pay $10 to increase the efficiency of an algorithm by 1% then, on its surface, this look like the path to self-improvement, and you can replace humans with AI agents. But realistically the agents have been discovering *shalow* improvements to algorithms, and the apple-picking model tries to distinguish between shallow and deep improvements.
+    Below I give a formal model but the basic ideas can all be illustrated with the illustration at right:
 
-Implications of the apple-picking model.
+\ 
+
+::: {.column-margin}
+   ![](images/2026-03-12-11-32-34.png)
+:::
+|Agents finding optimizations|Robots picking apples|
+|-|-|
+|Agents can autonomously advance the state-of-the-art on an optimization problem|Robots can find low apples that humans have not picked yet|
+|Agents will asymptote to a lower maximum value|Robots will not be able to pick all the apples humans can|
+|Agents will have greater relative value for problems that are not yet heavily optimized|Robots are more useful for trees that have never been picked|
+|An algorithm will be more optimized if agents are started after some rounds of human optimization|A tree will yield more apples if it's harvested by both a human and robots|
+|To gauge the value of agents we want to test for the maximum *depth* of optimization they can do|To gauge the ability of robots we want to measure the highest apple they can reach|
+
+Recursive self-improvement.
 : 
-    1. Agents can autonomously advance the state-of-the-art on an optimization problem, yet still not be a perfect substitute for human labor (they can find the low apples that haven't been picked yet).
-    2. Agent contribution to a problem, as you scale the expenditure, will be higher than human contribution, but then asymptote to a lower maximum value (they'll pick a lot of apples, but will never be able to pick them all).
-    3. Agents will have relatively bigger value, relative to humans,  for problems that are not yet heavily optimized (robots are useful for trees that have never been picked).
-    4. Agents will asymptote to higher points if they are given better human starting points (if a tree is partly picked).
-    5. To gauge the ability of agents we want to test not just for their ability to improve performance, but their *reach* (we want to benchmark robots not on how many apples they can pick, but the height of the highest apple they can reach).
-
+    It's also possible to close this model, where agent R&D contributes to the next generation of agent ability. This is like assuming that a robot can eat apples they harvested & grow taller. The condition for explosive growth is simple: it will happen when all the apples within a one-foot slice of the tree are sufficient for the robot to grow another foot.
 
 Relation to other literature. 
 : 
-    Most existing models of AI R&D assume that AI accelerates or multiples human researchers, e.g. by automating some of their tasks. I believe this is roughly true for @aghion2019artificial, @davidson2021could, @erdil2025gate, @davidson2026automatingairesearch, @jones2025aird, @kwa2026simpleraitimelines. These models then calibrate the effect through (1) how much does AI accelerate R&D workers; (2) how much do R&D workers contribute to our stock of knowledge. But this is hard to reconcile with evidence that AI is already autonomously speeding-up AI research. A critical distinction is that these models all summarize the level of productivity with a scalar. This means that a 1% improvement in efficiency is equal, there is no distinction between a shallow and deep speedup.
+    Most existing models of AI R&D assume that either AI accelerates or multiplies human researchers, e.g. by automating some of their tasks. I believe this is roughly true for @aghion2019artificial, @davidson2021could, @erdil2025gate, @davidson2026automatingairesearch, @jones2025aird, @kwa2026simpleraitimelines. These models then calibrate the effect through (1) how much does AI accelerate R&D workers; (2) how much do R&D workers contribute to our stock of knowledge.
+    
+    However there is some awkwardness in fitting these models to the data:
+    
+    1. It is hard to reconcile these models with evidence that AI is already *autonomously* contributing to AI research yet not replacing humans (i.e. autonomous agents are not perfect substitutes for humans). 
+    2. Some models assume .
+    
+    A critical distinction is that these models all summarize the level of productivity with a scalar. This means there's no distinction between a shallow and deep contribution to a problem, if each speeds up the output by 1%.
 
     There are two models I'm aware of that allow autonomous AI actions, but distinguish the quality of those actions.
 
     1. @kokotajlo2025aifuturesmodel model AI and human "research taste", though I don't have a clear idea exactly how taste is aggregated within a lab. 
     2. @ide2024artificialintelligenceknowledgeeconomy model AI with different levels of human ability.
 
-Other notes / things to add.
+Things to add.
 : 
-    *Relation to time horizon.* You can think of the high apples as long-time-horizon tasks.
-
     *Landscape.* A more general version would model the entire *landscape*. You can represent an optimization problem as $y=f(\bm{x})$, where you're trying to choose an $\bm{x}$ to maximize $y$, given some unknown $f(\cdot)$. (talk about non-additivity of optimizations; talk about conditions under which landscape is separable, and so each subspace is an independent apple).
+
+    *Relation to time horizon.* You can think of the high apples as long-time-horizon tasks.
 
     *Path dependence.*
 
@@ -83,15 +98,15 @@ Other notes / things to add.
 #               Basic Model
 
 Setup.
-:   There are a continuum of apples spready uniformly on the real line.
+:   There is a continuum of apples spread uniformly on the real line.
     
-    A human can find apples over $[0,1]$, but agent can only find apples over $[0,\lambda]$, with $\lambda<1$ (at least for now).
+    A human can find apples over $[0,1]$, but an agent can only find apples over $[0,\lambda]$, with $\lambda < 1$ (at least for now).
     
     Humans find apples at rate $r_H$, agents find apples at rate $r_A$, and we use $t_H$ and $t_A$ to represent the time humans and agents spend searching (you can also interpret $t_H$ and $t_A$ as expenditure on the problem).
 
 **We can then derive apples found:**
 
-   $$\text{share apples found}= \underbrace{\lambda(1-e^{-r_Ht_H+r_At_A})}_{\text{apples from bottom of tree}}+\underbrace{(1-\lambda)(1-e^{-r_Ht_H})}_{\text{apples from top of tree}}.$$
+   $$\text{share apples found}= \underbrace{\lambda(1-e^{-r_Ht_H-r_At_A})}_{\text{apples from bottom of tree}}+\underbrace{(1-\lambda)(1-e^{-r_Ht_H})}_{\text{apples from top of tree}}.$$
 
 Implication: agents asymptote to a lower level than humans.
 : 
@@ -210,62 +225,77 @@ Implication: agent asymptote depends on the starting point.
 
 Now let the robot's height depend on apples harvested.
 : 
-    The previous model applied to agents working on an arbitrary problem. Now we focus on agents working on AI R&D. We make two changes:
+    The previous model applied to agents working on an arbitrary problem. Now we focus on agents working on AI R&D, which in turn increases agent ability. We make a few changes:
 
-    1. We assume that the agent's ability ($\lambda$) is itself a function of AI R&D progress (the robot is eating the apples and getting taller). It turns out that we can get a simple closed-form solution when this function is linear. To add a touch of realism we assume that agents have no meaningful ability until algorithmic progress passes some minimum threshold ($\bar{a}$).
-    2. We assume that agents pick *all* the apples available to them each period. This makes things easier to model (the state of the tree can be summarized with just two variables, $\lambda$ and $a$), but it also seems a reasonable assumption: AI research labs will keep spending money on agent-optimizing their algorithms until they hit low returns.
+    1. We now track progress in picking apples over periods, where each period represents a generation of AI models, and we assume that agents pick *all* the apples available to them each period. This makes things easier to model (the state of the tree can be summarized with just two variables, $\lambda$ and $h$), but it also seems like a reasonable assumption: AI research labs will keep spending money on agent-optimizing their algorithms until there are low returns to additional use.
+    2. We assume that the agent's ability in period $n+1$ is a function of AI R&D progress in period $n$ (the robot is eating the apples and getting taller). It turns out that we can get a simple closed-form solution when this function is linear. To add a touch of realism we assume that agents have no meaningful ability until algorithmic progress passes some minimum threshold ($\bar{a}$).
+
 
 Implications:
 : 
-    1. Agents will get taller than humans iff $\alpha + \beta(1-\bar{a}) > 1$
-    2. Agent height will be explosive iff $\beta >1$, i.e. if eating all the apples in a 1-cm slice of tree causes you to grow 1cm higher. If not then you converge to a finite height $\lambda^*$.
+    1. We will get superhuman progress (robots will be taller than humans) iff $\alpha + \beta(1-\bar{a}) > 1$
+    2. Agent height will be explosive iff $\beta > 1$, i.e. if eating all the apples in a 1-cm slice of tree causes you to grow 1 cm higher. If not, it converges to a finite height $\lambda^*$.
 
 
-<!-- 1. Apples sit at heights in $[0,\infty)$; human reach is normalized to 1. The agent has reach $\lambda_t \ge 0$ and picks everything below it.
-2. Humans pick in the band $(\lambda_t, 1]$ at a rate governed by $p$.
-3. Agent reach depends on cumualtive apples harvested: they can only pick apples after some minimum threshold ($\bar{a}$), and then linear in $a$. -->
+<!-- 1. Apples sit at heights in $[0,\infty)$; human reach is normalized to 1. The agent has reach $\lambda_n \ge 0$ and picks everything below it.
+2. Humans pick in the band $(\lambda_n, 1]$ at a rate governed by $p$.
+3. Agent reach depends on cumulative apples harvested: it can only pick apples after some minimum threshold ($\bar{a}$), and is then linear in $a_n$. -->
 
 
-### 1. State variables and dynamics
+## State variables and dynamics
 
-Normalize human reach to 1.
+Assumptions.
+: 
+    - Apples are distributed uniformly on the real line, as before.
+    - Human reach is normalized to 1.
+    - Agent reach in period $n$ is $\lambda_n \ge 0$.
+    - $h_n \in [0,1]$: human coverage of the human-only band $(\lambda_n, 1]$ by the end of period $n$.
 
-- **$\lambda_t \ge 0$**: agent reach (how high the AI can pick).
-- **$h_t \in [0,1]$**: human coverage of the human-only band $(\lambda_t, 1]$ (fraction of that band already picked by humans).
+Human dynamics. 
+: 
+    Each period, a fraction $1-p$ of the remaining human-level band gets picked, so:
 
-**Human dynamics** (one parameter $p \in (0,1)$): per period, a fraction $1-p$ of the remaining human-level band gets picked, so
-$$h_{t+1} = 1 - p(1-h_t), \qquad h_0 = 0.$$
-(Equivalently $h_t = 1 - p^t$; the recursion keeps the model closed and autonomous.)
+    $$h_{n+1} = 1 - p(1-h_n), \qquad h_0 = 0.$$
 
-**Apples harvested** (agent + humans, with clipping at 1):
-$$a_t = \lambda_t + (1-\lambda_t)_+ \, h_t, \qquad (x)_+ \equiv \max\{x,0\}.$$
-Agent gets everything up to $\lambda_t$; humans only contribute on the band of length $(1-\lambda_t)_+$, of which fraction $h_t$ is covered by time $t$.
+Apples harvested.
+: 
+    (agent + humans, with clipping at 1):
+    $$a_n = \lambda_n + (1-\lambda_n)_+ \, h_n, \qquad (x)_+ \equiv \max\{x,0\}.$$
 
-**Self-improvement** (activation threshold $\bar{a}$, then affine in $a_t$):
-$$\lambda_{t+1} = \begin{cases} 0, & a_t < \bar{a} \\ \alpha + \beta(a_t - \bar{a}), & a_t \ge \bar{a}. \end{cases}$$
+    Agent gets everything up to $\lambda_n$; humans only contribute on the band of length $(1-\lambda_n)_+$, of which fraction $h_n$ is covered by period $n$.
 
-Parameters: **$p$** (human speed), **$\bar{a}$** (minimum progress to “turn on” the agent), **$\alpha$** (baseline capability once on), **$\beta$** (strength of recursive improvement). Initial condition $\lambda_0$ (typically 0). Four parameters plus $\lambda_0$.
+Self-improvement.
+: 
+    (activation threshold $\bar{a}$, then affine in $a_n$):
+    $$\lambda_{n+1} = \begin{cases} 0, & a_n < \bar{a} \\ \alpha + \beta(a_n - \bar{a}), & a_n \ge \bar{a}. \end{cases}$$
 
----
+    Parameters: **$p$** (human speed), **$\bar{a}$** (minimum progress to "turn on" the agent), **$\alpha$** (baseline capability once on), **$\beta$** (strength of recursive improvement). Initial condition $\lambda_0$ (typically 0).
 
-### 2. Crisp conditions
+## Conditions
 
-**A) Activation.** With $\lambda_t = 0$, $a_t = h_t \to 1$. So the agent can ever turn on **iff $\bar{a} < 1$**. If $\bar{a} \ge 1$, $\lambda_t \equiv 0$ forever. Activation-time approximation: $h_t = 1 - p^t \ge \bar{a}$ $\Leftrightarrow$ $t \ge \ln(1-\bar{a})/\ln p$; $p$ mainly shifts *when* activation happens.
+Agents contributing to AI research.
+: 
+    With $\lambda_n = 0$, $a_n = h_n \to 1$. So the agent can ever turn on **iff $\bar{a} < 1$**. If $\bar{a} \ge 1$, $\lambda_n \equiv 0$ forever. Activation-time approximation: $h_n = 1 - p^n \ge \bar{a}$ $\Leftrightarrow$ $n \ge \ln(1-\bar{a})/\ln p$; $p$ mainly shifts *when* activation happens.
 
-**B) Crossing human level.** As $t \to \infty$, $h_t \to 1$. If $\lambda_t < 1$, $a_t \to 1$; if $\lambda_t \ge 1$, $a_t = \lambda_t$. So asymptotically $\lambda_{t+1} \to f(1)$ with $f(1) = 0$ if $1 < \bar{a}$, and $f(1) = \alpha + \beta(1-\bar{a})$ if $1 \ge \bar{a}$. So **takeoff past human level** (eventually $\lambda > 1$) **iff**
-$$\boxed{\alpha + \beta(1-\bar{a}) > 1.}$$
-Interpretation: “If the orchard were fully human-level ($a=1$), would the next agent be at least human-level?” If not, the system stays below 1. This condition is essentially independent of $p$ (timing, not whether).
+Getting to superhuman AI research.
+: 
+    As $n \to \infty$, $h_n \to 1$. If $\lambda_n < 1$, $a_n \to 1$; if $\lambda_n \ge 1$, $a_n = \lambda_n$. So asymptotically $\lambda_{n+1} \to f(1)$ with $f(1) = 0$ if $1 < \bar{a}$, and $f(1) = \alpha + \beta(1-\bar{a})$ if $1 \ge \bar{a}$. So **takeoff past human level** (eventually $\lambda_n > 1$) **iff**
+    $$\boxed{\alpha + \beta(1-\bar{a}) > 1.}$$
 
-**C) Above human level: runaway vs saturation.** For $\lambda_t \ge 1$, $a_t = \lambda_t$ and
-$$\lambda_{t+1} = \alpha + \beta(\lambda_t - \bar{a}).$$
+    Interpretation: “If the orchard were fully human-level ($a=1$), would the next agent be at least human-level?” If not, the system stays below 1. This condition is essentially independent of $p$.
 
-- **Runaway / hard takeoff** iff $\boxed{\beta > 1}$ (roughly geometric growth in $\lambda_t$).
+Self-sustaining AI research.
+: 
+    For $\lambda_n \ge 1$, $a_n = \lambda_n$ and
+    $$\lambda_{n+1} = \alpha + \beta(\lambda_n - \bar{a}).$$
 
-- **Soft takeoff / saturation** iff $\boxed{\beta < 1}$: convergence to
-$$\lambda^* = \frac{\alpha - \beta\bar{a}}{1-\beta}$$
-(provided the system crosses 1 first).
+    - **Runaway / hard takeoff** iff $\boxed{\beta > 1}$ (roughly geometric growth in $\lambda_n$).
 
-- **Knife-edge** $\beta = 1$: linear growth.
+    - **Soft takeoff / saturation** iff $\boxed{\beta < 1}$: convergence to
+    $$\lambda^* = \frac{\alpha - \beta\bar{a}}{1-\beta}$$
+    (provided the system crosses 1 first).
+
+    - **Knife-edge** $\beta = 1$: linear growth.
 
 ---
 
@@ -273,7 +303,7 @@ $$\lambda^* = \frac{\alpha - \beta\bar{a}}{1-\beta}$$
 ```{tikz}
 #| engine-opts:
 #|   extra.preamble: "\\usepackage{pgfplots}\\pgfplotsset{compat=1.18}"
-% Recurrence: h_t = 1 - p^t; a_t = λ_t + (1-λ_t)*h_t when λ_t<1 else λ_t; λ_{t+1} = a_t≥ā ? α+β(a_t-ā) : 0.
+% Recurrence: h_n = 1 - p^n; a_n = \lambda_n + (1-\lambda_n) h_n when \lambda_n < 1, else a_n = \lambda_n; \lambda_{n+1} = 0 if a_n < \bar a, else \alpha + \beta(a_n-\bar a).
 % Four scenarios: (p, ā, α, β) = (0.6, 1.5, 0, 0) no activation; (0.6, 0.2, 0.12, 0.4) stuck; (0.6, 0.2, 0.35, 0.9) soft; (0.6, 0.2, 0.32, 1.1) hard.
 \def\appleloop#1#2#3#4{
   \pgfmathsetmacro{\p}{#1}\pgfmathsetmacro{\bara}{#2}\pgfmathsetmacro{\alphap}{#3}\pgfmathsetmacro{\betap}{#4}
@@ -304,8 +334,8 @@ $$\lambda^* = \frac{\alpha - \beta\bar{a}}{1-\beta}$$
     name=ax1,
     width=7cm, height=5cm,
     xmin=0, xmax=25, ymin=0, ymax=2.2,
-    xlabel={$t$}, ylabel={$\lambda_t$},
-    title={$\lambda_t$ (agent reach)},
+    xlabel={$n$}, ylabel={$\lambda_n$},
+    title={$\lambda_n$ (agent reach)},
     grid=both,
     grid style={dotted, gray!60},
     axis on top,
@@ -327,8 +357,8 @@ $$\lambda^* = \frac{\alpha - \beta\bar{a}}{1-\beta}$$
     xshift=0.9cm,
     width=7cm, height=5cm,
     xmin=0, xmax=25, ymin=0, ymax=2.2,
-    xlabel={$t$}, ylabel={$a_t$},
-    title={$a_t$ (apples harvested)},
+    xlabel={$n$}, ylabel={$a_n$},
+    title={$a_n$ (apples harvested)},
     grid=both,
     grid style={dotted, gray!60},
     axis on top,
