@@ -46,140 +46,191 @@ A simple model for AI R&D.
 : 
     An agent helping you to optimize an algorithm is like a robot helping you pick apples. It will take care of all the apples up to a certain height, and it may find apples you haven't found yet, but there will still be apples out of its reach.
 
-    Below I give a formal model but the basic ideas can all be seen with a drawing: here both the human and robot have picked four apples, but they've left the tree in a very different state, so the robot isn't ready to replace the human yet:
+    Below I give a formal model but the basic ideas can all be seen in the drawing below. Here both the human and robot have picked four apples, but they've left the tree in a very different state, so the robot isn't ready to replace the human yet:
+
 
     ```{tikz}
     #| fig-align: center
-    #| fig-width: 3
+    #| fig-width: 4
     \begin{tikzpicture}[
-        x=0.62cm,
-        y=0.62cm,
-        line cap=round,
-        line join=round,
-        draw=blue!65!black,
-        line width=2pt
+        x=0.55cm, y=0.55cm,
+        line cap=round, line join=round,
+        draw=black, line width=1.6pt
     ]
-    % easy-to-tune layout parameters
-    \def\groundY{0.2}
-    \def\humanX{1.6}
-    \def\leftTreeX{6.7}
-    \def\rightTreeX{12.9}
-    \def\robotX{17.0}
-    \def\trunkTopY{4.0}
-    \def\canopyTopY{9.55}
-    \def\canopyLeft{-1.55}
-    \def\canopyRight{1.55}
-    \def\fruitRadius{0.18}
-    \def\crossHalf{0.15}
-    \def\robotReachY{5.6}
+    %%% --- PARAMETERS (edit these) ---
+    \def\nrows{4}           % number of apple rows
+    \def\canopyBot{3}       % y where canopy starts
+    \def\canopyTop{9.6}     % y where canopy ends
+    \def\canopyHalfW{2.0}   % half-width of canopy
+    \def\canopyRound{1cm} % corner rounding
+    \def\treeSpacing{6}     % horizontal distance between tree centers
+    \def\leftTreeX{4.5}     % x of left tree center
+    \def\fruitInset{0.9}    % fruit distance from tree center
+    \def\humanX{0.8}        % x of human
+    \def\humanReachRow{4}   % human reaches row N (1=bottom, \nrows=top)
+    \def\robotReachRow{2}   % robot reaches row N
+    \def\armGap{0.6}        % gap between arm tip and canopy edge
+    \def\fruitR{0.3}
+    \def\filledR{0.3}
+    \def\canopyPad{1}     % vertical padding inside canopy for fruit
+    \colorlet{humancolor}{black}
+    \colorlet{robotcolor}{black}
+    %%% --- END PARAMETERS ---
 
-    \newcommand{\drawCross}[2]{
-        \begin{scope}[shift={({#1},{#2})}]
-        \draw (-\crossHalf,-\crossHalf) -- (\crossHalf,\crossHalf);
-        \draw (-\crossHalf,\crossHalf) -- (\crossHalf,-\crossHalf);
-        \end{scope}
-    }
+    \pgfmathsetmacro{\rightTreeX}{\leftTreeX+\treeSpacing}
+    \pgfmathsetmacro{\robotX}{\rightTreeX+\canopyHalfW+1.8}
+    \pgfmathsetmacro{\groundLeft}{\humanX-5}
+    \pgfmathsetmacro{\groundRight}{\robotX+5.8}
+    \pgfmathsetmacro{\rowStep}{(\canopyTop-\canopyBot-2*\canopyPad)/(\nrows-1)}
 
-    \newcommand{\drawFruit}[2]{
-        \draw (#1,#2) circle (\fruitRadius);
-    }
+    \newcommand{\apple}[2]{\fill[black] (#1,#2) circle (\filledR);}
+    \newcommand{\cross}[2]{\draw (#1,#2) circle (\fruitR);}
 
     \newcommand{\drawTree}[1]{
-        \begin{scope}[shift={({#1},0)}]
-        \draw (-0.80,\groundY-0.05) -- (0.80,\groundY-0.05);
-        \draw (-0.10,\groundY-0.05)
-            .. controls +(0.35,0.25) and +(-0.10,-0.90) .. (-0.02,\trunkTopY);
-        \draw (0.10,\groundY-0.05)
-            .. controls +(-0.35,0.25) and +(0.10,-0.90) .. (0.02,\trunkTopY);
-        \draw (\canopyLeft,\trunkTopY)
-            .. controls +(-0.60,0.80) and +(-0.30,-1.30) .. (-1.30,8.35)
-            .. controls +(0.25,1.05) and +(-0.95,0.30) .. (0.00,\canopyTopY)
-            .. controls +(0.90,0.25) and +(-0.45,0.95) .. (1.25,8.75)
-            .. controls +(0.55,-0.75) and +(0.25,1.00) .. (1.10,5.80)
-            .. controls +(-0.20,-1.00) and +(0.90,-0.20) .. (\canopyRight,\trunkTopY)
-            .. controls +(-1.00,-0.20) and +(0.95,-0.20) .. (\canopyLeft,\trunkTopY);
-        \end{scope}
+        \draw (#1,0) -- (#1,\canopyBot);
+        \draw[rounded corners=\canopyRound]
+            ({#1-\canopyHalfW},\canopyBot) rectangle ({#1+\canopyHalfW},\canopyTop);
     }
 
-    \newcommand{\drawHuman}[1]{
-        \begin{scope}[shift={({#1},0)}]
-        \draw (0,8.15) circle (0.45);
-        \fill[blue!65!black] (-0.15,8.3) circle (0.04);
-        \draw (0.15,8.05) -- ++(0.15,-0.15);
-        \draw (0,7.7) -- ++(0,-5.5);
-        \draw (0,6.55) -- (1.95,7.25) -- (2.75,7.88);
-        \draw (2.75,7.88) -- ++(0.20,0.18);
-        \draw (2.75,7.88) -- ++(0.08,0.26);
-        \draw (2.88,8.01) -- ++(-0.16,0.04);
-        \draw (0,2.2) -- ++(-0.18,-2.0);
-        \draw (0,2.2) -- ++(0.32,-2.0);
-        \draw (-0.45,\groundY) -- ++(1.0,0);
-        \end{scope}
-    }
+    % row y-coordinate: row 1 = bottom, row \nrows = top
+    \newcommand{\rowY}[1]{\pgfmathparse{\canopyBot+\canopyPad+(\rowStep)*(#1-1)}\pgfmathresult}
 
-    \newcommand{\drawRobot}[1]{
-        \begin{scope}[shift={({#1},0)}]
-        \draw (0,4.75) circle (0.5);
-        \draw (-1.0,4.25) -- (1.0,4.25) -- (1.0,3.0) -- (-1.0,3.0) -- cycle;
-        \draw (-1.0,3.0) -- ++(0,-2.65) -- ++(0.95,0);
-        \draw (1.0,3.0) -- ++(0,-2.65) -- ++(-0.8,0);
-        \draw (-1.25,\groundY) -- ++(2.6,0);
-        % straight robotic arm showing a limited reach
-        \draw (-0.75,4.0) -- (-2.05,\robotReachY);
-        \draw (-2.05,\robotReachY) -- ++(-0.18,0.22);
-        \draw (-2.05,\robotReachY) -- ++(-0.26,-0.08);
-        \draw (-2.18,\robotReachY+0.08) -- ++(0.08,-0.16);
-        \end{scope}
-    }
+    % --- ground ---
+    \draw (\groundLeft,0) -- (\groundRight,0);
 
-    \drawHuman{\humanX}
+    % --- human (head at row 3 = second from top) ---
+    \def\humanHeadRow{3}
+    \pgfmathsetmacro{\humanHeadY}{\canopyBot+\canopyPad+\rowStep*(\humanHeadRow-1)}
+    \pgfmathsetmacro{\humanBodyTop}{\humanHeadY-0.4}
+    \pgfmathsetmacro{\humanShoulderY}{\humanBodyTop-0.8}
+    \draw[humancolor] (\humanX,0) -- (\humanX,\humanBodyTop);
+    \draw[humancolor] (\humanX,\humanHeadY) circle (0.35);
+    \pgfmathsetmacro{\humanArmY}{\canopyBot+\canopyPad+\rowStep*(\humanReachRow-1)}
+    \pgfmathsetmacro{\humanArmTipX}{\leftTreeX-\canopyHalfW-\armGap}
+    \pgfmathsetmacro{\humanElbowX}{(\humanX+\humanArmTipX)/2}
+    \pgfmathsetmacro{\humanElbowY}{(\humanArmY+\humanShoulderY)/2 - 1.0}
+    \draw[humancolor] (\humanX,\humanShoulderY) -- (\humanElbowX,\humanElbowY) -- (\humanArmTipX,\humanArmY);
+    \draw[humancolor] (\humanArmTipX,\humanArmY) -- ++(0.25,0.18);
+    \draw[humancolor] (\humanArmTipX,\humanArmY) -- ++(0.25,-0.18);
+
+    % --- left tree (human-picked: crosses scattered, apples scattered) ---
     \drawTree{\leftTreeX}
-    \drawTree{\rightTreeX}
-    \drawRobot{\robotX}
+    \pgfmathsetmacro{\fL}{\leftTreeX-\fruitInset}
+    \pgfmathsetmacro{\fR}{\leftTreeX+\fruitInset}
+    \foreach \row/\leftType/\rightType in {4/x/o, 3/o/x, 2/x/o, 1/o/x} {
+        \pgfmathsetmacro{\fy}{\canopyBot+\canopyPad+\rowStep*(\row-1)}
+        \if x\leftType \cross{\fL}{\fy} \else \apple{\fL}{\fy} \fi
+        \if x\rightType \cross{\fR}{\fy} \else \apple{\fR}{\fy} \fi
+    }
 
-    % fruit layouts relative to tree centers
-    \begin{scope}[shift={({\leftTreeX},0)}]
-    \drawCross{-0.8}{8.6}
-    \drawFruit{0.75}{8.6}
-    \drawFruit{-0.8}{7.4}
-    \drawCross{0.75}{7.4}
-    \drawCross{-0.8}{6.2}
-    \drawFruit{0.75}{6.2}
-    \drawFruit{-0.8}{5.0}
-    \drawCross{0.75}{5.0}
-    \end{scope}
-    \foreach \x/\y in {-0.85/8.6, 0.65/8.6, -0.85/7.35, 0.65/7.35}{
-        \begin{scope}[shift={({\rightTreeX},0)}]
-        \drawFruit{\x}{\y}
-        \end{scope}
+    % --- right tree (robot-picked: apples on top, crosses on bottom) ---
+    \drawTree{\rightTreeX}
+    \pgfmathsetmacro{\gL}{\rightTreeX-\fruitInset}
+    \pgfmathsetmacro{\gR}{\rightTreeX+\fruitInset}
+    \foreach \row/\leftType/\rightType in {4/o/o, 3/o/o, 2/x/x, 1/x/x} {
+        \pgfmathsetmacro{\fy}{\canopyBot+\canopyPad+\rowStep*(\row-1)}
+        \if x\leftType \cross{\gL}{\fy} \else \apple{\gL}{\fy} \fi
+        \if x\rightType \cross{\gR}{\fy} \else \apple{\gR}{\fy} \fi
     }
-    \foreach \x/\y in {-0.85/6.05, 0.65/6.05, -0.85/4.85, 0.65/4.85}{
-        \begin{scope}[shift={({\rightTreeX},0)}]
-        \drawCross{\x}{\y}
-        \end{scope}
-    }
+
+    % --- robot (head at row 1 = bottom) ---
+    \def\robotHeadRow{1}
+    \pgfmathsetmacro{\robotHeadBotY}{\canopyBot+\canopyPad+\rowStep*(\robotHeadRow-1)-0.4}
+    \pgfmathsetmacro{\robotHeadTopY}{\robotHeadBotY+0.8}
+    \pgfmathsetmacro{\robotBodyTop}{\robotHeadBotY-0.2}
+    \pgfmathsetmacro{\robotShoulderY}{\robotBodyTop-0.3}
+    \draw[robotcolor] (\robotX,0) -- (\robotX,\robotBodyTop) -- ({\robotX+1.2},\robotBodyTop) -- ({\robotX+1.2},0);
+    \draw[robotcolor] (\robotX,\robotHeadBotY) rectangle ({\robotX+1.2},\robotHeadTopY);
+    \pgfmathsetmacro{\robotArmY}{\canopyBot+\canopyPad+\rowStep*(\robotReachRow-1)}
+    \pgfmathsetmacro{\robotArmTipX}{\rightTreeX+\canopyHalfW+\armGap}
+    \draw[robotcolor] (\robotX,\robotShoulderY) -- (\robotArmTipX,\robotArmY);
+    \draw[robotcolor] (\robotArmTipX,\robotArmY) -- ++(-0.25,0.18);
+    \draw[robotcolor] (\robotArmTipX,\robotArmY) -- ++(-0.25,-0.18);
+    \end{tikzpicture}
+    ```
+
+    The graphs below show the contribution of humans & agents over time. The model also implies that humans and agents will be complements in the harvesting of apples (or optimizing algorithms).
+
+    ```{tikz}
+    \begin{tikzpicture}[scale=2,yscale=2]
+    \def\rH{0.3} \def\rA{2} \def\lam{0.5}
+    \draw[-] (0,0) -- (5.5,0) node[midway,below] {search-time / expenditure}
+        --(5.5,1)--(0,1)--(0,0) node[midway,rotate=90,above] {share apples found};
+    % human: 1 - e^{-r_H t}
+    \draw[green!50!black, thick, domain=0:5.3, samples=120]
+        plot (\x, {1 - (1-\lam)*exp(-\rH*\x) - \lam*exp(-\rH*\x)});
+    % agent: λ(1 - e^{-r_A t})
+    \draw[red!70!black, thick, domain=0:5.3, samples=120]
+        plot (\x, {1 - (1-\lam) - \lam*exp(-\rA*\x)});
+    \draw[green!50!black, dashed, thin] (0,.99) -- (5.3,.99);
+    \draw[red!70!black, dashed, thin] (0,\lam) -- (5.3,\lam);
+    \node[green!50!black, right] at (4.2, {1 - exp(-\rH*4.2) + 0.12}) {human};
+    \node[red!70!black, right] at (4.2, {\lam*(1 - exp(-\rA*4.2)) - 0.04}) {agent};
+    %\node[above] at (2.5,1) {$r_H=0.2,\; r_A=0.9,\; \lambda=0.5$};
     \end{tikzpicture}
     ```
 
 
-    The motivation for writing this model was to help think through the implications of recent evidence that AI can push forward the frontier on various optimization and AI R&D problems (see my earlier post on [AI knowledge creation](https://tecunningham.github.io/posts/2026-01-29-knowledge-creating-llms.html)). If you can spend $100 in tokens to increase the efficiency of an AI training algorithm by 0.1% then, on its surface, this looks like the path to self-improvement, and you can replace humans with AI. But realistically the agents have been discovering *shallow* improvements to algorithms. This apple-picking model is my attempt to help think through the distinction, and figure out how to measure agents' optimization ability.
+    The motivation for writing this model was to help think through the implications of recent evidence that AI can push forward the frontier on various optimization and AI R&D problems. If you can spend $100 in tokens to increase the efficiency of a frontier AI training algorithm by 0.1% then this looks like the path to self-improvement, and we'll be able to replace humans with AI. But realistically the agents have been discovering *shallow* improvements to algorithms. This apple-picking model is my attempt to help think through the distinction, and figure out how to measure agents' optimization ability.
 
 
 |Robots picking apples|Agents finding optimizations|
 |-|-|
-|Robots can find low apples that humans have not picked yet|Agents can autonomously advance the state-of-the-art on optimization problems|
-|Robots will not be able to pick all the apples humans can|Even with high compute, agents can't replace humans in optimization|
-|Robots are more useful for trees that have never been picked|Agents will have greater relative value for problems that are not yet heavily optimized|
-|A tree will yield more apples if it's harvested by both a human and robots|An algorithm will be more optimized if agents are started after some rounds of human optimization|
-|To gauge the ability of robots we want to measure the highest apple they can reach|To gauge the value of agents we want to test for the maximum *depth* of optimization they can do|
+|Robots can find low apples that humans have not picked yet.|Agents can find improvements on state-of-the-art optimization problems.|
+|Robots cannot pick all the apples humans can.|Agents cannot do as well as human experts on optimization (even with high inference).|
+|Robots are more useful for trees that have never been picked.|Agents are more useful on problems that are not heavily optimized.|
+|A tree will yield more apples if it's harvested by both a human and robots.|An algorithm will be more optimized if both humans and agents work on it.|
+|To gauge the ability of robots we want to measure the highest apple they can reach.|To gauge the value of agents we want to test for the maximum depth of optimization they can find.|
 
-Recursive self-improvement.
+
+Some implications for AI R&D.
+: 
+    We start with the simplest model of AI progress:
+
+    1. There is a fixed mapping from training expenditure to general-purpose model intelligence.
+    2. The cost of reaching a given level of intelligence has been falling by 5X per year.
+    3. Training expenditure has been increasing by 5X per year.
+
+    We can draw this as follows:
+
+    ```{tikz}
+    #| fig-width: 3
+    #| fig-align: center
+    \begin{tikzpicture}[scale=6]
+        \draw[step=0.1, gray, dotted] (0,0) grid (1,1);
+        \draw (0,0) -- (1,0) node[midway,below] {ln(training expenditure)}
+            -- (1,1) -- (0,1) -- (0,0) node[midway,above,rotate=90] {model intelligence};
+        
+        \draw[blue,->] (0.17,0.1)--(0.13,0.1);
+        \draw[blue,->] (0.27,0.1)--(0.23,0.1);
+
+        \draw[thick, blue, dotted] (0,0) plot[domain=0.2:1, samples=100] (\x, {0.75*(1-exp(-2*(\x-0.2)))}) node[anchor=north west]{2023 technology};
+        \draw[thick, blue, dotted] (0,0) plot[domain=0.1:1, samples=100] (\x, {0.75*(1-exp(-2*(\x-0.1)))}) node[right]{2024 technology};
+        \draw[thick, blue] (0,0) plot[domain=0:1, samples=100] (\x, {0.75*(1-exp(-2*\x))}) node[anchor=south west]{2025 technology};    
+
+        \fill[black] (0.4,{0.75*(1-exp(-2*(0.4-0.2)))}) circle (0.01) node[anchor=north west, xshift=2pt, fill=white, draw=black, inner sep=2pt] {2023 model};
+        \fill[black] (0.5,{0.75*(1-exp(-2*(0.5-0.1)))}) circle (0.01) node[anchor=north west, xshift=2pt, fill=white, draw=black, inner sep=2pt] {2024 model};
+        \fill[black] (0.6,{0.75*(1-exp(-2*0.6))}) circle (0.01) node[anchor=north west, xshift=2pt,  fill=white, draw=black, inner sep=2pt] {2025 model};
+    \end{tikzpicture}
+    ```
+
+    Humans have been painstakingly pushing those blue curves to the left. We now are seeing clear signs of agents joining the effort and contributing to that leftward movement, and we want to know what to expect.
+
+    The apple-picking model gives us some broad implications:
+    
+    1. Observing an agent meaningfully improve the frontier (push the curve left) does not imply that agents can replace humans.
+    2. 
+
+
+#               Discussion
+
+We can apply the model to recursive self-improvement.
 : 
     It's also possible to close this model, where agent R&D contributes to the next generation of agent ability. This is like assuming that a robot can eat apples they harvested & grow taller. The condition for explosive growth is simple: it will happen when eating the apples within a one-foot slice of the tree are sufficient for the robot to grow another foot.
 
 Relation to other models of AI R&D. 
 : 
-    The critical distinction between this model and others is how we represent the state. Most existing models summarize the level of productivity (or stock of knowledge) with a single number, meaning there's no distinction between a shallow and deep contribution. The model I'm using here allows us to represent the state with two numbers: the share of apples picked above $\lambda$, and the share below $\lambda$. For the RSI version of the model we instead track the current level of capabilities ($\lambda_n$) and the share of apples picked above that threshold.
+    The critical distinction between this model and others is how we represent the state. Most existing models summarize the level of productivity (or stock of knowledge) with a single number, meaning there's no distinction between a shallow and deep contribution to the state of knowledge. The model I'm using here allows us to represent the state with two numbers: the share of apples picked above $\lambda$, and the share below $\lambda$. For the RSI version of the model we instead track the current level of capabilities ($\lambda_n$) and the share of apples picked above that threshold.
 
     Most existing models of recursive self-improvement assume that either AI accelerates or replaces human R&D researchers. I believe this is roughly true for @aghion2019artificial, @davidson2021could, @erdil2025gate, @davidson2026automatingairesearch, @jones2025aird, @kwa2026simpleraitimelines. These models then calibrate the effect through (1) how much does AI accelerate R&D workers; (2) how much do R&D workers contribute to our stock of knowledge.
     
@@ -213,38 +264,38 @@ Setup.
     
     A human can find apples over $[0,1]$, but an agent can only find apples over $[0,\lambda]$, with $\lambda < 1$ (at least for now).
     
-    Humans find apples at rate $r_H$, agents find apples at rate $r_A$, and we use $t_H$ and $t_A$ to represent the time humans and agents spend searching (you can also interpret $t_H$ and $t_A$ as monetary expenditure on the problem).
+    Humans find apples at rate $r_H$, agents find apples at rate $r_A$, and we use $t_H$ and $t_A$ to represent the time humans and agents spend searching (you can also interpret $t_H$ and $t_A$ as monetary expenditure).
 
-**We can then derive apples found:**
+**We can then derive apples picked:**
 
-   $$\text{apples picked}= \underbrace{\lambda(1-e^{-r_Ht_H-r_At_A})}_{\text{apples from bottom of tree}}+\underbrace{(1-\lambda)(1-e^{-r_Ht_H})}_{\text{apples from top of tree}}.$$
+   $$\text{share apples picked}= \underbrace{\lambda(1-e^{-r_Ht_H-r_At_A})}_{\text{apples from bottom of tree}}+\underbrace{(1-\lambda)(1-e^{-r_Ht_H})}_{\text{apples from top of tree}}.$$
 
 Implication: agents asymptote to a lower level than humans.
 : 
     Here we illustrate agent-only and human-only search curves: the agent curve rises more quickly ($r_A>r_H$), but asymptotes to a lower level ($\lambda<1$).
 
     ```{tikz}
-    \begin{tikzpicture}[x=1.2cm, y=5cm]
-    \def\rH{0.2} \def\rA{0.9} \def\lam{0.5}
+    \begin{tikzpicture}[scale=2,yscale=2]
+    \def\rH{0.3} \def\rA{2} \def\lam{0.5}
     \draw[-] (0,0) -- (5.5,0) node[midway,below] {search-time / expenditure}
         --(5.5,1)--(0,1)--(0,0) node[midway,rotate=90,above] {share apples found};
     % human: 1 - e^{-r_H t}
-    \draw[teal, thick, domain=0:5.3, samples=120]
+    \draw[green!50!black, thick, domain=0:5.3, samples=120]
         plot (\x, {1 - (1-\lam)*exp(-\rH*\x) - \lam*exp(-\rH*\x)});
     % agent: λ(1 - e^{-r_A t})
-    \draw[orange, thick, domain=0:5.3, samples=120]
+    \draw[red!70!black, thick, domain=0:5.3, samples=120]
         plot (\x, {1 - (1-\lam) - \lam*exp(-\rA*\x)});
-    \draw[teal, dashed, thin] (0,.99) -- (5.3,.99);
-    \draw[orange, dashed, thin] (0,\lam) -- (5.3,\lam);
-    \node[teal, right] at (4.2, {1 - exp(-\rH*4.2) + 0.12}) {human};
-    \node[orange, right] at (4.2, {\lam*(1 - exp(-\rA*4.2)) - 0.04}) {agent};
+    \draw[green!50!black, dashed, thin] (0,.99) -- (5.3,.99);
+    \draw[red!70!black, dashed, thin] (0,\lam) -- (5.3,\lam);
+    \node[green!50!black, right] at (4.2, {1 - exp(-\rH*4.2) + 0.12}) {human};
+    \node[red!70!black, right] at (4.2, {\lam*(1 - exp(-\rA*4.2)) - 0.04}) {agent};
     \node[above] at (2.5,1) {$r_H=0.2,\; r_A=0.9,\; \lambda=0.5$};
     \end{tikzpicture}
     ```
 
-    The shape of these curves is a good match for what we see across tasks, e.g. in @metr2024capability. For most tasks either (1) an agent can do it much cheaper than a human; or (2) an agent can't do it at all.
+    We see roughly this shape when comparing human and AI scaling on continuously-scored AI R&D tasks, e.g. in RE-Bench (@wijk2025rebench):
 
-    ![](images/2026-03-13-05-35-22.png)
+    ![RE-Bench scaling](images/2026-03-16-11-43-03.png)
 
 
 ```{r}
@@ -257,7 +308,7 @@ options(tinytex.engine_args = unique(c(old_tinytex_engine_args, "-shell-escape")
 
 Implication: agents can improve on human SoTA, but only by a limited amount.
 : 
-    We can see that agents can improve on the humans' SoTA performance, but in each case the value asymptotes.
+    The plot below shows the returns on human and agent performance. The y-axis shows human-only performance, this can be interpreted as performance for a single human or cumulative performance of humanity. We can see that, at each vertical point, one can move to the right (adding agent optimmizations) and increase the score, but only by a limited amount.
 
     ```{tikz}
     #| engine-opts:
@@ -295,7 +346,7 @@ Implication: agents can improve on human SoTA, but only by a limited amount.
     ```
 
 
-Implication: agent asymptote depends on the starting point.
+Implication: the agent asymptote depends on the starting point.
 : 
     The plot below shows a variety of agent trajectories, each starting after a different amount of human work.
     
@@ -303,7 +354,7 @@ Implication: agent asymptote depends on the starting point.
 
     The model implies that if you start an agent from the original unoptimized version of an algorithm it will quickly make high gains, but asymptote to a value well below the human state-of-the-art.
 
-    If you start an agent after a small amount of human optimization, it will have smaller initial value (some of the apples have already been picked), but it will be able to achieve a higher asymptote.
+    If you start an agent after a some human optimization has been performed the agent will contribute less at first (some of the apples have already been picked), but it will be able to achieve a higher asymptote.
 
     ```{tikz}
     \begin{tikzpicture}[x=1.1cm, y=5cm]
@@ -311,20 +362,20 @@ Implication: agent asymptote depends on the starting point.
     \draw[-] (0,0) -- (5.5,0) node[midway,below] {search expenditure}
         -- (5.5,1) -- (0,1) -- (0,0) node[midway,rotate=90,above] {share found};
     \node[above] at (2.75,1) {$r_H=0.2,\; r_A=0.9,\; \lambda=0.5$};
-    \draw[teal, thick, domain=0:5.3, samples=120]
+    \draw[green!50!black, thick, domain=0:5.3, samples=120]
         plot (\x, {1 - exp(-\rH*\x)});
-    \draw[orange, thick, domain=0:5.3, samples=120]
+    \draw[red!70!black, thick, domain=0:5.3, samples=120]
         plot (\x, {1 - \lam*exp(-\rA*\x) - (1-\lam)});
-    \draw[orange, thick, dashed, domain=1:5.3, samples=120]
+    \draw[red!70!black, thick, dashed, domain=1:5.3, samples=120]
         plot (\x, {1 - (1-\lam)*exp(-\rH) - \lam*exp(-\rH - \rA*(\x-1))});
-    \draw[orange, thick, dash dot, domain=2:5.3, samples=120]
+    \draw[red!70!black, thick, dash dot, domain=2:5.3, samples=120]
         plot (\x, {1 - (1-\lam)*exp(-2*\rH) - \lam*exp(-2*\rH - \rA*(\x-2))});
-    \draw[orange, thick, densely dotted, domain=3:5.3, samples=120]
+    \draw[red!70!black, thick, densely dotted, domain=3:5.3, samples=120]
         plot (\x, {1 - (1-\lam)*exp(-3*\rH) - \lam*exp(-3*\rH - \rA*(\x-3))});
-    \draw[orange, thick, loosely dashed, domain=4:5.3, samples=120]
+    \draw[red!70!black, thick, loosely dashed, domain=4:5.3, samples=120]
         plot (\x, {1 - (1-\lam)*exp(-4*\rH) - \lam*exp(-4*\rH - \rA*(\x-4))});
-    \node[teal, right] at (5.5, {1 - exp(-\rH*5)}) {human-only};
-    %\node[orange, right] at (4.15, {1 - \lam*exp(-\rA*4.15) - (1-\lam) - 0.03}) {$t_H=0,1,2,3,4$};
+    \node[green!50!black, right] at (5.5, {1 - exp(-\rH*5)}) {human-only};
+    %\node[red!70!black, right] at (4.15, {1 - \lam*exp(-\rA*4.15) - (1-\lam) - 0.03}) {$t_H=0,1,2,3,4$};
     \end{tikzpicture}
     ```
 
@@ -336,17 +387,17 @@ Implication: agent asymptote depends on the starting point.
 
 Now let the robot's height depend on apples harvested.
 : 
-    The previous model applied to agents working on an arbitrary problem. Now we focus on agents working on AI R&D, which in turn increases agent ability.
+    The previous model applied to agents working on an arbitrary optimization problem. Now we focus on agents working on AI R&D, which in turn increases agent ability.
     
     We make a few changes:
 
-    1. We now track progress in picking apples over periods, where each period represents a generation of AI models, and we assume that agents pick *all* the apples available to them each period (apples below $\lambda_n$). This makes things easier to model (the state of the tree can be summarized with just two variables, $\lambda_n$ and $h_n$), but it also seems like a reasonable assumption: AI research labs will keep spending money on agent-optimizing their algorithms until there are low returns to additional use.
+    1. We now track progress in picking apples over periods, where each period represents a generation of AI models, and we assume that agents pick *all* the apples available to them each period (apples below $\lambda_n$). This makes things easier to model because the state of the tree can be summarized with just two variables, $\lambda_n$ and $h_n$. It also seems like a reasonable assumption: AI research labs will keep spending money on agent-optimizing their algorithms until there are low returns to additional use.
     2. We assume that the agent's ability in period $n+1$ is a function of AI R&D progress in period $n$ (the robot is eating the apples and getting taller). It turns out that we can get a simple closed-form solution when this function is linear. To add a touch of realism we assume that agents have no meaningful ability to do R&D until algorithmic progress passes some minimum threshold ($\bar{a}$).
 
 
 Implications:
 : 
-    1. We will eventually get superhuman progress (robots will be taller than humans) iff $\alpha + \beta(1-\bar{a}) > 1$
+    1. We will eventually get superhuman progress (robots will be taller than humans) iff $\alpha + \beta(1-\bar{a}) > 1$.
     2. Agent height will be explosive iff $\beta > 1$, i.e. if eating all the apples in a 1-foot slice of tree causes you to grow another foot taller. If not, it converges to a finite height $\lambda^*$.
 
 
@@ -458,8 +509,8 @@ Self-sustaining AI research.
 ]
 \addplot[dashed, gray!70] coordinates {(0,1) (25,1)};
 \addplot[very thick, gray] coordinates {\coordslambdaA};
-\addplot[very thick, orange] coordinates {\coordslambdaB};
-\addplot[very thick, teal] coordinates {\coordslambdaC};
+\addplot[very thick, red!70!black] coordinates {\coordslambdaB};
+\addplot[very thick, green!50!black] coordinates {\coordslambdaC};
 \addplot[very thick, violet] coordinates {\coordslambdaD};
 \legend{No activation ($\bar a \ge 1$), Stuck ($f(1)<1$), Soft takeoff ($\beta<1$), Hard takeoff ($\beta>1$)}
 \end{axis}
@@ -481,10 +532,133 @@ Self-sustaining AI research.
 ]
 \addplot[dashed, gray!70] coordinates {(0,1) (25,1)};
 \addplot[very thick, gray] coordinates {\coordsatA};
-\addplot[very thick, orange] coordinates {\coordsatB};
-\addplot[very thick, teal] coordinates {\coordsatC};
+\addplot[very thick, red!70!black] coordinates {\coordsatB};
+\addplot[very thick, green!50!black] coordinates {\coordsatC};
 \addplot[very thick, violet] coordinates {\coordsatD};
 \legend{No activation ($\bar a \ge 1$), Stuck ($f(1)<1$), Soft takeoff ($\beta<1$), Hard takeoff ($\beta>1$)}
 \end{axis}
+\end{tikzpicture}
+```
+
+
+#           Offcuts
+
+Scaling curves from @metr2024capability. For most tasks either (1) an agent can do it much cheaper than a human; or (2) an agent can't do it at all.
+
+![](images/2026-03-13-05-35-22.png)
+
+(see my earlier post on [AI knowledge creation](https://tecunningham.github.io/posts/2026-01-29-knowledge-creating-llms.html))
+
+
+```{tikz}
+#| fig-align: center
+#| fig-width: 3
+\begin{tikzpicture}[
+    x=0.62cm,
+    y=0.62cm,
+    line cap=round,
+    line join=round,
+    draw=blue!65!black,
+    line width=2pt
+]
+% easy-to-tune layout parameters
+\def\groundY{0.2}
+\def\humanX{1.6}
+\def\leftTreeX{6.7}
+\def\rightTreeX{12.9}
+\def\robotX{17.0}
+\def\trunkTopY{4.0}
+\def\canopyTopY{9.55}
+\def\canopyLeft{-1.55}
+\def\canopyRight{1.55}
+\def\fruitRadius{0.18}
+\def\crossHalf{0.15}
+\def\robotReachY{5.6}
+
+\newcommand{\drawCross}[2]{
+    \begin{scope}[shift={({#1},{#2})}]
+    \draw (-\crossHalf,-\crossHalf) -- (\crossHalf,\crossHalf);
+    \draw (-\crossHalf,\crossHalf) -- (\crossHalf,-\crossHalf);
+    \end{scope}
+}
+
+\newcommand{\drawFruit}[2]{
+    \draw (#1,#2) circle (\fruitRadius);
+}
+
+\newcommand{\drawTree}[1]{
+    \begin{scope}[shift={({#1},0)}]
+    \draw (-0.80,\groundY-0.05) -- (0.80,\groundY-0.05);
+    \draw (-0.10,\groundY-0.05)
+        .. controls +(0.35,0.25) and +(-0.10,-0.90) .. (-0.02,\trunkTopY);
+    \draw (0.10,\groundY-0.05)
+        .. controls +(-0.35,0.25) and +(0.10,-0.90) .. (0.02,\trunkTopY);
+    \draw (\canopyLeft,\trunkTopY)
+        .. controls +(-0.60,0.80) and +(-0.30,-1.30) .. (-1.30,8.35)
+        .. controls +(0.25,1.05) and +(-0.95,0.30) .. (0.00,\canopyTopY)
+        .. controls +(0.90,0.25) and +(-0.45,0.95) .. (1.25,8.75)
+        .. controls +(0.55,-0.75) and +(0.25,1.00) .. (1.10,5.80)
+        .. controls +(-0.20,-1.00) and +(0.90,-0.20) .. (\canopyRight,\trunkTopY)
+        .. controls +(-1.00,-0.20) and +(0.95,-0.20) .. (\canopyLeft,\trunkTopY);
+    \end{scope}
+}
+
+\newcommand{\drawHuman}[1]{
+    \begin{scope}[shift={({#1},0)}]
+    \draw (0,8.15) circle (0.45);
+    \fill[blue!65!black] (-0.15,8.3) circle (0.04);
+    \draw (0.15,8.05) -- ++(0.15,-0.15);
+    \draw (0,7.7) -- ++(0,-5.5);
+    \draw (0,6.55) -- (1.95,7.25) -- (2.75,7.88);
+    \draw (2.75,7.88) -- ++(0.20,0.18);
+    \draw (2.75,7.88) -- ++(0.08,0.26);
+    \draw (2.88,8.01) -- ++(-0.16,0.04);
+    \draw (0,2.2) -- ++(-0.18,-2.0);
+    \draw (0,2.2) -- ++(0.32,-2.0);
+    \draw (-0.45,\groundY) -- ++(1.0,0);
+    \end{scope}
+}
+
+\newcommand{\drawRobot}[1]{
+    \begin{scope}[shift={({#1},0)}]
+    \draw (0,4.75) circle (0.5);
+    \draw (-1.0,4.25) -- (1.0,4.25) -- (1.0,3.0) -- (-1.0,3.0) -- cycle;
+    \draw (-1.0,3.0) -- ++(0,-2.65) -- ++(0.95,0);
+    \draw (1.0,3.0) -- ++(0,-2.65) -- ++(-0.8,0);
+    \draw (-1.25,\groundY) -- ++(2.6,0);
+    % straight robotic arm showing a limited reach
+    \draw (-0.75,4.0) -- (-2.05,\robotReachY);
+    \draw (-2.05,\robotReachY) -- ++(-0.18,0.22);
+    \draw (-2.05,\robotReachY) -- ++(-0.26,-0.08);
+    \draw (-2.18,\robotReachY+0.08) -- ++(0.08,-0.16);
+    \end{scope}
+}
+
+\drawHuman{\humanX}
+\drawTree{\leftTreeX}
+\drawTree{\rightTreeX}
+\drawRobot{\robotX}
+
+% fruit layouts relative to tree centers
+\begin{scope}[shift={({\leftTreeX},0)}]
+\drawCross{-0.8}{8.6}
+\drawFruit{0.75}{8.6}
+\drawFruit{-0.8}{7.4}
+\drawCross{0.75}{7.4}
+\drawCross{-0.8}{6.2}
+\drawFruit{0.75}{6.2}
+\drawFruit{-0.8}{5.0}
+\drawCross{0.75}{5.0}
+\end{scope}
+\foreach \x/\y in {-0.85/8.6, 0.65/8.6, -0.85/7.35, 0.65/7.35}{
+    \begin{scope}[shift={({\rightTreeX},0)}]
+    \drawFruit{\x}{\y}
+    \end{scope}
+}
+\foreach \x/\y in {-0.85/6.05, 0.65/6.05, -0.85/4.85, 0.65/4.85}{
+    \begin{scope}[shift={({\rightTreeX},0)}]
+    \drawCross{\x}{\y}
+    \end{scope}
+}
 \end{tikzpicture}
 ```
