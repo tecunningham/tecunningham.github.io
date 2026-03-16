@@ -171,7 +171,7 @@ A simple model for AI R&D.
     ```
 
 
-    The motivation for writing this model was to help think through the implications of recent evidence that AI can push forward the frontier on various optimization and AI R&D problems. If you can spend $100 in tokens to increase the efficiency of a frontier AI training algorithm by 0.1% then this looks like the path to self-improvement, and we'll be able to replace humans with AI. But realistically the agents have been discovering *shallow* improvements to algorithms. This apple-picking model is my attempt to help think through the distinction, and figure out how to measure agents' optimization ability.
+    The motivation for writing this model was to help think through the implications of recent evidence that AI can push forward the frontier on various optimization and AI R&D problems. If you can spend $100 in tokens to increase the efficiency of a frontier AI training algorithm by 0.1% then this looks like the path to self-improvement, and we'll be able to replace humans with AI. But realistically the agents have been discovering *shallow* improvements to algorithms. The idea is not original, it already exists in cliche form ("low hanging fruit"), but I still found it useful to formalize it.
 
 
 |Robots picking apples|Agents finding optimizations|
@@ -201,8 +201,8 @@ Some implications for AI R&D.
         \draw (0,0) -- (1,0) node[midway,below] {ln(training expenditure)}
             -- (1,1) -- (0,1) -- (0,0) node[midway,above,rotate=90] {model intelligence};
         
-        \draw[blue,->] (0.17,0.1)--(0.13,0.1);
-        \draw[blue,->] (0.27,0.1)--(0.23,0.1);
+        \draw[blue,->] (0.15,0.1)--(0.11,0.1);
+        \draw[blue,->] (0.25,0.1)--(0.2,0.1);
 
         \draw[thick, blue, dotted] (0,0) plot[domain=0.2:1, samples=100] (\x, {0.75*(1-exp(-2*(\x-0.2)))}) node[anchor=north west]{2023 technology};
         \draw[thick, blue, dotted] (0,0) plot[domain=0.1:1, samples=100] (\x, {0.75*(1-exp(-2*(\x-0.1)))}) node[right]{2024 technology};
@@ -218,8 +218,9 @@ Some implications for AI R&D.
 
     The apple-picking model gives us some broad implications:
     
-    1. Observing an agent meaningfully improve the frontier (push the curve left) does not imply that agents can replace humans.
-    2. 
+    1. We should benchmark agent AI R&D ability against the *frontier*, which represent cumulative human effort, rather than against toy problems and the effort of a single human.
+    2. Observing an agent improve the frontier (push the curve left) does not imply that agents can replace humans, because they may be only picking low-hanging fruit.
+    3. The effects will show up in parts of the AI stack that have low-hanging fruit, e.g. where there's a lot of fairly natural ideas to try but we are bottlenecked on execution.
 
 
 #               Discussion
@@ -252,6 +253,8 @@ Things to add.
     - *Directed search.* We assumed that the probability of finding an apple is independent of other apples already found. Realistically people have an ability to put direct their attention to finding new innovations. This implies lower diminishing returns to expenditure, and higher complementarity between agents and humans, I'm not sure whether it would change the qualitative conclusions of the model.
     
     - *Bottlenecks.* Some R&D is bottlenecked not just by thinking (which agents can do), but also by running experiments.
+
+    - *Acceleration.* This model is missing the effect of acceleration through explicit cooperation -- e.g. a human comes up with an idea, and an agent executes it. This seems very likely to be an important contribution to AI progress.
 
     - *Sketch of a quantitative model of LLM training.* LLM training is a big stack of algorithms, which we've been optimizing at perhaps 10X/year. Would be useful to add some speculation about which parts of the stack have low-hanging fruit.
 
