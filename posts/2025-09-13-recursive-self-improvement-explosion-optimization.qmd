@@ -314,20 +314,59 @@ Thompson et al. (2022) ["The Importance of (Exponentially More) Computing Power"
 
 #           Literature Review on RSI Models
 
-Basic setup:
+We want to answer these questions:
 
-1. Algorithmic progress has been proceeding at around 5X/year.
-2. Endogenous growth setup: (1) diminishing returns to R&D about 1/2; (2) increasing returns to knowledge about 1/2; these balance and get balanced growth.
-3. Now we add link back from algorithms to R&D, but very little guidance on how to calibrate it.
+1. Based on history of AI R&D, what's a reasonable estimate of how AI R&D will change the future trajectory?
+2. What is the best capability metric for estimating AI R&D contribution?
 
+Basic argument:
+
+1. Say algorithmic efficiency has been growing at 5X/year, so we can get the same intelligence for 5X lower cost.
+2. We are starting to see glimmers of AI contributing to R&D, & want to predict how this will change the system.
+3. Some alternatives in how to model this:
+    - **Accelerant.** Suppose a certain level of AI can speed up a human researcher by a certain proportion, $\lambda$. This feedback loop should accelerate AI development, but it's sensitive to how strong this connection is.
+    - **Perfect substitutes.** Suppose AI can do entirely autonomous research, i.e. it's a perfect substitute for a human. Then we are only constrained on the cost of AI compute. Unless the cost is very high, this implies a massive acceleration in AI progress, constrained only by (a) experiment bottlenecks; (b) a ceiling to AI progress.
+
+    - **Imperfect substitutes.**
+
+4. Endogenous growth setup: (1) diminishing returns to R&D about 1/2; (2) increasing returns to knowledge about 1/2; these balance and get balanced growth.
+5. Now we add link back from algorithms to R&D, but very little guidance on how to calibrate it.
+
+Capability metrics:
+
+1. Human researcher uplift.
+2. Ability to push forward the frontier.
+
+Wrinkles:
+
+1. Estimating algorithmic progress.
+2. Scale-dependent algorithmic progress.
+3. Bottlenecks on experiment compute.
+4. Shape of the landscape.
+5. Adding capital.
 
 Ajeya's questions:
 
 1. When will we have automated AI R&D?
+    - Answer: we already have automated R&D. 
 2. When we have automated AI R&D, will this trigger super-exponential growth?
 
 
----
+Core model:
+
+$$\begin{aligned}
+    \utt{\dot{A}}{algorithmic}{progress}
+        &=\utt{R^{\gamma}}{new}{research}
+            {\utt{A^{1-\beta}}{algorithms}{}}
+        && \text{(progress)}\\
+    R&=A^{\kappa}
+        && \text{}\\
+    \dot{A}&=A^{1-\beta+\kappa}\\
+\end{aligned}
+$$
+
+
+##          
 
 
 
@@ -358,26 +397,30 @@ Ajeya's questions:
 
 ##                       @jones1995rd
 
-Basic model with accumulating ideas:
+Best reference is the review article in @jones2022semiendogenous.
+
+Basic model with diminishing returns to R&D:
 $$\begin{gathered}\dot{A}=R^{\gamma}\\
-   \xymatrix{*++[F]{R\&D} \ar[r] & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}}
+   \xymatrix{*++[F]{R\&D} \ar[r]|(0.4)\gamma & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}}
 \end{gathered}
 $$
 
-Model with shoulders/armpits of giants (Jones model):^[This was introduced by @jones1995rd, where there are diminishing returns to knowledge, whereas Romer (1990) had assumed no diminishing returns to knowledge, $\beta=0$.]
+Now we add positive spillovers ("shoulders of giants"). If $R$ is constant then you'll get declining growth rate. If $R$ is growing at $g_R$ then you'll get $g_A=\frac{\alpha}{\beta}g_R$.^[This was introduced by @jones1995rd, where there are diminishing returns to knowledge, whereas Romer (1990) had assumed no diminishing returns to knowledge, $\beta=0$.]
 $$\begin{gathered}
     \dot{A}=R^{\gamma}A^{1-\beta}\\
-    \xymatrix{*++[F]{R\&D} \ar[r] & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}\ar@/^2em/[l]}
+    \xymatrix{*++[F]{R\&D} \ar[r]|(0.4)\gamma & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}\ar@/^2em/[l]|{1-\beta}}
 \end{gathered}
 $$
 
-Recursive self-improvement, where knowledge actually helps R&D:
+Recursive self-improvement, where knowledge directly helps R&D:
 $$\begin{gathered}
     R=A^{\kappa}\\
     \dot{A}=A^{1-\beta+\kappa}\\
-    \xymatrix{*++[F]{R\&D} \ar[r] & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}\ar@/^2em/[l]\ar@/^3em/[ll]}
+    \xymatrix{*++[F]{R\&D} \ar[r]|(0.4)\gamma & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}\ar@/^2em/[l]|{1-\beta}\ar@/^4em/[ll]|\kappa}
 \end{gathered}
 $$
+
+Here you will get constant exponential growth if and only if $\beta=\kappa$. 
 
 Extrapolating from these models.
 : It's dangerous to talk about "the elasticity" between A and B: it is meaningful to talk about the elasticity *at a given point* but it's a strong functional-form assumption that it'll have the same elasticity everywhere. 
@@ -401,6 +444,7 @@ Q: what if the capability frontier is the data frontier?
 Natural processes often have explosive *regions*.
 : 
     You 
+
 
 
 ##                @davidson2026automatingairesearch
