@@ -44,6 +44,7 @@ In late 2025, forecasters expect an 8-20% chance of an explosion.
 AI has already been accelerating AI research.
 
 : AI has been self-accelerating for decades:
+
     1. Automatic differentiation;
     2. Bayesian optimization of hyperparameters; 
     3. Neural architecture search;
@@ -80,17 +81,15 @@ AK model of recursive growth.
 Q: what evals would be useful in learning about RSI? Suppose we can plot the following:
 
 ```{tikz}
+#| fig-align: center
+#| fig-width: 3
 \begin{tikzpicture}[scale=1.2]
     % Draw axes
-    \draw[->] (0,0) -- (5,0) node[right,align=left] {trainer-model ability\\(time horizon)};
+    \draw[->] (0,0) -- (5,0) node[midway,align=center,below] {trainer-model ability\\(time horizon)};
     \draw[->] (0,0) -- (0,5) node[midway,above,rotate=90] {trained-model ability};
     
     \draw[thick, blue] (0,0) plot[domain=0:4, samples=100] (\x, {2*sqrt(\x)});
     
-    \foreach \val/\pos in {2/0, 8/1, 16/2, 32/3, 64/4} {
-        \draw (\pos,0) -- (\pos,-0.1);
-        \node[below] at (\pos,-0.15) {\val};
-    }
    
     %\draw[red] (0,2)--(4.5,2) node[right]{1 week};
     \draw[gray, very thin, dashed] (0,0) grid (4.5,4.5);
@@ -105,6 +104,8 @@ We could plot data from a variety of different experiments on this plot, & ask s
 
 
 ```{tikz}
+#| fig-align: center
+#| fig-width: 3
 \begin{tikzpicture}[scale=1.2]
     % Draw axes
     \draw[->] (0,0) -- (5,0) node[midway,below] {trainer-model ability};
@@ -311,200 +312,51 @@ Thompson et al. (2022) ["The Importance of (Exponentially More) Computing Power"
 
 
 
-#           Other Peoples' Models
+#           Literature Review on RSI Models
+
+Basic setup:
+
+1. Algorithmic progress has been proceeding at around 5X/year.
+2. Endogenous growth setup: (1) diminishing returns to R&D about 1/2; (2) increasing returns to knowledge about 1/2; these balance and get balanced growth.
+3. Now we add link back from algorithms to R&D, but very little guidance on how to calibrate it.
 
 
-| Model                             | Better summary                                                                                                                                    | Why this is the right box                                                                                                                                                            |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| @aghion2019artificial             | **Task-based automation in both goods production and idea production.**                                                                           | They first model automation of goods tasks, then explicitly extend the same task-based setup to **research tasks**; in the strong-form limit, AI replaces people in idea production. |
-| @davidson2021could                | **Strong-substitution / “virtual worker” framing: AI substitutes very effectively for labor in production and R&D.**                              | The report’s clean toy case is the AI-robot / virtual-worker view, where AI is close to a full substitute rather than a narrow partial-task model.                                   |
-| @erdil2025gate                    | **Economy-wide task automation on extensive and intensive margins.**                                                                              | GATE’s automation module maps compute into both **which tasks** AI can do and **how many digital workers** can do them. ([arXiv][3])                                                 |
-| @davidson2026automatingairesearch | **Partial automation of research tasks in a networked multi-sector R&D system; goods-task automation is also present in the calibrated economy.** | Their core mechanism is not just “AI researchers replace humans”; it is automation that offsets diminishing returns and amplifies cross-sector spillovers.                           |
-| @jones2025aird                    | **AI performs some share of R&D tasks and/or becomes more productive at those tasks; bottlenecks determine the payoff.**                          | Jones explicitly separates task share, AI productivity advantage, and bottlenecks, so this row spans both automation and productivity-uplift interpretations.                        |
-| @kokotajlo2025aifuturesmodel      | **Stagewise automation of AI R&D: coding first, then research taste / direction-setting; eventual full automation at SAR.**                       | The model splits AI software/hardware R&D into many tasks; automation changes AI-R&D inputs, and later stages automate “research taste.”                                             |
-| @kwa2026simpleraitimelines                                 | **Subset automation of AI R&D tasks with Amdahl-law speedup on the remaining human bottleneck.**                                                  | Humans do only the non-automated tasks; speedup is (1/(1-f)); the simple model deliberately excludes full automation.                                                                |
-|                                   |                                                                                                                                                   |                                                                                                                                                                                      |
+Ajeya's questions:
+
+1. When will we have automated AI R&D?
+2. When we have automated AI R&D, will this trigger super-exponential growth?
+
+
+---
+
+
+
+| Model                                                                                                            | Summary                                                                                                                                                                             |
+| ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| @jones1995rd "R&D-Based Models of Economic Growth."                                                              | Standard endogenous growth model: (1) diminishing returns to R&D; (2) positive spillovers from knowledge.                                                                           |
+| @aghion2019artificial "Artificial Intelligence and Economic Growth"                                              | They first model automation of goods tasks, then extend the same task-based setup to research tasks; in the strong-form limit, AI replaces people in idea production.               |
+| @davidson2021could "Could Advanced AI Drive Explosive Economic Growth"                                           | The simplest model is where an AI robot perfectly substitutes for a worker, & then model the quantity increase of AI workers.                                                       |
+| @erdil2025gate "GATE: An Integrated Assessment Model for AI Automation"                                          | They model both which tasks AI can do, and the quantity of digital workers.                                                                                                         |
+| @davidson2026automatingairesearch "When Does Automating AI Research Produce Explosive Growth?"                   | Partial automation of research tasks in a networked multi-sector R&D system; goods-task automation is also present in the calibrated economy. They include cross-sector spillovers. |
+| @jones2025aird "Artificial Intelligence in Research and Development"                                             | AI progress causes both (1) a larger share of tasks to be automated; (2) cost to drop for already-automated tasks. Task bottlenecks determine the net impact.                       |
+| @kokotajlo2025aifuturesmodel "AI Futures Model: Dec 2025 Update"                                                 | Stagewise automation of AI R&D: coding first, then research taste / direction-setting; eventual full automation at SAR.                                                             |
+| @eth2025willairdautomati                                                                                         |                                                                                                                                                                                     |
+| @kwa2026simpleraitimelines "Research Note: A Simpler AI Timelines Model Predicts 99% AI r&d Automation in ~2032" | A simplification of @kokotajlo2025aifuturesmodel, AI automates a fraction of tasks asymptotically approaching 1, assume no substitutability between tasks.                          |
+|                                                                                                                  |                                                                                                                                                                                     |
 
 
 
 
-| Mechanism                                     | Best examples                                                                                                                                                                                         | Comment                                                                                                                                                                                                                  |
+| Mechanism                                     | Examples                                                                                                                                                                                              | Comment                                                                                                                                                                                                                  |
 | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **AI replaces R&D workers outright**          | Davidson (2021); late-stage AI Futures; strong-form Aghion et al.                                                                                                                                     | This is the strongest substitution story: AI is effectively a researcher/worker replacement, not just a helper on some tasks. ([Coefficient Giving][1])                                                                  |
-| **AI automates a subset of general tasks**    | Aghion et al. (goods side); GATE; parts of Davidson et al.                                                                                                                                            | This is the macro/task-automation framing: AI gradually expands over the economy-wide task space. ([NBER][2])                                                                                                            |
-| **AI automates a subset of R&D tasks**        | Aghion et al. (ideas side); Davidson et al.; Ben Jones; AI Futures; Kwa                                                                                                                               | This is the most common recent takeoff / AI-growth mechanism. ([NBER][2])                                                                                                                                                |
-| **AI increases productivity of R&D workers**  | Ben Jones (fixed-task productivity gains); Besiroglu, Emery-Xu & Thompson (2024); early-stage AI Futures coding automation                                                                            | This is the complementarity / uplift box, where AI raises progress per dollar or per researcher without immediately replacing everybody. ([Kellogg School of Management][3])                                             |
+| **AI replaces R&D workers**                   | Davidson (2021); late-stage AI Futures; strong-form Aghion et al.                                                                                                                                     | AI is effectively a researcher/worker replacement, not just a helper on some tasks.                                                                                                                                      |
+| **AI automates a subset of general tasks**    | Aghion et al. (goods side); GATE; parts of Davidson et al.                                                                                                                                            | This is the macro/task-automation framing: AI gradually expands over the economy-wide task space.                                                                                                                        |
+| **AI automates a subset of R&D tasks**        | Aghion et al. (ideas side); Davidson et al.; Ben Jones; AI Futures; Kwa                                                                                                                               | This is the most common recent takeoff / AI-growth mechanism.                                                                                 |
+| **AI increases productivity of R&D workers**  | Ben Jones (fixed-task productivity gains); Besiroglu, Emery-Xu & Thompson (2024); early-stage AI Futures coding automation                                                                            | This is the complementarity / uplift box, where AI raises progress per dollar or per researcher without immediately replacing everybody.                                                                                 |
 | **AI replaces low-quality R&D workers first** | **No clean formal model among these**; closest is AI Futures’ top-vs-median milestone language                                                                                                        | I would leave this as “not really modeled yet” rather than force one of these papers into the box. AI Futures comes closest rhetorically, but it is not a true heterogeneous-worker replacement model. ([AI Futures][4]) |
 | **Other mechanisms**                          | AI improves research taste (AI Futures); increases digital-worker supply per automated task (GATE); raises cross-sector spillovers (Davidson et al.); raises R&D capital intensity (Besiroglu et al.) | These are important because they are not just “more tasks automated”; they change the mapping from capability to research output. ([AI Futures][4])                                                                      |
 
-[1]: https://www.openphilanthropy.org/wp-content/uploads/Could-Advanced-AI-Drive-Explosive-Economic-Growth_.pdf "https://www.openphilanthropy.org/wp-content/uploads/Could-Advanced-AI-Drive-Explosive-Economic-Growth_.pdf"
-[2]: https://www.nber.org/system/files/working_papers/w23928/w23928.pdf "https://www.nber.org/system/files/working_papers/w23928/w23928.pdf"
-[3]: https://www.kellogg.northwestern.edu/faculty/jones-ben/htm/Artificial_Intelligence_in_Research_and_Development.pdf "https://www.kellogg.northwestern.edu/faculty/jones-ben/htm/Artificial_Intelligence_in_Research_and_Development.pdf"
-[4]: https://blog.ai-futures.org/p/ai-futures-model-dec-2025-update "https://blog.ai-futures.org/p/ai-futures-model-dec-2025-update"
-
-##                @davidson2026automatingairesearch
-
-
-$$
-\begin{aligned}
-\dot{S}(L,C) &= a [R(L,C)]^\lambda S^{1-\beta} && \text{(Software L.O.M)} \\
-R(L,C) &= (bL)^\alpha (cC)^{1-\alpha} && \text{(Research Input)} \\
-L &= dS && \text{(Cognitive Labour)}
-\end{aligned}
-$$
-
-- ASARA = automation of AI R&D
-- > "ASARA can replace each human researcher with 30 equally capable AI systems each thinking 30X human speed."
-- > "ASARA (so defined) is less capable than AI 2027’s superhuman AI researcher, which would be equally numerous and fast as ASARA but replace the capabilities of the best human researcher"
-
-**Note: odd to think about a finite number of AI researchers.**
-
-
-##                @kokotajlo2025aifuturesmodel
-
-> "Davidson and Houlden focuses primarily on trends of how much more efficiently AIs have been able to achieve the same performance when determining whether there will be an SIE. Meanwhile, we focus on estimates of the quality of AIs’ research taste, i.e. how good the AI is at choosing research directions, selecting and interpreting experiments, etc. We think that focusing on research taste quality is a more useful lens from which to view a potential SIE. If there’s an SIE we expect that it will primarily be driven by improvements in research taste."
-
-Superhuman AI Researcher = "An AI system that can do the job of the best human AI researcher but 30x faster and with 30x more agents, as defined above in the superhuman coder milestone. It must have enough diversity of expertise to on average do the same for other top researchers with complementary skills."
-
-##                Agrawal, McHale, Oett (2018) FINDING NEEDLES IN HAYSTACKS: ARTIFICIAL INTELLIGENCE AND RECOMBINANT GROWTH
-
-@agrawal2019needles
-
-> "Our focus is different from these papers in that instead of emphasising the potential substitution of machines for workers in existing tasks, we emphasise the importance of AI in overcoming a specific problem that impedes human researchers – finding useful combinations in complex discovery spaces."
-
-Also see @agrawal2023automation.
-
-##                charts
-
-
-```{mermaid}
-flowchart LR
-  RD["R&D"] --> algorithms
-  RD_compute["R&D compute"] --> algorithms
-  algorithms --> intelligence
-  compute --> intelligence
-  data --> intelligence
-  intelligence -->|??| economic_value["economic value"]
-  intelligence -->|??| algorithms
-```
-
-
-```{mermaid}
-flowchart LR
-  humans["R&D workers"] --> RD
-  RD["effective R&D labor"] -->|b| algorithms
-  algorithms --> intelligence
-  compute -->|a| intelligence
-  intelligence -->|c| RD
-```
-
-
-##              Davidson, Halperin, Houlden, Korinek (2025) "When Does Automating Research Produce Explosive Growth?"
-
-Summary: once you automate a sufficient number of tasks (i.e. do them with capital) then this will kick-off an intelligence explosion.
-
-- Basic model:
-   - If $\dot{S}_t=S_t^{1-\beta}$, so you get explosion if $\beta<0$, steady-state growth if $\beta=0$, and gradual slowing if $\beta>1$.
-   - Now if you start automating inputs, the effective exponent gradually gets higher.
-
-- Multi-sector version.
-   - You gradually automate some of the things, so they can be done with capital.
-   - You have spillovers between different processes.
-
-- Estimates of $\beta$:
-   - Bloom overall $\beta=3$
-   - For software R&D they estimate $\beta=3$
-   - they say in software $\beta=0.1$
-
-- Questions:
-   - Any historical domain where we've seen regimes of $\beta<0$?, & so explosion.
-
-
-My observations:
-
-- Q: how to think about the growth effect of uplift vs automation?
- 
-- It seems to me AI typically makes things effectively *free*, rather than being bottlenecked by capital. I think this is a problem for Cobb-Douglas production.
-
-##                      AI futures model
-
-https://www.timelinesmodel.com
-
-They assume AI automates some fraction of R&D tasks, proportional to the time horizon.
-
-##                       tkwa  model
-
-Short: AI automates some fraction of R&D tasks, which causes an effective multiplier on R&D labor: "parallel uplift and 1/(1-f) are equivalent in the simple model".
-
-https://github.com/tkwa/ai-takeoff-model/blob/main/notes.md
-https://www.lesswrong.com/posts/uy6B5rEPvcwi55cBK/research-note-a-simpler-ai-timelines-model-predicts-99-ai-r
-
-$$\begin{aligned}
-   S'(t) &= R(t) S^{1 - \beta} = \left(\frac L {1-f}\right)^\alpha C^\zeta S^{1 - \beta}\\
-   f(t) &= \sigma(v(\log C(t)S(t) - \log E_{hac}))
-\end{aligned}
-$$
-
-My simpler version:
-
-$$\begin{aligned}
-   \dot{S}  &= L^\alpha C^\gamma S^{1-\beta} \\
-\end{aligned}
-$$
-
-We can show:
-
-$$S^{\beta} = S_0^{\beta} + \frac{\beta\,L_0^\alpha C_0^\gamma}{\alpha g_L+\gamma g_C}\Big(e^{(\alpha g_L+\gamma g_C)t}-1\Big).$$
-
-In the limit we get $g_s=\frac{\alpha g_L+\gamma g_C}{\beta}$
-
-
---------------------------------------------
-
-```mermaid
-flowchart LR
-    subgraph Inputs["Inputs"]
-        L["Labor<br/>(growing 2×)"]
-        C["Compute<br/>(growing 3×)"]
-    end
-    
-    subgraph RnD["AI R&D"]
-        E["Efficiency<br/>(growing 5×)"]
-    end
-    
-    subgraph Capabilities["Capabilities"]
-        EC["Effective<br/>Compute"]
-        TH["Time Horizon"]
-    end
-    
-    subgraph Feedback["Feedback Loop"]
-        A["Automation"]
-    end
-    
-    L -->|"α = 0.25"| E
-    C -->|"ζ = 0.6"| E
-    E -->|"β = 0.5<br/>(self-improving)"| E
-    C --> EC
-    E --> EC
-    EC --> TH
-    TH -->|"ν = 1/3"| A
-    A -->|"augments"| L
-```
-
-
-```mermaid
-flowchart LR
-  labor --> algorithms
-  RD_compute["R&D compute"] --> algorithms
-  algorithms --> intelligence
-  training_compute --> intelligence
-  data --> intelligence
-  intelligence -->|??| economic_value["economic value"]
-  intelligence -->|??| RD
-```
-
-
-##                       Jones model
+##                       @jones1995rd
 
 Basic model with accumulating ideas:
 $$\begin{gathered}\dot{A}=R^{\gamma}\\
@@ -551,6 +403,238 @@ Natural processes often have explosive *regions*.
     You 
 
 
+##                @davidson2026automatingairesearch
+
+
+$$
+\begin{aligned}
+\dot{S}(L,C) &= a [R(L,C)]^\lambda S^{1-\beta} && \text{(Software L.O.M)} \\
+R(L,C) &= (bL)^\alpha (cC)^{1-\alpha} && \text{(Research Input)} \\
+L &= dS && \text{(Cognitive Labour)}
+\end{aligned}
+$$
+
+- ASARA = automation of AI R&D
+- > "ASARA can replace each human researcher with 30 equally capable AI systems each thinking 30X human speed."
+- > "ASARA (so defined) is less capable than AI 2027’s superhuman AI researcher, which would be equally numerous and fast as ASARA but replace the capabilities of the best human researcher"
+
+**Note: odd to think about a finite number of AI researchers.**
+
+
+##              @eth2025willairdautomati
+
+> "More specifically, r gives the number of times software doubles for each time the cumulative work on software R&D doubles."
+
+> "There are a few reasons to think that r is currently above 1:"
+
+##              @davidson2025howquickandbigwo
+
+
+$$
+\begin{aligned}
+\dot S(L, C) &= a [R(L, C)]^\lambda S^{1-\beta} && \text{(Software L.O.M.)} \\
+R(L, C) &= (bL)^\alpha (cC)^{1-\alpha} && \text{(Research Input)} \\
+L &= dS && \text{(Cognitive Labour)}
+\end{aligned}
+$$
+
+where:
+
+- $S$ is the level of AI software.
+- $L$ is the cognitive labour used for improving software.
+- $C$ is compute for experiments, assumed to be constant.
+- $\lambda$ captures "stepping on toes," whereby there are diminishing returns to applying more research effort in parallel ("nine women can't make a baby in a month").
+- $\beta > 0$ captures the idea that software improvements get harder to find as software improves.
+- $\alpha$ captures the diminishing returns of cognitive labour in improving software.
+- $a$, $b$, $c$, and $d$ are constants collectively pinned down by growth rates at the beginning of the model.
+
+then they note $r=\lambda \alpha / \beta$, and this is critical 
+
+##                @kokotajlo2025aifuturesmodel
+
+> "Davidson and Houlden focuses primarily on trends of how much more efficiently AIs have been able to achieve the same performance when determining whether there will be an SIE. Meanwhile, we focus on estimates of the quality of AIs’ research taste, i.e. how good the AI is at choosing research directions, selecting and interpreting experiments, etc. We think that focusing on research taste quality is a more useful lens from which to view a potential SIE. If there’s an SIE we expect that it will primarily be driven by improvements in research taste."
+
+Superhuman AI Researcher = "An AI system that can do the job of the best human AI researcher but 30x faster and with 30x more agents, as defined above in the superhuman coder milestone. It must have enough diversity of expertise to on average do the same for other top researchers with complementary skills."
+
+
+##              @erdil2024explosive "Explosive growth from AI automation: A review of the arguments"
+
+> "Bloom et al. 2020, which provides us perhaps with the best estimates of the extent to which ideas get “harder to find", estimates that λ/ϕ ≈ 0.32 for total factor productivity in the US economy. Based on this, we find that hyperbolic growth occurs with values of β as low as 1 − 0.32 = 0.68. Hence, hyperbolic growth with AI is predicted by R&D-based growth models even if we do not strictly accept the conclusion of the replication argument that β = 1. This point, that avoiding increasing returns to scale is difficult to avoid even when ideas get “harder to find" over time, has been noted elsewhere, notably by Davidson 2021. Indeed, this outcome is consistent with fairly conservative assumption on there being decreasing returns on inputs to final goods production."
+
+##              @erdil2024estimating "Estimating Idea Production: A Methodological Survey"
+
+
+They discuss the difficulty of estimating the returns to R&D on productivity across a few different domains. They have nice estimates for chess inputs & outputs. They also estimate algorithmic progress:
+
+    - Computer vision: doubling time 9 months 2012-2022.
+    - RL sample efficiency: doubling time 11 months, 2015-2019.
+    - SAT solvers: doubling time 2 years, 1997-2018.
+    - Linear programming: doubling time 6 years, 1998-2018.
+
+They include a nice derivation of the critical threshold for hyperbolic growth:
+
+$$\begin{aligned}
+    Y &= AK^\alpha \\
+    \dot{K} &\propto Y && \text{(constant savings rate)}\\
+    \dot{A}/A &\propto A^{-\beta}K^\lambda && \text{(productivity growth)}
+\end{aligned}
+$$
+
+You'll get steady-state growth if and only if $\lambda/\beta+\alpha=1$. You'll get hyperbolic growth if $\lambda/\beta+\alpha>1$.
+
+
+##              @davidson2026automatingairesearch "When Does Automating Research Produce Explosive Growth?"
+
+Critical condition for explosive growth:
+
+$$
+    \utt{f_Y}{share output}{tasks automated} + 
+    \utt{f_S}{share software}{tasks automated}\frac{1}{\beta_S} + 
+    \utt{f_H}{share hardware}{tasks automated}\frac{1}{\beta_S} + 
+    \utt{f_A}{share innovation}{tasks automated}\frac{1}{\alpha}\frac{1}{\beta_A}
+    >1
+$$
+
+Summary: once you automate a sufficient number of tasks (i.e. do them with capital) then this will kick-off an intelligence explosion.
+
+- Basic model:
+   - If $\dot{S}_t=S_t^{1-\beta}$, so you get explosion if $\beta<0$, steady-state growth if $\beta=0$, and gradual slowing if $\beta>1$.
+   - Now if you start automating inputs, the effective exponent gradually gets higher.
+
+- Multi-sector version.
+   - You gradually automate some of the things, so they can be done with capital.
+   - You have spillovers between different processes.
+
+- Estimates of $\beta$:
+   - Bloom overall $\beta=3$
+   - For software R&D they estimate $\beta=3$
+   - they say in software $\beta=0.1$
+
+- Questions:
+   - Any historical domain where we've seen regimes of $\beta<0$?, & so explosion.
+
+
+My observations:
+
+- Q: how to think about the growth effect of uplift vs automation?
+ 
+- It seems to me AI typically makes things effectively *free*, rather than being bottlenecked by capital. I think this is a problem for Cobb-Douglas production.
+
+##                      @kokotajlo2025aifuturesmodel AI futures model
+
+https://www.timelinesmodel.com
+
+They assume AI automates some fraction of R&D tasks, proportional to the time horizon.
+
+##                       @kwa2026simpleraitimelines tkwa  model
+
+Short: AI automates some fraction of R&D tasks, which causes an effective multiplier on R&D labor: "parallel uplift and 1/(1-f) are equivalent in the simple model".
+
+https://github.com/tkwa/ai-takeoff-model/blob/main/notes.md
+https://www.lesswrong.com/posts/uy6B5rEPvcwi55cBK/research-note-a-simpler-ai-timelines-model-predicts-99-ai-r
+
+$$\begin{aligned}
+   S'(t) &= R(t) S^{1 - \beta} = \left(\frac L {1-f}\right)^\alpha C^\zeta S^{1 - \beta}\\
+   f(t) &= \sigma(v(\log C(t)S(t) - \log E_{hac}))
+\end{aligned}
+$$
+
+My simpler version:
+
+$$\begin{aligned}
+   \dot{S}  &= L^\alpha C^\gamma S^{1-\beta} \\
+\end{aligned}
+$$
+
+We can show:
+
+$$S^{\beta} = S_0^{\beta} + \frac{\beta\,L_0^\alpha C_0^\gamma}{\alpha g_L+\gamma g_C}\Big(e^{(\alpha g_L+\gamma g_C)t}-1\Big).$$
+
+In the limit we get $g_s=\frac{\alpha g_L+\gamma g_C}{\beta}$
+
+
+##              David Rein notes
+
+
+- Model: 
+    - $dA = Q^q A^{1-\beta}$
+    - $Q$ is the quality of cognitive labour, measured in units of time horizon—this is our AI researcher (e.g. Opus 4.5, GPT-5.2, Gemini 3)
+    - $A$ is the current level of algorithms, also measured in units of time horizon (e.g. GPT-2, GPT-3, Pythia, etc.)
+    - $\beta$ is the ideas getting harder to find parameter
+    - The explosion condition here is $q > \beta$
+    - (Must also assume that $Q=cA$.
+
+- [doc](https://docs.google.com/document/d/16Ugl7g3GL1Ao9-3UluRENp6e9UeEMAqhh5jgXDi3kjo/edit?tab=t.a5tu3xadb63o#heading=h.ribcf6q6wbps)
+
+--------------------------------------------
+
+```{mermaid}
+flowchart LR
+    subgraph Inputs["Inputs"]
+        L["Labor<br/>(growing 2×)"]
+        C["Compute<br/>(growing 3×)"]
+    end
+    
+    subgraph RnD["AI R&D"]
+        E["Efficiency<br/>(growing 5×)"]
+    end
+    
+    subgraph Capabilities["Capabilities"]
+        EC["Effective<br/>Compute"]
+        TH["Time Horizon"]
+    end
+    
+    subgraph Feedback["Feedback Loop"]
+        A["Automation"]
+    end
+    
+    L -->|"α = 0.25"| E
+    C -->|"ζ = 0.6"| E
+    E -->|"β = 0.5<br/>(self-improving)"| E
+    C --> EC
+    E --> EC
+    EC --> TH
+    TH -->|"ν = 1/3"| A
+    A -->|"augments"| L
+```
+
+
+```{mermaid}
+flowchart LR
+  labor --> algorithms
+  RD_compute["R&D compute"] --> algorithms
+  algorithms --> intelligence
+  training_compute --> intelligence
+  data --> intelligence
+  intelligence -->|??| economic_value["economic value"]
+  intelligence -->|??| RD
+```
+
+##                charts
+
+```{mermaid}
+flowchart LR
+  RD["R&D"] --> algorithms
+  RD_compute["R&D compute"] --> algorithms
+  algorithms --> intelligence
+  compute --> intelligence
+  data --> intelligence
+  intelligence -->|??| economic_value["economic value"]
+  intelligence -->|??| algorithms
+```
+
+
+```{mermaid}
+flowchart LR
+  humans["R&D workers"] --> RD
+  RD["effective R&D labor"] -->|b| algorithms
+  algorithms --> intelligence
+  compute -->|a| intelligence
+  intelligence -->|c| RD
+```
+
+
+
 #           References
 
 FRI/METR forecasts of AI progress.
@@ -566,27 +650,6 @@ Kortum (1997) ["Research, Patenting, and Technological Change"](https://egc.yale
 
     Note: (1) I think this will imply lumpy growth; (2) this misses out the Jones shoulders-of-giants effect. 
 
-Erdil, Besiroglu, Ho (2024) ["Estimating Idea Production: A Methodological Survey"](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4814445)
-: They discuss the difficulty of estimating the returns to R&D on productivity across a few different domains. They have nice estimates for chess inputs & outputs. They also estimate algorithmic progress:
-
-      - Computer vision: doubling time 9 months 2012-2022.
-      - RL sample efficiency: doubling time 11 months, 2015-2019.
-      - SAT solvers: doubling time 2 years, 1997-2018.
-      - Linear programming: doubling time 6 years, 1998-2018.
-
-      They include a nice derivation of the critical threshold for hyperbolic growth:
-
-      $$\begin{aligned}
-         Y &= AK^\alpha \\
-         \dot{K} &\propto Y && \text{(constant savings rate)}\\
-         \dot{A}/A &\propto A^{-\beta}K^\lambda && \text{(productivity growth)}
-      \end{aligned}$$
-
-      You'll get steady-state growth if and only if $\lambda/\beta+\alpha=1$. You'll get hyperbolic growth if $\lambda/\beta+\alpha>1$.
-
-
-Aghion, Jones, and Jones (2019) "Artificial Intelligence and Economic Growth"
-: They give conditions under which automating R&D will cause an explosion in GDP growth (i.e. a steadily increasing rate of growth, AKA hyperbolic growth).
 
 
 <!-- $$\begin{aligned}
@@ -612,6 +675,13 @@ Eric Drexler (2025) ["The Reality of Recursive Self-Improvement"](https://aipros
     > "In hyperparameter optimization, advances in Bayesian and multi-fidelity methods often achieve order-of-magnitude savings compared to naive grid search. What once required thousands of full model trainings can now be accomplished with fewer and more intelligent probes. As daunting costs of innovation fall, research becomes faster and more ambitious.
 
     > "The trajectory toward comprehensive AI capabilities makes these developments predictable, not in detail, but in outline.
+
+@agrawal2019needles FINDING NEEDLES IN HAYSTACKS: ARTIFICIAL INTELLIGENCE AND RECOMBINANT GROWTH
+
+> "Our focus is different from these papers in that instead of emphasising the potential substitution of machines for workers in existing tasks, we emphasise the importance of AI in overcoming a specific problem that impedes human researchers – finding useful combinations in complex discovery spaces."
+
+Also see @agrawal2023automation.
+
 
 
 #           Overflow / Offcuts
