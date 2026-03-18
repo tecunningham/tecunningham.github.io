@@ -16,40 +16,42 @@ execute:
   cache: true # caches chunk output
 ---
 
-See also: apple-picking model.
+#           Summary
+
+1. **Baseline model:**
+    - Frontier training compute is growing at 3X/year
+    - Algorithmic efficiency is growing at 3X/year
+    - Frontier model capability is growing at 9X/year (measured in effective compute)
+    - R&D staff growing at 2X/year.
+
+2. **Two ways we can get RSI:** (1) augmentation of AI R&D; (2) automation of AI R&D.
+
+3. **AI augmentation of R&D:**
+    - Suppose higher levels of model capability $A$ increases the effective R&D labor, $R$, by some amount, $R=\bar{R}A^\theta$.
+    - We want to measure how $A$ affects $R$, e.g. by running an uplift study with different levels of $A$.
+    - We could then plug this into a standard R&D model to estimate the net degree of acceleration, with $\dot{A}=R^\gamma A^{1-\beta}$.
+    - However it's really hard to estimate the relationship between model capability and R&D worker speedup. People are poor at introspecting uplift, and it's difficult to run experiments. 
+    - Notes:
+        - The augmentation could take place through automation of subtasks, where the subtasks are complements. E.g. if they're perfect complements then the acceleration will be $\frac{1}{1-f}$, where $f$ is the share of tasks you've automated.
+        - Any $\theta>0$ will make growth super-exponential, AKA hyperbolic, but the magnitude matters.
+        - If $\theta$ is sufficiently high ($\theta>\gamma-\beta$) then there will be self-sustaining growth, i.e. growth even if R&D labor was constant.
+        - We ignore expenditure on inference, assume that it asymptotes relatively quickly (seems reasonable).
+
+4. **AI automation of R&D:**
+    - Maintained assumption: there's a single type of labor, though people can vary in ability, e.g. one person is a 10X R&D worker.
+    - Suppose instead that model capability $A$ can *autonomously* do AI R&D work, i.e. it's a perfect substitute for all human labor.
+    - Now we'll immediately be bottlenecked on inference cost: (1) we'll get a rapid adjustment of wages & inference cost until they're equilibrated (will drive out all but the best AI researchers); (2) the price of effective R&D labor will decline at the rate of inference cost decline.
+
+5. **AI partial automation (apple picking).**
+    - We can instead .
+
+6. **Complications:**
+    - **Measuring capability.**
+    - **Bottlenecks.** Some arguments that AI R&D is bottlenecked by compute, e.g. see @whitfill2025bottlenecks.
+    - **Scale-dependent algorithmic progress.** @gundlach2025algorithmicprogressai argue that algorithmic progress has contributed much less.
+    - **Data contribution.** Berren Millidge argues ["Most Algorithmic Progress is Data Progress"](https://www.beren.io/2025-08-02-Most-Algorithmic-Progress-is-Data-Progress/)
 
 
-#           Toy model of AI stack
-
-See also `posts/2026-02-10-model-of-labs.qmd`
-
-Model A: Chinchilla. You just choose model size.
-: 
-    - One choice variable: model size (holding compute fixed, this trades-off against training runs).
-    - You can do some low-cost derisks, but extrapolating to a large compute scale is imperfect.
-    - *Convex but expensive to evaluate.*
-
-Model B: algorithm search.
-:   - Each algorithm is a mapping from compute->loss, and you can summarize it with a scalar efficiency (just like nanoGPT).
-    - *medium-cost evaluation; non-convex.*
-
-Model C: training data.
-:   - There's a distribution of tasks, with probability f(t).
-    - An LLM is just a lookup table, you slowly expand coverage, collecting a larger fraction of tasks t.
-
-Model D: layer cake.
-:   - You have a function that turns money->intelligence, & that function gets more efficient over time, it's falling at about 8X/year.
-    
-    - You can separate the optimization problem into layers, they are partially separable:
-        1. GPU design
-        2. Model architecture
-        3. Pretraining optimizer
-        4. Pretraining data
-        5. Posttraining algorithm (RL)
-        6. Posttraining data
-        7. Elicitation/harness
-    
-    - The cost of an experiment is different for different parts. Some parts scale additively (GPU design), other parts its hard to predict effect of scale (architecture). If they scale additively then the cost of experimentation is small (but expenditure could still be large).
 
 
 :::: {.columns style="height: 100vh; gap: 2rem;"}
@@ -80,15 +82,15 @@ Model D: layer cake.
    I think this picture gives a reasonable summary of the orthodox picture of LLM progress:
    
    - Technology is getting 3X more efficient each year (blue curves shifting left) 
-   - Frontier training compute is increasing around 4-5X/year (black points shifting right), though spend/cost growth is slower
+   - Frontier training compute is increasing at 3X/year (black points shifting right)
    
    Some notes:
 
    1. These growth-rate numbers are very ballpark, lots of disagreement.
    2. The technology curve includes anything that changes the mapping of training expenditure to intelligence: declines in GPU cost, advances in algorithms, accumulation of training data, and progress in elicitation.
-   2. There's no consensus on how to measure the y-axis ("model intelligence"). For many questions it actually doesn't matter as long as we have an ordinal measure (i.e. we can reliably rank model intelligence). However for RSI it matters.
-   3. Labs are probably spending relatively more on R&D than on any single frontier training run. E.g. Epoch estimates that OpenAI spent much more on experiments and broader R&D compute than on the final training runs of released models.
-   4. @gundlach2025algorithmicprogressai argue that the true technology curves are steeper, and shifting left much more slowly. Thus algorithmic progress is relatively less important, and most progress is coming from pure scale.
+   3. There's no consensus on how to measure the y-axis ("model intelligence"). For many questions it actually doesn't matter as long as we have an ordinal measure (i.e. we can reliably rank model intelligence). However for RSI it matters.
+   4. Labs are probably spending relatively more on R&D than on any single frontier training run. E.g. Epoch estimates that OpenAI spent much more on experiments and broader R&D compute than on the final training runs of released models.
+   5. @gundlach2025algorithmicprogressai argue that the true technology curves are steeper, and shifting left much more slowly. Thus algorithmic progress is relatively less important, and most progress is coming from pure scale.
 :::
 :::
 

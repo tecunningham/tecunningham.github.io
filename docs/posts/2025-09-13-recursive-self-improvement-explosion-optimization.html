@@ -257,51 +257,47 @@ window.Quarto = {
 
 
 
-<p>See also: apple-picking model.</p>
-<section id="toy-model-of-ai-stack" class="level1">
-<h1>Toy model of AI stack</h1>
-<p>See also <code>posts/2026-02-10-model-of-labs.qmd</code></p>
-<dl>
-<dt>Model A: Chinchilla. You just choose model size.</dt>
-<dd>
-<ul>
-<li>One choice variable: model size (holding compute fixed, this trades-off against training runs).</li>
-<li>You can do some low-cost derisks, but extrapolating to a large compute scale is imperfect.</li>
-<li><em>Convex but expensive to evaluate.</em></li>
-</ul>
-</dd>
-<dt>Model B: algorithm search.</dt>
-<dd>
-<ul>
-<li>Each algorithm is a mapping from compute-&gt;loss, and you can summarize it with a scalar efficiency (just like nanoGPT).</li>
-<li><em>medium-cost evaluation; non-convex.</em></li>
-</ul>
-</dd>
-<dt>Model C: training data.</dt>
-<dd>
-<ul>
-<li>There’s a distribution of tasks, with probability f(t).</li>
-<li>An LLM is just a lookup table, you slowly expand coverage, collecting a larger fraction of tasks t.</li>
-</ul>
-</dd>
-<dt>Model D: layer cake.</dt>
-<dd>
-<ul>
-<li><p>You have a function that turns money-&gt;intelligence, &amp; that function gets more efficient over time, it’s falling at about 8X/year.</p></li>
-<li><p>You can separate the optimization problem into layers, they are partially separable:</p>
+<section id="summary" class="level1">
+<h1>Summary</h1>
 <ol type="1">
-<li>GPU design</li>
-<li>Model architecture</li>
-<li>Pretraining optimizer</li>
-<li>Pretraining data</li>
-<li>Posttraining algorithm (RL)</li>
-<li>Posttraining data</li>
-<li>Elicitation/harness</li>
-</ol></li>
-<li><p>The cost of an experiment is different for different parts. Some parts scale additively (GPU design), other parts its hard to predict effect of scale (architecture). If they scale additively then the cost of experimentation is small (but expenditure could still be large).</p></li>
+<li><p><strong>Baseline model:</strong></p>
+<ul>
+<li>Frontier training compute is growing at 3X/year</li>
+<li>Algorithmic efficiency is growing at 3X/year</li>
+<li>Frontier model capability is growing at 9X/year (measured in effective compute)</li>
+<li>R&amp;D staff growing at 2X/year.</li>
+</ul></li>
+<li><p><strong>Two ways we can get RSI:</strong> (1) augmentation of AI R&amp;D; (2) automation of AI R&amp;D.</p></li>
+<li><p><strong>AI augmentation of R&amp;D:</strong></p>
+<ul>
+<li>Suppose higher levels of model capability <span class="math inline">\(A\)</span> increases the effective R&amp;D labor, <span class="math inline">\(R\)</span>, by some amount, <span class="math inline">\(R=\bar{R}A^\theta\)</span>.</li>
+<li>We want to measure how <span class="math inline">\(A\)</span> affects <span class="math inline">\(R\)</span>, e.g.&nbsp;by running an uplift study with different levels of <span class="math inline">\(A\)</span>.</li>
+<li>We can then plug this into a standard R&amp;D model to estimate the net degree of acceleration, with <span class="math inline">\(\dot{A}=R^\gamma A^{1-\beta}\)</span>.</li>
+<li>However it’s really hard to estimate the relationship between model capability and R&amp;D worker speedup. People are poor at introspecting uplift, and it’s difficult to run experiments.</li>
+<li>Notes:
+<ul>
+<li>The augmentation could take place through automation of subtasks, where the subtasks are complements. E.g. if they’re perfect complements then the acceleration will be <span class="math inline">\(\frac{1}{1-f}\)</span>, where <span class="math inline">\(f\)</span> is the share of tasks you’ve automated.</li>
+<li>Any <span class="math inline">\(\theta&gt;0\)</span> will make growth super-exponential, AKA hyperbolic, but the magnitude matters.</li>
+<li>If <span class="math inline">\(\theta\)</span> is sufficiently high (<span class="math inline">\(\theta&gt;\gamma-\beta\)</span>) then there will be self-sustaining growth, i.e.&nbsp;growth even if R&amp;D labor was constant.</li>
+<li>We ignore expenditure on inference, assume that it asymptotes relatively quickly (seems reasonable).</li>
+</ul></li>
+</ul></li>
+<li><p><strong>AI automation of R&amp;D:</strong></p>
+<ul>
+<li>Suppose instead that model capability <span class="math inline">\(A\)</span> can <em>autonomously</em> do AI R&amp;D work, i.e.&nbsp;it’s a perfect substitute for all human labor.</li>
+<li>Then we should expect a rapid adjustment in wages and model prices until they’re in equilibrium.</li>
 </ul>
-</dd>
-</dl>
+<ol type="1">
+<li>Augmentation: it makes each R&amp;D worker more productive.</li>
+<li>Automation:</li>
+</ol></li>
+<li><p><strong>Complications:</strong></p>
+<ul>
+<li><strong>Measuring capability.</strong></li>
+<li><strong>Scale-dependent algorithmic progress.</strong> <span class="citation" data-cites="gundlach2025algorithmicprogressai">Gundlach et al. (<a href="#ref-gundlach2025algorithmicprogressai" role="doc-biblioref">2025</a>)</span> argue that algorithmic progress has contributed much less.</li>
+<li><strong>Data contribution.</strong> Berren Millidge argues <a href="https://www.beren.io/2025-08-02-Most-Algorithmic-Progress-is-Data-Progress/">“Most Algorithmic Progress is Data Progress”</a></li>
+</ul></li>
+</ol>
 <div class="columns" style="height: 100vh; gap: 2rem;">
 <div class="column">
 <div class="cell">
@@ -317,7 +313,7 @@ window.Quarto = {
 <p>I think this picture gives a reasonable summary of the orthodox picture of LLM progress:</p>
 <ul>
 <li>Technology is getting 3X more efficient each year (blue curves shifting left)</li>
-<li>Frontier training compute is increasing around 4-5X/year (black points shifting right), though spend/cost growth is slower</li>
+<li>Frontier training compute is increasing at 3X/year (black points shifting right)</li>
 </ul>
 <p>Some notes:</p>
 <ol type="1">
@@ -871,18 +867,58 @@ Useful mainly as a reminder that frontier-model economics are not just final tra
 </section>
 <section id="literature-review-on-rsi-models" class="level1">
 <h1>Literature Review on RSI Models</h1>
-<p>Basic setup:</p>
+<p>We want to answer these questions:</p>
 <ol type="1">
-<li>Algorithmic progress has been proceeding at around 5X/year.</li>
+<li>Based on history of AI R&amp;D, what’s a reasonable estimate of how AI R&amp;D will change the future trajectory?</li>
+<li>What is the best capability metric for estimating AI R&amp;D contribution?</li>
+</ol>
+<p>Basic argument:</p>
+<ol type="1">
+<li>Say algorithmic efficiency has been growing at 5X/year, so we can get the same intelligence for 5X lower cost.</li>
+<li>We are starting to see glimmers of AI contributing to R&amp;D, &amp; want to predict how this will change the system.</li>
+<li>Some alternatives in how to model this:
+<ul>
+<li><p><strong>Accelerant.</strong> Suppose a certain level of AI can speed up a human researcher by a certain proportion, <span class="math inline">\(\lambda\)</span>. This feedback loop should accelerate AI development, but it’s sensitive to how strong this connection is.</p></li>
+<li><p><strong>Perfect substitutes.</strong> Suppose AI can do entirely autonomous research, i.e.&nbsp;it’s a perfect substitute for a human. Then we are only constrained on the cost of AI compute. Unless the cost is very high, this implies a massive acceleration in AI progress, constrained only by (a) experiment bottlenecks; (b) a ceiling to AI progress.</p></li>
+<li><p><strong>Imperfect substitutes.</strong></p></li>
+</ul></li>
 <li>Endogenous growth setup: (1) diminishing returns to R&amp;D about 1/2; (2) increasing returns to knowledge about 1/2; these balance and get balanced growth.</li>
 <li>Now we add link back from algorithms to R&amp;D, but very little guidance on how to calibrate it.</li>
 </ol>
+<p>Capability metrics:</p>
+<ol type="1">
+<li>Human researcher uplift.</li>
+<li>Ability to push forward the frontier.</li>
+</ol>
+<p>Wrinkles:</p>
+<ol type="1">
+<li>Estimating algorithmic progress.</li>
+<li>Scale-dependent algorithmic progress.</li>
+<li>Bottlenecks on experiment compute.</li>
+<li>Shape of the landscape.</li>
+<li>Adding capital.</li>
+</ol>
 <p>Ajeya’s questions:</p>
 <ol type="1">
-<li>When will we have automated AI R&amp;D?</li>
+<li>When will we have automated AI R&amp;D?
+<ul>
+<li>Answer: we already have automated R&amp;D.</li>
+</ul></li>
 <li>When we have automated AI R&amp;D, will this trigger super-exponential growth?</li>
 </ol>
-<hr>
+<p>Core model:</p>
+<p><span class="math display">\[\begin{aligned}
+    \utt{\dot{A}}{algorithmic}{progress}
+        &amp;=\utt{R^{\gamma}}{new}{research}
+            {\utt{A^{1-\beta}}{algorithms}{}}
+        &amp;&amp; \text{(progress)}\\
+    R&amp;=A^{\kappa}
+        &amp;&amp; \text{}\\
+    \dot{A}&amp;=A^{1-\beta+\kappa}\\
+\end{aligned}
+\]</span></p>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 38%">
@@ -896,7 +932,7 @@ Useful mainly as a reminder that frontier-model economics are not just final tra
 </thead>
 <tbody>
 <tr class="odd">
-<td><span class="citation" data-cites="jones1995rd">C. I. Jones (<a href="#ref-jones1995rd" role="doc-biblioref">1995</a>)</span> “R&amp;D-Based Models of Economic Growth.”</td>
+<td><span class="citation" data-cites="jones1995rd">Charles I. Jones (<a href="#ref-jones1995rd" role="doc-biblioref">1995</a>)</span> “R&amp;D-Based Models of Economic Growth.”</td>
 <td>Standard endogenous growth model: (1) diminishing returns to R&amp;D; (2) positive spillovers from knowledge.</td>
 </tr>
 <tr class="even">
@@ -983,23 +1019,26 @@ Useful mainly as a reminder that frontier-model economics are not just final tra
 </tr>
 </tbody>
 </table>
+</section>
 <section id="jones1995rd-rd-based-models-of-economic-growth" class="level2">
-<h2 class="anchored" data-anchor-id="jones1995rd-rd-based-models-of-economic-growth"><span class="citation" data-cites="jones1995rd">C. I. Jones (<a href="#ref-jones1995rd" role="doc-biblioref">1995</a>)</span> “R&amp;D-Based Models of Economic Growth”</h2>
-<p>Basic model with accumulating ideas: <span class="math display">\[\begin{gathered}\dot{A}=R^{\gamma}\\
-   \xymatrix{*++[F]{R\&amp;D} \ar[r] &amp; *++[F]{\Delta knowledge}\ar[r] &amp; *++[F]{knowledge}}
+<h2 class="anchored" data-anchor-id="jones1995rd-rd-based-models-of-economic-growth"><span class="citation" data-cites="jones1995rd">Charles I. Jones (<a href="#ref-jones1995rd" role="doc-biblioref">1995</a>)</span> “R&amp;D-Based Models of Economic Growth”</h2>
+<p>Best reference is the review article in <span class="citation" data-cites="jones2022semiendogenous">Charles I. Jones (<a href="#ref-jones2022semiendogenous" role="doc-biblioref">2022</a>)</span>.</p>
+<p>Basic model with diminishing returns to R&amp;D: <span class="math display">\[\begin{gathered}\dot{A}=R^{\gamma}\\
+   \xymatrix{*++[F]{R\&amp;D} \ar[r]|(0.4)\gamma &amp; *++[F]{\Delta knowledge}\ar[r] &amp; *++[F]{knowledge}}
 \end{gathered}
 \]</span></p>
-<p>Model with shoulders/armpits of giants (Jones model):<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> <span class="math display">\[\begin{gathered}
+<p>Now we add positive spillovers (“shoulders of giants”). If <span class="math inline">\(R\)</span> is constant then you’ll get declining growth rate. If <span class="math inline">\(R\)</span> is growing at <span class="math inline">\(g_R\)</span> then you’ll get <span class="math inline">\(g_A=\frac{\alpha}{\beta}g_R\)</span>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> <span class="math display">\[\begin{gathered}
     \dot{A}=R^{\gamma}A^{1-\beta}\\
-    \xymatrix{*++[F]{R\&amp;D} \ar[r] &amp; *++[F]{\Delta knowledge}\ar[r] &amp; *++[F]{knowledge}\ar@/^2em/[l]}
+    \xymatrix{*++[F]{R\&amp;D} \ar[r]|(0.4)\gamma &amp; *++[F]{\Delta knowledge}\ar[r] &amp; *++[F]{knowledge}\ar@/^2em/[l]|{1-\beta}}
 \end{gathered}
 \]</span></p>
-<p>Recursive self-improvement, where knowledge actually helps R&amp;D: <span class="math display">\[\begin{gathered}
+<p>Recursive self-improvement, where knowledge directly helps R&amp;D: <span class="math display">\[\begin{gathered}
     R=A^{\kappa}\\
     \dot{A}=A^{1-\beta+\kappa}\\
-    \xymatrix{*++[F]{R\&amp;D} \ar[r] &amp; *++[F]{\Delta knowledge}\ar[r] &amp; *++[F]{knowledge}\ar@/^2em/[l]\ar@/^3em/[ll]}
+    \xymatrix{*++[F]{R\&amp;D} \ar[r]|(0.4)\gamma &amp; *++[F]{\Delta knowledge}\ar[r] &amp; *++[F]{knowledge}\ar@/^2em/[l]|{1-\beta}\ar@/^4em/[ll]|\kappa}
 \end{gathered}
 \]</span></p>
+<p>Here you will get constant exponential growth if and only if <span class="math inline">\(\beta=\kappa\)</span>.</p>
 <dl>
 <dt>Extrapolating from these models.</dt>
 <dd>
@@ -1329,6 +1368,9 @@ Jones, Benjamin F. 2025. <span>“Artificial Intelligence in Research and Develo
 <div id="ref-jones1995rd" class="csl-entry" role="listitem">
 Jones, Charles I. 1995. <span>“R&amp;d-Based Models of Economic Growth.”</span> <em>Journal of Political Economy</em> 103 (4): 759–84. https://doi.org/<a href="https://doi.org/10.1086/262002">https://doi.org/10.1086/262002</a>.
 </div>
+<div id="ref-jones2022semiendogenous" class="csl-entry" role="listitem">
+Jones, Charles I. 2022. <span>“The Past and Future of Economic Growth: A Semi-Endogenous Perspective.”</span> <em>Annual Review of Economics</em> 14 (1): 125–52. <a href="https://doi.org/10.1146/annurev-economics-080321-033317">https://doi.org/10.1146/annurev-economics-080321-033317</a>.
+</div>
 <div id="ref-kellerjordan2026moddednanogpt" class="csl-entry" role="listitem">
 Jordan, Keller, and contributors. 2026. <span>“Modded-Nanogpt.”</span> <a href="https://github.com/KellerJordan/modded-nanogpt">https://github.com/KellerJordan/modded-nanogpt</a>.
 </div>
@@ -1356,7 +1398,7 @@ You, Josh. 2025. <span>“Most of OpenAI’s 2024 Compute Went to Experiments.�
 </div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>This was introduced by <span class="citation" data-cites="jones1995rd">C. I. Jones (<a href="#ref-jones1995rd" role="doc-biblioref">1995</a>)</span>, where there are diminishing returns to knowledge, whereas Romer (1990) had assumed no diminishing returns to knowledge, <span class="math inline">\(\beta=0\)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>This was introduced by <span class="citation" data-cites="jones1995rd">Charles I. Jones (<a href="#ref-jones1995rd" role="doc-biblioref">1995</a>)</span>, where there are diminishing returns to knowledge, whereas Romer (1990) had assumed no diminishing returns to knowledge, <span class="math inline">\(\beta=0\)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
