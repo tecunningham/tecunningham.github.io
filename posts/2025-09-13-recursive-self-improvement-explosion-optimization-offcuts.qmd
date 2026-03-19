@@ -198,37 +198,6 @@ Terrance Tao / optimization problems.
     https://github.com/teorth/optimizationproblems?tab=readme-ov-file
     They list 7 cases of "recent progress", 3 of them are explicitly LLM-assisted or LLM-generated.
 
-##    metaphors for RSI
-
-Drawing balls from an urn.
-: 
-    There's some distribution of values, then you get a very nice expression. The expected value of $N$ draws just depends on the extreme value distribution of $f(v)$. This is exactly Kortum (1997).
-
-A tool factory makes better tools.
-: 
-    I think this is Jones' metaphor. *Distinct* from Kortum, because the returns to search now depends on the stock of ideas.
-
-Machine tools and regular tools
-: 
-    1. The Dutch make machine tools.
-    2. The machine tools make regular tools.
-    3. The regular tools make products.
-
-    At some point the machine tools become good enough to make themselves, but it's a discrete jump.
-
-Lego - combining ideas.
-: 
-    Weitzmann's recombinant search is like this: you combine ideas to make new ideas, now you have a larger stock of ideas to combine.
-
-Recipes.
-: 
-    You try out recipes, which are combinations of prior recipes. @jones2023recipes -- something like a reconciliation of Weitzman & Kortum.
-
-Blacksmith.
-: 
-    You have a hammer and you spend time making horseshoes, or working on a new hammer.
-
-    A harder hammer both (1) makes horseshoes faster, or (2) makes your hammer still harder.
 
 
 
@@ -289,3 +258,65 @@ Some optimization landscapes that were already conquered.
 [4]: https://www.investors.com/news/management/leaders-and-success/herman-hollerith-pioneered-data-processing/?utm_source=chatgpt.com "Herman Hollerith Put A Punch Into Data Processing"
 [5]: https://cs.stanford.edu/people/eroberts/courses/soco/projects/2008-09/colossus/history.html?utm_source=chatgpt.com "The History of the Lorenz Cipher and the Colossus Machine"
 
+
+#           Metaphors for RSI
+
+|                                  | fishing out            | shoulders-of-giants         |
+| -------------------------------- | ---------------------- | --------------------------- |
+| computer game -- collecting loot | thinning out of loot   | loot speeds you up          |
+| apple picking                    | thinning out of apples | apples make you walk faster |
+| blacksmith                       |                        |                             |
+
+Platform game (GOOD).
+: 
+    - Two types of things you can collect: gems, which contribute to your score; powerups, which make you faster.
+    - You observe player spends 10% of their time getting powerups, 90% collecting gems.
+    - Two effects of collecting a powerup: (a) make you go faster; (b) thinning out. If only one effect then you'd either get explosive growth (if powerups instantly regenerated then you'd just sit there collecting them forever) or collapse (if ).
+    - You observe exponential growth in gems and in speedups. 
+    - Note: here the spillovers are to *both* goods and ideas.
+
+    Model: each level is 1 minute, and you choose to spend $R$ share of your time on speedups.
+
+    $$\begin{aligned}
+        \Delta A &= (RA)^\gamma 
+            && \text{(speedups collected)}\\
+        \Delta G &= ((1-R)A)^\gamma
+            && \text{(gems collected)}
+    \end{aligned}$$
+
+    1. If $R$ is constant, then $\frac{\Delta A}{A}$ and $\frac{\Delta G}{G}$ will decline.
+    2. If there's no fishing-out ($\gamma=1$), e.g. speedups instantly regenerate,  then we get constant exponential growth (AK).
+    3. Here the shoulders-of-giants effect is exactly linear, I think meaning that economy-wide productivity improvements exactly transfer to AIR&D productivity.
+    
+    Note: for AI R&D we can ignore gems, imagine you're only picking up speedups.
+
+
+Drawing balls from an urn (Kortum)
+: 
+    There's some distribution of values, then you get a very nice expression. The expected value of $N$ draws just depends on the extreme value distribution of $f(v)$. This is exactly Kortum (1997).
+
+A tool factory makes better tools (Jones)
+: 
+    I think this is Jones' metaphor. *Distinct* from Kortum, because the returns to search now depends on the stock of ideas.
+
+Machine tools vs regular tools.
+: 
+    1. The Dutch make machine tools (high quality)
+    2. The machine tools make regular tools (low quality)
+    3. The regular tools make products.
+
+    At some point the machine tools become sufficiently good quality to make themselves, but it's a discrete jump.
+
+Lego - combining ideas.
+: 
+    Weitzmann's recombinant search is like this: you combine ideas to make new ideas, now you have a larger stock of ideas to combine.
+
+Recipes.
+: 
+    You try out recipes, which are combinations of prior recipes. @jones2023recipes -- something like a reconciliation of Weitzman & Kortum.
+
+Blacksmith.
+: 
+    You have a hammer and you spend time making horseshoes, or working on a new hammer.
+
+    A harder hammer both (1) makes horseshoes faster, or (2) makes your hammer still harder.
