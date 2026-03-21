@@ -27,17 +27,27 @@ Algorithmic progress seems to be around 4X/year.
 
     AI researchers have been making a very consistent series of discoveries, typically estimated at increasing compute efficiency by around 4X/year (with many qualifications, discussed below).
 
-    The 3X/year increase in algorithmic efficiency seems to be coming from a roughly 2X/year increase in researchers.
+    The 4X/year increase in algorithmic efficiency seems to be coming from a roughly 2X/year increase in researchers.
 
 AI speedups will cause a loop, but unclear how strong.
 : 
-    Historically algorithmic progress has been .
+    Historically algorithmic progress has been a function of human R&D, but we now expect the AI to itself increase the rate of algorithmic progress, through increaseing effective R&D:
     $$
     \xymatrix@C=1.4em@R=1.4em{
-        & *++[F]{R\&D_t}\ar[d] & *++[F]{R\&D_{t+1}}\ar[d] & *++[F]{R\&D_{t+2}}\ar[d] \\
-        \ar[r]& *++[F]{Algorithms_t}\ar[r] & *++[F]{Algorithms_{t+1}}\ar[r]\ar[ur]|{??} & *++[F]{Algorithms_{t+2}}
+        & *++[F]{R\&D_t}\ar[d] 
+        & *++[F]{R\&D_{t+1}}\ar[d] 
+        & *++[F]{R\&D_{t+2}}\ar[d]
+        & \\
+        \ar[r]
+        & *++[F]{Algorithms_t}\ar[r] 
+        & *++[F]{Algorithms_{t+1}}\ar[r]\ar[ur]|{??} 
+        & *++[F]{Algorithms_{t+2}}\ar[r]\ar[ur] & 
     }
     $$
+
+    There is still no consensus on the key diminishing-returns parameter $\beta$. The cleanest direct AI-domain estimates I found are Ho & Whitfill's computer-vision, RL, and NLP posteriors, which are around $\beta \approx 1.3$-$1.6$ but very noisy. By contrast, several software-intelligence-explosion calibrations imply much lower values like $\beta \approx 0.15$-$0.25$, while Davidson et al. summarize the software evidence as roughly $\beta_S \approx 1$ @ho2025explosionexperiments; @davidson2021could; @davidson2026automatingairesearch.
+
+    A lot of the nearby literature is actually written in terms of returns parameters like $r=\lambda/\beta$ or $r=\lambda \alpha / \beta$ rather than $\beta$ itself. That matters because $r$ is informative about long-run dynamics, but it does not separately identify $\beta$ unless the authors also pin down $\lambda$ and sometimes $\alpha$ @erdil2024estimating; @davidson2025howquickandbigwo.
 
 AI systems are now contributing to algorithmic progress.
 :   Until recently most AI R&D was done without help by LLMs, but we now see evidence for two channels:
@@ -391,22 +401,18 @@ $$\begin{aligned}
 $$
 
 
-##          
-
-
-
-| Model                                                                                                            | Summary                                                                                                                                                                             |
-| ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| @jones1995rd "R&D-Based Models of Economic Growth."                                                              | Standard endogenous growth model: (1) diminishing returns to R&D; (2) positive spillovers from knowledge.                                                                           |
-| @aghion2019artificial "Artificial Intelligence and Economic Growth"                                              | They first model automation of goods tasks, then extend the same task-based setup to research tasks; in the strong-form limit, AI replaces people in idea production.               |
-| @davidson2021could "Could Advanced AI Drive Explosive Economic Growth"                                           | The simplest model is where an AI robot perfectly substitutes for a worker, & then model the quantity increase of AI workers.                                                       |
-| @erdil2025gate "GATE: An Integrated Assessment Model for AI Automation"                                          | They model both which tasks AI can do, and the quantity of digital workers.                                                                                                         |
-| @davidson2026automatingairesearch "When Does Automating AI Research Produce Explosive Growth?"                   | Partial automation of research tasks in a networked multi-sector R&D system; goods-task automation is also present in the calibrated economy. They include cross-sector spillovers. |
-| @jones2025aird "Artificial Intelligence in Research and Development"                                             | AI progress causes both (1) a larger share of tasks to be automated; (2) cost to drop for already-automated tasks. Task bottlenecks determine the net impact.                       |
-| @kokotajlo2025aifuturesmodel "AI Futures Model: Dec 2025 Update"                                                 | Stagewise automation of AI R&D: coding first, then research taste / direction-setting; eventual full automation at SAR.                                                             |
-| @eth2025willairdautomati                                                                                         |                                                                                                                                                                                     |
-| @kwa2026simpleraitimelines "Research Note: A Simpler AI Timelines Model Predicts 99% AI r&d Automation in ~2032" | A simplification of @kokotajlo2025aifuturesmodel, AI automates a fraction of tasks asymptotically approaching 1, assume no substitutability between tasks.                          |
-|                                                                                                                  |                                                                                                                                                                                     |
+| Model                                                                                                            | Summary                                                                                                                                                                             | $r$ used / reported                                                        |
+| ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| @jones1995rd "R&D-Based Models of Economic Growth."                                                              | Standard endogenous growth model: (1) diminishing returns to R&D; (2) positive spillovers from knowledge.                                                                           | Defines the $r=\lambda/\beta$ object, but no numeric calibration here.     |
+| @aghion2019artificial "Artificial Intelligence and Economic Growth"                                              | They first model automation of goods tasks, then extend the same task-based setup to research tasks; in the strong-form limit, AI replaces people in idea production.               | No standalone $r$ calibration; emphasis is on task shares and $\phi$.      |
+| @davidson2021could "Could Advanced AI Drive Explosive Economic Growth"                                           | The simplest model is where an AI robot perfectly substitutes for a worker, & then model the quantity increase of AI workers.                                                       | No single $r$; imports low-$\beta$ software/hardware benchmarks via $\phi$. |
+| @erdil2025gate "GATE: An Integrated Assessment Model for AI Automation"                                          | They model both which tasks AI can do, and the quantity of digital workers.                                                                                                         | No single Jones-style $r$ in this summary.                                 |
+| @davidson2026automatingairesearch "When Does Automating AI Research Produce Explosive Growth?"                   | Partial automation of research tasks in a networked multi-sector R&D system; goods-task automation is also present in the calibrated economy. They include cross-sector spillovers. | Software $r_S \sim 1$, hardware $r_H=5$, aggregate innovation $r_A=0.32$. |
+| @jones2025aird "Artificial Intelligence in Research and Development"                                             | AI progress causes both (1) a larger share of tasks to be automated; (2) cost to drop for already-automated tasks. Task bottlenecks determine the net impact.                       | No single numeric $r$ in this summary.                                     |
+| @kokotajlo2025aifuturesmodel "AI Futures Model: Dec 2025 Update"                                                 | Stagewise automation of AI R&D: coding first, then research taste / direction-setting; eventual full automation at SAR.                                                             | No explicit Jones-style $r$ calibration.                                   |
+| @eth2025willairdautomati                                                                                         | Focuses directly on whether current software R&D has $r>1$, rather than estimating $\beta$ separately.                                                                              | Argues current software research may have $r>1$.                           |
+| @kwa2026simpleraitimelines "Research Note: A Simpler AI Timelines Model Predicts 99% AI r&d Automation in ~2032" | A simplification of @kokotajlo2025aifuturesmodel, AI automates a fraction of tasks asymptotically approaching 1, assume no substitutability between tasks.                          | No explicit $r$; assumes $\beta \in [0.3,1]$.                              |
+|                                                                                                                  |                                                                                                                                                                                     |                                                                            |
 
 
 
@@ -420,56 +426,9 @@ $$
 | **AI replaces low-quality R&D workers first** | **No clean formal model among these**; closest is AI Futures’ top-vs-median milestone language                                                                                                        | I would leave this as “not really modeled yet” rather than force one of these papers into the box. AI Futures comes closest rhetorically, but it is not a true heterogeneous-worker replacement model. ([AI Futures][4]) |
 | **Other mechanisms**                          | AI improves research taste (AI Futures); increases digital-worker supply per automated task (GATE); raises cross-sector spillovers (Davidson et al.); raises R&D capital intensity (Besiroglu et al.) | These are important because they are not just “more tasks automated”; they change the mapping from capability to research output. ([AI Futures][4])                                                                      |
 
-##                       @jones1995rd "R&D-Based Models of Economic Growth"
+##              @jones1995rd "R&D-Based Models of Economic Growth"
 
-Basic model with diminishing returns to R&D:
-$$\begin{gathered}\dot{A}=R^{\gamma}\\
-   \xymatrix{*++[F]{R\&D} \ar[r]|(0.4)\gamma & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}}
-\end{gathered}
-$$
-
-Now we add positive spillovers ("shoulders of giants"). If $R$ is constant then you'll get declining growth rate. If $R$ is growing at $g_R$ then you'll get $g_A=\frac{\alpha}{\beta}g_R$.^[This was introduced by @jones1995rd, where there are diminishing returns to knowledge, whereas Romer (1990) had assumed no diminishing returns to knowledge, $\beta=0$.]
-$$\begin{gathered}
-    \dot{A}=R^{\gamma}A^{1-\beta}\\
-    \xymatrix{*++[F]{R\&D} \ar[r]|(0.4)\gamma & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}\ar@/^2em/[l]|{1-\beta}}
-\end{gathered}
-$$
-
-Recursive self-improvement, where knowledge directly helps R&D:
-$$\begin{gathered}
-    R=A^{\kappa}\\
-    \dot{A}=A^{1-\beta+\kappa}\\
-    \xymatrix{*++[F]{R\&D} \ar[r]|(0.4)\gamma & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}\ar@/^2em/[l]|{1-\beta}\ar@/^4em/[ll]|\kappa}
-\end{gathered}
-$$
-
-Here you will get constant exponential growth if and only if $\beta=\kappa$. 
-
-Extrapolating from these models.
-: It's dangerous to talk about "the elasticity" between A and B: it is meaningful to talk about the elasticity *at a given point* but it's a strong functional-form assumption that it'll have the same elasticity everywhere. 
-
-Mathematical assumptions on intelligence -> R&D:
-:  
-    1. _Full automation._ Once you hit a threshold of intelligence then it's worth entirely replacing humans with agents. E.g. replacing tollbooth operator with automatic tollbooth.
-    2. _Partial automation._ There's some subset of tasks, and you replace them one-by-one.
-    3. _Speedup._ -> Humans and agents are complements, an agent increases efficiency on all tasks.
-
-Concrete assumptions.
-:  
-    1. _Autonomous algorithm-search machine._ You spend a lot of tokens, it autonomously learns to navigate the space. Like AlphaZero, trained from scratch.
-    2. _Speeds up routine tasks._ The AI R&D guy can do certain things quicker, e.g. parse logs, write visualization, fix bugs.
-    3. _Shares knowledge._ Can learn tricks. It doesn't affect people at the frontier very much.
-
-Q: what if the capability frontier is the data frontier?
-: 
-    - Nice prediction: will not speed up experts, only behind the frontier.
-
-Natural processes often have explosive *regions*.
-: 
-    You 
-
-Formulation in @jones2022semiendogenous:
-
+I'll use the notation from @jones2022semiendogenous:
 $$\begin{aligned}
     Y_t &= A_t^\sigma L_{yt} 
         && \text{(final good)} \\
@@ -480,35 +439,64 @@ $$\begin{aligned}
     L_t &= L_0 e^{nt}
         && \text{(population growth)} \\
     R_t &= \bar{s}L_t
-        && \text{(allocation)} \\
+        && \text{(allocation)}
 \end{aligned}
 $$
 
-He also says he'll sometimes write $\dot{A}_t=R^\gamma_t A_t^\psi$.
+Balanced-growth implications:
+$$\begin{aligned}
+    g_A &= \frac{\lambda}{\beta}n \\
+    g_y &= \sigma g_A = \frac{\lambda\sigma}{\beta}n = \gamma n
+\end{aligned}
+$$
 
-> "The parameter $\lambda$ allows for thepossibility of duplicatione ffects,so that doubling the number of researchers at a point in time may potentially less than double the innovation rate; however, any λ>0, including λ=1, is allowed."
+Parameters:
 
-> "The parameter β > 0 captures the rate at which ideas—that is,proportional improvements in productivity—are getting harder to find.
+|                                                         |                                                                                                                                                                           |
+| :-----------------------------------------------------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|                    $\beta \approx 3$                    | how fast proportional improvements are getting harder to find. Jones writes that aggregate data are roughly consistent with $\beta \approx 3$ if $\lambda = 1$.           |
+|                   $\lambda \approx 1$                   | elasticity of idea production with respect to research effort. $\lambda = 1$ means no duplication effect; $\lambda < 1$ allows duplication/congestion.                    |
+|                      $\sigma > 0$                       | how strongly nonrival ideas raise final output; this is the degree of increasing returns in goods production. He doesn't separately calibrate.                            |
+| $\gamma \equiv \frac{\lambda\sigma}{\beta} \approx 1/3$ | the overall degree of increasing returns in this simple semi-endogenous setup. Jones says $\gamma = 1/3$ is consistent with data when research intensity has been rising. |
 
-On balanced growth path:
-    $$g_y = \sigma g_A = \frac{\lambda\sigma}{\beta}n=\gamma n$$
+**Visually:**
 
-On knife edge assumptions: he says the root of all exponential growth is exponential population growth (but seems a bit fishy).
+1. Basic model with research effort but no knowledge term. If $R$ is constant, then $\dot{A}$ is constant, so $A$ rises linearly and the growth rate $g_A = \dot{A}/A$ declines toward zero:
+    $$\begin{gathered}
+    \dot{A}=R^\lambda\\
+    \xymatrix{*++[F]{R\&D} \ar[r]|(0.4)\lambda & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}}
+    \end{gathered}
+    $$
 
-Estimates of parameters:
+2. Add the knowledge term:
+    $$\begin{gathered}
+    \dot{A}=R^\lambda A^{1-\beta}\\
+    \xymatrix{*++[F]{R\&D} \ar[r]|(0.4)\lambda & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}\ar@/^2em/[l]|{1-\beta}}
+    \end{gathered}
+    $$
 
-- p136: $\gamma = 1/3$, so output growth is 1/3 growth in ideas. He also predicts that long-run growth is much lower.
+    Then $g_A = \frac{\dot{A}}{A} = R^\lambda A^{-\beta}.$
 
-Description of @aghion2019artificial. Adjust the ideas production function:
+    So if $R$ is constant, $g_A$ declines as $A$ rises.^[@jones1995rd introduced diminishing returns to knowledge, whereas Romer (1990) had assumed no diminishing returns to knowledge, $\beta=0$.] If $R$ grows at rate $g_R$ along a balanced growth path, then $g_A = \frac{\lambda}{\beta}g_R.$
 
-$$\dot{A}_t=A_t^{1-\beta}R_t^{1-\alpha}K_t^{\alpha}$$
+3. Recursive self-improvement, where knowledge directly raises research input:
+    $$\begin{gathered}
+    R=A^\kappa\\
+    \dot{A}=(A^\kappa)^\lambda A^{1-\beta}=A^{\lambda\kappa+1-\beta}\\
+    \xymatrix{*++[F]{R\&D} \ar[r]|(0.4)\lambda & *++[F]{\Delta knowledge}\ar[r] & *++[F]{knowledge}\ar@/^2em/[l]|{1-\beta}\ar@/^4em/[ll]|\kappa}
+    \end{gathered}
+    $$
 
-with constant capital-output ratio you get:
-$$\dot{A}_t=\kappa A_t^{1-(\beta-\alpha)}L_t$$
+    This yields:
 
-> "if the fraction of tasks that are automated (α) rises to reach the rate at which ideas are getting harder to find (β), we get a singularity! In particular, once α ≥ β, the model exhibits sufficiently strong increasing returns that there is no balanced growth path. Instead, the growth rate rises rapidly over time and the economy reaches infinite knowledge and income in finite time,assuming that is possible."
+    - if $\lambda\kappa < \beta$, growth slows over time;
+    - if $\lambda\kappa = \beta$, you get constant exponential growth;
+    - if $\lambda\kappa > \beta$, the model implies a finite-time singularity.
 
-##                @aghion2019artificial
+
+##              @aghion2019artificial
+
+Setup:
 
 $$\begin{aligned}
          Y_t &= A_t^{\sigma} K_t^{\alpha} L^{1-\alpha} \\
@@ -516,33 +504,134 @@ $$\begin{aligned}
       \end{aligned}
 $$
 
-In task-based automation interpretations, ($\alpha$) and ($\beta$) reflect the fractions of tasks automated in goods and idea production. @aghion analyze when AI-driven automation can yield accelerating growth (“Type I”) or even a singularity (“Type II”). in their Cobb–Douglas setup a key threshold is ($\gamma = \frac{\sigma}{1-\alpha}\cdot\frac{\beta}{1-\phi}$), with a Type II singularity when ($\gamma>1$).
+Implications / thresholds:
+
+- In this notation, $\alpha$ is the capital exponent in goods production and $\beta$ is the capital exponent in idea production; the "ideas getting harder to find" term is $\phi < 1$, not Jones's $\beta$.
+- In the paper's task-automation framing, more automation raises the role of capital in both sectors, which can raise the long-run growth rate by making research effort more accumulable.
+- The paper distinguishes Type I growth explosions, where growth rates rise without bound but remain finite at each date, from Type II explosions, where output becomes infinite in finite time.
+- Type I condition in their examples: full automation of goods production. Once all goods tasks are automated, the goods sector becomes an AK-style economy, $Y_t = A_tK_t$, and with ongoing technological progress the growth rate $g_Y = g + sA_t$ rises without bound.
+- Type II condition in their Example 2: full automation of ideas production. In their one-dimensional analogue this becomes $\dot{A}_t = A_t^{1+\phi}$, so explosive growth requires $\phi>0$.
+- Type II can also arise without full automation in their Cobb-Douglas Example 3, where a key "constant returns to accumulable factors" parameter exceeds one.
+
+|           |                                                                                                                                |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| $\alpha$  | capital exponent in goods production.                                                                                          |
+| $\beta$   | capital exponent in idea production.                                                                                           |
+| $\lambda$ | elasticity of idea production with respect to research labor.                                                                  |
+| $\phi$    | standing-on-shoulders term in the paper's notation, with Jones-style harder-to-find parameter $\beta_{\text{Jones}} = 1-\phi$. |
+| $\sigma$  | role of nonrival ideas in final output.                                                                                        |
+|           |                                                                                                                                |
+
+##              @davidson2021could
+
+Davidson writes idea production in $\phi$-notation rather than Jones $\beta$-notation, so the mapping is $\beta = 1-\phi$.
+
+- Aggregate innovation: $\phi=-2.1 \Rightarrow \beta \approx 3.1$.
+- Hardware: $\phi=0.8 \Rightarrow \beta \approx 0.2$.
+- ML software: $\phi=0.85 \Rightarrow \beta \approx 0.15$.
+
+This is one of the main routes by which very low software $\beta$ enters AI-takeoff discussions. But it is best read as importing earlier subsector estimates in $\phi$-notation, not as a fresh direct estimate of frontier-AI-lab $\beta$.
 
 
 
-##                @davidson2026automatingairesearch
+##              @erdil2024explosive "Explosive growth from AI automation: A review of the arguments"
 
+> "Bloom et al. 2020, which provides us perhaps with the best estimates of the extent to which ideas get “harder to find", estimates that λ/ϕ ≈ 0.32 for total factor productivity in the US economy. Based on this, we find that hyperbolic growth occurs with values of β as low as 1 − 0.32 = 0.68. Hence, hyperbolic growth with AI is predicted by R&D-based growth models even if we do not strictly accept the conclusion of the replication argument that β = 1. This point, that avoiding increasing returns to scale is difficult to avoid even when ideas get “harder to find" over time, has been noted elsewhere, notably by Davidson 2021. Indeed, this outcome is consistent with fairly conservative assumption on there being decreasing returns on inputs to final goods production."
 
-$$
-\begin{aligned}
-\dot{S}(L,C) &= a [R(L,C)]^\lambda S^{1-\beta} && \text{(Software L.O.M)} \\
-R(L,C) &= (bL)^\alpha (cC)^{1-\alpha} && \text{(Research Input)} \\
-L &= dS && \text{(Cognitive Labour)}
+##              @erdil2024estimating "Estimating Idea Production: A Methodological Survey"
+
+$$\begin{aligned}
+    Y &= AK^\alpha \\
+    \dot{K} &\propto Y && \text{(constant savings rate)}\\
+    \dot{A}/A &\propto A^{-\beta}K^\lambda && \text{(productivity growth)}
 \end{aligned}
 $$
 
-- ASARA = automation of AI R&D
-- > "ASARA can replace each human researcher with 30 equally capable AI systems each thinking 30X human speed."
-- > "ASARA (so defined) is less capable than AI 2027’s superhuman AI researcher, which would be equally numerous and fast as ASARA but replace the capabilities of the best human researcher"
+Parameters:
 
-**Note: odd to think about a finite number of AI researchers.**
+|                   |                                                                                                                  |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------- |
+| $\alpha$          | capital elasticity in final output.                                                                              |
+| $\lambda$         | elasticity of productivity growth with respect to R&D input.                                                     |
+| $\beta$           | ideas-get-harder-to-find parameter.                                                                              |
+| $r=\lambda/\beta\simeq 1$ | the object the paper argues is usually identified more robustly than either numerator or denominator on its own. |
+|                   |                                                                                                                  |
 
+Implications / thresholds:
+
+- The paper's main methodological lesson is that much of this literature identifies $r=\lambda/\beta$ more cleanly than it identifies $\beta$ itself.
+- In their simple growth setup, you get steady-state growth if and only if $\lambda/\beta+\alpha=1$.
+- You get hyperbolic growth if $\lambda/\beta+\alpha>1$.
+
+In the best high-frequency software case study they discuss, Stockfish, the central estimate is $r \approx 0.83$ with standard error $0.15$. For sparser domains, their Bayesian posterior medians are:
+
+| domain                          | doubling time | median $r=\lambda/\beta$ | β                      | λ                       |
+| ------------------------------- | ------------- | ------------------------ | ---------------------- | ----------------------- |
+| Stockfish                       |               | 0.83                     |                        |                         |
+| Computer vision, 2012-2022      | 9 months      | 1.44                     | 0.985 (0.224 to 4.050) | 1.410 (0.290 to 6.021)  |
+| RL sample efficiency, 2015-2019 | 11 months     | 1.58                     | 1.023 (0.212 to 3.914) | 1.482 (0.266 to 6.650)  |
+| SAT solvers, 1997-2018          | 2 years       | 3.54                     | 0.648 (0.139 to 2.891) | 2.143 (0.387 to 11.312) |
+| Linear programming, 1998-2018   | 6 years       | 1.08                     | 1.290 (0.254 to 4.953) | 1.259 (0.222 to 5.772)  |
+
+
+
+##              @kokotajlo2025aifuturesmodel AI futures model
+
+More complicated!
+
+##              @ho2025explosionexperiments "The software intelligence explosion debate needs experiments"
+
+Equations:
+
+$$\dot{A} = A^{1-\beta}F(L,K)^\lambda$$
+
+If research automation makes effective research input proportional to algorithmic progress itself, so that $F(L,K)\propto cA$, then
+
+$$\dot{A} \propto A^{\lambda+1-\beta}.$$
+
+Implications / thresholds:
+
+- In this setup, the key threshold is $r\equiv\frac{\lambda}{\beta}$.
+- You get explosive growth if $r>1$.
+- In their domain-level estimates, the NLP / language-model proxy is the strongest case for $r>1$, but the uncertainty intervals are still very wide.
+- In their OpenAI 2022-2025 back-of-the-envelope exercise, the central estimate is $r \approx 0.96$, and under a Cobb-Douglas bottleneck story the relevant object becomes $(1-\epsilon_K)\lambda/\beta$, which pushes the effective value further below $1$.
+
+This is the cleanest direct $\beta$ estimation exercise I have found that is actually about AI-ish domains rather than aggregate innovation or imported hardware benchmarks. The key caveat is that the intervals are extremely wide.
+
+|                   | computer vision              | reinforcement learning   | natural language processing proxy | OpenAI 2022-2025 back-of-envelope |
+| ----------------- | ---------------------------- | ------------------------ | --------------------------------- | --------------------------------- |
+| $\beta$           | 1.302 (90% CrI 0.269-5.571) | 1.299 (0.241-5.581)      | 1.586 (0.322-7.148)               | not separately identified         |
+| $r=\lambda/\beta$ | 1.262                        | 1.201                    | 1.892                             | about 0.96                        |
+
+
+|              |                                                                                                             |
+| ------------ | ----------------------------------------------------------------------------------------------------------- |
+| $\beta$      | the ideas-get-harder-to-find parameter for AI software.                                                     |
+| $\lambda$    | the elasticity of progress with respect to effective research input.                                        |
+| $\epsilon_K$ | the elasticity of research input with respect to experiment compute in the Cobb-Douglas bottleneck variant. |
+
+Their proxies for software quality are based on measures of training compute efficiency. They note that if $A$ is inference compute efficiency, the augmentation equation holds exactly; if $A$ is training compute efficiency, it requires an additional linearity assumption connecting training efficiency to effective AI researchers.
+
+##              @erdil2025automatingrd "Most AI value will come from broad automation, not from R&D"
+
+They give arguments for why AI R&D will be bottlenecked by experiment compute:
+
+> "By default, a software-only or software-biased singularity should be treated as an unlikely outcome rather than a likely one."
+
+> "If the two inputs are indeed complementary, any software-driven acceleration could only last until we become bottlenecked on compute and end up having to do the physical work of obtaining more GPUs in order to run more experiments."
+
+> "Just as one example, Oberfield and Raval (2014) estimate that the elasticity of substitution between labor and capital in the US manufacturing sector is 0.7, and this is already strong enough for any “software-only singularity” to fizzle out after less than an order of magnitude of improvement in efficiency."
 
 ##              @eth2025willairdautomati
 
-> "More specifically, r gives the number of times software doubles for each time the cumulative work on software R&D doubles."
+> "More specifically, r gives the number of times software doubles for each time the cumulative work on software R&D doubles ... There are a few reasons to think that r is currently above 1:"
 
-> "There are a few reasons to think that r is currently above 1:"
+Implications / thresholds:
+
+- The paper's question is whether current software R&D has $r>1$, since that is the relevant threshold for a software intelligence explosion in the simplest Jones-style setup.
+- The nearby empirical anchors are also mostly estimates of $r$: in the best high-frequency software case study, Stockfish, the central estimate is $r \approx 0.83$ with standard error $0.15$; in sparser software domains the Bayesian posterior medians are about $1.44$ for computer vision, $1.58$ for RL sample efficiency, $3.54$ for SAT, and $1.08$ for linear programming @erdil2024estimating.
+
+Those numbers matter for whether recursive improvement crosses the critical threshold, but they do not separately identify $\beta$ unless we also know $\lambda$.
 
 ##              @davidson2025howquickandbigwo
 
@@ -555,71 +644,68 @@ L &= dS && \text{(Cognitive Labour)}
 \end{aligned}
 $$
 
-where:
+Parameters:
 
-- $S$ is the level of AI software.
-- $L$ is the cognitive labour used for improving software.
-- $C$ is compute for experiments, assumed to be constant.
-- $\lambda$ captures "stepping on toes," whereby there are diminishing returns to applying more research effort in parallel ("nine women can't make a baby in a month").
-- $\beta > 0$ captures the idea that software improvements get harder to find as software improves.
-- $\alpha$ captures the diminishing returns of cognitive labour in improving software.
-- $a$, $b$, $c$, and $d$ are constants collectively pinned down by growth rates at the beginning of the model.
+|             |                                                                                                                                                              |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| $S$         | is the level of AI software.                                                                                                                                 |
+| $L$         | is the cognitive labour used for improving software.                                                                                                         |
+| $C$         | is compute for experiments, assumed to be constant.                                                                                                          |
+| $\lambda$   | captures "stepping on toes," whereby there are diminishing returns to applying more research effort in parallel ("nine women can't make a baby in a month"). |
+| $\beta \approx 0.25$ | captures the idea that software improvements get harder to find as software improves.                                                                        |
+| $\alpha$    | captures the diminishing returns of cognitive labour in improving software.                                                                                  |
+|r=\lambda\alpha/\beta\approx 1.2||
 
-then they note $r=\lambda \alpha / \beta$, and this is the critical threshold.
+Implications / thresholds:
 
-##                @kokotajlo2025aifuturesmodel
+- The key threshold is $r=\lambda\alpha/\beta$.
+- The paper calibrates primarily in terms of $p$ and $r$, not by directly estimating $\beta$.
+- Their reported medians are $p=0.3$ and $r=1.2$, and one representative decomposition is $\alpha=0.5$, $\lambda=0.6$, and $\beta=0.25$.
 
-> "Davidson and Houlden focuses primarily on trends of how much more efficiently AIs have been able to achieve the same performance when determining whether there will be an SIE. Meanwhile, we focus on estimates of the quality of AIs’ research taste, i.e. how good the AI is at choosing research directions, selecting and interpreting experiments, etc. We think that focusing on research taste quality is a more useful lens from which to view a potential SIE. If there’s an SIE we expect that it will primarily be driven by improvements in research taste."
+
+
+
+##              @kokotajlo2025aifuturesmodel "AI Futures Model: Dec 2025 Update"
+
+> "Davidson and Houlden focuses primarily on trends of how much more  efficiently AIs have been able to achieve the same performance when  determining whether there will be an SIE. Meanwhile, we focus on  estimates of the quality of AIs’ research taste, i.e. how good the AI  is at choosing research directions, selecting and interpreting  experiments, etc. We think that focusing on research taste quality is  a more useful lens from which to view a potential SIE. If there’s an SIE we expect that it will primarily be driven by improvements in  research taste."
 
 Superhuman AI Researcher = "An AI system that can do the job of the best human AI researcher but 30x faster and with 30x more agents, as defined above in the superhuman coder milestone. It must have enough diversity of expertise to on average do the same for other top researchers with complementary skills."
 
 
-##              @erdil2024explosive "Explosive growth from AI automation: A review of the arguments"
+##              @davidson2026automatingairesearch "When Does Automating Research Produce Explosive Growth?"
 
-> "Bloom et al. 2020, which provides us perhaps with the best estimates of the extent to which ideas get “harder to find", estimates that λ/ϕ ≈ 0.32 for total factor productivity in the US economy. Based on this, we find that hyperbolic growth occurs with values of β as low as 1 − 0.32 = 0.68. Hence, hyperbolic growth with AI is predicted by R&D-based growth models even if we do not strictly accept the conclusion of the replication argument that β = 1. This point, that avoiding increasing returns to scale is difficult to avoid even when ideas get “harder to find" over time, has been noted elsewhere, notably by Davidson 2021. Indeed, this outcome is consistent with fairly conservative assumption on there being decreasing returns on inputs to final goods production."
-
-##              @erdil2024estimating "Estimating Idea Production: A Methodological Survey"
-
-They discuss the difficulty of estimating the returns to R&D on productivity across a few different domains. They have nice estimates for chess inputs & outputs. They also estimate algorithmic progress:
-
-    - Computer vision: doubling time 9 months 2012-2022.
-    - RL sample efficiency: doubling time 11 months, 2015-2019.
-    - SAT solvers: doubling time 2 years, 1997-2018.
-    - Linear programming: doubling time 6 years, 1998-2018.
-
-They include a nice derivation of the critical threshold for hyperbolic growth:
+Summary: once you automate a sufficient number of tasks (i.e. do them with capital) then this will kick-off an intelligence explosion.
 
 $$\begin{aligned}
-    Y &= AK^\alpha \\
-    \dot{K} &\propto Y && \text{(constant savings rate)}\\
-    \dot{A}/A &\propto A^{-\beta}K^\lambda && \text{(productivity growth)}
+    \dot{S}(L,C) &= a [R(L,C)]^\lambda S^{1-\beta_S} && \text{(software law of motion)} \\
+    R(L,C) &= (bL)^\alpha (cC)^{1-\alpha} && \text{(Research Input)} \\
+    L &= dS && \text{(Cognitive Labour)}
 \end{aligned}
 $$
 
-You'll get steady-state growth if and only if $\lambda/\beta+\alpha=1$. You'll get hyperbolic growth if $\lambda/\beta+\alpha>1$.
+Parameters:
 
-
-| domain               | β                      | λ                       | r=λ/β |
-| -------------------- | ---------------------- | ----------------------- | ----- |
-| Computer vision      | 0.985 (0.224 to 4.050) | 1.410 (0.290 to 6.021)  | 1.43  |
-| RL sample efficiency | 1.023 (0.212 to 3.914) | 1.482 (0.266 to 6.650)  | 1.45  |
-| SAT solvers          | 0.648 (0.139 to 2.891) | 2.143 (0.387 to 11.312) | 3.30  |
-| Linear programming   | 1.290 (0.254 to 4.953) | 1.259 (0.222 to 5.772)  | 0.98  |
-
-
-##              @davidson2026automatingairesearch "When Does Automating Research Produce Explosive Growth?"
+|                       |                                                                                                           |
+| --------------------- | --------------------------------------------------------------------------------------------------------- |
+| $\beta_S \approx 1$   | software ideas-get-harder-to-find parameter, citing @ho2025explosionexperiments and @erdil2024estimating. |
+| $\beta_H \approx 0.2$ | hardware ideas-get-harder-to-find parameter.                                                              |
+| $\beta_A \approx 3.1$ | aggregate innovation ideas-get-harder-to-find parameter.                                                  |
+| $\alpha$              | labor elasticity in the research-input aggregator.                                                        |
+| $\lambda$             | stepping-on-toes / parallelization parameter.                                                             |
+| $r_S\approx 1$        |                                                                                                           |
+| $r_H\approx 5$        |                                                                                                           |
+| $r_A\approx 0.32$     |                                                                                                           |
 
 Critical condition for explosive growth:
 
 $$
     \utt{f_Y}{share output}{tasks automated} + 
     \utt{f_S}{share software}{tasks automated}\frac{1}{\beta_S} + 
-    \utt{f_H}{share hardware}{tasks automated}\frac{1}{\beta_S} + 
+    \utt{f_H}{share hardware}{tasks automated}\frac{1}{\beta_H} + 
     \utt{f_A}{share innovation}{tasks automated}\frac{1}{\alpha}\frac{1}{\beta_A}
     >1
 $$
 
-Summary: once you automate a sufficient number of tasks (i.e. do them with capital) then this will kick-off an intelligence explosion.
 
 - Basic model:
    - If $\dot{S}_t=S_t^{1-\beta}$, so you get explosion if $\beta<0$, steady-state growth if $\beta=0$, and gradual slowing if $\beta>1$.
@@ -629,90 +715,50 @@ Summary: once you automate a sufficient number of tasks (i.e. do them with capit
    - You gradually automate some of the things, so they can be done with capital.
    - You have spillovers between different processes.
 
-- Estimates of $\beta$:
-   - For the entire economy (from Bloom) $\beta=3$.
-   - For software R&D they estimate $\beta=0.1$.
+Implications / thresholds:
 
-- Questions:
-   - Any historical domain where we've seen regimes of $\beta<0$?, & so explosion.
-
-My observations:
-
-- Q: how to think about the growth effect through uplift vs through automation?
- 
-- It seems to me AI typically makes things effectively *free*, rather than being bottlenecked by capital, & this seems to be a problem for Cobb-Douglas production.
-
-##                      @kokotajlo2025aifuturesmodel AI futures model
-
-https://www.timelinesmodel.com
-
-They assume AI automates some fraction of R&D tasks, proportional to the time horizon.
-
-##          @ho2025explosionexperiments
-
-Baseline model:
-
-    $$\dot{A} = A^{1-\beta}F(L,K)^\lambda$$
-
-Then they say "Suppose research is automated in such a way that F(L,K) shifts to be proportional to the effective number of simulated AI researchers, which is given by Ac for some constant c", and you'll get
-
-    $$\dot{A} = A^{\lambda+1-\beta}$$
-
-Then you get explosive growth if $r\equiv\frac{\lambda}{\beta}>1$.
-
-They make some estimates based on papers->progress.
-
-|                   | computer vision | reinforcement learning | natural language processing | OpenAI |
-| ----------------- | :-------------: | :--------------------: | :-------------------------: | ------ |
-| $\lambda$         |       1.0       |          1.2           |            0.84             |        |
-| $\beta$           |       1.3       |          1.3           |             1.6             |        |
-| $r=\lambda/\beta$ |       1.3       |          1.2           |             1.9             | 1.0    |
+- In the one-sector software model, the key threshold is $r = \lambda\alpha/\beta_S$.
+- In the multi-sector model, explosive growth can arise from the combined automation of goods production, software R&D, hardware progress, and aggregate innovation, even when no single channel is decisive on its own.
 
 
-They discuss bottlenecks due to experiment compute. They assume an elasticity of substitution of 1, and 2/3 capital share, and fixed capital, implying 2/3 reduction in necessary $r$.
+##              @kwa2026simpleraitimelines tkwa  model
 
-Notes:
+Equations:
 
-1. They assume *augmentation*, i.e. as software progresses it multiplies the number of effective AI researchers.
-2. They assume that a 1% increase software quality increases effective R&D labor by 1%, and their proxies for software quality are based on measures of training compute efficiency. They say "If A is inference compute efficiency, then this equation holds exactly. If A is training compute efficiency, then this equation only holds if the effective number of AI researchers (because they are getting smarter) is linear in training compute."
-
-##                      @erdil2025automatingrd "Most AI value will come from broad automation, not from R&D"
-
-They give arguments for why AI R&D will be bottlenecked by experiment compute:
-
-> "By default, a software-only or software-biased singularity should be treated as an unlikely outcome rather than a likely one."
-
-> "If the two inputs are indeed complementary, any software-driven acceleration could only last until we become bottlenecked on compute and end up having to do the physical work of obtaining more GPUs in order to run more experiments."
-
-> "Just as one example, Oberfield and Raval (2014) estimate that the elasticity of substitution between labor and capital in the US manufacturing sector is 0.7, and this is already strong enough for any “software-only singularity” to fizzle out after less than an order of magnitude of improvement in efficiency.
-
-
-
-##                       @kwa2026simpleraitimelines tkwa  model
-
-Short: AI automates some fraction of R&D tasks, which causes an effective multiplier on R&D labor: "parallel uplift and 1/(1-f) are equivalent in the simple model".
-
-https://github.com/tkwa/ai-takeoff-model/blob/main/notes.md
-https://www.lesswrong.com/posts/uy6B5rEPvcwi55cBK/research-note-a-simpler-ai-timelines-model-predicts-99-ai-r
-
-$$\begin{aligned}
-   S'(t) &= R(t) S^{1 - \beta} = \left(\frac L {1-f}\right)^\alpha C^\zeta S^{1 - \beta}\\
-   f(t) &= \sigma(v(\log C(t)S(t) - \log E_{hac}))
+$$
+\begin{aligned}
+   S'(t) &= R(t) S^{1 - \beta} = \left(\frac L {1-f}\right)^\alpha C^\zeta S^{1 - \beta}
+    && \text{(accumulation of software ideas)}\\
+   f(t) &= \sigma(v(\log C(t)S(t) - \log E_{hac})) 
+    && \text{(automation of tasks)}
 \end{aligned}
 $$
 
-My simpler version:
+Automating a fraction $f$ of R&D tasks multiplies effective R&D labor by $1/(1-f)$ (i.e. tasks are perfect complements). 
 
 $$\begin{aligned}
    \dot{S}  &= L^\alpha C^\gamma S^{1-\beta} \\
 \end{aligned}
 $$
 
-We can show:
+Parameters:
 
-$$S^{\beta} = S_0^{\beta} + \frac{\beta\,L_0^\alpha C_0^\gamma}{\alpha g_L+\gamma g_C}\Big(e^{(\alpha g_L+\gamma g_C)t}-1\Big).$$
+|                   |                                                                        |
+| ----------------- | ---------------------------------------------------------------------- |
+| $\beta\in [0.3,1]$ | software-difficulty exponent. |
+| $\alpha$ | not pinned down separately; together with $\zeta$, Kwa uses $\alpha/(\alpha+\zeta)\in [0.12,0.35]$ and $\alpha+\zeta\in [0.8,1]$, implying roughly $\alpha\in [0.10,0.35]$. |
+| $\zeta$ | not pinned down separately; implied by the same calibration above, roughly $\zeta\in [0.52,0.88]$. |
+| $f(t)$ | fraction of R&D tasks automated; Kwa sets current $f$ in Jan 2026 to lie in $[0.25,0.5]$. |
+| $v$ | automation velocity; Kwa uses $1/v\in [1.5,4.2]$, so $v\in [0.24,0.67]$. |
+| $E_{hac}$ | effective compute level of the half-automated coder; not directly estimated here, but defined as the point where automation reaches 50\%. |
 
-In the limit we get $g_s=\frac{\alpha g_L+\gamma g_C}{\beta}$
+Relevant notes on interpretation / sources:
+
+> "$E_{hac}$ is the effective compute level of the half-automated coder"
+
+> "v is the automation velocity: S must increase by factor of e^(1/v) to get from 50% to 73% automation"
+
+> "alpha/(alpha + zeta) is between 0.12 and 0.35 ... This range is based on Yafah's (Epoch) recommendation to calibrate from lab spending ratios of labor vs capital."
 
 
 
@@ -760,17 +806,30 @@ flowchart LR
 
 
 
-##              David Rein model
+##              David Rein (2025) model
 
-Model: 
+The core idea: idea production depends on quality:
 
-- $dA = Q^q A^{1-\beta}$
-- $Q$ is the quality of cognitive labour, measured in units of time horizon—this is our AI researcher (e.g. Opus 4.5, GPT-5.2, Gemini 3)
-- $A$ is the current level of algorithms, also measured in units of time horizon (e.g. GPT-2, GPT-3, Pythia, etc.)
-- $\beta$ is the ideas getting harder to find parameter
-- The explosion condition here is $q > \beta$
-- (Must also assume that $Q=cA$.
+$$\begin{aligned}
+    dA &= Q^q A^{1-\beta}
+         && \text{(idea production depends on quality of cognitive labor)}\\
+    Q &= cA
+        && \text{(quality depends on ideas)}
+\end{aligned}
+$$
 
-- [doc](https://docs.google.com/document/d/16Ugl7g3GL1Ao9-3UluRENp6e9UeEMAqhh5jgXDi3kjo/edit?tab=t.a5tu3xadb63o#heading=h.ribcf6q6wbps)
+Parameters:
+|         |                                                                                                                               |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| $Q$     | quality of cognitive labour, measured in units of time horizon; this is our AI researcher (e.g. Opus 4.5, GPT-5.2, Gemini 3). |
+| $A$     | current level of algorithms, also measured in units of time horizon (e.g. GPT-2, GPT-3, Pythia, etc.).                        |
+| $q$     | elasticity of idea production with respect to cognitive-labor quality.                                                        |
+| $\beta$ | ideas-get-harder-to-find parameter.                                                                                           |
+
+Implications / thresholds:
+
+- The explosion condition is $q > \beta$.
+
+[source](https://docs.google.com/document/d/16Ugl7g3GL1Ao9-3UluRENp6e9UeEMAqhh5jgXDi3kjo/edit?tab=t.a5tu3xadb63o#heading=h.ribcf6q6wbps)
 
 
