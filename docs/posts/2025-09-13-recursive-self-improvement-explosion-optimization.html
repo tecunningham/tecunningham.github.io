@@ -2,12 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Tom Cunningham">
 <meta name="dcterms.date" content="2026-03-21">
+<meta name="dcterms.date" content="2026-03-20">
 <meta name="description" content="Tom Cunningham blog">
 
 <title>Recursive Self-Improvement Overview | Tom Cunningham – Tom Cunningham</title>
@@ -53,15 +54,17 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-d5e7c60e6424aa6ccf163f01508596ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -141,7 +144,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -160,16 +163,21 @@ window.Quarto = {
 <link rel="stylesheet" href="../styles.css">
 <meta name="twitter:title" content="Recursive Self-Improvement Overview | Tom Cunningham">
 <meta name="twitter:description" content="Tom Cunningham blog">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="tecunningham.github.io/posts/2025-09-13-recursive-self-improvement-explosion-optimization_files/figure-html/unnamed-chunk-1-1.png">
+<meta name="twitter:image-height" content="780">
+<meta name="twitter:image-width" content="1093">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Draft</div>
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Tom Cunningham</span>
     </a>
@@ -232,6 +240,7 @@ window.Quarto = {
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
         <p class="date">March 21, 2026</p>
+        <p class="date">March 20, 2026</p>
       </div>
     </div>
     
@@ -252,13 +261,46 @@ window.Quarto = {
 
 <section id="summary" class="level1">
 <h1>Summary</h1>
+<dl>
+<dt>Capabilities are growing rapidly, but they’re hard to quantify.</dt>
+<dd>
+There’s no consensus for a <em>scale</em> in AI capabilities. We do see fairly steady growth across many metrics: time horizon, average benchmark scores (ECI), effective compute, and predictive loss.
+</dd>
+<dt>Algorithmic progress seems to be around 4X/year.</dt>
+<dd>
+<p>We can quantify algorithmic progress with compute efficiency, i.e.&nbsp;the reduction in cost required to reach a given capability score.</p>
+<p>AI researchers have been making a very consistent series of discoveries, typically estimated at increasing compute efficiency by around 4X/year (with many qualifications, discussed below).</p>
+<p>The 3X/year increase in algorithmic efficiency seems to be coming from a roughly 2X/year increase in researchers.</p>
+</dd>
+<dt>AI speedups will cause a loop, but unclear how strong.</dt>
+<dd>
+Historically algorithmic progress has been . <span class="math display">\[
+\xymatrix@C=1.4em@R=1.4em{
+    &amp; *++[F]{R\&amp;D_t}\ar[d] &amp; *++[F]{R\&amp;D_{t+1}}\ar[d] &amp; *++[F]{R\&amp;D_{t+2}}\ar[d] \\
+    \ar[r]&amp; *++[F]{Algorithms_t}\ar[r] &amp; *++[F]{Algorithms_{t+1}}\ar[r]\ar[ur]|{??} &amp; *++[F]{Algorithms_{t+2}}
+}
+\]</span>
+</dd>
+<dt>AI systems are now contributing to algorithmic progress.</dt>
+<dd>
+<p>Until recently most AI R&amp;D was done without help by LLMs, but we now see evidence for two channels:</p>
+<ol type="1">
+<li><em>Augmenting AI researchers:</em> AI researchers self-report big efficiency gains, e.g. <span class="citation" data-cites="anthropic2025claude_work">Anthropic (<a href="#ref-anthropic2025claude_work" role="doc-biblioref">2025</a>)</span> self-report approximately 50% productivity gains.</li>
+<li><em>Automating AI research:</em> E.g. AlphaEvolve, TTT-Discover, autoresearch.</li>
+</ol>
+<p>Both of these effects are hard to measure, &amp; we have a great deal of uncertainty.</p>
+</dd>
+</dl>
+</section>
+<section id="summary-old" class="level1">
+<h1>Summary (OLD)</h1>
 <ol type="1">
 <li><p><strong>Baseline model:</strong></p>
 <ul>
+<li>Frontier model capability is growing at 9X/year (measured in effective compute)</li>
 <li>Frontier training compute is growing at 3X/year</li>
 <li>Algorithmic efficiency is growing at 3X/year</li>
-<li>Frontier model capability is growing at 9X/year (measured in effective compute)</li>
-<li>R&amp;D staff growing at 2X/year.</li>
+<li>R&amp;D staff is growing at 2X/year.</li>
 </ul></li>
 <li><p><strong>Two ways we can get RSI:</strong> (1) augmentation of AI R&amp;D; (2) automation of AI R&amp;D.</p></li>
 <li><p><strong>AI augmentation of R&amp;D:</strong></p>
@@ -421,17 +463,18 @@ window.Quarto = {
 </dd>
 </dl>
 </section>
-<section id="data" class="level1">
-<h1>Data</h1>
-<p>My best estimates.</p>
+<section id="data-on-compute-growth" class="level1">
+<h1>Data on Compute Growth</h1>
+<dl>
+<dt>Best estimates.</dt>
+<dd>
 <ol type="1">
-<li>Training compute expenditure ($) has been growing around 3X/year, but will slow to 1.1X/year over 2026-2030.</li>
-<li>Training compute (FLOP) has been growing around 4X/year, but will</li>
-<li>Algorithmic efficiency has been growing around 3X/year, not clear if it will slow down or accelerate.</li>
+<li>Training compute expenditure has been growing around 3X/year, but will gradually fall to 1.1X/year over 2026-2030.</li>
+<li>Training compute (FLOP) has been growing around 4X/year, but will fall to around 1.5X/year.</li>
+<li>Algorithmic efficiency has been growing around 3X/year, it is hard to forecast future trends.</li>
 </ol>
-<p>Takeaway: the outside-view seems roughly like <code>4-5X/year</code> for frontier training compute, <code>~3.5X/year</code> for training cost, <code>~2.3X/year</code> for installed compute stock, and <code>~1.37X/year</code> for hardware price-performance.</p>
-<section id="training-compute-growth" class="level3">
-<h3 class="anchored" data-anchor-id="training-compute-growth">Training compute growth</h3>
+</dd>
+</dl>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 29%">
@@ -686,10 +729,6 @@ window.Quarto = {
 </blockquote>
 <p>The interactive graph currently shows about 4.6x/year growth in FLOPs of notable models, over 2020 - July 2025 (the latest datapoint).</p>
 </dd>
-<dt><span class="citation" data-cites="epoch2026canaicompaniesprofitable">Epoch AI (<a href="#ref-epoch2026canaicompaniesprofitable" role="doc-biblioref">2026c</a>)</span> “Can AI companies become profitable?”</dt>
-<dd>
-Useful mainly as a reminder that frontier-model economics are not just final training compute.
-</dd>
 <dt><span class="citation" data-cites="you2025openaicomputespend">You (<a href="#ref-you2025openaicomputespend" role="doc-biblioref">2025</a>)</span> “Most of OpenAI’s 2024 compute went to experiments”</dt>
 <dd>
 <ul>
@@ -700,11 +739,17 @@ Useful mainly as a reminder that frontier-model economics are not just final tra
 </ul>
 </dd>
 </dl>
-<p>This seems relevant to the RSI story: training runs are scaling fast, but frontier labs are also spending enormous amounts on experiments, unreleased models, and inference.</p>
 </section>
-<section id="estimates-of-llm-algorithmic-progress" class="level2">
-<h2 class="anchored" data-anchor-id="estimates-of-llm-algorithmic-progress">Estimates of LLM Algorithmic Progress</h2>
-<p>These estimates are also not all measuring the same thing. Some are narrow pre-training efficiency estimates; others are all-in software-progress estimates; others are small-scale case studies.</p>
+<section id="data-on-algorithmic-progress" class="level1">
+<h1>Data on Algorithmic Progress</h1>
+<dl>
+<dt>Best estimates.</dt>
+<dd>
+<ul>
+<li>Around 4X/year, including the entire stack (GPU, pretraining, posttraining, elicitation).</li>
+</ul>
+</dd>
+</dl>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 21%">
@@ -858,7 +903,6 @@ Useful mainly as a reminder that frontier-model economics are not just final tra
 <p><img src="images/2023-11-03-17-44-38.png" class="img-fluid"></p>
 </dd>
 </dl>
-</section>
 </section>
 <section id="literature-review-on-rsi-models" class="level1">
 <h1>Literature Review on RSI Models</h1>
@@ -1098,6 +1142,18 @@ You
 <blockquote class="blockquote">
 <p>“if the fraction of tasks that are automated (α) rises to reach the rate at which ideas are getting harder to find (β), we get a singularity! In particular, once α ≥ β, the model exhibits sufficiently strong increasing returns that there is no balanced growth path. Instead, the growth rate rises rapidly over time and the economy reaches infinite knowledge and income in finite time,assuming that is possible.”</p>
 </blockquote>
+<p>On balanced growth path: <span class="math display">\[g_y = \sigma g_A = \frac{\lambda\sigma}{\beta}n=\gamma n\]</span></p>
+<p>On knife edge assumptions: he says the root of all exponential growth is exponential population growth (but seems a bit fishy).</p>
+<p>Estimates of parameters:</p>
+<ul>
+<li>p136: <span class="math inline">\(\gamma = 1/3\)</span>, so output growth is 1/3 growth in ideas. He also predicts that long-run growth is much lower.</li>
+</ul>
+<p>Description of <span class="citation" data-cites="aghion2019artificial">Aghion, Jones, and Jones (<a href="#ref-aghion2019artificial" role="doc-biblioref">2019</a>)</span>. Adjust the ideas production function:</p>
+<p><span class="math display">\[\dot{A}_t=A_t^{1-\beta}R_t^{1-\alpha}K_t^{\alpha}\]</span></p>
+<p>with constant capital-output ratio you get: <span class="math display">\[\dot{A}_t=\kappa A_t^{1-(\beta-\alpha)}L_t\]</span></p>
+<blockquote class="blockquote">
+<p>“if the fraction of tasks that are automated (α) rises to reach the rate at which ideas are getting harder to find (β), we get a singularity! In particular, once α ≥ β, the model exhibits sufficiently strong increasing returns that there is no balanced growth path. Instead, the growth rate rises rapidly over time and the economy reaches infinite knowledge and income in finite time,assuming that is possible.”</p>
+</blockquote>
 </section>
 <section id="aghion2019artificial" class="level2">
 <h2 class="anchored" data-anchor-id="aghion2019artificial"><span class="citation" data-cites="aghion2019artificial">Aghion, Jones, and Jones (<a href="#ref-aghion2019artificial" role="doc-biblioref">2019</a>)</span></h2>
@@ -1156,7 +1212,7 @@ L &amp;= dS &amp;&amp; \text{(Cognitive Labour)}
 <li><span class="math inline">\(\alpha\)</span> captures the diminishing returns of cognitive labour in improving software.</li>
 <li><span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, <span class="math inline">\(c\)</span>, and <span class="math inline">\(d\)</span> are constants collectively pinned down by growth rates at the beginning of the model.</li>
 </ul>
-<p>then they note <span class="math inline">\(r=\lambda \alpha / \beta\)</span>, and this is critical</p>
+<p>then they note <span class="math inline">\(r=\lambda \alpha / \beta\)</span>, and this is the critical threshold.</p>
 </section>
 <section id="kokotajlo2025aifuturesmodel" class="level2">
 <h2 class="anchored" data-anchor-id="kokotajlo2025aifuturesmodel"><span class="citation" data-cites="kokotajlo2025aifuturesmodel">Kokotajlo et al. (<a href="#ref-kokotajlo2025aifuturesmodel" role="doc-biblioref">2025</a>)</span></h2>
@@ -1186,48 +1242,6 @@ L &amp;= dS &amp;&amp; \text{(Cognitive Labour)}
 \end{aligned}
 \]</span></p>
 <p>You’ll get steady-state growth if and only if <span class="math inline">\(\lambda/\beta+\alpha=1\)</span>. You’ll get hyperbolic growth if <span class="math inline">\(\lambda/\beta+\alpha&gt;1\)</span>.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 28%">
-<col style="width: 31%">
-<col style="width: 32%">
-<col style="width: 7%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>domain</th>
-<th>β</th>
-<th>λ</th>
-<th>r=λ/β</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Computer vision</td>
-<td>0.985 (0.224 to 4.050)</td>
-<td>1.410 (0.290 to 6.021)</td>
-<td>0.70</td>
-</tr>
-<tr class="even">
-<td>RL sample efficiency</td>
-<td>1.023 (0.212 to 3.914)</td>
-<td>1.482 (0.266 to 6.650)</td>
-<td>0.69</td>
-</tr>
-<tr class="odd">
-<td>SAT solvers</td>
-<td>0.648 (0.139 to 2.891)</td>
-<td>2.143 (0.387 to 11.312)</td>
-<td>0.30</td>
-</tr>
-<tr class="even">
-<td>Linear programming</td>
-<td>1.290 (0.254 to 4.953)</td>
-<td>1.259 (0.222 to 5.772)</td>
-<td>1.02</td>
-</tr>
-</tbody>
-</table>
 </section>
 <section id="davidson2026automatingairesearch-when-does-automating-research-produce-explosive-growth" class="level2">
 <h2 class="anchored" data-anchor-id="davidson2026automatingairesearch-when-does-automating-research-produce-explosive-growth"><span class="citation" data-cites="davidson2026automatingairesearch">Davidson et al. (<a href="#ref-davidson2026automatingairesearch" role="doc-biblioref">2026</a>)</span> “When Does Automating Research Produce Explosive Growth?”</h2>
@@ -1253,9 +1267,8 @@ L &amp;= dS &amp;&amp; \text{(Cognitive Labour)}
 </ul></li>
 <li>Estimates of <span class="math inline">\(\beta\)</span>:
 <ul>
-<li>Bloom overall <span class="math inline">\(\beta=3\)</span></li>
-<li>For software R&amp;D they estimate <span class="math inline">\(\beta=3\)</span></li>
-<li>they say in software <span class="math inline">\(\beta=0.1\)</span></li>
+<li>For the entire economy (from Bloom) <span class="math inline">\(\beta=3\)</span>.</li>
+<li>For software R&amp;D they estimate <span class="math inline">\(\beta=0.1\)</span>.</li>
 </ul></li>
 <li>Questions:
 <ul>
@@ -1264,8 +1277,8 @@ L &amp;= dS &amp;&amp; \text{(Cognitive Labour)}
 </ul>
 <p>My observations:</p>
 <ul>
-<li><p>Q: how to think about the growth effect of uplift vs automation?</p></li>
-<li><p>It seems to me AI typically makes things effectively <em>free</em>, rather than being bottlenecked by capital. I think this is a problem for Cobb-Douglas production.</p></li>
+<li><p>Q: how to think about the growth effect through uplift vs through automation?</p></li>
+<li><p>It seems to me AI typically makes things effectively <em>free</em>, rather than being bottlenecked by capital, &amp; this seems to be a problem for Cobb-Douglas production.</p></li>
 </ul>
 </section>
 <section id="kokotajlo2025aifuturesmodel-ai-futures-model" class="level2">
@@ -1359,22 +1372,6 @@ L &amp;= dS &amp;&amp; \text{(Cognitive Labour)}
 <p>We can show:</p>
 <p><span class="math display">\[S^{\beta} = S_0^{\beta} + \frac{\beta\,L_0^\alpha C_0^\gamma}{\alpha g_L+\gamma g_C}\Big(e^{(\alpha g_L+\gamma g_C)t}-1\Big).\]</span></p>
 <p>In the limit we get <span class="math inline">\(g_s=\frac{\alpha g_L+\gamma g_C}{\beta}\)</span></p>
-</section>
-<section id="david-rein-notes" class="level2">
-<h2 class="anchored" data-anchor-id="david-rein-notes">David Rein notes</h2>
-<ul>
-<li>Model:
-<ul>
-<li><span class="math inline">\(dA = Q^q A^{1-\beta}\)</span></li>
-<li><span class="math inline">\(Q\)</span> is the quality of cognitive labour, measured in units of time horizon—this is our AI researcher (e.g.&nbsp;Opus 4.5, GPT-5.2, Gemini 3)</li>
-<li><span class="math inline">\(A\)</span> is the current level of algorithms, also measured in units of time horizon (e.g.&nbsp;GPT-2, GPT-3, Pythia, etc.)</li>
-<li><span class="math inline">\(\beta\)</span> is the ideas getting harder to find parameter</li>
-<li>The explosion condition here is <span class="math inline">\(q &gt; \beta\)</span></li>
-<li>(Must also assume that <span class="math inline">\(Q=cA\)</span>.</li>
-</ul></li>
-<li><a href="https://docs.google.com/document/d/16Ugl7g3GL1Ao9-3UluRENp6e9UeEMAqhh5jgXDi3kjo/edit?tab=t.a5tu3xadb63o#heading=h.ribcf6q6wbps">doc</a></li>
-</ul>
-<hr>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -1432,6 +1429,19 @@ L &amp;= dS &amp;&amp; \text{(Cognitive Labour)}
 </div>
 </div>
 </div>
+</section>
+<section id="david-rein-model" class="level2">
+<h2 class="anchored" data-anchor-id="david-rein-model">David Rein model</h2>
+<p>Model:</p>
+<ul>
+<li><p><span class="math inline">\(dA = Q^q A^{1-\beta}\)</span></p></li>
+<li><p><span class="math inline">\(Q\)</span> is the quality of cognitive labour, measured in units of time horizon—this is our AI researcher (e.g.&nbsp;Opus 4.5, GPT-5.2, Gemini 3)</p></li>
+<li><p><span class="math inline">\(A\)</span> is the current level of algorithms, also measured in units of time horizon (e.g.&nbsp;GPT-2, GPT-3, Pythia, etc.)</p></li>
+<li><p><span class="math inline">\(\beta\)</span> is the ideas getting harder to find parameter</p></li>
+<li><p>The explosion condition here is <span class="math inline">\(q &gt; \beta\)</span></p></li>
+<li><p>(Must also assume that <span class="math inline">\(Q=cA\)</span>.</p></li>
+<li><p><a href="https://docs.google.com/document/d/16Ugl7g3GL1Ao9-3UluRENp6e9UeEMAqhh5jgXDi3kjo/edit?tab=t.a5tu3xadb63o#heading=h.ribcf6q6wbps">doc</a></p></li>
+</ul>
 
 
 
@@ -1445,6 +1455,9 @@ Aghion, Philippe, Benjamin F. Jones, and Charles I. Jones. 2019. <span>“Artifi
 </div>
 <div id="ref-amodei2018aiandcompute" class="csl-entry" role="listitem">
 Amodei, Dario, and Danny Hernandez. 2018. <span>“AI and Compute.”</span> <a href="https://openai.com/index/ai-and-compute/">https://openai.com/index/ai-and-compute/</a>.
+</div>
+<div id="ref-anthropic2025claude_work" class="csl-entry" role="listitem">
+Anthropic. 2025. <span>“Claude at Work: How Anthropic Uses Claude Code Internally.”</span> <a href="https://assets.anthropic.com/m/6cd21f7d4f82afcb/original/Claude-at-Work-Survey.pdf" class="uri">https://assets.anthropic.com/m/6cd21f7d4f82afcb/original/Claude-at-Work-Survey.pdf</a>.
 </div>
 <div id="ref-byrnes2026naturellmalgorithmicprogress" class="csl-entry" role="listitem">
 Byrnes, Steven. 2026. <span>“The Nature of <span>LLM</span> Algorithmic Progress (V2).”</span> <a href="https://www.lesswrong.com/posts/sGNFtWbXiLJg2hLzK/the-nature-of-llm-algorithmic-progress-v2">https://www.lesswrong.com/posts/sGNFtWbXiLJg2hLzK/the-nature-of-llm-algorithmic-progress-v2</a>.
@@ -1475,9 +1488,6 @@ Epoch AI. 2025a. <span>“Training Compute of Frontier AI Models Grows by 4-5x P
 </div>
 <div id="ref-EpochAITrends2026" class="csl-entry" role="listitem">
 ———. 2026b. <span>“Trends in Artificial Intelligence.”</span> <a href="https://epoch.ai/trends">https://epoch.ai/trends</a>.
-</div>
-<div id="ref-epoch2026canaicompaniesprofitable" class="csl-entry" role="listitem">
-———. 2026c. <span>“Can AI Companies Become Profitable?”</span> <a href="https://epoch.ai/gradient-updates/can-ai-companies-become-profitable">https://epoch.ai/gradient-updates/can-ai-companies-become-profitable</a>.
 </div>
 <div id="ref-erdil2025automatingrd" class="csl-entry" role="listitem">
 Erdil, Ege, and Matthew Barnett. 2025. <span>“Most AI Value Will Come from Broad Automation, Not from r&amp;d.”</span> <a href="https://epoch.ai/gradient-updates/most-ai-value-will-come-from-broad-automation-not-from-r-d">https://epoch.ai/gradient-updates/most-ai-value-will-come-from-broad-automation-not-from-r-d</a>.
@@ -1549,239 +1559,243 @@ You, Josh. 2025. <span>“Most of OpenAI’s 2024 Compute Went to Experiments.�
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
       }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
         }
       }
       return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
     });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("tecunningham\.github\.io");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
     }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("tecunningham\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
-    };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
         }
-        return container.innerHTML
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -1789,185 +1803,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 </div> <!-- /content -->
 
 
