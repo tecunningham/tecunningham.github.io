@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Tom Cunningham">
-<meta name="dcterms.date" content="2026-03-20">
+<meta name="dcterms.date" content="2026-03-23">
 <meta name="description" content="Tom Cunningham blog">
 
 <title>AI Recursive Self-Improvement OFFCUTS | Tom Cunningham – Tom Cunningham</title>
@@ -105,6 +105,9 @@ ga('send', {
   'anonymizeIp': true,
 });
 </script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 <script>window.MathJax = {
    loader: { load: ["https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/xypic.js"]},
    tex: {packages: {'[+]': ['xypic','bm']},
@@ -235,7 +238,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 20, 2026</p>
+        <p class="date">March 23, 2026</p>
       </div>
     </div>
     
@@ -255,6 +258,200 @@ window.Quarto = {
 
 
 <p>==OFFCUTS FILE==</p>
+<section id="distinction" class="level1">
+<h1>distinction</h1>
+<ol type="1">
+<li>Some alternatives in how to model this:
+<ul>
+<li><p><strong>Accelerant.</strong> Suppose a certain level of AI can speed up a human researcher by a certain proportion, <span class="math inline">\(\lambda\)</span>. This feedback loop should accelerate AI development, but it’s sensitive to how strong this connection is.</p></li>
+<li><p><strong>Perfect substitutes.</strong> Suppose AI can do entirely autonomous research, i.e.&nbsp;it’s a perfect substitute for a human. Then we are only constrained on the cost of AI compute. Unless the cost is very high, this implies a massive acceleration in AI progress, constrained only by (a) experiment bottlenecks; (b) a ceiling to AI progress.</p></li>
+<li><p><strong>Imperfect substitutes.</strong></p></li>
+</ul></li>
+<li>Endogenous growth setup: (1) diminishing returns to R&amp;D about 1/2; (2) increasing returns to knowledge about 1/2; these balance and get balanced growth.</li>
+<li>Now we add link back from algorithms to R&amp;D, but very little guidance on how to calibrate it.</li>
+</ol>
+<p>Capability metrics:</p>
+<ol type="1">
+<li>Human researcher uplift.</li>
+<li>Ability to push forward the frontier.</li>
+</ol>
+<p>Wrinkles:</p>
+<ol type="1">
+<li>Estimating algorithmic progress.</li>
+<li>Scale-dependent algorithmic progress.</li>
+<li>Bottlenecks on experiment compute.</li>
+<li>Shape of the landscape.</li>
+<li>Adding capital.</li>
+</ol>
+<p>Ajeya’s questions:</p>
+<ol type="1">
+<li>When will we have automated AI R&amp;D?
+<ul>
+<li>Answer: we already have automated R&amp;D.</li>
+</ul></li>
+<li>When we have automated AI R&amp;D, will this trigger super-exponential growth?</li>
+</ol>
+</section>
+<section id="offcuts" class="level1">
+<h1>offcuts</h1>
+<dl>
+<dt>Extrapolating from these models.</dt>
+<dd>
+It’s dangerous to talk about “the elasticity” between A and B: it is meaningful to talk about the elasticity <em>at a given point</em> but it’s a strong functional-form assumption that it’ll have the same elasticity everywhere.
+</dd>
+<dt>Mathematical assumptions on intelligence -&gt; R&amp;D:</dt>
+<dd>
+<ol type="1">
+<li><em>Full automation.</em> Once you hit a threshold of intelligence then it’s worth entirely replacing humans with agents. E.g. replacing tollbooth operator with automatic tollbooth.</li>
+<li><em>Partial automation.</em> There’s some subset of tasks, and you replace them one-by-one.</li>
+<li><em>Speedup.</em> -&gt; Humans and agents are complements, an agent increases efficiency on all tasks.</li>
+</ol>
+</dd>
+<dt>Concrete assumptions.</dt>
+<dd>
+<ol type="1">
+<li><em>Autonomous algorithm-search machine.</em> You spend a lot of tokens, it autonomously learns to navigate the space. Like AlphaZero, trained from scratch.</li>
+<li><em>Speeds up routine tasks.</em> The AI R&amp;D guy can do certain things quicker, e.g.&nbsp;parse logs, write visualization, fix bugs.</li>
+<li><em>Shares knowledge.</em> Can learn tricks. It doesn’t affect people at the frontier very much.</li>
+</ol>
+</dd>
+<dt>Q: what if the capability frontier is the data frontier?</dt>
+<dd>
+<ul>
+<li>Nice prediction: will not speed up experts, only behind the frontier.</li>
+</ul>
+</dd>
+<dt>Natural processes often have explosive <em>regions</em>.</dt>
+<dd>
+
+</dd>
+</dl>
+</section>
+<section id="offcuts-1" class="level1">
+<h1>offcuts</h1>
+<ol type="1">
+<li><strong>AI augmentation of R&amp;D:</strong>
+<ul>
+<li>Suppose higher levels of model capability <span class="math inline">\(A\)</span> increases the effective R&amp;D labor, <span class="math inline">\(R\)</span>, by some amount, <span class="math inline">\(R=\bar{R}A^\theta\)</span>.</li>
+<li>We want to measure how <span class="math inline">\(A\)</span> affects <span class="math inline">\(R\)</span>, e.g.&nbsp;by running an uplift study with different levels of <span class="math inline">\(A\)</span>.</li>
+<li>We could then plug this into a standard R&amp;D model to estimate the net degree of acceleration, with <span class="math inline">\(\dot{A}=R^\gamma A^{1-\beta}\)</span>.</li>
+<li>However it’s really hard to estimate the relationship between model capability and R&amp;D worker speedup. People are poor at introspecting uplift, and it’s difficult to run experiments.</li>
+<li>Notes:
+<ul>
+<li>The augmentation could take place through automation of subtasks, where the subtasks are complements. E.g. if they’re perfect complements then the acceleration will be <span class="math inline">\(\frac{1}{1-f}\)</span>, where <span class="math inline">\(f\)</span> is the share of tasks you’ve automated.</li>
+<li>Any <span class="math inline">\(\theta&gt;0\)</span> will make growth super-exponential, AKA hyperbolic, but the magnitude matters.</li>
+<li>If <span class="math inline">\(\theta\)</span> is sufficiently high (<span class="math inline">\(\theta&gt;\gamma-\beta\)</span>) then there will be self-sustaining growth, i.e.&nbsp;growth even if R&amp;D labor was constant.</li>
+<li>We ignore expenditure on inference, assume that it asymptotes relatively quickly (seems reasonable).</li>
+</ul></li>
+</ul></li>
+<li><strong>AI automation of R&amp;D:</strong>
+<ul>
+<li>Maintained assumption: there’s a single type of labor, though people can vary in ability, e.g.&nbsp;one person is a 10X R&amp;D worker.</li>
+<li>Suppose instead that model capability <span class="math inline">\(A\)</span> can <em>autonomously</em> do AI R&amp;D work, i.e.&nbsp;it’s a perfect substitute for all human labor.</li>
+<li>Now we’ll immediately be bottlenecked on inference cost: (1) we’ll get a rapid adjustment of wages &amp; inference cost until they’re equilibrated (will drive out all but the best AI researchers); (2) the price of effective R&amp;D labor will decline at the rate of inference cost decline.</li>
+</ul></li>
+</ol>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 22%">
+<col style="width: 13%">
+<col style="width: 18%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;">annual growth (log)</th>
+<th style="text-align: center;">worker exp.</th>
+<th style="text-align: center;">experiment exp.</th>
+<th style="text-align: center;">scale-free?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GPU design</td>
+<td style="text-align: center;">0.3</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr class="even">
+<td>Model architecture</td>
+<td style="text-align: center;">0.3</td>
+<td style="text-align: center;">$0.5B</td>
+<td style="text-align: center;">$2B</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr class="odd">
+<td>Pretraining optimizer</td>
+<td style="text-align: center;">0.3</td>
+<td style="text-align: center;">$0.5B</td>
+<td style="text-align: center;">$2B</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr class="even">
+<td>Pretraining data</td>
+<td style="text-align: center;">0.3</td>
+<td style="text-align: center;">$0.5B</td>
+<td style="text-align: center;">$0.5B</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr class="odd">
+<td>Posttraining algorithm (RL)</td>
+<td style="text-align: center;">0.3</td>
+<td style="text-align: center;">$0.5B</td>
+<td style="text-align: center;">$0.5B</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr class="even">
+<td>Posttraining data</td>
+<td style="text-align: center;">0.3</td>
+<td style="text-align: center;">$0.5B</td>
+<td style="text-align: center;">$0.5B</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr class="odd">
+<td>Elicitation/harness</td>
+<td style="text-align: center;">0.3</td>
+<td style="text-align: center;">$0.5B</td>
+<td style="text-align: center;">$0.1B</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr class="even">
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td>TOTAL</td>
+<td style="text-align: center;">2.1 (8X)</td>
+<td style="text-align: center;">$3B</td>
+<td style="text-align: center;">$6B</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<dl>
+<dt>Q: what determines the share spent on salary-vs-experiments?</dt>
+<dd>
+<ul>
+<li><em>Not just determined by the cost of experimenation.</em> Even if experiments were cheap, you might want to spend a lot on them, because you’re bottlenecked on .</li>
+<li><em>Random landscape → more experiments.</em> If each alternative is a completely random draw, then there’s no returns to thinking harder.</li>
+<li><em>Regular landscape → more experiments.</em> Some landscapes are known to be regular, so you can just set a well-known optimization algorithm against them, and spend all your budget on collecting more datapoints, rather than tuning the algorithm. E.g. hyperparameter tuning.</li>
+<li><em>Structured landscape → more thinking.</em> If the landscape has some latent structure, that requires deep reflection, then we’d expect relatively higher payoff to thinking.</li>
+</ul>
+</dd>
+<dt>Q: where is AI likely to help?</dt>
+<dd>
+<ul>
+<li>At each layer we have production functions Y(W,E).</li>
+</ul>
+</dd>
+</dl>
+</section>
 <section id="summary" class="level1">
 <h1>Summary</h1>
 <p>See also: apple-picking-model</p>
@@ -300,6 +497,51 @@ window.Quarto = {
 <p>Suppose we have <span class="math inline">\(Y=AK^\alpha\)</span>, and also we use some share <span class="math inline">\(s\)</span> of output on R&amp;D, which increases productivity <span class="math inline">\(A=sY^\beta\)</span>.</p>
 <p>If <span class="math inline">\(\beta+\alpha&gt;1\)</span> we get a continuously increasing growth rate. Aghion, Jones and Jones (2017) elaborate on this model, where AI gradually is able to take over human tasks, &amp; they get a similar condition.</p>
 <p>The critical question is whether the returns to R&amp;D effort are sufficiently steep. Some classic papers: Bloom et al.&nbsp;“are we running out of ideas”; and Erdil.</p>
+</dd>
+</dl>
+</section>
+<section id="models" class="level1">
+<h1>Models</h1>
+<p>See also <code>posts/2026-02-10-model-of-labs.qmd</code></p>
+<dl>
+<dt>Model A: Chinchilla. You just choose model size.</dt>
+<dd>
+<ul>
+<li>One choice variable: model size (holding compute fixed, this trades-off against training runs).</li>
+<li>You can do some low-cost derisks, but extrapolating to a large compute scale is imperfect.</li>
+<li><em>Convex but expensive to evaluate.</em></li>
+</ul>
+</dd>
+<dt>Model B: algorithm search.</dt>
+<dd>
+<ul>
+<li>Each algorithm is a mapping from compute-&gt;loss, and you can summarize it with a scalar efficiency (just like nanoGPT).</li>
+<li><em>medium-cost evaluation; non-convex.</em></li>
+</ul>
+</dd>
+<dt>Model C: training data.</dt>
+<dd>
+<ul>
+<li>There’s a distribution of tasks, with probability f(t).</li>
+<li>An LLM is just a lookup table, you slowly expand coverage, collecting a larger fraction of tasks t.</li>
+</ul>
+</dd>
+<dt>Model D: layer cake.</dt>
+<dd>
+<ul>
+<li><p>You have a function that turns money-&gt;intelligence, &amp; that function gets more efficient over time, it’s falling at about 8X/year.</p></li>
+<li><p>You can separate the optimization problem into layers, they are partially separable:</p>
+<ol type="1">
+<li>GPU design</li>
+<li>Model architecture</li>
+<li>Pretraining optimizer</li>
+<li>Pretraining data</li>
+<li>Posttraining algorithm (RL)</li>
+<li>Posttraining data</li>
+<li>Elicitation/harness</li>
+</ol></li>
+<li><p>The cost of an experiment is different for different parts. Some parts scale additively (GPU design), other parts its hard to predict effect of scale (architecture). If they scale additively then the cost of experimentation is small (but expenditure could still be large).</p></li>
+</ul>
 </dd>
 </dl>
 </section>
@@ -392,41 +634,6 @@ window.Quarto = {
 https://github.com/teorth/optimizationproblems?tab=readme-ov-file They list 7 cases of “recent progress”, 3 of them are explicitly LLM-assisted or LLM-generated.
 </dd>
 </dl>
-<section id="metaphors-for-rsi" class="level2">
-<h2 class="anchored" data-anchor-id="metaphors-for-rsi">metaphors for RSI</h2>
-<dl>
-<dt>Drawing balls from an urn.</dt>
-<dd>
-There’s some distribution of values, then you get a very nice expression. The expected value of <span class="math inline">\(N\)</span> draws just depends on the extreme value distribution of <span class="math inline">\(f(v)\)</span>. This is exactly Kortum (1997).
-</dd>
-<dt>A tool factory makes better tools.</dt>
-<dd>
-I think this is Jones’ metaphor. <em>Distinct</em> from Kortum, because the returns to search now depends on the stock of ideas.
-</dd>
-<dt>Machine tools and regular tools</dt>
-<dd>
-<ol type="1">
-<li>The Dutch make machine tools.</li>
-<li>The machine tools make regular tools.</li>
-<li>The regular tools make products.</li>
-</ol>
-<p>At some point the machine tools become good enough to make themselves, but it’s a discrete jump.</p>
-</dd>
-<dt>Lego - combining ideas.</dt>
-<dd>
-Weitzmann’s recombinant search is like this: you combine ideas to make new ideas, now you have a larger stock of ideas to combine.
-</dd>
-<dt>Recipes.</dt>
-<dd>
-You try out recipes, which are combinations of prior recipes. <span class="citation" data-cites="jones2023recipes">Jones (<a href="#ref-jones2023recipes" role="doc-biblioref">2023</a>)</span> – something like a reconciliation of Weitzman &amp; Kortum.
-</dd>
-<dt>Blacksmith.</dt>
-<dd>
-<p>You have a hammer and you spend time making horseshoes, or working on a new hammer.</p>
-<p>A harder hammer both (1) makes horseshoes faster, or (2) makes your hammer still harder.</p>
-</dd>
-</dl>
-</section>
 <section id="we-need-more-bottom-up-modelling-of-ais-economic-effect-unfinished" class="level2">
 <h2 class="anchored" data-anchor-id="we-need-more-bottom-up-modelling-of-ais-economic-effect-unfinished">We need more bottom-up modelling of AI’s economic effect [UNFINISHED]</h2>
 <dl>
@@ -563,10 +770,121 @@ AI treats it as a pure optimization problem, already it’s better at chip desig
 </tr>
 </tbody>
 </table>
-
-
-
 </section>
+</section>
+<section id="metaphors-for-rsi" class="level1">
+<h1>Metaphors for RSI</h1>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 39%">
+<col style="width: 27%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>fishing out</th>
+<th>shoulders-of-giants</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>computer game – collecting loot</td>
+<td>thinning out of loot</td>
+<td>loot speeds you up</td>
+</tr>
+<tr class="even">
+<td>apple picking</td>
+<td>thinning out of apples</td>
+<td>apples make you walk faster</td>
+</tr>
+<tr class="odd">
+<td>blacksmith</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl>
+<dt>Platform game (GOOD).</dt>
+<dd>
+<ul>
+<li>Two types of things you can collect: gems, which contribute to your score; powerups, which make you faster.</li>
+<li>You observe player spends 10% of their time getting powerups, 90% collecting gems.</li>
+<li>Two effects of collecting a powerup: (a) make you go faster; (b) thinning out. If only one effect then you’d either get explosive growth (if powerups instantly regenerated then you’d just sit there collecting them forever) or collapse (if ).</li>
+<li>You observe exponential growth in gems and in speedups.&nbsp;</li>
+<li>Note: here the spillovers are to <em>both</em> goods and ideas.</li>
+</ul>
+<p>Model: each level is 1 minute, and you choose to spend <span class="math inline">\(R\)</span> share of your time on speedups.</p>
+<p><span class="math display">\[\begin{aligned}
+    \Delta A &amp;= (RA)^\gamma
+        &amp;&amp; \text{(speedups collected)}\\
+    \Delta G &amp;= ((1-R)A)^\gamma
+        &amp;&amp; \text{(gems collected)}
+\end{aligned}\]</span></p>
+<ol type="1">
+<li>If <span class="math inline">\(R\)</span> is constant, then <span class="math inline">\(\frac{\Delta A}{A}\)</span> and <span class="math inline">\(\frac{\Delta G}{G}\)</span> will decline.</li>
+<li>If there’s no fishing-out (<span class="math inline">\(\gamma=1\)</span>), e.g.&nbsp;speedups instantly regenerate, then we get constant exponential growth (AK).</li>
+<li>Here the shoulders-of-giants effect is exactly linear, I think meaning that economy-wide productivity improvements exactly transfer to AIR&amp;D productivity.</li>
+</ol>
+<p>Note: for AI R&amp;D we can ignore gems, imagine you’re only picking up speedups.</p>
+</dd>
+<dt>Drawing balls from an urn (Kortum)</dt>
+<dd>
+There’s some distribution of values, then you get a very nice expression. The expected value of <span class="math inline">\(N\)</span> draws just depends on the extreme value distribution of <span class="math inline">\(f(v)\)</span>. This is exactly Kortum (1997).
+</dd>
+<dt>A tool factory makes better tools (Jones)</dt>
+<dd>
+I think this is Jones’ metaphor. <em>Distinct</em> from Kortum, because the returns to search now depends on the stock of ideas.
+</dd>
+<dt>Machine tools vs regular tools.</dt>
+<dd>
+<ol type="1">
+<li>The Dutch make machine tools (high quality)</li>
+<li>The machine tools make regular tools (low quality)</li>
+<li>The regular tools make products.</li>
+</ol>
+<p>At some point the machine tools become sufficiently good quality to make themselves, but it’s a discrete jump.</p>
+</dd>
+<dt>Lego - combining ideas.</dt>
+<dd>
+Weitzmann’s recombinant search is like this: you combine ideas to make new ideas, now you have a larger stock of ideas to combine.
+</dd>
+<dt>Recipes.</dt>
+<dd>
+You try out recipes, which are combinations of prior recipes. <span class="citation" data-cites="jones2023recipes">Jones (<a href="#ref-jones2023recipes" role="doc-biblioref">2023</a>)</span> – something like a reconciliation of Weitzman &amp; Kortum.
+</dd>
+<dt>Blacksmith.</dt>
+<dd>
+<p>You have a hammer and you spend time making horseshoes, or working on a new hammer.</p>
+<p>A harder hammer both (1) makes horseshoes faster, or (2) makes your hammer still harder.</p>
+</dd>
+</dl>
+</section>
+<section id="kwa-diagram" class="level1">
+<h1>Kwa diagram</h1>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  labor --&gt; algorithms
+  RD_compute["R&amp;D compute"] --&gt; algorithms
+  algorithms --&gt; intelligence
+  training_compute --&gt; intelligence
+  data --&gt; intelligence
+  intelligence --&gt;|??| economic_value["economic value"]
+  intelligence --&gt;|??| RD
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+
+
+
 </section>
 
 
