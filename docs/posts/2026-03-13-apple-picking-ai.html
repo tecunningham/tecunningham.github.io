@@ -303,11 +303,11 @@ window.Quarto = {
 <dd>
 <p>In this note we describe a model of AI R&amp;D, to help reconcile two facts:</p>
 <ol type="1">
-<li>AI agents are making genuine autonomous contributions to R&amp;D.</li>
+<li>AI agents are making genuine autonomous contributions to R&amp;D (evidence below).</li>
 <li>AI agents do not seem a perfect substitute for humans researchers.</li>
 </ol>
 <p>The model is very simple: an AI agent helping you to optimize an algorithm is like a robot helping you pick apples. It will take care of all the apples up to a certain height, and it may find apples you haven’t found yet, but there will still be apples out of its reach.</p>
-<p>We are not confident that the reassuring conclusion is correct, it is possible that autonomous R&amp;D is already ready to take over from humans, but we find the model helpful for organizing what evidence we would need.</p>
+<p>We are not confident that the reassuring conclusion is correct, it is possible that autonomous R&amp;D is already ready to take over from humans, but we find the model helpful for thinking through the evidence we would need.</p>
 <p>We give a formal model but the basic ideas can all be seen in the drawing below. Here both the human and robot have picked four apples, but they’ve left the tree in a very different state, so the robot isn’t ready to replace the human yet:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -318,7 +318,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>The first graph below shows how we expect the contribution of humans &amp; agents to scale with expenditure (assuming robots are relatively cheaper to run than humans). The second plot shows agent trajectories starting at different stages in the optimization process: if they are given a stronger human starting-point then they can reach a stronger end-state.</p>
+<p>The left-hand plot below shows how we expect the contribution of humans &amp; agents to scale with expenditure (assuming robots are relatively cheaper to run than humans). The right-hand plot shows agent trajectories starting at different stages in the optimization process: if they are given a stronger human starting-point then they can reach a stronger end-state.</p>
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
@@ -368,77 +368,37 @@ window.Quarto = {
 <li>The effects of AI R&amp;D are likely show up in parts of the AI stack that have low-hanging fruit, e.g.&nbsp;where there’s a lot of fairly natural ideas to try but we are bottlenecked on execution.</li>
 </ol>
 </dd>
-<dt>A concordance</dt>
-<dd>
-[NOTE: i’m not sure whether this is worth including, maybe too obvious.]==
-</dd>
 </dl>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Robots picking apples</th>
-<th>Agents finding optimizations</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Robots can find low apples that humans have not picked yet.</td>
-<td>Agents can find improvements on state-of-the-art optimization problems.</td>
-</tr>
-<tr class="even">
-<td>Robots cannot pick all the apples humans can.</td>
-<td>Agents cannot do as well as human experts on optimization (even with high expenditure).</td>
-</tr>
-<tr class="odd">
-<td>Robots are more useful for trees that have never been picked.</td>
-<td>Agents are more useful on problems that are not heavily optimized.</td>
-</tr>
-<tr class="even">
-<td>A tree will yield more apples if it’s harvested by both a human and robots.</td>
-<td>An algorithm will be better-optimized if both humans and agents work on it.</td>
-</tr>
-<tr class="odd">
-<td>To gauge the ability of robots we want to measure the highest apple they can reach.</td>
-<td>To gauge the value of agents we want to test for the maximum depth of optimization they can find.</td>
-</tr>
-</tbody>
-</table>
 <section id="evidence-on-autonomous-ai-rd" class="level1">
 <h1>Evidence on Autonomous AI R&amp;D</h1>
 <dl>
 <dt>Agents are improving on the state-of-the-art in well-studied optimization problems.</dt>
 <dd>
 <ul>
-<li><p>Andrej Karpathy’s <a href="https://github.com/karpathy/autoresearch">autoresearch</a> (March 2026) tasks an agent with reducing validation loss to pretrain a GPT-2-small model given a fixed compute budget (one H100, ~5 minutes per training loop). Over ~2 days the agent tried ~700 changes and found ~20 additive edits, yielding an ~11% improvement in “Time-to-GPT-2”. In Karpathy’s <a href="https://x.com/karpathy/status/2031135152349524125">words</a> “It’s not novel, ground-breaking”research” (yet), but all the adjustments are “real”, I didn’t find them manually previously, and they stack up and actually improved nanochat.”</p></li>
-<li><p><a href="https://github.com/KellerJordan/modded-nanogpt">nanoGPT speedrun</a> (<span class="citation" data-cites="kellerjordan2026moddednanogpt">Jordan and contributors (<a href="#ref-kellerjordan2026moddednanogpt" role="doc-biblioref">2026</a>)</span>) is a public competition to minimize training time for GPT-2 given a fixed target loss, which has brought training time from 45 min down to 1.4 min over 77 records since May 2024. Of these, 4 recent records were by AI systems.</p></li>
-<li><p><a href="https://arxiv.org/abs/2601.16175">TTT-Discover</a> (<span class="citation" data-cites="yuksekgonul2026learning">Yuksekgonul et al. (<a href="#ref-yuksekgonul2026learning" role="doc-biblioref">2026</a>)</span>, January 2026), a test-time training method, optimized the TriMul GPU kernel used in AlphaFold, achieving &gt;15% improvement over the best human implementations. The <a href="https://www.gpumode.com/leaderboard/496?tab=rankings">authors</a> of the TriMul task, expert kernel engineers, called it “legit” and noted the strategy was “similar to the current best humans, but executed better,” with most human solutions falling behind on fusing more complex operators together.</p></li>
 <li><p>Google’s <a href="https://arxiv.org/abs/2506.13131">AlphaEvolve</a> (<span class="citation" data-cites="novikov2025alphaevolve">Novikov et al. (<a href="#ref-novikov2025alphaevolve" role="doc-biblioref">2025</a>)</span>, June 2025) is an evolutionary coding agent powered by Gemini models. They report a 23% speedup on a key Gemini training kernel and 0.7% of Google’s worldwide compute recovered through a better scheduling heuristic.</p></li>
+<li><p>Andrej Karpathy’s <a href="https://github.com/karpathy/autoresearch">autoresearch</a> (March 2026) tasks an agent with reducing validation loss to pretrain a GPT-2-small model given a fixed compute budget (one H100, ~5 minutes per training loop). Over ~2 days the agent tried ~700 changes and found ~20 additive edits, yielding an ~11% improvement in “Time-to-GPT-2”. Andrej Karpathy <a href="https://x.com/karpathy/status/2031135152349524125">says</a> <em>“all the adjustments are”real”, I didn’t find them manually previously, and they stack up and actually improved nanochat.”</em></p></li>
+<li><p><a href="https://github.com/KellerJordan/modded-nanogpt">nanoGPT speedrun</a> (<span class="citation" data-cites="kellerjordan2026moddednanogpt">Jordan and contributors (<a href="#ref-kellerjordan2026moddednanogpt" role="doc-biblioref">2026</a>)</span>) is a public competition to minimize training time for GPT-2 given a fixed target loss, which has brought training time from 45 min down to 1.4 min over 77 records since May 2024. Four recent improvements are tagged as contributed with the help of “AI systems”.</p></li>
+<li><p><a href="https://arxiv.org/abs/2601.16175">TTT-Discover</a> (<span class="citation" data-cites="yuksekgonul2026learning">Yuksekgonul et al. (<a href="#ref-yuksekgonul2026learning" role="doc-biblioref">2026</a>)</span>, January 2026), a test-time training method, optimized the TriMul GPU kernel used in AlphaFold, achieving &gt;15% improvement over the best human implementations. The <a href="https://www.gpumode.com/leaderboard/496?tab=rankings">authors</a> of the TriMul task, expert kernel engineers, called it “legit” and noted the strategy was “similar to the current best humans, but executed better,” with most human solutions falling behind on fusing more complex operators together.</p></li>
 </ul>
 </dd>
 <dt>Some optimizations are <em>deeper</em> than others.</dt>
 <dd>
-<p>The nanoGPT speedrun provides a useful case study as a public ledger of cumulative human effort on an AI R&amp;D problem.</p>
-<p>Some <em>deep</em> contributions in the speedrun are:</p>
+<p>The nanoGPT speedrun provides a useful case study as a public ledger of cumulative human effort on an AI R&amp;D problem. Some <em>deep</em> contributions, from humans, are:</p>
 <ul>
 <li><a href="https://x.com/kellerjordan0/status/1842300916864844014"><em>Muon</em></a> (October 2024) came from original research in the nanogpt codebase on Newton-Schulz orthogonalization, cutting training time by 21% (31.4 → 24.9 min). It has since been adopted widely, including by Kimi K2 (1T MoE), GLM-4.5 (355B MoE), and Arcee Trinity (400B MoE), and is now part of PyTorch’s standard optimizer suite.</li>
 <li><a href="https://x.com/kellerjordan0/status/1856053121103093922"><em>U-Net skip connections</em></a> (November 2024) applied an encoder-decoder pattern from 2015 computer vision to transformer layers, yielding an 8% speedup (7.8 → 7.2 min). This became foundational and later records kept building on it.</li>
 <li><a href="https://x.com/classiclarryd/status/2008963501688324228"><em>Paired Head Attention</em></a> (January 2026) is a novel attention mechanism that interleaves K/Q/V across head pairs to double the effective sequence length in attention.</li>
 </ul>
 <p>These required theoretical insight, cross-domain transfer, or novel architectural ideas.</p>
-<p>By contrast, many other records in the speedrun are <em>shallow</em> improvements: <a href="https://x.com/kellerjordan0/status/1845865698532450646">bundling known techniques like ReLU² and QK-norm</a> (32% speedup), <a href="https://x.com/kellerjordan0/status/1859331370268623321">importing FlexAttention</a> (30% speedup), <a href="https://x.com/kellerjordan0/status/1876048851158880624">lowering the logit softcap from 30 to 15</a> (5% speedup), or <a href="https://x.com/kellerjordan0/status/1847358578686152764">upgrading PyTorch</a> (8% speedup).</p>
-<p>We note that both shallow and deep optimizations can provide significant speedups.</p>
+<p>Many other records in the speedrun are imported from other projects, e.g.&nbsp;<a href="https://x.com/kellerjordan0/status/1845865698532450646">bundling known techniques like ReLU² and QK-norm</a> (32% speedup), <a href="https://x.com/kellerjordan0/status/1859331370268623321">importing FlexAttention</a> (30% speedup), (5% speedup), or <a href="https://x.com/kellerjordan0/status/1847358578686152764">upgrading PyTorch</a> (8% speedup).</p>
+<p>Others could be described as “shallow”, e.g.&nbsp;<a href="https://x.com/kellerjordan0/status/1876048851158880624">lowering the logit softcap from 30 to 15</a>.</p>
 </dd>
-<dt>But, agent optimizations are often described as <em>shallow</em>.</dt>
+<dt>Agent optimizations are often described as <em>shallow</em>.</dt>
 <dd>
 <ul>
-<li><p>Several AI R&amp;D and optimization benchmarks, such as <a href="https://arxiv.org/abs/2502.14499">MLGymBench</a> (<span class="citation" data-cites="nathani2025mlgym">(<a href="#ref-nathani2025mlgym" role="doc-biblioref"><strong>nathani2025mlgym?</strong></a>)</span>), <a href="https://arxiv.org/abs/2509.13458">GSO</a> (<span class="citation" data-cites="shetty2025gso">Shetty et al. (<a href="#ref-shetty2025gso" role="doc-biblioref">2025</a>)</span>), and <a href="https://arxiv.org/abs/2511.06090">SWE-fficiency</a> (<span class="citation" data-cites="ma2025swefficiency">(<a href="#ref-ma2025swefficiency" role="doc-biblioref"><strong>ma2025swefficiency?</strong></a>)</span>), report that agents achieve “surface-level speedups” but “fail to discover algorithmic innovations.” For instance, one of the largest speedups in <a href="https://arxiv.org/abs/2507.15887">AlgoTune</a> (<span class="citation" data-cites="press2025algotune">(<a href="#ref-press2025algotune" role="doc-biblioref"><strong>press2025algotune?</strong></a>)</span>) is a 142× on a graph communicability task, achieved by replacing pure Python with BLAS calls.</p></li>
-<li><p>We observe all AI-assisted records in nanoGPT speedrun to be shallow relative to the optimizations above (e.g., Muon’s 21% speedup): replacing Python loops with faster library calls (<a href="https://github.com/KellerJordan/modded-nanogpt/pull/125">hiverge.ai</a>, ~1.2%) and combining two GPU operations to avoid writing intermediate results to memory (<a href="https://x.com/classiclarryd/status/2012927211448516796">Locus</a>, ~0.9%). These can be classified as typical optimization techniques that apply to many problems.</p></li>
-<li><p>Karpathy’s own diagnosis on autoresearch fits this picture. The improvements that worked were things like adjusting AdamW constants, adding a scalar multiplier for QKnorm, and even making <a href="https://github.com/karpathy/autoresearch/issues/131">random seed changes</a>. He notes that out of the box, most of the agent’s changes are tuning existing knobs, though not all.</p>
-<p>Overall he notes that the agents feel “cagey” on open-ended ideas.</p></li>
+<li><p>Several AI R&amp;D and optimization benchmarks, such as <a href="https://arxiv.org/abs/2502.14499">MLGymBench</a> (<span class="citation" data-cites="nathani2025mlgym">Nathani et al. (<a href="#ref-nathani2025mlgym" role="doc-biblioref">2025</a>)</span>), <a href="https://arxiv.org/abs/2509.13458">GSO</a> (<span class="citation" data-cites="shetty2025gso">Shetty et al. (<a href="#ref-shetty2025gso" role="doc-biblioref">2025</a>)</span>), and <a href="https://arxiv.org/abs/2511.06090">SWE-fficiency</a> (<span class="citation" data-cites="ma2025swefficiency">Ma et al. (<a href="#ref-ma2025swefficiency" role="doc-biblioref">2025</a>)</span>), report that agents achieve “surface-level speedups” but “fail to discover algorithmic innovations.” For instance, one of the largest speedups in <a href="https://arxiv.org/abs/2507.15887">AlgoTune</a> (<span class="citation" data-cites="press2025algotune">Press et al. (<a href="#ref-press2025algotune" role="doc-biblioref">2025</a>)</span>) is a 142× on a graph communicability task, achieved by replacing pure Python with BLAS calls.</p></li>
+<li><p>In nanoGPT speedrun the AI-contributed patches appear to be shallow relative to the optimizations above (e.g., Muon’s 21% speedup): replacing Python loops with faster library calls (<a href="https://github.com/KellerJordan/modded-nanogpt/pull/125">hiverge.ai</a>, ~1.2%) and combining two GPU operations to avoid writing intermediate results to memory (<a href="https://x.com/classiclarryd/status/2012927211448516796">Locus</a>, ~0.9%). These can be classified as typical optimization techniques that apply to many problems.</p></li>
+<li><p>In autoresearch Karpathy says <em>“It’s not novel, ground-breaking ‘research’ (yet), but all the adjustments are ‘real’”</em>. The improvements that worked were things like adjusting AdamW constants, adding a scalar multiplier for QKnorm, and even making <a href="https://github.com/karpathy/autoresearch/issues/131">random seed changes</a>. Overall he notes that the agents feel “cagey” on open-ended ideas.</p></li>
 </ul>
 </dd>
 </dl>
@@ -452,7 +412,7 @@ It’s also possible to close this model, where agent R&amp;D contributes to the
 </dd>
 <dt>Relation to other models of AI R&amp;D.</dt>
 <dd>
-<p>The critical distinction between this model and others is how we represent the state. Most existing models summarize the level of productivity (or stock of knowledge) with a single number, meaning there’s no distinction between a shallow and deep contribution to the state of knowledge. The model I’m using here allows us to represent the state with two numbers: the share of apples picked above <span class="math inline">\(\lambda\)</span>, and the share below <span class="math inline">\(\lambda\)</span>. For the RSI version of the model we instead track the current level of capabilities (<span class="math inline">\(\lambda_n\)</span>) and the share of apples picked above that threshold.</p>
+<p>The critical distinction between this model and others is how we represent the state. Most existing models summarize the level of productivity (or stock of knowledge) with a single number, meaning there’s no distinction between a shallow and deep contribution to the state of knowledge, all that matters is the total stock of ideas (or the efficiency of the algorithm). The apple-picking model allows us to represent the state with two numbers: the share of apples remaining above <span class="math inline">\(\lambda\)</span> (the robot’s height), and the share below <span class="math inline">\(\lambda\)</span>. For the RSI version of the model we instead track the robot’s height (<span class="math inline">\(\lambda_n\)</span>) and the share of apples remaining above that threshold.</p>
 <p>Most existing models of recursive self-improvement assume that either AI accelerates or replaces human R&amp;D researchers. I believe this is roughly true for <span class="citation" data-cites="aghion2019artificial">Aghion, Jones, and Jones (<a href="#ref-aghion2019artificial" role="doc-biblioref">2019</a>)</span>, <span class="citation" data-cites="davidson2021could">Davidson (<a href="#ref-davidson2021could" role="doc-biblioref">2021</a>)</span>, <span class="citation" data-cites="erdil2025gate">Erdil et al. (<a href="#ref-erdil2025gate" role="doc-biblioref">2025</a>)</span>, <span class="citation" data-cites="davidson2026automatingairesearch">Davidson et al. (<a href="#ref-davidson2026automatingairesearch" role="doc-biblioref">2026</a>)</span>, <span class="citation" data-cites="jones2025aird">Jones (<a href="#ref-jones2025aird" role="doc-biblioref">2025</a>)</span>, <span class="citation" data-cites="kwa2026simpleraitimelines">Kwa (<a href="#ref-kwa2026simpleraitimelines" role="doc-biblioref">2026</a>)</span>. These models then calibrate the effect through (1) how much does AI accelerate R&amp;D workers; (2) how much do R&amp;D workers contribute to our stock of knowledge.</p>
 <p>However there is some awkwardness in fitting these models to the data:</p>
 <ol type="1">
@@ -631,6 +591,46 @@ With <span class="math inline">\(\lambda_n = 0\)</span>, <span class="math inlin
 </section>
 <section id="offcuts" class="level1">
 <h1>Offcuts</h1>
+<dl>
+<dt>A concordance</dt>
+<dd>
+[NOTE: i’m not sure whether this is worth including, maybe too obvious.]==
+</dd>
+</dl>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Robots picking apples</th>
+<th>Agents finding optimizations</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Robots can find low apples that humans have not picked yet.</td>
+<td>Agents can find improvements on state-of-the-art optimization problems.</td>
+</tr>
+<tr class="even">
+<td>Robots cannot pick all the apples humans can.</td>
+<td>Agents cannot do as well as human experts on optimization (even with high expenditure).</td>
+</tr>
+<tr class="odd">
+<td>Robots are more useful for trees that have never been picked.</td>
+<td>Agents are more useful on problems that are not heavily optimized.</td>
+</tr>
+<tr class="even">
+<td>A tree will yield more apples if it’s harvested by both a human and robots.</td>
+<td>An algorithm will be better-optimized if both humans and agents work on it.</td>
+</tr>
+<tr class="odd">
+<td>To gauge the ability of robots we want to measure the highest apple they can reach.</td>
+<td>To gauge the value of agents we want to test for the maximum depth of optimization they can find.</td>
+</tr>
+</tbody>
+</table>
 <p>Scaling curves from <span class="citation" data-cites="metr2024capability">METR (<a href="#ref-metr2024capability" role="doc-biblioref">2024</a>)</span>. For most tasks either (1) an agent can do it much cheaper than a human; or (2) an agent can’t do it at all.</p>
 <p><img src="images/2026-03-13-05-35-22.png" class="img-fluid"></p>
 <p>(see my earlier post on <a href="https://tecunningham.github.io/posts/2026-01-29-knowledge-creating-llms.html">AI knowledge creation</a>)</p>
@@ -677,11 +677,20 @@ Kokotajlo, Daniel, Eli Lifland, Brendan Halstead, and Alex Kastner. 2025. <span>
 <div id="ref-kwa2026simpleraitimelines" class="csl-entry" role="listitem">
 Kwa, Thomas. 2026. <span>“Research Note: A Simpler AI Timelines Model Predicts 99% AI r&amp;d Automation in ~2032.”</span> <a href="https://www.lesswrong.com/posts/uy6B5rEPvcwi55cBK/research-note-a-simpler-ai-timelines-model-predicts-99-ai-r">https://www.lesswrong.com/posts/uy6B5rEPvcwi55cBK/research-note-a-simpler-ai-timelines-model-predicts-99-ai-r</a>.
 </div>
+<div id="ref-ma2025swefficiency" class="csl-entry" role="listitem">
+Ma, Jeffrey Jian, Milad Hashemi, Amir Yazdanbakhsh, et al. 2025. <span>“<span class="nocase">SWE-fficiency</span>: Can Language Models Optimize Real-World Repositories on Real Workloads?”</span> <a href="https://arxiv.org/pdf/2511.06090.pdf">https://arxiv.org/pdf/2511.06090.pdf</a>.
+</div>
 <div id="ref-metr2024capability" class="csl-entry" role="listitem">
 METR. 2024. <span>“An Update on Our General Capability Evaluations.”</span> <a href="https://metr.org/blog/2024-08-06-update-on-evaluations/" class="uri">https://metr.org/blog/2024-08-06-update-on-evaluations/</a>.
 </div>
+<div id="ref-nathani2025mlgym" class="csl-entry" role="listitem">
+Nathani, Deepak, Lovish Madaan, Nicholas Roberts, et al. 2025. <span>“<span>MLGym</span>: A New Framework and Benchmark for Advancing <span>AI</span> Research Agents.”</span> <a href="https://arxiv.org/pdf/2502.14499.pdf">https://arxiv.org/pdf/2502.14499.pdf</a>.
+</div>
 <div id="ref-novikov2025alphaevolve" class="csl-entry" role="listitem">
 Novikov, Alexander, Ngân Vũ, Marvin Eisenberger, Emilien Dupont, Po-Sen Huang, Adam Zsolt Wagner, Sergey Shirobokov, et al. 2025. <span>“AlphaEvolve: A Coding Agent for Scientific and Algorithmic Discovery.”</span> <em>arXiv Preprint</em> arXiv:2506.13131. <a href="https://doi.org/10.48550/arXiv.2506.13131">https://doi.org/10.48550/arXiv.2506.13131</a>.
+</div>
+<div id="ref-press2025algotune" class="csl-entry" role="listitem">
+Press, Ori, Brandon Amos, Haoyu Zhao, et al. 2025. <span>“<span>AlgoTune</span>: Can Language Models Speed up General-Purpose Numerical Programs?”</span> <a href="https://arxiv.org/pdf/2507.15887.pdf">https://arxiv.org/pdf/2507.15887.pdf</a>.
 </div>
 <div id="ref-shetty2025gso" class="csl-entry" role="listitem">
 Shetty, Manish, Naman Jain, Jinjian Liu, Vijay Kethanaboyina, Koushik Sen, and Ion Stoica. 2025. <span>“GSO: Challenging Software Optimization Tasks for Evaluating SWE-Agents.”</span> <a href="https://arxiv.org/pdf/2505.23671.pdf">https://arxiv.org/pdf/2505.23671.pdf</a>.
