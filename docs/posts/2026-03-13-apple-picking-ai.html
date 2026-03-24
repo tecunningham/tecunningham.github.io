@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Tom Cunningham">
-<meta name="dcterms.date" content="2026-03-23">
+<meta name="dcterms.date" content="2026-03-24">
 <meta name="description" content="Tom Cunningham blog">
 
 <title>An Apple-Picking Model of AI R&amp;D | Tom Cunningham – Tom Cunningham</title>
@@ -257,7 +257,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 23, 2026</p>
+        <p class="date">March 24, 2026</p>
       </div>
     </div>
     
@@ -318,8 +318,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>The left-hand plot below shows how we expect the contribution of humans &amp; agents to scale with expenditure (assuming robots are relatively cheaper to run than humans). The right-hand plot shows agent trajectories starting at different stages in the optimization process: if they are given a stronger human starting-point then they can reach a stronger end-state.</p>
-<div class="quarto-layout-panel" data-layout-ncol="2">
+<p>The plots below show two effects we see from this model: (1) tortoise-hare dynamics, the agent will make quicker progress than the human at first, but eventually get overtaken; (2) standing-on-shoulders-of-giants: the agent will be able to pick more apples (or optimize the algorithm further) if they start from a stronger human starting point.</p>
+<div class="bottom-align-panel quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output-display">
@@ -341,7 +341,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>The graphs illustrate an important technical observation: if we wish to model this behavior we cannot summarize the <em>state</em> of R&amp;D with a scalar, e.g.&nbsp;a single metric of overall progress. Instead we need to keep track, at least to some degree, of the path by which we arrived at this state.</p>
+<p>The graphs illustrate an important technical observation: the share of apples remaining is not a <em>sufficient statistic</em> for the state of progress. Any model of AI R&amp;D which summarizes progress with a scalar will not reproduce these tortoise-hare or giants’-shoulders effects. </p>
 </dd>
 <dt>Some implications for recursive self-improvement.</dt>
 <dd>
@@ -408,36 +408,52 @@ window.Quarto = {
 <dl>
 <dt>We can apply the model to recursive self-improvement.</dt>
 <dd>
-It’s also possible to close this model, where agent R&amp;D contributes to the next generation of agent ability. This is like assuming that a robot can eat apples they harvested &amp; grow taller. The condition for explosive growth is simple: it will happen when eating the apples within a one-foot slice of the tree are sufficient for the robot to grow another foot.
+It’s also possible to close this model, so that each round of agent R&amp;D contributes to the next generation of agent ability. This is like assuming that a robot can grow taller by eating apples they harvested. The condition for explosive growth is simple: it will happen when eating the apples within a one-foot slice of the tree are sufficient for the robot to grow another foot.
 </dd>
-<dt>Relation to other models of AI R&amp;D.</dt>
+<dt>This is distinct from other models of recursive self-improvement.</dt>
 <dd>
-<p>The critical distinction between this model and others is how we represent the state. Most existing models summarize the level of productivity (or stock of knowledge) with a single number, meaning there’s no distinction between a shallow and deep contribution to the state of knowledge, all that matters is the total stock of ideas (or the efficiency of the algorithm). The apple-picking model allows us to represent the state with two numbers: the share of apples remaining above <span class="math inline">\(\lambda\)</span> (the robot’s height), and the share below <span class="math inline">\(\lambda\)</span>. For the RSI version of the model we instead track the robot’s height (<span class="math inline">\(\lambda_n\)</span>) and the share of apples remaining above that threshold.</p>
-<p>Most existing models of recursive self-improvement assume that either AI accelerates or replaces human R&amp;D researchers. I believe this is roughly true for <span class="citation" data-cites="aghion2019artificial">Aghion, Jones, and Jones (<a href="#ref-aghion2019artificial" role="doc-biblioref">2019</a>)</span>, <span class="citation" data-cites="davidson2021could">Davidson (<a href="#ref-davidson2021could" role="doc-biblioref">2021</a>)</span>, <span class="citation" data-cites="erdil2025gate">Erdil et al. (<a href="#ref-erdil2025gate" role="doc-biblioref">2025</a>)</span>, <span class="citation" data-cites="davidson2026automatingairesearch">Davidson et al. (<a href="#ref-davidson2026automatingairesearch" role="doc-biblioref">2026</a>)</span>, <span class="citation" data-cites="jones2025aird">Jones (<a href="#ref-jones2025aird" role="doc-biblioref">2025</a>)</span>, <span class="citation" data-cites="kwa2026simpleraitimelines">Kwa (<a href="#ref-kwa2026simpleraitimelines" role="doc-biblioref">2026</a>)</span>. These models then calibrate the effect through (1) how much does AI accelerate R&amp;D workers; (2) how much do R&amp;D workers contribute to our stock of knowledge.</p>
-<p>However there is some awkwardness in fitting these models to the data:</p>
+<p>We can put many existing models of AI R&amp;D in two buckets:<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <ol type="1">
-<li>It is hard to reconcile these models with evidence that AI is already autonomously contributing to AI research, yet still not replacing humans (i.e.&nbsp;autonomous agents are not perfect substitutes for humans).</li>
-<li>Models with human replacement typically assume a limited number of AI R&amp;D agents (e.g. <span class="citation" data-cites="davidson2026automatingairesearch">Davidson et al. (<a href="#ref-davidson2026automatingairesearch" role="doc-biblioref">2026</a>)</span>), because having an infinite number of R&amp;D agents would cause immediate explosive growth. But it’s hard to motivate why we would have a small number, rather than scaling the number of agents up to the limits of compute.</li>
+<li><strong>Apples can make the human pick faster.</strong> Here AI R&amp;D speeds up humans, typically by automating some of the tasks that are necessary for doing R&amp;D (<span class="citation" data-cites="aghion2019artificial">Aghion, Jones, and Jones (<a href="#ref-aghion2019artificial" role="doc-biblioref">2019</a>)</span>, <span class="citation" data-cites="jones2025aird">Jones (<a href="#ref-jones2025aird" role="doc-biblioref">2025</a>)</span>, <span class="citation" data-cites="kwa2026simpleraitimelines">Kwa (<a href="#ref-kwa2026simpleraitimelines" role="doc-biblioref">2026</a>)</span>).</li>
+<li><strong>Apples can be used to make more human-sized robots.</strong> Here AI R&amp;D is already able to replicate human-level R&amp;D, but the bottleneck is the cost of compute, and further AI progress lowers that cost, thereby expanding the AI R&amp;D workforce (<span class="citation" data-cites="davidson2021could">Davidson (<a href="#ref-davidson2021could" role="doc-biblioref">2021</a>)</span>, <span class="citation" data-cites="davidson2025howquickandbigwo">Davidson and Houlden (<a href="#ref-davidson2025howquickandbigwo" role="doc-biblioref">2025</a>)</span>, <span class="citation" data-cites="ho2025explosionexperiments">Ho and Whitfill (<a href="#ref-ho2025explosionexperiments" role="doc-biblioref">2025</a>)</span>, <span class="citation" data-cites="eth2025willairdautomati">Eth and Davidson (<a href="#ref-eth2025willairdautomati" role="doc-biblioref">2025</a>)</span>, <span class="citation" data-cites="davidson2026automatingairesearch">Davidson et al. (<a href="#ref-davidson2026automatingairesearch" role="doc-biblioref">2026</a>)</span>)</li>
 </ol>
-<p><span class="citation" data-cites="kokotajlo2025aifuturesmodel">Kokotajlo et al. (<a href="#ref-kokotajlo2025aifuturesmodel" role="doc-biblioref">2025</a>)</span> models AI and human “research taste”, though I don’t have a clear idea exactly how taste is aggregated.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>There is some awkwardness in fitting both these classes of model to the data:</p>
+<ol type="1">
+<li>AI seems to already be autonomously contributing to AI research, yet still not replacing humans (i.e.&nbsp;autonomous agents are not perfect substitutes for humans). The task-automation models imply that once an agent can contribute to R&amp;D autonomously then all tasks are automated.</li>
+<li>Models with human replacement don’t make strong predictions until we achieve sufficient level of knowledge to reproduce a human researcher.</li>
+</ol>
+<p>The model in this post is distinct from both: we assume there are plenty of robots, but they are limited in ability, and apples allow them to reach higher. Thus apples neither serve as a multiplicative boost to human productivity, not a perfect substitute for human labor.</p>
+<p>A critical distinction is how we represent the state. Most existing models summarize the level of productivity (or stock of knowledge) with a single number, meaning there’s no distinction between a shallow and deep contribution to the state of knowledge, all that matters is the total stock of ideas (or the efficiency of the algorithm). The apple-picking model allows us to represent the state with two numbers: the share of apples remaining above <span class="math inline">\(\lambda\)</span> (the robot’s height), and the share below <span class="math inline">\(\lambda\)</span>. For the RSI version of the model we instead track the robot’s height (<span class="math inline">\(\lambda_n\)</span>) and the share of apples remaining above that threshold.</p>
 </dd>
-<dt>Things to add.</dt>
+</dl>
+<dl>
+<dt>Apple-picking is a simplification of a landscape-navigation problem.</dt>
+<dd>
+<p>A more general version would model research as a minimization problem over an entire bumpy landscape. You can represent an optimization problem as <span class="math inline">\(y=f(\bm{x})\)</span>, where you’re trying to choose an <span class="math inline">\(\bm{x}\)</span> to minimize <span class="math inline">\(y\)</span>, given some unknown <span class="math inline">\(f(\cdot)\)</span>. An immediate observation from landscape-navigation problem is that the current elevation is not a sufficient statistic for your state, unless you have a degenerate landscape, like the random landscapes in <span class="citation" data-cites="kortum1997research">Kortum (<a href="#ref-kortum1997research" role="doc-biblioref">1997</a>)</span>.</p>
+<p>We can loosely make some generalizations about agent vs human ability to navigate this landscape:</p>
+<ul>
+<li></li>
+<li><a href="https://www.dwarkesh.com/p/terence-tao">Terence Tao says</a> <em>“These AI tools, they’re like jumping machines that can jump two meters in the air, higher than any human. Sometimes they jump in the wrong direction, and sometimes they crash, but sometimes they can reach the tops of the lowest walls that we couldn’t reach before. We’ve just set them loose in this mountain range, hopping around. There was this exciting period where they could actually find all the low ones and reach them. Maybe the next time there’s a big advance in the models, they will try it again, and a few more will be breached. But it’s a different style of doing mathematics. Normally we would hill climb, make little markers, and try to identify partial things. These tools either succeed or they fail. They’ve been really bad at creating partial progress or identifying intermediate stages that you should focus on first. Going back to this previous discussion, we don’t have a way of evaluating partial progress the same way we can evaluate a one-shot success or failure of solving a problem.”</em></li>
+</ul>
+<p>We think of the apple-picking model as a simplification of a landscape-navigation model.</p>
+<p>(talk about non-additivity of optimizations; talk about conditions under which landscape is separable, and so each subspace is an independent apple; talk about path dependence).</p>
+</dd>
+<dt>Miscellaneous points.</dt>
 <dd>
 <ul>
-<li><p><em>Landscape.</em> A more general version would model the entire <em>landscape</em>. You can represent an optimization problem as <span class="math inline">\(y=f(\bm{x})\)</span>, where you’re trying to choose an <span class="math inline">\(\bm{x}\)</span> to maximize <span class="math inline">\(y\)</span>, given some unknown <span class="math inline">\(f(\cdot)\)</span>. (talk about non-additivity of optimizations; talk about conditions under which landscape is separable, and so each subspace is an independent apple; talk about path dependence).</p></li>
 <li><p><em>Relation to time horizon.</em> You could think of the high apples as long-time-horizon tasks, i.e.&nbsp;tasks that AI agents are relatively worse at performing.</p></li>
+<li><p><em>Relation to knowledge hierarchies.</em> <span class="citation" data-cites="garicano2006organization">Garicano and Rossi-Hansberg (<a href="#ref-garicano2006organization" role="doc-biblioref">2006</a>)</span> describes a model with variation in human ability along a linear scale, and it is applied by <span class="citation" data-cites="ide2024artificialintelligenceknowledgeeconomy">Ide and Talamas (<a href="#ref-ide2024artificialintelligenceknowledgeeconomy" role="doc-biblioref">2024</a>)</span> to AI, though I believe they only discrete problem-solving, not cumulative contribution to knowledge-gathering.</p></li>
 <li><p><em>Shape of the tree.</em> You can extend the model such that apples are non-uniformly distributed, then we can replace <span class="math inline">\(\lambda\)</span> with <span class="math inline">\(F(\lambda)\)</span> below. We can then talk about types of domain which are bottom-heavy (most optimizations are pretty easy to find) vs top-heavy (most optimizations are hard to find). It then becomes important to know whether AI R&amp;D is relatively more bottom-heavy or top-heavy, if the former then we might already be on the brink of an intelligence explosion.</p></li>
-<li><p><em>Directed search.</em> We assumed that the probability of finding an apple is independent of other apples already found. Realistically people have an ability to put direct their attention to finding new innovations. This implies lower diminishing returns to expenditure, and higher complementarity between agents and humans, I’m not sure whether it would change the qualitative conclusions of the model.</p></li>
-<li><p><em>Bottlenecks.</em> Some R&amp;D is bottlenecked not just by thinking (which agents can do), but also by running experiments.</p></li>
-<li><p><em>Acceleration.</em> This model is missing the effect of acceleration through explicit cooperation – e.g.&nbsp;a human comes up with an idea, and an agent executes it. This seems very likely to be an important contribution to AI progress.</p></li>
-<li><p><em>Sketch of a quantitative model of LLM training.</em> LLM training is a big stack of algorithms, which we’ve been optimizing at perhaps 10X/year. Would be useful to add some speculation about which parts of the stack have low-hanging fruit.</p></li>
-<li><p><em>Relation to task model.</em> You could describe a version of apple-picking with a task model, though it would be a quite different interpretation than the usual task model:</p>
+<li><p><em>Directed search.</em> We assumed that the probability of finding an apple is independent of other apples already found. Realistically people have an ability to direct their attention to finding new innovations.</p></li>
+<li><p><em>Bottlenecks.</em> Some R&amp;D is bottlenecked not just by thinking (which agents can do), but also by running experiments. This is discussed in .</p></li>
+<li><p><em>Acceleration.</em> This model is missing the ability of agents to accelerate human R&amp;D (apple picking), e.g.&nbsp;through automating some of the huma’s tasks. This seems very likely to be an important contribution to AI progress.</p></li>
+<li><p><em>Relation to task model.</em> You could describe a version of apple-picking with a task model (<span class="citation" data-cites="acemoglu2022tasks">Acemoglu and Restrepo (<a href="#ref-acemoglu2022tasks" role="doc-biblioref">2022</a>)</span>), though it would have a quite different interpretation than the usual task model. Suppose:</p>
 <ol type="1">
-<li>There’s a uniform distribution of tasks (low through high apples)</li>
-<li>There are diminishing returns within each task, but additive across tasks (usually there are additive returns within tasks, but tasks are complements)</li>
+<li>There’s a uniform distribution of tasks (apples)</li>
+<li>There are diminishing returns within each task, but additive returns across tasks (usually there are additive returns within tasks, but tasks are complements)</li>
 <li>Agents can only do low tasks.</li>
 </ol>
-<p>For simplicity we take the price of agent &amp; human labor as given (i.e.&nbsp;parital equilibrium). Then we’ll get specialization, agents work on apples below <span class="math inline">\(\lambda\)</span>, humans work on apples above <span class="math inline">\(\lambda\)</span> (assuming the price of agent labor is relatively low). As <span class="math inline">\(\lambda\)</span> increases human wages fall (because there’s more congestion in working on the high apples, so lower marginal product).</p></li>
+<p>For simplicity we take the price of agent &amp; human labor as given (i.e.&nbsp;partial equilibrium). Then we’ll get specialization: agents work on apples below <span class="math inline">\(\lambda\)</span>, humans work on apples above <span class="math inline">\(\lambda\)</span> (assuming the price of agent labor is relatively low). As <span class="math inline">\(\lambda\)</span> increases human wages will fall (because there’s more congestion in working on the high apples, so lower marginal product).</p></li>
 </ul>
 </dd>
 </dl>
@@ -650,6 +666,9 @@ With <span class="math inline">\(\lambda_n = 0\)</span>, <span class="math inlin
 
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-acemoglu2022tasks" class="csl-entry" role="listitem">
+Acemoglu, Daron, and Pascual Restrepo. 2022. <span>“Tasks, Automation, and the Rise in US Wage Inequality.”</span> <em>Econometrica</em> 90 (5): 1973–2016. <a href="https://doi.org/10.3386/w28920">https://doi.org/10.3386/w28920</a>.
+</div>
 <div id="ref-aghion2019artificial" class="csl-entry" role="listitem">
 Aghion, Philippe, Benjamin F. Jones, and Charles I. Jones. 2019. <span>“Artificial Intelligence and Economic Growth.”</span> In <em>The Economics of Artificial Intelligence: An Agenda</em>, edited by Ajay Agrawal, Joshua Gans, and Avi Goldfarb, 237–90. Chicago: University of Chicago Press. <a href="https://doi.org/10.7208/9780226613475-011">https://doi.org/10.7208/9780226613475-011</a>.
 </div>
@@ -659,8 +678,17 @@ Davidson, Tom. 2021. <span>“Could Advanced AI Drive Explosive Economic Growth.
 <div id="ref-davidson2026automatingairesearch" class="csl-entry" role="listitem">
 Davidson, Tom, Basil Halperin, Thomas Houlden, and Anton Korinek. 2026. <span>“When Does Automating AI Research Produce Explosive Growth?”</span> <a href="https://www.basilhalperin.com/papers/shs.pdf">https://www.basilhalperin.com/papers/shs.pdf</a>.
 </div>
-<div id="ref-erdil2025gate" class="csl-entry" role="listitem">
-Erdil, Ege, Andrei Potlogea, Tamay Besiroglu, Edu Roldan, Anson Ho, Jaime Sevilla, Matthew Barnett, Matej Vrzla, and Robert Sandler. 2025. <span>“GATE: An Integrated Assessment Model for AI Automation.”</span> <em>arXiv Preprint arXiv:2503.04941</em>. <a href="https://arxiv.org/pdf/2503.04941.pdf">https://arxiv.org/pdf/2503.04941.pdf</a>.
+<div id="ref-davidson2025howquickandbigwo" class="csl-entry" role="listitem">
+Davidson, Tom, and Tom Houlden. 2025. <span>“How Quick and Big Would a Software Intelligence Explosion Be?”</span> <a href="https://www.forethought.org/research/how-quick-and-big-would-a-software-intelligence-explosion-be">https://www.forethought.org/research/how-quick-and-big-would-a-software-intelligence-explosion-be</a>.
+</div>
+<div id="ref-eth2025willairdautomati" class="csl-entry" role="listitem">
+Eth, Daniel, and Tom Davidson. 2025. <span>“Will AI r&amp;d Automation Cause a Software Intelligence Explosion?”</span> <a href="https://www.forethought.org/research/will-ai-r-and-d-automation-cause-a-software-intelligence-explosion">https://www.forethought.org/research/will-ai-r-and-d-automation-cause-a-software-intelligence-explosion</a>.
+</div>
+<div id="ref-garicano2006organization" class="csl-entry" role="listitem">
+Garicano, Luis, and Esteban Rossi-Hansberg. 2006. <span>“Organization and Inequality in a Knowledge Economy.”</span> <em>The Quarterly Journal of Economics</em> 121 (4): 1383–1435. <a href="https://doi.org/10.1162/qjec.121.4.1383">https://doi.org/10.1162/qjec.121.4.1383</a>.
+</div>
+<div id="ref-ho2025explosionexperiments" class="csl-entry" role="listitem">
+Ho, Anson, and Parker Whitfill. 2025. <span>“The Software Intelligence Explosion Debate Needs Experiments.”</span> <a href="https://epoch.ai/gradient-updates/the-software-intelligence-explosion-debate-needs-experiments">https://epoch.ai/gradient-updates/the-software-intelligence-explosion-debate-needs-experiments</a>.
 </div>
 <div id="ref-ide2024artificialintelligenceknowledgeeconomy" class="csl-entry" role="listitem">
 Ide, Enrique, and Eduard Talamas. 2024. <span>“Artificial Intelligence in the Knowledge Economy.”</span> <a href="https://doi.org/10.1086/737233">https://doi.org/10.1086/737233</a>.
@@ -673,6 +701,9 @@ Jordan, Keller, and contributors. 2026. <span>“Modded-Nanogpt.”</span> <a hr
 </div>
 <div id="ref-kokotajlo2025aifuturesmodel" class="csl-entry" role="listitem">
 Kokotajlo, Daniel, Eli Lifland, Brendan Halstead, and Alex Kastner. 2025. <span>“AI Futures Model: Dec 2025 Update.”</span> <a href="https://blog.ai-futures.org/p/ai-futures-model-dec-2025-update">https://blog.ai-futures.org/p/ai-futures-model-dec-2025-update</a>.
+</div>
+<div id="ref-kortum1997research" class="csl-entry" role="listitem">
+Kortum, Samuel. 1997. <span>“Research, Patenting, and Technological Change.”</span> <em>Econometrica</em> 65 (6): 1389–419. <a href="https://doi.org/10.2307/2171741">https://doi.org/10.2307/2171741</a>.
 </div>
 <div id="ref-kwa2026simpleraitimelines" class="csl-entry" role="listitem">
 Kwa, Thomas. 2026. <span>“Research Note: A Simpler AI Timelines Model Predicts 99% AI r&amp;d Automation in ~2032.”</span> <a href="https://www.lesswrong.com/posts/uy6B5rEPvcwi55cBK/research-note-a-simpler-ai-timelines-model-predicts-99-ai-r">https://www.lesswrong.com/posts/uy6B5rEPvcwi55cBK/research-note-a-simpler-ai-timelines-model-predicts-99-ai-r</a>.
@@ -705,7 +736,7 @@ Yuksekgonul, Mert, Daniel Koceja, Xinhao Li, Federico Bianchi, Jed McCaleb, Xiao
 
 <ol>
 <li id="fn1"><p>The R&amp;D progress is inclusive of declining cost of compute, pretraining, posttraining, and elicitation. These estimates are very loose, based on Epoch’s <a href="https://epoch.ai/trends">trends</a> and other sources.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p><span class="citation" data-cites="ide2024artificialintelligenceknowledgeeconomy">Ide and Talamas (<a href="#ref-ide2024artificialintelligenceknowledgeeconomy" role="doc-biblioref">2024</a>)</span> model AI with different levels of human ability, though I believe they only discrete problem-solving, not cumulative contribution to knowledge-gathering.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>An exception to this classificaiton is <span class="citation" data-cites="kokotajlo2025aifuturesmodel">Kokotajlo et al. (<a href="#ref-kokotajlo2025aifuturesmodel" role="doc-biblioref">2025</a>)</span>, which models “research taste” in humans and AIs. However that model also represents the state with a scalar (“software efficiency”), so I do not believe it could reproduce some of the behaviors described upfront.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

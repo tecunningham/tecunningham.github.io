@@ -75,7 +75,6 @@ format:
    Thanks to Nate Rush, Thomas Kwa, Basil Halperin, Tom Houlden, Parker Whitfill, Phil Trammell, & Andy Haupt for comments.
 :::
 
-
 An apple-picking model of AI R&D.
 : 
     In this note we describe a model of AI R&D, to help reconcile two facts:
@@ -194,26 +193,27 @@ An apple-picking model of AI R&D.
     \end{tikzpicture}
     ```
 
-    The left-hand plot below shows how we expect the contribution of humans & agents to scale with expenditure (assuming robots are relatively cheaper to run than humans). The right-hand plot shows agent trajectories starting at different stages in the optimization process: if they are given a stronger human starting-point then they can reach a stronger end-state.
+    The plots below show two effects we see from this model: (1) tortoise-hare dynamics, the agent will make quicker progress than the human at first, but eventually get overtaken; (2) standing-on-shoulders-of-giants: the agent will be able to pick more apples (or optimize the algorithm further) if they start from a stronger human starting point.
 
-    ::: {layout-ncol=2}
+    ::: {.bottom-align-panel layout-ncol=2}
 
     ```{tikz}
     #| fig-width: 3
     #| fig-align: center
     \begin{tikzpicture}[scale=.7,yscale=4]
-    \def\rH{0.3} \def\rA{2} \def\lam{0.5}
-    \draw[-] (0,0) -- (5.5,0) node[midway,below] {expenditure}
-        --(5.5,1)--(0,1)--(0,0) node[midway,rotate=90,above] {apples remaining};
-    % human: e^{-r_H t}
-    \draw[green!50!black, thick, domain=0:5.3, samples=120]
-        plot (\x, {exp(-\rH*\x)});
-    % agent: (1-\lambda) + \lambda e^{-r_A t}
-    \draw[red!70!black, thick, domain=0:5.3, samples=120]
-        plot (\x, {(1-\lam) + \lam*exp(-\rA*\x)});
-    \node[green!50!black, right] at (5.5, {exp(-\rH*5.5)}) {human};
-    \node[red!70!black, right] at (5.5, {(1-\lam) + \lam*exp(-\rA*5.5)}) {agent};
-    %\node[above] at (2.5,1) {$r_H=0.2,\; r_A=0.9,\; \lambda=0.5$};
+        \def\rH{0.3} \def\rA{2} \def\lam{0.5}
+        \draw[-] (0,0) -- (5.5,0) node[midway,below] {expenditure}
+            --(5.5,1)--(0,1)--(0,0) node[midway,rotate=90,above] {apples remaining};
+        % human: e^{-r_H t}
+        \draw[green!50!black, thick, domain=0:5.3, samples=120]
+            plot (\x, {exp(-\rH*\x)});
+        % agent: (1-\lambda) + \lambda e^{-r_A t}
+        \draw[red!70!black, thick, domain=0:5.3, samples=120]
+            plot (\x, {(1-\lam) + \lam*exp(-\rA*\x)});
+        \node[green!50!black, right] at (5.5, {exp(-\rH*5.5)}) {human};
+        \node[red!70!black, right] at (5.5, {(1-\lam) + \lam*exp(-\rA*5.5)}) {agent};
+        %\node[above] at (2.5,1) {$r_H=0.2,\; r_A=0.9,\; \lambda=0.5$};
+        \node[align=center] at (3,1.1) {tortoise-hare dynamics};
     \end{tikzpicture}
     ```
 
@@ -221,29 +221,26 @@ An apple-picking model of AI R&D.
     #| fig-width: 3
     #| fig-align: center
     \begin{tikzpicture}[scale=.7,yscale=4]
-    \def\rH{0.3} \def\rA{2} \def\lam{0.5}
-    \draw[-] (0,0) -- (5.5,0) node[midway,below] {expenditure}
-        --(5.5,1)--(0,1)--(0,0) node[midway,rotate=90,above] {apples remaining};
-    \draw[green!50!black, thick, domain=0:5.3, samples=120]
-        plot (\x, {exp(-\rH*\x)});
-    \node[green!50!black, right] at (5.5, {exp(-\rH*5.5)}) {human};
-    %\node[red!70!black, right] at (5.5, {(1-\lam) + \lam*exp(-\rA*5.5)}) {agent};
-    \draw[red!70!black, thick, dashed, domain=0:5.3, samples=120]
-        plot (\x, {(1-\lam) + \lam*exp(-\rA*\x)}) node[right,xshift=5px] {agent 1};
-    \draw[red!70!black, thick, dashed, domain=1:5.3, samples=120]
-        plot (\x, {(1-\lam)*exp(-\rH) + \lam*exp(-\rH - \rA*(\x-1))}) node[right,xshift=5px] {agent 2};
-    \draw[red!70!black, thick, dashed, domain=2:5.3, samples=120]
-        plot (\x, {(1-\lam)*exp(-2*\rH) + \lam*exp(-2*\rH - \rA*(\x-2))}) node[right,xshift=5px] {agent 3};
-    %\draw[red!70!black, thick, dashed, domain=3:5.3, samples=120]
-    %    plot (\x, {(1-\lam)*exp(-3*\rH) + \lam*exp(-3*\rH - \rA*(\x-3))});
+        \def\rH{0.3} \def\rA{2} \def\lam{0.5}
+        \draw[-] (0,0) -- (5.5,0) node[midway,below] {expenditure}
+            --(5.5,1)--(0,1)--(0,0) node[midway,rotate=90,above] {apples remaining};
+        \draw[green!50!black, thick, domain=0:5.3, samples=120]
+            plot (\x, {exp(-\rH*\x)});
+        \node[green!50!black, right] at (5.5, {exp(-\rH*5.5)}) {human};
+        \draw[red!70!black, thick, dashed, domain=0:5.3, samples=120]
+            plot (\x, {(1-\lam) + \lam*exp(-\rA*\x)}) node[right,xshift=5px] {agent 1};
+        \draw[red!70!black, thick, dashed, domain=1:5.3, samples=120]
+            plot (\x, {(1-\lam)*exp(-\rH) + \lam*exp(-\rH - \rA*(\x-1))}) node[right,xshift=5px] {agent 2};
+        \draw[red!70!black, thick, dashed, domain=2:5.3, samples=120]
+            plot (\x, {(1-\lam)*exp(-2*\rH) + \lam*exp(-2*\rH - \rA*(\x-2))}) node[right,xshift=5px] {agent 3};
+        \node[align=center] at (3,1.15) {standing on\\shoulders of giants};
     \end{tikzpicture}
     ```
 
     :::
 
 
-    The graphs illustrate an important technical observation: if we wish to model this behavior we cannot summarize the *state* of R&D with a scalar, e.g. a single metric of overall progress. Instead we need to keep track, at least to some degree, of the path by which we arrived at this state.
-
+    The graphs illustrate an important technical observation: the share of apples remaining is not a *sufficient statistic* for the state of progress. Any model of AI R&D which summarizes progress with a scalar will not reproduce these tortoise-hare or giants'-shoulders effects.
     <!-- The motivation for writing this model was to help think through the implications of recent evidence that AI can push forward the frontier on various optimization and AI R&D problems. If you can spend $100 in tokens to increase the efficiency of a frontier AI training algorithm by 0.1% then this looks like the path to self-improvement, and we'll be able to replace humans with AI. But realistically the agents have been discovering *shallow* improvements to algorithms. The idea is not original, it already exists in cliche form ("low hanging fruit"), but I still found it useful to formalize it. -->
 
 
@@ -332,43 +329,61 @@ Agent optimizations are often described as *shallow*.
 
 We can apply the model to recursive self-improvement.
 : 
-    It's also possible to close this model, where agent R&D contributes to the next generation of agent ability. This is like assuming that a robot can eat apples they harvested & grow taller. The condition for explosive growth is simple: it will happen when eating the apples within a one-foot slice of the tree are sufficient for the robot to grow another foot.
+    It's also possible to close this model, so that each round of agent R&D contributes to the next generation of agent ability. This is like assuming that a robot can grow taller by eating apples they harvested. The condition for explosive growth is simple: it will happen when eating the apples within a one-foot slice of the tree are sufficient for the robot to grow another foot.
 
-Relation to other models of AI R&D. 
+This is distinct from other models of recursive self-improvement.
 : 
-    The critical distinction between this model and others is how we represent the state. Most existing models summarize the level of productivity (or stock of knowledge) with a single number, meaning there's no distinction between a shallow and deep contribution to the state of knowledge, all that matters is the total stock of ideas (or the efficiency of the algorithm). The apple-picking model allows us to represent the state with two numbers: the share of apples remaining above $\lambda$ (the robot's height), and the share below $\lambda$. For the RSI version of the model we instead track the robot's height ($\lambda_n$) and the share of apples remaining above that threshold.
+    We can put many existing models of AI R&D in two buckets:[^exception]
 
-    Most existing models of recursive self-improvement assume that either AI accelerates or replaces human R&D researchers. I believe this is roughly true for @aghion2019artificial, @davidson2021could, @erdil2025gate, @davidson2026automatingairesearch, @jones2025aird, @kwa2026simpleraitimelines. These models then calibrate the effect through (1) how much does AI accelerate R&D workers; (2) how much do R&D workers contribute to our stock of knowledge.
+    1. **Apples can make the human pick faster.** Here AI R&D speeds up humans, typically by automating some of the tasks that are necessary for doing R&D (@aghion2019artificial, @jones2025aird, @kwa2026simpleraitimelines).
+    2. **Apples can be used to make more human-sized robots.** Here AI R&D is already able to replicate human-level R&D, but the bottleneck is the cost of compute, and further AI progress lowers that cost, thereby expanding the AI R&D workforce (@davidson2021could, @davidson2025howquickandbigwo, @ho2025explosionexperiments, @eth2025willairdautomati, @davidson2026automatingairesearch)
+
+    There is some awkwardness in fitting both these classes of model to the data:
     
-    However there is some awkwardness in fitting these models to the data:
+    1. AI seems to already be autonomously contributing to AI research, yet still not replacing humans (i.e. autonomous agents are not perfect substitutes for humans). The task-automation models imply that once an agent can contribute to R&D autonomously then all tasks are automated.
+    2. Models with human replacement don't make strong predictions until we achieve sufficient level of knowledge to reproduce a human researcher.
+
+    The model in this post is distinct from both: we assume there are plenty of robots, but they are limited in ability, and apples allow them to reach higher. Thus apples neither serve as a multiplicative boost to human productivity, not a perfect substitute for human labor.
+
+    A critical distinction is how we represent the state. Most existing models summarize the level of productivity (or stock of knowledge) with a single number, meaning there's no distinction between a shallow and deep contribution to the state of knowledge, all that matters is the total stock of ideas (or the efficiency of the algorithm). The apple-picking model allows us to represent the state with two numbers: the share of apples remaining above $\lambda$ (the robot's height), and the share below $\lambda$. For the RSI version of the model we instead track the robot's height ($\lambda_n$) and the share of apples remaining above that threshold.
     
-    1. It is hard to reconcile these models with evidence that AI is already autonomously contributing to AI research, yet still not replacing humans (i.e. autonomous agents are not perfect substitutes for humans). 
-    2. Models with human replacement typically assume a limited number of AI R&D agents (e.g. @davidson2026automatingairesearch), because having an infinite number of R&D agents would cause immediate explosive growth. But it's hard to motivate why we would have a small number, rather than scaling the number of agents up to the limits of compute.
 
-    @kokotajlo2025aifuturesmodel models AI and human "research taste", though I don't have a clear idea exactly how taste is aggregated.^[@ide2024artificialintelligenceknowledgeeconomy model AI with different levels of human ability, though I believe they only discrete problem-solving, not cumulative contribution to knowledge-gathering.]
+[^exception]: An exception to this classificaiton is @kokotajlo2025aifuturesmodel, which models "research taste" in humans and AIs. However that model also represents the state with a scalar ("software efficiency"), so I do not believe it could reproduce some of the behaviors described upfront.
 
-Things to add.
+Apple-picking is a simplification of a landscape-navigation problem.
 : 
-    - *Landscape.* A more general version would model the entire *landscape*. You can represent an optimization problem as $y=f(\bm{x})$, where you're trying to choose an $\bm{x}$ to maximize $y$, given some unknown $f(\cdot)$. (talk about non-additivity of optimizations; talk about conditions under which landscape is separable, and so each subspace is an independent apple; talk about path dependence).
+    A more general version would model research as a minimization problem over an entire bumpy landscape. You can represent an optimization problem as $y=f(\bm{x})$, where you're trying to choose an $\bm{x}$ to minimize $y$, given some unknown $f(\cdot)$. An immediate observation from landscape-navigation problem is that the current elevation is not a sufficient statistic for your state, unless you have a degenerate landscape, like the random landscapes in @kortum1997research.
+    
+    We can loosely make some generalizations about agent vs human ability to navigate this landscape:
+
+    - 
+    - [Terence Tao says](https://www.dwarkesh.com/p/terence-tao) *"These AI tools, they’re like jumping machines that can jump two meters in the air, higher than any human. Sometimes they jump in the wrong direction, and sometimes they crash, but sometimes they can reach the tops of the lowest walls that we couldn’t reach before. We’ve just set them loose in this mountain range, hopping around. There was this exciting period where they could actually find all the low ones and reach them. Maybe the next time there’s a big advance in the models, they will try it again, and a few more will be breached. But it’s a different style of doing mathematics. Normally we would hill climb, make little markers, and try to identify partial things. These tools either succeed or they fail. They’ve been really bad at creating partial progress or identifying intermediate stages that you should focus on first. Going back to this previous discussion, we don’t have a way of evaluating partial progress the same way we can evaluate a one-shot success or failure of solving a problem."*
+
+    We think of the apple-picking model as a simplification of a landscape-navigation model.
+    
+     (talk about non-additivity of optimizations; talk about conditions under which landscape is separable, and so each subspace is an independent apple; talk about path dependence).
+
+Miscellaneous points.
+: 
 
     - *Relation to time horizon.* You could think of the high apples as long-time-horizon tasks, i.e. tasks that AI agents are relatively worse at performing.
 
+    - *Relation to knowledge hierarchies.* @garicano2006organization describes a model with variation in human ability along a linear scale, and it is applied by @ide2024artificialintelligenceknowledgeeconomy to AI, though I believe they only discrete problem-solving, not cumulative contribution to knowledge-gathering.
+
     - *Shape of the tree.* You can extend the model such that apples are non-uniformly distributed, then we can replace $\lambda$ with $F(\lambda)$ below. We can then talk about types of domain which are bottom-heavy (most optimizations are pretty easy to find) vs top-heavy (most optimizations are hard to find). It then becomes important to know whether AI R&D is relatively more bottom-heavy or top-heavy, if the former then we might already be on the brink of an intelligence explosion.
 
-    - *Directed search.* We assumed that the probability of finding an apple is independent of other apples already found. Realistically people have an ability to put direct their attention to finding new innovations. This implies lower diminishing returns to expenditure, and higher complementarity between agents and humans, I'm not sure whether it would change the qualitative conclusions of the model.
+    - *Directed search.* We assumed that the probability of finding an apple is independent of other apples already found. Realistically people have an ability to direct their attention to finding new innovations. 
     
-    - *Bottlenecks.* Some R&D is bottlenecked not just by thinking (which agents can do), but also by running experiments.
+    - *Bottlenecks.* Some R&D is bottlenecked not just by thinking (which agents can do), but also by running experiments. This is discussed in .
 
-    - *Acceleration.* This model is missing the effect of acceleration through explicit cooperation -- e.g. a human comes up with an idea, and an agent executes it. This seems very likely to be an important contribution to AI progress.
+    - *Acceleration.* This model is missing the ability of agents to accelerate human R&D (apple picking), e.g. through automating some of the huma's tasks. This seems very likely to be an important contribution to AI progress.
 
-    - *Sketch of a quantitative model of LLM training.* LLM training is a big stack of algorithms, which we've been optimizing at perhaps 10X/year. Would be useful to add some speculation about which parts of the stack have low-hanging fruit.
-
-    - *Relation to task model.* You could describe a version of apple-picking with a task model, though it would be a quite different interpretation than the usual task model: 
-        1. There's a uniform distribution of tasks (low through high apples)
-        2. There are diminishing returns within each task, but additive across tasks (usually there are additive returns within tasks, but tasks are complements)
+    - *Relation to task model.* You could describe a version of apple-picking with a task model (@acemoglu2022tasks), though it would have a quite different interpretation than the usual task model. Suppose:
+        1. There's a uniform distribution of tasks (apples)
+        2. There are diminishing returns within each task, but additive returns across tasks (usually there are additive returns within tasks, but tasks are complements)
         3. Agents can only do low tasks.
 
-        For simplicity we take the price of agent & human labor as given (i.e. parital equilibrium). Then we'll get specialization, agents work on apples below $\lambda$, humans work on apples above $\lambda$ (assuming the price of agent labor is relatively low). As $\lambda$ increases human wages fall (because there's more congestion in working on the high apples, so lower marginal product).
+        For simplicity we take the price of agent & human labor as given (i.e. partial equilibrium). Then we'll get specialization: agents work on apples below $\lambda$, humans work on apples above $\lambda$ (assuming the price of agent labor is relatively low). As $\lambda$ increases human wages will fall (because there's more congestion in working on the high apples, so lower marginal product).
 
 
 
@@ -500,30 +515,21 @@ Implication: the agent asymptote depends on the starting point.
     If you start an agent after some human optimization has been performed the agent will contribute less at first (because fewer apples remain), but it will be able to achieve a lower asymptote.
 
     ```{tikz}
-    \begin{tikzpicture}[x=1.1cm, y=5cm]
-    \def\rH{0.2} \def\rA{0.9} \def\lam{0.5}
-    \draw[-] (0,0) -- (5.5,0) node[midway,below] {search expenditure}
-        -- (5.5,1) -- (0,1) -- (0,0) node[midway,rotate=90,above] {share remaining};
-    \node[above] at (2.75,1) {$r_H=0.2,\; r_A=0.9,\; \lambda=0.5$};
-    \draw[green!50!black, thick, domain=0:5.3, samples=120]
-        plot (\x, {exp(-\rH*\x)});
-    \draw[red!70!black, thick, domain=0:5.3, samples=120]
-        plot (\x, {(1-\lam) + \lam*exp(-\rA*\x)});
-    \draw[red!70!black, thick, dashed, domain=1:5.3, samples=120]
-        plot (\x, {(1-\lam)*exp(-\rH) + \lam*exp(-\rH - \rA*(\x-1))});
-    \draw[red!70!black, thick, dash dot, domain=2:5.3, samples=120]
-        plot (\x, {(1-\lam)*exp(-2*\rH) + \lam*exp(-2*\rH - \rA*(\x-2))});
-    \draw[red!70!black, thick, densely dotted, domain=3:5.3, samples=120]
-        plot (\x, {(1-\lam)*exp(-3*\rH) + \lam*exp(-3*\rH - \rA*(\x-3))});
-    \draw[red!70!black, thick, loosely dashed, domain=4:5.3, samples=120]
-        plot (\x, {(1-\lam)*exp(-4*\rH) + \lam*exp(-4*\rH - \rA*(\x-4))});
-    \node[green!50!black, right] at (5.5, {exp(-\rH*5)}) {human-only};
-    %\node[red!70!black, right] at (4.15, {(1-\lam) + \lam*exp(-\rA*4.15) - 0.03}) {$t_H=0,1,2,3,4$};
+    \begin{tikzpicture}[scale=1,yscale=4]
+        \def\rH{0.3} \def\rA{2} \def\lam{0.5}
+        \draw[-] (0,0) -- (5.5,0) node[midway,below] {expenditure}
+            --(5.5,1)--(0,1)--(0,0) node[midway,rotate=90,above] {apples remaining};
+        \draw[green!50!black, thick, domain=0:5.3, samples=120]
+            plot (\x, {exp(-\rH*\x)});
+        \node[green!50!black, right] at (5.5, {exp(-\rH*5.5)}) {human};
+        \draw[red!70!black, thick, dashed, domain=0:5.3, samples=120]
+            plot (\x, {(1-\lam) + \lam*exp(-\rA*\x)}) node[right,xshift=5px] {agent 1};
+        \draw[red!70!black, thick, dashed, domain=1:5.3, samples=120]
+            plot (\x, {(1-\lam)*exp(-\rH) + \lam*exp(-\rH - \rA*(\x-1))}) node[right,xshift=5px] {agent 2};
+        \draw[red!70!black, thick, dashed, domain=2:5.3, samples=120]
+            plot (\x, {(1-\lam)*exp(-2*\rH) + \lam*exp(-2*\rH - \rA*(\x-2))}) node[right,xshift=5px] {agent 3};
     \end{tikzpicture}
     ```
-
-
-
 
 
 #          Extension: Recursive Self-Improvement
