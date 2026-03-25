@@ -77,17 +77,16 @@ format:
 
 An apple-picking model of AI R&D.
 : 
-    In this note we describe a model of AI R&D, to help reconcile two observations:
+    Everyone's talking about AI advancing R&D, but only by picking low-hanging fruit: [Andrej Karpathy](https://x.com/karpathy/status/2031135152349524125), [Terence Tao](https://www.theatlantic.com/technology/2026/02/ai-math-terrance-tao/686107/), [Nathan Lambert](https://www.interconnects.ai/p/lossy-self-improvement). In this note we describe a model of AI R&D, to help reconcile two observations:
 
     1. AI agents are making genuine autonomous contributions to R&D (evidence below).
     2. AI agents do not seem a perfect substitute for humans researchers.
 
     The model is very simple: an AI agent helping you to optimize an algorithm is like a robot helping you pick apples. It will take care of all the apples up to a certain height, and it may find apples you haven't found yet, but there will still be apples out of its reach.
     
-    The model is somewhat reassuring: agents can be useful for autonomous R&D, without being ready to replace humans. We are not confident that the reassuring implication is correct, but we find the model helpful for thinking through the evidence we would need.
+    The model is somewhat reassuring: agents can be useful for autonomous R&D, without being ready to replace humans. We are not confident that the reassuring implication is correct, but the model is helpful for thinking through the evidence we would need.
 
     We give a formal model but the basic ideas can all be seen in the drawing below. Here both the human and robot have picked four apples, but they've left the tree in a very different state, so the robot isn't ready to replace the human yet:
-
 
     ```{tikz}
     %| fig-align: center
@@ -193,7 +192,10 @@ An apple-picking model of AI R&D.
     \end{tikzpicture}
     ```
 
-    The plots below show two effects we see from this model: (1) tortoise-hare dynamics, the agent will make quicker progress than the human at first, but eventually get overtaken; (2) standing-on-shoulders-of-giants: the agent will be able to pick more apples (or optimize the algorithm further) if they start from a stronger human starting point.
+    The plots below show two effects we see from this model:
+    
+    1. The agent will make quicker progress than the human at first, but eventually get overtaken (tortoise-hare dynamics)
+    2. The agent will be able to pick more apples if they start from a stronger human starting point (standing on the shoulders of giants)
 
     ::: {.bottom-align-panel layout-ncol=2}
 
@@ -201,7 +203,7 @@ An apple-picking model of AI R&D.
     #| fig-width: 3
     #| fig-align: center
     \begin{tikzpicture}[scale=.7,yscale=4]
-        \def\rH{0.3} \def\rA{2} \def\lam{0.5}
+        \def\rH{0.3} \def\rA{2} \def\lam{0.5} \def\tcross{2.275}
         \draw[-] (0,0) -- (5.5,0) node[midway,below] {expenditure}
             --(5.5,1)--(0,1)--(0,0) node[midway,rotate=90,above] {apples remaining};
         % human: e^{-r_H t}
@@ -221,7 +223,7 @@ An apple-picking model of AI R&D.
     #| fig-width: 3
     #| fig-align: center
     \begin{tikzpicture}[scale=.7,yscale=4]
-        \def\rH{0.3} \def\rA{2} \def\lam{0.5}
+        \def\rH{0.3} \def\rA{2} \def\lam{0.5} \def\tcross{2.275}
         \draw[-] (0,0) -- (5.5,0) node[midway,below] {expenditure}
             --(5.5,1)--(0,1)--(0,0) node[midway,rotate=90,above] {apples remaining};
         \draw[green!50!black, thick, domain=0:5.3, samples=120]
@@ -241,8 +243,8 @@ An apple-picking model of AI R&D.
 
     The model is related to two literatures in economics:
 
-    1. Models of tasks (@acemoglu2022tasks) or knowledge hierarchies (@garicano2006organization). The apple-picking model differs in that tasks are performed *cumulatively*, instead of a fresh set of tasks each period.
-    2. Models of knowledge accumulation (@jones1995rd). The apple-picking model differs in that the state of knowledge is not represented by a single scalar: it distinguishes between low-hanging and high-hanging apples.
+    - Models of tasks (@acemoglu2022tasks) or knowledge hierarchies (@garicano2006organization). The apple-picking model differs in that tasks are performed *cumulatively*, instead of a fresh set of tasks each period.
+    - Models of knowledge accumulation (@jones1995rd). The apple-picking model differs in that the state of knowledge is not represented by a single scalar: it distinguishes between low-hanging and high-hanging apples.
 
 
     <!-- The motivation for writing this model was to help think through the implications of recent evidence that AI can push forward the frontier on various optimization and AI R&D problems. If you can spend $100 in tokens to increase the efficiency of a frontier AI training algorithm by 0.1% then this looks like the path to self-improvement, and we'll be able to replace humans with AI. But realistically the agents have been discovering *shallow* improvements to algorithms. The idea is not original, it already exists in cliche form ("low hanging fruit"), but I still found it useful to formalize it. -->
@@ -250,16 +252,161 @@ An apple-picking model of AI R&D.
 
 #               Implications for AI R&D
 
-Implications from apple-picking.
-:     
-    1. **Agents could autonomously improve on human baselines, without replacing humans.** Observing an agent autonomously improve the frontier, finding optimizations that humans have not yet found, does not imply that agents can replace humans, because there are still optimizations that agents cannot find.
+Consider the history of AI R&D.
+: 
+    We start with a graphical representation of AI progress: suppose there are 1,000 years of human R&D investment, and the loss metric (e.g. cost of intelligence) has been falling at 3X/year:
 
-    2. **Agent time horizons are not additive.** The model predicts that human time horizons are additive, but agent time horizons are not. Suppose we observe that agents can consistently produce optimizations equal to those found by a human after 1 month of work.^[We can define the time-horizon by equalizing expenditure between agent and human, or estimating asymptotic agent spend.] We should expect this to hold only if we start from a *human-optimized* baseline. If we start from a machine-optimized baseline, then we expect much lower returns (but the opposite doesn't hold, humans are more versatile). Thus we expect significantly different time horizons depending on the starting point.
+    ```{tikz}
+    #| fig-width: 3
+    #| fig-align: center
+    \begin{tikzpicture}
+        \def\rH{0.3} \def\rA{2} \def\lam{0.5}
+        \draw[-] (0,0) -- (7,0) node[midway,below] {expenditure on R\&D}
+            --(7,3)--(0,3)--(0,0) node[midway,rotate=90,above] {cost of intelligence};
+        \draw[green!50!black, thick, domain=0:4, samples=120]
+            plot (\x, {3*exp(-\rH*\x)})
+            circle (0.03)
+            node[right,xshift=5px,align=center] {human\\progress};
+    \end{tikzpicture}
+    ```
 
-    3. **We should benchmark agent AI R&D ability against frontier problems.** which represent cumulative human effort, and so are relatively picked-clean, instead of against toy problems which represent the effort of a single human.
+    We wish to predict how the cost will fall in the future, especially the degree to which agents will accelerate this progress.
 
-    4. **The effects of AI R&D are likely show up in parts of the AI stack that are disproprionately easy optimizations.** e.g. where there's a lot of fairly natural ideas to try but we are bottlenecked on execution.
+Agents can improve on human baselines without being perfect substitutes for humans.
+: 
+    We discuss below evidence that agents are autonomously able to find improvements on a variety of algorithms that have already been well-optimized by humans.
+    
+    In the apple-picking model it's possible for agents to advance the frontier, without them being strictly superior to humans. We would expect progress to go as follows: that deploying agents will cause a one-time spike in progress, until the marginal returns to human and agent expenditure are equalized, then a return to human progress:
 
+    ```{tikz}
+    #| fig-width: 3
+    #| fig-align: center
+    \begin{tikzpicture}
+        \def\rH{0.3} \def\rA{4} \def\lam{0.5}
+        \draw[-] (0,0) -- (7,0) node[midway,below] {expenditure on R\&D}
+            --(7,3)--(0,3)--(0,0) node[midway,rotate=90,above] {cost of intelligence};
+        \draw[green!50!black, thick, domain=0:4, samples=120]
+            plot (\x, {3*exp(-\rH*\x)})
+            circle (0.03);
+        %\draw (0,.7)--(5,.7);
+        %\draw (0,{3*exp(-\rH*4)})--(5,{3*exp(-\rH*4)});
+        \draw[red,thick,domain=4:4.2]
+            plot (\x, {.7+(3*exp(-\rH*4)-.7)*exp(-30*(\x-4))}) circle (0.03) node[right] {agent contribution};
+            %(4,{3*exp(-\rH*4)}) -- (4,{3*exp(-\rH*4)-.2}) circle (0.03) node[right]{agent contribution};
+    \end{tikzpicture}
+    ```
+
+    We give quotes below from a variety of domains that the contributions of agents seem to have hit diminishing returns.
+
+
+Agent time horizons are not additive.
+: 
+    Because of the tortoise-hare behavior of agents we can calibrate an agent's ability by the intersection of the two curves, the point at which a human and an agent, given equal expenditure, will make equal progress. This is loosely the way time horizon is identified in @wijk2025rebench and @kwa2025longtasks.
+
+    ```{tikz}
+    #| fig-width: 3
+    #| fig-align: center
+    \begin{tikzpicture}[scale=.7,yscale=4]
+        \def\rH{0.3} \def\rA{2} \def\lam{0.5} \def\tcross{2.275}
+        \draw[-] (0,0) -- (5.5,0) node[midway,below] {expenditure}
+            --(5.5,1)--(0,1)--(0,0) node[midway,rotate=90,above] {loss};
+        % human: e^{-r_H t}
+        \draw[green!50!black, thick, domain=0:5.3, samples=120]
+            plot (\x, {exp(-\rH*\x)});
+        % agent: (1-\lambda) + \lambda e^{-r_A t}
+        \draw[red!70!black, thick, domain=0:5.3, samples=120]
+            plot (\x, {(1-\lam) + \lam*exp(-\rA*\x)});
+        \draw[densely dashed] (\tcross,0) -- (\tcross, 1)
+            node[above,align=center]{agent time\\horizon};
+        \node[green!50!black, right] at (5.5, {exp(-\rH*5.5)}) {human};
+        \node[red!70!black, right] at (5.5, {(1-\lam) + \lam*exp(-\rA*5.5)}) {agent};
+    \end{tikzpicture}
+    ```
+
+    In the pure apple-picking model an agent's time horizon will be consistent no matter where we start in the optimization process. However this will only be true if we start from a human-only trajectory. If we have already applied some agent labor to the algorithm, then further agentic labor will have much lower returns, i.e. time horizons will not be additive. Concretely: an agent could make progress equivalent to 1 week's human labor on a fresh problem, but it will not *stack*, you can't run an agent for twice as long to get 2 week's labor.
+
+
+AI R&D ability should be benchmarked against frontier problems.
+: 
+    We should use problems which represent cumulative human effort, and so are relatively picked-clean, instead of against toy problems which represent the effort of a single human.
+
+The effects of agentic R&D will show up in different parts of the stack.
+: 
+    E.g. where there's a lot of fairly natural ideas to try but we are bottlenecked on execution.
+
+
+    ```{tikz}
+    %| fig-align: center
+    %| fig-width: 4
+    \begin{tikzpicture}[
+        x=0.55cm, y=0.55cm,
+        line cap=round, line join=round,
+        draw=black, line width=1.6pt
+    ]
+    %%% --- PARAMETERS (edit these) ---
+    \def\nrows{4}           % number of apple rows
+    \def\canopyBot{3}       % y where canopy starts
+    \def\canopyTop{9.6}     % y where canopy ends
+    \def\canopyHalfW{2.0}   % half-width of canopy
+    \def\canopyRound{1cm} % corner rounding
+    \def\treeSpacing{5.2}     % horizontal distance between tree centers
+    \def\leftTreeX{4.5}     % x of left tree center
+    \def\fruitInset{0.9}    % fruit distance from tree center
+    \def\fruitR{0.36}
+    \def\filledR{0.3}
+    \def\canopyPad{1}     % vertical padding inside canopy for fruit
+    %%% --- END PARAMETERS ---
+
+    \pgfmathsetmacro{\rightTreeX}{\leftTreeX+\treeSpacing}
+    \pgfmathsetmacro{\groundLeft}{-5}
+    \pgfmathsetmacro{\groundRight}{20}
+    \pgfmathsetmacro{\rowStep}{(\canopyTop-\canopyBot-2*\canopyPad)/(\nrows-1)}
+
+    \newcommand{\apple}[2]{\draw (#1,#2) circle (\fruitR);}
+    \newcommand{\cross}[2]{
+        \draw (#1,#2) circle (\fruitR);
+        \draw ({#1-\fruitR*0.7},{#2-\fruitR*0.7}) -- ({#1+\fruitR*0.7},{#2+\fruitR*0.7});
+        \draw ({#1-\fruitR*0.7},{#2+\fruitR*0.7}) -- ({#1+\fruitR*0.7},{#2-\fruitR*0.7});
+    }
+
+    \newcommand{\drawTree}[1]{
+        \draw (#1,0) -- (#1,\canopyBot);
+        \draw[rounded corners=\canopyRound]
+            ({#1-\canopyHalfW},\canopyBot) rectangle ({#1+\canopyHalfW},\canopyTop);
+    }
+
+    % row y-coordinate: row 1 = bottom, row \nrows = top
+    \newcommand{\rowY}[1]{\pgfmathparse{\canopyBot+\canopyPad+(\rowStep)*(#1-1)}\pgfmathresult}
+
+    % --- ground ---
+    \draw (\groundLeft,0) -- (\groundRight,0);
+
+
+    % --- left tree (human-picked: crosses scattered, apples scattered) ---
+    \drawTree{\leftTreeX}
+    \pgfmathsetmacro{\fL}{\leftTreeX-\fruitInset}
+    \pgfmathsetmacro{\fR}{\leftTreeX+\fruitInset}
+    \foreach \row/\leftType/\rightType in {4/x/o, 3/o/x, 2/x/o, 1/o/x} {
+        \pgfmathsetmacro{\fy}{\canopyBot+\canopyPad+\rowStep*(\row-1)}
+        \if x\leftType \cross{\fL}{\fy} \else \apple{\fL}{\fy} \fi
+        \if x\rightType \cross{\fR}{\fy} \else \apple{\fR}{\fy} \fi
+    }
+
+    % --- right tree (robot-picked: apples on top, crosses on bottom) ---
+    \drawTree{\rightTreeX}
+    \pgfmathsetmacro{\gL}{\rightTreeX-\fruitInset}
+    \pgfmathsetmacro{\gR}{\rightTreeX+\fruitInset}
+    \foreach \row/\leftType/\rightType in {4/o/o, 3/o/o, 2/x/x, 1/x/x} {
+        \pgfmathsetmacro{\fy}{\canopyBot+\canopyPad+\rowStep*(\row-1)}
+        \if x\leftType \cross{\gL}{\fy} \else \apple{\gL}{\fy} \fi
+        \if x\rightType \cross{\gR}{\fy} \else \apple{\gR}{\fy} \fi
+    }
+
+    \end{tikzpicture}
+    ```
+
+
+<!-- 
 
 Start with the simplest model of AI progress:
 : 
@@ -268,7 +415,6 @@ Start with the simplest model of AI progress:
     2. Training expenditure has been increasing by  ≈5X per year.
     3. Training efficiency has been increasing by ≈5X per year due to R&D.[^estimates]
     
-
     We can draw this as follows:
 
     ```{tikz}
@@ -292,8 +438,10 @@ Start with the simplest model of AI progress:
     \end{tikzpicture}
     ```
 
-    Humans have been painstakingly pushing those blue curves to the left. We now are seeing clear signs of agents joining the effort and contributing to that leftward movement, and we want to know what to expect.
-    
+    Humans have been painstakingly pushing those blue curves to the left. We now are seeing clear signs of agents joining the effort and contributing to that leftward movement, and we want to know what to expect. 
+
+-->
+
 
 
 [^estimates]: The R&D progress is inclusive of declining cost of compute, pretraining, posttraining, and elicitation. These estimates are very loose, based on Epoch's [trends](https://epoch.ai/trends) and other sources. 
@@ -337,6 +485,14 @@ Agent optimizations are often described as *shallow*.
 
     - In autoresearch Karpathy says *"It's not novel, ground-breaking 'research' (yet), but all the adjustments are 'real'"*. The improvements that worked were things like adjusting AdamW constants, adding a scalar multiplier for QKnorm, and even making [random seed changes](https://github.com/karpathy/autoresearch/issues/131). Overall he notes that the agents feel "cagey" on open-ended ideas.
 
+    - Terence Tao has described the contribution of AI to mathematical discovery:
+
+        > "What AI has been very good at is systematically exploring this long tail and knocking off the easiest of the problems." ([ref](https://www.theatlantic.com/technology/2026/02/ai-math-terrance-tao/686107/)):
+
+        > "Fifty-odd problems have been solved with AI assistance, which is great, but there’s like six hundred to go. People are still chipping away at one or two of these right now." ([ref](https://www.dwarkesh.com/p/terence-tao))
+
+
+
 
 #               Discussion
 
@@ -369,7 +525,6 @@ Apple-picking is a simplification of a landscape-navigation problem.
     
     We can loosely make some generalizations about agent vs human ability to navigate this landscape:
 
-    - 
     - [Terence Tao says](https://www.dwarkesh.com/p/terence-tao) *"These AI tools, they’re like jumping machines that can jump two meters in the air, higher than any human. Sometimes they jump in the wrong direction, and sometimes they crash, but sometimes they can reach the tops of the lowest walls that we couldn’t reach before. We’ve just set them loose in this mountain range, hopping around. There was this exciting period where they could actually find all the low ones and reach them. Maybe the next time there’s a big advance in the models, they will try it again, and a few more will be breached. But it’s a different style of doing mathematics. Normally we would hill climb, make little markers, and try to identify partial things. These tools either succeed or they fail. They’ve been really bad at creating partial progress or identifying intermediate stages that you should focus on first. Going back to this previous discussion, we don’t have a way of evaluating partial progress the same way we can evaluate a one-shot success or failure of solving a problem."*
 
     We think of the apple-picking model as a simplification of a landscape-navigation model.
