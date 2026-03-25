@@ -290,7 +290,7 @@ window.Quarto = {
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li><strong>We think there’s credible evidence that agents are making autonomous contributions to AI R&amp;D.</strong></li>
-<li><strong>It is critical to understand how agent contribution <em>scales</em>.</strong> The two standard models are (A) AI speeds up humans; (B) AI replaces humans. The apple-picking model is one way of explaining: (A) AI can autonomously push the frontier, but hit diminishing returns; (B) agents and human expenditure are complements.</li>
+<li><strong>It is critical to understand how agent contribution to AI R&amp;D <em>scales</em>.</strong> The apple-picking model is one way of calibrating how agents can autonomously contribute to R&amp;D, without being full substitutes for human labor.</li>
 <li><strong>We need better evidence:</strong> (A) How does agent contribution scale?; (B) Are agent &amp; human contributions complements?</li>
 </ol>
 </div>
@@ -355,7 +355,7 @@ window.Quarto = {
 <section id="implications-for-ai-rd" class="level1">
 <h1>Implications for AI R&amp;D</h1>
 <dl>
-<dt>Consider the history of AI R&amp;D.</dt>
+<dt>Start with the history of AI R&amp;D.</dt>
 <dd>
 <p>We start with a graphical representation of AI progress: suppose there are 1,000 years of human R&amp;D investment, and the loss metric (e.g.&nbsp;cost of intelligence) has been falling at 3X/year:</p>
 <div class="cell" data-layout-align="center">
@@ -369,9 +369,9 @@ window.Quarto = {
 </div>
 <p>We wish to predict how the cost will fall in the future, especially the degree to which agents will accelerate this progress.</p>
 </dd>
-<dt>Simple models imply a change in slope.</dt>
+<dt>Traditional models of AI-assisted R&amp;D imply a permanent acceleration.</dt>
 <dd>
-<p>There are two simple models of AI’s effect on R&amp;D: (1) it multiplies the effectiveness of human researchers; (2) it replaces human researchers with computer researchers. Both models imply we should the historical pattern of expenditure-progress to stay on the same path, but accelerated:</p>
+<p>There are two standard models of AI’s effect on R&amp;D: (1) it multiplies the effectiveness of human researchers; (2) it replaces human researchers with computer researchers. Both models imply we should the historical pattern of expenditure-progress to cause a one-time acceleration in the speed of progress:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -382,9 +382,14 @@ window.Quarto = {
 </div>
 </div>
 </dd>
-<dt>Agents can improve on human baselines without being perfect substitutes for humans.</dt>
+<dt>A low-hanging apple is whatever is easy for the agent.</dt>
 <dd>
-<p>The apple-picking model implies a different pattern: agents will autonomously advance the frontier, but they will then quickly hit diminishing returns. When the marginal returns to human and agent expenditure are equalized, then we will return to investment in more human optimization:</p>
+<p>Imagine now that aggregate progress is made up of thousands of independent optimizations which remain to be discovered.</p>
+<p>We will define an optimization as low-hanging if an agent can do it. In practice there are many conjectures about <em>what</em> types of optimizations are within reach of agents (e.g.&nbsp;well-defined, hill-climbable, short-time-horizon). The fact that there is a difference in humand and AI capabilities is often summarized with the phrase “jagged frontier”.</p>
+</dd>
+<dt>Apple-picking implies one-time jumps in progress.</dt>
+<dd>
+<p>The apple-picking model implies a different pattern: for each model generation, agents will autonomously advance the frontier, but they will then quickly hit diminishing returns. When the marginal returns to human and agent expenditure are equalized, then we will return to investment in human optimization:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -396,10 +401,11 @@ window.Quarto = {
 </div>
 <p>We give quotes below from a variety of domains with claims that (1) agents are autonomously advancing the frontier; (2) those advances have hit diminishing returns. We show below in the theory section that the optimal allocation of expenditure will be to first invest in agentic optimization, then switch to humans.</p>
 <p>As new more powerful agents are released, we should expect a sort-of punctuated equilibrium, showing discrete jumps with each release. Terence Tao says, on Erdos problems: <em>“Maybe the next time there’s a big advance in the models, they will try it again, and a few more will be breached.”</em></p>
+<p>In reality aggregate progress is likely to be much smoother, for a few reasons: (1) many overlapping cycles of model updating; (2) interaction between human &amp; agent optimizations (which aren’t included in the model).</p>
 </dd>
 <dt>Agent time horizons are not additive.</dt>
 <dd>
-<p>Because of the tortoise-hare behavior of agents we can calibrate an agent’s ability by the intersection of the two curves, the point at which a human and an agent, given equal expenditure, will make equal progress. This is loosely the way time horizon is identified in <span class="citation" data-cites="wijk2025rebench">Wijk et al. (<a href="#ref-wijk2025rebench" role="doc-biblioref">2025</a>)</span> and <span class="citation" data-cites="kwa2025longtasks">Kwa et al. (<a href="#ref-kwa2025longtasks" role="doc-biblioref">2025</a>)</span>.</p>
+<p>Because of the tortoise-hare behavior of agents we can calibrate an agent’s ability by the intersection of the two curves, the point at which a human and an agent, given equal expenditure, will make equal progress. This is, very loosely, the way time horizon is identified in <span class="citation" data-cites="wijk2025rebench">Wijk et al. (<a href="#ref-wijk2025rebench" role="doc-biblioref">2025</a>)</span> and <span class="citation" data-cites="kwa2025longtasks">Kwa et al. (<a href="#ref-kwa2025longtasks" role="doc-biblioref">2025</a>)</span>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -409,20 +415,21 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>In the pure apple-picking model an agent’s time horizon will be consistent no matter where we start in the optimization process. However this will only be true if we start from a human-only trajectory. If we have already applied some agent labor to the algorithm, then further agentic labor will have much lower returns, i.e.&nbsp;time horizons will not be additive. Concretely: an agent could make progress equivalent to 1 week’s human labor on a fresh problem, but it will not <em>stack</em>, you can’t run an agent for twice as long to get 2 week’s labor.</p>
+<p>In the apple-picking model an agent’s time horizon will be consistent no matter where we start in the optimization process. However this will only be true if we start from a human-only trajectory. If we have already applied some agent labor to the algorithm, then further agentic labor will have much lower returns, i.e.&nbsp;time horizons will not be additive. Concretely: an agent could make progress equivalent to 1 week’s human labor on a fresh problem, but it will not <em>stack</em>, you can’t run an agent for twice as long to get 2 week’s labor.</p>
 </dd>
-<dt>The effects of agentic R&amp;D will show up in different parts of the stack.</dt>
+<dt>The effects of agentic R&amp;D depend on the type of problem.</dt>
 <dd>
-<p>E.g. where there’s a lot of fairly natural ideas to try but we are bottlenecked on execution.</p>
-<div class="cell" data-layout-align="center">
+<p>We can draw some <em>very</em> heuristic diagrams representing the likely potential for agentic optimization across different parts of the AI stack:</p>
+<div class="cell">
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure">
-<p><img src="2026-03-13-apple-picking-ai_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="384"></p>
+<p><img src="2026-03-13-apple-picking-ai_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="480"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>The trees above are extremely heuristic sketches, we might expect pretraining to be particularly hard for agents to optimize because the feedback cycle is very long, i.e.&nbsp;it is expensive to tell whether a change will work at scale and requires deep thought. In contrast other parts of the stack can be more easily ‘hill climbed’, with cheaply iterating on ideas to find improvements. Note that we should expect the returns to human labor to be roughly equalized across each of these trees, so the relevant question for agentic contribution is just the relative density of low and high apples.</p>
 </dd>
 <dt>Agents could kick-off recursive self-improvement.</dt>
 <dd>
