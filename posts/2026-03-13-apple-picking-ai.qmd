@@ -77,12 +77,12 @@ format:
 
 An apple-picking model of AI R&D.
 : 
-    Everyone's talking about AI advancing R&D, but only by picking low-hanging fruit: [Andrej Karpathy](https://x.com/karpathy/status/2031135152349524125), [Terence Tao](https://www.theatlantic.com/technology/2026/02/ai-math-terrance-tao/686107/), [Nathan Lambert](https://www.interconnects.ai/p/lossy-self-improvement). In this note we describe a model of AI R&D, to help reconcile two observations:
+    Many people are talking about how AI is finally contributing to frontier R&D, but it's only picking low-hanging fruit: [Andrej Karpathy](https://x.com/karpathy/status/2031135152349524125), [Terence Tao](https://www.theatlantic.com/technology/2026/02/ai-math-terrance-tao/686107/), [Nathan Lambert](https://www.interconnects.ai/p/lossy-self-improvement). In this note we describe a model of AI R&D, to help reconcile two observations:
 
     1. AI agents are making genuine autonomous contributions to R&D (evidence below).
     2. AI agents do not seem a perfect substitute for humans researchers.
 
-    The model is very simple: an AI agent helping you to optimize an algorithm is like a robot helping you pick apples. It will take care of all the apples up to a certain height, and it may find apples you haven't found yet, but there will still be apples out of its reach.
+    The model is takes the metaphor literally: an AI agent helping you to optimize an algorithm is like a robot helping you pick apples. It will take care of all the apples up to a certain height, and it may find apples you haven't found yet, but there will still be apples out of its reach.
     
     The model is somewhat reassuring: agents can be useful for autonomous R&D, without being ready to replace humans. We are not confident that the reassuring implication is correct, but the model is helpful for thinking through the evidence we would need.
 
@@ -194,8 +194,8 @@ An apple-picking model of AI R&D.
 
     The plots below show two effects we see from this model:
     
-    1. The agent will make quicker progress than the human at first, but eventually get overtaken (tortoise-hare dynamics)
-    2. The agent will be able to pick more apples if they start from a stronger human starting point (standing on the shoulders of giants)
+    3. The agent will make quicker progress than the human at first, but eventually get overtaken (tortoise-hare dynamics)
+    4. The agent will be able to pick more apples if they start from a stronger human starting point (standing on the shoulders of giants)
 
     ::: {.bottom-align-panel layout-ncol=2}
 
@@ -272,11 +272,28 @@ Consider the history of AI R&D.
 
     We wish to predict how the cost will fall in the future, especially the degree to which agents will accelerate this progress.
 
+Simple models imply a change in slope.
+: 
+    There are two simple models of AI's effect on R&D: (1) it multiplies the effectiveness of human researchers; (2) it replaces human researchers with computer researchers. Both models imply we should the historical pattern of expenditure-progress to stay on the same path, but accelerated:
+
+    ```{tikz}
+    #| fig-width: 3
+    #| fig-align: center
+    \begin{tikzpicture}
+        \def\rH{0.3} \def\rA{4} \def\lam{0.5}
+        \draw[-] (0,0) -- (7,0) node[midway,below] {expenditure on R\&D}
+            --(7,3)--(0,3)--(0,0) node[midway,rotate=90,above] {cost of intelligence};
+        \draw[green!50!black, thick, domain=0:4, samples=120]
+            plot (\x, {3*exp(-\rH*\x)})
+            circle (0.03);
+        \draw[red,thick,domain=4:4.2]
+            plot (\x, {3*exp(-\rH*4)*exp(-4*(\x-4))}) circle (0.03) node[right] {agent contribution};
+    \end{tikzpicture}
+    ```
+
 Agents can improve on human baselines without being perfect substitutes for humans.
 : 
-    We discuss below evidence that agents are autonomously able to find improvements on a variety of algorithms that have already been well-optimized by humans.
-    
-    In the apple-picking model it's possible for agents to advance the frontier, without them being strictly superior to humans. We would expect progress to go as follows: that deploying agents will cause a one-time spike in progress, until the marginal returns to human and agent expenditure are equalized, then a return to human progress:
+    The apple-picking model implies a different pattern: agents will autonomously advance the frontier, but they will then quickly hit diminishing returns. When the marginal returns to human and agent expenditure are equalized, then we will return to investment in more human optimization:
 
     ```{tikz}
     #| fig-width: 3
@@ -296,7 +313,9 @@ Agents can improve on human baselines without being perfect substitutes for huma
     \end{tikzpicture}
     ```
 
-    We give quotes below from a variety of domains that the contributions of agents seem to have hit diminishing returns.
+    We give quotes below from a variety of domains with claims that (1) agents are autonomously advancing the frontier; (2) those advances have hit diminishing returns. We show below in the theory section that the optimal allocation of expenditure will be to first invest in agentic optimization, then switch to humans. 
+
+    As new more powerful agents are released, we should expect a sort-of punctuated equilibrium, showing discrete jumps with each release. Terence Tao says, on Erdos problems: *"Maybe the next time there’s a big advance in the models, they will try it again, and a few more will be breached."*
 
 
 Agent time horizons are not additive.
@@ -326,9 +345,6 @@ Agent time horizons are not additive.
     In the pure apple-picking model an agent's time horizon will be consistent no matter where we start in the optimization process. However this will only be true if we start from a human-only trajectory. If we have already applied some agent labor to the algorithm, then further agentic labor will have much lower returns, i.e. time horizons will not be additive. Concretely: an agent could make progress equivalent to 1 week's human labor on a fresh problem, but it will not *stack*, you can't run an agent for twice as long to get 2 week's labor.
 
 
-AI R&D ability should be benchmarked against frontier problems.
-: 
-    We should use problems which represent cumulative human effort, and so are relatively picked-clean, instead of against toy problems which represent the effort of a single human.
 
 The effects of agentic R&D will show up in different parts of the stack.
 : 
@@ -392,6 +408,7 @@ The effects of agentic R&D will show up in different parts of the stack.
         \if x\rightType \cross{\fR}{\fy} \else \apple{\fR}{\fy} \fi
     }
 
+
     % --- right tree (robot-picked: apples on top, crosses on bottom) ---
     \drawTree{\rightTreeX}
     \pgfmathsetmacro{\gL}{\rightTreeX-\fruitInset}
@@ -405,6 +422,12 @@ The effects of agentic R&D will show up in different parts of the stack.
     \end{tikzpicture}
     ```
 
+
+Agents could kick-off recursive self-improvement.
+: 
+    We describe above that each generation of agents will push forward the optimization frontier by a fixed amount. The process will be self-sustaining if, without human input, each successive generation is able to improve the next generation by a larger amount than the previous generation.
+    
+    Concretely, if we measure agent ability with METR's time horizon, then the condition for explosive growth is this: if each doubling of agent time horizon increases optimization ability sufficiently to cause more than 1 doubling of the next generation of models. We formalize this below.
 
 <!-- 
 

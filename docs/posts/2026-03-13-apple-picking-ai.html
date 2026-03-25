@@ -301,12 +301,12 @@ window.Quarto = {
 </div></div><dl>
 <dt>An apple-picking model of AI R&amp;D.</dt>
 <dd>
-<p>Everyone’s talking about AI advancing R&amp;D, but only by picking low-hanging fruit: <a href="https://x.com/karpathy/status/2031135152349524125">Andrej Karpathy</a>, <a href="https://www.theatlantic.com/technology/2026/02/ai-math-terrance-tao/686107/">Terence Tao</a>, <a href="https://www.interconnects.ai/p/lossy-self-improvement">Nathan Lambert</a>. In this note we describe a model of AI R&amp;D, to help reconcile two observations:</p>
+<p>Many people are talking about how AI is finally contributing to frontier R&amp;D, but it’s only picking low-hanging fruit: <a href="https://x.com/karpathy/status/2031135152349524125">Andrej Karpathy</a>, <a href="https://www.theatlantic.com/technology/2026/02/ai-math-terrance-tao/686107/">Terence Tao</a>, <a href="https://www.interconnects.ai/p/lossy-self-improvement">Nathan Lambert</a>. In this note we describe a model of AI R&amp;D, to help reconcile two observations:</p>
 <ol type="1">
 <li>AI agents are making genuine autonomous contributions to R&amp;D (evidence below).</li>
 <li>AI agents do not seem a perfect substitute for humans researchers.</li>
 </ol>
-<p>The model is very simple: an AI agent helping you to optimize an algorithm is like a robot helping you pick apples. It will take care of all the apples up to a certain height, and it may find apples you haven’t found yet, but there will still be apples out of its reach.</p>
+<p>The model is takes the metaphor literally: an AI agent helping you to optimize an algorithm is like a robot helping you pick apples. It will take care of all the apples up to a certain height, and it may find apples you haven’t found yet, but there will still be apples out of its reach.</p>
 <p>The model is somewhat reassuring: agents can be useful for autonomous R&amp;D, without being ready to replace humans. We are not confident that the reassuring implication is correct, but the model is helpful for thinking through the evidence we would need.</p>
 <p>We give a formal model but the basic ideas can all be seen in the drawing below. Here both the human and robot have picked four apples, but they’ve left the tree in a very different state, so the robot isn’t ready to replace the human yet:</p>
 <div class="cell" data-layout-align="center">
@@ -319,7 +319,7 @@ window.Quarto = {
 </div>
 </div>
 <p>The plots below show two effects we see from this model:</p>
-<ol type="1">
+<ol start="3" type="1">
 <li>The agent will make quicker progress than the human at first, but eventually get overtaken (tortoise-hare dynamics)</li>
 <li>The agent will be able to pick more apples if they start from a stronger human starting point (standing on the shoulders of giants)</li>
 </ol>
@@ -369,10 +369,9 @@ window.Quarto = {
 </div>
 <p>We wish to predict how the cost will fall in the future, especially the degree to which agents will accelerate this progress.</p>
 </dd>
-<dt>Agents can improve on human baselines without being perfect substitutes for humans.</dt>
+<dt>Simple models imply a change in slope.</dt>
 <dd>
-<p>We discuss below evidence that agents are autonomously able to find improvements on a variety of algorithms that have already been well-optimized by humans.</p>
-<p>In the apple-picking model it’s possible for agents to advance the frontier, without them being strictly superior to humans. We would expect progress to go as follows: that deploying agents will cause a one-time spike in progress, until the marginal returns to human and agent expenditure are equalized, then a return to human progress:</p>
+<p>There are two simple models of AI’s effect on R&amp;D: (1) it multiplies the effectiveness of human researchers; (2) it replaces human researchers with computer researchers. Both models imply we should the historical pattern of expenditure-progress to stay on the same path, but accelerated:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -382,11 +381,10 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>We give quotes below from a variety of domains that the contributions of agents seem to have hit diminishing returns.</p>
 </dd>
-<dt>Agent time horizons are not additive.</dt>
+<dt>Agents can improve on human baselines without being perfect substitutes for humans.</dt>
 <dd>
-<p>Because of the tortoise-hare behavior of agents we can calibrate an agent’s ability by the intersection of the two curves, the point at which a human and an agent, given equal expenditure, will make equal progress. This is loosely the way time horizon is identified in <span class="citation" data-cites="wijk2025rebench">Wijk et al. (<a href="#ref-wijk2025rebench" role="doc-biblioref">2025</a>)</span> and <span class="citation" data-cites="kwa2025longtasks">Kwa et al. (<a href="#ref-kwa2025longtasks" role="doc-biblioref">2025</a>)</span>.</p>
+<p>The apple-picking model implies a different pattern: agents will autonomously advance the frontier, but they will then quickly hit diminishing returns. When the marginal returns to human and agent expenditure are equalized, then we will return to investment in more human optimization:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -396,11 +394,22 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>In the pure apple-picking model an agent’s time horizon will be consistent no matter where we start in the optimization process. However this will only be true if we start from a human-only trajectory. If we have already applied some agent labor to the algorithm, then further agentic labor will have much lower returns, i.e.&nbsp;time horizons will not be additive. Concretely: an agent could make progress equivalent to 1 week’s human labor on a fresh problem, but it will not <em>stack</em>, you can’t run an agent for twice as long to get 2 week’s labor.</p>
+<p>We give quotes below from a variety of domains with claims that (1) agents are autonomously advancing the frontier; (2) those advances have hit diminishing returns. We show below in the theory section that the optimal allocation of expenditure will be to first invest in agentic optimization, then switch to humans.</p>
+<p>As new more powerful agents are released, we should expect a sort-of punctuated equilibrium, showing discrete jumps with each release. Terence Tao says, on Erdos problems: <em>“Maybe the next time there’s a big advance in the models, they will try it again, and a few more will be breached.”</em></p>
 </dd>
-<dt>AI R&amp;D ability should be benchmarked against frontier problems.</dt>
+<dt>Agent time horizons are not additive.</dt>
 <dd>
-We should use problems which represent cumulative human effort, and so are relatively picked-clean, instead of against toy problems which represent the effort of a single human.
+<p>Because of the tortoise-hare behavior of agents we can calibrate an agent’s ability by the intersection of the two curves, the point at which a human and an agent, given equal expenditure, will make equal progress. This is loosely the way time horizon is identified in <span class="citation" data-cites="wijk2025rebench">Wijk et al. (<a href="#ref-wijk2025rebench" role="doc-biblioref">2025</a>)</span> and <span class="citation" data-cites="kwa2025longtasks">Kwa et al. (<a href="#ref-kwa2025longtasks" role="doc-biblioref">2025</a>)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2026-03-13-apple-picking-ai_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="288"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In the pure apple-picking model an agent’s time horizon will be consistent no matter where we start in the optimization process. However this will only be true if we start from a human-only trajectory. If we have already applied some agent labor to the algorithm, then further agentic labor will have much lower returns, i.e.&nbsp;time horizons will not be additive. Concretely: an agent could make progress equivalent to 1 week’s human labor on a fresh problem, but it will not <em>stack</em>, you can’t run an agent for twice as long to get 2 week’s labor.</p>
 </dd>
 <dt>The effects of agentic R&amp;D will show up in different parts of the stack.</dt>
 <dd>
@@ -409,11 +418,16 @@ We should use problems which represent cumulative human effort, and so are relat
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="2026-03-13-apple-picking-ai_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="384"></p>
+<p><img src="2026-03-13-apple-picking-ai_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="384"></p>
 </figure>
 </div>
 </div>
 </div>
+</dd>
+<dt>Agents could kick-off recursive self-improvement.</dt>
+<dd>
+<p>We describe above that each generation of agents will push forward the optimization frontier by a fixed amount. The process will be self-sustaining if, without human input, each successive generation is able to improve the next generation by a larger amount than the previous generation.</p>
+<p>Concretely, if we measure agent ability with METR’s time horizon, then the condition for explosive growth is this: if each doubling of agent time horizon increases optimization ability sufficiently to cause more than 1 doubling of the next generation of models. We formalize this below.</p>
 </dd>
 </dl>
 </section>
@@ -524,7 +538,7 @@ It’s also possible to close this model, so that each round of agent R&amp;D co
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2026-03-13-apple-picking-ai_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="2026-03-13-apple-picking-ai_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -544,7 +558,7 @@ It’s also possible to close this model, so that each round of agent R&amp;D co
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2026-03-13-apple-picking-ai_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="2026-03-13-apple-picking-ai_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -560,7 +574,7 @@ It’s also possible to close this model, so that each round of agent R&amp;D co
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2026-03-13-apple-picking-ai_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="2026-03-13-apple-picking-ai_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -644,7 +658,7 @@ With <span class="math inline">\(\lambda_n = 0\)</span>, <span class="math inlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2026-03-13-apple-picking-ai_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="2026-03-13-apple-picking-ai_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
