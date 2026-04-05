@@ -299,18 +299,15 @@ window.Quarto = {
 </div>
 
 <div class="no-row-height column-margin column-container"><div class="">
-<p>Thanks to Nate Rush, Thomas Kwa, Basil Halperin, Tom Houlden, Parker Whitfill, Phil Trammell, &amp; Andy Haupt for comments.</p>
+<p>Thanks to Nate Rush, Thomas Kwa, Beth Barnes, Eli Lifland, Basil Halperin, Tom Houlden, Parker Whitfill, Phil Trammell, &amp; Andy Haupt for comments.</p>
 </div></div><dl>
 <dt>An apple-picking model of AI R&amp;D.</dt>
 <dd>
-<p>Many people are talking about how AI is autonomously able to contribute to frontier R&amp;D, yet it’s only picking low-hanging fruit: <a href="https://x.com/karpathy/status/2031135152349524125">Andrej Karpathy</a>, <a href="https://www.theatlantic.com/technology/2026/02/ai-math-terrance-tao/686107/">Terence Tao</a>, <a href="https://www.interconnects.ai/p/lossy-self-improvement">Nathan Lambert</a>. In this note we describe a model of AI R&amp;D, to help reconcile two observations:</p>
-<ol type="1">
-<li>AI agents are making genuine autonomous contributions to R&amp;D (evidence below).</li>
-<li>AI agents do not yet seem a perfect substitute for humans researchers.</li>
-</ol>
+<p>Many people are talking about how AI is autonomously able to contribute to frontier R&amp;D, yet it’s only picking low-hanging fruit: <a href="https://x.com/karpathy/status/2031135152349524125">Andrej Karpathy</a>, <a href="https://www.theatlantic.com/technology/2026/02/ai-math-terrance-tao/686107/">Terence Tao</a>, <a href="https://www.interconnects.ai/p/lossy-self-improvement">Nathan Lambert</a>.</p>
+<p>In this note we describe a simple apple-picking model of AI R&amp;D, to help measure the contribution that autonomous agents are making.</p>
 <p>The model takes the metaphor literally: an AI agent helping you to optimize an algorithm is like a robot helping you pick apples. It will take care of all the apples up to a certain height, and it may find apples you haven’t found yet, but there will still be apples out of its reach.</p>
-<p>The model has somewhat reassuring implications: agents can be useful for autonomous R&amp;D, without being ready to replace humans. We are not confident that the reassuring implication is correct, but the model is helpful for thinking through the evidence we would need.</p>
-<p>We give a formal model but the basic ideas can all be seen in the drawing below. Here both the human and robot have picked four apples, but they’ve left the tree in a very different state, such that the robot isn’t ready to replace the human yet:</p>
+<p>The model implies that agents can push the frontier forward, but the returns will sharply diminish. We are not confident that the reassuring implication is correct, but the model is helpful for thinking through the evidence we would need.</p>
+<p>The basic ideas can all be seen in the drawing below. Here the human and robot are both picking trees. The robot is cheaper to run, but it can only reach the low apples. In the illustration they have both picked 4 apples, yet left the tree in a very different state, such that the robot isn’t ready to replace the human yet:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -320,10 +317,10 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>We can write the core equation, where <span class="math inline">\(\lambda\)</span> is the height of the robot, <span class="math inline">\(t_H\)</span> and <span class="math inline">\(t_A\)</span> are the time spent by the human and agent, and <span class="math inline">\(r_H\)</span> and <span class="math inline">\(r_A\)</span> are the rates at which they find unpicked apples:</p>
-<p><span class="math display">\[\text{apples remaining}= \underbrace{\lambda e^{-r_Ht_H-r_At_A}}_{\text{apples on bottom}}+\underbrace{(1-\lambda)e^{-r_Ht_H}}_{\text{apples on top}}.\]</span></p>
+<p>We can write the core equation, where <span class="math inline">\(\lambda\)</span> is the height of the robot, <span class="math inline">\(x_H\)</span> and <span class="math inline">\(x_A\)</span> are the expenditures on human and agent effort, and <span class="math inline">\(r_H\)</span> and <span class="math inline">\(r_A\)</span> are the rates at which they find unpicked apples:</p>
+<p><span class="math display">\[\text{apples remaining}= \underbrace{\lambda e^{-r_Hx_H-r_Ax_A}}_{\text{apples on bottom}}+\underbrace{(1-\lambda)e^{-r_Hx_H}}_{\text{apples on top}}.\]</span></p>
 <p>The plots below show two implications of the model:</p>
-<ol start="3" type="1">
+<ol type="1">
 <li>The agent will make quicker progress than the human at first, but eventually get overtaken (tortoise-hare dynamics)</li>
 <li>The agent will be able to accumulate more apples (leave fewer unpicked) if they start from a stronger human starting point</li>
 </ol>
@@ -401,11 +398,11 @@ window.Quarto = {
 </div>
 <p>We give quotes below from a variety of domains with claims that (1) agents are autonomously advancing the frontier; (2) those advances have hit diminishing returns. We show below in the theory section that the optimal allocation of expenditure will be to first invest in agentic optimization, then switch back to humans.</p>
 <p>As new more powerful agents are released, we should expect a sort-of punctuated equilibrium, as each successive branch of apples is picked. Terence Tao says, on Erdos problems: <em>“Maybe the next time there’s a big advance in the models, they will try it again, and a few more will be breached.”</em></p>
-<p>In reality aggregate progress is likely to be smooth for a few reasons: (1) models are released at a quick cycle, and harnesses are constantly being updated; (2) each human discovery opens up room for agent discoveries (assumed away in the model); (3) LLMs are used to augment human activity, as well as autonomously do R&amp;D.</p>
+<p>In reality aggregate progress is likely to appear smooth for a few reasons: (1) models are released at a quick cycle, and harnesses are constantly being updated; (2) each human discovery opens up room for agent discoveries (assumed away in the model); (3) LLMs are used to augment human activity, as well as autonomously do R&amp;D.</p>
 </dd>
-<dt>Agent time horizons are not additive.</dt>
+<dt>We can calibrate agentic value by time horizon.</dt>
 <dd>
-<p>Because of the tortoise-hare behavior of agents we can calibrate an agent’s ability by the point at which a human and an agent, given equal expenditure, will make equal progress. This is, very loosely, the way time horizon is identified in <span class="citation" data-cites="wijk2025rebench">Wijk et al. (<a href="#ref-wijk2025rebench" role="doc-biblioref">2025</a>)</span> and <span class="citation" data-cites="kwa2025longtasks">Kwa et al. (<a href="#ref-kwa2025longtasks" role="doc-biblioref">2025</a>)</span>.</p>
+<p>Because of the tortoise-hare behavior of agents we can calibrate an agent’s ability by the point at which a human and an agent, given equal expenditure, will make equal progress. This is, very loosely, the way agent time horizon is identified in <span class="citation" data-cites="wijk2025rebench">Wijk et al. (<a href="#ref-wijk2025rebench" role="doc-biblioref">2025</a>)</span> and <span class="citation" data-cites="kwa2025longtasks">Kwa et al. (<a href="#ref-kwa2025longtasks" role="doc-biblioref">2025</a>)</span>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -415,11 +412,12 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>In the apple-picking model an agent’s time horizon will depend on the starting point. If we have an algorithm that has only been optimized by humans, we expect agents can push it forward a lot. But if we have already applied some agent labor to the algorithm, then further agentic labor will have much lower returns, i.e.&nbsp;time horizons will be much shorter. Concretely: one agent can be as good as one human (or human-week), but two agents are not as good as two humans.</p>
+<p>An important implication is that an agent’s time horizon is sensitive to the starting point, in a way that differs from human effort. If we have a starting-point that has only been optimized by humans we expect agents can push it forward a lot. But if we have already applied some agent labor to the algorithm then further agentic labor will have much lower returns, i.e.&nbsp;time horizons will be much shorter. Concretely: one agent can be as good as one human (or human-week), but two agents are not as good as two humans.</p>
+<p>Based on a <em>very</em> loose reading of the evidence we could say that agents (as of March 2026) are able to push forward the frontier on optimization problems by the equivalent of around a month of professional effort. However they then hit a wall and need either stronger models or better harnesses.</p>
 </dd>
 <dt>A low-hanging apple is whatever is easy for the agent.</dt>
 <dd>
-<p>The model is defining an optimization as low-hanging if an agent can do it. In practice many people have made conjectures about what specific types of tasks/ideas are within reach of agents (e.g.&nbsp;well-defined, hill-climbable, short-time-horizon).</p>
+<p>The model defines a “low-hanging” optimization according to whether an agent can do it. There is a separate discussion of what specific types of tasks and ideas are within reach of agents (e.g.&nbsp;well-defined, hill-climbable, short-time-horizon).</p>
 <p>The fact that there are stark differences between human and AI capabilities is often summarized with the phrase “jagged frontier”.</p>
 </dd>
 <dt>The effects of agentic R&amp;D depend on the type of problem.</dt>
@@ -435,21 +433,22 @@ window.Quarto = {
 </div>
 </div>
 <p>We have drawn pre-training as top-heavy, meaning it’s relatively hard for agents to optimize, arguably because the feedback cycle is long and so it is expensive to tell whether a change will work at scale so may require deep human thought.</p>
-<p>In contrast other parts of the stack can be more easily hill-climbed, cheaply iterating on ideas to find improvements. Note that we should expect the returns to human labor to be roughly equalized across each of these trees, so the relevant question for agentic contribution is just the relative density of low and high apples.</p>
+<p>In contrast other parts of the stack can be more easily hill-climbed, cheaply iterating on ideas to find improvements, e.g.&nbsp;innovations to elicitation (e.g.&nbsp;prompting, harness iteration) is a space that can be relatively cheaply explored, and so agents may do well at.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
 </dd>
 <dt>Agents could kick-off recursive self-improvement.</dt>
 <dd>
 <p>Agentic R&amp;D will be self-sustaining if, without human input, each successive generation is able to improve the next generation by a larger amount than the previous generation.</p>
 <p>Concretely, if we measure agent ability with METR’s time horizon, then the condition for explosive growth is this: if each doubling of agent time horizon increases optimization ability sufficiently to cause more than 1 doubling of the next generation of models.</p>
+<p>An implication is that the potential for RSI will depend on the shape of the tree, i.e.&nbsp;the stock of relatively simple optimizations that remain undiscovered, vs the necessity for finding deep optimizations.</p>
 </dd>
 </dl>
 <dl>
 <dt>Miscellaneous points.</dt>
 <dd>
 <ul>
-<li><p><em>Uplift.</em> In practice AI will both (A) accelerate humans; (B) replace humans. The apple-picking model focuses on the second for clarity.</p></li>
-<li><p><em>Directed search.</em> We assumed that the probability of finding an apple is independent of other apples already found. Realistically people have an ability to direct their attention to finding new innovations.</p></li>
-<li><p><em>Bottlenecks.</em> The discussion has abstracted from other bottlenecks, e.g.&nbsp;the necessity for experiment, which are obviously important, see for example <span class="citation" data-cites="whitfill2025bottlenecks">Whitfill and Wu (<a href="#ref-whitfill2025bottlenecks" role="doc-biblioref">2025</a>)</span>.</p></li>
+<li><p><em>Uplift.</em> In practice AI will both (A) accelerate humans; (B) replace humans. The apple-picking model only focuses on the second. In the long-run we expect the second effect to dominate, but it’s not clear where we are now.</p></li>
+<li><p><em>Directed search.</em> We assumed that the probability of finding an apple is independent of other apples already found. Realistically people have an ability to direct their attention, it’s not clear whether the implications would significantly changed.</p></li>
+<li><p><em>Bottlenecks.</em> The discussion has assumed that progress is purely a function of thinking. In practice there are other bottlenecks, most concretely for AI R&amp;D the reliance on using scarce compute to run experiments. It’s arguable how important compute scarcity is, see for example <span class="citation" data-cites="whitfill2025bottlenecks">Whitfill and Wu (<a href="#ref-whitfill2025bottlenecks" role="doc-biblioref">2025</a>)</span>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -500,7 +499,7 @@ window.Quarto = {
 <dl>
 <dt>This is distinct from other models of recursive self-improvement.</dt>
 <dd>
-<p>We can put many existing models of AI R&amp;D in two buckets:<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<p>We can put many existing models of AI R&amp;D in two buckets:<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
 <ol type="1">
 <li><strong>Apples can make the human pick faster.</strong> Here AI R&amp;D speeds up humans, typically by automating some of the tasks that are necessary for doing R&amp;D (<span class="citation" data-cites="aghion2019artificial">Aghion, Jones, and Jones (<a href="#ref-aghion2019artificial" role="doc-biblioref">2019</a>)</span>, <span class="citation" data-cites="jones2025aird">B. F. Jones (<a href="#ref-jones2025aird" role="doc-biblioref">2025</a>)</span>, <span class="citation" data-cites="kwa2026simpleraitimelines">Kwa (<a href="#ref-kwa2026simpleraitimelines" role="doc-biblioref">2026</a>)</span>).</li>
 <li><strong>Apples can be used to make more human-sized robots.</strong> Here AI R&amp;D is already able to replicate human-level R&amp;D, but the bottleneck is the cost of compute, and further AI progress lowers that cost, thereby expanding the AI R&amp;D workforce (<span class="citation" data-cites="davidson2021could">Davidson (<a href="#ref-davidson2021could" role="doc-biblioref">2021</a>)</span>, <span class="citation" data-cites="davidson2025howquickandbigwo">Davidson and Houlden (<a href="#ref-davidson2025howquickandbigwo" role="doc-biblioref">2025</a>)</span>, <span class="citation" data-cites="ho2025explosionexperiments">Ho and Whitfill (<a href="#ref-ho2025explosionexperiments" role="doc-biblioref">2025</a>)</span>, <span class="citation" data-cites="eth2025willairdautomati">Eth and Davidson (<a href="#ref-eth2025willairdautomati" role="doc-biblioref">2025</a>)</span>, <span class="citation" data-cites="davidson2026automatingairesearch">Davidson et al. (<a href="#ref-davidson2026automatingairesearch" role="doc-biblioref">2026</a>)</span>).</li>
@@ -532,7 +531,14 @@ window.Quarto = {
 <dd>
 <p>There is a continuum of apples spread uniformly on [0,1].</p>
 <p>A human can find apples over <span class="math inline">\([0,1]\)</span>, but an agent can only find apples over <span class="math inline">\([0,\lambda]\)</span>, with <span class="math inline">\(\lambda &lt; 1\)</span> (at least for now).</p>
-<p>Humans find unpicked apples at rate <span class="math inline">\(r_H\)</span>, agents find apples at rate <span class="math inline">\(r_A\)</span>, and we use <span class="math inline">\(t_H\)</span> and <span class="math inline">\(t_A\)</span> to represent the time humans and agents spend searching (you can also interpret <span class="math inline">\(t_H\)</span> and <span class="math inline">\(t_A\)</span> as monetary expenditure).</p>
+<p>Humans find unpicked apples at rate <span class="math inline">\(r_H\)</span>, agents find apples at rate <span class="math inline">\(r_A\)</span>, and we use <span class="math inline">\(x_H\)</span> and <span class="math inline">\(x_A\)</span> to represent the expenditure on humans and agent searching.</p>
+</dd>
+</dl>
+<p><strong>We can then derive apples remaining:</strong></p>
+<p><span class="math display">\[\text{apples remaining}= \underbrace{\lambda e^{-r_Hx_H-r_Ax_A}}_{\text{apples on bottom}}+\underbrace{(1-\lambda)e^{-r_Hx_H}}_{\text{apples on top}}.\]</span></p>
+<dl>
+<dt>We can illustrate the state of the apple tree:</dt>
+<dd>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -542,11 +548,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<p>Note that the distribution of apples could be non-uniform, we would just need to substitute <span class="math inline">\(F(\lambda)\)</span> for <span class="math inline">\(\lambda\)</span> in the expression for apples remaining.</p>
 </dd>
-</dl>
-<p><strong>We can then derive apples remaining:</strong></p>
-<p><span class="math display">\[\text{apples remaining}= \underbrace{\lambda e^{-r_Ht_H-r_At_A}}_{\text{apples on bottom}}+\underbrace{(1-\lambda)e^{-r_Ht_H}}_{\text{apples on top}}.\]</span></p>
-<dl>
 <dt>Implication: agents asymptote to a higher level of remaining apples than humans.</dt>
 <dd>
 <p>Here we illustrate agent-only and human-only search curves: the agent curve falls more quickly (<span class="math inline">\(r_A&gt;r_H\)</span>), but asymptotes to a higher level of remaining apples (<span class="math inline">\(\lambda&lt;1\)</span>).</p>
@@ -580,12 +583,11 @@ window.Quarto = {
 </div>
 </div>
 </dd>
-<dt>Implication: the agent asymptote depends on the starting point.</dt>
+<dt>Implication: first spend on agents, then on humans.</dt>
 <dd>
-<p>The plot below shows a variety of agent trajectories, each starting after a different amount of human work.</p>
-<p>You could interpret this as starting an agent at different points in the history of optimizing some algorithm, e.g.&nbsp;nanoGPT.</p>
-<p>The model implies that if you start an agent from the original unoptimized version of an algorithm it will quickly reduce the remaining apples, but asymptote to a value well above the human state-of-the-art.</p>
-<p>If you start an agent after some human optimization has been performed the agent will contribute less at first (because fewer apples remain), but it will be able to achieve a lower asymptote.</p>
+<p>We now overlay the optimal expenditure as budget increases: the blue line shows optimal expenditure, which is first to spend on agents (which are cheaper), but then on humans. Equating the marginal returns <span class="math inline">\(\lambda r_A e^{-r_Hx_H-r_Ax_A}\)</span> and <span class="math inline">\(r_H[\lambda e^{-r_Hx_H-r_Ax_A}+(1-\lambda)e^{-r_Hx_H}]\)</span>, the ratio depends only on <span class="math inline">\(x_A\)</span>, giving a fixed threshold <span class="math inline">\(\bar{x}_A\)</span>:</p>
+<p><span class="math display">\[(x_A^*,\, x_H^*) = \begin{cases} (B,\; 0) &amp; \text{if } B \leq \bar{x}_A \\ (\bar{x}_A,\; B - \bar{x}_A) &amp; \text{if } B &gt; \bar{x}_A \end{cases}\]</span></p>
+<p>where <span class="math inline">\(\bar{x}_A = \frac{1}{r_A}\ln\!\left(\frac{\lambda(r_A-r_H)}{(1-\lambda)\,r_H}\right)\)</span>, provided <span class="math inline">\(\lambda r_A &gt; r_H\)</span> (agents are initially preferred).</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -596,41 +598,51 @@ window.Quarto = {
 </div>
 </div>
 </dd>
+<dt>Implication: the agent asymptote depends on the starting point.</dt>
+<dd>
+<p>The plot below shows a variety of agent trajectories, each starting after a different amount of human work.</p>
+<p>You could interpret this as starting an agent at different points in the history of optimizing some algorithm, e.g.&nbsp;nanoGPT.</p>
+<p>The model implies that if you start an agent from the original unoptimized version of an algorithm it will quickly reduce the remaining apples, but asymptote to a value well above the human state-of-the-art.</p>
+<p>If you start an agent after some human optimization has been performed the agent will contribute less at first (because fewer apples remain), but it will be able to achieve a lower asymptote.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2026-03-13-apple-picking-ai_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</dd>
 </dl>
 </section>
 <section id="dynamic-model-recursive-self-improvement" class="level1">
 <h1>Dynamic Model (Recursive Self-Improvement)</h1>
 <dl>
+<dt>This is a very simple model.</dt>
+<dd>
+We can close the model above, and get a dynamic model of recursive self-improvement. I don’t think the model below is tremendously enlightening, the main conclusion is just that you’ll get recursively-self-improving robots if the low-hanging apples are sufficiently dense. Nevertheless I found it useful for my own thought.
+</dd>
+<dt>Let the robot’s height depend on apples harvested.</dt>
+<dd>
+<p>The previous model applied to agents working on an arbitrary optimization problem. Now we focus on agents working on AI R&amp;D, which in turn increases agent ability.</p>
+<p>We make two changes:</p>
+<ol type="1">
+<li>We now track progress in picking apples over periods. Each period represents a generation of AI models, and we assume that agents pick <em>all</em> the apples available to them in each period (apples below <span class="math inline">\(\lambda_t\)</span>). This makes things easier to model because the state of the tree can be summarized with just two variables (robot height and human time), instead of the entire profile of the tree. It also seems like a reasonable assumption: AI research labs will keep spending money on agent-optimizing their algorithms until there are low returns to additional use.</li>
+<li>We assume that the robot’s height in period <span class="math inline">\(t+1\)</span> is a function of cumulative apples harvested by period <span class="math inline">\(t\)</span>, i.e.&nbsp;the robot is eating the apples and getting taller.</li>
+</ol>
+</dd>
 <dt>The figure below shows the basic model.</dt>
 <dd>
-
-</dd>
-</dl>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="2026-03-13-apple-picking-ai_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+<p><img src="2026-03-13-apple-picking-ai_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<dl>
-<dt>Now let the robot’s height depend on apples harvested.</dt>
-<dd>
-<p>The previous model applied to agents working on an arbitrary optimization problem. Now we focus on agents working on AI R&amp;D, which in turn increases agent ability.</p>
-<p>We make a few changes:</p>
-<ol type="1">
-<li>We now track progress in picking apples over periods, where each period represents a generation of AI models, and we assume that agents pick <em>all</em> the apples available to them each period (apples below <span class="math inline">\(\lambda_n\)</span>). This makes things easier to model because the state of the tree can be summarized with just two variables, <span class="math inline">\(\lambda_n\)</span> and <span class="math inline">\(h_n\)</span>. It also seems like a reasonable assumption: AI research labs will keep spending money on agent-optimizing their algorithms until there are low returns to additional use.</li>
-<li>We assume that the agent’s ability in period <span class="math inline">\(n+1\)</span> is a function of AI R&amp;D progress in period <span class="math inline">\(n\)</span> (the robot is eating the apples and getting taller). It turns out that we can get a simple closed-form solution when this function is linear. To add a touch of realism we assume that agents have no meaningful ability to do R&amp;D until algorithmic progress passes some minimum threshold (<span class="math inline">\(\bar{a}\)</span>).</li>
-</ol>
-</dd>
-<dt>Implications:</dt>
-<dd>
-<ol type="1">
-<li>We will eventually get superhuman progress (robots will be taller than humans) iff <span class="math inline">\(\alpha + \beta(1-\bar{a}) &gt; 1\)</span>.</li>
-<li>Agent height will be explosive iff <span class="math inline">\(\beta &gt; 1\)</span>, i.e.&nbsp;if eating all the apples in a 1-foot slice of tree causes you to grow another foot taller. If not, it converges to a finite height <span class="math inline">\(\lambda^*\)</span>.</li>
-</ol>
 </dd>
 </dl>
 <section id="state-variables-and-dynamics" class="level2">
@@ -638,126 +650,56 @@ window.Quarto = {
 <dl>
 <dt>Assumptions.</dt>
 <dd>
-<ul>
-<li>Apples are distributed uniformly between 0 and some arbitrarily large value.</li>
-<li>Human reach is normalized to 1.</li>
-<li>Agent reach in period <span class="math inline">\(n\)</span> is <span class="math inline">\(\lambda_n \ge 0\)</span>.</li>
-<li><span class="math inline">\(h_n \in [0,1]\)</span>: human coverage of the human-only band <span class="math inline">\((\lambda_n, 1]\)</span> by the end of period <span class="math inline">\(n\)</span>.</li>
-</ul>
-</dd>
-<dt>Human dynamics.</dt>
-<dd>
-<p>Each period, a fraction <span class="math inline">\(1-p\)</span> of the remaining human-level band gets picked, so:</p>
-<p><span class="math display">\[h_{n+1} = 1 - p(1-h_n), \qquad h_0 = 0.\]</span></p>
+Apples are distributed with cumulative distribution function <span class="math inline">\(F(.)\)</span>, agent reach in period <span class="math inline">\(t\)</span> is <span class="math inline">\(\lambda_t\geq0\)</span>, and human reach is always 1.
 </dd>
 <dt>Apples harvested.</dt>
 <dd>
-<p>(agent + humans, with clipping at 1): <span class="math display">\[a_n = \lambda_n + (1-\lambda_n)_+ \, h_n, \qquad (x)_+ \equiv \max\{x,0\}.\]</span></p>
-<p>Agent gets everything up to <span class="math inline">\(\lambda_n\)</span>; humans only contribute on the band of length <span class="math inline">\((1-\lambda_n)_+\)</span>, of which fraction <span class="math inline">\(h_n\)</span> is covered by period <span class="math inline">\(n\)</span>.</p>
+<p>Each period, agents pick all the apples below <span class="math inline">\(\lambda_t\)</span>, and humans pick a fraction <span class="math inline">\((1-p)\)</span> of the apples that remain between <span class="math inline">\(\lambda_t\)</span> and 1, thus we can write:</p>
+<span class="math display">\[\begin{aligned}
+\utt{a_{i,t}}{share harvested}{height $i$, time $t$} &amp;=
+    \begin{cases}
+        0
+            &amp;, \max\{\lambda_t,1\} &lt; i &amp; \text{(beyond reach of both)}\\
+        h_t
+            &amp;, \lambda_t &lt; i \leq 1 &amp; \text{(human-only reach)}\\
+        1
+            &amp;, i \leq \lambda_t &amp; \text{(within robot reach)}
+    \end{cases}\\
+    h_t &amp;= 1-p^t \ \ \text{(human picked apples at time $t$)}
+\end{aligned}\]</span>
+<p>Thus we can write: <span class="math display">\[\utt{a_t(\lambda_t,h_t)}{total apples}{harvested}
+        =\begin{cases}
+            F(\lambda_t) + h_t[F(1)-F(\lambda_t)] &amp;, \lambda_t&lt;1
+                &amp; \text{(regular agents)} \\
+            F(\lambda_t) &amp;, \lambda_t\geq 1
+                &amp; \text{(superhuman agents)}
+        \end{cases}\]</span></p>
 </dd>
 <dt>Self-improvement.</dt>
 <dd>
-<p>(activation threshold <span class="math inline">\(\bar{a}\)</span>, then affine in <span class="math inline">\(a_n\)</span>): <span class="math display">\[\lambda_{n+1} = \begin{cases} 0, &amp; a_n &lt; \bar{a} \\ \alpha + \beta(a_n - \bar{a}), &amp; a_n \ge \bar{a}. \end{cases}\]</span></p>
-<p>Parameters: <strong><span class="math inline">\(p\)</span></strong> (human speed), <strong><span class="math inline">\(\bar{a}\)</span></strong> (minimum progress to “turn on” the agent), <strong><span class="math inline">\(\alpha\)</span></strong> (baseline capability once on), <strong><span class="math inline">\(\beta\)</span></strong> (strength of recursive improvement). Initial condition <span class="math inline">\(\lambda_0\)</span> (typically 0).</p>
+<p>Finally to close the model we let next-period robot height (<span class="math inline">\(\lambda_t\)</span>) depend on cumulative apples harvested (<span class="math inline">\(a_t\)</span>). We assume height is linear in apples, after surpassing a minimum number of apples (<span class="math inline">\(\bar{a}\)</span>):</p>
+<p><span class="math display">\[\lambda_{t+1}(a_t) = \beta \min\{0,a_t-\bar{a}\}.\]</span></p>
+<p>These two equations above give us a recursive system.</p>
 </dd>
 </dl>
 </section>
-<section id="conditions" class="level2">
-<h2 class="anchored" data-anchor-id="conditions">Conditions</h2>
+<section id="observations" class="level2">
+<h2 class="anchored" data-anchor-id="observations">Observations</h2>
 <dl>
-<dt>Agents contributing to AI research.</dt>
+<dt>Human-only labor.</dt>
 <dd>
-With <span class="math inline">\(\lambda_n = 0\)</span>, <span class="math inline">\(a_n = h_n \to 1\)</span>. So the agent can ever turn on <strong>iff <span class="math inline">\(\bar{a} &lt; 1\)</span></strong>. If <span class="math inline">\(\bar{a} \ge 1\)</span>, <span class="math inline">\(\lambda_n \equiv 0\)</span> forever. Activation-time approximation: <span class="math inline">\(h_n = 1 - p^n \ge \bar{a}\)</span> <span class="math inline">\(\Leftrightarrow\)</span> <span class="math inline">\(n \ge \ln(1-\bar{a})/\ln p\)</span>; <span class="math inline">\(p\)</span> mainly shifts <em>when</em> activation happens.
+<p>With human labor only then apples will grow with diminishing returns: <span class="math display">\[a_t=(1-p^t)F(1).\]</span></p>
+<p>This will characterize progress prior to the point at which we can build the first useful robot, <span class="math inline">\(a_t \geq \bar{a}\)</span>, after which progress begings to accelerate.</p>
 </dd>
-<dt>Getting to superhuman AI research.</dt>
+<dt>Recursive self-improvement.</dt>
 <dd>
-<p>As <span class="math inline">\(n \to \infty\)</span>, <span class="math inline">\(h_n \to 1\)</span>. If <span class="math inline">\(\lambda_n &lt; 1\)</span>, <span class="math inline">\(a_n \to 1\)</span>; if <span class="math inline">\(\lambda_n \ge 1\)</span>, <span class="math inline">\(a_n = \lambda_n\)</span>. So asymptotically <span class="math inline">\(\lambda_{n+1} \to f(1)\)</span> with <span class="math inline">\(f(1) = 0\)</span> if <span class="math inline">\(1 &lt; \bar{a}\)</span>, and <span class="math inline">\(f(1) = \alpha + \beta(1-\bar{a})\)</span> if <span class="math inline">\(1 \ge \bar{a}\)</span>. So <strong>takeoff past human level</strong> (eventually <span class="math inline">\(\lambda_n &gt; 1\)</span>) <strong>iff</strong> <span class="math display">\[\boxed{\alpha + \beta(1-\bar{a}) &gt; 1.}\]</span></p>
-<p>Interpretation: “If the orchard were fully human-level (<span class="math inline">\(a=1\)</span>), would the next agent be at least human-level?” If not, the system stays below 1. This condition is essentially independent of <span class="math inline">\(p\)</span>.</p>
-</dd>
-<dt>Self-sustaining AI research.</dt>
-<dd>
-<p>For <span class="math inline">\(\lambda_n \ge 1\)</span>, <span class="math inline">\(a_n = \lambda_n\)</span> and <span class="math display">\[\lambda_{n+1} = \alpha + \beta(\lambda_n - \bar{a}).\]</span></p>
-<ul>
-<li><p><strong>Runaway / hard takeoff</strong> iff <span class="math inline">\(\boxed{\beta &gt; 1}\)</span> (roughly geometric growth in <span class="math inline">\(\lambda_n\)</span>).</p></li>
-<li><p><strong>Soft takeoff / saturation</strong> iff <span class="math inline">\(\boxed{\beta &lt; 1}\)</span>: convergence to <span class="math display">\[\lambda^* = \frac{\alpha - \beta\bar{a}}{1-\beta}\]</span> (provided the system crosses 1 first).</p></li>
-<li><p><strong>Knife-edge</strong> <span class="math inline">\(\beta = 1\)</span>: linear growth.</p></li>
-</ul>
+With robot labor only (holding <span class="math inline">\(h_t\)</span> fixed), then progress will be self-sustaining if and only if apples are sufficiently dense in the neighborhood of that robot height, i.e.&nbsp;if <span class="math inline">\(f(\lambda_t)\beta&gt;1\)</span>.
 </dd>
 </dl>
-<hr>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="2026-03-13-apple-picking-ai_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="variation-non-uniform-apple-density" class="level2">
-<h2 class="anchored" data-anchor-id="variation-non-uniform-apple-density">Variation: Non-uniform apple density</h2>
-<dl>
-<dt>Now let the tree have a general shape.</dt>
-<dd>
-<p>Suppose apples have density <span class="math inline">\(f(x)\)</span> over heights <span class="math inline">\(x \ge 0\)</span>, with cumulative mass <span class="math display">\[F(\lambda) \equiv \int_0^\lambda f(x)\,dx,\]</span> normalized so that <span class="math inline">\(F(1)=1\)</span>. This keeps the interpretation that a human can reach one unit of cumulative progress, but allows the orchard to be bottom-heavy or top-heavy above that point.</p>
-<p>The apples harvested by period <span class="math inline">\(n\)</span> are now <span class="math display">\[a_n = F(\lambda_n) + \big(1-F(\lambda_n)\big)_+\,h_n.\]</span></p>
-<p>This is the same logic as before: the agent gets everything below its reach, while humans contribute a fraction <span class="math inline">\(h_n\)</span> of the remaining human-reachable mass.</p>
-</dd>
-<dt>Implications.</dt>
-<dd>
-<p>The conditions for <em>turning on</em> and for <em>crossing the human frontier</em> are unchanged:</p>
-<ol type="1">
-<li>The agent can activate iff <span class="math inline">\(\bar a &lt; 1\)</span>.</li>
-<li>The agent eventually gets past human level iff <span class="math display">\[\alpha + \beta(1-\bar a) &gt; 1.\]</span></li>
-</ol>
-<p>The reason is that below human level only the total mass up to height <span class="math inline">\(1\)</span> matters, and we normalized that mass to 1.</p>
-</dd>
-<dt>Above human level, the shape of the tree matters.</dt>
-<dd>
-<p>Once <span class="math inline">\(\lambda_n \ge 1\)</span>, humans no longer contribute and the dynamics become <span class="math display">\[\lambda_{n+1} = \alpha + \beta\big(F(\lambda_n)-\bar a\big).\]</span></p>
-<p>The local gain from an extra bit of reach is therefore <span class="math display">\[\frac{d\lambda_{n+1}}{d\lambda_n} = \beta f(\lambda_n).\]</span></p>
-<p>So there is a simple density threshold: <span class="math display">\[\boxed{\text{local RSI at height }\lambda \text{ iff } \beta f(\lambda) &gt; 1 \iff f(\lambda) &gt; 1/\beta.}\]</span></p>
-<p>Interpretation: an extra unit of reach at height <span class="math inline">\(\lambda\)</span> exposes about <span class="math inline">\(f(\lambda)\)</span> extra apples, which in turn generate <span class="math inline">\(\beta f(\lambda)\)</span> extra reach next period. If that amplification factor exceeds 1, improvements compound rather than dying out.</p>
-<p>A stronger condition for sustained unbounded takeoff is that for sufficiently large <span class="math inline">\(\lambda\)</span>, <span class="math display">\[\alpha + \beta\big(F(\lambda)-\bar a\big) &gt; \lambda.\]</span> But the density threshold <span class="math inline">\(f(\lambda)&gt;1/\beta\)</span> is the clean local criterion: it tells us where the orchard is dense enough for recursive improvement to reinforce itself.</p>
-<p>This suggests a concrete empirical question: how dense are the “high apples” in AI R&amp;D? If hard ideas remain dense enough above the current frontier, then crossing human level could quickly become self-reinforcing. If density falls off fast with height, we should expect saturation instead.</p>
-</dd>
-</dl>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="2026-03-13-apple-picking-ai_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section id="general-setup" class="level1">
-<h1>General setup:</h1>
-<p>Static:</p>
-<span class="math display">\[\begin{aligned}
-    \utt{s_i}{share remaining}{from height $i$} &amp;=
-        \begin{cases}
-            1 &amp;, \lambda^H &lt; i &amp; \text{(beyond human reach)}\\
-            e^{-x^Hr^H} &amp;, \lambda^A &lt; i&lt; \lambda^H &amp; \text{(human picked)}\\
-            e^{-x^Ar^A-x^Hr^H} &amp;, i&lt;\lambda^A &amp; \text{(human and agent picked)}
-        \end{cases}
-\end{aligned}\]</span>
-<p>Dynamic:</p>
-<span class="math display">\[\begin{aligned}
-    \utt{s_{i,t}}{share remaining}{height $i$, time $t$} &amp;=
-        \begin{cases}
-            1 &amp;, \lambda^H_t, \lambda^A_t &lt; i &amp; \text{(beyond both reach)}\\
-            e^{-tx^Hr^H} &amp;, \lambda^A &lt; i&lt; \lambda^H &amp; \text{(human picked)}\\
-            0 &amp;, \lambda^H &lt; i&lt; \lambda^A &amp; \text{(agent cleared)}\\
-            0 &amp;, i&lt;\lambda^A,\lambda^H &amp; \text{(agent cleared)}
-        \end{cases}
-\end{aligned}\]</span>
 
 
 
+</section>
 </section>
 
 
@@ -846,7 +788,8 @@ Yuksekgonul, Mert, Daniel Koceja, Xinhao Li, Federico Bianchi, Jed McCaleb, Xiao
 <li id="fn1"><p>E.g. <span class="citation" data-cites="acemoglu2022tasks">Acemoglu and Restrepo (<a href="#ref-acemoglu2022tasks" role="doc-biblioref">2022</a>)</span>, <span class="citation" data-cites="garicano2006organization">Garicano and Rossi-Hansberg (<a href="#ref-garicano2006organization" role="doc-biblioref">2006</a>)</span>, <span class="citation" data-cites="ide2024artificialintelligenceknowledgeeconomy">Ide and Talamas (<a href="#ref-ide2024artificialintelligenceknowledgeeconomy" role="doc-biblioref">2024</a>)</span><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p><span class="citation" data-cites="CarnehlSchneider2025">Carnehl and Schneider (<a href="#ref-CarnehlSchneider2025" role="doc-biblioref">2025</a>)</span>, <span class="citation" data-cites="agrawal2019needles">Agrawal, McHale, and Oettl (<a href="#ref-agrawal2019needles" role="doc-biblioref">2019</a>)</span><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p><span class="citation" data-cites="jones1995rd">C. I. Jones (<a href="#ref-jones1995rd" role="doc-biblioref">1995</a>)</span>, <span class="citation" data-cites="aghion2019artificial">Aghion, Jones, and Jones (<a href="#ref-aghion2019artificial" role="doc-biblioref">2019</a>)</span>, <span class="citation" data-cites="jones2025aird">B. F. Jones (<a href="#ref-jones2025aird" role="doc-biblioref">2025</a>)</span><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>An exception to this classification is <span class="citation" data-cites="kokotajlo2025aifuturesmodel">Kokotajlo et al. (<a href="#ref-kokotajlo2025aifuturesmodel" role="doc-biblioref">2025</a>)</span>, which models “research taste” in both humans and AIs. However that model also represents the state with a scalar (“software efficiency”), so I do not believe it could reproduce some of the behaviors described upfront.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Note that we should expect the returns to human labor to be roughly equalized across each of these trees, so the thickness of the trees isn’t important for agent:human contribution, but the relative density of low and high apples.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>An exception to this classification is <span class="citation" data-cites="kokotajlo2025aifuturesmodel">Kokotajlo et al. (<a href="#ref-kokotajlo2025aifuturesmodel" role="doc-biblioref">2025</a>)</span>, which models “research taste” in both humans and AIs. However that model also represents the state with a scalar (“software efficiency”), so I do not believe it could reproduce some of the behaviors described upfront.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
