@@ -672,7 +672,7 @@ Apple-picking is a simplification of a landscape-navigation problem.
 
 
 
-#               Model
+#               Static Model
 
 
 
@@ -682,6 +682,49 @@ Setup.
     A human can find apples over $[0,1]$, but an agent can only find apples over $[0,\lambda]$, with $\lambda < 1$ (at least for now).
     
     Humans find unpicked apples at rate $r_H$, agents find apples at rate $r_A$, and we use $t_H$ and $t_A$ to represent the time humans and agents spend searching (you can also interpret $t_H$ and $t_A$ as monetary expenditure).
+
+    ```{tikz}
+    %| fig-align: center
+    %| fig-width: 7
+    \begin{tikzpicture}[
+        x=0.9cm,
+        y=0.9cm,
+        line cap=round,
+        line join=round,
+        >=stealth,
+        every node/.style={font=\small}
+    ]
+        \colorlet{applefill}{red!55}
+        \def\Lx{0}
+        \def\Rx{8}
+
+        % titles
+        %\node[font=\bfseries] at (\Lx+2,7.6) {Human + AI Research};
+
+        % left panel axes / guides
+        \draw[thick] (\Lx,0) -- (\Lx,6.2);
+        \draw[thick] (\Lx+4,0) -- (\Lx+4,6.2);
+        %\node[rotate=90] at (\Lx-1.8,3.1) {Apple height $y$};
+        \node[left] at (\Lx,0) {0};
+        \node[below] at (\Lx,0) {0};
+        \node[below,align=center] at (\Lx+2,-0.5) {apples picked};
+        \node[below] at (\Lx+4,0) {1};
+        %\node[left, align=right] at (\Lx-0.15,4) {Human\\height = 1};
+        %\node[left, align=right] at (\Lx-0.15,2) {AI height\\$\lambda < 1$};
+        \draw[dashed] (\Lx+4,4) -- (\Lx,4) node[left] {1};
+        \draw[dashed] (\Lx+4,2) -- (\Lx,2) node[left] {$\lambda$};
+        \draw[dotted] (\Lx+2,0) -- (\Lx+2,5) node[above]{$e^{-r_Ht_H}$};
+        \draw[dotted] (\Lx+3,0) -- (\Lx+3,5) node[above]{$e^{-r_Ht_H}$};
+
+        % shaded region
+        \fill[applefill, opacity=0.75] (\Lx,0) -- (\Lx+3,0) -- (\Lx+3,2) -- (\Lx+2,2) -- (\Lx+2,4) -- (\Lx,4) -- cycle;
+        \draw[line width=1.8pt] (\Lx,0) -- (\Lx+3,0) -- (\Lx+3,2) -- (\Lx+2,2) -- (\Lx+2,4) -- (\Lx,4);
+        \node[text=white, align=center, font=\itshape\small] at (\Lx+1,2.9) {picked by\\humans};
+        \node[text=white, align=center, font=\itshape\small] at (\Lx+1.5,1.0) {picked by\\agents \&\\ humans};
+
+    \end{tikzpicture}
+    ```
+
 
 **We can then derive apples remaining:**
 
@@ -819,7 +862,7 @@ Implication: the agent asymptote depends on the starting point.
     ```
 
 
-#          Extension: Recursive Self-Improvement
+#          Dynamic Model (Recursive Self-Improvement)
 
 The figure below shows the basic model.
 : 
