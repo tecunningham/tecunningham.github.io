@@ -22,7 +22,7 @@ execute:
 #             \usepackage[utf8]{inputenc}
 #             \usepackage{bm}
 #             \usepackage[all,2cell]{xy}
-#             \newcommand{\utt}[3]{\underbrace{#1}_{\substack{\text{#2}\\\text{#3}}}}
+#              \newcommand{\utt}[3]{\underbrace{#1}_{\substack{\text{#2}\\\text{#3}}}}
 ---
 
 <!-- https://tecunningham.github.io/posts/2025-09-13-recursive-self-improvement-explosion-optimization.html -->
@@ -31,14 +31,13 @@ execute:
 1. This is a draft report on what we know about RSI, it covers:
     - Basic introduction to the problem
     - Survey of data: training expenditure (3X/year); training efficiency (4X/year); R&D effort (2X/year).
-    - An overview of ~10 different models of RSI.
+    - A single canonical model, & then an overview of ~10 different models of RSI
 2. TO DO:
-    - A clearer distinction between two stages: (1) now->R&D automation; (2) automation->singularity.
-    - A single canonical model upfront, & then the review can talk about departures from that model.
     - Survey of evidence on speedup & autonomous optimization ability.
     - Crisper statement of the balance of evidence.
 :::
 
+#               Summary
 
 Summary.
 : 
@@ -53,18 +52,35 @@ Summary.
     $$
     \xymatrix@C=3em@R=1.4em{
         *++[F]{\text{R\&D}}\ar[r]|(0.4)r 
-        & *++[F]{\text{AI Capabilities}}\ar@{.>}@/_3em/[l]|{?} 
+        & *++[F]{\text{AI Capabilities}}\ar@{.>}@/_3em/[l]|{a} 
     }
     $$
 
-    We have reason to believe that capability progress is fairly sensitive to the quantity of R&D input. We can quantify the effect with $r$, representing the .  ($r\approx 1$). However there is a great deal of uncertainty on how capabilities will affect R&D.
-    
-    We can break the effects into two types, and make some very tentative guesses as of April 2026:[^ryan]
+
+In the pre-automation world we care about $a$.
+: 
+    The discussion of recursive self-improvement breaks down into two very distinct questions depending on whether we have already achieved AI research automation, i.e. agents that are at least as good as human researchers.^[@davidson2025howquickandbigwo calls this ASARA, "AI System for AI R&D Automation", @kokotajlo2025aifuturesmodel calls this SAR, "superhuman AI researcher".]
+
+    In the pre-automation world we are most interested in the degree to which AI accelerates human researchers, the variable $a$ in the diagram above. We can distinguish between augmentation of human researchers ("uplift", "acceleration"), and partial-automation of research (autonomous research agents).
+
+    We can make a very rough guess at our current state, as of April 2026:[^ryan]
 
     1. Augmentation: agents are accelerating researcher productivity by 50%.
-    2. Automation: agents are able to make autonomous contributions equivalent to around 1 month of a researcher's work.
+    2. Partial Automation: agents are able to make autonomous contributions equivalent to around 1 month of a researcher's work.
 
-    The critical uncertainty is how these effects *scale*. If R&D acceleration continues to scale with capabilities growth then we would expect an imminent substantial acceleration over the historical rate of capabilities growth.
+    Even if we confidently knew the levels of augmentation and partial-automation, it's also important to know how these scale with AI capabilities progress.
+
+In the post-automation world we care about $r$.
+: 
+    In the post-automation world the effective stock of R&D labor will suddenly expand, and so there will clearly be a rapid advance in AI capabilities, the question is how quickly that will explode. Many formal models assume that $a=1$, and switch their attention to $r$. A justification of $a=1$ is, if we interpret AI capabilities as algorithmic efficiency, then a 1% increase in efficiency implies at least a 1% increase in effective R&D labor.
+    
+    The critical questions for $r$ then become potential bottlenecks on R&D inputs:
+    
+    1. The limited supply of inference compute for automated running researchers;
+    2. The limited supply of compute for running research experiments;
+    3. Logical limits on research progress, e.g. statistical ceilings on algorithmic efficiency.
+
+    Most work on estimating post-automation effects doesn't focus on measuring the abilites of AI, but instead measuring historical returns to R&D inputs, and the substitutability between different types of inputs. 
 
 [^ryan]: Ryan Greenblatt in April 2026 [estimates](https://www.lesswrong.com/posts/WjaGAA4xCAXeFpyWm/my-picture-of-the-present-in-ai)  the speedup to engineering to be around 1.6x, and the autonomous capability to be around 5 hours ("the task duration at which AIs match a randomly selected AI company engineer (who is familiar with that part of the code base) is around 5 hours"). Note that a more robust statistic would be the number of hours.
     
