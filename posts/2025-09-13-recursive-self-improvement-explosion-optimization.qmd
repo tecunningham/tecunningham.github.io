@@ -14,15 +14,15 @@ execute:
   warning: false
   error: false
   cache: true # caches chunk output
-# format:
-#    pdf:
-#       pdf-engine: pdflatex
-#       include-in-header:
-#          - text: |
-#             \usepackage[utf8]{inputenc}
-#             \usepackage{bm}
-#             \usepackage[all,2cell]{xy}
-#              \newcommand{\utt}[3]{\underbrace{#1}_{\substack{\text{#2}\\\text{#3}}}}
+format:
+    pdf:
+       pdf-engine: pdflatex
+       include-in-header:
+          - text: |
+             \usepackage[utf8]{inputenc}
+             \usepackage{bm}
+             \usepackage[all,2cell]{xy}
+              \newcommand{\utt}[3]{\underbrace{#1}_{\substack{\text{#2}\\\text{#3}}}}
 ---
 
 <!-- https://tecunningham.github.io/posts/2025-09-13-recursive-self-improvement-explosion-optimization.html -->
@@ -41,7 +41,7 @@ execute:
 
 Summary.
 : 
-    AI capabilities have grown very rapidly over the last decade, in large part due to R&D by researchers (we discuss other inputs such as data and compute below):
+    AI capabilities have grown very rapidly over the last decade, in large part due to R&D by researchers (we discuss other inputs such as data and compute below).
     $$\xymatrix@C=3em@R=1.4em{
         *++[F]{\text{R\&D}}\ar[r]|(0.4)r
         & *++[F]{\text{AI Capabilities}}
@@ -56,31 +56,35 @@ Summary.
     }
     $$
 
+    The two critical quantities are:
+
+    - $r$: the effect of R&D on AI capabilities (an elasticity)
+    - $a$: the effect of AI capabilities on R&D (an elasticity
+
+    If $r$ and $a$ are sufficiently large ($r+a>1$) then the process will be explosive, such that a 1% increase in capabilities would cause a greater-than-1% increase in the next generation of capabilities.
 
 In the pre-automation world we care about $a$.
 : 
     The discussion of recursive self-improvement breaks down into two very distinct questions depending on whether we have already achieved AI research automation, i.e. agents that are at least as good as human researchers.^[@davidson2025howquickandbigwo calls this ASARA, "AI System for AI R&D Automation", @kokotajlo2025aifuturesmodel calls this SAR, "superhuman AI researcher".]
 
-    In the pre-automation world we are most interested in the degree to which AI accelerates human researchers, the variable $a$ in the diagram above. We can distinguish between augmentation of human researchers ("uplift", "acceleration"), and partial-automation of research (autonomous research agents).
-
-    We can make a very rough guess at our current state, as of April 2026:[^ryan]
-
-    1. Augmentation: agents are accelerating researcher productivity by 50%.
-    2. Partial Automation: agents are able to make autonomous contributions equivalent to around 1 month of a researcher's work.
-
-    Even if we confidently knew the levels of augmentation and partial-automation, it's also important to know how these scale with AI capabilities progress.
+    In the pre-automation world we are most interested in the degree to which AI accelerates human researchers, the variable $a$ in the diagram above. We can distinguish between two effects on R&D, prior to full automation:[^ryan]
+    
+    1. **Uplift:** (AKA acceleration) agents are accelerating researcher productivity. As of April 2026 typical estimates are around 20%-100%.
+    2. **Partial Automation:** agents are able to make autonomous contributions. As of April 2026 typical estimates are around 3 days to 1 month of a researcher's work.
 
 In the post-automation world we care about $r$.
 : 
-    In the post-automation world the effective stock of R&D labor will suddenly expand, and so there will clearly be a rapid advance in AI capabilities, the question is how quickly that will explode. Many formal models assume that $a=1$, and switch their attention to $r$. A justification of $a=1$ is, if we interpret AI capabilities as algorithmic efficiency, then a 1% increase in efficiency implies at least a 1% increase in effective R&D labor.
+    In the post-automation world the effective stock of R&D labor will suddenly expand, and so there will clearly be a rapid advance in AI capabilities, the question is how quickly that will explode.
+    
+    Formal models typically assume that $a=1$ (a conservative assumption), and then observe this will lead to explosive growth if and only if $r\geq1$.^[A justification of $a=1$ is, if we interpret AI capabilities as algorithmic efficiency, then a 1% increase in efficiency implies at least a 1% increase in effective R&D labor.]
     
     The critical questions for $r$ then become potential bottlenecks on R&D inputs:
     
-    1. The limited supply of inference compute for automated running researchers;
-    2. The limited supply of compute for running research experiments;
-    3. Logical limits on research progress, e.g. statistical ceilings on algorithmic efficiency.
+    1. The historical rate of returns to research input. Many studies cited below have tried to estimate $r$ (or related terms), though there is little consensus.
+    2. Bottlenecks due to the limited supply of inference compute for automated running researchers.
+    3. Bottlenecks due to the limited supply of compute for running research experiments.
+    4. Logical limits on research progress, e.g. statistical ceilings on algorithmic efficiency.
 
-    Most work on estimating post-automation effects doesn't focus on measuring the abilites of AI, but instead measuring historical returns to R&D inputs, and the substitutability between different types of inputs. 
 
 [^ryan]: Ryan Greenblatt in April 2026 [estimates](https://www.lesswrong.com/posts/WjaGAA4xCAXeFpyWm/my-picture-of-the-present-in-ai)  the speedup to engineering to be around 1.6x, and the autonomous capability to be around 5 hours ("the task duration at which AIs match a randomly selected AI company engineer (who is familiar with that part of the code base) is around 5 hours"). Note that a more robust statistic would be the number of hours.
     

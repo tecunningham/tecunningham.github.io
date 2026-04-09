@@ -131,7 +131,7 @@ An apple-picking model of AI R&D.
 
     The model takes the metaphor literally: an AI agent helping you to optimize an algorithm is like a robot helping you pick apples. It will take care of all the apples up to a certain height, and it may find apples you haven't found yet, but there will still be apples out of its reach.
     
-    The model implies that agents can push the frontier forward, but the returns will sharply diminish. It also implies we can meaure an agent's ability with a human-equivalent time horizon, e.g. as of March 2026 agents seem to be able to find optimizations on frontier algorithms worth about 1 week of professional human labor, yet those effects are not additive.^[E.g. Ryan Greenblatt says "I tentatively believe the AI made somewhere between a few days and a bit over a week of progress on this task relative to a strong human professional."] You can't get two weeks labor by running an agent twice.
+    The model implies that agents can push the frontier forward, but the returns will sharply diminish. It also implies we can measure an agent's ability with a human-equivalent time horizon, e.g. as of March 2026 agents seem to be able to find optimizations on frontier algorithms worth about 1 week of professional human labor, yet those effects are not additive.^[E.g. Ryan Greenblatt says "I tentatively believe the AI made somewhere between a few days and a bit over a week of progress on this task relative to a strong human professional."] You can't get two weeks labor by running an agent twice.
 
     The basic ideas can all be seen in the drawing below. Here the human and robot are both picking trees. The robot is cheaper to run, but it can only reach the low apples. In the illustration they have both picked 4 apples, yet left the tree in a very different state, such that the robot isn't ready to replace the human yet:
 
@@ -295,7 +295,7 @@ An apple-picking model of AI R&D.
     The model sits between a few different literatures in economics, but as far as I can tell doesn't already exist:
 
     - Models of tasks or knowledge hierarchies.^[E.g. @acemoglu2022tasks, @garicano2006organization, @ide2024artificialintelligenceknowledgeeconomy] The apple-picking model differs in that tasks are performed *cumulatively*, instead of a fresh set of tasks each period.
-    - Models of discovery.^[@CarnehlSchneider2025, @agrawal2019needles] The apple-picking models the discovery landscape in a different way (as far as I'm aware) which gives very simple clear results.
+    - Models of discovery.^[@CarnehlSchneider2025, @agrawal2019needles] The apple-picking model models the discovery landscape in a different way (as far as I'm aware) which gives very simple clear results.
     - Models of knowledge accumulation.^[@jones1995rd, @aghion2019artificial, @jones2025aird] The apple-picking model differs in that the state of knowledge is not represented by a single scalar, e.g. the stock of ideas, instead the state is the combination of low-hanging and high-hanging ideas.
 
 
@@ -326,7 +326,7 @@ Start with the history of AI R&D.
 
 Traditional models of AI-assisted R&D imply a permanent acceleration.
 : 
-    There are two standard models of AI's effect on R&D used in the RSI literature: (1) it multiplies the effectiveness of human researchers; (2) it replaces human researchers with computer researchers (see more discussion below). Both models imply that when AI capabilities get better it'll an acceleration in the rate of progress, which persists:
+    There are two standard models of AI's effect on R&D used in the RSI literature: (1) it multiplies the effectiveness of human researchers; (2) it replaces human researchers with computer researchers (see more discussion below). Both models imply that when AI capabilities get better it'll lead to an acceleration in the rate of progress, which persists:
 
     ```{tikz}
     #| fig-width: 3
@@ -541,7 +541,7 @@ Miscellaneous points.
 : 
     - *Uplift.* In practice AI will both (A) accelerate humans; (B) replace humans. The apple-picking model only focuses on the second. In the long-run we expect the second effect to dominate, but it's not clear where we are now.
 
-    - *Directed search.* We assumed that the probability of finding an apple is independent of other apples already found. Realistically people have an ability to direct their attention, it's not clear whether the implications would significantly changed.
+    - *Directed search.* We assumed that the probability of finding an apple is independent of other apples already found. Realistically people have an ability to direct their attention, it's not clear whether the implications would significantly change.
     
     - *Bottlenecks.* The discussion has assumed that progress is purely a function of thinking. In practice there are other bottlenecks, most concretely for AI R&D the reliance on using scarce compute to run experiments. It's arguable how important compute scarcity is, see for example @whitfill2025bottlenecks.
 
@@ -619,7 +619,7 @@ This is distinct from other models of recursive self-improvement.
 
 Apple-picking is a simplification of a landscape-navigation problem.
 : 
-    We think of the apple-picking model as a simplification of a more general landscape-navigation model, where you are trying to find a mininmum over a bumpy landscape. You can represent an optimization problem as $y=f(\bm{x})$, where you're trying to choose an $\bm{x}$ to minimize $y$, given some unknown $f(\cdot)$. An immediate observation from landscape-navigation problem is that the current elevation is not a sufficient statistic for your state, unless you have a degenerate landscape, like the random landscapes in @kortum1997research.
+    We think of the apple-picking model as a simplification of a more general landscape-navigation model, where you are trying to find a minimum over a bumpy landscape. You can represent an optimization problem as $y=f(\bm{x})$, where you're trying to choose an $\bm{x}$ to minimize $y$, given some unknown $f(\cdot)$. An immediate observation from landscape-navigation problem is that the current elevation is not a sufficient statistic for your state, unless you have a degenerate landscape, like the random landscapes in @kortum1997research.
     
     A reasonable conjecture seems to be that AI agents are good at *local* optimization, e.g. climbing small hills, worse at *global* optimization, i.e. finding distant hills.
 
@@ -989,7 +989,7 @@ Human-only labor.
     With human labor only then apples will grow with diminishing returns:
         $$a_t=(1-p^t)F(1).$$
     
-    This will characterize progress prior to the point at which we can build the first useful robot, $a_t \geq \bar{a}$, after which progress begings to accelerate.
+    This will characterize progress prior to the point at which we can build the first useful robot, $a_t \geq \bar{a}$, after which progress begins to accelerate.
 
 Recursive self-improvement.
 : 
@@ -1127,3 +1127,28 @@ Recursive self-improvement.
 
 \end{tikzpicture}
 ```
+
+##      Embedding Apple-Picking into Jones-model R&D
+
+We can embed the apple-picking model into the workhorse R&D function from @jones1995rd as follows, with the following implications:
+
+1. Human effort has constant elasticity (from a human-only starting point).
+2. Agent effort has *declining* elasticity.
+
+We start with this function:
+
+   $$\utt{\frac{\dot{A}}{A}}{growth rate}{of ideas}
+        \propto \utt{R^\gamma}{research}{inputs} \times \utt{A^{-\beta}}{fishing}{out}$$
+
+This can be rewritten in a cumulative form, where $\bar{R}_t$ represents the total research (adjusted for congestion) up to time $t$, then (assuming $A_0$ is small):
+
+   $$A_t \approx \bar{R}_t^{1/\beta}$$
+
+We can compare this to our apple-picking function, with only human effort $x$:
+   $$\ut{a(x)}{apples} = 1-e^{-rx}$$
+
+These can be reconciled if we assume ideas is a nonlinear function of apples-picked ($a$):
+   $$A(a)=\ln\left(\frac{1}{1-a(x)}\right)^{1/\beta}.$$
+
+We can then consider progress in ideas with both humans and robots picking apples, $a(x_H,x_L)$:
+   $$A(a)=\left[\ln\left(\frac{1}{\lambda e^{-r_Hx_H-r_Ax_A}+(1-\lambda)e^{-r_Hx_H}}\right)\right]^{1/\beta}.$$
