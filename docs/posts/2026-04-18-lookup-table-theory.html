@@ -9,7 +9,7 @@
 <meta name="author" content="Tom Cunningham">
 <meta name="description" content="Tom Cunningham blog">
 
-<title>&lt;strong&gt;?meta:title&lt;/strong&gt; | Tom Cunningham – Tom Cunningham</title>
+<title>Lookup Table Theory of LLMs | Tom Cunningham – Tom Cunningham</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -101,48 +121,17 @@ ga('send', {
       border-radius: 4px;
    }
 </style>
-<meta name="quarto:status" content="draft">
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../styles.css">
-<meta name="twitter:title" content="?meta:title | Tom Cunningham">
-<meta name="twitter:description" content="Tom Cunningham blog">
+<meta name="twitter:title" content="Lookup Table Theory of LLMs | Tom Cunningham">
 <meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Draft</div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
@@ -187,7 +176,23 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Lookup Table Theory of LLMs</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
@@ -197,126 +202,67 @@ window.Quarto = {
 
 
 
+
 <dl>
-<dt>Start with the simplest model of AI progress:</dt>
+<dt>The lookup table theory of LLMs:</dt>
 <dd>
+<p><strong>An LLM will succeed at a task if and only if there’s a sufficiently close task in its training data.</strong></p>
+<p>We can say LLMs differ from humans in two respects:</p>
 <ol type="1">
-<li>There is a fixed mapping from training expenditure to general-purpose model intelligence.</li>
-<li>Training expenditure has been increasing by ≈5X per year.</li>
-<li>Training efficiency has been increasing by ≈5X per year due to R&amp;D.[^estimates]</li>
+<li>LLMs have more training data than humans.</li>
+<li>LLMs are worse at generalization from their training data than humans.</li>
 </ol>
-<p>We can draw this as follows:</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="2026-04-06-apple-picking-offcuts_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="288"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Humans have been painstakingly pushing those blue curves to the left. We now are seeing clear signs of agents joining the effort and contributing to that leftward movement, and we want to know what to expect.</p>
 </dd>
-<dt>Observations.</dt>
+<dt>LLMs are worse at <em>rare</em> tasks.</dt>
 <dd>
-<p>The figure below shows the equilibrium, holding <span class="math inline">\(h_t\)</span> fixed. The red curve shows total apples harvested as a function of agent height. The blue line shows the apples needed to sustain a given height (from inverting the self-improvement equation at steady state: <span class="math inline">\(a = \bar{a}+(\lambda-\alpha)/\beta\)</span>). Where the curve is above the line, surplus apples drive <span class="math inline">\(\lambda\)</span> upward; where below, the deficit pulls it back. The equilibrium is at the intersection.</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="2026-04-06-apple-picking-offcuts_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
+We can classify tasks on two dimensions: (i) how difficult it is; (ii) how rare it is (i.e.&nbsp;rarely faced in human society, and thus the training data). The lookup-table theory says rareness will be a relatively better predictor for LLM success than for human success. A classic example is comparing chess to a version of chess with the rules tweaked, chmess. A typical human might be somewhat better at chess; a typical LLM will be far better at chess than chmess, because their skill comes so much from imitation.
+</dd>
+<dt>The lookup table theory unifies many observations about capabilities.</dt>
+<dd>
+I think this is a pretty orthodox understanding of LLM strengths &amp; weaknesses, but I haven’t seen it written down in this way. The basic model explains many observations about task properties that predict LLM performance: time horizon, verifiability, separability, out-of-distributionness, hill-climbability, messiness.
 </dd>
 </dl>
-<p>–&gt;</p>
-<p>&lt;!–</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="2026-04-06-apple-picking-offcuts_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="288"></p>
-</figure>
-</div>
-</div>
-</div>
-<section id="conditions" class="level2">
-<h2 class="anchored" data-anchor-id="conditions">Conditions</h2>
+<section id="implications" class="level2">
+<h2 class="anchored" data-anchor-id="implications">Implications</h2>
 <dl>
-<dt>Agents contributing to AI research.</dt>
+<dt>LLMs succeed at a rare task if it can be decomposed into common tasks.</dt>
 <dd>
-With <span class="math inline">\(\lambda_n = 0\)</span>, <span class="math inline">\(a_n = h_n \to 1\)</span>. So the agent can ever turn on <strong>iff <span class="math inline">\(\bar{a} &lt; 1\)</span></strong>. If <span class="math inline">\(\bar{a} \ge 1\)</span>, <span class="math inline">\(\lambda_n \equiv 0\)</span> forever. Activation-time approximation: <span class="math inline">\(h_n = 1 - p^n \ge \bar{a}\)</span> <span class="math inline">\(\Leftrightarrow\)</span> <span class="math inline">\(n \ge \ln(1-\bar{a})/\ln p\)</span>; <span class="math inline">\(p\)</span> mainly shifts <em>when</em> activation happens.
+Recent LLMs have the ability to do basic decompositions of task into subtasks. As a consequence they can do those rare tasks which can be easily decomposed into common tasks. An example: “multiply 132 and 832 and tell me the capital of Bolivia.” This is rare (there are few similar examples in the training data) but it can easily be decomposed into two tasks that are common.
 </dd>
-<dt>Getting to superhuman AI research.</dt>
+<dt>LLMs fail at tasks that take humans a long time.</dt>
 <dd>
-<p>As <span class="math inline">\(n \to \infty\)</span>, <span class="math inline">\(h_n \to 1\)</span>. If <span class="math inline">\(\lambda_n &lt; 1\)</span>, <span class="math inline">\(a_n \to 1\)</span>; if <span class="math inline">\(\lambda_n \ge 1\)</span>, <span class="math inline">\(a_n = \lambda_n\)</span>. So asymptotically <span class="math inline">\(\lambda_{n+1} \to f(1)\)</span> with <span class="math inline">\(f(1) = 0\)</span> if <span class="math inline">\(1 &lt; \bar{a}\)</span>, and <span class="math inline">\(f(1) = \alpha + \beta(1-\bar{a})\)</span> if <span class="math inline">\(1 \ge \bar{a}\)</span>. So <strong>takeoff past human level</strong> (eventually <span class="math inline">\(\lambda_n &gt; 1\)</span>) <strong>iff</strong> <span class="math display">\[\boxed{\alpha + \beta(1-\bar{a}) &gt; 1.}\]</span></p>
-<p>Interpretation: “If the orchard were fully human-level (<span class="math inline">\(a=1\)</span>), would the next agent be at least human-level?” If not, the system stays below 1. This condition is essentially independent of <span class="math inline">\(p\)</span>.</p>
+==[FIX THIS!!!]== METR finds that among software tasks the LLM success rate has an 85% correlation with the human time required to complete that task. This will be true if long tasks tend to contain subtasks that are <em>rare</em>, i.e.&nbsp;which are farther from the training data. This would be true if tasks contain a varying number of subtasks, then those with many subtasks both (a) take humans longer, and (b) are more likely to contain a rare task, which is out of the reach of an LLM.
 </dd>
-<dt>Self-sustaining AI research.</dt>
+<dt>LLMs are good at hill-climbable tasks.</dt>
 <dd>
-<p>For <span class="math inline">\(\lambda_n \ge 1\)</span>, <span class="math inline">\(a_n = \lambda_n\)</span> and <span class="math display">\[\lambda_{n+1} = \alpha + \beta(\lambda_n - \bar{a}).\]</span></p>
+
+</dd>
+<dt>LLMs successes are highly correlated.</dt>
+<dd>
+Many recent papers find a high correlation in success rates across benchmarks, e.g. <span class="citation" data-cites="ruan2024observationalscaling">Ruan, Maddison, and Hashimoto (<a href="#ref-ruan2024observationalscaling" role="doc-biblioref">2024</a>)</span>.
+</dd>
+<dt>LLMs are good at separable tasks.</dt>
+<dd>
+(…)
+</dd>
+</dl>
+</section>
+<section id="related-things" class="level2">
+<h2 class="anchored" data-anchor-id="related-things">Related Things</h2>
 <ul>
-<li><p><strong>Runaway / hard takeoff</strong> iff <span class="math inline">\(\boxed{\beta &gt; 1}\)</span> (roughly geometric growth in <span class="math inline">\(\lambda_n\)</span>).</p></li>
-<li><p><strong>Soft takeoff / saturation</strong> iff <span class="math inline">\(\boxed{\beta &lt; 1}\)</span>: convergence to <span class="math display">\[\lambda^* = \frac{\alpha - \beta\bar{a}}{1-\beta}\]</span> (provided the system crosses 1 first).</p></li>
-<li><p><strong>Knife-edge</strong> <span class="math inline">\(\beta = 1\)</span>: linear growth.</p></li>
+<li>(jaggedness is a property of the data)</li>
+<li>(out-of-distribution)</li>
 </ul>
-</dd>
-</dl>
-<hr>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="2026-04-06-apple-picking-offcuts_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="variation-non-uniform-apple-density" class="level2">
-<h2 class="anchored" data-anchor-id="variation-non-uniform-apple-density">Variation: Non-uniform apple density</h2>
-<dl>
-<dt>Now let the tree have a general shape.</dt>
-<dd>
-<p>Suppose apples have density <span class="math inline">\(f(x)\)</span> over heights <span class="math inline">\(x \ge 0\)</span>, with cumulative mass <span class="math display">\[F(\lambda) \equiv \int_0^\lambda f(x)\,dx,\]</span> normalized so that <span class="math inline">\(F(1)=1\)</span>. This keeps the interpretation that a human can reach one unit of cumulative progress, but allows the orchard to be bottom-heavy or top-heavy above that point.</p>
-<p>The apples harvested by period <span class="math inline">\(n\)</span> are now <span class="math display">\[a_n = F(\lambda_n) + \big(1-F(\lambda_n)\big)_+\,h_n.\]</span></p>
-<p>This is the same logic as before: the agent gets everything below its reach, while humans contribute a fraction <span class="math inline">\(h_n\)</span> of the remaining human-reachable mass.</p>
-</dd>
-<dt>Implications.</dt>
-<dd>
-<p>The conditions for <em>turning on</em> and for <em>crossing the human frontier</em> are unchanged:</p>
-<ol type="1">
-<li>The agent can activate iff <span class="math inline">\(\bar a &lt; 1\)</span>.</li>
-<li>The agent eventually gets past human level iff <span class="math display">\[\alpha + \beta(1-\bar a) &gt; 1.\]</span></li>
-</ol>
-<p>The reason is that below human level only the total mass up to height <span class="math inline">\(1\)</span> matters, and we normalized that mass to 1.</p>
-</dd>
-<dt>Above human level, the shape of the tree matters.</dt>
-<dd>
-<p>Once <span class="math inline">\(\lambda_n \ge 1\)</span>, humans no longer contribute and the dynamics become <span class="math display">\[\lambda_{n+1} = \alpha + \beta\big(F(\lambda_n)-\bar a\big).\]</span></p>
-<p>The local gain from an extra bit of reach is therefore <span class="math display">\[\frac{d\lambda_{n+1}}{d\lambda_n} = \beta f(\lambda_n).\]</span></p>
-<p>So there is a simple density threshold: <span class="math display">\[\boxed{\text{local RSI at height }\lambda \text{ iff } \beta f(\lambda) &gt; 1 \iff f(\lambda) &gt; 1/\beta.}\]</span></p>
-<p>Interpretation: an extra unit of reach at height <span class="math inline">\(\lambda\)</span> exposes about <span class="math inline">\(f(\lambda)\)</span> extra apples, which in turn generate <span class="math inline">\(\beta f(\lambda)\)</span> extra reach next period. If that amplification factor exceeds 1, improvements compound rather than dying out.</p>
-<p>A stronger condition for sustained unbounded takeoff is that for sufficiently large <span class="math inline">\(\lambda\)</span>, <span class="math display">\[\alpha + \beta\big(F(\lambda)-\bar a\big) &gt; \lambda.\]</span> But the density threshold <span class="math inline">\(f(\lambda)&gt;1/\beta\)</span> is the clean local criterion: it tells us where the orchard is dense enough for recursive improvement to reinforce itself.</p>
-<p>This suggests a concrete empirical question: how dense are the “high apples” in AI R&amp;D? If hard ideas remain dense enough above the current frontier, then crossing human level could quickly become self-reinforcing. If density falls off fast with height, we should expect saturation instead.</p>
-</dd>
-</dl>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="2026-04-06-apple-picking-offcuts_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
+
 
 
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-ruan2024observationalscaling" class="csl-entry" role="listitem">
+Ruan, Yangjun, Chris J. Maddison, and Tatsunori Hashimoto. 2024. <span>“Observational Scaling Laws and the Predictability of Language Model Performance.”</span> <a href="https://arxiv.org/pdf/2405.10938.pdf">https://arxiv.org/pdf/2405.10938.pdf</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
