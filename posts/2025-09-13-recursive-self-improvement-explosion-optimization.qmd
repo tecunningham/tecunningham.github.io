@@ -25,6 +25,10 @@ execute:
 #               \newcommand{\utt}[3]{\underbrace{#1}_{\substack{\text{#2}\\\text{#3}}}}
 ---
 
+<!-- 
+SEE ALSO : # 2026-03-06 toy model of AI stack
+ -->
+
 <!-- https://tecunningham.github.io/posts/2025-09-13-recursive-self-improvement-explosion-optimization.html -->
 
 ::: {.callout-important}
@@ -437,6 +441,30 @@ Best estimates.
     - Wall clock time: 30X lower (May 2024 was 45 minutes; Feb 2026 was 1.5 minutes; 5 doublings over 21 months so doubling every 4 months).
     - Cost: 2500X lower (Karpathy says his 2024 nanoGPT costs ~$20 to train the model to get GPT-2 @karpathy2024llmcdiscussion, a 2019 blog post estimated GPT-2 training cost was $50K).
 
+Karpathy (2026): [tweet](https://x.com/karpathy/status/2017703360393318587?s=20): 2.5X/year cost reduction.
+: 
+    > "This is a 600X cost reduction over 7 years, i.e. the cost to train GPT-2 is falling approximately 2.5X every year. 
+
+@gundlach2026darkenergy "Measuring the Dark Energy of AI Progress": 1.6X/year FLOP-efficiency
+: 
+
+    From 2024 to March 2026, for NanoGPT speedrun:
+    - 28x FLOP reduction
+    - 1.1X non-FLOP reduction
+    - 30.7X wall clock reduction
+
+    Would be useful to fill this out for both Hans & Parker:
+
+    |              | 2019-2024 | 2024-2026 | 2019-2026 |
+    | ------------ | --------- | --------- | --------- |
+    | seconds      |           |           |           |
+    | FLOPs        |           |           |           |
+    | data         |           |           |           |
+    | seconds/FLOP |           |           |           |
+
+
+
+
 
 
 #           R&D Workers $\approx$ 2X/year
@@ -628,7 +656,8 @@ $$\begin{aligned}
     \beta &= \text{increasing vs diminishing returns on finding new ideas}\\
     \lambda &= \text{the returns to scale on research effort at any given instant}\\
     r = \lambda/\beta &= \text{the returns to research effort}
-\end{aligned}$$
+\end{aligned}
+$$
 
 In steady-state equilibrium, $r$ will be the ratio of the growth-rate of $A$ and the growth of inputs, $I$. They discuss in detail a variety of methods of estimating $r$.
 
@@ -887,6 +916,31 @@ flowchart LR
     TH -->|"ν = 1/3"| A
     A -->|"augments"| L
 ```
+
+
+#| fig-height: 2
+#| fig-width: 3
+
+```{tikz}
+#| engine-opts: !expr list(extra.preamble=c("\\usepackage{./preamble_quarto}"))
+\begin{tikzpicture}[node distance=0.5cm and 1.5cm,every path/.style={->},every node/.style={draw, rectangle, inner sep=4pt, outer sep=2pt}]
+      \node[draw] (labor) {R\&D labor (3X)};
+      \node[ebox] (algorithms) [below right=of labor] {0.5\nodepart{second}algorithms (3X)};
+      \node[draw] (experiments) [below=of labor] {experiment compute (3X)};
+      \draw (labor) to node[midway,fill=white,draw=none]{$r$} (algorithms);
+      \draw (experiments) to (algorithms);
+
+      \node[draw] (compute) [below=of algorithms] {training compute (3X)};
+      \node[draw] (data) [below=of compute] {data (3X)};
+      \node[ebox] (capabilities) [right=of algorithms] {0.5\nodepart{second}capabilities (3X)};
+      \draw (algorithms) to (capabilities);
+      \draw (compute) to[out=0,in=180] (capabilities);
+      \draw (data) to[out=0,in=180] (capabilities);
+      \draw[dashed] (capabilities) to[out=150,in=45] node[midway,draw=none,fill=white]{??} (labor);
+\end{tikzpicture}
+\vspace{5cm}
+```
+
 
 
 ##              @jones2026pastautomation "Past Automation and Future A.I.: How Weak Links Tame the Growth Explosion"

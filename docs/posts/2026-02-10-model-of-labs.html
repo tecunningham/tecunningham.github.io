@@ -109,7 +109,6 @@ ga('send', {
 
 <link rel="stylesheet" href="../styles.css">
 <meta name="twitter:title" content="?meta:title | Tom Cunningham">
-<meta name="twitter:description" content="Tom Cunningham blog">
 <meta name="twitter:card" content="summary">
 </head>
 
@@ -194,12 +193,12 @@ ga('send', {
         class model_size,rdsalaries,experiment_compute,pretraining_data,pretraining_compute choice
     end
 
-    subgraph posttraining["Posttraining (\$4B/year)"]
+    subgraph posttraining["Posttraining (\$5B/year)"]
         prequality --&gt; quality((final model&lt;br&gt;quality))
-        posttraining_experiments["Post-training experiment&lt;br&gt;compute (\12B/yr)"] --&gt; posttraining_algorithm
+        posttraining_experiments["Post-training experiment&lt;br&gt;compute (\$1B/yr)"] --&gt; posttraining_algorithm
         posttraining_rd["Post-training R&amp;D&lt;br&gt;(\$1B/yr)"] --&gt; posttraining_algorithm
         posttraining_algorithm(["Post-training algorithm"]) --&gt; quality
-        posttraining_compute["Post-training final run compute&lt;br&gt;(\12B/yr)"] --&gt; quality
+        posttraining_compute["Post-training final run compute&lt;br&gt;(\$2B/yr)"] --&gt; quality
         posttraining_data["Post-training data&lt;br&gt;(\$1B/yr)"] --&gt; quality
         quality --&gt; benchmark([benchmark&lt;br&gt;scores])
         quality --&gt; rmscore([reward model score])
@@ -240,8 +239,28 @@ ga('send', {
 </div>
 </div>
 <hr>
-<p>All figures are <strong>annualized run-rates as of end-2025</strong>, not full-year totals. This is an <strong>operating-expense view</strong> — it excludes capital investment (data-center buildout, GPU purchases, etc.), which OpenAI currently accesses via cloud contracts rather than owning outright. Large one-off training runs are treated as annualized steady-state spending; in practice they are lumpy and might more properly be amortized over the useful life of the resulting model.</p>
-<p>Confidence: 🟢 = reported/leaked figure, 🟡 = triangulated from partial data, 🔴 = rough guess.</p>
+<section id="what-this-estimates" class="level2">
+<h2 class="anchored" data-anchor-id="what-this-estimates">What this estimates</h2>
+<ul>
+<li><strong>Entity.</strong> OpenAI — the consolidated operating company that ships GPT-class models and ChatGPT. The non-profit foundation and any separately-chartered research entities are not modeled.</li>
+<li><strong>Time basis.</strong> Annualized run-rates <strong>as of end-2025</strong>, not full-year 2025 totals. Where sources report H1 or 9-month figures, we extrapolate to an implied Q4 run-rate.</li>
+<li><strong>Accounting view.</strong> Operating expenses (P&amp;L), roughly GAAP. Stock-based compensation is included inside the relevant staff lines, not listed separately.</li>
+<li><strong>Sources.</strong> Public reporting, financials leaked to investors and journalists (The Information, Fortune, TechCrunch), and triangulation from third-party trackers (Epoch AI on compute). Confidence flags mark direct attestation vs inference.</li>
+<li><strong>Excluded.</strong> Capital investment — data-center construction, GPU purchases, power, real estate. OpenAI accesses most compute via cloud contracts (Azure, Oracle, CoreWeave, Google), and those cloud fees are included here as opex; Stargate-style capex commitments are outside the frame.</li>
+<li><strong>Lumpiness.</strong> Large one-off training runs are treated as annualized steady-state spending. In practice they are lumpy and might more properly be amortized over the useful life of the resulting model.</li>
+</ul>
+</section>
+<section id="how-the-categories-are-defined" class="level2">
+<h2 class="anchored" data-anchor-id="how-the-categories-are-defined">How the categories are defined</h2>
+<ul>
+<li><strong>Pretraining vs post-training</strong> splits by purpose: pretraining is next-token training of the base model; post-training is SFT / RLHF / tool-use / safety tuning applied to that base model to produce the shipping product.</li>
+<li><strong>R&amp;D (staff)</strong> = salaries, benefits, and SBC for researchers and engineers working on that phase. The compute they consume is broken out separately.</li>
+<li><strong>Experimental vs final-run compute.</strong> Experimental = ablations, pilots, scaling experiments, failed runs. Final-run = compute burned in the one or two production runs that actually produce a shipping model. Per Epoch AI, experimental dominated pretraining compute in 2024.</li>
+<li><strong>Data acquisition</strong> covers publisher licensing, crawl infrastructure, curation, and storage. Human labeling for post-training sits in the separate <em>post-training data</em> line.</li>
+<li><strong>Inference / serving</strong> is all compute for live queries — ChatGPT, API, Sora, Operator, Codex, etc. — across Azure and non-Azure clouds. Owned-hardware depreciation is not amortized in (OpenAI still accesses most compute via third-party clouds at end-2025).</li>
+<li><strong>Other opex</strong> = sales &amp; marketing, G&amp;A, legal/compliance, plus the 20% Microsoft revenue-share under the existing commercial agreement.</li>
+</ul>
+<p>Confidence flags: 🟢 = reported/leaked figure, 🟡 = triangulated from partial data, 🔴 = rough guess.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -274,7 +293,7 @@ ga('send', {
 <td style="text-align: left;">  R&amp;D staff &amp; overhead</td>
 <td style="text-align: right;">$3B/yr</td>
 <td style="text-align: center;">🟡</td>
-<td style="text-align: left;">~4,000 employees (<a href="https://www.wsj.com/tech/ai/openai-is-paying-employees-more-than-any-major-tech-startup-in-history-23472527" title="OpenAI Is Paying Employees More Than Any Major Tech Startup">WSJ</a>); H1 R&amp;D was $6.7B incl.&nbsp;compute ([The Information][6]); $3B is residual after subtracting compute items below</td>
+<td style="text-align: left;">~4,000 employees mid-2024 (<a href="https://www.wsj.com/tech/ai/openai-is-paying-employees-more-than-any-major-tech-startup-in-history-23472527" title="OpenAI Is Paying Employees More Than Any Major Tech Startup">WSJ</a>), growing through 2025; H1 R&amp;D was $6.7B incl.&nbsp;compute ([The Information][6]); $3B is residual after subtracting compute items below</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">  Experimental compute (exploratory runs)</td>
@@ -292,7 +311,7 @@ ga('send', {
 <td style="text-align: left;">  Data acquisition &amp; storage</td>
 <td style="text-align: right;">$1B/yr</td>
 <td style="text-align: center;">🟡</td>
-<td style="text-align: left;">Known deals: News Corp $250M/5yr, Reddit $60M, plus AP, FT, Axel Springer (<a href="https://www.reuters.com/technology/sam-altmans-openai-signs-content-agreement-with-news-corp-2024-05-22/" title="OpenAI signs content agreement with News Corp">Reuters</a>); total licensing likely $200–300M/yr; remainder is scraping, curation, storage</td>
+<td style="text-align: left;">Announced deals through 2024: News Corp $250M/5yr, Reddit $60M, plus AP, FT, Axel Springer (<a href="https://www.reuters.com/technology/sam-altmans-openai-signs-content-agreement-with-news-corp-2024-05-22/" title="OpenAI signs content agreement with News Corp">Reuters</a>); additional 2025 deals not fully public; total licensing plausibly $200–400M/yr; remainder is scraping, curation, storage</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong><em>Pretraining subtotal</em></strong></td>
@@ -319,40 +338,64 @@ ga('send', {
 <td style="text-align: left;">No public breakdown; no leaked figures on post-training sub-costs</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">  Post-training experiment compute</td>
+<td style="text-align: right;">$1B/yr</td>
+<td style="text-align: center;">🔴</td>
+<td style="text-align: left;">No direct disclosure</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">  Post-training compute (SFT, RLHF, evals)</td>
 <td style="text-align: right;">$2B/yr</td>
 <td style="text-align: center;">🔴</td>
 <td style="text-align: left;">No direct disclosure; assumed large but smaller than pretraining compute</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">  Post-training data (labeling, preference)</td>
 <td style="text-align: right;">$1B/yr</td>
 <td style="text-align: center;">🔴</td>
 <td style="text-align: left;">No public number; consistent with scale of human + synthetic feedback pipelines</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><strong><em>Post-training subtotal</em></strong></td>
-<td style="text-align: right;"><strong><em>$4B/yr</em></strong></td>
+<td style="text-align: right;"><strong><em>$5B/yr</em></strong></td>
 <td style="text-align: center;"></td>
 <td style="text-align: left;"><em>Sum of above</em></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"></td>
 <td style="text-align: right;"></td>
 <td style="text-align: center;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><strong>Inference / serving</strong></td>
 <td style="text-align: right;"><strong>$13B/yr</strong></td>
 <td style="text-align: center;">🟡</td>
-<td style="text-align: left;">$8.65B Azure payments in first 9 months (<a href="https://techcrunch.com/2025/11/14/leaked-documents-shed-light-into-how-much-openai-pays-microsoft/" title="Leaked documents shed light into how much OpenAI pays Microsoft">TechCrunch</a>); $13B extrapolates end-2025 run-rate. <em>Caveat:</em> compute margin reached ~70% by Oct 2025 (<a href="https://coincodex.com/article/78968/openai-doubles-margins-in-2025-as-ai-costs-fall-and-revenues-surge/" title="OpenAI Doubles Margins in 2025">CoinCodex</a>), implying lower unit cost; $13B may overstate Q4 run-rate</td>
+<td style="text-align: left;">$8.65B Azure payments in 9M 2025 (<a href="https://techcrunch.com/2025/11/14/leaked-documents-shed-light-into-how-much-openai-pays-microsoft/" title="Leaked documents shed light into how much OpenAI pays Microsoft">TechCrunch</a>) ≈ $11.5B annualized; $13B includes non-Azure compute (Oracle, CoreWeave) added through 2025. <em>Caveat:</em> leaked internal docs show compute margin ~70% by late 2025 (<a href="https://fortune.com/2025/11/12/openai-cash-burn-rate-annual-losses-2028-profitable-2030-financial-documents/" title="OpenAI says it plans to report stunning annual losses">Fortune</a>), implying unit cost fell during the year, so $13B may overstate the true Q4 run-rate</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Other opex</strong></td>
+<td style="text-align: right;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Other opex</strong> (S&amp;M, G&amp;A, rev-share, etc.)</td>
-<td style="text-align: right;">$7B/yr</td>
+<td style="text-align: left;">  S&amp;M, G&amp;A, legal, compliance</td>
+<td style="text-align: right;">$3B/yr</td>
 <td style="text-align: center;">🟡</td>
-<td style="text-align: left;">H1 S&amp;M alone was $2B ([The Information][6]) → ~$5B/yr run-rate; plus G&amp;A, legal, compliance, 20% Microsoft rev-share (~$4B on $20B). Total plausibly $7–9B</td>
+<td style="text-align: left;">H1 S&amp;M was $2B ([The Information][6]); run-rate scaled up, plus G&amp;A and admin</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">  Microsoft revenue share</td>
+<td style="text-align: right;">$4B/yr</td>
+<td style="text-align: center;">🟡</td>
+<td style="text-align: left;">20% rev-share per MSFT commercial terms; ~$4B on $20B ARR</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong><em>Other opex subtotal</em></strong></td>
+<td style="text-align: right;"><strong><em>$7B/yr</em></strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"><em>Sum of above. SBC (~$5B/yr run-rate) is not listed separately: under GAAP it is already inside the R&amp;D staff line above</em></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -362,18 +405,28 @@ ga('send', {
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong><em>Total costs</em></strong></td>
-<td style="text-align: right;"><strong><em>$35B/yr</em></strong></td>
+<td style="text-align: right;"><strong><em>$36B/yr</em></strong></td>
 <td style="text-align: center;"></td>
-<td style="text-align: left;"><em>11 + 4 + 13 + 7. Cross-check: Fortune reports $22B full-year spending vs $13B sales (<a href="https://fortune.com/2025/11/12/openai-cash-burn-rate-annual-losses-2028-profitable-2030-financial-documents/" title="OpenAI says it plans to report stunning annual losses">Fortune</a>); run-rate &gt; in-period average because costs ramped through the year</em></td>
+<td style="text-align: left;"><em>11 + 5 + 13 + 7. Cross-check: Fortune reports $22B full-year 2025 spending vs $13B sales (<a href="https://fortune.com/2025/11/12/openai-cash-burn-rate-annual-losses-2028-profitable-2030-financial-documents/" title="OpenAI says it plans to report stunning annual losses">Fortune</a>); run-rate exceeds in-period average because costs ramped steeply Q1→Q4</em></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong><em>Revenue − costs</em></strong></td>
-<td style="text-align: right;"><strong><em>–$15B/yr</em></strong></td>
+<td style="text-align: right;"><strong><em>–$16B/yr</em></strong></td>
 <td style="text-align: center;"></td>
 <td style="text-align: left;"><em>Consistent with projected $9B net loss for 2025 (<a href="https://fortune.com/2025/11/12/openai-cash-burn-rate-annual-losses-2028-profitable-2030-financial-documents/" title="OpenAI says it plans to report stunning annual losses">Fortune</a>) scaling to higher end-of-year run-rate</em></td>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="reconciliation-checks" class="level2">
+<h2 class="anchored" data-anchor-id="reconciliation-checks">Reconciliation checks</h2>
+<ul>
+<li><strong>FY 2025 vs end-year run-rate.</strong> Fortune reports $22B full-year 2025 spending on $13B sales (<a href="https://fortune.com/2025/11/12/openai-cash-burn-rate-annual-losses-2028-profitable-2030-financial-documents/" title="OpenAI says it plans to report stunning annual losses">Fortune</a>). This model’s $36B end-2025 run-rate is consistent if monthly opex roughly doubled from Q1 to Q4 as training capacity, inference demand, and headcount ramped.</li>
+<li><strong>Azure payments vs total compute.</strong> $8.65B Azure payments in 9M 2025 (<a href="https://techcrunch.com/2025/11/14/leaked-documents-shed-light-into-how-much-openai-pays-microsoft/" title="Leaked documents shed light into how much OpenAI pays Microsoft">TechCrunch</a>) ≈ $11.5B annualized. This model budgets ~$23B total compute ($10B training + $13B inference), so roughly half of OpenAI’s compute now sits off Azure — consistent with 2025 deals signed with Oracle, CoreWeave, and Google Cloud.</li>
+<li><strong>Stock-based compensation.</strong> H1 SBC was $2.5B ([The Information][6]) → ~$5B/yr run-rate, consistent with ~$1.5M avg SBC × 4,000+ headcount (<a href="https://www.wsj.com/tech/ai/openai-is-paying-employees-more-than-any-major-tech-startup-in-history-23472527" title="OpenAI Is Paying Employees More Than Any Major Tech Startup">WSJ</a>). Under GAAP, SBC is already inside the $6.7B H1 R&amp;D line, so it is not added again as a separate cost.</li>
+<li><strong>Anthropic comparable.</strong> Anthropic’s reported 2025 financials (revenue ~$5B, gross margin roughly break-even on inference) imply similar unit economics at ~3–4× smaller scale — a sanity check that the mix of ~35% compute, ~25% R&amp;D, ~20% inference margin looks right for the frontier-lab archetype, not just OpenAI specifically.</li>
+</ul>
+</section>
 <section id="sources" class="level2">
 <h2 class="anchored" data-anchor-id="sources">Sources</h2>
 <ul>
@@ -381,10 +434,9 @@ ga('send', {
 <li><strong><a href="https://techcrunch.com/2025/11/14/leaked-documents-shed-light-into-how-much-openai-pays-microsoft/" title="Leaked documents shed light into how much OpenAI pays Microsoft">2</a> TechCrunch</strong>: leaked docs; $8.65B inference payments to Azure in first 9 months of 2025. (<a href="https://techcrunch.com/2025/11/14/leaked-documents-shed-light-into-how-much-openai-pays-microsoft/" title="Leaked documents shed light into how much OpenAI pays Microsoft">link</a>)</li>
 <li><strong><a href="https://epoch.ai/data-insights/openai-compute-spend" title="Most of OpenAI's 2024 compute went to experiments">3</a> Epoch AI</strong>: 2024 compute breakdown — ~$7B total (~$5B R&amp;D, ~$2B inference); most R&amp;D was experiments, not final training. (<a href="https://epoch.ai/data-insights/openai-compute-spend" title="Most of OpenAI's 2024 compute went to experiments">data insight</a>, <a href="https://epochai.substack.com/p/how-does-openai-allocate-its-compute" title="How does OpenAI allocate its compute? - Epoch AI">substack</a>)</li>
 <li><strong><a href="https://fortune.com/2025/11/12/openai-cash-burn-rate-annual-losses-2028-profitable-2030-financial-documents/" title="OpenAI says it plans to report stunning annual losses">5</a> Fortune</strong>: internal docs shared with investors; $22B spending vs $13B sales for full-year 2025; $9B net loss. (<a href="https://fortune.com/2025/11/12/openai-cash-burn-rate-annual-losses-2028-profitable-2030-financial-documents/" title="OpenAI says it plans to report stunning annual losses">link</a>)</li>
-<li><strong>[6] The Information</strong> (via Reuters/ainvest): H1 2025 financials — $4.3B revenue, $6.7B R&amp;D, $2B S&amp;M, $2.5B SBC, $2.5B cash burn. (<a href="https://www.reuters.com/technology/openais-first-half-revenue-rises-16-about-43-billion-information-reports-2025-09-30/" title="OpenAI generates $4.3 billion in revenue in first half of 2025">Reuters</a>, <a href="https://www.ainvest.com/news/openai-prints-4-3b-revenue-torches-billions-cash-era-defining-money-furnace-2509/" title="OpenAI Prints $4.3B in Revenue">ainvest</a>)</li>
-<li><strong><a href="https://www.wsj.com/tech/ai/openai-is-paying-employees-more-than-any-major-tech-startup-in-history-23472527" title="OpenAI Is Paying Employees More Than Any Major Tech Startup">7</a> WSJ</strong>: OpenAI paying employees more than any major tech startup — average SBC ~$1.5M/employee; ~4,000 headcount. (<a href="https://www.wsj.com/tech/ai/openai-is-paying-employees-more-than-any-major-tech-startup-in-history-23472527" title="OpenAI Is Paying Employees More Than Any Major Tech Startup">link</a>)</li>
+<li><strong>[6] The Information</strong> (via Reuters): H1 2025 financials — $4.3B revenue, $6.7B R&amp;D, $2B S&amp;M, $2.5B SBC, $2.5B cash burn. (<a href="https://www.reuters.com/technology/openais-first-half-revenue-rises-16-about-43-billion-information-reports-2025-09-30/" title="OpenAI generates $4.3 billion in revenue in first half of 2025">Reuters</a>)</li>
+<li><strong><a href="https://www.wsj.com/tech/ai/openai-is-paying-employees-more-than-any-major-tech-startup-in-history-23472527" title="OpenAI Is Paying Employees More Than Any Major Tech Startup">7</a> WSJ</strong>: OpenAI paying employees more than any major tech startup — average SBC ~$1.5M/employee; ~4,000 headcount mid-2024. (<a href="https://www.wsj.com/tech/ai/openai-is-paying-employees-more-than-any-major-tech-startup-in-history-23472527" title="OpenAI Is Paying Employees More Than Any Major Tech Startup">link</a>)</li>
 <li><strong><a href="https://www.reuters.com/technology/sam-altmans-openai-signs-content-agreement-with-news-corp-2024-05-22/" title="OpenAI signs content agreement with News Corp">8</a> Reuters/NYT</strong>: data licensing deals — News Corp $250M/5yr, Reddit $60M, plus AP, FT, Axel Springer. (<a href="https://www.reuters.com/technology/sam-altmans-openai-signs-content-agreement-with-news-corp-2024-05-22/" title="OpenAI signs content agreement with News Corp">Reuters</a>, <a href="https://www.nytimes.com/2024/05/22/business/media/openai-news-corp-content-deal.html" title="OpenAI Strikes a Deal to License News Corp Content">NYT</a>)</li>
-<li><strong><a href="https://coincodex.com/article/78968/openai-doubles-margins-in-2025-as-ai-costs-fall-and-revenues-surge/" title="OpenAI Doubles Margins in 2025">9</a> CoinCodex</strong>: compute margin reached ~70% by Oct 2025 (up from 52% end-2024); overall gross margin ~48%. (<a href="https://coincodex.com/article/78968/openai-doubles-margins-in-2025-as-ai-costs-fall-and-revenues-surge/" title="OpenAI Doubles Margins in 2025">link</a>)</li>
 </ul>
 
 

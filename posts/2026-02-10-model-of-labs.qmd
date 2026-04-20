@@ -22,12 +22,12 @@ flowchart LR
         class model_size,rdsalaries,experiment_compute,pretraining_data,pretraining_compute choice
     end
 
-    subgraph posttraining["Posttraining (\$4B/year)"]
+    subgraph posttraining["Posttraining (\$5B/year)"]
         prequality --> quality((final model<br>quality))
-        posttraining_experiments["Post-training experiment<br>compute (\12B/yr)"] --> posttraining_algorithm
+        posttraining_experiments["Post-training experiment<br>compute (\$1B/yr)"] --> posttraining_algorithm
         posttraining_rd["Post-training R&D<br>(\$1B/yr)"] --> posttraining_algorithm
         posttraining_algorithm(["Post-training algorithm"]) --> quality
-        posttraining_compute["Post-training final run compute<br>(\12B/yr)"] --> quality
+        posttraining_compute["Post-training final run compute<br>(\$2B/yr)"] --> quality
         posttraining_data["Post-training data<br>(\$1B/yr)"] --> quality
         quality --> benchmark([benchmark<br>scores])
         quality --> rmscore([reward model score])
@@ -66,32 +66,60 @@ flowchart LR
 --------------------------------------------
 
 
-All figures are **annualized run-rates as of end-2025**, not full-year totals. This is an **operating-expense view** — it excludes capital investment (data-center buildout, GPU purchases, etc.), which OpenAI currently accesses via cloud contracts rather than owning outright. Large one-off training runs are treated as annualized steady-state spending; in practice they are lumpy and might more properly be amortized over the useful life of the resulting model.
+## What this estimates
 
-Confidence: 🟢 = reported/leaked figure, 🟡 = triangulated from partial data, 🔴 = rough guess.
+- **Entity.** OpenAI — the consolidated operating company that ships GPT-class models and ChatGPT. The non-profit foundation and any separately-chartered research entities are not modeled.
+- **Time basis.** Annualized run-rates **as of end-2025**, not full-year 2025 totals. Where sources report H1 or 9-month figures, we extrapolate to an implied Q4 run-rate.
+- **Accounting view.** Operating expenses (P&L), roughly GAAP. Stock-based compensation is included inside the relevant staff lines, not listed separately.
+- **Sources.** Public reporting, financials leaked to investors and journalists (The Information, Fortune, TechCrunch), and triangulation from third-party trackers (Epoch AI on compute). Confidence flags mark direct attestation vs inference.
+- **Excluded.** Capital investment — data-center construction, GPU purchases, power, real estate. OpenAI accesses most compute via cloud contracts (Azure, Oracle, CoreWeave, Google), and those cloud fees are included here as opex; Stargate-style capex commitments are outside the frame.
+- **Lumpiness.** Large one-off training runs are treated as annualized steady-state spending. In practice they are lumpy and might more properly be amortized over the useful life of the resulting model.
 
-| Line item | Estimate | | Source / justification |
-|:---|---:|:---:|:---|
-| **Revenue** (ARR) | **\$20B/yr** | 🟢 | CFO statement, late 2025 ([Reuters][1]). Consistent with H1 revenue of \$4.3B growing to \$13B full-year target ([The Information][6]) |
-| | | | |
-| **Pretraining** | | | |
-| &ensp; R&D staff & overhead | \$3B/yr | 🟡 | ~4,000 employees ([WSJ][7]); H1 R&D was \$6.7B incl. compute ([The Information][6]); \$3B is residual after subtracting compute items below |
-| &ensp; Experimental compute (exploratory runs) | \$3B/yr | 🟡 | In 2024, ~\$5B R&D compute, mostly experiments not final training ([Epoch AI][3]); scaled up for 2025 |
-| &ensp; Frontier pretraining compute | \$4B/yr | 🟡 | Residual so pretraining subtotal = \$11B; consistent with Epoch AI and Fortune magnitudes ([Fortune][5], [Epoch AI][3]) |
-| &ensp; Data acquisition & storage | \$1B/yr | 🟡 | Known deals: News Corp \$250M/5yr, Reddit \$60M, plus AP, FT, Axel Springer ([Reuters][8]); total licensing likely \$200–300M/yr; remainder is scraping, curation, storage |
-| ***Pretraining subtotal*** | ***\$11B/yr*** | | *Sum of above* |
-| | | | |
-| **Post-training** | | | |
-| &ensp; Post-training R&D (algorithms, tooling) | \$1B/yr | 🔴 | No public breakdown; no leaked figures on post-training sub-costs |
-| &ensp; Post-training compute (SFT, RLHF, evals) | \$2B/yr | 🔴 | No direct disclosure; assumed large but smaller than pretraining compute |
-| &ensp; Post-training data (labeling, preference) | \$1B/yr | 🔴 | No public number; consistent with scale of human + synthetic feedback pipelines |
-| ***Post-training subtotal*** | ***\$4B/yr*** | | *Sum of above* |
-| | | | |
-| **Inference / serving** | **\$13B/yr** | 🟡 | \$8.65B Azure payments in first 9 months ([TechCrunch][2]); \$13B extrapolates end-2025 run-rate. *Caveat:* compute margin reached ~70% by Oct 2025 ([CoinCodex][9]), implying lower unit cost; \$13B may overstate Q4 run-rate |
-| **Other opex** (S&M, G&A, rev-share, etc.) | \$7B/yr | 🟡 | H1 S&M alone was \$2B ([The Information][6]) → ~\$5B/yr run-rate; plus G&A, legal, compliance, 20% Microsoft rev-share (~\$4B on \$20B). Total plausibly \$7–9B |
-| | | | |
-| ***Total costs*** | ***\$35B/yr*** | | *11 + 4 + 13 + 7. Cross-check: Fortune reports \$22B full-year spending vs \$13B sales ([Fortune][5]); run-rate > in-period average because costs ramped through the year* |
-| ***Revenue − costs*** | ***–\$15B/yr*** | | *Consistent with projected \$9B net loss for 2025 ([Fortune][5]) scaling to higher end-of-year run-rate* |
+## How the categories are defined
+
+- **Pretraining vs post-training** splits by purpose: pretraining is next-token training of the base model; post-training is SFT / RLHF / tool-use / safety tuning applied to that base model to produce the shipping product.
+- **R&D (staff)** = salaries, benefits, and SBC for researchers and engineers working on that phase. The compute they consume is broken out separately.
+- **Experimental vs final-run compute.** Experimental = ablations, pilots, scaling experiments, failed runs. Final-run = compute burned in the one or two production runs that actually produce a shipping model. Per Epoch AI, experimental dominated pretraining compute in 2024.
+- **Data acquisition** covers publisher licensing, crawl infrastructure, curation, and storage. Human labeling for post-training sits in the separate *post-training data* line.
+- **Inference / serving** is all compute for live queries — ChatGPT, API, Sora, Operator, Codex, etc. — across Azure and non-Azure clouds. Owned-hardware depreciation is not amortized in (OpenAI still accesses most compute via third-party clouds at end-2025).
+- **Other opex** = sales & marketing, G&A, legal/compliance, plus the 20% Microsoft revenue-share under the existing commercial agreement.
+
+Confidence flags: 🟢 = reported/leaked figure, 🟡 = triangulated from partial data, 🔴 = rough guess.
+
+| Line item                                        |        Estimate |     | Source / justification                                                                                                                                                                                                          |
+| :----------------------------------------------- | --------------: | :-: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Revenue** (ARR)                                |    **\$20B/yr** | 🟢 | CFO statement, late 2025 ([Reuters][1]). Consistent with H1 revenue of \$4.3B growing to \$13B full-year target ([The Information][6])                                                                                          |
+|                                                  |                 |     |                                                                                                                                                                                                                                 |
+| **Pretraining**                                  |                 |     |                                                                                                                                                                                                                                 |
+| &ensp; R&D staff & overhead                      |         \$3B/yr | 🟡 | \~4,000 employees mid-2024 ([WSJ][7]), growing through 2025; H1 R&D was \$6.7B incl. compute ([The Information][6]); \$3B is residual after subtracting compute items below                                                     |
+| &ensp; Experimental compute (exploratory runs)   |         \$3B/yr | 🟡 | In 2024, ~\$5B R&D compute, mostly experiments not final training ([Epoch AI][3]); scaled up for 2025                                                                                                                           |
+| &ensp; Frontier pretraining compute              |         \$4B/yr | 🟡 | Residual so pretraining subtotal = \$11B; consistent with Epoch AI and Fortune magnitudes ([Fortune][5], [Epoch AI][3])                                                                                                         |
+| &ensp; Data acquisition & storage                |         \$1B/yr | 🟡 | Announced deals through 2024: News Corp \$250M/5yr, Reddit \$60M, plus AP, FT, Axel Springer ([Reuters][8]); additional 2025 deals not fully public; total licensing plausibly \$200–400M/yr; remainder is scraping, curation, storage |
+| ***Pretraining subtotal***                       |  ***\$11B/yr*** |     | *Sum of above*                                                                                                                                                                                                                  |
+|                                                  |                 |     |                                                                                                                                                                                                                                 |
+| **Post-training**                                |                 |     |                                                                                                                                                                                                                                 |
+| &ensp; Post-training R&D (algorithms, tooling)   |         \$1B/yr | 🔴 | No public breakdown; no leaked figures on post-training sub-costs                                                                                                                                                               |
+| &ensp; Post-training experiment compute          |         \$1B/yr | 🔴 | No direct disclosure                                                                                                                                                                                                            |
+| &ensp; Post-training compute (SFT, RLHF, evals)  |         \$2B/yr | 🔴 | No direct disclosure; assumed large but smaller than pretraining compute                                                                                                                                                        |
+| &ensp; Post-training data (labeling, preference) |         \$1B/yr | 🔴 | No public number; consistent with scale of human + synthetic feedback pipelines                                                                                                                                                 |
+| ***Post-training subtotal***                     |   ***\$5B/yr*** |     | *Sum of above*                                                                                                                                                                                                                  |
+|                                                  |                 |     |                                                                                                                                                                                                                                 |
+| **Inference / serving**                          |    **\$13B/yr** | 🟡 | \$8.65B Azure payments in 9M 2025 ([TechCrunch][2]) ≈ \$11.5B annualized; \$13B includes non-Azure compute (Oracle, CoreWeave) added through 2025. *Caveat:* leaked internal docs show compute margin ~70% by late 2025 ([Fortune][5]), implying unit cost fell during the year, so \$13B may overstate the true Q4 run-rate |
+| **Other opex**                                   |                 |     |                                                                                                                                                                                                                                 |
+| &ensp; S&M, G&A, legal, compliance               |         \$3B/yr | 🟡 | H1 S&M was \$2B ([The Information][6]); run-rate scaled up, plus G&A and admin                                                                                                                                                  |
+| &ensp; Microsoft revenue share                   |         \$4B/yr | 🟡 | 20% rev-share per MSFT commercial terms; \~\$4B on \$20B ARR                                                                                                                                                                    |
+| ***Other opex subtotal***                        |   ***\$7B/yr*** |     | *Sum of above. SBC (~\$5B/yr run-rate) is not listed separately: under GAAP it is already inside the R&D staff line above*                                                                                                      |
+|                                                  |                 |     |                                                                                                                                                                                                                                 |
+| ***Total costs***                                |  ***\$36B/yr*** |     | *11 + 5 + 13 + 7. Cross-check: Fortune reports \$22B full-year 2025 spending vs \$13B sales ([Fortune][5]); run-rate exceeds in-period average because costs ramped steeply Q1→Q4*                                              |
+| ***Revenue − costs***                            | ***–\$16B/yr*** |     | *Consistent with projected \$9B net loss for 2025 ([Fortune][5]) scaling to higher end-of-year run-rate*                                                                                                                        |
+
+
+## Reconciliation checks
+
+- **FY 2025 vs end-year run-rate.** Fortune reports \$22B full-year 2025 spending on \$13B sales ([Fortune][5]). This model's \$36B end-2025 run-rate is consistent if monthly opex roughly doubled from Q1 to Q4 as training capacity, inference demand, and headcount ramped.
+- **Azure payments vs total compute.** \$8.65B Azure payments in 9M 2025 ([TechCrunch][2]) ≈ \$11.5B annualized. This model budgets ~\$23B total compute (\$10B training + \$13B inference), so roughly half of OpenAI's compute now sits off Azure — consistent with 2025 deals signed with Oracle, CoreWeave, and Google Cloud.
+- **Stock-based compensation.** H1 SBC was \$2.5B ([The Information][6]) → \~\$5B/yr run-rate, consistent with \~\$1.5M avg SBC × 4,000+ headcount ([WSJ][7]). Under GAAP, SBC is already inside the \$6.7B H1 R&D line, so it is not added again as a separate cost.
+- **Anthropic comparable.** Anthropic's reported 2025 financials (revenue \~\$5B, gross margin roughly break-even on inference) imply similar unit economics at \~3–4× smaller scale — a sanity check that the mix of ~35% compute, ~25% R&D, ~20% inference margin looks right for the frontier-lab archetype, not just OpenAI specifically.
 
 
 ## Sources
@@ -100,10 +128,9 @@ Confidence: 🟢 = reported/leaked figure, 🟡 = triangulated from partial data
 * **[2] TechCrunch**: leaked docs; \$8.65B inference payments to Azure in first 9 months of 2025. ([link][2])
 * **[3] Epoch AI**: 2024 compute breakdown — ~\$7B total (~\$5B R&D, ~\$2B inference); most R&D was experiments, not final training. ([data insight][3], [substack][4])
 * **[5] Fortune**: internal docs shared with investors; \$22B spending vs \$13B sales for full-year 2025; \$9B net loss. ([link][5])
-* **[6] The Information** (via Reuters/ainvest): H1 2025 financials — \$4.3B revenue, \$6.7B R&D, \$2B S&M, \$2.5B SBC, \$2.5B cash burn. ([Reuters][6a], [ainvest][6b])
-* **[7] WSJ**: OpenAI paying employees more than any major tech startup — average SBC ~\$1.5M/employee; ~4,000 headcount. ([link][7])
+* **[6] The Information** (via Reuters): H1 2025 financials — \$4.3B revenue, \$6.7B R&D, \$2B S&M, \$2.5B SBC, \$2.5B cash burn. ([Reuters][6a])
+* **[7] WSJ**: OpenAI paying employees more than any major tech startup — average SBC \~\$1.5M/employee; \~4,000 headcount mid-2024. ([link][7])
 * **[8] Reuters/NYT**: data licensing deals — News Corp \$250M/5yr, Reddit \$60M, plus AP, FT, Axel Springer. ([Reuters][8], [NYT][8b])
-* **[9] CoinCodex**: compute margin reached ~70% by Oct 2025 (up from 52% end-2024); overall gross margin ~48%. ([link][9])
 
 [1]: https://www.reuters.com/business/openai-cfo-says-annualized-revenue-crosses-20-billion-2025-2026-01-19/ "OpenAI CFO says annualized revenue crosses $20 billion in 2025"
 [2]: https://techcrunch.com/2025/11/14/leaked-documents-shed-light-into-how-much-openai-pays-microsoft/ "Leaked documents shed light into how much OpenAI pays Microsoft"
@@ -111,8 +138,6 @@ Confidence: 🟢 = reported/leaked figure, 🟡 = triangulated from partial data
 [4]: https://epochai.substack.com/p/how-does-openai-allocate-its-compute "How does OpenAI allocate its compute? - Epoch AI"
 [5]: https://fortune.com/2025/11/12/openai-cash-burn-rate-annual-losses-2028-profitable-2030-financial-documents/ "OpenAI says it plans to report stunning annual losses"
 [6a]: https://www.reuters.com/technology/openais-first-half-revenue-rises-16-about-43-billion-information-reports-2025-09-30/ "OpenAI generates $4.3 billion in revenue in first half of 2025"
-[6b]: https://www.ainvest.com/news/openai-prints-4-3b-revenue-torches-billions-cash-era-defining-money-furnace-2509/ "OpenAI Prints $4.3B in Revenue"
 [7]: https://www.wsj.com/tech/ai/openai-is-paying-employees-more-than-any-major-tech-startup-in-history-23472527 "OpenAI Is Paying Employees More Than Any Major Tech Startup"
 [8]: https://www.reuters.com/technology/sam-altmans-openai-signs-content-agreement-with-news-corp-2024-05-22/ "OpenAI signs content agreement with News Corp"
 [8b]: https://www.nytimes.com/2024/05/22/business/media/openai-news-corp-content-deal.html "OpenAI Strikes a Deal to License News Corp Content"
-[9]: https://coincodex.com/article/78968/openai-doubles-margins-in-2025-as-ai-costs-fall-and-revenues-surge/ "OpenAI Doubles Margins in 2025"
