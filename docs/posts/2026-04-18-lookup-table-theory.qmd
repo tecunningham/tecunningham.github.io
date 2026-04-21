@@ -1,0 +1,142 @@
+---
+title: The Lookup Table Theory of LLMs
+draft: true
+reference-location: document
+citation-location: document
+bibliography: ai.bib
+engine: knitr
+---
+
+<!-- TODO:
+    - Q: how to think about *separable* vs nonseparable tasks.
+-->
+
+The *lookup table* theory of LLMs:
+: 
+    **An LLM will succeed at a task if and only if its training data contains similar tasks.**
+
+    In other words, *LLMs are glorified loookup tables*. More precisely we can say:
+
+    1. LLMs have more training data than humans.
+    2. LLMs are worse at generalization than humans.
+
+Implication: LLMs are bad at *rare* tasks.
+: 
+    We can classify tasks on two dimensions: (i) how difficult it is; (ii) how rare it is (i.e. rarely faced in human society, and thus the training data). The lookup-table theory says rareness will be a relatively better predictor for LLM success than for human success. A classic example is comparing chess to chmess, where chmess is a version of chess with the rules tweaked. A typical human might be somewhat better at chess; a typical LLM will be far better at chess than chmess, because their skill comes so much from imitation.
+
+
+    ```{tikz}
+    #| fig-width: 3
+    #| fig-align: center
+    \begin{tikzpicture}[scale=4]
+    \draw[thick] (0,0) -- 
+        node[below,pos=.85,align=center]{rare\\problems} 
+        node[below,pos=.15,align=center]{common\\problems}
+        (1,0) -- (1,1) -- (0,1) -- node[rotate=90,above,midway]{success} (0,0);
+    \draw[thick,dotted] (0.05,.9) -- (.95,.5) node[right,xshift=0.2cm]{best human};
+    \draw (0.05,.7) -- (.95,.3) node[right,xshift=0.2cm]{avg human};
+    \draw[thick,blue] (0.05,.8) -- (.95,.1) node[right,xshift=0.2cm]{LLM};
+    \end{tikzpicture}
+    ```
+
+
+
+Implications of the lookup table theory.
+: 
+
+    |                          |                                                                                                   |
+    | ------------------------ | ------------------------------------------------------------------------------------------------- |
+    | time horizon             | LLMs do badly at tasks that take humans a long time because they are more complex, and thus rarer |
+    | separability             | LLMs do well at separable tasks because they are made up of common subtasks                       |
+    | verifiability            | LLMs do well at verifiable tasks because they're over-represented in training data                |
+    | hill-climbability        | LLMs do well at hill-climbable tasks                                                              |
+    |                          |                                                                                                   |
+    | out-of-distribution-ness | LLMs do badly at out-of-distribution tasks                                                        |
+    | taste                    | LLMs do badly at tasks that require "taste", taste denotes ability to extrapolate to new situations.                                                                      |
+
+    I think this is a pretty orthodox understanding of LLM strengths & weaknesses but I haven't seen it written down in this way. I think the theory helps explains many observations about task-properties that are predictive of LLM success: time horizon, verifiability, separability, out-of-distributionness, hill-climbability, messiness.
+
+##  Implications
+    
+
+LLMs succeed at a rare task if it can be decomposed into common tasks.
+: 
+    Recent LLMs have the ability to do basic decompositions of task into subtasks. As a consequence they can do those rare tasks which can be easily decomposed into common tasks. An example: "multiply 132 and 832 and tell me the capital of Bolivia." This is rare (there are few similar examples in the training data) but it can easily be decomposed into two tasks that are common.
+
+LLMs fail at tasks that take humans a long time.
+: 
+    ==[FIX THIS!!!]==
+    METR finds that among software tasks the LLM success rate has an 85% correlation with the human time required to complete that task. This will be true if long tasks tend to contain subtasks that are *rare*, i.e. which are farther from the training data. This would be true if tasks contain a varying number of subtasks, then those with many subtasks both (a) take humans longer, and (b) are more likely to contain a rare task, which is out of the reach of an LLM.
+
+LLMs are good at hill-climbable tasks.
+: 
+    (...)
+
+LLMs successes are highly correlated.
+: 
+    Many recent papers find a high correlation in agent success rates across benchmarks, e.g. @ruan2024observationalscaling. If one LLM beats another on benchmark A, then it probably also beats that LLM on benchmark B. An interpretation is that all LLMs are trained on pretty similar sets of training data -- i.e. the big AI labs all try to cover roughly the same ground -- and so metric of "closeness to the training data" is pretty similar across models.
+
+
+LLMs are good at separable tasks.
+: 
+    (AKA team-time).
+
+Correlation in 
+
+
+
+
+##   Related Issues
+
+- Correlation
+- (jaggedness is a property of the data)
+- (out-of-distribution)
+
+<!-- 
+PROPERTIES OF TASKS
+
+    - Hill climbable
+    - Well-specified
+    - Requires new ideas
+    - Verifiable
+    - Takes humans a long time
+    - Requires taste
+
+ -->
+
+
+<!-- 
+ 
+Working on a longer writeup, with some aggressive claims that, if you squint, you can see all these properties as reflections of the common-vs-rare axis: time horizon, taste, hill-climbability, verifiability, separability, out-of-distributionness, messiness.
+
+- Common tasks: chess; tasks that can be easily decomposed into common tasks (many SWE tasks); 
+- Rare tasks: chmess; tasks that need novel ideas; tasks that are a complex combination of considerations (e.g. dynamic decision-making); 
+
+--------------------------------------------
+
+https://x.com/jacobegner/status/2046266615109390342
+
+> Q: An average (100 iq) adult human, who has forgotten most of what they learned in high school, would be better at solving a rare problem (ex: auction theory in zero-sum situations) than a 2026 frontier LLM? Or am I interpreting the graph more strictly than intended?
+
+--------------------------------------------
+
+Fair question!
+
+Short answer: my graphic compressed problems into a single "common" vs "rare" dimension, but in reality the rarity of a problem differs across people. Your auction theory problem is common for some people, rare for most.
+
+More verbosely:
+
+1. The weak claim: LLMs do well with a problem if and only if there are similar problems in the training data. This seems to match your example pretty well -- these types of problems are fairly well-represented in the training data.
+
+2. The strong claim: LLMs do relatively well (compared to humans) if a problem is common. This follows from the above if frequency in the training set is correlated with freqency in the world. But it gets messy when different people have different specializations, so you have some problems (game theory problemsets) which are rare in the world, but common in the training data.
+
+
+
+3. 
+4. 
+5. The generalization is that training data in turn represents the frequency of problems appearing in real life, so LLM performance is correlated with whether a problem is common or rare.
+
+You have an example where a problem is rare but LLMs do well. In this case I think the training data likely contains a ton of textbook problems, so that part holds up.
+
+
+ -->

@@ -1,0 +1,77 @@
+---
+title: Most Interesting Things are Unidentified
+subtitle: (and will always be so)
+draft: true
+author: Tom Cunningham
+date: 2023-08-11
+execute:
+  echo: false
+  cache: true # caches chunk output
+fig-align: center
+reference-location: margin
+format:
+   html:
+      toc: true
+      toc-depth: 2
+      toc-location: left
+      code-fold: true
+      html-math-method:
+         method: mathjax
+         url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js"
+         #     ^ this forces SVG instead of CHTML, otherwise xypic renders weird
+      include-in-header:
+         - text: |
+            <script>window.MathJax = {
+                     loader: { load: ['[custom]/xypic.js'],
+                                 paths: {custom: 'https://cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build/'}},
+                  tex: {packages: {'[+]': ['xypic']},
+                     macros: {
+                        bm: ["\\boldsymbol{#1}", 1],
+                        ut: ["\\underbrace{#1}_{\\text{#2}}", 2],
+                        utt: ["\\underbrace{#1}_{\\substack{\\text{#2}\\\\\\text{#3}}}", 3]
+                     }}};
+            </script>
+
+engine: knitr
+editor:
+   render-on-save: true
+---
+<style>
+   h1 {  border-bottom: 4px solid black;}
+   h2 {  border-bottom: 1px solid gray; padding-bottom: 0px; font-size: 14px; color: black; }
+   dl {display: grid;grid-template-columns: max-content auto;}
+   dt {grid-column-start: 1;}
+   dd {grid-column-start: 2; margin-left: 2em;}
+</style>
+
+Arthur Lewbel's ["the Identification Zoo"](https://www.aeaweb.org/articles?id=10.1257/jel.20181361) gives a nice formal definition of identification and discusses dozens of different types of identification.
+
+It makes me think that for the vast majority of practical questions we do *not* have well-identified evidence.
+
+Lewbel's definition: 
+
+> "Let $\Theta$ denote an unknown parameter ...  for $\Theta$ to be identified, alternative values of $\Theta$ must imply different distributions of the observable data."
+
+But in the majority of cases I think the observable data is some mixture of $\Theta$ and other effects (selection, confounding, etc.), meaning we can never rule out any particular value of $\Theta$. And in the majority of cases we don't have an experiment or natural experiment we can use to get a clean estimate of $\Theta$.
+
+In government policy decision-making we don't have well-identified evidence on virtually any policy program. Yet we still make policy decisions, probably not terrible ones, and we've been doing it for thousands of years.
+
+In business decision-making people have recently struck oil -- by running experiments that can identify a lot of things -- but people still made business decisions in the pre-experiment age, they probably weren't at random, and I think still the majority of big decisions at companies rely principally on understanding for which we can't get direct experimental evidence on (due to lags & network effects).
+
+Perhaps this is obvious to everyone, but it strikes me that Lewbel doesn't mention this stark fact -- i.e., that most of our understanding of the world and decision-making is based on inference *without* identification. And arguably the focus on identification has left us with less intellectual focus on inference-without-identification than we ought to have.
+
+A compromise position would be this: identification is always a tradeoff. You can always identify a parameter if you add sufficiently strong assumptions, e.g. by just assuming away all confounding. And so all inference is identification. But I think this is a stretch of the meaning of the word -- in particular, I think most of the actual inference going on in policy & business decision-making is best described as approximately Bayesian, where no value of $\Theta$ is ever ruled out, but our likelihoods over $\Theta$ keep shifting around as new evidence comes in.
+
+(I'm not trying to criticize anyone's work on identification, either in theory of application, we've surely learned a lot from it, just remarking on what seems to be an important piece of context, that well-identified-inference is a small subset of all inference, and the non-well-identified-inference is not all bad).
+
+[FB post](https://www.facebook.com/story.php?story_fbid=10164129099425230&id=822835229)  
+
+--------------------------------------------
+
+To add:
+
+- **To achieve identification researchers sacrifice other qualities.** They make judgment calls which affect the strength of the result.^[Sometimes called "the garden of forking paths."] Papers are written in a legalistic tone, they read not as a summary of evidence but as a brief for the prosection.
+- **Bradford-hill criteria.**
+- **The alternative: shoe leather.**
+- **Awkward to pretend we don't these things.** A contradiction to other parts of economics: models in which every agent knows the entire set of causal effects.
+  - Editor will gladly publish an estimate of a causal effect $\pm$100%, but would want very strong evidence for a paper in which it's important that people make decisions which vary from the true quantity by 20%.
