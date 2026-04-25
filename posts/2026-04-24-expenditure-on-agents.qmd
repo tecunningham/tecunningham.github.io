@@ -1,0 +1,230 @@
+---
+title: Expenditure on Agents
+author:
+  - name: Tom Cunningham
+    affiliation: METR
+bibliography: ai.bib
+date: 2026-04-24
+engine: knitr
+reference-location: document
+citation-location: document
+---
+
+**TLDR: even when agent value is high, agent expenditure might be small.**
+
+The returns on agent expenditure diminish more steeply than returns on human expenditure.
+: 
+    The current evidence is that (broadly speaking) agents can either (1) do a task more cheaply than humans, or (2) cannot do that task at all. There are relatively few tasks which an agent can perform, but only at a cost higher than the equivalent cost for humans.
+
+    This implies the returns on agent expenditure diminish more steeply than the returns on human expenditure: with agents you can solve a lot of problems cheaply, then you quickly hit a wall.
+    
+    Below I give some evidence for the claim and some theoretical reasons to expect an asymmetry between human and agentic labor.
+
+Implication: the *average* return on expenditure will be higher for agents than for humans.
+: 
+    This observation implies that, in equilibrium, the average value per dollar of agent expenditure will be higher. Thus the share of *value* from agents will generally be higher than the share of *expenditure* on agents.
+
+
+::: {layout-ncol=2}
+
+```{tikz}
+#| fig-width: 3
+#| fig-align: center 
+\begin{tikzpicture}[scale=1,yscale=3]
+    % --- parameters ---
+    \def\xmax{5}
+    \def\ytop{1.2}
+    \def\mslope{0.25}
+    % human: V = Ah * E^alphah
+    \def\Ah{0.4}  \def\alphah{0.7}
+    % agent: V = Aa * E^alphaa
+    \def\Aa{0.35} \def\alphaa{0.2}
+
+    % --- derived tangencies (E* = (A*alpha/slope)^(1/(1-alpha))) ---
+    \pgfmathsetmacro{\Eh}{pow(\Ah*\alphah/\mslope, 1/(1-\alphah))}
+    \pgfmathsetmacro{\Vh}{\Ah*pow(\Eh,\alphah)}
+    \pgfmathsetmacro{\Ihi}{\Vh-\mslope*\Eh}
+    \pgfmathsetmacro{\Ehtop}{(\ytop-\Ihi)/\mslope}
+    \pgfmathsetmacro{\Ea}{pow(\Aa*\alphaa/\mslope, 1/(1-\alphaa))}
+    \pgfmathsetmacro{\Va}{\Aa*pow(\Ea,\alphaa)}
+    \pgfmathsetmacro{\Iai}{\Va-\mslope*\Ea}
+    \pgfmathsetmacro{\Eatop}{(\ytop-\Iai)/\mslope}
+
+    \draw[-] (0,0) -- (\xmax,0) node[midway,below] {expenditure (\$)}
+        --(\xmax,1.4)--
+        node[midway,above,align=center] {situation today:\\higher expenditure on humans\\higher value from humans}
+        (0,1.4)--(0,0) node[midway,rotate=90,above] {value (\$)};
+    \draw[green!50!black, thick, domain=0:\xmax, samples=120]
+        plot (\x, {\Ah*pow(\x,\alphah)}) node[right] {human};
+    \draw[red!70!black, thick, domain=0:\xmax, samples=120]
+        plot (\x, {\Aa*pow(\x,\alphaa)}) node[right] {agent};
+    \draw[dotted] (0,\Ihi) -- (\Ehtop,\ytop);
+    \node[circle,fill=black,inner sep=0pt,minimum size=4pt] at (\Eh,\Vh) {};
+    \draw[dotted] (0,\Iai) -- (\Eatop,\ytop);
+    \node[circle,fill=black,inner sep=0pt,minimum size=4pt] at (\Ea,\Va) {};
+\end{tikzpicture}
+```
+
+
+```{tikz}
+#| fig-width: 3
+#| fig-align: center 
+\begin{tikzpicture}[scale=1,yscale=3]
+    % --- parameters ---
+    \def\xmax{5}
+    \def\ytop{1.2}
+    \def\mslope{0.25}
+    \def\Ah{0.4}  \def\alphah{0.7}
+    \def\Aa{1}  \def\alphaa{0.2}
+    \def\Aatoday{0.35}
+
+    \pgfmathsetmacro{\Eh}{pow(\Ah*\alphah/\mslope, 1/(1-\alphah))}
+    \pgfmathsetmacro{\Vh}{\Ah*pow(\Eh,\alphah)}
+    \pgfmathsetmacro{\Ihi}{\Vh-\mslope*\Eh}
+    \pgfmathsetmacro{\Ehtop}{(\ytop-\Ihi)/\mslope}
+    \pgfmathsetmacro{\Ea}{pow(\Aa*\alphaa/\mslope, 1/(1-\alphaa))}
+    \pgfmathsetmacro{\Va}{\Aa*pow(\Ea,\alphaa)}
+    \pgfmathsetmacro{\Iai}{\Va-\mslope*\Ea}
+    \pgfmathsetmacro{\Eatop}{(\ytop-\Iai)/\mslope}
+
+    \draw[-] (0,0) -- (\xmax,0) node[midway,below] {expenditure (\$)}
+        --(\xmax,1.4)--
+        node[midway,above,align=center] {situation tomorrow:\\higher expenditure on humans,\\higher value from agents}
+        (0,1.4)--(0,0) node[midway,rotate=90,above] {value (\$)};
+    \draw[green!50!black, thick, domain=0:\xmax, samples=120]
+        plot (\x, {\Ah*pow(\x,\alphah)}) node[right] {human};
+    \draw[red!70!black, thick, domain=0:\xmax, samples=120]
+        plot (\x, {\Aa*pow(\x,\alphaa)}) node[right] {agent};
+    \draw[red!70!black, dotted, thick, domain=0:\xmax, samples=120]
+        plot (\x, {\Aatoday*pow(\x,\alphaa)});
+    \draw[dotted] (0,\Ihi) -- (\Ehtop,\ytop);
+    \node[circle,fill=black,inner sep=0pt,minimum size=4pt] at (\Eh,\Vh) {};
+    \draw[dotted] (0,\Iai) -- (\Eatop,\ytop);
+    \node[circle,fill=black,inner sep=0pt,minimum size=4pt] at (\Ea,\Va) {};
+\end{tikzpicture}
+```
+
+:::
+
+Real world implications.
+: 
+    1. Expenditure shares will be poor predictors of the value of agentic labor. A very concrete example: suppose we watch the share of AI lab expenditure on .
+
+Notes:
+: 
+    1. The optimality conditions are treating returns on expenditure to the two factors as completely additive: $Y=F(L)+G(A)$ (where $L$ is human labor and $A$ is agentic labor).
+    2. 
+
+Defining elasticity.
+: 
+    Here the .
+
+Evidence on agentic vs human elasticity.
+: 
+    There are a few interesting related claims:
+
+    1. Agents have lower elasticity than humans at every level of expenditure.
+    2. Agents have a capability ceiling below human ceiling (if any).
+    3. For each task either (1) agents can do it cheaper than humans, or (2) agents cannot do it at any expenditure level.
+    
+    I think statement #1 is probably the most useful, both theoretically and empirically. The other two claims involve asymptotic behavior of agents, i.e. whether they could do a task at enormously high levels of expenditure. But the elasticity claim is easier to test and seems sufficient for most practical cases.
+
+
+    A classic piece of evidence: ![](images/2026-04-24-06-46-46.png).
+
+Theory on agent vs human elasticity.
+: 
+    Why would agents have less-elastic returns than humans?
+    
+    The simplest reason would be that agents rely much more on memory than intelligence. Suppose that agents simply *cache* a large set of answers to questions, then the returns to expenditure will be a step function: either .
+
+Derivation of elasticity condition.
+: 
+    Claim: the ratio of expenditure to value is equal to the elasticity of the returns-to-expenditure curve at the optimum.
+
+
+    Let $V = f(E)$ be value as a function of expenditure. The firm picks $E$ to maximize $V - E$, so the FOC is $f'(E^*) = 1$ (marginal $1 input returns $1 output). The elasticity of the curve is
+    $$\varepsilon \;=\; \frac{dV}{dE}\cdot\frac{E}{V} \;=\; f'(E)\cdot\frac{E}{V}.$$
+
+    At the optimum $f'(E^*)=1$, so $\varepsilon = E^*/V^*$, i.e. elasticity *is* the expenditure-to-value ratio. Equivalently $V^*/E^* = 1/\varepsilon$: a less elastic curve (steeper diminishing returns) yields a higher value-to-expenditure ratio. If agent returns are less elastic than human returns, agents produce more value per dollar spent even though total expenditure on them may be small.
+
+Related literature
+: 
+    - Ryan Greenblatt, [Distinguish between inference scaling and "larger tasks use more compute"](https://blog.redwoodresearch.org/p/distinguish-between-inference-scaling)
+
+::: {layout-ncol=2}
+
+```{tikz}
+#| fig-width: 3
+#| fig-align: center
+\begin{tikzpicture}[scale=1.1]
+    \def\xmax{4}
+    \def\ymax{3}
+    \def\Ah{0.4}     \def\alphah{1.3}
+    \def\Aa{0.4}     \def\alphaa{2}
+    \def\xcross{1}
+    \def\xagenttop{2.739}
+
+    \useasboundingbox (-1,-0.8) rectangle (\xmax+0.5,\ymax+0.6);
+
+    \fill[red!15] (0,0)
+        -- plot[domain=0:\xcross, samples=60] (\x, {\Aa*pow(\x,\alphaa)})
+        -- (\xcross,0) -- cycle;
+    \fill[green!15] (\xcross,0)
+        -- plot[domain=\xcross:\xmax, samples=60] (\x, {\Ah*pow(\x,\alphah)})
+        -- (\xmax,0) -- cycle;
+
+    \draw (0,0) rectangle (\xmax,\ymax);
+
+    \draw[green!50!black, thick, domain=0:\xmax, samples=120]
+        plot (\x, {\Ah*pow(\x,\alphah)});
+    \draw[red!70!black, thick, domain=0:\xagenttop, samples=120]
+        plot (\x, {\Aa*pow(\x,\alphaa)});
+
+    \node[green!50!black, anchor=south east] at (\xmax,0) {human};
+    \node[red!70!black] at (0.5,0.6) {agent};
+
+    \node[below] at (\xmax/2,0) {task difficulty};
+    \node[rotate=90,above] at (0,\ymax/2) {cost (\$)};
+    \node[above] at (\xmax/2,\ymax) {today};
+\end{tikzpicture}
+```
+
+```{tikz}
+#| fig-width: 3
+#| fig-align: center
+\begin{tikzpicture}[scale=1.1]
+    \def\xmax{4}
+    \def\ymax{3}
+    \def\Ah{0.4}     \def\alphah{1.3}
+    \def\Aa{0.1853}  \def\alphaa{2}
+    \def\xcross{3}
+
+    \useasboundingbox (-1,-0.8) rectangle (\xmax+0.5,\ymax+0.6);
+
+    \fill[red!15] (0,0)
+        -- plot[domain=0:\xcross, samples=60] (\x, {\Aa*pow(\x,\alphaa)})
+        -- (\xcross,0) -- cycle;
+    \fill[green!15] (\xcross,0)
+        -- plot[domain=\xcross:\xmax, samples=60] (\x, {\Ah*pow(\x,\alphah)})
+        -- (\xmax,0) -- cycle;
+
+    \draw (0,0) rectangle (\xmax,\ymax);
+
+    \draw[green!50!black, thick, domain=0:\xmax, samples=120]
+        plot (\x, {\Ah*pow(\x,\alphah)});
+    \draw[red!70!black, thick, domain=0:\xmax, samples=120]
+        plot (\x, {\Aa*pow(\x,\alphaa)});
+    \draw[red!70!black, dotted, thick, domain=0:2.739, samples=120]
+        plot (\x, {0.4*\x*\x});
+
+    \node[green!50!black, anchor=south east] at (\xmax,0) {human};
+    \node[red!70!black, anchor=south east] at (\xcross,0) {agent};
+
+    \node[below] at (\xmax/2,0) {task difficulty};
+    \node[rotate=90,above] at (0,\ymax/2) {cost (\$)};
+    \node[above] at (\xmax/2,\ymax) {tomorrow};
+\end{tikzpicture}
+```
+
+:::
