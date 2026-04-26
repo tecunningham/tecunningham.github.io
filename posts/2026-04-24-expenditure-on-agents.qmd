@@ -10,19 +10,111 @@ engine: knitr
 reference-location: document
 citation-location: document
 ---
+<!-- 
+https://tecunningham.github.io/posts/2026-04-24-expenditure-on-agents.html
 
-Even when agent value is high, agent expenditure might be small.
-: 
-    We often see that the returns to expenditure on AI agents are *inelastic*, i.e. steeply diminishing.
-    
-    An implication is that even when agents are substantially increasing our output, we still might see the *expenditure* on agents is small relative to the expenditure on humans.
+TODO:
 
-<!-- TODO:
-
-- Galaxy brain: world will get a lot of value from AI, but spend almost nothing on it.
-- You only need to spend compute on *new* problems, most things are inframarginal.
+- Galaxy brain take: the world will get a lot of value from AI but spend almost nothing on it. You only need to spend compute on new problems, most problems are common.
+- Corollary: the AI firms will not get the majority share of value.
 
  -->
+
+#           Summary
+
+Expenditure on AI has diminishing returns.
+: 
+    We often see that the returns to expenditure on AI agents are *inelastic* meaning you get a lot of value from the first few dollars, but then the marginal value falls quickly.
+    ```{tikz}
+    #| fig-width: 2.5
+    #| fig-align: center 
+    \begin{tikzpicture}[scale=1,yscale=3]
+        % --- parameters ---
+        \def\xmax{5}
+        \def\ytop{1.2}
+        \def\mslope{0.25}
+        % human: V = Ah * E^alphah
+        \def\Ah{0.4}  \def\alphah{0.7}
+        % agent: V = Aa * E^alphaa
+        \def\Aa{0.35} \def\alphaa{0.2}
+
+        % --- derived tangencies (E* = (A*alpha/slope)^(1/(1-alpha))) ---
+        \pgfmathsetmacro{\Eh}{pow(\Ah*\alphah/\mslope, 1/(1-\alphah))}
+        \pgfmathsetmacro{\Vh}{\Ah*pow(\Eh,\alphah)}
+        \pgfmathsetmacro{\Ihi}{\Vh-\mslope*\Eh}
+        \pgfmathsetmacro{\Ehtop}{(\ytop-\Ihi)/\mslope}
+        \pgfmathsetmacro{\Ea}{pow(\Aa*\alphaa/\mslope, 1/(1-\alphaa))}
+        \pgfmathsetmacro{\Va}{\Aa*pow(\Ea,\alphaa)}
+        \pgfmathsetmacro{\Iai}{\Va-\mslope*\Ea}
+        \pgfmathsetmacro{\Eatop}{(\ytop-\Iai)/\mslope}
+
+        \draw[-] (0,0) -- (\xmax,0) node[midway,below] {expenditure (\$)}
+            --(\xmax,1.4)--
+            %node[midway,above,align=center] {situation today:\\higher expenditure on humans\\higher value from humans}
+            (0,1.4)--(0,0) node[midway,rotate=90,above] {value (\$)};
+        \draw[green!50!black, thick, domain=0:\xmax, samples=120]
+            plot (\x, {\Ah*pow(\x,\alphah)}) node[right] {human};
+        \draw[red!70!black, thick, domain=0:\xmax, samples=120]
+            plot (\x, {\Aa*pow(\x,\alphaa)}) node[right] {agent};
+        %\draw[dotted] (0,\Ihi) -- (\Ehtop,\ytop);
+        %\node[circle,fill=black,inner sep=0pt,minimum size=4pt] at (\Eh,\Vh) {};
+        %\draw[dotted] (0,\Iai) -- (\Eatop,\ytop);
+        %\node[circle,fill=black,inner sep=0pt,minimum size=4pt] at (\Ea,\Va) {};
+    \end{tikzpicture}
+    ```
+
+    When we compare with the returns to human labor we often see a "tortoise-hare" relationship, where the agent wins at low levels of expenditure, but the human wins with higher levels. I discuss some theory and evidence for this below.
+
+
+This implies the value from AI will be significantly higher than the expenditure on AI.
+: 
+    In the plot below I mark the *optimal* expenditure on agents and on humans: where the marginal value of each is equalized to their marginal cost. You can see that the expenditure on agents is much lower, but the ratio between value and expenditure is much greater for agents than humans.
+
+    ```{tikz}
+    #| fig-width: 2.5
+    #| fig-align: center 
+    \begin{tikzpicture}[scale=1,yscale=3]
+        % --- parameters ---
+        \def\xmax{5}
+        \def\ytop{1.2}
+        \def\mslope{0.25}
+        % human: V = Ah * E^alphah
+        \def\Ah{0.4}  \def\alphah{0.7}
+        % agent: V = Aa * E^alphaa
+        \def\Aa{0.35} \def\alphaa{0.2}
+
+        % --- derived tangencies (E* = (A*alpha/slope)^(1/(1-alpha))) ---
+        \pgfmathsetmacro{\Eh}{pow(\Ah*\alphah/\mslope, 1/(1-\alphah))}
+        \pgfmathsetmacro{\Vh}{\Ah*pow(\Eh,\alphah)}
+        \pgfmathsetmacro{\Ihi}{\Vh-\mslope*\Eh}
+        \pgfmathsetmacro{\Ehtop}{(\ytop-\Ihi)/\mslope}
+        \pgfmathsetmacro{\Ea}{pow(\Aa*\alphaa/\mslope, 1/(1-\alphaa))}
+        \pgfmathsetmacro{\Va}{\Aa*pow(\Ea,\alphaa)}
+        \pgfmathsetmacro{\Iai}{\Va-\mslope*\Ea}
+        \pgfmathsetmacro{\Eatop}{(\ytop-\Iai)/\mslope}
+
+        \draw[-] (0,0) -- (\xmax,0) node[midway,below] {expenditure (\$)}
+            --(\xmax,1.4)--
+            %node[midway,above,align=center] {situation today:\\higher expenditure on humans\\higher value from humans}
+            (0,1.4)--(0,0) node[midway,rotate=90,above] {value (\$)};
+        \draw[green!50!black, thick, domain=0:\xmax, samples=120]
+            plot (\x, {\Ah*pow(\x,\alphah)}) node[right] {human};
+        \draw[red!70!black, thick, domain=0:\xmax, samples=120]
+            plot (\x, {\Aa*pow(\x,\alphaa)}) node[right] {agent};
+        \draw[dotted] (0,\Ihi) -- (\Ehtop,\ytop);
+        \node[circle,fill=black,inner sep=0pt,minimum size=4pt] at (\Eh,\Vh) {};
+        \draw[dotted] (0,\Iai) -- (\Eatop,\ytop);
+        \node[circle,fill=black,inner sep=0pt,minimum size=4pt] at (\Ea,\Va) {};
+    \end{tikzpicture}
+    ```
+
+This has some important implications.
+: 
+    If we think the returns to expenditure on AI will remain inelastic then:
+
+    1. We could see a big impact of AI on productivity without much expenditure on AI.
+    2. The companies that sell scarce inputs (compute, algorithms) would only capture a small share of the surplus that they are generating.
+
 
 #           Argument
 
@@ -240,34 +332,35 @@ Continuum of tasks.
     
     independent of $h$, $a$, and $i^*$. The ratio is pinned down entirely by the elasticity *gap*: agents create more value per dollar exactly when their cost-curve is steeper than humans'.
 
-    Numerical example: with $\alpha_H = 0$, $\alpha_A = 5$, $h=1$, $a=32$ we get $i^* = 1/2$, $E_A \approx 0.083$, $E_H = 0.5$. Agents do 50% of tasks but only 14% of expenditure; the value-expenditure ratio is exactly 5.
+    Numerical example: with $\alpha_H = 1$, $\alpha_A = 3$, $h=1$, $a=4$ we get $i^* = 1/2$, $E_A = 1/16$, $E_H = 3/8$, $c_0 = 1/2$, $c_1 = 7/16$. Agents do 50% of tasks but only $1/7 \approx 14\%$ of expenditure; cost saving is $V_A = 1/16$ per unit $\bar Y$, and the value-expenditure ratio is exactly 1.
     
     (This is essentially the @zeira1998workers / @acemoglu2011handbook / @acemoglu2018race task-based model, specialized to isoelastic comparative-advantage schedules.)
 
 ```{tikz}
 #| fig-width: 5
 #| fig-align: center
-\begin{tikzpicture}[scale=0.85]
-    \def\axmax{6.5}
-    \def\mw{0.7}   % width of marginal-density strip
+\begin{tikzpicture}[scale=2]
+    \def\axmax{2}
+    \def\mw{0.4}   % width of marginal-density strip
 
-    \useasboundingbox (-\mw-1.5,-\mw-1.0) rectangle (\axmax+0.7,\axmax+0.5);
+    \useasboundingbox (-\mw-0.7,-\mw-0.45) rectangle (\axmax+0.3,\axmax+0.25);
 
-    % Marginal of c_A (below x-axis): pdf f_A(c) = 1/(2.5 c) on [0.5, 6.09]
+    % Marginal of c_A (below x-axis): pdf f_A(c_A) = (1/12)*4^(2/3)*c_A^(-2/3)
+    %   = 0.21 * c_A^(-2/3) on [0, 4]; truncate to [0.04, 2] for plotting
+    %   scale factor 0.18 so peak (at c_A=0.04) maps to ~ \mw - 0.05
     \fill[red!10]
-        (0.5,-\mw) --
-        plot[domain=0.5:6.09, samples=120] (\x,{-\mw + 0.7/(2.5*\x)}) --
-        (6.09,-\mw) -- cycle;
-    \draw[red!55, thick, domain=0.5:6.09, samples=120]
-        plot (\x,{-\mw + 0.7/(2.5*\x)});
+        (0.04,-\mw) --
+        plot[domain=0.04:2, samples=120] (\x,{-\mw + 0.18*0.21*pow(\x,-2/3)}) --
+        (2,-\mw) -- cycle;
+    \draw[red!55, thick, domain=0.04:2, samples=120]
+        plot (\x,{-\mw + 0.18*0.21*pow(\x,-2/3)});
 
-    % Marginal of c_H (left of y-axis): pdf f_H(c) = 1/c on [1, 2.72]
+    % Marginal of c_H (left of y-axis): pdf f_H = 1 (uniform on [0,1])
+    %   draw as a flat rectangle of width 0.25 (within strip width 0.4)
     \fill[green!12]
-        (-\mw,1) --
-        plot[domain=1:2.72, samples=120] ({-\mw + 0.5/\x},\x) --
-        (-\mw,2.72) -- cycle;
-    \draw[green!45!black, thick, domain=1:2.72, samples=120]
-        plot ({-\mw + 0.5/\x},\x);
+        (-\mw,0) -- (-\mw+0.25,0) -- (-\mw+0.25,1) -- (-\mw,1) -- cycle;
+    \draw[green!45!black, thick]
+        (-\mw,1) -- (-\mw+0.25,1) -- (-\mw+0.25,0);
 
     % Main square plot box
     \draw (0,0) rectangle (\axmax,\axmax);
@@ -277,111 +370,115 @@ Continuum of tasks.
     \node[gray!50!black, anchor=south west, font=\footnotesize]
         at (\axmax,\axmax) {$c_H = \tfrac{r}{w}\,c_A$};
 
-    % Joint cost curve (rank-correlated, exponential in rank):
-    %   c_A(i) = 0.5 * exp(2.5 * i),  c_H(i) = exp(i),  i in [0,1]
-    % agent costs more skewed: alpha_A = 2.5 vs alpha_H = 1
-    \draw[blue!55!black, thick, domain=0:1, samples=120, smooth]
-        plot ({0.5*exp(2.5*\x)},{exp(\x)});
+    % Joint cost curve (rank-correlated, isoelastic):
+    %   c_A(i) = 4*i^3,  c_H(i) = i,  i in [0,1]
+    % agent costs more skewed: alpha_A = 3 vs alpha_H = 1
+    % only show segment that fits in plot: i up to (2/4)^(1/3) ~ 0.794
+    \draw[blue!55!black, thick, domain=0:0.794, samples=120, smooth]
+        plot ({4*pow(\x,3)},{\x});
 
     % Endpoint markers
-    \node[circle, fill=blue!55!black, inner sep=1pt] at (0.5,1) {};
-    \node[anchor=south east, font=\scriptsize] at (0.55,1.05) {$i=0$};
+    \node[circle, fill=blue!55!black, inner sep=0.7pt] at (0,0) {};
+    \node[anchor=west, font=\scriptsize] at (0.04,0.04) {$i=0$};
 
-    \node[circle, fill=blue!55!black, inner sep=1pt] at (6.09,2.72) {};
-    \node[anchor=south west, font=\scriptsize] at (6.09,2.7) {$i=1$};
+    % i=1 endpoint is off-plot at (4,1); show truncation point
+    \node[anchor=south west, font=\scriptsize] at (2,0.794) {(curve continues to $i=1$)};
 
     % Threshold marker (where c_H = c_A given w=r)
-    \node[circle, fill=black, inner sep=1.3pt] at (1.59,1.59) {};
-    \node[anchor=south west, font=\scriptsize] at (1.65,1.65) {$i^*$};
+    \node[circle, fill=black, inner sep=1pt] at (0.5,0.5) {};
+    \node[anchor=south west, font=\scriptsize] at (0.53,0.53) {$i^*=\tfrac12$};
 
     % Region labels
-    \node[font=\small, align=center] at (1.5,5.0) {agents\\cheaper};
-    \node[font=\small, align=center] at (5.0,0.8) {humans\\cheaper};
+    \node[font=\small, align=center] at (0.55,1.5) {agents\\cheaper};
+    \node[font=\small, align=center] at (1.55,0.35) {humans\\cheaper};
 
     % Marginal labels
-    \node[red!55, font=\scriptsize, anchor=west] at (4.8,-\mw/2-0.05) {pdf of $c_A$};
-    \node[green!45!black, font=\scriptsize, anchor=south, rotate=90] at (-\mw/2-0.05,4.5) {pdf of $c_H$};
+    \node[red!55, font=\scriptsize, anchor=west] at (1.4,-\mw/2-0.04) {pdf of $c_A$};
+    \node[green!45!black, font=\scriptsize, anchor=south, rotate=90] at (-\mw/2-0.04,1.4) {pdf of $c_H$};
 
     % Axis labels
-    \node[below, font=\small] at (\axmax/2,-\mw-0.45) {agent cost $c_A$};
-    \node[rotate=90, above, font=\small] at (-\mw-0.45,\axmax/2) {human cost $c_H$};
+    \node[below, font=\small] at (\axmax/2,-\mw-0.25) {agent cost $c_A$};
+    \node[rotate=90, above, font=\small] at (-\mw-0.25,\axmax/2) {human cost $c_H$};
 \end{tikzpicture}
 ```
 
-Joint distribution of $(c_A, c_H)$ across tasks. Costs are perfectly rank-correlated (each task has the same rank in both distributions), exponential in rank, with agent costs more skewed ($\alpha_A>\alpha_H$). The marginal density of each cost is shown alongside the corresponding axis (lighter shading); both densities are decreasing because tasks are ordered by rank from cheapest to most expensive, and agent costs spread out more. The dotted indifference line $c_H = (r/w)\,c_A$ partitions tasks: above it, agents are cheaper in dollar terms ($r\,c_A < w\,c_H$); below it, humans are. The joint curve crosses the line at the threshold task $i^*$.
+Joint distribution of $(c_A, c_H)$ across tasks for the calibration in the numerical example ($\alpha_H = 1$, $\alpha_A = 3$, $h=1$, $a=4$). Costs are perfectly rank-correlated and isoelastic in rank: $c_H(i)=i$ and $c_A(i)=4i^3$. The marginal density of each cost is shown alongside the corresponding axis (lighter shading): the human marginal is uniform on $[0,1]$ (since $\alpha_H=1$), while the agent marginal is concentrated near zero with a long right tail (since $\alpha_A=3>\alpha_H$). The dotted indifference line $c_H = (r/w)\,c_A$ (drawn here for $r=w$) partitions tasks: above it, agents are cheaper in dollar terms ($r\,c_A<w\,c_H$); below it, humans are. The joint curve crosses the line at the threshold task $i^*=1/2$. (The curve is plotted up to $c_A=2$; it continues to $(4,1)$ off the panel.)
 
 ::: {layout-ncol=2}
 
 ```{tikz}
 #| fig-width: 3
 #| fig-align: center
-\begin{tikzpicture}[scale=1.1]
-    \def\xmax{4}
-    \def\ymax{3}
-    \def\Ah{0.4}     \def\alphah{1.3}
-    \def\Aa{0.4}     \def\alphaa{2}
-    \def\xcross{1}
-    \def\xagenttop{2.739}
+\begin{tikzpicture}[xscale=3, yscale=0.8]
+    \def\imax{1}
+    \def\ymax{4}
+    \def\Ah{1}      \def\alphah{1}
+    \def\Aa{4}      \def\alphaa{3}
+    \def\istar{0.5}
 
-    \useasboundingbox (-1,-0.8) rectangle (\xmax+0.5,\ymax+0.6);
+    \useasboundingbox (-0.3,-0.6) rectangle (\imax+0.15,\ymax+0.4);
 
+    % Shade region where agents are cheaper (i in [0, i*])
     \fill[red!15] (0,0)
-        -- plot[domain=0:\xcross, samples=60] (\x, {\Aa*pow(\x,\alphaa)})
-        -- (\xcross,0) -- cycle;
-    \fill[green!15] (\xcross,0)
-        -- plot[domain=\xcross:\xmax, samples=60] (\x, {\Ah*pow(\x,\alphah)})
-        -- (\xmax,0) -- cycle;
+        -- plot[domain=0:\istar, samples=60] (\x, {\Aa*pow(\x,\alphaa)})
+        -- (\istar,0) -- cycle;
+    % Shade region where humans are cheaper (i in [i*, 1])
+    \fill[green!15] (\istar,0)
+        -- plot[domain=\istar:\imax, samples=60] (\x, {\Ah*pow(\x,\alphah)})
+        -- (\imax,0) -- cycle;
 
-    \draw (0,0) rectangle (\xmax,\ymax);
+    \draw (0,0) rectangle (\imax,\ymax);
 
-    \draw[green!50!black, thick, domain=0:\xmax, samples=120]
+    \draw[green!50!black, thick, domain=0:\imax, samples=120]
         plot (\x, {\Ah*pow(\x,\alphah)});
-    \draw[red!70!black, thick, domain=0:\xagenttop, samples=120]
+    \draw[red!70!black, thick, domain=0:\imax, samples=120]
         plot (\x, {\Aa*pow(\x,\alphaa)});
 
-    \node[green!50!black, anchor=south east] at (\xmax,0) {human};
-    \node[red!70!black] at (0.5,0.6) {agent};
+    \node[green!50!black, anchor=south east] at (\imax,1) {human};
+    \node[red!70!black, anchor=south east] at (\imax,4) {agent};
 
-    \node[below] at (\xmax/2,0) {task difficulty};
+    \node[below] at (\imax/2,0) {task difficulty $i$};
     \node[rotate=90,above] at (0,\ymax/2) {cost (\$)};
-    \node[above] at (\xmax/2,\ymax) {today};
+    \node[above] at (\imax/2,\ymax) {today};
 \end{tikzpicture}
 ```
 
 ```{tikz}
 #| fig-width: 3
 #| fig-align: center
-\begin{tikzpicture}[scale=1.1]
-    \def\xmax{4}
-    \def\ymax{3}
-    \def\Ah{0.4}     \def\alphah{1.3}
-    \def\Aa{0.1853}  \def\alphaa{2}
-    \def\xcross{3}
+\begin{tikzpicture}[xscale=3, yscale=0.8]
+    \def\imax{1}
+    \def\ymax{4}
+    \def\Ah{1}      \def\alphah{1}
+    \def\Aa{2}      \def\alphaa{3}
+    \def\Aatoday{4}
+    \def\istar{0.7071}   % (1/2)^(1/2) = 1/sqrt(2)
 
-    \useasboundingbox (-1,-0.8) rectangle (\xmax+0.5,\ymax+0.6);
+    \useasboundingbox (-0.3,-0.6) rectangle (\imax+0.15,\ymax+0.4);
 
     \fill[red!15] (0,0)
-        -- plot[domain=0:\xcross, samples=60] (\x, {\Aa*pow(\x,\alphaa)})
-        -- (\xcross,0) -- cycle;
-    \fill[green!15] (\xcross,0)
-        -- plot[domain=\xcross:\xmax, samples=60] (\x, {\Ah*pow(\x,\alphah)})
-        -- (\xmax,0) -- cycle;
+        -- plot[domain=0:\istar, samples=60] (\x, {\Aa*pow(\x,\alphaa)})
+        -- (\istar,0) -- cycle;
+    \fill[green!15] (\istar,0)
+        -- plot[domain=\istar:\imax, samples=60] (\x, {\Ah*pow(\x,\alphah)})
+        -- (\imax,0) -- cycle;
 
-    \draw (0,0) rectangle (\xmax,\ymax);
+    \draw (0,0) rectangle (\imax,\ymax);
 
-    \draw[green!50!black, thick, domain=0:\xmax, samples=120]
+    \draw[green!50!black, thick, domain=0:\imax, samples=120]
         plot (\x, {\Ah*pow(\x,\alphah)});
-    \draw[red!70!black, thick, domain=0:\xmax, samples=120]
+    \draw[red!70!black, thick, domain=0:\imax, samples=120]
         plot (\x, {\Aa*pow(\x,\alphaa)});
-    \draw[red!70!black, dotted, thick, domain=0:2.739, samples=120]
-        plot (\x, {0.4*\x*\x});
+    % dotted: today's agent curve (a=4) for reference
+    \draw[red!70!black, dotted, thick, domain=0:\imax, samples=120]
+        plot (\x, {\Aatoday*pow(\x,\alphaa)});
 
-    \node[green!50!black, anchor=south east] at (\xmax,0) {human};
-    \node[red!70!black, anchor=south east] at (\xcross,0) {agent};
+    \node[green!50!black, anchor=south east] at (\imax,1) {human};
+    \node[red!70!black, anchor=south east] at (\imax,2) {agent};
 
-    \node[below] at (\xmax/2,0) {task difficulty};
+    \node[below] at (\imax/2,0) {task difficulty $i$};
     \node[rotate=90,above] at (0,\ymax/2) {cost (\$)};
-    \node[above] at (\xmax/2,\ymax) {tomorrow};
+    \node[above] at (\imax/2,\ymax) {tomorrow};
 \end{tikzpicture}
 ```
 
@@ -404,7 +501,6 @@ Uplift.
     The denominator features the *marginal* uplift $\varepsilon_G$ (the elasticity), the numerator features the *level* $G(K^*)$. The post's headline pattern --- agents commanding small expenditure but creating huge value --- arises naturally when $G$ has a high level but low elasticity at the optimum (uplift saturates fast).
     
     (If we instead jointly optimize over $L$, the exponent $\beta$ becomes $\theta = \beta/(1-\beta)$, because labor reallocates upward in response to agent-augmented productivity. The fixed-$\bar L$ version is the short-run picture.)
-
 
 
 
@@ -434,34 +530,109 @@ Characterizing returns with elasticity.
     
     I believe statement #1 is the most useful, both theoretically and empirically. The other two claims involve asymptotic behavior of agents, i.e. whether they could do a task at enormously high levels of expenditure. But the elasticity claim is easier to test and seems sufficient for most practical cases.
 
-Evidence for inelastic returns to agent expenditure.
+Agents will have lower elasticity if they act ask lookup tables.
 : 
-    A classic piece of evidence are the scaling curves from RE-bench (@metr2024capability): agents beat humans at low levels of expenditure, but humans beat agents at higher levels: 
+    Here's a stylized model of human and agent labor:
+
+    1. Humans think about a problem; harder questions require more thought.
+    2. Agents immediately solve a problem if they have seen the solution before, otherwise they cannot solve it at any cost (i.e. they are lookup tables).
+
+    This is a grossly simplified model but it gives a simple prediction, where the agent expenditure curve will be a step function (elasticity$\approx$0).
+    
+<!-- GALAXY BRAIN -->
 
 
-    ![](images/2026-04-24-06-46-46.png).
+#           Evidence on Returns to Expenditure
 
-    @metr2024capability compare the cost of humans and LLMs to do a variety of tasks, they say "when agents *can* do a task, they can often do so at a fraction of the cost of humans."
+Agent progress on RE-bench tasks is less-elastic than humans.
+: 
+    RE-bench (@metr2024capability) scaling curves find that agents beat humans at low levels of expenditure, but humans beat agents at higher levels: 
+
+    ![](images/2026-04-24-06-46-46.png)
+
+    This means the agent curve cuts the human curve from above, and so the agent curve is less-elastic than the human curve (at the point of intersection).
+
+Agent task-completion is less-elastic than human task-completion.
+: 
+    We can compile a set of tasks, and calculate the share of those tasks completed at a given cost. Using the share of tasks completed as the y-axis, we can then plot the returns to expenditure, both for agents and humans:
+
+    @metr2024capability compare the cost of humans and LLMs to do a variety of tasks and say:
+    
+    > "when agents can do a task, they can often do so at a fraction of the cost of humans."
 
     ![From @metr2024capability](images/2026-04-26-06-36-03.png)
 
-    Similarly @metr2025gpt5evaluation finds:
+    Similarly @metr2025gpt5evaluation find that agent curves cut the human curve from above:
 
     ![Agent Performance on HCAST & RE-Bench by Cost](images/2026-04-26-06-36-27.png)
 
-
-    Exceptions:
-
-    - Computer transcription was for a period more accurate but less cost-effective than humans.
-    - Reasoning tasks with high test-time expenditure ([ARC-AGI](https://arcprize.org/arc-agi)))
-    - @svanberg2024beyond argue that "only 23% of worker compensation “exposed” to AI computer vision would be cost-effective for firms to automate because of the large upfront costs of AI systems." However this is almost entirely fixed costs (data collection, fine tuning, scaffolding), not marginal costs.
-
-
-
-
-Why would agents have lower elasticity than humans?
+Is agent-expenditure getting more elastic over time?
 : 
-    A simple reason for inelastic returns on agent expenditure would be if agents rely relatively more on cheap memory than on intelligence. Suppose that agents simply *cache* a large set of answers to questions, then the returns to expenditure will be a step function: either the answer to this problem is already cached, meaning the cost is small, or it is not cached, meaning the cost is infinite.
+    @gundlach2026priceprogress find the price of high capabilities is falling relatively faster than the price of low capabilities:
+    
+    ![](images/2026-04-26-10-53-03.png)
+
+    This would imply that elasticity of returns to expenditure is *increasing*, i.e. the expenditure curve is rotating counter-clockwise.
+
+    @cottier2025prices (Epoch) simimlarly find that the price of higher capabilities has been falling faster than the price of lower capabilities. However note that they report price/token, whereas we care more about the price per output, and the tokens/output can vary substantially across models.
+
+    ![](images/2026-04-26-10-57-48.png)
+
+    One important qualification: I believe the cost estimates are based on using the same model, and the same budget, on *all* tasks. In fact a cost-minimizing firm would vary the model and budget depending on the ex-ante difficulty of the tasks. This would make later curves relatively less elastic (it would lower the cost of the easy tasks), so push somewhat against this increasing-elasticity result.
+
+The asymptote can be increasing, but the relevant elasticity remains constant.
+: 
+    There seems strong evidence that the value to scaling asymptotes (or that elasticity declines). However the economically-relevant elasticity could still remain constant, i.e. the elasticity at the optimum.
+
+Some papers estimate constant-elasticity inference-time scaling.
+: 
+    @brown2024monkeys find that pass-rate on math and code benchmarks scales roughly log-linearly with the number of samples or with sequential test-time compute, with elasticities well below 1 (on SWE-bench lite, CodeContests, MATH).
+
+    @snell2024scaling estimate the returns to test-time compute, but say it hits hard limits below human levels: "across the board these schemes provided small gains on hard problems". As discussed above, existence of a ceiling implies agent-expenditure is inelastic relative to human-expenditure.
+
+Inference-time scaling laws.
+: 
+    @brown2024monkeys ("Large Language Monkeys") fit an *exponentiated power law* $\log c \approx a\,k^b$ to coverage (pass@k) as a function of samples $k$, with $b<0$. Translating their headline results into an arc-elasticity $\Delta\log c/\Delta\log k$:
+
+    - SWE-bench Lite, DeepSeek-V2, k=1→250: ε ≈ 0.23.
+    - CodeContests, Gemma-2B, k=1→10⁴: ε ≈ 0.64.
+    - MATH, Pythia-160M, k=1→10⁴: ε ≈ 0.58.
+
+    Two things are worth noting:
+
+    1. The elasticity is well below 1, and the form $\log c \approx a\,k^b$ with $b<0$ implies it *declines* further with $k$.
+    2. Without a perfect verifier the elasticity collapses much earlier. On MATH with Llama-3-8B-Instruct, majority-vote success rises only from 40.5% (k=100) to 41.4% (k=10,000) — an arc-elasticity of about 0.005.
+
+    
+
+Inference-time scaling fails on harder optimization benchmarks.
+: 
+    Several recent benchmarks find inference-time scaling stops paying off well below the level of human experts:
+
+    - @shetty2025gso (GSO): "leading SWE-Agents struggle significantly, achieving less than 5% success rate, with limited improvements even with inference-time scaling."
+    - @press2025algotune (AlgoTune): the largest speedups come from substituting faster libraries, not from algorithmic insight.
+    - @nathani2025mlgym (MLGymBench), @ma2025swefficiency (SWE-fficiency): similar patterns of "surface-level speedups" without algorithmic discoveries.
+
+    Equivalently: for these tasks the agent contribution function $\tilde F(K)$ has very low elasticity at the frontier, even though it has high level at low $K$.
+
+ARC-AGI.
+: 
+    Data from ARC-AGI is a great illustration, we can observe a few relevant things:
+
+    1. The organizers say the human scores are achievable at around $5/task, but we don't have any other datapoints, so we can't estimate an elasticity for human expenditure.
+    2. Nevertheless, if an agent cannot match a human score at human expenditure, we can generally be confident that it will exceed human score at low expenditure, and therefore the agent expenditure curve will cut the human expenditure curve from above, thus the agent expenditure curve is less-elastici.
+    3. We can observe how returns to expenditure have changed over time. ==[We want to know if the price of high scores has declined faster than the price of low scores]==
+
+
+<!-- OpenAI / METR system-card scaling.
+: 
+    The o1, o3, and GPT-5 system cards (and @metr2025gpt5evaluation) all report that capability on math/code scales roughly log-linearly with reasoning compute, but saturates below expert-human performance. So the agent curve again cuts the human curve from above. -->
+
+Other observation:
+: 
+    @svanberg2024beyond argue that many tasks could be done by computers, but are too expensive: "only 23% of worker compensation “exposed” to AI computer vision would be cost-effective for firms to automate because of the large upfront costs of AI systems." However this is almost entirely due to fixed costs (data collection, fine tuning, scaffolding), not marginal costs.
+
+
 
 #           Related
 
