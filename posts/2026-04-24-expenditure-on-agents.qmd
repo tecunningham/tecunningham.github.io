@@ -10,20 +10,27 @@ reference-location: document
 citation-location: document
 ---
 
-**TLDR: even when agent value is high, agent expenditure might be small.**
+Even when agent value is high, agent expenditure might be small.
+: 
+    We often see that the returns to expenditure on AI agents are *inelastic*, i.e. steeply diminishing.
+    
+    An implication is that even when agents become very good, and substantially increasing output, we still might see the *expenditure* on agents is small relative to the expenditure on humans.
+
+#           Argument
 
 The returns on agent expenditure diminish more steeply than returns on human expenditure.
 : 
     The current evidence is that (broadly speaking) agents can either (1) do a task more cheaply than humans, or (2) cannot do that task at all. There are relatively few tasks which an agent can perform, but only at a cost higher than the equivalent cost for humans.
 
-    This implies the returns on agent expenditure diminish more steeply than the returns on human expenditure: with agents you can solve a lot of problems cheaply, then you quickly hit a wall.
+    This implies the returns on agent expenditure diminish more steeply than the returns on human expenditure. More formally: the elasticity of returns to expenditure is lower for agents than for humans.
     
-    Below I give some evidence for the claim and some theoretical reasons to expect an asymmetry between human and agentic labor.
+    Below I give some evidence theoretical reasons to expect this.
 
-Implication: the *average* return on expenditure will be higher for agents than for humans.
+Real world implications.
 : 
-    This observation implies that, in equilibrium, the average value per dollar of agent expenditure will be higher. Thus the share of *value* from agents will generally be higher than the share of *expenditure* on agents.
-
+    1. _Expenditure will be a poor predictor of the value of agents._ The ratio between value and expenditure might be very high for agents, compared to other inputs.
+    
+    2. _Recursive self-improvement could happen without an increase in the capital share._ A common conjecture has been that we could monitor for signs of recursive self-improvement by AI labs through their relative expenditure on AI labor (agents) vs human labor. The argument in this note gives some reason to doubt this: recursive self-improvement might happen *without* a big increase in expenditure on agents.
 
 ::: {layout-ncol=2}
 
@@ -106,51 +113,40 @@ Implication: the *average* return on expenditure will be higher for agents than 
 
 :::
 
-Real world implications.
+
+#           Models
+
+General setup.
 : 
-    1. Expenditure shares will be poor predictors of the value of agentic labor. A very concrete example: suppose we watch the share of AI lab expenditure on .
+    Suppose the firm is maximizing $Y(K,L)$, where $L$ is expenditure on humans (labor), and $K$ is expenditure on agents (capital), where the cost of each is $w$ and $r$.
 
-Notes:
+Perfect substitutes.
 : 
-    1. The optimality conditions are treating returns on expenditure to the two factors as completely additive: $Y=F(L)+G(A)$ (where $L$ is human labor and $A$ is agentic labor).
-    2. 
+    This is the case illustrated above. Suppose agents and humans each contribute independently $Y=F(K)+G(L).$ Then at the optimum we have $F'(K^*)=r$, and so the ratio of expenditure to value ($\frac{rK^*}{F(K^*)}$) is exactly the elasticity of $F$ at the optimum ($\varepsilon=F'(K)\frac{K^*}{F(K^*)}$).
 
-Defining elasticity.
+Imperfect substitutes (CES).
 : 
-    Here the .
+    Suppose we have $Y=(K^\sigma+L^\sigma)^{1/\sigma}$, with elasticity of substitution $\eta = 1/(1-\sigma)$. Cost-minimization gives the standard CES results:
 
-Evidence on agentic vs human elasticity.
+    1. _Optimal input ratio:_ $K/L = (w/r)^\eta$.
+    2. _Agent expenditure share:_ $s_K = \frac{rK}{rK+wL} = \frac{r^{1-\eta}}{r^{1-\eta}+w^{1-\eta}}$.
+    3. _Value share equals expenditure share:_ under constant returns to scale, total revenue exhausts factor payments ($Y=rK+wL$), so $s_K$ is also the share of output value attributable to agents.
+
+    The comparative static on $s_K$ with respect to agent prices is $\frac{\partial \ln s_K}{\partial \ln r} = (1-\eta)(1-s_K)$, so as agents get cheaper (or, equivalently, more productive at fixed quality):
+
+    - _Substitutes_ ($\eta>1$, i.e. $\sigma\in(0,1)$): agent expenditure share *rises*.
+    - _Cobb-Douglas_ ($\eta=1$, the limit $\sigma\to 0$): expenditure shares are constant in prices.
+    - _Complements_ ($\eta<1$, i.e. $\sigma<0$): agent expenditure share *falls*.
+
+    So the puzzle in this note --- agents producing high value but commanding little expenditure --- corresponds naturally to the *complements* case in CES. As a numerical example: with $\eta=0.3$, $w=1$ and $r=0.001$ (agents 1000x cheaper than humans), the agent expenditure share is $0.001^{0.7}/(0.001^{0.7}+1) \approx 0.8\%$. And in the complements limit ($\sigma<0$) agents are essential, so $Y(0,L)=0$, meaning *all* output value is attributable to agents even though their expenditure share is tiny.
+
+    This is essentially the Hicks/Acemoglu logic for input shares: factor-augmenting technical progress only raises that factor's revenue share when the factor is a gross substitute for the others.
+
+Continuum of tasks.
 : 
-    There are a few interesting related claims:
+    Suppose we have a continuum of tasks, all are necessary, and agents and humans are perfect substitutes, but each has a different cost. So output is:
 
-    1. Agents have lower elasticity than humans at every level of expenditure.
-    2. Agents have a capability ceiling below human ceiling (if any).
-    3. For each task either (1) agents can do it cheaper than humans, or (2) agents cannot do it at any expenditure level.
-    
-    I think statement #1 is probably the most useful, both theoretically and empirically. The other two claims involve asymptotic behavior of agents, i.e. whether they could do a task at enormously high levels of expenditure. But the elasticity claim is easier to test and seems sufficient for most practical cases.
-
-
-    A classic piece of evidence: ![](images/2026-04-24-06-46-46.png).
-
-Theory on agent vs human elasticity.
-: 
-    Why would agents have less-elastic returns than humans?
-    
-    The simplest reason would be that agents rely much more on memory than intelligence. Suppose that agents simply *cache* a large set of answers to questions, then the returns to expenditure will be a step function: either .
-
-Derivation of elasticity condition.
-: 
-    Claim: the ratio of expenditure to value is equal to the elasticity of the returns-to-expenditure curve at the optimum.
-
-
-    Let $V = f(E)$ be value as a function of expenditure. The firm picks $E$ to maximize $V - E$, so the FOC is $f'(E^*) = 1$ (marginal $1 input returns $1 output). The elasticity of the curve is
-    $$\varepsilon \;=\; \frac{dV}{dE}\cdot\frac{E}{V} \;=\; f'(E)\cdot\frac{E}{V}.$$
-
-    At the optimum $f'(E^*)=1$, so $\varepsilon = E^*/V^*$, i.e. elasticity *is* the expenditure-to-value ratio. Equivalently $V^*/E^* = 1/\varepsilon$: a less elastic curve (steeper diminishing returns) yields a higher value-to-expenditure ratio. If agent returns are less elastic than human returns, agents produce more value per dollar spent even though total expenditure on them may be small.
-
-Related literature
-: 
-    - Ryan Greenblatt, [Distinguish between inference scaling and "larger tasks use more compute"](https://blog.redwoodresearch.org/p/distinguish-between-inference-scaling)
+        $$Y=min\()$$
 
 ::: {layout-ncol=2}
 
@@ -228,3 +224,54 @@ Related literature
 ```
 
 :::
+
+
+Why not Cobb-Douglas.
+: 
+    We would *not* expect $Y(K,L)$ to be Cobb-Douglas.
+
+#           Notes
+
+Defining the elasticity of returns to expenditure.
+: 
+    Here I'll argue that it's useful to characterize agent vs human labor by the *elasticity* of their returns. We can define the returns to expenditure in two ways:
+
+    1. _Cardinal._ Suppose we can directly measure output on a cardinal scale. This is true when using agents for optimization, where we can measure quantitatively the value of the optimizations returns. With cardinal output we can fully characterize the function $$
+    2. _Ordinal._ In many cases we can only the ordinal outcome, or the set of tasks which agents/humans can do at a given level of expenditure. Note: in general it seems reasonable to assume the ranking of tasks is the same between humans and agents. In this case we could say the *value* of the output is some monotonic function of the observed output. Still in this case we know that the .
+
+    There are a few related claims about the relative returns to expenditure on agent vs human labor:
+
+    3. Agents have lower elasticity than humans at every level of expenditure.
+    4. Agents have a capability ceiling below human ceiling (if any).
+    5. For each task either (1) agents can do it cheaper than humans, or (2) agents cannot do it at any expenditure level.
+    
+    I think statement #1 is probably the most useful, both theoretically and empirically. The other two claims involve asymptotic behavior of agents, i.e. whether they could do a task at enormously high levels of expenditure. But the elasticity claim is easier to test and seems sufficient for most practical cases.
+
+
+    A classic piece of evidence are the scaling curves from RE-bench: agents beat humans at low levels of expenditure, but humans beat agents at higher levels: 
+    
+    ![](images/2026-04-24-06-46-46.png).
+
+Theory on agent vs human elasticity.
+: 
+    Why would agents have less-elastic returns than humans?
+    
+    The simplest reason would be that agents rely much more on memory than intelligence. Suppose that agents simply *cache* a large set of answers to questions, then the returns to expenditure will be a step function: either .
+
+Derivation of elasticity condition.
+: 
+    Claim: the ratio of expenditure to value is equal to the elasticity of the returns-to-expenditure curve at the optimum.
+
+
+    Let $V = f(E)$ be value as a function of expenditure. The firm picks $E$ to maximize $V - E$, so the FOC is $f'(E^*) = 1$ (marginal $1 input returns $1 output). The elasticity of the curve is
+    $$\varepsilon \;=\; \frac{dV}{dE}\cdot\frac{E}{V} \;=\; f'(E)\cdot\frac{E}{V}.$$
+
+    At the optimum $f'(E^*)=1$, so $\varepsilon = E^*/V^*$, i.e. elasticity *is* the expenditure-to-value ratio. Equivalently $V^*/E^* = 1/\varepsilon$: a less elastic curve (steeper diminishing returns) yields a higher value-to-expenditure ratio. If agent returns are less elastic than human returns, agents produce more value per dollar spent even though total expenditure on them may be small.
+
+#           Related
+
+Notes.
+: 
+    - Ryan Greenblatt, [Distinguish between inference scaling and "larger tasks use more compute"](https://blog.redwoodresearch.org/p/distinguish-between-inference-scaling)
+    - [Toby Ord note on compute expenditure]
+
