@@ -14,7 +14,14 @@ Even when agent value is high, agent expenditure might be small.
 : 
     We often see that the returns to expenditure on AI agents are *inelastic*, i.e. steeply diminishing.
     
-    An implication is that even when agents become very good, and substantially increasing output, we still might see the *expenditure* on agents is small relative to the expenditure on humans.
+    An implication is that even when agents are substantially increasing our output, we still might see the *expenditure* on agents is small relative to the expenditure on humans.
+
+<!-- TODO:
+
+- Galaxy brain: world will get a lot of value from AI, but spend almost nothing on it.
+- You only need to spend compute on *new* problems, most things are inframarginal.
+
+ -->
 
 #           Argument
 
@@ -31,6 +38,10 @@ Real world implications.
     1. _Expenditure will be a poor predictor of the value of agents._ The ratio between value and expenditure might be very high for agents, compared to other inputs.
     
     2. _Recursive self-improvement could happen without an increase in the capital share._ A common conjecture has been that we could monitor for signs of recursive self-improvement by AI labs through their relative expenditure on AI labor (agents) vs human labor. The argument in this note gives some reason to doubt this: recursive self-improvement might happen *without* a big increase in expenditure on agents.
+
+Illustration.
+: 
+    The graphs below show stylized returns to expenditure on human and agent labor, with the common "tortoise-hare" pattern: the return to agent labor expenditure is higher at first, but diminishes more quicklky. The black dots show the optimal expenditure on each, where the marginal cost and marginal value are equalized.
 
 ::: {layout-ncol=2}
 
@@ -116,13 +127,35 @@ Real world implications.
 
 #           Models
 
-General setup.
+Summary.
 : 
-    Suppose the firm is maximizing $Y(K,L)$, where $L$ is expenditure on humans (labor), and $K$ is expenditure on agents (capital), where the cost of each is $w$ and $r$.
+    Suppose the firm is maximizing $Y(K,L)$, where $L$ is the quantity of human labor and $K$ the quantity of agent labor, with input prices $w$ and $r$. We want the value of agents (the degree to which they increase output) relative to expenditure on agents:
+    
+    $$\frac{\text{agent value}}{\text{agent expenditure}} = \frac{Y(K^*,\bar L)-Y(0,\bar L)}{rK^*}.$$
+
+    To pin down the firm's optimum we need *some* nonlinearity. The cleanest choice is to fix human labor at $\bar L$ (treating $w\bar L$ as sunk in the short run), which leaves a one-dimensional problem $\max_K Y(K,\bar L) - rK$ with FOC $Y_K(K^*,\bar L) = r$. Define the *agent contribution function*
+
+    $$\tilde F(K) \equiv Y(K,\bar L) - Y(0,\bar L).$$
+
+    Then $\tilde F'(K) = Y_K(K,\bar L)$, the FOC is just $\tilde F'(K^*) = r$, and the value-expenditure ratio collapses to
+    
+    $$\frac{V_A}{rK^*} = \frac{\tilde F(K^*)}{\tilde F'(K^*)\,K^*} = \frac{1}{\varepsilon_{\tilde F}(K^*)}.$$
+    
+    **Universal punchline:** *the agent value-expenditure ratio is the inverse elasticity of the agent contribution function at the optimum.* If returns to agents are very inelastic ($\varepsilon_{\tilde F}\ll 1$), agents create much more value than they cost. Each subsection below just instantiates $\tilde F$.
+
+    (For the continuum-of-tasks model, where labor isn't a single quantity, the analogous minimal nonlinearity is to fix output $\bar Y$ instead --- see that section.)
 
 Perfect substitutes.
 : 
-    This is the case illustrated above. Suppose agents and humans each contribute independently $Y=F(K)+G(L).$ Then at the optimum we have $F'(K^*)=r$, and so the ratio of expenditure to value ($\frac{rK^*}{F(K^*)}$) is exactly the elasticity of $F$ at the optimum ($\varepsilon=F'(K)\frac{K^*}{F(K^*)}$).
+    $Y = F(K) + G(\bar L)$, with $F$ concave. The agent contribution doesn't even depend on labor:
+    
+    $$\tilde F(K) = Y(K,\bar L) - Y(0,\bar L) = F(K),$$
+    
+    so directly from the universal result,
+    
+    $$\frac{V_A}{rK^*} = \frac{1}{\varepsilon_F(K^*)}.$$
+    
+    The value-to-expenditure ratio is the inverse elasticity of returns to agent expenditure. (Here fixing $\bar L$ isn't even necessary --- the FOCs decouple, so the ratio is the same under joint optimization over $L$.)
 
 Imperfect substitutes (CES).
 : 
@@ -138,15 +171,143 @@ Imperfect substitutes (CES).
     - _Cobb-Douglas_ ($\eta=1$, the limit $\sigma\to 0$): expenditure shares are constant in prices.
     - _Complements_ ($\eta<1$, i.e. $\sigma<0$): agent expenditure share *falls*.
 
-    So the puzzle in this note --- agents producing high value but commanding little expenditure --- corresponds naturally to the *complements* case in CES. As a numerical example: with $\eta=0.3$, $w=1$ and $r=0.001$ (agents 1000x cheaper than humans), the agent expenditure share is $0.001^{0.7}/(0.001^{0.7}+1) \approx 0.8\%$. And in the complements limit ($\sigma<0$) agents are essential, so $Y(0,L)=0$, meaning *all* output value is attributable to agents even though their expenditure share is tiny.
+    So the puzzle in this note --- agents producing high value but commanding little expenditure --- corresponds naturally to the *complements* case in CES. As a numerical example: with $\eta=0.3$, $w=1$ and $r=0.001$ (agents 1000x cheaper than humans), the agent expenditure share is $0.001^{0.7}/(0.001^{0.7}+1) \approx 0.8\%$.
 
     This is essentially the Hicks/Acemoglu logic for input shares: factor-augmenting technical progress only raises that factor's revenue share when the factor is a gross substitute for the others.
 
+    _Value-expenditure ratio (under fixed $\bar L$)._ The FOC at fixed $\bar L$ is $Y_K = Y^{1-\sigma}K^{\sigma-1} = r$, giving $K^* = Y_1\,r^{-\eta}$ and $rK^* = Y_1\, r^{1-\eta}$.
+
+    1. _Complements ($\sigma\le 0$, $\eta\le 1$):_ $Y(0,\bar L) = 0$, so $\tilde F(K) = Y(K,\bar L)$ and the value-expenditure ratio is
+
+       $$\frac{V_A}{rK^*} = \frac{Y_1}{Y_1\,r^{1-\eta}} = r^{\eta-1} = \frac{1}{r^{1-\eta}}.$$
+       
+       Closed form depending only on $r$ and $\eta$ (and not on $\bar L$ or $w$, since $w\bar L$ is sunk). Explodes as $r\to 0$, exactly the post's puzzle.
+
+    2. _Substitutes ($\sigma>0$, $\eta>1$):_ $Y(0,\bar L) = \bar L$, so $\tilde F(K) = (K^\sigma+\bar L^\sigma)^{1/\sigma} - \bar L$. An interior $K^*$ requires $r$ above some threshold; for cheaper $r$ the firm wants only agents (corner solution).
+
+Apple-picking with CES.
+: 
+    Suppose labor contributes to two tasks but capital only contributes to one. This is a version of the [apple-picking model](https://tecunningham.github.io/posts/2026-03-13-apple-picking-ai.html), where agents can only pick low-hanging fruit:
+
+    $$Y(K,L)=L^\gamma+(K^\sigma+L^\sigma)^{\gamma/\sigma}.$$
+    
+    Here $L^\gamma$ is the high-apple output (humans only) and $(K^\sigma+L^\sigma)^{\gamma/\sigma}$ is the low-apple output (both, with substitutability $\sigma$ and diminishing returns $\gamma$). Labor enters both terms non-rivalrously: $L$ is human productive capacity contributing to high *and* low picking simultaneously, rather than a single bucket allocated between them.
+    
+    Restrict to $\sigma>0$ (humans can pick low apples on their own) and $\gamma\in(0,1)$ (apples exhaust). Apply the universal recipe with labor fixed at $\bar L$:
+    
+    $$\tilde F(K) = (K^\sigma+\bar L^\sigma)^{\gamma/\sigma} - \bar L^\gamma$$
+    
+    --- the agent contribution is purely the boost to low-apple output. The FOC $\tilde F'(K^*) = r$ multiplied by $K^*$ gives
+    
+    $$rK^* = \gamma\,s_K\,Y_L(K^*),$$
+    
+    where $Y_L(K) \equiv (K^\sigma+\bar L^\sigma)^{\gamma/\sigma}$ is low-apple output and $s_K \equiv K^{*\sigma}/(K^{*\sigma}+\bar L^\sigma)$ is the agent's CES share *within* low-apple. Using $\bar L^\gamma/Y_L = (1-s_K)^{\gamma/\sigma}$:
+    
+    $$\frac{V_A}{rK^*} = \frac{1 - (1-s_K)^{\gamma/\sigma}}{\gamma\,s_K}.$$
+    
+    The ratio interpolates between two inverse elasticities depending on the agent share within low-apple:
+    
+    - $s_K\to 1$ (agents dominate low-apple): ratio $\to 1/\gamma$ (inverse of diminishing-returns parameter).
+    - $s_K\to 0$ (agents marginal in low-apple): ratio $\to 1/\sigma$ (inverse of within-low-apple substitutability).
+    - $\gamma=\sigma$: model degenerates to additive ($Y = K^\gamma + 2\bar L^\gamma$), ratio = $1/\gamma$ exactly.
+    
+    The post's headline pattern --- agents producing huge value with small expenditure --- arises naturally when $\gamma$ is small (low apples exhaust quickly) and $s_K$ is close to 1 (agents do most of the low-apple picking), giving ratio $\approx 1/\gamma \gg 1$.
+
+
+
 Continuum of tasks.
 : 
-    Suppose we have a continuum of tasks, all are necessary, and agents and humans are perfect substitutes, but each has a different cost. So output is:
+    Continuum of tasks $i\in[0,1]$, all necessary, agents and humans perfect substitutes within each task. Output is Leontief across tasks:
+    
+    $$Y = \min_{i\in[0,1]} y(i).$$
+    
+    Here labor isn't a single variable (humans are spread across tasks at different per-task costs), so the analogous minimal nonlinearity is to fix output at $\bar Y$ instead of fixed $\bar L$. The "value of agents" then becomes the cost saving per unit output relative to the humans-only counterfactual.
+    
+    Assume cost per unit of task $i$ is isoelastic in the task index, with agents steeper than humans (visualized below):
+    
+    $$c_H(i) = h \cdot i^{\alpha_H}, \qquad c_A(i) = a \cdot i^{\alpha_A}, \qquad \alpha_A > \alpha_H \ge 0.$$
+    
+    Each task is assigned to whoever is cheaper, with threshold $i^* = (h/a)^{1/(\alpha_A-\alpha_H)}$. Agents do $[0,i^*]$, humans do $[i^*,1]$. Let $\bar c \equiv h(i^*)^{\alpha_H} = a(i^*)^{\alpha_A}$. Per unit $\bar Y$:
+    
+    1. _Share of tasks done by agents:_ $i^*$.
+    2. _Per-unit expenditures:_ $E_A = \int_0^{i^*} a\,i^{\alpha_A}\,di = \frac{\bar c\,i^*}{\alpha_A+1}$, $E_H = \int_{i^*}^1 h\,i^{\alpha_H}\,di = \frac{h-\bar c\,i^*}{\alpha_H+1}$.
+    3. _Agent expenditure share:_ $s_A = \frac{(i^*)^{\alpha_H+1}(\alpha_H+1)}{(i^*)^{\alpha_H+1}(\alpha_H+1) + (1-(i^*)^{\alpha_H+1})(\alpha_A+1)}$. We have $s_A < i^*$ whenever $\alpha_A>\alpha_H$: agents do a non-trivial share of tasks but command a smaller share of expenditure, because they handle the cheap tasks.
 
-        $$Y=min\()$$
+    _Value-expenditure ratio (under fixed $\bar Y$)._ Cost per unit $\bar Y$ without agents is $c_0 = h/(\alpha_H+1)$, with agents it is $c_1 = E_A + E_H$. The cost saving per unit output is the natural "value of agents" here, and dividing by per-unit agent expenditure gives a strikingly clean formula:
+    
+    $$\frac{V_A}{rK^*} = \frac{c_0 - c_1}{E_A} = \frac{\alpha_A - \alpha_H}{\alpha_H+1},$$
+    
+    independent of $h$, $a$, and $i^*$. The ratio is pinned down entirely by the elasticity *gap*: agents create more value per dollar exactly when their cost-curve is steeper than humans'.
+
+    Numerical example: with $\alpha_H = 0$, $\alpha_A = 5$, $h=1$, $a=32$ we get $i^* = 1/2$, $E_A \approx 0.083$, $E_H = 0.5$. Agents do 50% of tasks but only 14% of expenditure; the value-expenditure ratio is exactly 5.
+    
+    (This is essentially the @zeira1998workers / @acemoglu2011handbook / @acemoglu2018race task-based model, specialized to isoelastic comparative-advantage schedules.)
+
+```{tikz}
+#| fig-width: 5
+#| fig-align: center
+\begin{tikzpicture}[scale=0.85]
+    \def\axmax{6.5}
+    \def\mw{0.7}   % width of marginal-density strip
+
+    \useasboundingbox (-\mw-1.5,-\mw-1.0) rectangle (\axmax+0.7,\axmax+0.5);
+
+    % Marginal of c_A (below x-axis): pdf f_A(c) = 1/(2.5 c) on [0.5, 6.09]
+    \fill[red!10]
+        (0.5,-\mw) --
+        plot[domain=0.5:6.09, samples=120] (\x,{-\mw + 0.7/(2.5*\x)}) --
+        (6.09,-\mw) -- cycle;
+    \draw[red!55, thick, domain=0.5:6.09, samples=120]
+        plot (\x,{-\mw + 0.7/(2.5*\x)});
+
+    % Marginal of c_H (left of y-axis): pdf f_H(c) = 1/c on [1, 2.72]
+    \fill[green!12]
+        (-\mw,1) --
+        plot[domain=1:2.72, samples=120] ({-\mw + 0.5/\x},\x) --
+        (-\mw,2.72) -- cycle;
+    \draw[green!45!black, thick, domain=1:2.72, samples=120]
+        plot ({-\mw + 0.5/\x},\x);
+
+    % Main square plot box
+    \draw (0,0) rectangle (\axmax,\axmax);
+
+    % Indifference line c_H = (r/w) c_A; here w=r so slope is 1
+    \draw[gray!50!black, thick, dashed] (0,0) -- (\axmax,\axmax);
+    \node[gray!50!black, anchor=south west, font=\footnotesize]
+        at (\axmax,\axmax) {$c_H = \tfrac{r}{w}\,c_A$};
+
+    % Joint cost curve (rank-correlated, exponential in rank):
+    %   c_A(i) = 0.5 * exp(2.5 * i),  c_H(i) = exp(i),  i in [0,1]
+    % agent costs more skewed: alpha_A = 2.5 vs alpha_H = 1
+    \draw[blue!55!black, thick, domain=0:1, samples=120, smooth]
+        plot ({0.5*exp(2.5*\x)},{exp(\x)});
+
+    % Endpoint markers
+    \node[circle, fill=blue!55!black, inner sep=1pt] at (0.5,1) {};
+    \node[anchor=south east, font=\scriptsize] at (0.55,1.05) {$i=0$};
+
+    \node[circle, fill=blue!55!black, inner sep=1pt] at (6.09,2.72) {};
+    \node[anchor=south west, font=\scriptsize] at (6.09,2.7) {$i=1$};
+
+    % Threshold marker (where c_H = c_A given w=r)
+    \node[circle, fill=black, inner sep=1.3pt] at (1.59,1.59) {};
+    \node[anchor=south west, font=\scriptsize] at (1.65,1.65) {$i^*$};
+
+    % Region labels
+    \node[font=\small, align=center] at (1.5,5.0) {agents\\cheaper};
+    \node[font=\small, align=center] at (5.0,0.8) {humans\\cheaper};
+
+    % Marginal labels
+    \node[red!55, font=\scriptsize, anchor=west] at (4.8,-\mw/2-0.05) {pdf of $c_A$};
+    \node[green!45!black, font=\scriptsize, anchor=south, rotate=90] at (-\mw/2-0.05,4.5) {pdf of $c_H$};
+
+    % Axis labels
+    \node[below, font=\small] at (\axmax/2,-\mw-0.45) {agent cost $c_A$};
+    \node[rotate=90, above, font=\small] at (-\mw-0.45,\axmax/2) {human cost $c_H$};
+\end{tikzpicture}
+```
+
+Joint distribution of $(c_A, c_H)$ across tasks. Costs are perfectly rank-correlated (each task has the same rank in both distributions), exponential in rank, with agent costs more skewed ($\alpha_A>\alpha_H$). The marginal density of each cost is shown alongside the corresponding axis (lighter shading); both densities are decreasing because tasks are ordered by rank from cheapest to most expensive, and agent costs spread out more. The dotted indifference line $c_H = (r/w)\,c_A$ partitions tasks: above it, agents are cheaper in dollar terms ($r\,c_A < w\,c_H$); below it, humans are. The joint curve crosses the line at the threshold task $i^*$.
 
 ::: {layout-ncol=2}
 
@@ -225,48 +386,81 @@ Continuum of tasks.
 
 :::
 
-
-Why not Cobb-Douglas.
+Uplift.
 : 
-    We would *not* expect $Y(K,L)$ to be Cobb-Douglas.
+    Suppose capital is purely labor-augmenting,
+    
+    $$Y(K,L) = F(G(K)L),$$
+    
+    where $G$ is the agent "uplift" or productivity multiplier (normalize $G(0)=1$ so $Y(0,\bar L) = F(\bar L)$) and $F$ is concave. With labor fixed at $\bar L$:
+    
+    $$\tilde F(K) = F(G(K)\bar L) - F(\bar L).$$
+    
+    For $F(x) = x^\beta$, $\beta < 1$: $\tilde F(K) = \bar L^\beta\,[G(K)^\beta - 1]$, and the FOC $\tilde F'(K^*) = r$ gives $rK^* = \beta\,Y_1\,\varepsilon_G(K^*)$ where $\varepsilon_G(K) \equiv KG'(K)/G(K)$ is the elasticity of the uplift function. Then
+    
+    $$\frac{V_A}{rK^*} = \frac{1 - G(K^*)^{-\beta}}{\beta\,\varepsilon_G(K^*)}.$$
+    
+    The denominator features the *marginal* uplift $\varepsilon_G$ (the elasticity), the numerator features the *level* $G(K^*)$. The post's headline pattern --- agents commanding small expenditure but creating huge value --- arises naturally when $G$ has a high level but low elasticity at the optimum (uplift saturates fast).
+    
+    (If we instead jointly optimize over $L$, the exponent $\beta$ becomes $\theta = \beta/(1-\beta)$, because labor reallocates upward in response to agent-augmented productivity. The fixed-$\bar L$ version is the short-run picture.)
+
+
+
 
 #           Notes
 
-Defining the elasticity of returns to expenditure.
+Separability of agent and human returns.
 : 
-    Here I'll argue that it's useful to characterize agent vs human labor by the *elasticity* of their returns. We can define the returns to expenditure in two ways:
+    We have a reasonable amount of data on the returns to agent and human expenditure discussed below.
 
-    1. _Cardinal._ Suppose we can directly measure output on a cardinal scale. This is true when using agents for optimization, where we can measure quantitatively the value of the optimizations returns. With cardinal output we can fully characterize the function $$
-    2. _Ordinal._ In many cases we can only the ordinal outcome, or the set of tasks which agents/humans can do at a given level of expenditure. Note: in general it seems reasonable to assume the ranking of tasks is the same between humans and agents. In this case we could say the *value* of the output is some monotonic function of the observed output. Still in this case we know that the .
+    Ideally we would characterize the *joint* returns to human and agent expenditure, $F(K,L)$. This could be through *uplift* or *centaur* experiments, e.g. @becker2025uplift.
 
+Cardinal vs ordinal measures of capability.
+: 
+    Even with ordinal measures of capability, we can say something about the relative elasticity of returns.
+
+    1. _Cardinal output._ Suppose we can directly measure output on a cardinal scale. This is true when using agents for optimization, where we can measure quantitatively the value of the optimizations returns. With cardinal output we can fully characterize the function $Y(K,L)$, and observe the elasticity at each point.
+    2. _Ordinal output._ In many cases we can only the ordinal outcome, and we don't directly observe the *value* of that output. We can't observe the elasticity of returns but we can *rank* the elasticities at the point of intersction. If the returns to agent labor cross the returns to human labor from above (which seems generally true), then the elasticity of returns to expenditure must be lower for agent labor than human labor at that point.
+    3. _Sets of tasks._ In some cases we only observe the set of tasks that can be achieved for a certain cost. If the ranking of the sets are the same, between humans and agents, then we can treat the sets as an ordinal variable.
+
+Characterizing returns with elasticity.
+: 
     There are a few related claims about the relative returns to expenditure on agent vs human labor:
 
-    3. Agents have lower elasticity than humans at every level of expenditure.
-    4. Agents have a capability ceiling below human ceiling (if any).
-    5. For each task either (1) agents can do it cheaper than humans, or (2) agents cannot do it at any expenditure level.
+    1. Agents have lower elasticity than humans.
+    2. Agents have a capability ceiling below human ceiling (if any).
+    3. For each task either (1) agents can do it cheaper than humans, or (2) agents cannot do it at any expenditure level.
     
-    I think statement #1 is probably the most useful, both theoretically and empirically. The other two claims involve asymptotic behavior of agents, i.e. whether they could do a task at enormously high levels of expenditure. But the elasticity claim is easier to test and seems sufficient for most practical cases.
+    I believe statement #1 is the most useful, both theoretically and empirically. The other two claims involve asymptotic behavior of agents, i.e. whether they could do a task at enormously high levels of expenditure. But the elasticity claim is easier to test and seems sufficient for most practical cases.
+
+Evidence for inelastic returns to agent expenditure.
+: 
+    A classic piece of evidence are the scaling curves from RE-bench (@metr2024capability): agents beat humans at low levels of expenditure, but humans beat agents at higher levels: 
 
 
-    A classic piece of evidence are the scaling curves from RE-bench: agents beat humans at low levels of expenditure, but humans beat agents at higher levels: 
-    
     ![](images/2026-04-24-06-46-46.png).
 
-Theory on agent vs human elasticity.
+    @metr2024capability compare the cost of humans and LLMs to do a variety of tasks, they say "when agents *can* do a task, they can often do so at a fraction of the cost of humans."
+
+    ![From @metr2024capability](images/2026-04-26-06-36-03.png)
+
+    Similarly @metr2025gpt5evaluation finds:
+
+    ![Agent Performance on HCAST & RE-Bench by Cost](images/2026-04-26-06-36-27.png)
+
+
+    Exceptions:
+
+    - Computer transcription was for a period more accurate but less cost-effective than humans.
+    - Reasoning tasks with high test-time expenditure ([ARC-AGI](https://arcprize.org/arc-agi)))
+    - @svanberg2024beyond argue that "only 23% of worker compensation “exposed” to AI computer vision would be cost-effective for firms to automate because of the large upfront costs of AI systems." However this is almost entirely fixed costs (data collection, fine tuning, scaffolding), not marginal costs.
+
+
+
+
+Why would agents have lower elasticity than humans?
 : 
-    Why would agents have less-elastic returns than humans?
-    
-    The simplest reason would be that agents rely much more on memory than intelligence. Suppose that agents simply *cache* a large set of answers to questions, then the returns to expenditure will be a step function: either .
-
-Derivation of elasticity condition.
-: 
-    Claim: the ratio of expenditure to value is equal to the elasticity of the returns-to-expenditure curve at the optimum.
-
-
-    Let $V = f(E)$ be value as a function of expenditure. The firm picks $E$ to maximize $V - E$, so the FOC is $f'(E^*) = 1$ (marginal $1 input returns $1 output). The elasticity of the curve is
-    $$\varepsilon \;=\; \frac{dV}{dE}\cdot\frac{E}{V} \;=\; f'(E)\cdot\frac{E}{V}.$$
-
-    At the optimum $f'(E^*)=1$, so $\varepsilon = E^*/V^*$, i.e. elasticity *is* the expenditure-to-value ratio. Equivalently $V^*/E^* = 1/\varepsilon$: a less elastic curve (steeper diminishing returns) yields a higher value-to-expenditure ratio. If agent returns are less elastic than human returns, agents produce more value per dollar spent even though total expenditure on them may be small.
+    A simple reason for inelastic returns on agent expenditure would be if agents rely relatively more on cheap memory than on intelligence. Suppose that agents simply *cache* a large set of answers to questions, then the returns to expenditure will be a step function: either the answer to this problem is already cached, meaning the cost is small, or it is not cached, meaning the cost is infinite.
 
 #           Related
 

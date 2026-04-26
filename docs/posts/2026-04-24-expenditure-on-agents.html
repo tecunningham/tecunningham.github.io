@@ -23,7 +23,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -135,6 +155,7 @@ window.Quarto = {
 
 <link rel="stylesheet" href="../styles.css">
 <meta name="twitter:title" content="Expenditure on Agents | Tom Cunningham">
+<meta name="twitter:description" content="Tom Cunningham blog">
 <meta name="twitter:card" content="summary">
 </head>
 
@@ -236,7 +257,7 @@ window.Quarto = {
 <dt>Even when agent value is high, agent expenditure might be small.</dt>
 <dd>
 <p>We often see that the returns to expenditure on AI agents are <em>inelastic</em>, i.e.&nbsp;steeply diminishing.</p>
-<p>An implication is that even when agents become very good, and substantially increasing output, we still might see the <em>expenditure</em> on agents is small relative to the expenditure on humans.</p>
+<p>An implication is that even when agents are substantially increasing our output, we still might see the <em>expenditure</em> on agents is small relative to the expenditure on humans.</p>
 </dd>
 </dl>
 <section id="argument" class="level1">
@@ -254,6 +275,10 @@ window.Quarto = {
 <li><p><em>Expenditure will be a poor predictor of the value of agents.</em> The ratio between value and expenditure might be very high for agents, compared to other inputs.</p></li>
 <li><p><em>Recursive self-improvement could happen without an increase in the capital share.</em> A common conjecture has been that we could monitor for signs of recursive self-improvement by AI labs through their relative expenditure on AI labor (agents) vs human labor. The argument in this note gives some reason to doubt this: recursive self-improvement might happen <em>without</em> a big increase in expenditure on agents.</p></li>
 </ol>
+</dd>
+<dt>Illustration.</dt>
+<dd>
+The graphs below show stylized returns to expenditure on human and agent labor, with the common “tortoise-hare” pattern: the return to agent labor expenditure is higher at first, but diminishes more quicklky. The black dots show the optimal expenditure on each, where the marginal cost and marginal value are equalized.
 </dd>
 </dl>
 <div>
@@ -285,13 +310,24 @@ window.Quarto = {
 <section id="models" class="level1">
 <h1>Models</h1>
 <dl>
-<dt>General setup.</dt>
+<dt>Summary.</dt>
 <dd>
-Suppose the firm is maximizing <span class="math inline">\(Y(K,L)\)</span>, where <span class="math inline">\(L\)</span> is expenditure on humans (labor), and <span class="math inline">\(K\)</span> is expenditure on agents (capital), where the cost of each is <span class="math inline">\(w\)</span> and <span class="math inline">\(r\)</span>.
+<p>Suppose the firm is maximizing <span class="math inline">\(Y(K,L)\)</span>, where <span class="math inline">\(L\)</span> is the quantity of human labor and <span class="math inline">\(K\)</span> the quantity of agent labor, with input prices <span class="math inline">\(w\)</span> and <span class="math inline">\(r\)</span>. We want the value of agents (the degree to which they increase output) relative to expenditure on agents:</p>
+<p><span class="math display">\[\frac{\text{agent value}}{\text{agent expenditure}} = \frac{Y(K^*,\bar L)-Y(0,\bar L)}{rK^*}.\]</span></p>
+<p>To pin down the firm’s optimum we need <em>some</em> nonlinearity. The cleanest choice is to fix human labor at <span class="math inline">\(\bar L\)</span> (treating <span class="math inline">\(w\bar L\)</span> as sunk in the short run), which leaves a one-dimensional problem <span class="math inline">\(\max_K Y(K,\bar L) - rK\)</span> with FOC <span class="math inline">\(Y_K(K^*,\bar L) = r\)</span>. Define the <em>agent contribution function</em></p>
+<p><span class="math display">\[\tilde F(K) \equiv Y(K,\bar L) - Y(0,\bar L).\]</span></p>
+<p>Then <span class="math inline">\(\tilde F'(K) = Y_K(K,\bar L)\)</span>, the FOC is just <span class="math inline">\(\tilde F'(K^*) = r\)</span>, and the value-expenditure ratio collapses to</p>
+<p><span class="math display">\[\frac{V_A}{rK^*} = \frac{\tilde F(K^*)}{\tilde F'(K^*)\,K^*} = \frac{1}{\varepsilon_{\tilde F}(K^*)}.\]</span></p>
+<p><strong>Universal punchline:</strong> <em>the agent value-expenditure ratio is the inverse elasticity of the agent contribution function at the optimum.</em> If returns to agents are very inelastic (<span class="math inline">\(\varepsilon_{\tilde F}\ll 1\)</span>), agents create much more value than they cost. Each subsection below just instantiates <span class="math inline">\(\tilde F\)</span>.</p>
+<p>(For the continuum-of-tasks model, where labor isn’t a single quantity, the analogous minimal nonlinearity is to fix output <span class="math inline">\(\bar Y\)</span> instead — see that section.)</p>
 </dd>
 <dt>Perfect substitutes.</dt>
 <dd>
-This is the case illustrated above. Suppose agents and humans each contribute independently <span class="math inline">\(Y=F(K)+G(L).\)</span> Then at the optimum we have <span class="math inline">\(F'(K^*)=r\)</span>, and so the ratio of expenditure to value (<span class="math inline">\(\frac{rK^*}{F(K^*)}\)</span>) is exactly the elasticity of <span class="math inline">\(F\)</span> at the optimum (<span class="math inline">\(\varepsilon=F'(K)\frac{K^*}{F(K^*)}\)</span>).
+<p><span class="math inline">\(Y = F(K) + G(\bar L)\)</span>, with <span class="math inline">\(F\)</span> concave. The agent contribution doesn’t even depend on labor:</p>
+<p><span class="math display">\[\tilde F(K) = Y(K,\bar L) - Y(0,\bar L) = F(K),\]</span></p>
+<p>so directly from the universal result,</p>
+<p><span class="math display">\[\frac{V_A}{rK^*} = \frac{1}{\varepsilon_F(K^*)}.\]</span></p>
+<p>The value-to-expenditure ratio is the inverse elasticity of returns to agent expenditure. (Here fixing <span class="math inline">\(\bar L\)</span> isn’t even necessary — the FOCs decouple, so the ratio is the same under joint optimization over <span class="math inline">\(L\)</span>.)</p>
 </dd>
 <dt>Imperfect substitutes (CES).</dt>
 <dd>
@@ -307,15 +343,65 @@ This is the case illustrated above. Suppose agents and humans each contribute in
 <li><em>Cobb-Douglas</em> (<span class="math inline">\(\eta=1\)</span>, the limit <span class="math inline">\(\sigma\to 0\)</span>): expenditure shares are constant in prices.</li>
 <li><em>Complements</em> (<span class="math inline">\(\eta&lt;1\)</span>, i.e.&nbsp;<span class="math inline">\(\sigma&lt;0\)</span>): agent expenditure share <em>falls</em>.</li>
 </ul>
-<p>So the puzzle in this note — agents producing high value but commanding little expenditure — corresponds naturally to the <em>complements</em> case in CES. As a numerical example: with <span class="math inline">\(\eta=0.3\)</span>, <span class="math inline">\(w=1\)</span> and <span class="math inline">\(r=0.001\)</span> (agents 1000x cheaper than humans), the agent expenditure share is <span class="math inline">\(0.001^{0.7}/(0.001^{0.7}+1) \approx 0.8\%\)</span>. And in the complements limit (<span class="math inline">\(\sigma&lt;0\)</span>) agents are essential, so <span class="math inline">\(Y(0,L)=0\)</span>, meaning <em>all</em> output value is attributable to agents even though their expenditure share is tiny.</p>
+<p>So the puzzle in this note — agents producing high value but commanding little expenditure — corresponds naturally to the <em>complements</em> case in CES. As a numerical example: with <span class="math inline">\(\eta=0.3\)</span>, <span class="math inline">\(w=1\)</span> and <span class="math inline">\(r=0.001\)</span> (agents 1000x cheaper than humans), the agent expenditure share is <span class="math inline">\(0.001^{0.7}/(0.001^{0.7}+1) \approx 0.8\%\)</span>.</p>
 <p>This is essentially the Hicks/Acemoglu logic for input shares: factor-augmenting technical progress only raises that factor’s revenue share when the factor is a gross substitute for the others.</p>
+<p><em>Value-expenditure ratio (under fixed <span class="math inline">\(\bar L\)</span>).</em> The FOC at fixed <span class="math inline">\(\bar L\)</span> is <span class="math inline">\(Y_K = Y^{1-\sigma}K^{\sigma-1} = r\)</span>, giving <span class="math inline">\(K^* = Y_1\,r^{-\eta}\)</span> and <span class="math inline">\(rK^* = Y_1\, r^{1-\eta}\)</span>.</p>
+<ol type="1">
+<li><p><em>Complements (<span class="math inline">\(\sigma\le 0\)</span>, <span class="math inline">\(\eta\le 1\)</span>):</em> <span class="math inline">\(Y(0,\bar L) = 0\)</span>, so <span class="math inline">\(\tilde F(K) = Y(K,\bar L)\)</span> and the value-expenditure ratio is</p>
+<p><span class="math display">\[\frac{V_A}{rK^*} = \frac{Y_1}{Y_1\,r^{1-\eta}} = r^{\eta-1} = \frac{1}{r^{1-\eta}}.\]</span></p>
+<p>Closed form depending only on <span class="math inline">\(r\)</span> and <span class="math inline">\(\eta\)</span> (and not on <span class="math inline">\(\bar L\)</span> or <span class="math inline">\(w\)</span>, since <span class="math inline">\(w\bar L\)</span> is sunk). Explodes as <span class="math inline">\(r\to 0\)</span>, exactly the post’s puzzle.</p></li>
+<li><p><em>Substitutes (<span class="math inline">\(\sigma&gt;0\)</span>, <span class="math inline">\(\eta&gt;1\)</span>):</em> <span class="math inline">\(Y(0,\bar L) = \bar L\)</span>, so <span class="math inline">\(\tilde F(K) = (K^\sigma+\bar L^\sigma)^{1/\sigma} - \bar L\)</span>. An interior <span class="math inline">\(K^*\)</span> requires <span class="math inline">\(r\)</span> above some threshold; for cheaper <span class="math inline">\(r\)</span> the firm wants only agents (corner solution).</p></li>
+</ol>
+</dd>
+<dt>Apple-picking with CES.</dt>
+<dd>
+<p>Suppose labor contributes to two tasks but capital only contributes to one. This is a version of the <a href="https://tecunningham.github.io/posts/2026-03-13-apple-picking-ai.html">apple-picking model</a>, where agents can only pick low-hanging fruit:</p>
+<p><span class="math display">\[Y(K,L)=L^\gamma+(K^\sigma+L^\sigma)^{\gamma/\sigma}.\]</span></p>
+<p>Here <span class="math inline">\(L^\gamma\)</span> is the high-apple output (humans only) and <span class="math inline">\((K^\sigma+L^\sigma)^{\gamma/\sigma}\)</span> is the low-apple output (both, with substitutability <span class="math inline">\(\sigma\)</span> and diminishing returns <span class="math inline">\(\gamma\)</span>). Labor enters both terms non-rivalrously: <span class="math inline">\(L\)</span> is human productive capacity contributing to high <em>and</em> low picking simultaneously, rather than a single bucket allocated between them.</p>
+<p>Restrict to <span class="math inline">\(\sigma&gt;0\)</span> (humans can pick low apples on their own) and <span class="math inline">\(\gamma\in(0,1)\)</span> (apples exhaust). Apply the universal recipe with labor fixed at <span class="math inline">\(\bar L\)</span>:</p>
+<p><span class="math display">\[\tilde F(K) = (K^\sigma+\bar L^\sigma)^{\gamma/\sigma} - \bar L^\gamma\]</span></p>
+<p>— the agent contribution is purely the boost to low-apple output. The FOC <span class="math inline">\(\tilde F'(K^*) = r\)</span> multiplied by <span class="math inline">\(K^*\)</span> gives</p>
+<p><span class="math display">\[rK^* = \gamma\,s_K\,Y_L(K^*),\]</span></p>
+<p>where <span class="math inline">\(Y_L(K) \equiv (K^\sigma+\bar L^\sigma)^{\gamma/\sigma}\)</span> is low-apple output and <span class="math inline">\(s_K \equiv K^{*\sigma}/(K^{*\sigma}+\bar L^\sigma)\)</span> is the agent’s CES share <em>within</em> low-apple. Using <span class="math inline">\(\bar L^\gamma/Y_L = (1-s_K)^{\gamma/\sigma}\)</span>:</p>
+<p><span class="math display">\[\frac{V_A}{rK^*} = \frac{1 - (1-s_K)^{\gamma/\sigma}}{\gamma\,s_K}.\]</span></p>
+<p>The ratio interpolates between two inverse elasticities depending on the agent share within low-apple:</p>
+<ul>
+<li><span class="math inline">\(s_K\to 1\)</span> (agents dominate low-apple): ratio <span class="math inline">\(\to 1/\gamma\)</span> (inverse of diminishing-returns parameter).</li>
+<li><span class="math inline">\(s_K\to 0\)</span> (agents marginal in low-apple): ratio <span class="math inline">\(\to 1/\sigma\)</span> (inverse of within-low-apple substitutability).</li>
+<li><span class="math inline">\(\gamma=\sigma\)</span>: model degenerates to additive (<span class="math inline">\(Y = K^\gamma + 2\bar L^\gamma\)</span>), ratio = <span class="math inline">\(1/\gamma\)</span> exactly.</li>
+</ul>
+<p>The post’s headline pattern — agents producing huge value with small expenditure — arises naturally when <span class="math inline">\(\gamma\)</span> is small (low apples exhaust quickly) and <span class="math inline">\(s_K\)</span> is close to 1 (agents do most of the low-apple picking), giving ratio <span class="math inline">\(\approx 1/\gamma \gg 1\)</span>.</p>
 </dd>
 <dt>Continuum of tasks.</dt>
 <dd>
-<p>Suppose we have a continuum of tasks, all are necessary, and agents and humans are perfect substitutes, but each has a different cost. So output is:</p>
-<pre><code>$$Y=min\()$$</code></pre>
+<p>Continuum of tasks <span class="math inline">\(i\in[0,1]\)</span>, all necessary, agents and humans perfect substitutes within each task. Output is Leontief across tasks:</p>
+<p><span class="math display">\[Y = \min_{i\in[0,1]} y(i).\]</span></p>
+<p>Here labor isn’t a single variable (humans are spread across tasks at different per-task costs), so the analogous minimal nonlinearity is to fix output at <span class="math inline">\(\bar Y\)</span> instead of fixed <span class="math inline">\(\bar L\)</span>. The “value of agents” then becomes the cost saving per unit output relative to the humans-only counterfactual.</p>
+<p>Assume cost per unit of task <span class="math inline">\(i\)</span> is isoelastic in the task index, with agents steeper than humans (visualized below):</p>
+<p><span class="math display">\[c_H(i) = h \cdot i^{\alpha_H}, \qquad c_A(i) = a \cdot i^{\alpha_A}, \qquad \alpha_A &gt; \alpha_H \ge 0.\]</span></p>
+<p>Each task is assigned to whoever is cheaper, with threshold <span class="math inline">\(i^* = (h/a)^{1/(\alpha_A-\alpha_H)}\)</span>. Agents do <span class="math inline">\([0,i^*]\)</span>, humans do <span class="math inline">\([i^*,1]\)</span>. Let <span class="math inline">\(\bar c \equiv h(i^*)^{\alpha_H} = a(i^*)^{\alpha_A}\)</span>. Per unit <span class="math inline">\(\bar Y\)</span>:</p>
+<ol type="1">
+<li><em>Share of tasks done by agents:</em> <span class="math inline">\(i^*\)</span>.</li>
+<li><em>Per-unit expenditures:</em> <span class="math inline">\(E_A = \int_0^{i^*} a\,i^{\alpha_A}\,di = \frac{\bar c\,i^*}{\alpha_A+1}\)</span>, <span class="math inline">\(E_H = \int_{i^*}^1 h\,i^{\alpha_H}\,di = \frac{h-\bar c\,i^*}{\alpha_H+1}\)</span>.</li>
+<li><em>Agent expenditure share:</em> <span class="math inline">\(s_A = \frac{(i^*)^{\alpha_H+1}(\alpha_H+1)}{(i^*)^{\alpha_H+1}(\alpha_H+1) + (1-(i^*)^{\alpha_H+1})(\alpha_A+1)}\)</span>. We have <span class="math inline">\(s_A &lt; i^*\)</span> whenever <span class="math inline">\(\alpha_A&gt;\alpha_H\)</span>: agents do a non-trivial share of tasks but command a smaller share of expenditure, because they handle the cheap tasks.</li>
+</ol>
+<p><em>Value-expenditure ratio (under fixed <span class="math inline">\(\bar Y\)</span>).</em> Cost per unit <span class="math inline">\(\bar Y\)</span> without agents is <span class="math inline">\(c_0 = h/(\alpha_H+1)\)</span>, with agents it is <span class="math inline">\(c_1 = E_A + E_H\)</span>. The cost saving per unit output is the natural “value of agents” here, and dividing by per-unit agent expenditure gives a strikingly clean formula:</p>
+<p><span class="math display">\[\frac{V_A}{rK^*} = \frac{c_0 - c_1}{E_A} = \frac{\alpha_A - \alpha_H}{\alpha_H+1},\]</span></p>
+<p>independent of <span class="math inline">\(h\)</span>, <span class="math inline">\(a\)</span>, and <span class="math inline">\(i^*\)</span>. The ratio is pinned down entirely by the elasticity <em>gap</em>: agents create more value per dollar exactly when their cost-curve is steeper than humans’.</p>
+<p>Numerical example: with <span class="math inline">\(\alpha_H = 0\)</span>, <span class="math inline">\(\alpha_A = 5\)</span>, <span class="math inline">\(h=1\)</span>, <span class="math inline">\(a=32\)</span> we get <span class="math inline">\(i^* = 1/2\)</span>, <span class="math inline">\(E_A \approx 0.083\)</span>, <span class="math inline">\(E_H = 0.5\)</span>. Agents do 50% of tasks but only 14% of expenditure; the value-expenditure ratio is exactly 5.</p>
+<p>(This is essentially the <span class="citation" data-cites="zeira1998workers">Zeira (<a href="#ref-zeira1998workers" role="doc-biblioref">1998</a>)</span> / <span class="citation" data-cites="acemoglu2011handbook">Acemoglu and Autor (<a href="#ref-acemoglu2011handbook" role="doc-biblioref">2011</a>)</span> / <span class="citation" data-cites="acemoglu2018race">Acemoglu and Restrepo (<a href="#ref-acemoglu2018race" role="doc-biblioref">2018</a>)</span> task-based model, specialized to isoelastic comparative-advantage schedules.)</p>
 </dd>
 </dl>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2026-04-24-expenditure-on-agents_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Joint distribution of <span class="math inline">\((c_A, c_H)\)</span> across tasks. Costs are perfectly rank-correlated (each task has the same rank in both distributions), exponential in rank, with agent costs more skewed (<span class="math inline">\(\alpha_A&gt;\alpha_H\)</span>). The marginal density of each cost is shown alongside the corresponding axis (lighter shading); both densities are decreasing because tasks are ordered by rank from cheapest to most expensive, and agent costs spread out more. The dotted indifference line <span class="math inline">\(c_H = (r/w)\,c_A\)</span> partitions tasks: above it, agents are cheaper in dollar terms (<span class="math inline">\(r\,c_A &lt; w\,c_H\)</span>); below it, humans are. The joint curve crosses the line at the threshold task <span class="math inline">\(i^*\)</span>.</p>
 <div>
 
 </div>
@@ -325,7 +411,7 @@ This is the case illustrated above. Suppose agents and humans each contribute in
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="2026-04-24-expenditure-on-agents_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="288"></p>
+<p><img src="2026-04-24-expenditure-on-agents_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="288"></p>
 </figure>
 </div>
 </div>
@@ -334,7 +420,7 @@ This is the case illustrated above. Suppose agents and humans each contribute in
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="2026-04-24-expenditure-on-agents_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="288"></p>
+<p><img src="2026-04-24-expenditure-on-agents_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="288"></p>
 </figure>
 </div>
 </div>
@@ -342,41 +428,74 @@ This is the case illustrated above. Suppose agents and humans each contribute in
 </div>
 </div>
 <dl>
-<dt>Why not Cobb-Douglas.</dt>
+<dt>Uplift.</dt>
 <dd>
-We would <em>not</em> expect <span class="math inline">\(Y(K,L)\)</span> to be Cobb-Douglas.
+<p>Suppose capital is purely labor-augmenting,</p>
+<p><span class="math display">\[Y(K,L) = F(G(K)L),\]</span></p>
+<p>where <span class="math inline">\(G\)</span> is the agent “uplift” or productivity multiplier (normalize <span class="math inline">\(G(0)=1\)</span> so <span class="math inline">\(Y(0,\bar L) = F(\bar L)\)</span>) and <span class="math inline">\(F\)</span> is concave. With labor fixed at <span class="math inline">\(\bar L\)</span>:</p>
+<p><span class="math display">\[\tilde F(K) = F(G(K)\bar L) - F(\bar L).\]</span></p>
+<p>For <span class="math inline">\(F(x) = x^\beta\)</span>, <span class="math inline">\(\beta &lt; 1\)</span>: <span class="math inline">\(\tilde F(K) = \bar L^\beta\,[G(K)^\beta - 1]\)</span>, and the FOC <span class="math inline">\(\tilde F'(K^*) = r\)</span> gives <span class="math inline">\(rK^* = \beta\,Y_1\,\varepsilon_G(K^*)\)</span> where <span class="math inline">\(\varepsilon_G(K) \equiv KG'(K)/G(K)\)</span> is the elasticity of the uplift function. Then</p>
+<p><span class="math display">\[\frac{V_A}{rK^*} = \frac{1 - G(K^*)^{-\beta}}{\beta\,\varepsilon_G(K^*)}.\]</span></p>
+<p>The denominator features the <em>marginal</em> uplift <span class="math inline">\(\varepsilon_G\)</span> (the elasticity), the numerator features the <em>level</em> <span class="math inline">\(G(K^*)\)</span>. The post’s headline pattern — agents commanding small expenditure but creating huge value — arises naturally when <span class="math inline">\(G\)</span> has a high level but low elasticity at the optimum (uplift saturates fast).</p>
+<p>(If we instead jointly optimize over <span class="math inline">\(L\)</span>, the exponent <span class="math inline">\(\beta\)</span> becomes <span class="math inline">\(\theta = \beta/(1-\beta)\)</span>, because labor reallocates upward in response to agent-augmented productivity. The fixed-<span class="math inline">\(\bar L\)</span> version is the short-run picture.)</p>
 </dd>
 </dl>
 </section>
 <section id="notes" class="level1">
 <h1>Notes</h1>
 <dl>
-<dt>Defining the elasticity of returns to expenditure.</dt>
+<dt>Separability of agent and human returns.</dt>
 <dd>
-<p>We can define the returns to expenditure on agentic and human labor in a couple of ways:</p>
+<p>We have a reasonable amount of data on the returns to agent and human expenditure discussed below.</p>
+<p>Ideally we would characterize the <em>joint</em> returns to human and agent expenditure, <span class="math inline">\(F(K,L)\)</span>. This could be through <em>uplift</em> or <em>centaur</em> experiments, e.g. <span class="citation" data-cites="becker2025uplift">Becker et al. (<a href="#ref-becker2025uplift" role="doc-biblioref">2025</a>)</span>.</p>
+</dd>
+<dt>Cardinal vs ordinal measures of capability.</dt>
+<dd>
+<p>Even with ordinal measures of capability, we can say something about the relative elasticity of returns.</p>
 <ol type="1">
-<li><em>Quantity.</em> In some cases we can measure ouput on a cardinal scale. This is most interesting for .</li>
-<li><em>Quantity.</em></li>
+<li><em>Cardinal output.</em> Suppose we can directly measure output on a cardinal scale. This is true when using agents for optimization, where we can measure quantitatively the value of the optimizations returns. With cardinal output we can fully characterize the function <span class="math inline">\(Y(K,L)\)</span>, and observe the elasticity at each point.</li>
+<li><em>Ordinal output.</em> In many cases we can only the ordinal outcome, and we don’t directly observe the <em>value</em> of that output. We can’t observe the elasticity of returns but we can <em>rank</em> the elasticities at the point of intersction. If the returns to agent labor cross the returns to human labor from above (which seems generally true), then the elasticity of returns to expenditure must be lower for agent labor than human labor at that point.</li>
+<li><em>Sets of tasks.</em> In some cases we only observe the set of tasks that can be achieved for a certain cost. If the ranking of the sets are the same, between humans and agents, then we can treat the sets as an ordinal variable.</li>
 </ol>
-<p>There are a few interesting related claims:</p>
-<ol start="3" type="1">
-<li>Agents have lower elasticity than humans at every level of expenditure.</li>
+</dd>
+<dt>Characterizing returns with elasticity.</dt>
+<dd>
+<p>There are a few related claims about the relative returns to expenditure on agent vs human labor:</p>
+<ol type="1">
+<li>Agents have lower elasticity than humans.</li>
 <li>Agents have a capability ceiling below human ceiling (if any).</li>
 <li>For each task either (1) agents can do it cheaper than humans, or (2) agents cannot do it at any expenditure level.</li>
 </ol>
-<p>I think statement #1 is probably the most useful, both theoretically and empirically. The other two claims involve asymptotic behavior of agents, i.e.&nbsp;whether they could do a task at enormously high levels of expenditure. But the elasticity claim is easier to test and seems sufficient for most practical cases.</p>
-<p>A classic piece of evidence: <img src="images/2026-04-24-06-46-46.png" class="img-fluid">.</p>
+<p>I believe statement #1 is the most useful, both theoretically and empirically. The other two claims involve asymptotic behavior of agents, i.e.&nbsp;whether they could do a task at enormously high levels of expenditure. But the elasticity claim is easier to test and seems sufficient for most practical cases.</p>
 </dd>
-<dt>Theory on agent vs human elasticity.</dt>
+<dt>Evidence for inelastic returns to agent expenditure.</dt>
 <dd>
-<p>Why would agents have less-elastic returns than humans?</p>
-<p>The simplest reason would be that agents rely much more on memory than intelligence. Suppose that agents simply <em>cache</em> a large set of answers to questions, then the returns to expenditure will be a step function: either .</p>
+<p>A classic piece of evidence are the scaling curves from RE-bench (<span class="citation" data-cites="metr2024capability">METR (<a href="#ref-metr2024capability" role="doc-biblioref">2024</a>)</span>): agents beat humans at low levels of expenditure, but humans beat agents at higher levels:</p>
+<p><img src="images/2026-04-24-06-46-46.png" class="img-fluid">.</p>
+<p><span class="citation" data-cites="metr2024capability">METR (<a href="#ref-metr2024capability" role="doc-biblioref">2024</a>)</span> compare the cost of humans and LLMs to do a variety of tasks, they say “when agents <em>can</em> do a task, they can often do so at a fraction of the cost of humans.”</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/2026-04-26-06-36-03.png" class="img-fluid figure-img"></p>
+<figcaption>From <span class="citation" data-cites="metr2024capability">METR (<a href="#ref-metr2024capability" role="doc-biblioref">2024</a>)</span></figcaption>
+</figure>
+</div>
+<p>Similarly <span class="citation" data-cites="metr2025gpt5evaluation">(<a href="#ref-metr2025gpt5evaluation" role="doc-biblioref"><strong>metr2025gpt5evaluation?</strong></a>)</span> finds:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/2026-04-26-06-36-27.png" class="img-fluid figure-img"></p>
+<figcaption>Agent Performance on HCAST &amp; RE-Bench by Cost</figcaption>
+</figure>
+</div>
+<p>Exceptions:</p>
+<ul>
+<li>Computer transcription was for a period more accurate but less cost-effective than humans.</li>
+<li>Reasoning tasks with high test-time expenditure (<a href="https://arcprize.org/arc-agi">ARC-AGI</a>))</li>
+<li><span class="citation" data-cites="svanberg2024beyond">Svanberg et al. (<a href="#ref-svanberg2024beyond" role="doc-biblioref">2024</a>)</span> argue that “only 23% of worker compensation “exposed” to AI computer vision would be cost-effective for firms to automate because of the large upfront costs of AI systems.” However this is almost entirely fixed costs (data collection, fine tuning, scaffolding), not marginal costs.</li>
+</ul>
 </dd>
-<dt>Derivation of elasticity condition.</dt>
+<dt>Why would agents have lower elasticity than humans?</dt>
 <dd>
-<p>Claim: the ratio of expenditure to value is equal to the elasticity of the returns-to-expenditure curve at the optimum.</p>
-<p>Let <span class="math inline">\(V = f(E)\)</span> be value as a function of expenditure. The firm picks <span class="math inline">\(E\)</span> to maximize <span class="math inline">\(V - E\)</span>, so the FOC is <span class="math inline">\(f'(E^*) = 1\)</span> (marginal $1 input returns <span class="math inline">\(1 output). The elasticity of the curve is\)</span><span class="math inline">\(\varepsilon \;=\; \frac{dV}{dE}\cdot\frac{E}{V} \;=\; f'(E)\cdot\frac{E}{V}.\)</span>$</p>
-<p>At the optimum <span class="math inline">\(f'(E^*)=1\)</span>, so <span class="math inline">\(\varepsilon = E^*/V^*\)</span>, i.e.&nbsp;elasticity <em>is</em> the expenditure-to-value ratio. Equivalently <span class="math inline">\(V^*/E^* = 1/\varepsilon\)</span>: a less elastic curve (steeper diminishing returns) yields a higher value-to-expenditure ratio. If agent returns are less elastic than human returns, agents produce more value per dollar spent even though total expenditure on them may be small.</p>
+A simple reason for inelastic returns on agent expenditure would be if agents rely relatively more on cheap memory than on intelligence. Suppose that agents simply <em>cache</em> a large set of answers to questions, then the returns to expenditure will be a step function: either the answer to this problem is already cached, meaning the cost is small, or it is not cached, meaning the cost is infinite.
 </dd>
 </dl>
 </section>
@@ -393,9 +512,29 @@ We would <em>not</em> expect <span class="math inline">\(Y(K,L)\)</span> to be C
 </dl>
 
 
+
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-acemoglu2011handbook" class="csl-entry" role="listitem">
+Acemoglu, Daron, and David Autor. 2011. <span>“Skills, Tasks and Technologies: Implications for Employment and Earnings.”</span> In, edited by David Card and Orley Ashenfelter, 4:1043–1171. Handbook of Labor Economics. Elsevier. https://doi.org/<a href="https://doi.org/10.1016/S0169-7218(11)02410-5">https://doi.org/10.1016/S0169-7218(11)02410-5</a>.
+</div>
+<div id="ref-acemoglu2018race" class="csl-entry" role="listitem">
+Acemoglu, Daron, and Pascual Restrepo. 2018. <span>“The Race Between Man and Machine: Implications of Technology for Growth, Factor Shares, and Employment.”</span> <em>American Economic Review</em> 108 (6): 1488–1542. <a href="https://doi.org/10.3386/w22252">https://doi.org/10.3386/w22252</a>.
+</div>
+<div id="ref-becker2025uplift" class="csl-entry" role="listitem">
+Becker, Joel, Nate Rush, Elizabeth Barnes, and David Rein. 2025. <span>“Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity.”</span> <a href="https://arxiv.org/pdf/2507.09089.pdf">https://arxiv.org/pdf/2507.09089.pdf</a>.
+</div>
+<div id="ref-metr2024capability" class="csl-entry" role="listitem">
+METR. 2024. <span>“An Update on Our General Capability Evaluations.”</span> <a href="https://metr.org/blog/2024-08-06-update-on-evaluations/" class="uri">https://metr.org/blog/2024-08-06-update-on-evaluations/</a>.
+</div>
+<div id="ref-svanberg2024beyond" class="csl-entry" role="listitem">
+Svanberg, Maja, Wensu Li, Martin Fleming, Brian Goehring, and Neil Thompson. 2024. <span>“Beyond AI Exposure: Which Tasks Are Cost-Effective to Automate with Computer Vision?”</span> <em>Available at SSRN 4700751</em>. <a href="https://doi.org/10.2139/ssrn.5233833">https://doi.org/10.2139/ssrn.5233833</a>.
+</div>
+<div id="ref-zeira1998workers" class="csl-entry" role="listitem">
+Zeira, Joseph. 1998. <span>“Workers, Machines, and Economic Growth.”</span> <em>The Quarterly Journal of Economics</em> 113 (4): 1091–1117. <a href="https://doi.org/10.1162/003355398555847">https://doi.org/10.1162/003355398555847</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
