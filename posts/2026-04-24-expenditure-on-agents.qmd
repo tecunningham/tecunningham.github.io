@@ -4,11 +4,12 @@ author:
   - name: Tom Cunningham
     affiliation: METR
 bibliography: ai.bib
-date: 2026-04-24
+# date: 2026-04-24
 draft: true
 engine: knitr
 reference-location: document
 citation-location: document
+citation: true
 ---
 <!-- 
 https://tecunningham.github.io/posts/2026-04-24-expenditure-on-agents.html
@@ -16,15 +17,19 @@ https://tecunningham.github.io/posts/2026-04-24-expenditure-on-agents.html
 TODO:
 
 - Galaxy brain take: the world will get a lot of value from AI but spend almost nothing on it. You only need to spend compute on new problems, most problems are common.
-- Corollary: the AI firms will not get the majority share of value.
+- Implied demand curve is inelastic (but doesn't pin it down)
+- How this manifests concretely.
+- Put into google docs for comments
+- Ideal experiments
+- Distribution of task-costs
 
  -->
 
-Summary.
+TL;DR.
 : 
-    **The returns to expenditure on AI appears to be relatively *inelastic*.** This means you get a lot of value from the first few dollars but then the marginal value falls quickly.
+    1. **The return to expenditure on AI appears to be relatively *inelastic*.** This means you get a lot of value from the first few dollars but then the marginal value falls quickly.
 
-    **This implies the value we get AI will be much larger than the money we spend on AI.** If the returns to AI expenditure remain inelastic (and there are reasons to expect this), then people and firms will get much more value from AI than what they spend on it.
+    2. **This implies the value we get AI will be much larger than the money we spend on AI.** If the returns to AI expenditure remain inelastic (and there are reasons to expect this), then people and firms will get much more value from AI than what they spend on it.
 
 #           Summary
 
@@ -65,7 +70,7 @@ Expenditure on AI has diminishing returns.
     \end{tikzpicture}
     ```
 
-    When we compare with the returns to human labor we often see a "tortoise-hare" relationship, where the agent wins at low levels of expenditure, but the human wins with higher levels. I discuss some theory and evidence for this below.
+    When we compare the returns on agentic labor vs human labor we often see a "tortoise-hare" relationship: the agent wins at low levels of expenditure, but the human wins with higher levels. I discuss some theory and evidence for this below.
 
 
 This implies the value from AI will be significantly higher than the expenditure on AI.
@@ -116,24 +121,42 @@ This has some important implications.
 
     1. We would see a big impact of AI on productivity without much expenditure on AI.
     2. The companies that sell scarce inputs to AI (compute, algorithms) would only capture a small share of the value that is being generated.
+    3. Labs could find AI is very valuable for R&D, while their expenditure on AI R&D could remain relatively modest.
 
 
 #           Argument
 
 The returns on agent expenditure appear to be relatively *inelastic*.
 : 
-    There are a few lines of evidence that the returns to AI expenditure are more inelastic than the returns on human labor:
+    There are a few lines of evidence that the returns to AI expenditure are more inelastic (i.e. steeply diminishing) than the returns on human labor:
 
     1. AI can often beat humans at a given task at a small expenditure level, but falls behind humans at higher expenditure levels.
-    2. There are many tasks which AI can do much cheaper than a human, and many which it cannot do at any reasonable price. This implies the number of tasks performed, as a function of expenditure, is relatively inelastic for agents.
+    2. There are many tasks which AI can do much cheaper than a human, and many which it cannot do at any reasonable price. There are relatively few tasks in the middle range. This implies the number of tasks performed, as a function of expenditure, is relatively inelastic for agents.
     
-    We can also give a theoretical argument that LLMs tend to *cache* the solutions to many problems, so the cost of solving many problems is low, while other problems are entirely out of their reach. Thus we would expect the returns to compute to be less-elastic than the returns to human expenditure.
+    We can also give a simple theoretical argument why returns to LLM expenditure would be inelastic: if LLMs tend to *cache* the solutions to many problems, so the cost of solving many problems is low, while other problems are entirely out of their reach. Thus we would expect the returns to LLM expenditure to be less-elastic than the returns to human expenditure.
+
+What do inelastic returns to AI look like in everyday life?
+: 
+    Suppose doubling your usage of AI would not make a great deal of difference to the value you're getting, then your returns to expenditure are *inelastic*, i.e. quickly diminishing.
+
+    Some more concrete examples of inelastic returns:
+
+    1. If having two agents do a programming task is useful, but much less than twice as useful.
+    2. If you get a lot of value from spending $10 on AI to optimize your function, or improve your paper, but spending $20 doesn't get you much more value.
+    3. If most people are not constrained on tokens, i.e. they wouldn't use AI much more if the usage was free.
+
+    Not that these are all questions about the expenditure on AI holding fixed the quality of AI. These are all consistent with progression in model quality causing a significant increase in value and a significant increase in expenditure.
 
 If returns are inelastic then the ratio of value to expenditure will be high.
 : 
     Intuitively, suppose the first few dollars on AI are very valuable but the value of additional expenditure diminishes quickly. Then you'll just spend a few dollars and get a very high value.
 
-    More formally: suppose we have an function $F(K)$, where $K$ is expenditure on agents. If $K$ is chosen optimally, so that the marginal value is equal to the marginal cost ($F'(K^*)=1$) then the ratio between value and expenditure ($F(K^*)/K^*$) will be exactly equal to the elasticity of that function at $K^*$:
+    Formally, suppose we have an function $F(K)$, where $K$ is expenditure on agents. If $K$ is chosen optimally, so that the marginal value is equal to the marginal cost ($F'(K^*)=1$) then we have:
+    
+    $$\utt{\frac{K^*}{F(K^*)}}{ratio of expenditure}{to value}
+        = \utt{\frac{dF(K^*)}{dK^*}\frac{K^*}{F(K^*)}}{elasticity of $F(\cdot)$}{at $K^*$}$$
+    
+    the ratio between value and expenditure ($F(K^*)/K^*$) will be exactly equal to the elasticity of that function at $K^*$.
 
     ```{tikz}
     #| fig-width: 3
@@ -168,14 +191,17 @@ If returns are inelastic then the ratio of value to expenditure will be high.
 
 This has a few important implications.
 : 
-    **The value people are getting from AI could be higher than their expenditure.** We might see people spending $100 a month on agents, but getting far more than $100 of value from agents, due to the inelastic returns on expenditure.
+    Suppose the returns to AI remained inelastic, then we would expect the following:
 
-    **Recursive self-improvement could happen without a significant increase in the capital share.** A common conjecture has been that we could monitor for signs of recursive self-improvement by AI labs through their relative expenditure on AI labor (agents) vs human labor. The argument in this note gives some reason to doubt this: recursive self-improvement might happen *without* a big increase in expenditure on agents.
+    1. **The value people get from AI will be significantly higher than their expenditure.** We might see people spending $100 a month on agents, but getting far more than $100 of value from agents.
 
-    **AI could transform the economy but remain a small share of output.** Many analyses of AI have assumed that, if AI has dramatic implications on growth, then holders of scarce inputs (algorithms, compute, energy) will be paid a large share of the output. In fact if the returns to AI and compute are relatively inelastic, then they could have a large impact, but only get a small benefit.
+    2. **Recursive self-improvement would happen without a significant increase in the capital share.** A common conjecture has been that we could monitor for signs of recursive self-improvement by AI labs through their relative expenditure on AI labor vs human labor, i.e. their capital share. The argument in this note gives some reason to doubt this: if returns to AI are inelastic then we might see a substantial contribution of agentic labor to R&D without a substantial expenditure on agentic labor.
+
+    3. **AI would transform the economy but remain a small share of output.** Many analyses of AI have assumed that, if AI has dramatic implications on growth, then holders of scarce inputs (algorithms, compute, energy) will be paid a large share of the output. In fact if the returns to AI and compute are relatively inelastic, then they could have a large impact, but only get a small benefit.
     
     
-<!-- Illustration.
+<!-- 
+Illustration.
 : 
     The graphs below show stylized returns to expenditure on human and agent labor, with the common "tortoise-hare" pattern: the return to agent labor expenditure is higher at first, but diminishes more quickly. The black dots show the optimal expenditure on each, where the marginal cost and marginal value are equalized.
 
@@ -258,17 +284,23 @@ This has a few important implications.
 \end{tikzpicture}
 ```
 
-::: -->
+::: 
+-->
 
 #           Evidence on Returns to Expenditure
 
 The ideal experiment.
 : 
-    The ideal data would be to map out the whole function, $F(K,L)$, where we vary the expenditure on agents and human inputs, and measure the economic value. E.g. along these lines:
+    Ideally we would vary expenditure on AI across a variety of domains and measure the output:
 
-    - ==adsf==
+    1. Autonomous tasks.
+        - Cardinal scale: e.g. optimizing an algorithm, making money. Here we can directly measure elasticity.
+        - Ordinal scale: e.g. score on a test, score on a video game. Here we can compare human vs agent elasticity at the crossover point (if it exists).
+        - Sets of tasks: e.g. benchmarks. Here we can score by the number of tasks solved at a given budget level, and compare human vs agent elasticity at the crossover point (if it exists).
+    2. Individual uplift.
+    3. Company uplift.
 
-    Additionally we should want to see how the function changed as AI models became stronger.
+    We would also want try to map out the *demand* for AI. This theory implies that demand for AI should be inelastic.
 
 Agent progress on RE-bench tasks is less-elastic than humans.
 : 
