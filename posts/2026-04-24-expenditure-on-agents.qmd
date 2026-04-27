@@ -29,7 +29,7 @@ TL;DR.
 : 
     1. **The return to expenditure on AI appears to be relatively *inelastic*.** This means you get a lot of value from the first few dollars but then the marginal value falls quickly.
 
-    2. **This implies the value we get AI will be much larger than the money we spend on AI.** If the returns to AI expenditure remain inelastic (and there are reasons to expect this), then people and firms will get much more value from AI than what they spend on it.
+    2. **This implies *value* from AI will significantly exceed *expenditure* on AI.** If the returns to AI expenditure remain inelastic (and I give reasons to expect this), then people and firms will get much more value from AI than what they spend on it.
 
 #           Summary
 
@@ -70,7 +70,7 @@ Expenditure on AI has diminishing returns.
     \end{tikzpicture}
     ```
 
-    When we compare the returns on agentic labor vs human labor we often see a "tortoise-hare" relationship: the agent wins at low levels of expenditure, but the human wins with higher levels. I discuss some theory and evidence for this below.
+    When we compare the returns on agentic labor vs human labor we often see a "tortoise-hare" relationship: the agent wins at low levels of expenditure, but the human wins with higher levels. I discuss some evidence, and reasons why we should expect this, below.
 
 
 This implies the value from AI will be significantly higher than the expenditure on AI.
@@ -143,20 +143,31 @@ What do inelastic returns to AI look like in everyday life?
 
     1. If having two agents do a programming task is useful, but much less than twice as useful.
     2. If you get a lot of value from spending $10 on AI to optimize your function, or improve your paper, but spending $20 doesn't get you much more value.
-    3. If most people are not constrained on tokens, i.e. they wouldn't use AI much more if the usage was free.
+    3. If demand for AI was relatively inelastic: if the price of tokens was free, they wouldn't use much more than what they use already.
 
-    Not that these are all questions about the expenditure on AI holding fixed the quality of AI. These are all consistent with progression in model quality causing a significant increase in value and a significant increase in expenditure.
+    These are all questions about the expenditure on AI holding fixed the quality of AI. These are all consistent with progression in model quality causing a significant increase in value and a significant increase in expenditure.
+
+Why should the value of AI diminish more quickly than humans?
+: 
+    We can sketch a very rough theory. Suppose humans and LLM-based agents solve problems in a different way:
+
+    1. Humans think about a problem; harder questions require more thought.
+    2. Agents immediately solve a problem if they have seen the solution before, otherwise they cannot solve it at any cost (i.e. they are glorified lookup tables).
+
+    This is a grossly simplified model but it gives a simple prediction: the returns to agent expenditure will diminish exceedingly quickly (elasticity $\approx$ 0).
+
 
 If returns are inelastic then the ratio of value to expenditure will be high.
 : 
     Intuitively, suppose the first few dollars on AI are very valuable but the value of additional expenditure diminishes quickly. Then you'll just spend a few dollars and get a very high value.
 
-    Formally, suppose we have an function $F(K)$, where $K$ is expenditure on agents. If $K$ is chosen optimally, so that the marginal value is equal to the marginal cost ($F'(K^*)=1$) then we have:
+    Formally, suppose we have an function $F(K)$, where $K$ is expenditure on agents (measured in dollars). If $K$ is chosen optimally, so that the marginal value is equal to the marginal cost ($F'(K^*)=1$) then we have:
     
     $$\utt{\frac{K^*}{F(K^*)}}{ratio of expenditure}{to value}
-        = \utt{\frac{dF(K^*)}{dK^*}\frac{K^*}{F(K^*)}}{elasticity of $F(\cdot)$}{at $K^*$}$$
+        = \utt{\frac{dF(K^*)}{dK^*}\frac{K^*}{F(K^*)}}{elasticity of $F(\cdot)$}{at $K^*$}
+        = \frac{\text{marginal value at $K^*$}}{\text{average value at $K^*$}}$$
     
-    the ratio between value and expenditure ($F(K^*)/K^*$) will be exactly equal to the elasticity of that function at $K^*$.
+    We can illustrate this as follows:
 
     ```{tikz}
     #| fig-width: 3
@@ -167,7 +178,7 @@ If returns are inelastic then the ratio of value to expenditure will be high.
         \def\ytop{1.4}
         \def\mslope{0.25}
         % human: V = Ah * E^alphah
-        \def\Ah{0.4}  \def\alphah{0.7}
+        \def\Ah{0.4}  \def\alphah{0.2}
         % agent: V = Aa * E^alphaa
         \def\Aa{0.35} \def\alphaa{0.2}
 
@@ -181,23 +192,37 @@ If returns are inelastic then the ratio of value to expenditure will be high.
         \draw[-] (0,0) -- (\xmax,0) node[midway,below] {expenditure (\$)}
             --(\xmax,1.4)--
             (0,1.4)--(0,0) node[midway,rotate=90,above] {value (\$)};
-        \draw[green!50!black, thick, domain=0:\xmax, samples=120]
-            plot (\x, {\Ah*pow(\x,\alphah)});% node[right] {human};
-        \draw (0,\Ihi) -- node[midway,pos=0.8,rotate=\slopeangle,above] {marginal value} (\Ehtop,\ytop);
-        \draw (0,0) -- node[midway,pos=0.8,rotate=45,above] {average value} (\Eh*3,\Vh*3);
+        \draw[red!50!black, thick, domain=0:\xmax, samples=120]
+            plot (\x, {\Ah*pow(\x,\alphah)});
+        \draw (0,\Ihi) -- node[midway,pos=0.5,rotate=\slopeangle,above] {marginal value} (\Ehtop*0.8,\ytop*0.8);
+        \draw (0,0) -- node[midway,pos=0.8,rotate=78,above] {average value} (\Eh*3,\Vh*3);
     \end{tikzpicture}
     ```
 
+    If the value-curve, $F(K)$, is everywhere inelastic, then the demand curve ($F'^{-1}(K)$) will also be relatively inelastic.
+
+<!-- 
+    ```{tikz}
+    #| fig-width: 3
+    #| fig-align: center 
+    \begin{tikzpicture}[scale=4]
+        \draw[-] (0,0) -- (1,0) node[midway,below] {agent expenditure}
+            --(1,1)--
+            (0,1)--(0,0) node[midway,rotate=90,above] {agent price};
+        \draw (.2,.8)--(.4,.2);
+    \end{tikzpicture}
+    ```
+-->
 
 This has a few important implications.
 : 
-    Suppose the returns to AI remained inelastic, then we would expect the following:
+    Suppose the returns to AI remain inelastic, then we would expect the following:
 
     1. **The value people get from AI will be significantly higher than their expenditure.** We might see people spending $100 a month on agents, but getting far more than $100 of value from agents.
 
     2. **Recursive self-improvement would happen without a significant increase in the capital share.** A common conjecture has been that we could monitor for signs of recursive self-improvement by AI labs through their relative expenditure on AI labor vs human labor, i.e. their capital share. The argument in this note gives some reason to doubt this: if returns to AI are inelastic then we might see a substantial contribution of agentic labor to R&D without a substantial expenditure on agentic labor.
 
-    3. **AI would transform the economy but remain a small share of output.** Many analyses of AI have assumed that, if AI has dramatic implications on growth, then holders of scarce inputs (algorithms, compute, energy) will be paid a large share of the output. In fact if the returns to AI and compute are relatively inelastic, then they could have a large impact, but only get a small benefit.
+    3. **AI would transform the economy but remain a small share of output.** Many analyses of AI have assumed that, if AI has dramatic implications on growth, then holders of scarce inputs (algorithms, compute, energy) will be paid a large share of the output. In fact if the returns to AI and compute are relatively inelastic, then they could have a large impact, but only receive a small share of output. (Note this is entirely independent of the demand for intrinsically human vs AI labor).
     
     
 <!-- 
@@ -291,16 +316,18 @@ Illustration.
 
 The ideal experiment.
 : 
-    Ideally we would vary expenditure on AI across a variety of domains and measure the output:
+    Unfortunately we only have fairly sparse direct evidence of AI on output. The following would be the ideal set of experiments.
 
-    1. Autonomous tasks.
+    1. Returns to expenditure on autonomous tasks.
         - Cardinal scale: e.g. optimizing an algorithm, making money. Here we can directly measure elasticity.
         - Ordinal scale: e.g. score on a test, score on a video game. Here we can compare human vs agent elasticity at the crossover point (if it exists).
         - Sets of tasks: e.g. benchmarks. Here we can score by the number of tasks solved at a given budget level, and compare human vs agent elasticity at the crossover point (if it exists).
-    2. Individual uplift.
-    3. Company uplift.
+    2. Returns to expenditure on individual uplift. We would like to give workers varying AI budgets, and see how it affects their productivity. I don't know of any experiments which do this.
+    3. Returns to expenditure on firm-level uplift. We would like to give firms varying AI budgets and see how it affects their success. Again I'm not aware of any experiments that do this.
 
-    We would also want try to map out the *demand* for AI. This theory implies that demand for AI should be inelastic.
+    We would also want try to map out the *demand* for AI, i.e. varying the price and observing the quantity demanded. I believe we currently have little evidence on the elasticity of demand for AI.
+
+    Finally, if we could have our dream experiment we would vary both expenditure on AI and expenditure on humans to measure the whole production function, $F(K,L)$.
 
 Agent progress on RE-bench tasks is less-elastic than humans.
 : 
@@ -324,7 +351,7 @@ Agent task-completion is less-elastic than human task-completion.
 
     ![Agent Performance on HCAST & RE-Bench by Cost](images/2026-04-26-06-36-27.png)
 
-Is agent-expenditure getting more elastic over time?
+It's unclear whether agent-expenditure is getting more elastic over time.
 : 
     @gundlach2026priceprogress find the price of high capabilities is falling relatively faster than the price of low capabilities:
     
@@ -338,33 +365,23 @@ Is agent-expenditure getting more elastic over time?
 
     One important qualification: I believe the cost estimates are based on using the same model, and the same budget, on *all* tasks. In fact a cost-minimizing firm would vary the model and budget depending on the ex-ante difficulty of the tasks. This would make later curves relatively less elastic (it would lower the cost of the easy tasks), so push somewhat against this increasing-elasticity result.
 
+<!-- 
 The asymptote can be increasing, but the relevant elasticity remains constant.
 : 
-    There seems strong evidence that the value to scaling asymptotes (or that elasticity declines). However the economically-relevant elasticity could still remain constant, i.e. the elasticity at the optimum.
+    There seems strong evidence that the value to scaling asymptotes (or that elasticity declines). However the economically-relevant elasticity could still remain constant, i.e. the elasticity at the optimum. 
+-->
 
-Some papers estimate constant-elasticity inference-time scaling.
+
+
+Some papers estimate the elasticity of inference-time scaling.
 : 
     @brown2024monkeys find that pass-rate on math and code benchmarks scales roughly log-linearly with the number of samples or with sequential test-time compute, with elasticities well below 1 (on SWE-bench lite, CodeContests, MATH).
 
     @snell2024scaling estimate the returns to test-time compute, but say it hits hard limits below human levels: "across the board these schemes provided small gains on hard problems". As discussed above, existence of a ceiling implies agent-expenditure is inelastic relative to human-expenditure.
 
-Inference-time scaling laws.
-: 
-    @brown2024monkeys ("Large Language Monkeys") fit an *exponentiated power law* $\log c \approx a\,k^b$ to coverage (pass@k) as a function of samples $k$, with $b<0$. Translating their headline results into an arc-elasticity $\Delta\log c/\Delta\log k$:
-
-    - SWE-bench Lite, DeepSeek-V2, k=1→250: ε ≈ 0.23.
-    - CodeContests, Gemma-2B, k=1→10⁴: ε ≈ 0.64.
-    - MATH, Pythia-160M, k=1→10⁴: ε ≈ 0.58.
-
-    Two things are worth noting:
-
-    1. The elasticity is well below 1, and the form $\log c \approx a\,k^b$ with $b<0$ implies it *declines* further with $k$.
-    2. Without a perfect verifier the elasticity collapses much earlier. On MATH with Llama-3-8B-Instruct, majority-vote success rises only from 40.5% (k=100) to 41.4% (k=10,000) — an arc-elasticity of about 0.005.
-
-    
-
+  
 Inference-time scaling fails on harder optimization benchmarks.
-: 
+:  
     Several recent benchmarks find inference-time scaling stops paying off well below the level of human experts:
 
     - @shetty2025gso (GSO): "leading SWE-Agents struggle significantly, achieving less than 5% success rate, with limited improvements even with inference-time scaling."
@@ -373,7 +390,7 @@ Inference-time scaling fails on harder optimization benchmarks.
 
     Equivalently: for these tasks the agent contribution function $\tilde F(K)$ has very low elasticity at the frontier, even though it has high level at low $K$.
 
-ARC-AGI.
+ARC-AGI seems to show inelastic returns to agents.
 : 
     Data from ARC-AGI is a great illustration, we can observe a few relevant things:
 
@@ -381,10 +398,18 @@ ARC-AGI.
     2. Nevertheless, if an agent cannot match a human score at human expenditure, we can generally be confident that it will exceed human score at low expenditure, and therefore the agent expenditure curve will cut the human expenditure curve from above, thus the agent expenditure curve is less-elastici.
     3. We can observe how returns to expenditure have changed over time. ==[We want to know if the price of high scores has declined faster than the price of low scores]==
 
-
-<!-- OpenAI / METR system-card scaling.
+There is little evidence on elasticity of demand for AI.
 : 
-    The o1, o3, and GPT-5 system cards (and @metr2025gpt5evaluation) all report that capability on math/code scales roughly log-linearly with reasoning compute, but saturates below expert-human performance. So the agent curve again cuts the human curve from above. -->
+    It would be useful to know the aggregate elasticity of demand for AI, however there is relatively little evidence.
+    
+    @demirer2025emerging analyze OpenRouter data and find relatively low price sensitivity for customers switching between providers for access to the same model. This provides some weak evidence for inelastic demand: if demand was very elastic then there would be strong incentive to choose the lowest-price provider.
+
+<!-- 
+
+OpenAI / METR system-card scaling.
+: 
+    The o1, o3, and GPT-5 system cards (and @metr2025gpt5evaluation) all report that capability on math/code scales roughly log-linearly with reasoning compute, but saturates below expert-human performance. So the agent curve again cuts the human curve from above. 
+-->
 
 Other observation:
 : 
@@ -680,11 +705,13 @@ Uplift.
 
 #           Notes
 
+<!-- 
 Separability of agent and human returns.
 : 
     We have a reasonable amount of data on the returns to agent and human expenditure discussed below.
 
-    Ideally we would characterize the *joint* returns to human and agent expenditure, $F(K,L)$. This could be through *uplift* or *centaur* experiments, e.g. @becker2025uplift.
+    Ideally we would characterize the *joint* returns to human and agent expenditure, $F(K,L)$. This could be through *uplift* or *centaur* experiments, e.g. @becker2025uplift. 
+-->
 
 Cardinal vs ordinal measures of capability.
 : 
