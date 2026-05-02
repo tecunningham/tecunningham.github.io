@@ -1,5 +1,5 @@
 ---
-title: Expenditure on Agents
+title: How Elastic is Agent Expenditure
 author:
   - name: Tom Cunningham
     affiliation: METR
@@ -12,7 +12,8 @@ citation-location: document
 citation: true
 ---
 <!-- 
-https://tecunningham.github.io/posts/2026-04-24-expenditure-on-agents.html
+- https://tecunningham.github.io/posts/2026-04-24-expenditure-on-agents.html
+- https://docs.google.com/document/d/1eKyVL5ojFOo81IgYpkmwpohWH8Ufw-MHExB8bkomq1A/edit?tab=t.0
 
 TODO:
 
@@ -22,7 +23,43 @@ TODO:
 - Discuss specifically why you could get RSI without explosion of tokens.
 - Parker: Theory: joint distribution of task-costs
 - discuss cost-of-pass: @erol2025costofpass
-- 
+
+OK I want a good clear phrase to express this point, some alternatives:
+
+- The output elasticity of AI is low.
+- AI has sharply concave returns
+- Expenditure on AI has steeply diminishing returns.
+- The returns to AI (in log space) are relatively flat.
+- The marginal product of AI falls sharply
+- The demand for AI is relatively inelastic [not technically the same]
+
+
+--------------------------------------------
+
+1. Expenditure on AI currently has steeply diminishing returns
+    - Define the "value elasticity" as the effect of a proportional increase in expenditure on the value of output.
+    - There's good reason to think that, despite AI being very valuable, the value elasticity of AI is much lower than the value elasticity from human labor.
+
+2. This has a variety of implications for economic impact & AI safety.
+    - Implies the value people are getting from AI is much higher than what they're spending on AI.
+    - Implies AI R&D could be highly effective today, yet we'd see labs making only limited increases in token expenditure.
+
+3. As capabilities improve it's unclear whether AI's value will become more-elastic or less-elastic
+    - Even if we have (AGI), the value-elasticity could be high or low.
+    - There are broadly two counteracting forces: (1) inference-time scaling increases elasticity; (ii) distillation decreases elasticity.
+    - Over the last 2 years the net effect of those two forces has been ambiguous, there's not a clear increase or decrease in value-elasticity (partly based on JS Denain's analysis)
+    - It's unclear which of these forces will dominate in the future. (& give arguments on either side)
+
+--------------------------------------------
+
+New organization:
+
+1. The returns to inference expenditure on AI are relatively *inelastic* today, i.e. doubling expenditure has much-less than twice the value.
+
+2. The  two counterbalancing effects: (a) distillation; (b) inference-time scaling.
+
+3. As capabilities get better it's not clear whether the returns will become more-elastic or less-elastic, there are arguments on both sides.
+
 
  -->
 
@@ -235,8 +272,8 @@ This has a few important implications.
     3. **AI would transform the economy but remain a small share of output.** Many analyses of AI have assumed that, if AI has dramatic implications on growth, then holders of scarce inputs (algorithms, compute, energy) will be paid a large share of the output. In fact if the returns to AI and compute are relatively inelastic, then they could have a large impact, but only receive a small share of output. (Note this is entirely independent of the demand for intrinsically human vs AI labor).
     
     
-<!-- 
-Illustration.
+
+My expectation.
 : 
     The graphs below show stylized returns to expenditure on human and agent labor, with the common "tortoise-hare" pattern: the return to agent labor expenditure is higher at first, but diminishes more quickly. The black dots show the optimal expenditure on each, where the marginal cost and marginal value are equalized.
 
@@ -250,18 +287,17 @@ Illustration.
     \def\xmax{5}
     \def\ytop{1.2}
     \def\mslope{0.25}
-    % human: V = Ah * E^alphah
-    \def\Ah{0.4}  \def\alphah{0.7}
-    % agent: V = Aa * E^alphaa
-    \def\Aa{0.35} \def\alphaa{0.2}
+    % V = asymptote * (1 - exp(-speed * E))
+    \def\Hmax{1.0} \def\Hspeed{0.5}
+    \def\Amax{0.4} \def\Aspeed{4}
 
-    % --- derived tangencies (E* = (A*alpha/slope)^(1/(1-alpha))) ---
-    \pgfmathsetmacro{\Eh}{pow(\Ah*\alphah/\mslope, 1/(1-\alphah))}
-    \pgfmathsetmacro{\Vh}{\Ah*pow(\Eh,\alphah)}
+    % --- derived tangencies (E* = -ln(slope/(asymptote*speed))/speed) ---
+    \pgfmathsetmacro{\Eh}{-ln(\mslope/(\Hmax*\Hspeed))/\Hspeed}
+    \pgfmathsetmacro{\Vh}{\Hmax*(1-exp(-\Hspeed*\Eh))}
     \pgfmathsetmacro{\Ihi}{\Vh-\mslope*\Eh}
     \pgfmathsetmacro{\Ehtop}{(\ytop-\Ihi)/\mslope}
-    \pgfmathsetmacro{\Ea}{pow(\Aa*\alphaa/\mslope, 1/(1-\alphaa))}
-    \pgfmathsetmacro{\Va}{\Aa*pow(\Ea,\alphaa)}
+    \pgfmathsetmacro{\Ea}{-ln(\mslope/(\Amax*\Aspeed))/\Aspeed}
+    \pgfmathsetmacro{\Va}{\Amax*(1-exp(-\Aspeed*\Ea))}
     \pgfmathsetmacro{\Iai}{\Va-\mslope*\Ea}
     \pgfmathsetmacro{\Eatop}{(\ytop-\Iai)/\mslope}
 
@@ -270,9 +306,9 @@ Illustration.
         node[midway,above,align=center] {situation today:\\higher expenditure on humans\\higher value from humans}
         (0,1.4)--(0,0) node[midway,rotate=90,above] {value (\$)};
     \draw[green!50!black, thick, domain=0:\xmax, samples=120]
-        plot (\x, {\Ah*pow(\x,\alphah)}) node[right] {human};
+        plot (\x, {\Hmax*(1-exp(-\Hspeed*\x))}) node[right] {human};
     \draw[red!70!black, thick, domain=0:\xmax, samples=120]
-        plot (\x, {\Aa*pow(\x,\alphaa)}) node[right] {agent};
+        plot (\x, {\Amax*(1-exp(-\Aspeed*\x))}) node[right] {agent};
     \draw[dotted] (0,\Ihi) -- (\Ehtop,\ytop);
     \node[circle,fill=black,inner sep=0pt,minimum size=4pt] at (\Eh,\Vh) {};
     \draw[dotted] (0,\Iai) -- (\Eatop,\ytop);
@@ -289,16 +325,16 @@ Illustration.
     \def\xmax{5}
     \def\ytop{1.2}
     \def\mslope{0.25}
-    \def\Ah{0.4}  \def\alphah{0.7}
-    \def\Aa{1}  \def\alphaa{0.2}
-    \def\Aatoday{0.35}
+    \def\Hmax{1.0} \def\Hspeed{0.5}
+    \def\Amax{1.15} \def\Aspeed{1.8}
+    \def\Amaxtoday{0.4} \def\Aspeedtoday{4}
 
-    \pgfmathsetmacro{\Eh}{pow(\Ah*\alphah/\mslope, 1/(1-\alphah))}
-    \pgfmathsetmacro{\Vh}{\Ah*pow(\Eh,\alphah)}
+    \pgfmathsetmacro{\Eh}{-ln(\mslope/(\Hmax*\Hspeed))/\Hspeed}
+    \pgfmathsetmacro{\Vh}{\Hmax*(1-exp(-\Hspeed*\Eh))}
     \pgfmathsetmacro{\Ihi}{\Vh-\mslope*\Eh}
     \pgfmathsetmacro{\Ehtop}{(\ytop-\Ihi)/\mslope}
-    \pgfmathsetmacro{\Ea}{pow(\Aa*\alphaa/\mslope, 1/(1-\alphaa))}
-    \pgfmathsetmacro{\Va}{\Aa*pow(\Ea,\alphaa)}
+    \pgfmathsetmacro{\Ea}{-ln(\mslope/(\Amax*\Aspeed))/\Aspeed}
+    \pgfmathsetmacro{\Va}{\Amax*(1-exp(-\Aspeed*\Ea))}
     \pgfmathsetmacro{\Iai}{\Va-\mslope*\Ea}
     \pgfmathsetmacro{\Eatop}{(\ytop-\Iai)/\mslope}
 
@@ -307,11 +343,11 @@ Illustration.
         node[midway,above,align=center] {situation tomorrow:\\higher expenditure on humans,\\higher value from agents}
         (0,1.4)--(0,0) node[midway,rotate=90,above] {value (\$)};
     \draw[green!50!black, thick, domain=0:\xmax, samples=120]
-        plot (\x, {\Ah*pow(\x,\alphah)}) node[right] {human};
+        plot (\x, {\Hmax*(1-exp(-\Hspeed*\x))}) node[right] {human};
     \draw[red!70!black, thick, domain=0:\xmax, samples=120]
-        plot (\x, {\Aa*pow(\x,\alphaa)}) node[right] {agent};
+        plot (\x, {\Amax*(1-exp(-\Aspeed*\x))}) node[right] {agent};
     \draw[red!70!black, dotted, thick, domain=0:\xmax, samples=120]
-        plot (\x, {\Aatoday*pow(\x,\alphaa)});
+        plot (\x, {\Amaxtoday*(1-exp(-\Aspeedtoday*\x))});
     \draw[dotted] (0,\Ihi) -- (\Ehtop,\ytop);
     \node[circle,fill=black,inner sep=0pt,minimum size=4pt] at (\Eh,\Vh) {};
     \draw[dotted] (0,\Iai) -- (\Eatop,\ytop);
@@ -320,7 +356,6 @@ Illustration.
 ```
 
 ::: 
--->
 
 #           Evidence on Returns to Expenditure
 
@@ -762,6 +797,7 @@ Notes.
 : 
     - Ryan Greenblatt, [Distinguish between inference scaling and "larger tasks use more compute"](https://blog.redwoodresearch.org/p/distinguish-between-inference-scaling)
     - @ord2025agentcosts argues that the hourly cost of AI agents at their METR-style time-horizon may be rising roughly exponentially, so the time-horizon trend partly reflects increasing compute expenditure rather than improvements in cost-effectiveness.
+    - Anders Cairns Woodruff, ["AI's capability improvements haven't come from it getting less affordable"](https://blog.redwoodresearch.org/p/ais-capability-improvements-havent)
 
 
 
