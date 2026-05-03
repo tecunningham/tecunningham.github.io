@@ -128,32 +128,150 @@ What are the returns to tokens?
             plot (\x, {\Aa*pow(\x,\alphaa)}) node[right,align=left] {inelastic\\returns};
         \pgfmathsetmacro{\Estar}{pow(\Aa/\Ah, 1/(\alphah-\alphaa))}
         \pgfmathsetmacro{\Vstar}{\Ah*pow(\Estar,\alphah)}
-        \draw[gray, dashed] (\Estar,0) -- (\Estar,1.4);
+        %\draw[gray, dashed] (\Estar,0) -- (\Estar,1.4);
     \end{tikzpicture}
     ```
 
-    I find it pretty interesting to think about the shape of this curve, and how to expect it will change in the future. The two extreme perspectives:
+    I find it pretty interesting to think about the shape of this curve, and how to expect it will change in the future. 
 
-    1. **Returns are elastic.** This means doubling tokens roughly doubles the value. It also means firms.
-    2. **Returns are inelastic.**
+There are two extreme perspectives.
+: 
 
-    | returns are elastic                               | returns are inelastic                         |
-    | ------------------------------------------------- | --------------------------------------------- |
-    | doubling tokens used increases value a lot        | doubling tokens used increases value a little |
-    | labs capture a large share of the value           | labs capture a small share of the value       |
-    | customers get a little more value than they spend | customers get much more value than they spend |
+    | returns are inelastic                                   | returns are elastic                                |
+    | ------------------------------------------------------- | -------------------------------------------------- |
+    | doubling your token usage increases your value a little | doubling your token usage increases your value a lot |
+    | labs capture a small share of the value                 | labs capture a large share of the value            |
+    | customers get much more value than they spend           | customers get a little more value than they spend  |
+
+I'm on team inelastic.
+: 
+    For the sake of argument I'll say that I think there's strong reason to believe the returns to tokens are *inelastic*, and that this could remain the same all the way to AGI.
 
 
 #           Observations on the Returns to Tokens
 
+[1] The elasticity is the ratio between expenditure and value.
+: 
+    Let $K$ be spend on AI, and $F(K)$ is the value of that spend, with $F(0)=0$. We define the elasticity as follows:
+    $$\varepsilon(K)= \utt{\frac{dF(K)}{dK}\frac{K}{F(K)}}{elasticity of $F(\cdot)$}{at $K$}
+        = \frac{\text{marginal value at $K$}}{\text{average value at $K$}}.$$
+    
+    At the optimal expenditure, $K^*$, the elasticity will be equal to the ratio of expenditure to value:
 
-1. The aggregate elasticity is the value-weighted average of individual elasticities.
+    $$\varepsilon(K^*)
+        = \frac{\text{expenditure}}{\text{value}}
+        = \frac{K^*}{F(K^*)}
+        = \utt{\frac{dF(K^*)}{dK^*}\frac{K^*}{F(K^*)}}{elasticity of $F(\cdot)$}{at $K^*$}
+        = \frac{\text{marginal value at $K^*$}}{\text{average value at $K^*$}}$$
+    
+    Because $F'(K^*)=1$. We can illustrate this as follows:
+
+    ```{tikz}
+    #| fig-width: 3
+    #| fig-align: center 
+    \begin{tikzpicture}[scale=1,yscale=3]
+        % --- parameters ---
+        \def\xmax{5}
+        \def\ytop{1.4}
+        \def\mslope{0.25}
+        % human: V = Ah * E^alphah
+        \def\Ah{0.4}  \def\alphah{0.2}
+        % agent: V = Aa * E^alphaa
+        \def\Aa{0.35} \def\alphaa{0.2}
+
+        % --- derived tangencies (E* = (A*alpha/slope)^(1/(1-alpha))) ---
+        \pgfmathsetmacro{\Eh}{pow(\Ah*\alphah/\mslope, 1/(1-\alphah))}
+        \pgfmathsetmacro{\Vh}{\Ah*pow(\Eh,\alphah)}
+        \pgfmathsetmacro{\Ihi}{\Vh-\mslope*\Eh}
+        \pgfmathsetmacro{\Ehtop}{(\ytop-\Ihi)/\mslope}
+        \pgfmathsetmacro{\slopeangle}{atan(\mslope*3)}
+
+        \draw[-] (0,0) -- (\xmax,0) node[midway,below] {expenditure (\$)}
+            --(\xmax,1.4)--
+            (0,1.4)--(0,0) node[midway,rotate=90,above] {value (\$)};
+        \draw[red!50!black, thick, domain=0:\xmax, samples=120]
+            plot (\x, {\Ah*pow(\x,\alphah)});
+        \draw (0,\Ihi) -- node[midway,pos=0.5,rotate=\slopeangle,above] {marginal value} (\Ehtop*0.8,\ytop*0.8);
+        \draw (0,0) -- node[midway,pos=0.8,rotate=78,above] {average value} (\Eh*3,\Vh*3);
+    \end{tikzpicture}
+    ```
+
+[2] If the returns to tokens are inelastic, then demand for tokens is inelastic.
+: 
+    A buyer chooses $K$ to maximize $F(K) - p K$, so the FOC $F'(K^*) = p$ gives the inverse demand curve $p(K) = F'(K)$.
+
+    1. Implicit differentiation of the FOC gives $\frac{dK^*}{dp} = 1/F''(K^*)$.
+
+    2. The price-elasticity of demand is then
+
+        $$\eta \;\equiv\; -\frac{d\ln K^*}{d\ln p} \;=\; -\frac{F'(K^*)}{K^*\,F''(K^*)} \;=\; \frac{1}{\xi(K^*)},$$
+
+        where $\xi(K) \equiv -K F''(K)/F'(K)$ is the *elasticity of marginal value* (how fast the marginal token's value falls).
+
+    3. For constant-elasticity returns $F(K) = A K^\alpha$, $\xi = 1-\alpha$ everywhere, so
+
+        $$\eta = \frac{1}{1-\alpha}.$$
+
+    | $\alpha$ (value elasticity) | $\eta$ (demand elasticity) |
+    |:---:|:---:|
+    | $0.2$ (steeply diminishing) | $1.25$ (barely elastic) |
+    | $0.5$                       | $2$                     |
+    | $0.7$                       | $3.3$                   |
+    | $0.9$ (nearly linear)       | $10$                    |
+
+    So inelastic returns deliver a demand curve hugging unit-elasticity; the elastic case is much more elastic. If returns *saturate* ($\alpha$ falling in $K$ rather than constant), demand can drop below unit-elastic outright: the identity $\xi = 1 - \alpha - \frac{d\ln\alpha}{d\ln K}$ shows that decreasing $\alpha(K)$ pushes $\eta$ below $1/(1-\alpha)$.
+
+    Visually, inelastic returns give a *steep* demand curve (a small reduction in quantity requires a sharp price jump), while the elastic case is much flatter:
+
+    ```{tikz}
+    #| fig-width: 3.5
+    #| fig-align: center
+    \begin{tikzpicture}[scale=1, yscale=2]
+        \def\xmax{5}
+        \def\ymax{1.4}
+        % parameters: A*alpha = 0.5 for both, so curves cross at (K=1, p=0.5)
+        \def\alphai{0.2} \def\Ai{2.5}
+        \def\alphae{0.7} \def\Ae{0.7142857}
+
+        \draw[-] (0,0) -- (\xmax,0) node[midway,below] {quantity $K$ (tokens)}
+            -- (\xmax,\ymax) --
+            (0,\ymax) -- (0,0) node[midway,rotate=90,above] {price $p$};
+
+        \draw[thick, domain=0.3:\xmax, samples=200]
+            plot (\x, {\Ai*\alphai/pow(\x,1-\alphai)})
+            node[right, align=left] {inelastic\\returns\\($\eta=1.25$)};
+        \draw[thick, domain=0.3:\xmax, samples=200]
+            plot (\x, {\Ae*\alphae/pow(\x,1-\alphae)})
+            node[right, align=left] {elastic\\returns\\($\eta=3.3$)};
+
+        % marker at the common point (1, 0.5)
+        \filldraw[gray] (1, 0.5) circle (1.5pt);
+    \end{tikzpicture}
+    ```
+
+
+
+
+[3] The aggregate elasticity is the value-weighted average of individual elasticities.
 : 
     Formally $\alpha = \sum_i \omega_i \alpha_i$, with weights $\omega_i = V_i/V$. The result holds both when everyone scales spending proportionally (immediate from the chain rule on $V = \sum_i V_i(E_i)$) and when users optimize against a common token price $p$ (since then $V_i'(E_i) = p$ for all $i$, so each marginal dollar produces the same value regardless of who spends it). The takeaway: aggregate inelasticity is not an artefact of aggregation --- if individuals face inelastic returns, the aggregate does too, unless marginal spending becomes concentrated on a few unusually elastic users.
 
 
 
+[4] The returns to expenditure appear to be shifting vertically.
+: 
+    Two recent releases (Opus 4.7 and GPT 5.5) show returns-to-tokens curves that appear to be approximately shifting vertically:
 
+    ![](images/2026-05-02-05-34-24.png)
+
+    ![](images/2026-05-02-05-34-52.png)
+
+    (Hard to reconcile with increased expenditure)
+
+
+::: {.callout-important}
+##                          OLD MATERIAL BELOW THIS
+:::
 
 
 #           OLD FROM HERE ON DOWN
@@ -291,50 +409,6 @@ Why should the value of AI diminish more quickly than humans?
 
     This is a grossly simplified model but it gives a simple prediction: the returns to agent expenditure will diminish exceedingly quickly (elasticity $\approx$ 0).
 
-
-If returns are inelastic then the ratio of value to expenditure will be high.
-: 
-    Intuitively, suppose the first few dollars on AI are very valuable but the value of additional expenditure diminishes quickly. Then you'll just spend a few dollars and get a very high value.
-
-    Formally, suppose we have an function $F(K)$, where $K$ is expenditure on agents (measured in dollars). If $K$ is chosen optimally, so that the marginal value is equal to the marginal cost ($F'(K^*)=1$) then we have:
-    
-    $$\utt{\frac{K^*}{F(K^*)}}{ratio of expenditure}{to value}
-        = \utt{\frac{dF(K^*)}{dK^*}\frac{K^*}{F(K^*)}}{elasticity of $F(\cdot)$}{at $K^*$}
-        = \frac{\text{marginal value at $K^*$}}{\text{average value at $K^*$}}$$
-    
-    We can illustrate this as follows:
-
-    ```{tikz}
-    #| fig-width: 3
-    #| fig-align: center 
-    \begin{tikzpicture}[scale=1,yscale=3]
-        % --- parameters ---
-        \def\xmax{5}
-        \def\ytop{1.4}
-        \def\mslope{0.25}
-        % human: V = Ah * E^alphah
-        \def\Ah{0.4}  \def\alphah{0.2}
-        % agent: V = Aa * E^alphaa
-        \def\Aa{0.35} \def\alphaa{0.2}
-
-        % --- derived tangencies (E* = (A*alpha/slope)^(1/(1-alpha))) ---
-        \pgfmathsetmacro{\Eh}{pow(\Ah*\alphah/\mslope, 1/(1-\alphah))}
-        \pgfmathsetmacro{\Vh}{\Ah*pow(\Eh,\alphah)}
-        \pgfmathsetmacro{\Ihi}{\Vh-\mslope*\Eh}
-        \pgfmathsetmacro{\Ehtop}{(\ytop-\Ihi)/\mslope}
-        \pgfmathsetmacro{\slopeangle}{atan(\mslope*3)}
-
-        \draw[-] (0,0) -- (\xmax,0) node[midway,below] {expenditure (\$)}
-            --(\xmax,1.4)--
-            (0,1.4)--(0,0) node[midway,rotate=90,above] {value (\$)};
-        \draw[red!50!black, thick, domain=0:\xmax, samples=120]
-            plot (\x, {\Ah*pow(\x,\alphah)});
-        \draw (0,\Ihi) -- node[midway,pos=0.5,rotate=\slopeangle,above] {marginal value} (\Ehtop*0.8,\ytop*0.8);
-        \draw (0,0) -- node[midway,pos=0.8,rotate=78,above] {average value} (\Eh*3,\Vh*3);
-    \end{tikzpicture}
-    ```
-
-    If the value-curve, $F(K)$, is everywhere inelastic, then the demand curve ($F'^{-1}(K)$) will also be relatively inelastic.
 
 <!-- 
     ```{tikz}
@@ -892,13 +966,3 @@ Notes.
 
 
 #           Offcuts
-
-Expenditure curves shifting up.
-: 
-    ![](images/2026-05-02-05-34-24.png)
-
-    ![](images/2026-05-02-05-34-52.png)
-
-    You get additively more output for the same input: implies you'll spend the same & get more value.
-
-    (Hard to reconcile with increased expenditure)
