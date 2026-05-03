@@ -100,6 +100,64 @@ Please don't circulate. Comments very welcome!
 :::
 
 
+What are the returns to tokens?
+: 
+    We can draw a graph with token expenditure on the x-axis, and economic value on the y-axis:
+    ```{tikz}
+    #| fig-width: 3
+    #| fig-align: center 
+    \begin{tikzpicture}[scale=1,yscale=3]
+        % --- parameters ---
+        \def\xmax{5}
+        \def\ytop{1.2}
+        \def\mslope{0.25}
+        % human: V = Ah * E^alphah
+        \def\Ah{0.4}  \def\alphah{0.7}
+        % agent: V = Aa * E^alphaa
+        \def\Aa{0.5} \def\alphaa{0.25}
+
+        % --- derived tangencies (E* = (A*alpha/slope)^(1/(1-alpha))) ---
+
+        \draw[-] (0,0) -- (\xmax,0) node[midway,below] {tokens / expenditure (\$)}
+            --(\xmax,1.4)--
+            %node[midway,above,align=center] {situation today:\\higher expenditure on humans\\higher value from humans}
+            (0,1.4)--(0,0) node[midway,rotate=90,above] {value (\$)};
+        \draw[thick, domain=0:\xmax, samples=120]
+            plot (\x, {\Ah*pow(\x,\alphah)}) node[right,align=left] {elastic\\returns};
+        \draw[thick, domain=0:\xmax, samples=120]
+            plot (\x, {\Aa*pow(\x,\alphaa)}) node[right,align=left] {inelastic\\returns};
+        \pgfmathsetmacro{\Estar}{pow(\Aa/\Ah, 1/(\alphah-\alphaa))}
+        \pgfmathsetmacro{\Vstar}{\Ah*pow(\Estar,\alphah)}
+        \draw[gray, dashed] (\Estar,0) -- (\Estar,1.4);
+    \end{tikzpicture}
+    ```
+
+    I find it pretty interesting to think about the shape of this curve, and how to expect it will change in the future. The two extreme perspectives:
+
+    1. **Returns are elastic.** This means doubling tokens roughly doubles the value. It also means firms.
+    2. **Returns are inelastic.**
+
+    | returns are elastic                               | returns are inelastic                         |
+    | ------------------------------------------------- | --------------------------------------------- |
+    | doubling tokens used increases value a lot        | doubling tokens used increases value a little |
+    | labs capture a large share of the value           | labs capture a small share of the value       |
+    | customers get a little more value than they spend | customers get much more value than they spend |
+
+
+#           Observations on the Returns to Tokens
+
+
+1. The aggregate elasticity is the value-weighted average of individual elasticities.
+: 
+    Formally $\alpha = \sum_i \omega_i \alpha_i$, with weights $\omega_i = V_i/V$. The result holds both when everyone scales spending proportionally (immediate from the chain rule on $V = \sum_i V_i(E_i)$) and when users optimize against a common token price $p$ (since then $V_i'(E_i) = p$ for all $i$, so each marginal dollar produces the same value regardless of who spends it). The takeaway: aggregate inelasticity is not an artefact of aggregation --- if individuals face inelastic returns, the aggregate does too, unless marginal spending becomes concentrated on a few unusually elastic users.
+
+
+
+
+
+
+#           OLD FROM HERE ON DOWN
+
 TL;DR.
 : 
     1. **The return to expenditure on AI appears to be relatively *inelastic*.** This means you get a lot of value from the first few dollars but then the marginal value falls quickly.
