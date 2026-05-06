@@ -14,16 +14,9 @@ execute:
   warning: false
   error: false
   cache: true # caches chunk output
-# format:
-#     pdf:
-#        pdf-engine: pdflatex
-#        include-in-header:
-#           - text: |
-#              \usepackage[utf8]{inputenc}
-#              \usepackage{bm}
-#              \usepackage[all,2cell]{xy}
-#               \newcommand{\utt}[3]{\underbrace{#1}_{\substack{\text{#2}\\\text{#3}}}}
 ---
+
+<!-- https://tecunningham.github.io/posts/2026-05-06-paper-on-effects.html -->
 
 Question: does automated AI R&D result in a fast takeoff?
 : 
@@ -86,19 +79,15 @@ Core model: R&D and algorithmic efficiency.
 Log data to collect.
 : 
     For each research area (pretraining, midtraining, etc.) and in each quarter:
-    
-    - R&D investment (number of FTE researchers, maybe weighted by salary)
-    - compute efficiency
 
     | quarter | researchers | researcher salaries | compute efficiency win |
     | ------- | :---------: | :-----------------: | :--------------------: |
-    | 2025Q1  |      3      |        $30M         |          20%           |
-    | 2025Q2  |      5      |        $50M         |          20%           |
-    | ...     |             |                     |                        |
-    
-    The absolute value are sensitive, but we only need to know the relative numbers to estimate the relationship.
+    | 2025Q1  |      3      |        $30M         |          +20%           |
+    | 2025Q2  |      5      |        $50M         |          +30%           |
+    | ...     |     ...     |         ...         |          ...           |
 
-    Hypothetical scatter plot (each point is a quarter):
+    
+    The absolute value are sensitive, but we only need to know the relative numbers to estimate the relationship. Hypothetical scatter plot (each point is a quarter):
 
     ```{tikz}
     #| fig-width: 4
@@ -126,7 +115,7 @@ Survey data to collect.
 : 
     There are many reasons why the log data will be imperfect, we can ask the following question:
 
-    - Q: if you had 2X as many researchers last quarter, how much larger do you think your compute efficiency gains would be? (hold fixed experiment compute, training compute, data).
+    > If you had 2X as many researchers last quarter, how much larger do you think your compute efficiency gains would be? (hold fixed experiment compute, training compute, data).
 
 
 Complication: scale-dependent efficiency.
@@ -145,11 +134,13 @@ We can add experiment compute.
     We want to know the relative importance of R&D labor and experiment compute. We can write this as follows, the $\sigma$ refers to an elasticity of substitution.
 
     ```{tikz}
+    #| fig-width: 3
+    #| fig-align: center
     #| engine-opts: !expr list(extra.preamble=c("\\usepackage{./preamble_quarto}"))
     \begin{tikzpicture}[node distance=0.5cm and 1.5cm,every path/.style={->},every node/.style={draw, rectangle, inner sep=4pt, outer sep=2pt}]
-        \node[draw] (labor) {R\&D labor (3X)};
-        \node[ebox] (algorithms) [below right=of labor,align=center] {$\sigma$\nodepart{second}algorithmic\\efficiency (3X)};
-        \node[draw] (experiments) [below=2cm of labor] {experiment compute (3X)};
+        \node[draw] (labor) {R\&D labor};
+        \node[ebox] (algorithms) [below right=of labor,align=center] {$\sigma$\nodepart{second}algorithmic\\efficiency};
+        \node[draw] (experiments) [below=2cm of labor] {experiment compute};
         %\draw (labor) to node[midway,fill=white,draw=none]{$r$} (algorithms);
         \draw (labor) to (algorithms);
         \draw (experiments) to (algorithms);
@@ -160,16 +151,17 @@ We can add experiment compute.
 
     If $\sigma=0.5$, this means R&D and experiment-compute are strong complements, and having infinite R&D labor will only increase algorithmic efficiency by around 2X (assuming constant returns to scale).
 
-It's hard to identify substitutability from historical data.
+It's harder to identify substitutability from historical data.
 : 
     Suppose we had the following data:
 
-    | quarter | researchers | experiment compute |     |
-    | ------- | ----------- | ----------------- | --- |
-    | 2025Q1  |             |                   |     |
-    | 2025Q2  |             |                   |     |
-    |         |             |                   |     |
+    | quarter | researcher expenditure | experiment expenditure | compute efficiency |
+    | ------- | :--------------------: | :--------------------: | :----------------: |
+    | 2025Q1  |          $50M          |          $50M          |        +20%        |
+    | 2025Q2  |          $50M          |          $50M          |        +20%        |
+    |         |                        |                        |                    |
 
+    The fact that we're spending on both researchers and experiments tells us that they're complements, but doesn't tell us how strong the complementarity it.
 
 
 #               Fuller Model of Capabilities

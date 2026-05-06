@@ -311,11 +311,13 @@ window.Quarto = {
 <dt>Log data to collect.</dt>
 <dd>
 <p>For each research area (pretraining, midtraining, etc.) and in each quarter:</p>
-<ul>
-<li>R&amp;D investment (number of FTE researchers, maybe weighted by salary)</li>
-<li>compute efficiency</li>
-</ul>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 18%">
+<col style="width: 32%">
+<col style="width: 37%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>quarter</th>
@@ -329,24 +331,23 @@ window.Quarto = {
 <td>2025Q1</td>
 <td style="text-align: center;">3</td>
 <td style="text-align: center;">$30M</td>
-<td style="text-align: center;">20%</td>
+<td style="text-align: center;">+20%</td>
 </tr>
 <tr class="even">
 <td>2025Q2</td>
 <td style="text-align: center;">5</td>
 <td style="text-align: center;">$50M</td>
-<td style="text-align: center;">20%</td>
+<td style="text-align: center;">+30%</td>
 </tr>
 <tr class="odd">
 <td>…</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td style="text-align: center;">…</td>
+<td style="text-align: center;">…</td>
+<td style="text-align: center;">…</td>
 </tr>
 </tbody>
 </table>
-<p>The absolute value are sensitive, but we only need to know the relative numbers to estimate the relationship.</p>
-<p>Hypothetical scatter plot (each point is a quarter):</p>
+<p>The absolute value are sensitive, but we only need to know the relative numbers to estimate the relationship. Hypothetical scatter plot (each point is a quarter):</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -360,9 +361,9 @@ window.Quarto = {
 <dt>Survey data to collect.</dt>
 <dd>
 <p>There are many reasons why the log data will be imperfect, we can ask the following question:</p>
-<ul>
-<li>Q: if you had 2X as many researchers last quarter, how much larger do you think your compute efficiency gains would be? (hold fixed experiment compute, training compute, data).</li>
-</ul>
+<blockquote class="blockquote">
+<p>If you had 2X as many researchers last quarter, how much larger do you think your compute efficiency gains would be? (hold fixed experiment compute, training compute, data).</p>
+</blockquote>
 </dd>
 <dt>Complication: scale-dependent efficiency.</dt>
 <dd>
@@ -380,50 +381,57 @@ Training compute efficiency can be an imperfect metric: (1) some algorithms shif
 <dt>We can add experiment compute.</dt>
 <dd>
 <p>We want to know the relative importance of R&amp;D labor and experiment compute. We can write this as follows, the <span class="math inline">\(\sigma\)</span> refers to an elasticity of substitution.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="2026-05-06-paper-on-effects_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="2026-05-06-paper-on-effects_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="288"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>If <span class="math inline">\(\sigma=0.5\)</span>, this means R&amp;D and experiment-compute are strong complements, and having infinite R&amp;D labor will only increase algorithmic efficiency by around 2X (assuming constant returns to scale).</p>
 </dd>
-<dt>It’s hard to identify substitutability from historical data.</dt>
+<dt>It’s harder to identify substitutability from historical data.</dt>
 <dd>
 <p>Suppose we had the following data:</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 31%">
+<col style="width: 31%">
+<col style="width: 26%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>quarter</th>
-<th>researchers</th>
-<th>experiment compute</th>
-<th></th>
+<th style="text-align: center;">researcher expenditure</th>
+<th style="text-align: center;">experiment expenditure</th>
+<th style="text-align: center;">compute efficiency</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>2025Q1</td>
-<td></td>
-<td></td>
-<td></td>
+<td style="text-align: center;">$50M</td>
+<td style="text-align: center;">$50M</td>
+<td style="text-align: center;">+20%</td>
 </tr>
 <tr class="even">
 <td>2025Q2</td>
-<td></td>
-<td></td>
-<td></td>
+<td style="text-align: center;">$50M</td>
+<td style="text-align: center;">$50M</td>
+<td style="text-align: center;">+20%</td>
 </tr>
 <tr class="odd">
 <td></td>
-<td></td>
-<td></td>
-<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
 </tr>
 </tbody>
 </table>
+<p>The fact that we’re spending on both researchers and experiments tells us that they’re complements, but doesn’t tell us how strong the complementarity it.</p>
 </dd>
 </dl>
 </section>
